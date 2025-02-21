@@ -29,7 +29,7 @@ from construct_typed import Context
 from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
-Variant = Union[bool, int, float, str, bytes, list["Variant"]]
+Variant = bool | int | float | str | bytes | list["Variant"]
 Node = dict[str, Union[Variant, "Node", list["Node"]]]
 
 JUCEVarTypes = CSEnum(

@@ -3,7 +3,6 @@ import math
 import operator
 import re
 from collections.abc import Callable
-from typing import Optional
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_tempo_list
@@ -84,7 +83,7 @@ class AceParser:
             SongTempo(position=ace_tempo.position, bpm=ace_tempo.bpm) for ace_tempo in ace_tempos
         ]
 
-    def parse_track(self, ace_track: AcepTrack) -> Optional[Track]:
+    def parse_track(self, ace_track: AcepTrack) -> Track | None:
         if (
             self.options.import_instrumental_track
             and isinstance(ace_track, AcepAudioTrack)

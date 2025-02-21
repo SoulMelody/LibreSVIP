@@ -1,7 +1,7 @@
 # Ported from QNrbf by SineStriker
 import dataclasses
 import pathlib
-from typing import Any, Optional
+from typing import Any
 
 from construct import Container
 from loguru import logger
@@ -25,8 +25,8 @@ class SvipReader(NrbfIOBase):
     xstudio_model: XSAppModel = dataclasses.field(init=False)
     header: SerializedStreamHeader = dataclasses.field(init=False)
 
-    def build_binary_array(self, obj: Container) -> list[Optional[Any]]:
-        results: list[Optional[Any]] = []
+    def build_binary_array(self, obj: Container) -> list[Any | None]:
+        results: list[Any | None] = []
         if "Class" in str(obj.binary_type_enum):
             if obj.member_values is not None:
                 for member in obj.member_values:
@@ -68,7 +68,7 @@ class SvipReader(NrbfIOBase):
             class_kwargs["items"] = class_kwargs["items"][: class_kwargs["size"]]
         return model_class(**class_kwargs)  # type: ignore[arg-type]
 
-    def build_object(self, obj: Container) -> Optional[Any]:
+    def build_object(self, obj: Container) -> Any | None:
         if "obj" in obj:
             obj = obj.obj
         if "real_obj" in obj:

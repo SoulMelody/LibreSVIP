@@ -1,7 +1,6 @@
 import dataclasses
 import re
 from collections.abc import Callable
-from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
@@ -128,8 +127,8 @@ class BinarySvipGenerator:
             beat_size=XSBeatSize(x=signature.numerator, y=signature.denominator),
         )
 
-    def generate_track(self, track: Track) -> Optional[XSITrack]:
-        s_track: Optional[XSITrack] = None
+    def generate_track(self, track: Track) -> XSITrack | None:
+        s_track: XSITrack | None = None
         if isinstance(track, SingingTrack):
             singer_id = opensvip_singers.get_id(track.ai_singer_name)
             if singer_id == "":
@@ -170,7 +169,7 @@ class BinarySvipGenerator:
         s_track.pan = track.pan
         return s_track
 
-    def generate_note(self, note: Note) -> Optional[XSNote]:
+    def generate_note(self, note: Note) -> XSNote | None:
         if not note.lyric and not note.pronunciation:
             return None
         xs_note = XSNote(
@@ -240,7 +239,7 @@ class BinarySvipGenerator:
     def generate_param_curve(
         self,
         param_curve: ParamCurve,
-        op: Optional[Callable[[float], float]] = None,
+        op: Callable[[float], float] | None = None,
         left: int = -192000,
         right: int = 1073741823,
         termination: int = 0,

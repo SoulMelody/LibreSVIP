@@ -1,6 +1,5 @@
 import dataclasses
 import math
-from typing import Optional, Union
 
 from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -86,8 +85,8 @@ class VocalSharpGenerator:
 
     def generate_instrumental_tracks(
         self, instrumental_tracks: list[InstrumentalTrack]
-    ) -> list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]:
-        track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]] = []
+    ) -> list[VocalSharpMonoTrack | VocalSharpStereoTrack]:
+        track_list: list[VocalSharpMonoTrack | VocalSharpStereoTrack] = []
         for track in instrumental_tracks:
             if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
                 sequence = VocalSharpSequence(
@@ -147,7 +146,7 @@ class VocalSharpGenerator:
     def generate_pitch(self, pitch: ParamCurve, note_track: VocalSharpNoteTrack) -> list[PIT]:
         base_pitch_curve = BasePitchCurve(note_track, None, self.synchronizer)
         pitch_points: list[PIT] = []
-        prev_point: Optional[PIT] = None
+        prev_point: PIT | None = None
         for point in pitch.points.root:
             cur_tick = point.x - self.first_bar_length
             cur_secs = self.synchronizer.get_actual_secs_from_ticks(cur_tick)

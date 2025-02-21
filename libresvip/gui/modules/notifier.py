@@ -4,7 +4,7 @@ import platform
 import time
 from collections.abc import Awaitable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 import httpx
 from desktop_notifier import Button, DesktopNotifier, Notification
@@ -38,7 +38,7 @@ class Notifier(QObject):
         super().__init__()
         self.request_timeout = 30
         self.notify_timeout = 5
-        self.last_notify_time: Optional[float] = None
+        self.last_notify_time: float | None = None
         try:
             icon_path: AbstractContextManager[Path] = as_file(res_dir / "libresvip.ico")
             app.aboutToQuit.connect(lambda: icon_path.__exit__(None, None, None))
@@ -222,7 +222,7 @@ class Notifier(QObject):
         message: str,
         buttons: Sequence[Button] = (),
         send_timeout: int = -1,
-    ) -> Optional[Awaitable[Notification]]:
+    ) -> Awaitable[Notification] | None:
         try:
             if self.last_notify_time is None:
                 pass

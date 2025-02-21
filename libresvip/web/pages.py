@@ -19,10 +19,8 @@ from operator import not_
 from typing import (
     TYPE_CHECKING,
     BinaryIO,
-    Optional,
     SupportsFloat,
     TypeVar,
-    Union,
     get_args,
     get_type_hints,
 )
@@ -100,14 +98,14 @@ class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
             self.language = detected_language
 
 
-def dark_mode2str(mode: DarkMode) -> Optional[bool]:
+def dark_mode2str(mode: DarkMode) -> bool | None:
     if mode == DarkMode.LIGHT:
         return False
     elif mode == DarkMode.DARK:
         return True
 
 
-def str2dark_mode(value: Optional[bool]) -> DarkMode:
+def str2dark_mode(value: bool | None) -> DarkMode:
     return {
         True: DarkMode.DARK,
         False: DarkMode.LIGHT,
@@ -115,7 +113,7 @@ def str2dark_mode(value: Optional[bool]) -> DarkMode:
     }.get(value, DarkMode.SYSTEM)
 
 
-def int_validator(value: Optional[SupportsFloat]) -> bool:
+def int_validator(value: SupportsFloat | None) -> bool:
     if isinstance(value, int):
         return True
     elif isinstance(value, str):
@@ -126,7 +124,7 @@ def int_validator(value: Optional[SupportsFloat]) -> bool:
         return False
 
 
-def float_validator(value: Optional[SupportsFloat]) -> bool:
+def float_validator(value: SupportsFloat | None) -> bool:
     if isinstance(value, SupportsFloat):
         return not math.isnan(float(value))
     else:
@@ -139,9 +137,9 @@ class ConversionTask:
     upload_path: pathlib.Path
     output_path: pathlib.Path
     running: bool
-    success: Optional[bool]
-    error: Optional[str]
-    warning: Optional[str]
+    success: bool | None
+    error: str | None
+    warning: str | None
 
     def reset(self) -> None:
         self.running = False
@@ -210,7 +208,7 @@ plugin_details = {
 
 @ui.page("/")
 @ui.page("/?lang={lang}")
-def page_layout(lang: Optional[str] = None) -> None:
+def page_layout(lang: str | None = None) -> None:
     settings: LibreSvipBaseUISettings
 
     if app.native.main_window is not None:
@@ -408,7 +406,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
-                    elif issubclass(field_info.annotation, (str, BaseComplexModel)):
+                    elif issubclass(field_info.annotation, str | BaseComplexModel):
                         if issubclass(field_info.annotation, BaseComplexModel):
                             default_value = field_info.annotation.default_repr()
                             option_dict[option_key] = default_value
@@ -416,7 +414,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
-                    elif issubclass(field_info.annotation, (int, float)):
+                    elif issubclass(field_info.annotation, int | float):
                         with (
                             ui.number(
                                 label=_(field_info.title),
@@ -463,7 +461,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             for option_key, field_info in option_class.model_fields.items():
                 if issubclass(
                     field_info.annotation,
-                    (str, Color, enum.Enum, BaseComplexModel),
+                    str | Color | enum.Enum | BaseComplexModel,
                 ):
                     field_types[option_key] = str
                 else:
@@ -526,7 +524,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
-                    elif issubclass(field_info.annotation, (str, BaseComplexModel)):
+                    elif issubclass(field_info.annotation, str | BaseComplexModel):
                         if issubclass(field_info.annotation, BaseComplexModel):
                             default_value = field_info.annotation.default_repr()
                             option_dict[option_key] = default_value
@@ -534,7 +532,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
-                    elif issubclass(field_info.annotation, (int, float)):
+                    elif issubclass(field_info.annotation, int | float):
                         with (
                             ui.number(
                                 label=_(field_info.title),
@@ -759,7 +757,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         async def _add_task(
             self,
             name: str,
-            content: Union[BinaryIO, pathlib.Path],
+            content: BinaryIO | pathlib.Path,
         ) -> None:
             if settings.auto_detect_input_format:
                 cur_suffix = name.rpartition(".")[-1].lower()
@@ -942,7 +940,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 return Response(*result)
             raise HTTPException(404, "File not found")
 
-        def _export_one(self, filename: str) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+        def _export_one(self, filename: str) -> tuple[bytes, int, dict[str, str], str] | None:
             if not (task := self.files_to_convert.get(filename)) or not task.success:
                 return None
             if self._conversion_mode == ConversionMode.SPLIT:
@@ -971,7 +969,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         def _export_all(
             self,
-        ) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+        ) -> tuple[bytes, int, dict[str, str], str] | None:
             if len(self.files_to_convert) == 0:
                 return None
             elif len(self.files_to_convert) == 1:

@@ -112,7 +112,7 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
             continue
         typer.echo(_("This plugin supports the following {} conversion options:").format(op))
         for field_info in options.model_fields.values():
-            if issubclass(field_info.annotation, (bool, int, float, str, enum.Enum)):
+            if issubclass(field_info.annotation, bool | int | float | str | enum.Enum):
                 typer.echo(
                     "\n  "
                     + f"{_(field_info.title)} = {field_info.annotation.__name__}    {_(field_info.description)}"

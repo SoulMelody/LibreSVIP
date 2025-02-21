@@ -1,5 +1,4 @@
 import abc
-from typing import Optional
 
 from xsdata_pydantic.fields import field
 
@@ -71,21 +70,21 @@ class VocalSharpBeat(BaseModel):
     class Meta:
         name = "Beat"
 
-    bar_index: Optional[int] = field(
+    bar_index: int | None = field(
         default=0,
         metadata={
             "name": "barIndex",
             "type": "Element",
         },
     )
-    beat_per_bar: Optional[int] = field(
+    beat_per_bar: int | None = field(
         default=4,
         metadata={
             "name": "beatPerBar",
             "type": "Element",
         },
     )
-    bar_divide: Optional[int] = field(
+    bar_divide: int | None = field(
         default=4,
         metadata={
             "name": "barDivide",
@@ -98,50 +97,50 @@ class VocalSharpDefaultParameter(BaseModel):
     class Meta:
         name = "DefaultParameter"
 
-    dyn: Optional[int] = field(
+    dyn: int | None = field(
         default=128,
         metadata={
             "type": "Element",
         },
     )
-    strength: Optional[int] = field(
+    strength: int | None = field(
         default=128,
         metadata={
             "name": "str",
             "type": "Element",
         },
     )
-    bri: Optional[int] = field(
+    bri: int | None = field(
         default=128,
         metadata={
             "type": "Element",
         },
     )
-    voc: Optional[int] = field(
+    voc: int | None = field(
         default=255,
         metadata={
             "type": "Element",
         },
     )
-    bre: Optional[int] = field(
+    bre: int | None = field(
         default=128,
         metadata={
             "type": "Element",
         },
     )
-    gen: Optional[int] = field(
+    gen: int | None = field(
         default=128,
         metadata={
             "type": "Element",
         },
     )
-    gwl: Optional[int] = field(
+    gwl: int | None = field(
         default=0,
         metadata={
             "type": "Element",
         },
     )
-    xsy: Optional[int] = field(
+    xsy: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -190,19 +189,19 @@ class VocalSharpSequence(BaseModel):
     class Meta:
         name = "Sequence"
 
-    pos: Optional[int] = field(
+    pos: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    name: Optional[str] = field(
+    name: str | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    path: Optional[str] = field(
+    path: str | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -211,35 +210,35 @@ class VocalSharpSequence(BaseModel):
 
 
 class VocalSharpTrackBase(abc.ABC, BaseModel):
-    name: Optional[str] = field(
+    name: str | None = field(
         default="神秘轨道_0",
         metadata={
             "name": "Name",
             "type": "Element",
         },
     )
-    pan: Optional[float] = field(
+    pan: float | None = field(
         default=0,
         metadata={
             "name": "Pan",
             "type": "Element",
         },
     )
-    gain: Optional[float] = field(
+    gain: float | None = field(
         default=0,
         metadata={
             "name": "Gain",
             "type": "Element",
         },
     )
-    is_mute: Optional[str] = field(
+    is_mute: str | None = field(
         default="False",
         metadata={
             "name": "IsMute",
             "type": "Element",
         },
     )
-    is_solo: Optional[str] = field(
+    is_solo: str | None = field(
         default="False",
         metadata={
             "name": "IsSolo",
@@ -272,13 +271,13 @@ class VocalSharpTempo(BaseModel):
     class Meta:
         name = "Tempo"
 
-    pos: Optional[int] = field(
+    pos: int | None = field(
         default=0,
         metadata={
             "type": "Element",
         },
     )
-    bpm: Optional[float] = field(
+    bpm: float | None = field(
         default=120,
         metadata={
             "type": "Element",
@@ -290,13 +289,13 @@ class VocalSharpPoint(BaseModel):
     class Meta:
         name = "p"
 
-    x: Optional[float] = field(
+    x: float | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    y: Optional[float] = field(
+    y: float | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -335,13 +334,13 @@ class VocalSharpSyllablePartBase(abc.ABC, BaseModel):
             "type": "Element",
         },
     )
-    sample: Optional[str] = field(
+    sample: str | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    symbol: Optional[str] = field(
+    symbol: str | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -368,19 +367,19 @@ class VocalSharpSyllable(BaseModel):
     class Meta:
         name = "Syllable"
 
-    head: Optional[VocalSharpSyllableHead] = field(
+    head: VocalSharpSyllableHead | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    cur: Optional[VocalSharpSyllableCur] = field(
+    cur: VocalSharpSyllableCur | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    tail: Optional[VocalSharpSyllableTail] = field(
+    tail: VocalSharpSyllableTail | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -407,13 +406,13 @@ class VocalSharpNote(BaseModel):
             "type": "Element",
         },
     )
-    lyric: Optional[str] = field(
+    lyric: str | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    trill: Optional[VocalSharpTrill] = field(
+    trill: VocalSharpTrill | None = field(
         default=None,
         metadata={
             "name": "trill",
@@ -437,21 +436,21 @@ class VocalSharpNoteTrack(VocalSharpTrackBase):
     class Meta:
         name = "NoteTrack"
 
-    singer: Optional[str] = field(
+    singer: str | None = field(
         default="神秘歌手",
         metadata={
             "name": "Singer",
             "type": "Element",
         },
     )
-    lsd: Optional[str] = field(
+    lsd: str | None = field(
         default="神秘字典",
         metadata={
             "name": "LSD",
             "type": "Element",
         },
     )
-    default_parameter: Optional[VocalSharpDefaultParameter] = field(
+    default_parameter: VocalSharpDefaultParameter | None = field(
         default_factory=VocalSharpDefaultParameter,
         metadata={
             "name": "DefaultParameter",
@@ -484,28 +483,28 @@ class VocalSharpInnerProject(BaseModel):
     class Meta:
         name = "Project"
 
-    samples_per_sec: Optional[int] = field(
+    samples_per_sec: int | None = field(
         default=44100,
         metadata={
             "name": "SamplesPerSec",
             "type": "Element",
         },
     )
-    resolution: Optional[int] = field(
+    resolution: int | None = field(
         default=1920,
         metadata={
             "name": "Resolution",
             "type": "Element",
         },
     )
-    duration: Optional[int] = field(
+    duration: int | None = field(
         default=None,
         metadata={
             "name": "Duration",
             "type": "Element",
         },
     )
-    default_trill: Optional[VocalSharpDefaultTrill] = field(
+    default_trill: VocalSharpDefaultTrill | None = field(
         default_factory=VocalSharpDefaultTrill,
         metadata={
             "name": "DefaultTrill",
@@ -543,7 +542,7 @@ class VocalSharpProject(BaseModel):
     class Meta:
         name = "VSPX"
 
-    version: Optional[str] = field(
+    version: str | None = field(
         default="Beta0.0.0",
         metadata={
             "name": "Version",

@@ -1,6 +1,6 @@
 import dataclasses
 import operator
-from typing import Any, Optional
+from typing import Any
 
 import more_itertools
 
@@ -90,7 +90,7 @@ class VxBetaGenerator:
             and (mido_track := self.generate_track(track)) is not None
         ]
 
-    def generate_track(self, track: SingingTrack) -> Optional[Container]:
+    def generate_track(self, track: SingingTrack) -> Container | None:
         events: list[Container] = []
         encoded_title = track.title.encode().decode("latin-1")
         title_parts = []

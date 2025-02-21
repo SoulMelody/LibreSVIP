@@ -1,5 +1,3 @@
-from typing import Union
-
 from pydantic import Field
 
 from libresvip.core.constants import DEFAULT_BPM
@@ -13,7 +11,7 @@ class Y77Note(BaseModel):
     lyric: str
     pitch: int
     pbs: int = 0
-    pit: list[Union[int, float]] = Field(default_factory=list)
+    pit: list[int | float] = Field(default_factory=list)
 
 
 class Y77Project(BaseModel):

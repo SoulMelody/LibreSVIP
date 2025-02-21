@@ -1,6 +1,5 @@
 import dataclasses
 from collections.abc import Callable
-from typing import Optional
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -68,7 +67,7 @@ class BinarySvipParser:
             denominator=frac.y,
         )
 
-    def parse_track(self, track: XSITrack) -> Optional[Track]:
+    def parse_track(self, track: XSITrack) -> Track | None:
         if isinstance(track, XSSingingTrack):
             result_track = SingingTrack()
             result_track.ai_singer_name = opensvip_singers.get_name(track.ai_singer_id)
@@ -146,7 +145,7 @@ class BinarySvipParser:
 
     @staticmethod
     def parse_param_curve(
-        line: XSLineParam, op: Optional[Callable[[float], float]] = None
+        line: XSLineParam, op: Callable[[float], float] | None = None
     ) -> ParamCurve:
         if op is None:
 

@@ -1,6 +1,6 @@
 import math
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from libresvip.core.constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
@@ -36,7 +36,7 @@ def generate_for_midi(
     pitch: ParamCurve,
     notes: list[Note],
     synchronizer: TimeSynchronizer,
-) -> Optional[MIDIPitchData]:
+) -> MIDIPitchData | None:
     pitch_simulator = PitchSimulator(
         synchronizer=synchronizer,
         portamento=PortamentoPitch.no_portamento(),

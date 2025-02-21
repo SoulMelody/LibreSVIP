@@ -1,6 +1,5 @@
 import dataclasses
 import operator
-from typing import Optional
 
 import mido_fix as mido
 
@@ -111,7 +110,7 @@ class VsqGenerator:
 
     def generate_track(
         self, track: SingingTrack, track_index: int, tracks_count: int
-    ) -> Optional[mido.MidiTrack]:
+    ) -> mido.MidiTrack | None:
         track_text = self.generate_track_text(track, track_index, tracks_count)
         mido_track = mido.MidiTrack()
         while len(track_text) != 0:

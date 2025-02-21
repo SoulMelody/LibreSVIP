@@ -1,6 +1,5 @@
 import dataclasses
 import functools
-from typing import Optional
 
 import portion
 
@@ -115,9 +114,9 @@ class PitchSimulator:
             current_note.key_number
         )
 
-    def pitch_at_ticks(self, ticks: int) -> Optional[float]:
+    def pitch_at_ticks(self, ticks: int) -> float | None:
         return self.pitch_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
 
-    def pitch_at_secs(self, secs: float) -> Optional[float]:
+    def pitch_at_secs(self, secs: float) -> float | None:
         if value := self.interval_dict.get(secs):
             return value * 100

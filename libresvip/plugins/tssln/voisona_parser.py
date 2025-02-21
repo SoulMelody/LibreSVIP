@@ -1,7 +1,6 @@
 import dataclasses
 import itertools
 import operator
-from typing import Optional
 
 import more_itertools
 from wanakana import PROLONGED_SOUND_MARK
@@ -88,7 +87,7 @@ class VoiSonaParser:
 
     def parse_singing_track(
         self, track: VoiSonaSingingTrackItem
-    ) -> Optional[tuple[SingingTrack, list[SongTempo], list[TimeSignature]]]:
+    ) -> tuple[SingingTrack, list[SongTempo], list[TimeSignature]] | None:
         if track.plugin_data.state_information.song is None:
             return None
         time_signatures = [
@@ -190,7 +189,7 @@ class VoiSonaParser:
     @staticmethod
     def parse_param_data(
         data_element: VoiSonaPointData,
-    ) -> Optional[VoiSonaParamEvent]:
+    ) -> VoiSonaParamEvent | None:
         value = float(data_element.value)
         index = data_element.index or None
         repeat = data_element.repeat or None

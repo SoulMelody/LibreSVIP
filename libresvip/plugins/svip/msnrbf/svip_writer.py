@@ -7,7 +7,7 @@ import math
 import pathlib
 from collections import defaultdict
 from queue import Queue
-from typing import Any, Optional, Union, cast, get_args, get_origin
+from typing import Any, Union, cast, get_args, get_origin
 
 from construct import Container, ListContainer
 
@@ -125,7 +125,7 @@ class SvipWriter(NrbfIOBase):
         self,
         value: Container,
         object_id: int,
-        subcon_class_name: Optional[str],
+        subcon_class_name: str | None,
     ) -> dict[str, Any]:
         result = {
             "record_type_enum": RecordTypeEnum.MemberReference,
@@ -229,7 +229,7 @@ class SvipWriter(NrbfIOBase):
         self,
         obj: Container,
         object_id: int,
-        subcon_class_name: Optional[str] = None,
+        subcon_class_name: str | None = None,
     ) -> dict[str, Any]:
         fields = sorted(
             dataclasses.fields(obj),
@@ -291,7 +291,7 @@ class SvipWriter(NrbfIOBase):
                             BinaryTypeEnum.String
                         )
                         result["obj"]["member_type_info"]["additional_infos"].append({"info": None})  # type: ignore[index]
-                    elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
+                    elif issubclass(field_type, int | float | bool | enum.IntEnum):
                         result["obj"]["member_type_info"]["binary_type_enums"].append(  # type: ignore[index]
                             BinaryTypeEnum.Primitive
                         )
@@ -372,7 +372,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_values"].append(
                             {"value": self.create_string(value or "")}
                         )
-                    elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
+                    elif issubclass(field_type, int | float | bool | enum.IntEnum):
                         result["obj"]["member_values"].append({"value": value})
                     elif issubclass(field_type, list):
                         if len(value) > 0:
@@ -470,7 +470,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_values"].append(
                             {"value": self.create_string(value or "")}
                         )
-                    elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
+                    elif issubclass(field_type, int | float | bool | enum.IntEnum):
                         result["obj"]["member_values"].append({"value": value})
                     elif issubclass(field_type, list):
                         if len(value) > 0:

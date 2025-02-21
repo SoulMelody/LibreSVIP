@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import enum
 from types import GenericAlias
-from typing import Any, Literal, Optional, get_args
+from typing import Any, Literal, get_args
 
 from pydantic import AliasChoices, Field
 
@@ -26,7 +26,7 @@ class VoiSonaMobileSongEditorItem(BaseModel):
 
 class VoiSonaMobileControlPanelStatus(BaseModel):
     quantization: int = Field(alias="Quantization")
-    edit_tool: Optional[int] = Field(None, alias="EditTool")
+    edit_tool: int | None = Field(None, alias="EditTool")
     record_note: bool = Field(True, alias="RecordNote")
     record_tempo: bool = Field(True, alias="RecordTempo")
 
@@ -37,33 +37,33 @@ class VoiSonaMobileAdjustToolBarStatus(BaseModel):
 
 
 class VoiSonaMobilePanelControllerStatus(BaseModel):
-    tempo_panel: Optional[bool] = Field(None, alias="TempoPanel")
-    beat_panel: Optional[bool] = Field(None, alias="BeatPanel")
-    key_panel: Optional[bool] = Field(None, alias="KeyPanel")
-    dynamics_panel: Optional[bool] = Field(None, alias="DynamicsPanel")
-    global_param_panel: Optional[bool] = Field(None, alias="GlobalParamPanel")
-    lyric_panel: Optional[bool] = Field(None, alias="LyricPanel")
-    property_panel: Optional[bool] = Field(None, alias="PropertyPanel")
+    tempo_panel: bool | None = Field(None, alias="TempoPanel")
+    beat_panel: bool | None = Field(None, alias="BeatPanel")
+    key_panel: bool | None = Field(None, alias="KeyPanel")
+    dynamics_panel: bool | None = Field(None, alias="DynamicsPanel")
+    global_param_panel: bool | None = Field(None, alias="GlobalParamPanel")
+    lyric_panel: bool | None = Field(None, alias="LyricPanel")
+    property_panel: bool | None = Field(None, alias="PropertyPanel")
 
 
 class VoiSonaMobileMainPanelStatus(VoiSonaMobilePanelControllerStatus):
     scale_x: float = Field(alias="ScaleX_V2", validation_alias=AliasChoices("ScaleX_V2", "ScaleX"))
     scale_y: float = Field(alias="ScaleY_V2", validation_alias=AliasChoices("ScaleY_V2", "ScaleY"))
-    scroll_x: Optional[float] = Field(None, alias="ScrollX")
-    scroll_y: Optional[float] = Field(None, alias="ScrollY")
+    scroll_x: float | None = Field(None, alias="ScrollX")
+    scroll_y: float | None = Field(None, alias="ScrollY")
 
 
 class VoiSonaMobileNeuralVocoderInformation(BaseModel):
     nv_file_name: str = Field(alias="NVFileName")
-    nv_lib_file_name: Optional[str] = Field(None, alias="NVLibFileName")
+    nv_lib_file_name: str | None = Field(None, alias="NVLibFileName")
     nv_version: str = Field(alias="NVVersion")
-    nv_hash: Optional[str] = Field(None, alias="NVHash")
-    nv_lib_hash: Optional[str] = Field(None, alias="NVLibHash")
+    nv_hash: str | None = Field(None, alias="NVHash")
+    nv_lib_hash: str | None = Field(None, alias="NVLibHash")
     nv_label: str = Field(alias="NVLabel")
 
 
 class VoiSonaMobileNeuralVocoderListItem(BaseModel):
-    neural_vocoder_information: Optional[list[VoiSonaMobileNeuralVocoderInformation]] = Field(
+    neural_vocoder_information: list[VoiSonaMobileNeuralVocoderInformation] | None = Field(
         None, alias="NeuralVocoderInformation"
     )
 
@@ -91,12 +91,12 @@ class VoiSonaMobileVoiceInformation(BaseModel):
     )
     character_name: str = Field(alias="CharacterName")
     language: str = Field("ja_JP", alias="Language")
-    active_after_this_version: Optional[str] = Field(None, alias="ActiveAfterThisVersion")
+    active_after_this_version: str | None = Field(None, alias="ActiveAfterThisVersion")
     voice_file_name: str = Field(alias="VoiceFileName")
-    voice_lib_file_name: Optional[str] = Field(None, alias="VoiceLibFileName")
+    voice_lib_file_name: str | None = Field(None, alias="VoiceLibFileName")
     voice_version: str = Field(alias="VoiceVersion")
-    voice_hash: Optional[str] = Field(None, alias="VoiceHash")
-    voice_lib_hash: Optional[str] = Field(None, alias="VoiceLibHash")
+    voice_hash: str | None = Field(None, alias="VoiceHash")
+    voice_lib_hash: str | None = Field(None, alias="VoiceLibHash")
     special_symbol: list[VoiSonaMobileSpecialSymbol] = Field(
         default_factory=list, alias="SpecialSymbol"
     )
@@ -107,7 +107,7 @@ class VoiSonaMobileGlobalParameter(BaseModel):
     global_vib_frq: float = Field(0, alias="GlobalVibFrq")
     global_alpha: float = Field(0, alias="GlobalAlpha")
     global_husky: float = Field(0, alias="GlobalHusky")
-    global_tune: Optional[float] = Field(None, alias="GlobalTune")
+    global_tune: float | None = Field(None, alias="GlobalTune")
 
 
 class VoiSonaMobileSoundItem(BaseModel):
@@ -148,16 +148,16 @@ class VoiSonaMobileNoteItem(BaseModel):
     lyric: str = Field(alias="Lyric")
     syllabic: int = Field(alias="Syllabic")
     phoneme: str = Field(alias="Phoneme")
-    do_re_mi: Optional[bool] = Field(None, alias="DoReMi")
-    accent: Optional[bool] = Field(None, alias="Accent")
-    breath: Optional[bool] = Field(None, alias="Breath")
-    staccato: Optional[bool] = Field(None, alias="Staccato")
-    slur_start: Optional[bool] = Field(None, alias="SlurStart")
-    slur_stop: Optional[bool] = Field(None, alias="SlurStop")
-    default_phoneme: Optional[str] = Field(None, alias="DefaultPhoneme")
-    past_analyzed_phoneme: Optional[str] = Field(None, alias="PastAnalyzedPhoneme")
-    special_symbol_raspy: Optional[bool] = Field(None, alias="SpecialSymbolRaspy")
-    special_symbol_falsetto: Optional[bool] = Field(None, alias="SpecialSymbolFalsetto")
+    do_re_mi: bool | None = Field(None, alias="DoReMi")
+    accent: bool | None = Field(None, alias="Accent")
+    breath: bool | None = Field(None, alias="Breath")
+    staccato: bool | None = Field(None, alias="Staccato")
+    slur_start: bool | None = Field(None, alias="SlurStart")
+    slur_stop: bool | None = Field(None, alias="SlurStop")
+    default_phoneme: str | None = Field(None, alias="DefaultPhoneme")
+    past_analyzed_phoneme: str | None = Field(None, alias="PastAnalyzedPhoneme")
+    special_symbol_raspy: bool | None = Field(None, alias="SpecialSymbolRaspy")
+    special_symbol_falsetto: bool | None = Field(None, alias="SpecialSymbolFalsetto")
 
 
 class VoiSonaMobileScoreItem(BaseModel):
@@ -173,8 +173,8 @@ class VoiSonaMobileSongItem(BaseModel):
 
 
 class VoiSonaMobilePointData(BaseModel):
-    index: Optional[int] = Field(None, alias="Index")
-    repeat: Optional[int] = Field(None, alias="Repeat")
+    index: int | None = Field(None, alias="Index")
+    repeat: int | None = Field(None, alias="Repeat")
     value: float = Field(alias="Value")
 
 
@@ -184,24 +184,24 @@ class VoiSonaMobileParameterItem(BaseModel):
 
 
 class VoiSonaMobileParametersItem(BaseModel):
-    timing: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="Timing")
-    c0: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="C0")
-    c0_c_tick: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="C0CTick")
-    log_f0: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="LogF0")
-    log_f0_c_tick: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="LogF0CTick")
-    vocoder_log_f0: Optional[float] = Field(None, alias="VocoderLogF0")
-    vib_amp: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="VibAmp")
-    vib_amp_c_tick: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="VibAmpCTick")
-    vib_frq: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="VibFrq")
-    vib_frq_c_tick: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="VibFrqCTick")
-    alpha: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="Alpha")
-    alpha_c_tick: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="AlphaCTick")
-    husky: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="Husky")
-    husky_c_tick: Optional[list[VoiSonaMobileParameterItem]] = Field(None, alias="HuskyCTick")
+    timing: list[VoiSonaMobileParameterItem] | None = Field(None, alias="Timing")
+    c0: list[VoiSonaMobileParameterItem] | None = Field(None, alias="C0")
+    c0_c_tick: list[VoiSonaMobileParameterItem] | None = Field(None, alias="C0CTick")
+    log_f0: list[VoiSonaMobileParameterItem] | None = Field(None, alias="LogF0")
+    log_f0_c_tick: list[VoiSonaMobileParameterItem] | None = Field(None, alias="LogF0CTick")
+    vocoder_log_f0: float | None = Field(None, alias="VocoderLogF0")
+    vib_amp: list[VoiSonaMobileParameterItem] | None = Field(None, alias="VibAmp")
+    vib_amp_c_tick: list[VoiSonaMobileParameterItem] | None = Field(None, alias="VibAmpCTick")
+    vib_frq: list[VoiSonaMobileParameterItem] | None = Field(None, alias="VibFrq")
+    vib_frq_c_tick: list[VoiSonaMobileParameterItem] | None = Field(None, alias="VibFrqCTick")
+    alpha: list[VoiSonaMobileParameterItem] | None = Field(None, alias="Alpha")
+    alpha_c_tick: list[VoiSonaMobileParameterItem] | None = Field(None, alias="AlphaCTick")
+    husky: list[VoiSonaMobileParameterItem] | None = Field(None, alias="Husky")
+    husky_c_tick: list[VoiSonaMobileParameterItem] | None = Field(None, alias="HuskyCTick")
 
 
 class VoiSonaMobileSignerConfig(BaseModel):
-    snap_shot: Optional[str] = Field(None, alias="SnapShot")
+    snap_shot: str | None = Field(None, alias="SnapShot")
 
 
 class VoiSonaMobileStateInformation(BaseModel):
@@ -215,20 +215,20 @@ class VoiSonaMobileStateInformation(BaseModel):
     main_panel_status: list[VoiSonaMobileMainPanelStatus] = Field(
         default_factory=list, alias="MainPanelStatus"
     )
-    panel_controller_status: Optional[list[VoiSonaMobilePanelControllerStatus]] = Field(
+    panel_controller_status: list[VoiSonaMobilePanelControllerStatus] | None = Field(
         None, alias="PanelControllerStatus"
     )
-    voice_information: Optional[list[VoiSonaMobileVoiceInformation]] = Field(
+    voice_information: list[VoiSonaMobileVoiceInformation] | None = Field(
         None, alias="VoiceInformation"
     )
-    global_parameters: Optional[list[VoiSonaMobileGlobalParameter]] = Field(
+    global_parameters: list[VoiSonaMobileGlobalParameter] | None = Field(
         None, alias="GlobalParameters"
     )
-    song: Optional[list[VoiSonaMobileSongItem]] = Field(None, alias="Song")
-    parameter: Optional[list[VoiSonaMobileParametersItem]] = Field(None, alias="Parameter")
-    tempo_sync: Optional[bool] = Field(False, alias="TempoSync")
-    signer_config: Optional[list[VoiSonaMobileSignerConfig]] = Field(None, alias="SignerConfig")
-    version_of_app_file_saved: Optional[str] = Field("1.12.1.0", alias="VersionOfAppFileSaved")
+    song: list[VoiSonaMobileSongItem] | None = Field(None, alias="Song")
+    parameter: list[VoiSonaMobileParametersItem] | None = Field(None, alias="Parameter")
+    tempo_sync: bool | None = Field(False, alias="TempoSync")
+    signer_config: list[VoiSonaMobileSignerConfig] | None = Field(None, alias="SignerConfig")
+    version_of_app_file_saved: str | None = Field("1.12.1.0", alias="VersionOfAppFileSaved")
 
 
 class VoiSonaPluginData(BaseModel):
@@ -279,7 +279,7 @@ class VoiSonaMobileAudio(BaseModel):
 
 class VoiSonaMobileProject(BaseModel):
     tracks: list[VoiSonaMobileTrack] = Field(default_factory=list, alias="Tracks")
-    version_of_app_file_saved: Optional[str] = Field("1.12.1.0", alias="VersionOfAppFileSaved")
+    version_of_app_file_saved: str | None = Field("1.12.1.0", alias="VersionOfAppFileSaved")
     mobile_singer: list[VoiSonaMobileSinger] = Field(default_factory=list, alias="MobileSinger")
     mobile_audio: list[VoiSonaMobileAudio] = Field(default_factory=list, alias="MobileAudio")
 
@@ -287,7 +287,7 @@ class VoiSonaMobileProject(BaseModel):
 def value_to_dict(field_value: Any, field_type: type) -> dict[str, Any]:
     if issubclass(field_type, bool):
         variant_type = JUCEVarTypes.BOOL_TRUE if field_value is True else JUCEVarTypes.BOOL_FALSE
-    elif issubclass(field_type, (enum.IntEnum, int)):
+    elif issubclass(field_type, enum.IntEnum | int):
         variant_type = JUCEVarTypes.INT
     elif issubclass(field_type, float):
         variant_type = JUCEVarTypes.DOUBLE
@@ -323,7 +323,7 @@ def model_to_value_tree(model: BaseModel, name: str = "MobileSongEditor") -> dic
                 field_type = field_info.annotation
             elif field_info.default is None or field_info.default_factory is list:
                 field_type = field_info.annotation
-                while not isinstance(field_type, (type, GenericAlias)):
+                while not isinstance(field_type, type | GenericAlias):
                     field_type = get_args(field_type)[0]
             else:
                 field_type = type(field_info.default)

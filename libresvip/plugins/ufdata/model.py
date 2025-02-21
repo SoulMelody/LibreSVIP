@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import Field
 
 from libresvip.model.base import BaseModel
@@ -14,7 +12,7 @@ class UFNotes(BaseModel):
 
 class UFPitch(BaseModel):
     ticks: list[int] = Field(default_factory=list)
-    values: list[Optional[float]] = Field(default_factory=list)
+    values: list[float | None] = Field(default_factory=list)
     is_absolute: bool = Field(alias="isAbsolute")
 
 
@@ -32,7 +30,7 @@ class UFTimeSignatures(BaseModel):
 class UFTracks(BaseModel):
     name: str
     notes: list[UFNotes] = Field(default_factory=list)
-    pitch: Optional[UFPitch] = None
+    pitch: UFPitch | None = None
 
 
 class UFProject(BaseModel):

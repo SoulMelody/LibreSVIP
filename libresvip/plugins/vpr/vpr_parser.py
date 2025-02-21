@@ -85,7 +85,7 @@ class VocaloidParser:
                 bpm=tempo.value / BPM_RATE,
             )
             for tempo in tempos
-            if isinstance(tempo.value, (int, float))
+            if isinstance(tempo.value, int | float)
         ]
 
     def parse_tracks(self, tracks: list[VocaloidTracks]) -> list[Track]:
@@ -175,7 +175,7 @@ class VocaloidParser:
                     for pitch in note.direct_pitches:
                         if pitch.pos < 0 or (note.duration and pitch.pos > note.duration):
                             continue
-                        if isinstance(pitch.value, (int, float)):
+                        if isinstance(pitch.value, int | float):
                             if not note_pitch_points or note_pitch_points[-1].y == -100:
                                 note_pitch_points.append(
                                     Point(

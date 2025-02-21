@@ -1,7 +1,7 @@
 import enum
 import itertools
 from collections.abc import Iterable
-from typing import Annotated, Literal, Optional, Union, cast
+from typing import Annotated, Literal, cast
 
 import more_itertools
 from pydantic import (
@@ -26,25 +26,25 @@ class AISNote(BaseModel):
     start: int = Field(alias="s")
     length: int = Field(alias="l")
     midi_no: int = Field(alias="m")
-    lyric: Optional[str] = Field(alias="ly")
-    pinyin: Optional[str] = Field(alias="py")
-    vel: Optional[int] = 50
-    triple: Optional[bool] = Field(False, alias="tri")
+    lyric: str | None = Field(alias="ly")
+    pinyin: str | None = Field(alias="py")
+    vel: int | None = 50
+    triple: bool | None = Field(False, alias="tri")
     pit: list[float] = Field(default_factory=list)
-    bc: Optional[int] = 0
-    bj: Optional[int] = 0
-    bq: Optional[int] = 0
+    bc: int | None = 0
+    bj: int | None = 0
+    bq: int | None = 0
 
     @field_validator("pit", mode="before")
     @classmethod
     def validate_pit(
-        cls, value: Union[str, list[Union[float, str]]], _info: ValidationInfo
-    ) -> Optional[list[float]]:
+        cls, value: str | list[float | str], _info: ValidationInfo
+    ) -> list[float] | None:
         if value is None:
             return None
         value_list = value.split() if isinstance(value, str) else value
         pit_list = []
-        for x in cast(Iterable[Union[float, str]], value_list):
+        for x in cast(Iterable[float | str], value_list):
             if isinstance(x, str) and "x" in x:
                 x, _, repeat_times = x.partition("x")
                 pit_list.extend([float(x)] * int(repeat_times))
@@ -56,7 +56,7 @@ class AISNote(BaseModel):
 
     @field_serializer("pit", when_used="json-unless-none")
     @classmethod
-    def serialize_pit(cls, value: Optional[list[float]], _info: SerializationInfo) -> str:
+    def serialize_pit(cls, value: list[float] | None, _info: SerializationInfo) -> str:
         if value is None:
             return "0x500"
         pit_str = ""
@@ -69,9 +69,9 @@ class AISNote(BaseModel):
 
 
 class AISBasePattern(BaseModel):
-    uid: Optional[int] = None
+    uid: int | None = None
     start: int = Field(alias="s")
-    length: Optional[int] = Field(alias="l")
+    length: int | None = Field(alias="l")
 
 
 class AISSingVoicePattern(AISBasePattern):
@@ -79,27 +79,27 @@ class AISSingVoicePattern(AISBasePattern):
 
 
 class AISAudioPattern(AISBasePattern):
-    path_audio: Optional[str] = Field(alias="pa")
-    path_wave: Optional[str] = Field(alias="pw")
-    n_channel: Optional[int] = 2
-    len_sec: Optional[int] = 0
+    path_audio: str | None = Field(alias="pa")
+    path_wave: str | None = Field(alias="pw")
+    n_channel: int | None = 2
+    len_sec: int | None = 0
 
 
 class AISBaseTrack(BaseModel):
-    idx: Optional[int] = Field(alias="i")
-    solo: Optional[bool] = Field(False, alias="s")
-    mute: Optional[bool] = Field(False, alias="m")
-    volume: Optional[float] = Field(0, alias="v")
-    name: Optional[str] = Field(alias="n")
+    idx: int | None = Field(alias="i")
+    solo: bool | None = Field(False, alias="s")
+    mute: bool | None = Field(False, alias="m")
+    volume: float | None = Field(0, alias="v")
+    name: str | None = Field(alias="n")
 
 
 class AISSingVoiceTrack(AISBaseTrack):
     track_type: Literal[AISTrackType.TRACK_SING_VOICE] = Field(
         AISTrackType.TRACK_SING_VOICE, alias="t"
     )
-    singer_namecn: Optional[str] = Field(alias="sn")
-    singer_nameen: Optional[str] = Field("", alias="se")
-    singer_head_path: Optional[str] = Field("", alias="sh")
+    singer_namecn: str | None = Field(alias="sn")
+    singer_nameen: str | None = Field("", alias="se")
+    singer_head_path: str | None = Field("", alias="sh")
     items: list[AISSingVoicePattern] = Field(alias="im", default_factory=list)
 
 
@@ -113,7 +113,7 @@ class AISMidiTrack(AISBaseTrack):
 
 
 AISTrack = Annotated[
-    Union[AISSingVoiceTrack, AISAudioTrack, AISMidiTrack],
+    AISSingVoiceTrack | AISAudioTrack | AISMidiTrack,
     Field(discriminator="track_type"),
 ]
 
@@ -129,10 +129,10 @@ class AISTimeSignature(BaseModel):
 
 
 class AISTempo(BaseModel):
-    tempo_float: Optional[float] = None
+    tempo_float: float | None = None
     start_128: int
     start_bar: int
-    start_beat_in_bar: Optional[int] = None
+    start_beat_in_bar: int | None = None
 
 
 class AISProjectBody(BaseModel):
@@ -146,7 +146,7 @@ class AISProjectBody(BaseModel):
 class AISProjectHead(BaseModel):
     tempo: list[AISTempo] = Field(default_factory=list)
     signature: list[AISTimeSignature] = Field(default_factory=list)
-    flags: Optional[int] = -256
-    flage: Optional[int] = -128
-    time: Optional[int] = None
-    bar: Optional[int] = None
+    flags: int | None = -256
+    flage: int | None = -128
+    time: int | None = None
+    bar: int | None = None

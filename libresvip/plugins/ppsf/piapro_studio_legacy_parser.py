@@ -1,7 +1,6 @@
 import dataclasses
 import struct
 from collections import defaultdict
-from typing import Optional
 
 from construct import (
     Byte,
@@ -34,7 +33,7 @@ class PiaproStudioLegacyParser:
     clips2track_indexes: dict[int, int] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, ppsf_project: PpsfLegacyProject) -> Project:
-        events_chunk: Optional[PpsfChunk] = None
+        events_chunk: PpsfChunk | None = None
         for chunk in ppsf_project.body.chunks:
             if chunk.magic == "Clips":
                 for clip_group in chunk.data.clips:
@@ -70,7 +69,7 @@ class PiaproStudioLegacyParser:
         )
 
     def parse_tempos_and_time_signatures(
-        self, events_chunk: Optional[Container] = None
+        self, events_chunk: Container | None = None
     ) -> tuple[list[SongTempo], list[TimeSignature]]:
         tempos = []
         time_signatures: list[TimeSignature] = []
@@ -121,7 +120,7 @@ class PiaproStudioLegacyParser:
             time_signatures.append(TimeSignature())
         return tempos, time_signatures
 
-    def parse_tracks(self, events_chunk: Optional[Container] = None) -> list[SingingTrack]:
+    def parse_tracks(self, events_chunk: Container | None = None) -> list[SingingTrack]:
         tracks: list[SingingTrack] = []
         if events_chunk is not None:
             lyric_info_struct = Struct(

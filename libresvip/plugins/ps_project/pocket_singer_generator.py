@@ -2,7 +2,6 @@ import dataclasses
 import hashlib
 import io
 import pathlib
-from typing import Optional
 
 import more_itertools
 
@@ -103,7 +102,7 @@ class PocketSingerGenerator:
 
     def generate_bgm_info(
         self, instrumental_track: InstrumentalTrack
-    ) -> Optional[PocketSingerBgmInfo]:
+    ) -> PocketSingerBgmInfo | None:
         audio_path = pathlib.Path(instrumental_track.audio_file_path)
         file_type = audio_path.suffix[1:].lower()
         if file_type not in ("wav", "mp3", "flac", "aac", "m4a"):
@@ -128,7 +127,7 @@ class PocketSingerGenerator:
             ],
         )
 
-    def generate_track(self, track: SingingTrack) -> Optional[PocketSingerTrack]:
+    def generate_track(self, track: SingingTrack) -> PocketSingerTrack | None:
         ps_track = PocketSingerTrack(
             language=self.options.lyric_language,
             mute=track.mute,

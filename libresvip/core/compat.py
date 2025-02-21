@@ -19,17 +19,11 @@ except ImportError:
 
 __all__ = ["Traversable", "ZipFile", "as_file", "files", "json", "zstd"]
 
-if sys.version_info < (3, 10):
-    from importlib_resources import as_file, files
-else:
-    from importlib.resources import as_file, files
+from importlib.resources import as_file, files
 
 if sys.version_info < (3, 11):
     from importlib_resources.abc import Traversable
-else:
-    from importlib.resources.abc import Traversable
-
-if sys.version_info < (3, 11):
     from repro_zipfile import ReproducibleZipFile as ZipFile
 else:
+    from importlib.resources.abc import Traversable
     from zipfile import ZipFile

@@ -1,5 +1,4 @@
 import dataclasses
-from typing import Optional
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
@@ -145,7 +144,7 @@ class VoiSonaGenerator:
 
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]
-    ) -> Optional[VoiSonaParameterItem]:
+    ) -> VoiSonaParameterItem | None:
         if (data := generate_for_voisona(pitch, tempo_list, self.first_bar_length)) is not None:
             return VoiSonaParameterItem(
                 length=data.length,

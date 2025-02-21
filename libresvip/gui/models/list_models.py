@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import cache
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any
 
 from PySide6.QtCore import (
     QAbstractListModel,
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     Items = list[Item]
     Role2Name = dict[int, str]
     Name2Role = dict[str, int]
-    RoleNames = Union[dict[str, Any], tuple[str, ...], list[str]]  # suggested
+    RoleNames = dict[str, Any] | tuple[str, ...] | list[str]  # suggested
 
 
 class ModelProxy(QAbstractListModel):
@@ -187,8 +187,8 @@ class ModelProxy(QAbstractListModel):
     @Slot(int, int, result="QVariant")
     def get_many(
         self,
-        start: Optional[int] = None,
-        end: Optional[int] = None,  # TODO: shall we use `count` instead?
+        start: int | None = None,
+        end: int | None = None,  # TODO: shall we use `count` instead?
     ) -> Items:
         if start is not None and end is None:
             start, end = 0, start
@@ -249,7 +249,7 @@ class ModelProxy(QAbstractListModel):
 
 
 class LyricReplacementPresetsModel(QStringListModel):
-    def __init__(self, parent: Optional[QObject] = None) -> None:
+    def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
         self.set_string_list(list(settings.lyric_replace_rules))
 

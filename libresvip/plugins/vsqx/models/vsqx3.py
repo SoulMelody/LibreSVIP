@@ -26,7 +26,7 @@ class Aux(BaseModel):
         name = "aux"
         namespace = VSQ3_NS
 
-    aux_id: Optional[str] = field(
+    aux_id: str | None = field(
         default=None,
         metadata={
             "name": "auxID",
@@ -34,7 +34,7 @@ class Aux(BaseModel):
             "required": True,
         },
     )
-    content: Optional[str] = field(
+    content: str | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -48,7 +48,7 @@ class Dyn(BaseModel):
         name = "dyn"
         namespace = VSQ3_NS
 
-    pos_sec: Optional[int] = field(
+    pos_sec: int | None = field(
         default=None,
         metadata={
             "name": "posSec",
@@ -56,7 +56,7 @@ class Dyn(BaseModel):
             "required": True,
         },
     )
-    dyn_val: Optional[int] = field(
+    dyn_val: int | None = field(
         default=None,
         metadata={
             "name": "dynVal",
@@ -71,7 +71,7 @@ class Pch(BaseModel):
         name = "pch"
         namespace = VSQ3_NS
 
-    pos_sec: Optional[int] = field(
+    pos_sec: int | None = field(
         default=None,
         metadata={
             "name": "posSec",
@@ -79,7 +79,7 @@ class Pch(BaseModel):
             "required": True,
         },
     )
-    pch_val: Optional[int] = field(
+    pch_val: int | None = field(
         default=None,
         metadata={
             "name": "pchVal",
@@ -94,7 +94,7 @@ class Phnm(BaseModel):
         name = "phnm"
         namespace = VSQ3_NS
 
-    pos_sec: Optional[int] = field(
+    pos_sec: int | None = field(
         default=None,
         metadata={
             "name": "posSec",
@@ -102,7 +102,7 @@ class Phnm(BaseModel):
             "required": True,
         },
     )
-    dur_sec: Optional[int] = field(
+    dur_sec: int | None = field(
         default=None,
         metadata={
             "name": "durSec",
@@ -110,7 +110,7 @@ class Phnm(BaseModel):
             "required": True,
         },
     )
-    phnm_str: Optional[str] = field(
+    phnm_str: str | None = field(
         default=None,
         metadata={
             "name": "phnmStr",
@@ -132,7 +132,7 @@ class SeqAttr(BaseModel):
             "min_occurs": 1,
         },
     )
-    seq_id: Optional[str] = field(
+    seq_id: str | None = field(
         default=None,
         metadata={
             "name": "id",
@@ -142,7 +142,7 @@ class SeqAttr(BaseModel):
     )
 
     class Elem(BaseModel):
-        pos_nrm: Optional[int] = field(
+        pos_nrm: int | None = field(
             default=None,
             metadata={
                 "name": "posNrm",
@@ -150,7 +150,7 @@ class SeqAttr(BaseModel):
                 "required": True,
             },
         )
-        elv: Optional[int] = field(
+        elv: int | None = field(
             default=None,
             metadata={
                 "type": "Element",
@@ -164,7 +164,7 @@ class Singer(BaseModel):
         name = "singer"
         namespace = VSQ3_NS
 
-    pos_tick: Optional[int] = field(
+    pos_tick: int | None = field(
         default=0,
         metadata={
             "name": "posTick",
@@ -172,7 +172,7 @@ class Singer(BaseModel):
             "required": True,
         },
     )
-    v_bs: Optional[VocaloidLanguage] = field(
+    v_bs: VocaloidLanguage | None = field(
         default=VocaloidLanguage.SIMPLIFIED_CHINESE,
         metadata={
             "name": "vBS",
@@ -182,7 +182,7 @@ class Singer(BaseModel):
             "max_inclusive": 127,
         },
     )
-    v_pc: Optional[int] = field(
+    v_pc: int | None = field(
         default=0,
         metadata={
             "name": "vPC",
@@ -199,7 +199,7 @@ class StylePlugin(BaseModel):
         name = "stylePlugin"
         namespace = VSQ3_NS
 
-    style_plugin_id: Optional[str] = field(
+    style_plugin_id: str | None = field(
         default="ACA9C502-A04B-42b5-B2EB-5CEA36D16FCE",
         metadata={
             "name": "stylePluginID",
@@ -208,7 +208,7 @@ class StylePlugin(BaseModel):
             "length": 36,
         },
     )
-    style_plugin_name: Optional[str] = field(
+    style_plugin_name: str | None = field(
         default="VOCALOID2 Compatible Style",
         metadata={
             "name": "stylePluginName",
@@ -216,7 +216,7 @@ class StylePlugin(BaseModel):
             "required": True,
         },
     )
-    version: Optional[str] = field(
+    version: str | None = field(
         default="3.0.0.1",
         metadata={
             "type": "Element",
@@ -250,7 +250,7 @@ class TimeSig(BaseModel):
         name = "timeSig"
         namespace = VSQ3_NS
 
-    pos_mes: Optional[int] = field(
+    pos_mes: int | None = field(
         default=None,
         metadata={
             "name": "posMes",
@@ -258,14 +258,14 @@ class TimeSig(BaseModel):
             "required": True,
         },
     )
-    nume: Optional[int] = field(
+    nume: int | None = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    denomi: Optional[int] = field(
+    denomi: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -278,13 +278,13 @@ class TypeParamAttr(BaseModel):
     class Meta:
         name = "typeParamAttr"
 
-    value: Optional[int] = field(
+    value: int | None = field(
         default=None,
         metadata={
             "required": True,
         },
     )
-    type_param_attr_id: Optional[str] = field(
+    type_param_attr_id: str | None = field(
         default=None,
         metadata={
             "name": "id",
@@ -304,7 +304,7 @@ class TypePhonemes(BaseModel):
             "required": True,
         },
     )
-    lock: Optional[int] = field(
+    lock: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -337,7 +337,7 @@ class VVoiceParam(BaseModel):
         name = "vVoiceParam"
         namespace = VSQ3_NS
 
-    bre: Optional[int] = field(
+    bre: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -346,7 +346,7 @@ class VVoiceParam(BaseModel):
             "max_inclusive": 127,
         },
     )
-    bri: Optional[int] = field(
+    bri: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -355,7 +355,7 @@ class VVoiceParam(BaseModel):
             "max_inclusive": 127,
         },
     )
-    cle: Optional[int] = field(
+    cle: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -364,7 +364,7 @@ class VVoiceParam(BaseModel):
             "max_inclusive": 127,
         },
     )
-    gen: Optional[int] = field(
+    gen: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -373,7 +373,7 @@ class VVoiceParam(BaseModel):
             "max_inclusive": 127,
         },
     )
-    ope: Optional[int] = field(
+    ope: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -389,7 +389,7 @@ class Voice(BaseModel):
         name = "voice"
         namespace = VSQ3_NS
 
-    pos_sec: Optional[int] = field(
+    pos_sec: int | None = field(
         default=None,
         metadata={
             "name": "posSec",
@@ -397,7 +397,7 @@ class Voice(BaseModel):
             "required": True,
         },
     )
-    v_bs: Optional[VocaloidLanguage] = field(
+    v_bs: VocaloidLanguage | None = field(
         default=VocaloidLanguage.SIMPLIFIED_CHINESE,
         metadata={
             "name": "vBS",
@@ -407,7 +407,7 @@ class Voice(BaseModel):
             "max_inclusive": 127,
         },
     )
-    v_pc: Optional[int] = field(
+    v_pc: int | None = field(
         default=0,
         metadata={
             "name": "vPC",
@@ -445,7 +445,7 @@ class MasterTrack(BaseModel):
         name = "masterTrack"
         namespace = VSQ3_NS
 
-    seq_name: Optional[str] = field(
+    seq_name: str | None = field(
         default="Untitled0",
         metadata={
             "name": "seqName",
@@ -453,14 +453,14 @@ class MasterTrack(BaseModel):
             "required": True,
         },
     )
-    comment: Optional[str] = field(
+    comment: str | None = field(
         default="New VSQ File",
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    resolution: Optional[int] = field(
+    resolution: int | None = field(
         default=480,
         metadata={
             "type": "Element",
@@ -519,7 +519,7 @@ class PCtrl(BaseModel):
         name = "pCtrl"
         namespace = VSQ3_NS
 
-    pos_sec: Optional[int] = field(
+    pos_sec: int | None = field(
         default=None,
         metadata={
             "name": "posSec",
@@ -527,7 +527,7 @@ class PCtrl(BaseModel):
             "required": True,
         },
     )
-    attr: Optional[TypeParamAttr] = field(
+    attr: TypeParamAttr | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -555,7 +555,7 @@ class PhraseStyle(BaseModel):
         name = "phraseStyle"
         namespace = VSQ3_NS
 
-    pos_tick: Optional[int] = field(
+    pos_tick: int | None = field(
         default=None,
         metadata={
             "name": "posTick",
@@ -577,7 +577,7 @@ class SCtrl(BaseModel):
         name = "sCtrl"
         namespace = VSQ3_NS
 
-    pos_tick: Optional[int] = field(
+    pos_tick: int | None = field(
         default=None,
         metadata={
             "name": "posTick",
@@ -585,7 +585,7 @@ class SCtrl(BaseModel):
             "required": True,
         },
     )
-    attr: Optional[TypeParamAttr] = field(
+    attr: TypeParamAttr | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -599,7 +599,7 @@ class VVoice(BaseModel):
         name = "vVoice"
         namespace = VSQ3_NS
 
-    v_bs: Optional[VocaloidLanguage] = field(
+    v_bs: VocaloidLanguage | None = field(
         default=VocaloidLanguage.SIMPLIFIED_CHINESE,
         metadata={
             "name": "vBS",
@@ -609,7 +609,7 @@ class VVoice(BaseModel):
             "max_inclusive": 127,
         },
     )
-    v_pc: Optional[int] = field(
+    v_pc: int | None = field(
         default=0,
         metadata={
             "name": "vPC",
@@ -619,7 +619,7 @@ class VVoice(BaseModel):
             "max_inclusive": 127,
         },
     )
-    comp_id: Optional[str] = field(
+    comp_id: str | None = field(
         default=None,
         metadata={
             "name": "compID",
@@ -628,7 +628,7 @@ class VVoice(BaseModel):
             "length": 16,
         },
     )
-    v_voice_name: Optional[str] = field(
+    v_voice_name: str | None = field(
         default=None,
         metadata={
             "name": "vVoiceName",
@@ -636,7 +636,7 @@ class VVoice(BaseModel):
             "required": True,
         },
     )
-    v_voice_param: Optional[VVoiceParam] = field(
+    v_voice_param: VVoiceParam | None = field(
         default_factory=VVoiceParam,
         metadata={
             "name": "vVoiceParam",
@@ -651,7 +651,7 @@ class VstPlugin(BaseModel):
         name = "vstPlugin"
         namespace = VSQ3_NS
 
-    vst_plugin_id: Optional[str] = field(
+    vst_plugin_id: str | None = field(
         default=None,
         metadata={
             "name": "vstPluginID",
@@ -659,7 +659,7 @@ class VstPlugin(BaseModel):
             "required": True,
         },
     )
-    vst_plugin_name: Optional[str] = field(
+    vst_plugin_name: str | None = field(
         default=None,
         metadata={
             "name": "vstPluginName",
@@ -667,7 +667,7 @@ class VstPlugin(BaseModel):
             "required": True,
         },
     )
-    vst_sdkversion: Optional[TypeVstSdkversion] = field(
+    vst_sdkversion: TypeVstSdkversion | None = field(
         default=None,
         metadata={
             "name": "vstSDKVersion",
@@ -675,7 +675,7 @@ class VstPlugin(BaseModel):
             "required": True,
         },
     )
-    vst_param_num: Optional[int] = field(
+    vst_param_num: int | None = field(
         default=None,
         metadata={
             "name": "vstParamNum",
@@ -690,14 +690,14 @@ class VstPlugin(BaseModel):
             "type": "Element",
         },
     )
-    vst_preset_no: Optional[int] = field(
+    vst_preset_no: int | None = field(
         default=None,
         metadata={
             "name": "vstPresetNo",
             "type": "Element",
         },
     )
-    enable: Optional[int] = field(
+    enable: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -706,7 +706,7 @@ class VstPlugin(BaseModel):
             "max_inclusive": 1,
         },
     )
-    bypass: Optional[int] = field(
+    bypass: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -730,7 +730,7 @@ class VstPluginSr(BaseModel):
         name = "vstPluginSR"
         namespace = VSQ3_NS
 
-    vst_plugin_id: Optional[str] = field(
+    vst_plugin_id: str | None = field(
         default=None,
         metadata={
             "name": "vstPluginID",
@@ -738,7 +738,7 @@ class VstPluginSr(BaseModel):
             "required": True,
         },
     )
-    vst_plugin_name: Optional[str] = field(
+    vst_plugin_name: str | None = field(
         default=None,
         metadata={
             "name": "vstPluginName",
@@ -746,7 +746,7 @@ class VstPluginSr(BaseModel):
             "required": True,
         },
     )
-    vst_sdkversion: Optional[TypeVstSdkversion] = field(
+    vst_sdkversion: TypeVstSdkversion | None = field(
         default=None,
         metadata={
             "name": "vstSDKVersion",
@@ -754,7 +754,7 @@ class VstPluginSr(BaseModel):
             "required": True,
         },
     )
-    vst_param_num: Optional[int] = field(
+    vst_param_num: int | None = field(
         default=None,
         metadata={
             "name": "vstParamNum",
@@ -769,14 +769,14 @@ class VstPluginSr(BaseModel):
             "type": "Element",
         },
     )
-    vst_preset_no: Optional[int] = field(
+    vst_preset_no: int | None = field(
         default=None,
         metadata={
             "name": "vstPresetNo",
             "type": "Element",
         },
     )
-    enable: Optional[int] = field(
+    enable: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -785,7 +785,7 @@ class VstPluginSr(BaseModel):
             "max_inclusive": 1,
         },
     )
-    bypass: Optional[int] = field(
+    bypass: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -809,7 +809,7 @@ class WavPart(BaseModel):
         name = "wavPart"
         namespace = VSQ3_NS
 
-    pos_tick: Optional[int] = field(
+    pos_tick: int | None = field(
         default=None,
         metadata={
             "name": "posTick",
@@ -817,7 +817,7 @@ class WavPart(BaseModel):
             "required": True,
         },
     )
-    play_time: Optional[int] = field(
+    play_time: int | None = field(
         default=None,
         metadata={
             "name": "playTime",
@@ -825,7 +825,7 @@ class WavPart(BaseModel):
             "required": True,
         },
     )
-    part_name: Optional[str] = field(
+    part_name: str | None = field(
         default=None,
         metadata={
             "name": "partName",
@@ -833,14 +833,14 @@ class WavPart(BaseModel):
             "required": True,
         },
     )
-    comment: Optional[str] = field(
+    comment: str | None = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    sample_rate: Optional[TypeSamplerate] = field(
+    sample_rate: TypeSamplerate | None = field(
         default=None,
         metadata={
             "name": "sampleRate",
@@ -848,7 +848,7 @@ class WavPart(BaseModel):
             "required": True,
         },
     )
-    sample_reso: Optional[TypeResolution] = field(
+    sample_reso: TypeResolution | None = field(
         default=None,
         metadata={
             "name": "sampleReso",
@@ -856,7 +856,7 @@ class WavPart(BaseModel):
             "required": True,
         },
     )
-    channels: Optional[int] = field(
+    channels: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -865,7 +865,7 @@ class WavPart(BaseModel):
             "max_inclusive": 2,
         },
     )
-    file_path: Optional[str] = field(
+    file_path: str | None = field(
         default=None,
         metadata={
             "name": "filePath",
@@ -894,7 +894,7 @@ class StereoUnit(BaseModel):
         name = "karaokeUnit"
         namespace = VSQ3_NS
 
-    in_gain: Optional[int] = field(
+    in_gain: int | None = field(
         default=0,
         metadata={
             "name": "inGain",
@@ -910,7 +910,7 @@ class StereoUnit(BaseModel):
             "max_occurs": 2,
         },
     )
-    mute: Optional[int] = field(
+    mute: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -919,7 +919,7 @@ class StereoUnit(BaseModel):
             "max_inclusive": 1,
         },
     )
-    solo: Optional[int] = field(
+    solo: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -928,7 +928,7 @@ class StereoUnit(BaseModel):
             "max_inclusive": 1,
         },
     )
-    vol: Optional[int] = field(
+    vol: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -942,7 +942,7 @@ class MasterUnit(BaseModel):
         name = "masterUnit"
         namespace = VSQ3_NS
 
-    out_dev: Optional[int] = field(
+    out_dev: int | None = field(
         default=0,
         metadata={
             "name": "outDev",
@@ -958,14 +958,14 @@ class MasterUnit(BaseModel):
             "max_occurs": 2,
         },
     )
-    vst_plugin_sr: Optional[VstPluginSr] = field(
+    vst_plugin_sr: VstPluginSr | None = field(
         default=None,
         metadata={
             "name": "vstPluginSR",
             "type": "Element",
         },
     )
-    ret_level: Optional[int] = field(
+    ret_level: int | None = field(
         default=0,
         metadata={
             "name": "retLevel",
@@ -973,7 +973,7 @@ class MasterUnit(BaseModel):
             "required": True,
         },
     )
-    vol: Optional[int] = field(
+    vol: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -1001,7 +1001,7 @@ class Note(BaseModel):
             "required": True,
         },
     )
-    note_num: Optional[int] = field(
+    note_num: int | None = field(
         default=None,
         metadata={
             "name": "noteNum",
@@ -1011,7 +1011,7 @@ class Note(BaseModel):
             "max_inclusive": 127,
         },
     )
-    velocity: Optional[int] = field(
+    velocity: int | None = field(
         default=64,
         metadata={
             "type": "Element",
@@ -1026,7 +1026,7 @@ class Note(BaseModel):
             "required": True,
         },
     )
-    phnms: Optional[TypePhonemes] = field(
+    phnms: TypePhonemes | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -1047,7 +1047,7 @@ class ProsodyPart(BaseModel):
         name = "prosodyPart"
         namespace = VSQ3_NS
 
-    pos_tick: Optional[int] = field(
+    pos_tick: int | None = field(
         default=None,
         metadata={
             "name": "posTick",
@@ -1055,7 +1055,7 @@ class ProsodyPart(BaseModel):
             "required": True,
         },
     )
-    play_time: Optional[int] = field(
+    play_time: int | None = field(
         default=None,
         metadata={
             "name": "playTime",
@@ -1063,7 +1063,7 @@ class ProsodyPart(BaseModel):
             "required": True,
         },
     )
-    part_name: Optional[str] = field(
+    part_name: str | None = field(
         default=None,
         metadata={
             "name": "partName",
@@ -1071,7 +1071,7 @@ class ProsodyPart(BaseModel):
             "required": True,
         },
     )
-    comment: Optional[str] = field(
+    comment: str | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -1133,7 +1133,7 @@ class MonoUnit(BaseModel):
         name = "seUnit"
         namespace = VSQ3_NS
 
-    in_gain: Optional[int] = field(
+    in_gain: int | None = field(
         default=0,
         metadata={
             "name": "inGain",
@@ -1149,7 +1149,7 @@ class MonoUnit(BaseModel):
             "max_occurs": 2,
         },
     )
-    send_level: Optional[int] = field(
+    send_level: int | None = field(
         default=-898,
         metadata={
             "name": "sendLevel",
@@ -1157,7 +1157,7 @@ class MonoUnit(BaseModel):
             "required": True,
         },
     )
-    send_enable: Optional[int] = field(
+    send_enable: int | None = field(
         default=0,
         metadata={
             "name": "sendEnable",
@@ -1167,7 +1167,7 @@ class MonoUnit(BaseModel):
             "max_inclusive": 1,
         },
     )
-    mute: Optional[int] = field(
+    mute: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -1176,7 +1176,7 @@ class MonoUnit(BaseModel):
             "max_inclusive": 1,
         },
     )
-    solo: Optional[int] = field(
+    solo: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -1185,14 +1185,14 @@ class MonoUnit(BaseModel):
             "max_inclusive": 1,
         },
     )
-    pan: Optional[int] = field(
+    pan: int | None = field(
         default=64,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    vol: Optional[int] = field(
+    vol: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -1221,7 +1221,7 @@ class VsUnit(BaseModel):
         name = "vsUnit"
         namespace = VSQ3_NS
 
-    vs_track_no: Optional[int] = field(
+    vs_track_no: int | None = field(
         default=None,
         metadata={
             "name": "vsTrackNo",
@@ -1231,7 +1231,7 @@ class VsUnit(BaseModel):
             "max_inclusive": 127,
         },
     )
-    in_gain: Optional[int] = field(
+    in_gain: int | None = field(
         default=0,
         metadata={
             "name": "inGain",
@@ -1247,7 +1247,7 @@ class VsUnit(BaseModel):
             "max_occurs": 2,
         },
     )
-    send_level: Optional[int] = field(
+    send_level: int | None = field(
         default=-898,
         metadata={
             "name": "sendLevel",
@@ -1255,7 +1255,7 @@ class VsUnit(BaseModel):
             "required": True,
         },
     )
-    send_enable: Optional[int] = field(
+    send_enable: int | None = field(
         default=0,
         metadata={
             "name": "sendEnable",
@@ -1265,7 +1265,7 @@ class VsUnit(BaseModel):
             "max_inclusive": 1,
         },
     )
-    mute: Optional[int] = field(
+    mute: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -1274,7 +1274,7 @@ class VsUnit(BaseModel):
             "max_inclusive": 1,
         },
     )
-    solo: Optional[int] = field(
+    solo: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -1283,14 +1283,14 @@ class VsUnit(BaseModel):
             "max_inclusive": 1,
         },
     )
-    pan: Optional[int] = field(
+    pan: int | None = field(
         default=64,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    vol: Optional[int] = field(
+    vol: int | None = field(
         default=0,
         metadata={
             "type": "Element",
@@ -1304,7 +1304,7 @@ class Mixer(BaseModel):
         name = "mixer"
         namespace = VSQ3_NS
 
-    master_unit: Optional[MasterUnit] = field(
+    master_unit: MasterUnit | None = field(
         default_factory=MasterUnit,
         metadata={
             "name": "masterUnit",
@@ -1358,7 +1358,7 @@ class MusicalPart(BaseModel):
             "required": True,
         },
     )
-    part_name: Optional[str] = field(
+    part_name: str | None = field(
         default="New Part",
         metadata={
             "name": "partName",
@@ -1366,14 +1366,14 @@ class MusicalPart(BaseModel):
             "required": True,
         },
     )
-    comment: Optional[str] = field(
+    comment: str | None = field(
         default="New Musical Part",
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    style_plugin: Optional[StylePlugin] = field(
+    style_plugin: StylePlugin | None = field(
         default_factory=StylePlugin,
         metadata={
             "name": "stylePlugin",
@@ -1429,7 +1429,7 @@ class VsTrack(BaseModel):
         name = "vsTrack"
         namespace = VSQ3_NS
 
-    vs_track_no: Optional[int] = field(
+    vs_track_no: int | None = field(
         default=None,
         metadata={
             "name": "vsTrackNo",
@@ -1439,7 +1439,7 @@ class VsTrack(BaseModel):
             "max_inclusive": 127,
         },
     )
-    track_name: Optional[str] = field(
+    track_name: str | None = field(
         default=None,
         metadata={
             "name": "trackName",
@@ -1447,7 +1447,7 @@ class VsTrack(BaseModel):
             "required": True,
         },
     )
-    comment: Optional[str] = field(
+    comment: str | None = field(
         default="Track",
         metadata={
             "type": "Element",
@@ -1477,14 +1477,14 @@ class Vsq3(BaseModel):
         name = "vsq3"
         namespace = VSQ3_NS
 
-    vender: Optional[str] = field(
+    vender: str | None = field(
         default="Yamaha Corporation",
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    version: Optional[str] = field(
+    version: str | None = field(
         default="3.0.0.0",
         metadata={
             "type": "Element",
@@ -1523,7 +1523,7 @@ class Vsq3(BaseModel):
             "max_occurs": 16,
         },
     )
-    mono_track: Optional[MonoTrack] = field(
+    mono_track: MonoTrack | None = field(
         default_factory=MonoTrack,
         metadata={
             "name": "seTrack",
@@ -1531,7 +1531,7 @@ class Vsq3(BaseModel):
             "required": True,
         },
     )
-    stereo_track: Optional[StereoTrack] = field(
+    stereo_track: StereoTrack | None = field(
         default_factory=StereoTrack,
         metadata={
             "name": "karaokeTrack",

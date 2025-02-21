@@ -1,5 +1,4 @@
 import math
-from typing import Optional
 
 from libresvip.core.constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
@@ -23,7 +22,7 @@ def pitch_from_vocaloid_parts(
     synchronizer: TimeSynchronizer,
     note_list: list[Note],
     first_bar_length: int,
-) -> Optional[ParamCurve]:
+) -> ParamCurve | None:
     pitch_raw_data_by_part = []
     for part in data_by_parts:
         pit = part.pit
@@ -89,7 +88,7 @@ def generate_for_vocaloid(
     notes: list[Note],
     first_bar_length: int,
     synchronizer: TimeSynchronizer,
-) -> Optional[VocaloidPartPitchData]:
+) -> VocaloidPartPitchData | None:
     pitch_simulator = PitchSimulator(
         synchronizer=synchronizer,
         portamento=PortamentoPitch.vocaloid_portamento(),

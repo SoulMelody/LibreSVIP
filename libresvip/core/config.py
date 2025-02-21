@@ -5,7 +5,7 @@ import enum
 import locale
 import pathlib
 import re
-from typing import Annotated, Any, Optional, TypeVar, Union
+from typing import Annotated, Any, TypeVar
 
 import pydantic_settings
 import yaml
@@ -190,11 +190,11 @@ class YamlSettings(pydantic_settings.BaseSettings):
     __FILENAME__: str = "settings.yml"
 
     @classmethod
-    def exists(cls, settings_dir: Union[str, pathlib.Path]) -> bool:
+    def exists(cls, settings_dir: str | pathlib.Path) -> bool:
         return (pathlib.Path(settings_dir).resolve() / cls.__FILENAME__).exists()
 
     @classmethod
-    def create(cls: type[T], settings_dir: Union[str, pathlib.Path], exists_ok: bool = False) -> T:
+    def create(cls: type[T], settings_dir: str | pathlib.Path, exists_ok: bool = False) -> T:
         settings_dir = pathlib.Path(settings_dir).resolve()
         if not exists_ok and cls.exists(settings_dir):
             msg = f"`{cls.__FILENAME__}` already exists in `{settings_dir}`"
@@ -207,7 +207,7 @@ class YamlSettings(pydantic_settings.BaseSettings):
     @classmethod
     def load(
         cls: type[T],
-        settings_dir: Union[str, pathlib.Path],
+        settings_dir: str | pathlib.Path,
         create_if_missing: bool = False,
         raise_error_if_failed: bool = True,
     ) -> T:
@@ -337,8 +337,8 @@ class ConversionMode(enum.Enum):
 
 class LibreSvipBaseUISettings(YamlSettings):
     language: Annotated[Language, pydantic_enum(Language)] = Field(default_factory=Language.auto)
-    last_input_format: Optional[str] = Field(default=None)
-    last_output_format: Optional[str] = Field(default=None)
+    last_input_format: str | None = Field(default=None)
+    last_output_format: str | None = Field(default=None)
     dark_mode: Annotated[DarkMode, pydantic_enum(DarkMode)] = Field(default=DarkMode.SYSTEM)
     auto_detect_input_format: bool = Field(default=True)
     reset_tasks_on_input_change: bool = Field(default=True)
@@ -346,7 +346,7 @@ class LibreSvipBaseUISettings(YamlSettings):
     lyric_replace_rules: dict[str, list[LyricsReplacement]] = Field(default_factory=dict)
 
 
-ui_settings_ctx: contextvars.ContextVar[Optional[LibreSvipBaseUISettings]] = contextvars.ContextVar(
+ui_settings_ctx: contextvars.ContextVar[LibreSvipBaseUISettings | None] = contextvars.ContextVar(
     "ui_settings_ctx"
 )
 

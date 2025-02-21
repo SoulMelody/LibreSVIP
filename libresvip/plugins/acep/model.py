@@ -10,8 +10,6 @@ from typing import (
     Any,
     Literal,
     NamedTuple,
-    Optional,
-    Union,
     cast,
 )
 
@@ -53,8 +51,8 @@ class AcepParamCurve(BaseModel):
     curve_type: str = Field("data", alias="type")
     offset: int = 0
     values: list[float] = Field(default_factory=list)
-    points: Optional[AcepAnchorPoints] = None
-    points_vuv: Optional[list[float]] = Field(None, alias="pointsVUV")
+    points: AcepAnchorPoints | None = None
+    points_vuv: list[float] | None = Field(None, alias="pointsVUV")
 
     @field_validator("points", mode="before")
     @classmethod
@@ -98,7 +96,7 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
 
     def plus(
         self,
-        others: Optional[AcepParamCurveList],
+        others: AcepParamCurveList | None,
         default_value: float,
         transform: Callable[[float], float],
     ) -> AcepParamCurveList:
@@ -183,7 +181,7 @@ class AcepMaster(BaseModel):
 class AcepTempo(BaseModel):
     bpm: float = 0.0
     position: int = 0
-    is_lerp: Optional[bool] = Field(False, alias="isLerp")
+    is_lerp: bool | None = Field(False, alias="isLerp")
 
 
 class AcepParams(BaseModel):
@@ -203,7 +201,7 @@ class AcepParams(BaseModel):
     real_falsetto: AcepParamCurveList = Field(
         default_factory=AcepParamCurveList, alias="realFalsetto"
     )
-    vuv: Optional[AcepParamCurveList] = Field(default_factory=AcepParamCurveList)
+    vuv: AcepParamCurveList | None = Field(default_factory=AcepParamCurveList)
 
 
 class AcepVibrato(BaseModel):
@@ -227,15 +225,15 @@ class AcepNote(BaseModel):
     pitch: int = 0
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     lyric: str = ""
-    pronunciation: Optional[str] = None
-    freezed_default_syllable: Optional[str] = Field(None, alias="freezedDefaultSyllable")
+    pronunciation: str | None = None
+    freezed_default_syllable: str | None = Field(None, alias="freezedDefaultSyllable")
     new_line: bool = Field(False, alias="newLine")
-    consonant_len: Optional[int] = Field(None, alias="consonantLen")
-    head_consonants: Optional[list[float]] = Field(default_factory=list, alias="headConsonants")
-    tail_consonants: Optional[list[float]] = Field(default_factory=list, alias="tailConsonants")
+    consonant_len: int | None = Field(None, alias="consonantLen")
+    head_consonants: list[float] | None = Field(default_factory=list, alias="headConsonants")
+    tail_consonants: list[float] | None = Field(default_factory=list, alias="tailConsonants")
     syllable: str = ""
     br_len: float = Field(0.0, alias="brLen")
-    vibrato: Optional[AcepVibrato] = None
+    vibrato: AcepVibrato | None = None
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
@@ -245,8 +243,8 @@ class AcepPattern(BaseModel):
     dur: float = 0.0
     clip_pos: float = Field(0.0, alias="clipPos")
     clip_dur: float = Field(0.0, alias="clipDur")
-    enabled: Optional[bool] = True
-    color: Optional[str] = None
+    enabled: bool | None = True
+    color: str | None = None
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
@@ -264,17 +262,17 @@ class AcepAudioFadeShape(BaseModel):
 
 class AcepAudioFadeEffect(BaseModel):
     length: float = 0.0
-    crossfade: Optional[bool] = False
+    crossfade: bool | None = False
     shape: AcepAudioFadeShape = Field(default_factory=AcepAudioFadeShape)
 
 
 class AcepAudioPattern(AcepPattern):
     path: str = ""
-    gain: Optional[float] = None
-    analysed_beat: Optional[AcepAnalysedBeat] = Field(None, alias="analysedBeat")
-    time_unit: Optional[str] = Field("sec", alias="timeUnit")
-    fade_in: Optional[AcepAudioFadeEffect] = Field(None, alias="fadeIn")
-    fade_out: Optional[AcepAudioFadeEffect] = Field(None, alias="fadeOut")
+    gain: float | None = None
+    analysed_beat: AcepAnalysedBeat | None = Field(None, alias="analysedBeat")
+    time_unit: str | None = Field("sec", alias="timeUnit")
+    fade_in: AcepAudioFadeEffect | None = Field(None, alias="fadeIn")
+    fade_out: AcepAudioFadeEffect | None = Field(None, alias="fadeOut")
     validate_path = field_validator("path", mode="before")(audio_path_validator)
 
 
@@ -282,7 +280,7 @@ class AcepVocalPattern(AcepPattern):
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     extend_lyrics: str = Field("", alias="extendLyrics")
     notes: list[AcepNote] = Field(default_factory=list)
-    time_unit: Optional[str] = Field("tick", alias="timeUnit")
+    time_unit: str | None = Field("tick", alias="timeUnit")
     parameters: AcepParams = Field(default_factory=AcepParams)
 
 
@@ -294,8 +292,8 @@ class AcepTrackProperties(BaseModel):
     mute: bool = False
     solo: bool = False
     record: bool = False
-    channel: Optional[int] = 0
-    listen: Optional[bool] = False
+    channel: int | None = 0
+    listen: bool | None = False
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
     built_in_fx: dict[str, Any] = Field(default_factory=dict, alias="builtInFx")
 
@@ -320,10 +318,10 @@ class AcepCustomSinger(BaseModel):
     composition: list[AcepSeedComposition] = Field(default_factory=list)
     state: str = "Unmixed"
     name: str = DEFAULT_SINGER
-    singer_id: Optional[int] = Field(DEFAULT_SINGER_ID, alias="id")
-    head: Optional[int] = -1
-    router: Optional[int] = 1
-    group: Optional[str] = ""
+    singer_id: int | None = Field(DEFAULT_SINGER_ID, alias="id")
+    head: int | None = -1
+    router: int | None = 1
+    group: str | None = ""
 
 
 class AcepSingerConfig(BaseModel):
@@ -335,7 +333,7 @@ class AcepSingerConfig(BaseModel):
 
 class AcepVocalTrack(AcepTrackProperties, BaseModel):
     type_: Literal["sing"] = Field(default="sing", alias="type")
-    singer: Optional[Union[int, AcepCustomSinger]] = None
+    singer: int | AcepCustomSinger | None = None
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     patterns: list[AcepVocalPattern] = Field(default_factory=list)
     choir_info: dict[str, Any] = Field(default_factory=dict, alias="choirInfo")
@@ -371,7 +369,7 @@ class AcepChord(BaseModel):
 
 class AcepChordPattern(AcepPattern):
     chords: list[AcepChord] = Field(default_factory=list)
-    time_unit: Optional[str] = Field("tick", alias="timeUnit")
+    time_unit: str | None = Field("tick", alias="timeUnit")
 
 
 class AcepChordTrack(AcepTrackProperties, BaseModel):
@@ -380,7 +378,7 @@ class AcepChordTrack(AcepTrackProperties, BaseModel):
 
 
 AcepTrack = Annotated[
-    Union[AcepAudioTrack, AcepEmptyTrack, AcepVocalTrack, AcepChordTrack],
+    AcepAudioTrack | AcepEmptyTrack | AcepVocalTrack | AcepChordTrack,
     Field(discriminator="type_"),
 ]
 
@@ -394,7 +392,7 @@ class AcepTimeSignature(BaseModel):
 class AcepProject(BaseModel):
     beats_per_bar: int = Field(4, alias="beatsPerBar")
     color_index: int = Field(0, alias="colorIndex")
-    pattern_individual_color_index: Optional[int] = Field(0, alias="patternIndividualColorIndex")
+    pattern_individual_color_index: int | None = Field(0, alias="patternIndividualColorIndex")
     debug_info: dict[str, Any] = Field(default_factory=dict, alias="debugInfo")
     duration: int = 0
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
@@ -403,16 +401,16 @@ class AcepProject(BaseModel):
     tempos: list[AcepTempo] = Field(default_factory=list)
     track_cells: int = Field(2147483646, alias="trackCells")
     tracks: list[AcepTrack] = Field(default_factory=list)
-    loop: Optional[bool] = False
-    loop_start: Optional[int] = Field(0, alias="loopStart")
-    loop_end: Optional[int] = Field(7680, alias="loopEnd")
+    loop: bool | None = False
+    loop_start: int | None = Field(0, alias="loopStart")
+    loop_end: int | None = Field(7680, alias="loopEnd")
     version: int = 9
-    version_revision: Optional[int] = Field(0, alias="versionRevision")
+    version_revision: int | None = Field(0, alias="versionRevision")
     merged_pattern_index: int = Field(0, alias="mergedPatternIndex")
     record_pattern_index: int = Field(0, alias="recordPatternIndex")
-    singer_library_id: Optional[str] = "1200593006"
+    singer_library_id: str | None = "1200593006"
     time_signatures: list[AcepTimeSignature] = Field(default_factory=list, alias="timeSignatures")
-    track_control_panel_w: Optional[int] = Field(0, alias="trackControlPanelW")
+    track_control_panel_w: int | None = Field(0, alias="trackControlPanelW")
 
     @model_validator(mode="after")
     def migrate_time_signatures(self) -> Self:

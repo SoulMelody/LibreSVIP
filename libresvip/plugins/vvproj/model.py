@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import Field
 
 from libresvip.core.constants import TICKS_IN_BEAT
@@ -24,14 +22,14 @@ class VoiceVoxMora(BaseModel):
     vowel: str
     vowel_length: float = Field(alias="vowelLength")
     pitch: float
-    consonant: Optional[str] = None
-    consonant_length: Optional[float] = Field(None, alias="consonantLength")
+    consonant: str | None = None
+    consonant_length: float | None = Field(None, alias="consonantLength")
 
 
 class VoiceVoxAccentPhrase(BaseModel):
     moras: list[VoiceVoxMora]
     accent: int
-    mora: Optional[VoiceVoxMora] = None
+    mora: VoiceVoxMora | None = None
     is_interrogative: bool = Field(alias="isInterrogative")
 
 
@@ -43,11 +41,11 @@ class VoiceVoxQuery(BaseModel):
     volume_scale: float = Field(alias="volumeScale")
     pre_phoneme_length: float = Field(alias="prePhonemeLength")
     post_phoneme_length: float = Field(alias="postPhonemeLength")
-    pause_length: Optional[float] = Field(None, alias="pauseLength")
+    pause_length: float | None = Field(None, alias="pauseLength")
     pause_length_scale: float = Field(1, alias="pauseLengthScale")
     output_sampling_rate: int = Field(alias="outputSamplingRate")
     output_stereo: bool = Field(alias="outputStereo")
-    kana: Optional[str] = None
+    kana: str | None = None
 
 
 class VoiceVoxAudioItem(BaseModel):

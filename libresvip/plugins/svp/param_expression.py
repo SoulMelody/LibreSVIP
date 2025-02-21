@@ -4,7 +4,7 @@ import abc
 import dataclasses
 import enum
 import operator
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING
 
 from libresvip.model.point import Point
 from libresvip.utils.search import binary_find_last
@@ -39,7 +39,7 @@ class ParamExpression(abc.ABC):
     def value_at_ticks(self, ticks: int) -> float:
         pass
 
-    def __add__(self, other: Union[int, ParamExpression]) -> ParamExpression:
+    def __add__(self, other: int | ParamExpression) -> ParamExpression:
         if isinstance(other, int):
             return TranslationalParam(
                 self,
@@ -52,7 +52,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __sub__(self, other: Union[int, ParamExpression]) -> ParamExpression:
+    def __sub__(self, other: int | ParamExpression) -> ParamExpression:
         if isinstance(other, int):
             return self + (-other)
         else:
@@ -62,7 +62,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __mul__(self, other: Union[float, ParamExpression]) -> ParamExpression:
+    def __mul__(self, other: float | ParamExpression) -> ParamExpression:
         if isinstance(other, float):
             return ScaledParam(
                 self,
@@ -75,7 +75,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __truediv__(self, other: Union[float, ParamExpression]) -> ParamExpression:
+    def __truediv__(self, other: float | ParamExpression) -> ParamExpression:
         if isinstance(other, float):
             return self * (1 / other)
         else:
@@ -117,7 +117,7 @@ class CurveGenerator(ParamExpression):
         Callable[[float, tuple[float, float], tuple[float, float]], float]
     ]
     _base_value: dataclasses.InitVar[int]
-    interval: Optional[portion.Interval] = None
+    interval: portion.Interval | None = None
 
     def __post_init__(
         self,

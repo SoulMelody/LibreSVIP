@@ -1,5 +1,4 @@
 import dataclasses
-from typing import Optional
 
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.model.base import (
@@ -91,7 +90,7 @@ class MutaParser:
                 track_list.append(singing_track)
         return track_list
 
-    def parse_pitch(self, muta_pitch: list[MutaPoint], tick_offset: int) -> Optional[ParamCurve]:
+    def parse_pitch(self, muta_pitch: list[MutaPoint], tick_offset: int) -> ParamCurve | None:
         pitch_points = [Point.start_point()]
         pitch_points.extend(
             Point(

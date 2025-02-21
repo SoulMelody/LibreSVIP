@@ -3,31 +3,28 @@ from __future__ import annotations
 import dataclasses
 import operator
 from functools import reduce, singledispatchmethod
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING
 
 import portion
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable, Mapping
 
-    UnaryFunction = Callable[[Union[int, float]], float]
-    UnaryFunctionOrConstant = Union[UnaryFunction, int, float]
+    UnaryFunction = Callable[[int | float], float]
+    UnaryFunctionOrConstant = UnaryFunction | int | float
 
 
 class PiecewiseIntervalDict(portion.IntervalDict):
     def __init__(
         self,
-        mapping_or_iterable: Optional[
-            Union[
-                Mapping[portion.Interval, UnaryFunctionOrConstant],
-                Iterable[tuple[portion.Interval, UnaryFunctionOrConstant]],
-            ]
-        ] = None,
+        mapping_or_iterable: Mapping[portion.Interval, UnaryFunctionOrConstant]
+        | Iterable[tuple[portion.Interval, UnaryFunctionOrConstant]]
+        | None = None,
     ) -> None:
         super().__init__(mapping_or_iterable=mapping_or_iterable)
         self._last_index = 0
 
-    def _get_func(self, x: float) -> Optional[UnaryFunctionOrConstant]:
+    def _get_func(self, x: float) -> UnaryFunctionOrConstant | None:
         _last_index = self._last_index
         while _last_index < len(self._storage._list):
             boundary, func = self._storage.peekitem(_last_index)
@@ -39,9 +36,7 @@ class PiecewiseIntervalDict(portion.IntervalDict):
                 break
             _last_index += 1
 
-    def __setitem__(
-        self, key: Union[portion.Interval, float], value: UnaryFunctionOrConstant
-    ) -> None:
+    def __setitem__(self, key: portion.Interval | float, value: UnaryFunctionOrConstant) -> None:
         if isinstance(key, portion.Interval):
             interval = key
         else:
@@ -52,7 +47,7 @@ class PiecewiseIntervalDict(portion.IntervalDict):
 
         self._storage[interval] = value
 
-    def __getitem__(self, key: Union[portion.Interval, float]) -> Optional[UnaryFunctionOrConstant]:
+    def __getitem__(self, key: portion.Interval | float) -> UnaryFunctionOrConstant | None:
         if isinstance(key, portion.Interval):
             return super().__getitem__(key)
         elif (func := self._get_func(key)) is not None:
@@ -62,10 +57,10 @@ class PiecewiseIntervalDict(portion.IntervalDict):
 
 @dataclasses.dataclass
 class RangeInterval:
-    _sub_ranges: dataclasses.InitVar[Optional[list[tuple[int, int]]]] = None
+    _sub_ranges: dataclasses.InitVar[list[tuple[int, int]] | None] = None
     interval: portion.Interval = dataclasses.field(init=False)
 
-    def __post_init__(self, _sub_ranges: Optional[list[tuple[int, int]]]) -> None:
+    def __post_init__(self, _sub_ranges: list[tuple[int, int]] | None) -> None:
         self.interval = reduce(
             operator.or_,
             (portion.closedopen(*sub_range) for sub_range in (_sub_ranges or [])),
@@ -79,7 +74,7 @@ class RangeInterval:
         for sub_range in portion.to_data(self.interval):
             yield sub_range[1], sub_range[2]
 
-    def sub_range_including(self, value: int) -> Optional[tuple[int, int]]:
+    def sub_range_including(self, value: int) -> tuple[int, int] | None:
         for sub_range in self.interval:
             if value in sub_range:
                 sub_range_data = portion.to_data(sub_range)
@@ -89,7 +84,7 @@ class RangeInterval:
     def includes(self, value: int) -> bool:
         return value in self.interval
 
-    def __contains__(self, interval: Union[RangeInterval, int]) -> bool:
+    def __contains__(self, interval: RangeInterval | int) -> bool:
         if isinstance(interval, RangeInterval):
             interval = interval.interval
         return interval in self.interval
@@ -115,7 +110,7 @@ class RangeInterval:
         return new_interval
 
     @singledispatchmethod
-    def expand(self, a: Union[tuple[int, int], int]) -> RangeInterval:
+    def expand(self, a: tuple[int, int] | int) -> RangeInterval:
         raise NotImplementedError
 
     @expand.register(tuple)
@@ -135,7 +130,7 @@ class RangeInterval:
         return self.expand((radius, radius))
 
     @singledispatchmethod
-    def shrink(self, a: Union[tuple[int, int], int]) -> RangeInterval:
+    def shrink(self, a: tuple[int, int] | int) -> RangeInterval:
         raise NotImplementedError
 
     @shrink.register(int)

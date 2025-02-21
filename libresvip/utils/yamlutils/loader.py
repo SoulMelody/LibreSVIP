@@ -71,7 +71,7 @@ def get_loader(
             if isinstance(v_node, yaml.nodes.ScalarNode) and v_node.style:
                 annotations.append(f"__yq_style_{i}_{v_node.style}__")
             elif (
-                isinstance(v_node, (yaml.nodes.SequenceNode, yaml.nodes.MappingNode))
+                isinstance(v_node, yaml.nodes.SequenceNode | yaml.nodes.MappingNode)
                 and v_node.flow_style is True
             ):
                 annotations.append("__yq_style_{}_{}__".format(i, "flow"))
@@ -84,7 +84,7 @@ def get_loader(
             key = loader.construct_object(k_node)
             value = loader.construct_object(v_node)
             pairs.append((key, value))
-            if not (use_annotations and isinstance(key, (str, bytes))):
+            if not (use_annotations and isinstance(key, str | bytes)):
                 continue
             if (
                 v_node.tag
@@ -96,7 +96,7 @@ def get_loader(
             if isinstance(v_node, yaml.nodes.ScalarNode) and v_node.style:
                 pairs.append((f"__yq_style_{hash_key(key)}__", v_node.style))
             elif (
-                isinstance(v_node, (yaml.nodes.SequenceNode, yaml.nodes.MappingNode))
+                isinstance(v_node, yaml.nodes.SequenceNode | yaml.nodes.MappingNode)
                 and v_node.flow_style is True
             ):
                 pairs.append((f"__yq_style_{hash_key(key)}__", "flow"))

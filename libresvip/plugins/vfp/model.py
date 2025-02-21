@@ -1,5 +1,5 @@
 import pathlib
-from typing import Annotated, Any, Literal, Optional, Union
+from typing import Annotated, Any, Literal
 
 from pydantic import Field, ValidationInfo, model_validator
 from typing_extensions import Self
@@ -16,11 +16,11 @@ class VOXFactoryNote(BaseModel):
     duration_ticks: float = Field(alias="durationTicks")
     duration: float = 0.25
     velocity: int = 1
-    note_type: Optional[str] = Field(None, alias="noteType")
-    vibrato_depth: Optional[float] = Field(None, alias="vibratoDepth")
-    pre_bend: Optional[float] = Field(None, alias="preBend")
-    post_bend: Optional[float] = Field(None, alias="postBend")
-    harmonic_ratio: Optional[float] = Field(None, alias="harmonicRatio")
+    note_type: str | None = Field(None, alias="noteType")
+    vibrato_depth: float | None = Field(None, alias="vibratoDepth")
+    pre_bend: float | None = Field(None, alias="preBend")
+    post_bend: float | None = Field(None, alias="postBend")
+    harmonic_ratio: float | None = Field(None, alias="harmonicRatio")
     pitch_bends: list[float] = Field(default_factory=list, alias="pitchBends")
 
 
@@ -29,8 +29,8 @@ class VOXFactoryMetadata(BaseModel):
     accent: str
     transpose: int
     harmonic_ratio: float = Field(alias="harmonicRatio")
-    pitch_detection: Optional[str] = Field(None, alias="pitchDetection")
-    instrument: Optional[str] = None
+    pitch_detection: str | None = Field(None, alias="pitchDetection")
+    instrument: str | None = None
 
 
 class VOXFactoryClipBase(BaseModel):
@@ -39,14 +39,14 @@ class VOXFactoryClipBase(BaseModel):
     offset_quarter: float = Field(0, alias="offsetQuarter")
     length: float
     use_source: bool = Field(True, alias="useSource")
-    audio_data_key: Optional[str] = Field(None, alias="audioDataKey")
+    audio_data_key: str | None = Field(None, alias="audioDataKey")
     audio_data_order: list[str] = Field(default_factory=list, alias="audioDataOrder")
     audio_data_quarter: float = Field(0, alias="audioDataQuarter")
     note_bank: dict[str, VOXFactoryNote] = Field(default_factory=dict, alias="noteBank")
     note_order: list[str] = Field(default_factory=list, alias="noteOrder")
     next_note_index: int = Field(0, alias="nextNoteIndex")
     pinned_audio_data_order: list[str] = Field(default_factory=list, alias="pinnedAudioDataOrder")
-    metadata: Optional[VOXFactoryMetadata] = None
+    metadata: VOXFactoryMetadata | None = None
 
 
 class VOXFactoryVocalClip(VOXFactoryClipBase):
@@ -83,9 +83,9 @@ class VOXFactoryAudioViewProperty(BaseModel):
     window_size: int = Field(1024, alias="windowSize")
     hop_size: int = Field(256, alias="hopSize")
     f_min: float = Field(27.5, alias="fMin")
-    f_max: Optional[float] = Field(None, alias="fMax")
-    level_min: Optional[float] = Field(None, alias="levelMin")
-    level_max: Optional[float] = Field(None, alias="levelMax")
+    f_max: float | None = Field(None, alias="fMax")
+    level_min: float | None = Field(None, alias="levelMin")
+    level_max: float | None = Field(None, alias="levelMax")
     level_scale: str = Field("dB", alias="levelScale")
     num_bins: int = Field(230, alias="numBins")
     bins_per_octave: int = Field(24, alias="binsPerOctave")
@@ -101,7 +101,7 @@ class VOXFactoryDevice(BaseModel):
 
 class VOXFactoryTrackBase(BaseModel):
     name: str = ""
-    instrument: Optional[str] = None
+    instrument: str | None = None
     h: int = 3
     color: str = "#7878f1"
     volume: float = 1.0
@@ -128,7 +128,7 @@ class VOXFactoryAudioTrack(VOXFactoryTrackBase):
 
 
 VOXFactoryTrack = Annotated[
-    Union[VOXFactoryVocalTrack, VOXFactoryAudioTrack],
+    VOXFactoryVocalTrack | VOXFactoryAudioTrack,
     Field(discriminator="type"),
 ]
 
@@ -148,7 +148,7 @@ class VOXFactoryAudioData(BaseModel):
     sample_rate: int = Field(alias="sampleRate")
     number_of_channels: int = Field(alias="numberOfChannels")
     sample_length: int = Field(alias="sampleLength")
-    metadata: Optional[VOXFactoryMetadata] = None
+    metadata: VOXFactoryMetadata | None = None
 
 
 class VOXFactoryProject(BaseModel):

@@ -1,7 +1,7 @@
 import dataclasses
 import sys
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -101,7 +101,7 @@ class SynthVGenerator:
             denominator=signature.denominator,
         )
 
-    def generate_track(self, track: Track) -> Optional[SVTrack]:
+    def generate_track(self, track: Track) -> SVTrack | None:
         sv_track = SVTrack(
             name=track.title,
             mixer=SVMixer(

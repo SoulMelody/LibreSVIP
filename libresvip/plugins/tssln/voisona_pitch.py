@@ -5,7 +5,7 @@ import dataclasses
 import functools
 import itertools
 import math
-from typing import NamedTuple, Optional, cast
+from typing import NamedTuple, cast
 
 import more_itertools
 import portion
@@ -28,15 +28,15 @@ from .constants import (
 
 
 class VoiSonaParamEvent(NamedTuple):
-    idx: Optional[int]
-    repeat: Optional[int]
+    idx: int | None
+    repeat: int | None
     value: float
 
 
 class VoiSonaParamEventFloat(NamedTuple):
-    idx: Optional[float]
-    repeat: Optional[float]
-    value: Optional[float]
+    idx: float | None
+    repeat: float | None
+    value: float | None
 
     @classmethod
     def from_event(cls, event: VoiSonaParamEvent) -> VoiSonaParamEventFloat:
@@ -66,7 +66,7 @@ class VoiSonaTrackPitchData:
 
 def pitch_from_voisona_track(
     data: VoiSonaTrackPitchData,
-) -> Optional[ParamCurve]:
+) -> ParamCurve | None:
     converted_points = [Point.start_point()]
     current_value = -100
 
@@ -314,7 +314,7 @@ def build_voisona_wave_interval_dict(
 
 def generate_for_voisona(
     pitch: ParamCurve, tempos: list[SongTempo], tick_prefix: int
-) -> Optional[VoiSonaTrackPitchData]:
+) -> VoiSonaTrackPitchData | None:
     events_with_full_params = []
     for i, this_point in enumerate(pitch.points.root):
         next_point = pitch.points[i + 1] if i + 1 < len(pitch.points) else None

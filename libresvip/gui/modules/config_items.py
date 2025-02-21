@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import base64
 import pathlib
-from typing import Any, Optional
+from typing import Any
 
 from PySide6.QtCore import Property, QObject, Signal, Slot
 from PySide6.QtQml import QmlElement
@@ -62,7 +62,7 @@ class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
     conflict_policy_changed = Signal(str)
     theme_changed = Signal(str)
 
-    def __init__(self, parent: Optional[QObject] = None) -> None:
+    def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent=parent)
         self.folder_presets = ModelProxy({"path": ""})
         self.folder_presets.append_many(

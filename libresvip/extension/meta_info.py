@@ -4,7 +4,7 @@ import abc
 import contextlib
 import dataclasses
 from configparser import RawConfigParser
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from loguru import logger
 from packaging.specifiers import SpecifierSet
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 @dataclasses.dataclass
 class BasePluginInfo(abc.ABC):
     _config: dataclasses.InitVar[RawConfigParser]
-    plugin_object: Optional[BasePlugin] = None
+    plugin_object: BasePlugin | None = None
     name: str = dataclasses.field(init=False)
     module: str = dataclasses.field(init=False)
     version: Version = dataclasses.field(init=False)
@@ -47,7 +47,7 @@ class BasePluginInfo(abc.ABC):
         )
 
     @classmethod
-    def load(cls, plugfile_path: Traversable) -> Optional[Self]:
+    def load(cls, plugfile_path: Traversable) -> Self | None:
         try:
             with plugfile_path.open(encoding="utf-8") as metafile:
                 cp = RawConfigParser()
@@ -57,7 +57,7 @@ class BasePluginInfo(abc.ABC):
             logger.error(f"Failed to load plugin info from {plugfile_path}")
 
     @classmethod
-    def load_from_string(cls, content: str) -> Optional[Self]:
+    def load_from_string(cls, content: str) -> Self | None:
         with contextlib.suppress(Exception):
             cp = RawConfigParser()
             cp.read_string(content)
@@ -70,10 +70,10 @@ class BasePluginInfo(abc.ABC):
 
 @dataclasses.dataclass
 class FormatProviderPluginInfo(BasePluginInfo):  # type: ignore[override]
-    plugin_object: Optional[SVSConverterBase] = None
+    plugin_object: SVSConverterBase | None = None
     file_format: str = dataclasses.field(init=False)
     suffix: str = dataclasses.field(init=False)
-    icon_base64: Optional[str] = dataclasses.field(init=False)
+    icon_base64: str | None = dataclasses.field(init=False)
 
     def __post_init__(self, _config: RawConfigParser) -> None:
         super().__post_init__(_config)
@@ -88,7 +88,7 @@ class FormatProviderPluginInfo(BasePluginInfo):  # type: ignore[override]
 
 @dataclasses.dataclass
 class MiddlewarePluginInfo(BasePluginInfo):  # type: ignore[override]
-    plugin_object: Optional[MiddlewareBase] = None
+    plugin_object: MiddlewareBase | None = None
     abbreviation: str = dataclasses.field(init=False)
 
     def __post_init__(self, _config: RawConfigParser) -> None:

@@ -1,5 +1,4 @@
 from functools import partial
-from typing import Optional
 
 from libresvip.model.base import BaseModel
 
@@ -12,7 +11,7 @@ class TimeTag(BaseModel):
 
 class LyricLine(BaseModel):
     time_tags: list[TimeTag]
-    lyric: Optional[str] = None
+    lyric: str | None = None
 
 
 class InfoTag(BaseModel):

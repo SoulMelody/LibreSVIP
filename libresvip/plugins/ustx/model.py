@@ -4,7 +4,7 @@ import bisect
 import functools
 import math
 from types import SimpleNamespace
-from typing import Annotated, Literal, Optional, Union
+from typing import Annotated, Literal
 
 from pydantic import Field, computed_field, field_validator
 
@@ -45,7 +45,7 @@ class OptionsExpression(BaseExpression):
 
 
 UExpressionDescriptor = Annotated[
-    Union[CurveExpression, NumericalExpression, OptionsExpression],
+    CurveExpression | NumericalExpression | OptionsExpression,
     Field(discriminator="type_"),
 ]
 
@@ -53,7 +53,7 @@ UExpressionDescriptor = Annotated[
 class UCurve(BaseModel):
     xs: list[int] = Field(default_factory=list)
     ys: list[int] = Field(default_factory=list)
-    abbr: Optional[str] = None
+    abbr: str | None = None
 
     @property
     def is_empty(self) -> bool:
@@ -77,7 +77,7 @@ class UCurve(BaseModel):
 class PitchPoint(BaseModel):
     x: float
     y: float
-    shape: Optional[Literal["io", "l", "i", "o"]] = "io"
+    shape: Literal["io", "l", "i", "o"] | None = "io"
 
 
 class UTempo(BaseModel):
@@ -92,28 +92,28 @@ class UTimeSignature(BaseModel):
 
 
 class URendererSettings(BaseModel):
-    renderer: Optional[str] = None
-    resampler: Optional[str] = None
-    wavtool: Optional[str] = None
+    renderer: str | None = None
+    resampler: str | None = None
+    wavtool: str | None = None
 
 
 class UTrack(BaseModel):
-    track_name: Optional[str] = None
-    track_color: Optional[str] = None
-    track_expressions: Optional[list[UExpression]] = Field(default_factory=list)
-    voice_color_names: Optional[list[str]] = None
-    singer: Optional[str] = None
-    phonemizer: Optional[str] = None
-    renderer_settings: Optional[URendererSettings] = None
+    track_name: str | None = None
+    track_color: str | None = None
+    track_expressions: list[UExpression] | None = Field(default_factory=list)
+    voice_color_names: list[str] | None = None
+    singer: str | None = None
+    phonemizer: str | None = None
+    renderer_settings: URendererSettings | None = None
     mute: bool = False
     solo: bool = False
     volume: float = 0.0
-    pan: Optional[float] = None
+    pan: float | None = None
 
 
 class UPitch(BaseModel):
     data: list[PitchPoint] = Field(default_factory=list)
-    snap_first: Optional[bool] = None
+    snap_first: bool | None = None
 
 
 class UVibrato(BaseModel):
@@ -148,17 +148,17 @@ class UVibrato(BaseModel):
 
 
 class UExpression(BaseModel):
-    index: Optional[int] = None
+    index: int | None = None
     abbr: str
     value: float
 
 
 class UPhonemeOverride(BaseModel):
     index: int
-    phoneme: Optional[str] = None
-    offset: Optional[int] = None
-    preutter_delta: Optional[float] = None
-    overlap_delta: Optional[float] = None
+    phoneme: str | None = None
+    offset: int | None = None
+    preutter_delta: float | None = None
+    overlap_delta: float | None = None
 
 
 class UNote(BaseModel):
@@ -168,9 +168,9 @@ class UNote(BaseModel):
     lyric: str
     pitch: UPitch = Field(default_factory=UPitch)
     vibrato: UVibrato = Field(default_factory=UVibrato)
-    note_expressions: Optional[list[UExpression]] = Field(default_factory=list)  # deprecated
-    phoneme_expressions: Optional[list[UExpression]] = Field(default_factory=list)
-    phoneme_overrides: Optional[list[UPhonemeOverride]] = Field(default_factory=list)
+    note_expressions: list[UExpression] | None = Field(default_factory=list)  # deprecated
+    phoneme_expressions: list[UExpression] | None = Field(default_factory=list)
+    phoneme_overrides: list[UPhonemeOverride] | None = Field(default_factory=list)
 
     @functools.cached_property
     def end(self) -> int:
@@ -181,7 +181,7 @@ class UPart(BaseModel):
     name: str
     position: int = 0
     track_no: int
-    comment: Optional[str] = ""
+    comment: str | None = ""
 
 
 class UVoicePart(UPart):
@@ -207,18 +207,18 @@ class USTXProject(BaseModel):
     comment: str = ""
     output_dir: str = "Vocal"
     cache_dir: str = "UCache"
-    ustx_version: Union[str, float] = "0.6"
+    ustx_version: str | float = "0.6"
     bpm: float = DEFAULT_BPM
     beat_per_bar: int = 4
     beat_unit: int = 4
     resolution: int = TICKS_IN_BEAT
     time_signatures: list[UTimeSignature] = Field(default_factory=list)
     tempos: list[UTempo] = Field(default_factory=list)
-    expressions: Optional[dict[str, UExpressionDescriptor]] = None
+    expressions: dict[str, UExpressionDescriptor] | None = None
     tracks: list[UTrack] = Field(default_factory=list)
     voice_parts: list[UVoicePart] = Field(default_factory=list)
     wave_parts: list[UWavePart] = Field(default_factory=list)
-    exp_selectors: Optional[list[str]] = None
-    exp_primary: Optional[int] = 0
-    exp_secondary: Optional[int] = 1
-    key: Optional[int] = 0
+    exp_selectors: list[str] | None = None
+    exp_primary: int | None = 0
+    exp_secondary: int | None = 1
+    key: int | None = 0

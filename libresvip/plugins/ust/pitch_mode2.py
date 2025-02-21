@@ -1,7 +1,6 @@
 import dataclasses
 import itertools
 import operator
-from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
@@ -29,17 +28,17 @@ def milli_sec_from_tick(tick: int, bpm: float) -> float:
 @dataclasses.dataclass
 class UtauMode2NotePitchData:
     bpm: float
-    start: Optional[float]  # milliSec, None only if the note is not applied with pitch
-    start_shift: Optional[float]  # 10 cents
+    start: float | None  # milliSec, None only if the note is not applied with pitch
+    start_shift: float | None  # 10 cents
     widths: list[float] = dataclasses.field(default_factory=list)  # milliSec
     shifts: list[float] = dataclasses.field(default_factory=list)  # 10 cents
     curve_types: list[UTAUPitchBendMode] = dataclasses.field(default_factory=list)
-    vibrato_params: Optional[UtauNoteVibrato] = None
+    vibrato_params: UtauNoteVibrato | None = None
 
 
 @dataclasses.dataclass
 class UtauMode2TrackPitchData:
-    notes: list[Optional[UtauMode2NotePitchData]] = dataclasses.field(default_factory=list)
+    notes: list[UtauMode2NotePitchData | None] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
@@ -130,7 +129,7 @@ def pitch_from_utau_mode2_track(
     if pitch_data is None:
         return ParamCurve()
     pitch_points: list[Point] = []
-    last_note: Optional[Note] = None
+    last_note: Note | None = None
     pending_pitch_points: list[Point] = []
     for note, note_pitch in zip(notes, pitch_data.notes):
         if note_pitch is not None:
@@ -214,7 +213,7 @@ def pitch_from_utau_mode2_track(
 
 
 def fix_points_at_last_note(
-    pitch_data: list[Point], this_note: Note, last_note: Optional[Note]
+    pitch_data: list[Point], this_note: Note, last_note: Note | None
 ) -> list[Point]:
     if last_note is None or last_note.end_pos != this_note.start_pos:
         return pitch_data

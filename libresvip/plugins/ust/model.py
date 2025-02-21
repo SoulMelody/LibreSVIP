@@ -1,5 +1,5 @@
 import ast
-from typing import Any, Literal, Optional, Union
+from typing import Any, Literal
 
 from parsimonious import Grammar, NodeVisitor
 from parsimonious.nodes import Node
@@ -123,7 +123,7 @@ UTAUPitchBendMode = Literal["s", "r", "j", ""]
 
 UTAUPitchBendType = Literal["OldData", "5"]
 
-OptionalFloat = Union[float, Literal[""]]
+OptionalFloat = float | Literal[""]
 
 
 class UtauNoteVibrato(BaseModel):
@@ -144,10 +144,10 @@ class UTAUEnvelope(BaseModel):
     v2: float
     v3: float
     v4: float
-    p4: Optional[float] = None
-    p5: Optional[float] = None
-    v5: Optional[float] = None
-    other_points: Optional[list[float]] = None
+    p4: float | None = None
+    p5: float | None = None
+    v5: float | None = None
+    other_points: list[float] | None = None
 
 
 class UTAUNote(BaseModel):
@@ -155,34 +155,34 @@ class UTAUNote(BaseModel):
     length: int
     lyric: str
     note_num: int
-    duration: Optional[int] = None
-    delta: Optional[int] = None
-    pre_utterance: Optional[str] = None
-    label: Optional[str] = None
-    flags: Optional[str] = None
-    envelope: Optional[UTAUEnvelope] = None
-    voice_overlap: Optional[float] = None
-    intensity: Optional[float] = None
-    modulation: Optional[float] = None
-    start_point: Optional[float] = None
-    tempo: Optional[float] = None
-    velocity: Optional[float] = None
-    pitchbend_start: Optional[float] = None
-    pitchbend_type: Optional[UTAUPitchBendType] = None
+    duration: int | None = None
+    delta: int | None = None
+    pre_utterance: str | None = None
+    label: str | None = None
+    flags: str | None = None
+    envelope: UTAUEnvelope | None = None
+    voice_overlap: float | None = None
+    intensity: float | None = None
+    modulation: float | None = None
+    start_point: float | None = None
+    tempo: float | None = None
+    velocity: float | None = None
+    pitchbend_start: float | None = None
+    pitchbend_type: UTAUPitchBendType | None = None
     pitch_bend_points: list[int] = Field(default_factory=list)
     pbs: list[OptionalFloat] = Field(default_factory=list)
     pbw: list[OptionalFloat] = Field(default_factory=list)
     pby: list[OptionalFloat] = Field(default_factory=list)
     pbm: list[UTAUPitchBendMode] = Field(default_factory=list)
-    vbr: Optional[UtauNoteVibrato] = None
-    stp_trim: Optional[float] = None
-    layer: Optional[int] = None
-    at_preutterance: Optional[float] = None
-    at_overlap: Optional[float] = None
-    at_start_point: Optional[float] = None
-    sample_filename: Optional[str] = None
-    alias: Optional[str] = None
-    cache_location: Optional[str] = None
+    vbr: UtauNoteVibrato | None = None
+    stp_trim: float | None = None
+    layer: int | None = None
+    at_preutterance: float | None = None
+    at_overlap: float | None = None
+    at_start_point: float | None = None
+    sample_filename: str | None = None
+    alias: str | None = None
+    cache_location: str | None = None
 
 
 class UTAUTrack(BaseModel):
@@ -196,20 +196,20 @@ class UTAUTimeSignature(BaseModel):
 
 
 class UTAUProject(BaseModel):
-    ust_version: Optional[float] = 1.2
+    ust_version: float | None = 1.2
     project_name: str = "New Project"
     track_count: int = 1
     pitch_mode2: bool = False
-    charset: Optional[str] = None
-    tempo: Optional[float] = None
-    voice_dir: Optional[str] = None
-    out_file: Optional[str] = None
-    cache_dir: Optional[str] = None
-    tool1: Optional[str] = None
-    tool2: Optional[str] = None
-    flags: Optional[str] = None
-    autoren: Optional[bool] = None
-    map_first: Optional[bool] = None
+    charset: str | None = None
+    tempo: float | None = None
+    voice_dir: str | None = None
+    out_file: str | None = None
+    cache_dir: str | None = None
+    tool1: str | None = None
+    tool2: str | None = None
+    flags: str | None = None
+    autoren: bool | None = None
+    map_first: bool | None = None
     time_signatures: list[UTAUTimeSignature] = Field(default_factory=list)
     track: list[UTAUTrack] = Field(default_factory=list)
 
@@ -409,7 +409,7 @@ class UstVisitor(NodeVisitor):
             self.pending_note_attrs = {}
         self.pending_note_attrs["note_type"] = visited_children[1].text
 
-    def visit_ust_track(self, node: Node, visited_children: list[Any]) -> Optional[UTAUTrack]:
+    def visit_ust_track(self, node: Node, visited_children: list[Any]) -> UTAUTrack | None:
         if len(self.pending_note_attrs):
             self.pending_notes.append(UTAUNote(**self.pending_note_attrs))
             self.pending_note_attrs = {}

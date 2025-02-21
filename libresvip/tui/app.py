@@ -4,7 +4,7 @@ import pathlib
 import traceback
 from collections.abc import Coroutine
 from dataclasses import dataclass
-from typing import Any, Optional, Union, cast, get_args, get_type_hints
+from typing import Any, cast, get_args, get_type_hints
 
 import more_itertools
 from pydantic import BaseModel
@@ -134,11 +134,11 @@ class TaskLogScreen(Screen[None]):
 class SelectFormats(Vertical):
     @dataclass
     class InputFormatChanged(Message):
-        value: Optional[str]
+        value: str | None
 
     @dataclass
     class OutputFormatChanged(Message):
-        value: Optional[str]
+        value: str | None
 
     @on(Button.Pressed, "#swap_input_output")
     def on_swap_input_output(self, pressed: Button.Pressed) -> None:
@@ -233,7 +233,7 @@ class ColorValidator(Validator):
 
 
 class OptionsForm(ListView):
-    def __init__(self, option_class: Optional[type[BaseModel]], *args: Any, **kwargs: Any) -> None:
+    def __init__(self, option_class: type[BaseModel] | None, *args: Any, **kwargs: Any) -> None:
         self.option_class = option_class
         self.option_dict = {} if option_class is None else option_class().model_dump(mode="json")
         super().__init__(*args, **kwargs)
@@ -241,9 +241,7 @@ class OptionsForm(ListView):
     @on(Input.Changed)
     @on(Switch.Changed)
     @on(Select.Changed)
-    def handle_value_changed(
-        self, event: Union[Input.Changed, Switch.Changed, Select.Changed]
-    ) -> None:
+    def handle_value_changed(self, event: Input.Changed | Switch.Changed | Select.Changed) -> None:
         option_key = event.control.id.removeprefix("value_")
         self.option_dict[option_key] = event.value
 
@@ -311,7 +309,7 @@ class OptionsForm(ListView):
                         id=f"value_{option_key}",
                         validators=[ColorValidator()],
                     )
-                elif issubclass(field_info.annotation, (int, float, str, BaseComplexModel)):
+                elif issubclass(field_info.annotation, int | float | str | BaseComplexModel):
                     if issubclass(field_info.annotation, BaseComplexModel):
                         default_value = field_info.annotation.default_repr()
                     elif not isinstance(default_value, str):

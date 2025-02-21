@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from enum import Enum
 from types import SimpleNamespace
-from typing import Annotated, Literal, Union
+from typing import Annotated, Literal
 
 from pydantic import Field, ValidationInfo, field_validator
 
@@ -165,7 +165,7 @@ class InputOptions(
     )
     @classmethod
     def _validate_normalization_argument(
-        cls, v: Union[str, dict[str, Union[str, float]]], _info: ValidationInfo
+        cls, v: str | dict[str, str | float], _info: ValidationInfo
     ) -> NormalizationArgument:
         if isinstance(v, str):
             v = NormalizationArgument.from_str(v).model_dump()

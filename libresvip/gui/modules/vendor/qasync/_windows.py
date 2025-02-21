@@ -15,7 +15,7 @@ import asyncio
 import math
 import sys
 from asyncio import windows_events
-from typing import IO, TYPE_CHECKING, Any, Optional, Union
+from typing import IO, TYPE_CHECKING, Any
 
 from loguru import logger
 from PySide6 import QtCore
@@ -83,7 +83,7 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
         super().__init__()
         self._lock = QtCore.QMutex()
 
-    def select(self, timeout: Optional[float] = None) -> list[ProactorEvent]:  # type: ignore[override]
+    def select(self, timeout: float | None = None) -> list[ProactorEvent]:  # type: ignore[override]
         """Override in order to handle events in a threadsafe manner."""
         if not self.__events:
             self._poll(timeout)
@@ -127,7 +127,7 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
         conn: socket.socket,
         buf: ReadableBuffer,
         flags: int = 0,
-        addr: Optional[socket._RetAddress] = None,
+        addr: socket._RetAddress | None = None,
     ) -> asyncio.Future[int]:
         with QtCore.QMutexLocker(self._lock):
             return super().sendto(conn, buf, flags, addr)
@@ -145,10 +145,8 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
     def connect(
         self,
         conn: socket.socket,
-        address: Union[
-            tuple[Incomplete, Incomplete],
-            tuple[Incomplete, Incomplete, Incomplete, Incomplete],
-        ],
+        address: tuple[Incomplete, Incomplete]
+        | tuple[Incomplete, Incomplete, Incomplete, Incomplete],
     ) -> asyncio.Future[Any]:
         with QtCore.QMutexLocker(self._lock):
             return super().connect(conn, address)
@@ -176,7 +174,7 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
                 handle, timeout, _is_cancel
             )
 
-    def _poll(self, timeout: Optional[float] = None) -> None:
+    def _poll(self, timeout: float | None = None) -> None:
         """Override in order to handle events in a threadsafe manner."""
         if timeout is None:
             ms = UINT32_MAX  # wait for eternity

@@ -1,9 +1,10 @@
 import dataclasses
+import itertools
 import operator
 import re
 from collections import defaultdict
 from decimal import Decimal
-from typing import Optional, cast
+from typing import cast
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import Project, SingingTrack, TimeSignature
@@ -72,7 +73,7 @@ class MusicXMLGenerator:
         self,
         measures: list[MXmlMeasure],
         track_index: int,
-        track_title: Optional[str],
+        track_title: str | None,
     ) -> tuple[ScorePartwise.Part, ScorePart]:
         part_id = f"P{track_index + 1}"
         part_node = ScorePartwise.Part(id=part_id)
@@ -190,7 +191,7 @@ class MusicXMLGenerator:
     def generate_rest_node(self, rest: MXmlMeasureContent) -> MusicXMLNote:
         return MusicXMLNote(rest=[Rest()], duration=[Decimal(rest.duration)])
 
-    def generate_note_node(self, note: MXmlMeasureContent) -> Optional[MusicXMLNote]:
+    def generate_note_node(self, note: MXmlMeasureContent) -> MusicXMLNote | None:
         if note.note is None or note.note_type is None:
             return None
         note_node = MusicXMLNote(
@@ -320,7 +321,7 @@ class MusicXMLGenerator:
                     )
                 ],
             )
-            for border_pair in zip(measure_border_ticks, measure_border_ticks[1:])
+            for border_pair in itertools.pairwise(measure_border_ticks)
         ]
 
         content_group_border_pair_map = {}

@@ -1,5 +1,4 @@
 import dataclasses
-from typing import Optional
 
 from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
 from libresvip.model.base import (
@@ -89,7 +88,7 @@ class MusicXMLParser:
         self,
         track_index: int,
         part_node: ScorePartwise.Part,
-        score_part: Optional[ScorePart],
+        score_part: ScorePart | None,
         import_tick_rate: float,
     ) -> SingingTrack:
         track_name = (

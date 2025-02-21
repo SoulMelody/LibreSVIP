@@ -1,6 +1,6 @@
 # mypy: disable-error-code="attr-defined"
 import pathlib
-from typing import Annotated, Optional, get_type_hints
+from typing import Annotated, get_type_hints
 
 import typer
 from rich.progress import track
@@ -14,7 +14,7 @@ from libresvip.utils.translation import gettext_lazy as _
 app = typer.Typer()
 
 
-def option_callback(ctx: typer.Context, value: pathlib.Path) -> Optional[pathlib.Path]:
+def option_callback(ctx: typer.Context, value: pathlib.Path) -> pathlib.Path | None:
     if ctx.resilient_parsing:
         return None
     ext = value.suffix.lstrip(".").lower()

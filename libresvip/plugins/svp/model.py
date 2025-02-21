@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 import sys
 from itertools import chain
-from typing import Any, Literal, NamedTuple, Optional, Union
+from typing import Any, Literal, NamedTuple
 
 import zhon
 from more_itertools import batched
@@ -93,23 +93,23 @@ class SVPoints(PointList[SVPoint], RootModel[list[SVPoint]]):
 
 
 class SVBaseAttributes(BaseModel):
-    t_f0_left: Optional[float] = Field(None, alias="tF0Left")
-    t_f0_right: Optional[float] = Field(None, alias="tF0Right")
-    d_f0_left: Optional[float] = Field(None, alias="dF0Left")
-    d_f0_right: Optional[float] = Field(None, alias="dF0Right")
-    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
-    t_f0_vbr_left: Optional[float] = Field(None, alias="tF0VbrLeft")
-    t_f0_vbr_right: Optional[float] = Field(None, alias="tF0VbrRight")
-    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
-    f_f0_vbr: Optional[float] = Field(None, alias="fF0Vbr")
-    param_loudness: Optional[float] = Field(None, alias="paramLoudness")
-    param_tension: Optional[float] = Field(None, alias="paramTension")
-    param_breathiness: Optional[float] = Field(None, alias="paramBreathiness")
-    param_gender: Optional[float] = Field(None, alias="paramGender")
-    param_tone_shift: Optional[float] = Field(None, alias="paramToneShift")
-    improvise_attack_release: Optional[bool] = Field(None, alias="improviseAttackRelease")
-    language_override: Optional[str] = Field(None, alias="languageOverride")
-    phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
+    t_f0_left: float | None = Field(None, alias="tF0Left")
+    t_f0_right: float | None = Field(None, alias="tF0Right")
+    d_f0_left: float | None = Field(None, alias="dF0Left")
+    d_f0_right: float | None = Field(None, alias="dF0Right")
+    t_f0_vbr_start: float | None = Field(None, alias="tF0VbrStart")
+    t_f0_vbr_left: float | None = Field(None, alias="tF0VbrLeft")
+    t_f0_vbr_right: float | None = Field(None, alias="tF0VbrRight")
+    d_f0_vbr: float | None = Field(None, alias="dF0Vbr")
+    f_f0_vbr: float | None = Field(None, alias="fF0Vbr")
+    param_loudness: float | None = Field(None, alias="paramLoudness")
+    param_tension: float | None = Field(None, alias="paramTension")
+    param_breathiness: float | None = Field(None, alias="paramBreathiness")
+    param_gender: float | None = Field(None, alias="paramGender")
+    param_tone_shift: float | None = Field(None, alias="paramToneShift")
+    improvise_attack_release: bool | None = Field(None, alias="improviseAttackRelease")
+    language_override: str | None = Field(None, alias="languageOverride")
+    phoneset_override: str | None = Field(None, alias="phonesetOverride")
 
 
 class SVMeter(BaseModel):
@@ -197,26 +197,26 @@ class SVParamTakes(BaseModel):
 
 
 class SVNoteAttributes(SVBaseAttributes):
-    t_f0_left: Optional[float] = Field(None, alias="tF0Left")
-    t_f0_right: Optional[float] = Field(None, alias="tF0Right")
-    d_f0_left: Optional[float] = Field(None, alias="dF0Left")
-    d_f0_right: Optional[float] = Field(None, alias="dF0Right")
-    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
-    t_f0_vbr_left: Optional[float] = Field(None, alias="tF0VbrLeft")
-    t_f0_vbr_right: Optional[float] = Field(None, alias="tF0VbrRight")
-    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
-    f_f0_vbr: Optional[float] = Field(None, alias="fF0Vbr")
-    t_f0_offset: Optional[float] = Field(None, alias="tF0Offset")
-    p_f0_vbr: Optional[float] = Field(None, alias="pF0Vbr")
-    d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
-    t_note_offset: Optional[float] = Field(None, alias="tNoteOffset")
-    dur: Optional[list[float]] = None
-    alt: Optional[list[float]] = None
-    expr_group: Optional[str] = Field(None, alias="exprGroup")
-    strength: Optional[list[float]] = None
-    r_tone: Optional[float] = Field(None, alias="rTone")
-    r_intonation: Optional[float] = Field(None, alias="rIntonation")
-    even_syllable_duration: Optional[float] = Field(None, alias="evenSyllableDuration")
+    t_f0_left: float | None = Field(None, alias="tF0Left")
+    t_f0_right: float | None = Field(None, alias="tF0Right")
+    d_f0_left: float | None = Field(None, alias="dF0Left")
+    d_f0_right: float | None = Field(None, alias="dF0Right")
+    t_f0_vbr_start: float | None = Field(None, alias="tF0VbrStart")
+    t_f0_vbr_left: float | None = Field(None, alias="tF0VbrLeft")
+    t_f0_vbr_right: float | None = Field(None, alias="tF0VbrRight")
+    d_f0_vbr: float | None = Field(None, alias="dF0Vbr")
+    f_f0_vbr: float | None = Field(None, alias="fF0Vbr")
+    t_f0_offset: float | None = Field(None, alias="tF0Offset")
+    p_f0_vbr: float | None = Field(None, alias="pF0Vbr")
+    d_f0_jitter: float | None = Field(None, alias="dF0Jitter")
+    t_note_offset: float | None = Field(None, alias="tNoteOffset")
+    dur: list[float] | None = None
+    alt: list[float] | None = None
+    expr_group: str | None = Field(None, alias="exprGroup")
+    strength: list[float] | None = None
+    r_tone: float | None = Field(None, alias="rTone")
+    r_intonation: float | None = Field(None, alias="rIntonation")
+    even_syllable_duration: float | None = Field(None, alias="evenSyllableDuration")
 
     def _get_transition_offset(self) -> float:
         return constants.DEFAULT_PITCH_TRANSITION if self.t_f0_offset is None else self.t_f0_offset
@@ -377,14 +377,14 @@ class SVNote(BaseModel):
     lyrics: str = ""
     phonemes: str = ""
     pitch: int
-    detune: Optional[int] = None
-    accent: Optional[str] = None
+    detune: int | None = None
+    accent: str | None = None
     attributes: SVNoteAttributes = Field(default_factory=SVNoteAttributes)
-    system_attributes: Optional[SVNoteAttributes] = Field(None, alias="systemAttributes")
-    pitch_takes: Optional[SVParamTakes] = Field(None, alias="pitchTakes")
-    timbre_takes: Optional[SVParamTakes] = Field(None, alias="timbreTakes")
-    musical_type: Optional[Literal["singing", "rap"]] = Field("singing", alias="musicalType")
-    instant_mode: Optional[bool] = Field(None, alias="instantMode")
+    system_attributes: SVNoteAttributes | None = Field(None, alias="systemAttributes")
+    pitch_takes: SVParamTakes | None = Field(None, alias="pitchTakes")
+    timbre_takes: SVParamTakes | None = Field(None, alias="timbreTakes")
+    musical_type: Literal["singing", "rap"] | None = Field("singing", alias="musicalType")
+    instant_mode: bool | None = Field(None, alias="instantMode")
 
     def merge_attributes(self, attributes: SVNoteAttributes) -> None:
         ori_dict = self.attributes.model_dump(
@@ -448,7 +448,7 @@ class SVRenderConfig(BaseModel):
     num_channels: int = Field(1, alias="numChannels")
     sample_rate: int = Field(44100, alias="sampleRate")
     export_mix_down: bool = Field(True, alias="exportMixDown")
-    export_pitch: Optional[bool] = Field(False, alias="exportPitch")
+    export_pitch: bool | None = Field(False, alias="exportPitch")
 
 
 class SVParameters(BaseModel):
@@ -463,7 +463,7 @@ class SVParameters(BaseModel):
         default_factory=SVParamCurve, alias="vibratoEnv", title="颤音包络"
     )
     voicing: SVParamCurve = Field(default_factory=SVParamCurve, title="发声")
-    tone_shift: Optional[SVParamCurve] = Field(
+    tone_shift: SVParamCurve | None = Field(
         default_factory=SVParamCurve, alias="toneShift", title="音区偏移"
     )
 
@@ -476,19 +476,19 @@ class SVParameters(BaseModel):
 
 
 class SVVoice(SVBaseAttributes):
-    t_f0_left: Optional[float] = Field(0.07, alias="tF0Left")
-    t_f0_right: Optional[float] = Field(0.07, alias="tF0Right")
-    d_f0_left: Optional[float] = Field(0.15, alias="dF0Left")
-    d_f0_right: Optional[float] = Field(0.15, alias="dF0Right")
-    t_f0_vbr_start: Optional[float] = Field(0.25, alias="tF0VbrStart")
-    t_f0_vbr_left: Optional[float] = Field(0.2, alias="tF0VbrLeft")
-    t_f0_vbr_right: Optional[float] = Field(0.2, alias="tF0VbrRight")
-    d_f0_vbr: Optional[float] = Field(1.0, alias="dF0Vbr")
-    f_f0_vbr: Optional[float] = Field(5.5, alias="fF0Vbr")
+    t_f0_left: float | None = Field(0.07, alias="tF0Left")
+    t_f0_right: float | None = Field(0.07, alias="tF0Right")
+    d_f0_left: float | None = Field(0.15, alias="dF0Left")
+    d_f0_right: float | None = Field(0.15, alias="dF0Right")
+    t_f0_vbr_start: float | None = Field(0.25, alias="tF0VbrStart")
+    t_f0_vbr_left: float | None = Field(0.2, alias="tF0VbrLeft")
+    t_f0_vbr_right: float | None = Field(0.2, alias="tF0VbrRight")
+    d_f0_vbr: float | None = Field(1.0, alias="dF0Vbr")
+    f_f0_vbr: float | None = Field(5.5, alias="fF0Vbr")
     vocal_mode_inherited: bool = Field(True, alias="vocalModeInherited")
     vocal_mode_preset: str = Field("", alias="vocalModePreset")
-    vocal_mode_params: Optional[dict[str, float]] = Field(None, alias="vocalModeParams")
-    render_mode: Optional[str] = Field(None, alias="renderMode")
+    vocal_mode_params: dict[str, float] | None = Field(None, alias="vocalModeParams")
+    render_mode: str | None = Field(None, alias="renderMode")
 
     def to_attributes(self) -> SVNoteAttributes:
         voice_dict = self.model_dump(
@@ -517,20 +517,20 @@ class SVDatabase(BaseModel):
     name: str = ""
     language: str = "mandarin"
     phoneset: str = "xsampa"
-    version: Optional[Union[str, int]] = None
-    language_override: Optional[str] = Field(None, alias="languageOverride")
-    phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
+    version: str | int | None = None
+    language_override: str | None = Field(None, alias="languageOverride")
+    phoneset_override: str | None = Field(None, alias="phonesetOverride")
     backend_type: str = Field("", alias="backendType")
 
 
 class SVRef(BaseModel):
-    audio: Optional[SVAudio] = None
-    blick_absolute_begin: Optional[int] = Field(0, alias="blickAbsoluteBegin")
-    blick_absolute_end: Optional[int] = Field(-1, alias="blickAbsoluteEnd")
+    audio: SVAudio | None = None
+    blick_absolute_begin: int | None = Field(0, alias="blickAbsoluteBegin")
+    blick_absolute_end: int | None = Field(-1, alias="blickAbsoluteEnd")
     blick_offset: int = Field(default=0, alias="blickOffset")
     pitch_offset: int = Field(default=0, alias="pitchOffset")
-    pitch_takes: Optional[SVParamTakes] = Field(None, alias="pitchTakes")
-    timbre_takes: Optional[SVParamTakes] = Field(None, alias="timbreTakes")
+    pitch_takes: SVParamTakes | None = Field(None, alias="pitchTakes")
+    timbre_takes: SVParamTakes | None = Field(None, alias="timbreTakes")
     database: SVDatabase = Field(default_factory=SVDatabase)
     dictionary: str = ""
     voice: SVVoice = Field(default_factory=SVVoice)
@@ -604,7 +604,7 @@ class SVTrack(BaseModel):
 class SVProject(BaseModel):
     library: list[SVGroup] = Field(default_factory=list)
     render_config: SVRenderConfig = Field(default_factory=SVRenderConfig, alias="renderConfig")
-    instant_mode_enabled: Optional[bool] = Field(None, alias="instantModeEnabled")
+    instant_mode_enabled: bool | None = Field(None, alias="instantModeEnabled")
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
     tracks: list[SVTrack] = Field(default_factory=list)
     version: int = 100

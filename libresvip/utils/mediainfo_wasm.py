@@ -1,6 +1,5 @@
 import itertools
 from functools import cached_property
-from typing import Optional
 
 from pydantic import BaseModel
 from xsdata_pydantic.fields import field
@@ -24,25 +23,25 @@ class Creation(BaseModel):
             "required": True,
         }
     )
-    url: Optional[str] = field(
+    url: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    build_date: Optional[str] = field(
+    build_date: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    build_time: Optional[str] = field(
+    build_time: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    compiler_ident: Optional[str] = field(
+    compiler_ident: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -54,7 +53,7 @@ class Track(BaseModel):
     class Meta:
         name = "track"
 
-    accompaniment: Optional[str] = field(
+    accompaniment: str | None = field(
         default=None,
         metadata={
             "name": "Accompaniment",
@@ -62,7 +61,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    active_format_description: Optional[str] = field(
+    active_format_description: str | None = field(
         default=None,
         metadata={
             "name": "ActiveFormatDescription",
@@ -70,7 +69,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    actor: Optional[str] = field(
+    actor: str | None = field(
         default=None,
         metadata={
             "name": "Actor",
@@ -78,7 +77,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    actor_character: Optional[str] = field(
+    actor_character: str | None = field(
         default=None,
         metadata={
             "name": "Actor_Character",
@@ -86,7 +85,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    added_date: Optional[str] = field(
+    added_date: str | None = field(
         default=None,
         metadata={
             "name": "Added_Date",
@@ -94,7 +93,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album: Optional[str] = field(
+    album: str | None = field(
         default=None,
         metadata={
             "name": "Album",
@@ -102,7 +101,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album_more: Optional[str] = field(
+    album_more: str | None = field(
         default=None,
         metadata={
             "name": "Album_More",
@@ -110,7 +109,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album_performer: Optional[str] = field(
+    album_performer: str | None = field(
         default=None,
         metadata={
             "name": "Album_Performer",
@@ -118,7 +117,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album_performer_sort: Optional[str] = field(
+    album_performer_sort: str | None = field(
         default=None,
         metadata={
             "name": "Album_Performer_Sort",
@@ -126,7 +125,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album_replay_gain_gain: Optional[str] = field(
+    album_replay_gain_gain: str | None = field(
         default=None,
         metadata={
             "name": "Album_ReplayGain_Gain",
@@ -134,7 +133,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album_replay_gain_peak: Optional[str] = field(
+    album_replay_gain_peak: str | None = field(
         default=None,
         metadata={
             "name": "Album_ReplayGain_Peak",
@@ -142,7 +141,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    active_display_aspect_ratio: Optional[float] = field(
+    active_display_aspect_ratio: float | None = field(
         default=None,
         metadata={
             "name": "Active_DisplayAspectRatio",
@@ -150,7 +149,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    active_height: Optional[int] = field(
+    active_height: int | None = field(
         default=None,
         metadata={
             "name": "Active_Height",
@@ -158,7 +157,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    active_width: Optional[int] = field(
+    active_width: int | None = field(
         default=None,
         metadata={
             "name": "Active_Width",
@@ -166,7 +165,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    active_format_description_muxing_mode: Optional[str] = field(
+    active_format_description_muxing_mode: str | None = field(
         default=None,
         metadata={
             "name": "ActiveFormatDescription_MuxingMode",
@@ -174,7 +173,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    active_format_description_string: Optional[str] = field(
+    active_format_description_string: str | None = field(
         default=None,
         metadata={
             "name": "ActiveFormatDescription_String",
@@ -182,7 +181,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album_performer_url: Optional[str] = field(
+    album_performer_url: str | None = field(
         default=None,
         metadata={
             "name": "Album_Performer_Url",
@@ -190,7 +189,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album_replay_gain_gain_string: Optional[str] = field(
+    album_replay_gain_gain_string: str | None = field(
         default=None,
         metadata={
             "name": "Album_ReplayGain_Gain_String",
@@ -198,7 +197,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    album_sort: Optional[str] = field(
+    album_sort: str | None = field(
         default=None,
         metadata={
             "name": "Album_Sort",
@@ -206,7 +205,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    alignment: Optional[str] = field(
+    alignment: str | None = field(
         default=None,
         metadata={
             "name": "Alignment",
@@ -214,7 +213,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    alignment_string: Optional[str] = field(
+    alignment_string: str | None = field(
         default=None,
         metadata={
             "name": "Alignment_String",
@@ -222,7 +221,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    alternate_group: Optional[str] = field(
+    alternate_group: str | None = field(
         default=None,
         metadata={
             "name": "AlternateGroup",
@@ -230,7 +229,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    alternate_group_string: Optional[str] = field(
+    alternate_group_string: str | None = field(
         default=None,
         metadata={
             "name": "AlternateGroup_String",
@@ -238,7 +237,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    archival_location: Optional[str] = field(
+    archival_location: str | None = field(
         default=None,
         metadata={
             "name": "Archival_Location",
@@ -246,7 +245,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    arranger: Optional[str] = field(
+    arranger: str | None = field(
         default=None,
         metadata={
             "name": "Arranger",
@@ -254,7 +253,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    art_director: Optional[str] = field(
+    art_director: str | None = field(
         default=None,
         metadata={
             "name": "ArtDirector",
@@ -262,7 +261,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    assistant_director: Optional[str] = field(
+    assistant_director: str | None = field(
         default=None,
         metadata={
             "name": "AssistantDirector",
@@ -270,7 +269,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    audio_codec_list: Optional[str] = field(
+    audio_codec_list: str | None = field(
         default=None,
         metadata={
             "name": "Audio_Codec_List",
@@ -278,7 +277,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    audio_count: Optional[int] = field(
+    audio_count: int | None = field(
         default=None,
         metadata={
             "name": "AudioCount",
@@ -286,7 +285,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    audio_channels_total: Optional[int] = field(
+    audio_channels_total: int | None = field(
         default=None,
         metadata={
             "name": "Audio_Channels_Total",
@@ -294,7 +293,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    audio_format_list: Optional[str] = field(
+    audio_format_list: str | None = field(
         default=None,
         metadata={
             "name": "Audio_Format_List",
@@ -302,7 +301,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    audio_format_with_hint_list: Optional[str] = field(
+    audio_format_with_hint_list: str | None = field(
         default=None,
         metadata={
             "name": "Audio_Format_WithHint_List",
@@ -310,7 +309,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    audio_language_list: Optional[str] = field(
+    audio_language_list: str | None = field(
         default=None,
         metadata={
             "name": "Audio_Language_List",
@@ -318,7 +317,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bar_code: Optional[str] = field(
+    bar_code: str | None = field(
         default=None,
         metadata={
             "name": "BarCode",
@@ -326,7 +325,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_depth_detected: Optional[int] = field(
+    bit_depth_detected: int | None = field(
         default=None,
         metadata={
             "name": "BitDepth_Detected",
@@ -334,7 +333,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_depth_detected_string: Optional[str] = field(
+    bit_depth_detected_string: str | None = field(
         default=None,
         metadata={
             "name": "BitDepth_Detected_String",
@@ -342,7 +341,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_depth: Optional[int] = field(
+    bit_depth: int | None = field(
         default=None,
         metadata={
             "name": "BitDepth",
@@ -350,7 +349,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_depth_stored: Optional[int] = field(
+    bit_depth_stored: int | None = field(
         default=None,
         metadata={
             "name": "BitDepth_Stored",
@@ -358,7 +357,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_depth_stored_string: Optional[str] = field(
+    bit_depth_stored_string: str | None = field(
         default=None,
         metadata={
             "name": "BitDepth_Stored_String",
@@ -366,7 +365,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_depth_string: Optional[str] = field(
+    bit_depth_string: str | None = field(
         default=None,
         metadata={
             "name": "BitDepth_String",
@@ -374,7 +373,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_encoded: Optional[float] = field(
+    bit_rate_encoded: float | None = field(
         default=None,
         metadata={
             "name": "BitRate_Encoded",
@@ -382,7 +381,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_encoded_string: Optional[str] = field(
+    bit_rate_encoded_string: str | None = field(
         default=None,
         metadata={
             "name": "BitRate_Encoded_String",
@@ -390,7 +389,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_maximum: Optional[float] = field(
+    bit_rate_maximum: float | None = field(
         default=None,
         metadata={
             "name": "BitRate_Maximum",
@@ -398,7 +397,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_maximum_string: Optional[str] = field(
+    bit_rate_maximum_string: str | None = field(
         default=None,
         metadata={
             "name": "BitRate_Maximum_String",
@@ -406,7 +405,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_minimum: Optional[float] = field(
+    bit_rate_minimum: float | None = field(
         default=None,
         metadata={
             "name": "BitRate_Minimum",
@@ -414,7 +413,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_minimum_string: Optional[str] = field(
+    bit_rate_minimum_string: str | None = field(
         default=None,
         metadata={
             "name": "BitRate_Minimum_String",
@@ -422,7 +421,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate: Optional[float] = field(
+    bit_rate: float | None = field(
         default=None,
         metadata={
             "name": "BitRate",
@@ -430,7 +429,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_mode: Optional[str] = field(
+    bit_rate_mode: str | None = field(
         default=None,
         metadata={
             "name": "BitRate_Mode",
@@ -438,7 +437,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_mode_string: Optional[str] = field(
+    bit_rate_mode_string: str | None = field(
         default=None,
         metadata={
             "name": "BitRate_Mode_String",
@@ -446,7 +445,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_nominal: Optional[float] = field(
+    bit_rate_nominal: float | None = field(
         default=None,
         metadata={
             "name": "BitRate_Nominal",
@@ -454,7 +453,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_nominal_string: Optional[str] = field(
+    bit_rate_nominal_string: str | None = field(
         default=None,
         metadata={
             "name": "BitRate_Nominal_String",
@@ -462,7 +461,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bit_rate_string: Optional[str] = field(
+    bit_rate_string: str | None = field(
         default=None,
         metadata={
             "name": "BitRate_String",
@@ -470,7 +469,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bits_pixel_frame: Optional[float] = field(
+    bits_pixel_frame: float | None = field(
         default=None,
         metadata={
             "name": "Bits-Pixel_Frame",
@@ -478,7 +477,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mediaarea_net_mediainfo_bits_pixel_frame: Optional[float] = field(
+    mediaarea_net_mediainfo_bits_pixel_frame: float | None = field(
         default=None,
         metadata={
             "name": "BitsPixel_Frame",
@@ -486,7 +485,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    bpm: Optional[str] = field(
+    bpm: str | None = field(
         default=None,
         metadata={
             "name": "BPM",
@@ -494,7 +493,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    buffer_size: Optional[str] = field(
+    buffer_size: str | None = field(
         default=None,
         metadata={
             "name": "BufferSize",
@@ -502,7 +501,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    catalog_number: Optional[str] = field(
+    catalog_number: str | None = field(
         default=None,
         metadata={
             "name": "CatalogNumber",
@@ -510,7 +509,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channel_layout_id: Optional[str] = field(
+    channel_layout_id: str | None = field(
         default=None,
         metadata={
             "name": "ChannelLayoutID",
@@ -518,7 +517,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channel_layout: Optional[str] = field(
+    channel_layout: str | None = field(
         default=None,
         metadata={
             "name": "ChannelLayout",
@@ -526,7 +525,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channel_layout_original: Optional[str] = field(
+    channel_layout_original: str | None = field(
         default=None,
         metadata={
             "name": "ChannelLayout_Original",
@@ -534,7 +533,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channel_positions: Optional[str] = field(
+    channel_positions: str | None = field(
         default=None,
         metadata={
             "name": "ChannelPositions",
@@ -542,7 +541,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channel_positions_original: Optional[str] = field(
+    channel_positions_original: str | None = field(
         default=None,
         metadata={
             "name": "ChannelPositions_Original",
@@ -550,7 +549,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channel_positions_original_string2: Optional[str] = field(
+    channel_positions_original_string2: str | None = field(
         default=None,
         metadata={
             "name": "ChannelPositions_Original_String2",
@@ -558,7 +557,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channel_positions_string2: Optional[str] = field(
+    channel_positions_string2: str | None = field(
         default=None,
         metadata={
             "name": "ChannelPositions_String2",
@@ -566,7 +565,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channel_s: Optional[int] = field(
+    channel_s: int | None = field(
         default=None,
         metadata={
             "name": "Channels",
@@ -574,7 +573,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channels_original: Optional[int] = field(
+    channels_original: int | None = field(
         default=None,
         metadata={
             "name": "Channels_Original",
@@ -582,7 +581,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channels_original_string: Optional[str] = field(
+    channels_original_string: str | None = field(
         default=None,
         metadata={
             "name": "Channels_Original_String",
@@ -590,7 +589,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    channels_string: Optional[str] = field(
+    channels_string: str | None = field(
         default=None,
         metadata={
             "name": "Channels_String",
@@ -598,7 +597,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    chapter: Optional[str] = field(
+    chapter: str | None = field(
         default=None,
         metadata={
             "name": "Chapter",
@@ -606,7 +605,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    chapters_pos_begin: Optional[int] = field(
+    chapters_pos_begin: int | None = field(
         default=None,
         metadata={
             "name": "Chapters_Pos_Begin",
@@ -614,7 +613,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    chapters_pos_end: Optional[int] = field(
+    chapters_pos_end: int | None = field(
         default=None,
         metadata={
             "name": "Chapters_Pos_End",
@@ -622,7 +621,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    choregrapher: Optional[str] = field(
+    choregrapher: str | None = field(
         default=None,
         metadata={
             "name": "Choregrapher",
@@ -630,7 +629,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    chroma_subsampling: Optional[str] = field(
+    chroma_subsampling: str | None = field(
         default=None,
         metadata={
             "name": "ChromaSubsampling",
@@ -638,7 +637,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    chroma_subsampling_position: Optional[str] = field(
+    chroma_subsampling_position: str | None = field(
         default=None,
         metadata={
             "name": "ChromaSubsampling_Position",
@@ -646,7 +645,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    chroma_subsampling_string: Optional[str] = field(
+    chroma_subsampling_string: str | None = field(
         default=None,
         metadata={
             "name": "ChromaSubsampling_String",
@@ -654,7 +653,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_cc: Optional[str] = field(
+    codec_cc: str | None = field(
         default=None,
         metadata={
             "name": "Codec_CC",
@@ -662,7 +661,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_description: Optional[str] = field(
+    codec_description: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Description",
@@ -670,7 +669,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_extensions: Optional[str] = field(
+    codec_extensions: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Extensions",
@@ -678,7 +677,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_family: Optional[str] = field(
+    codec_family: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Family",
@@ -686,7 +685,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_id_compatible: Optional[str] = field(
+    codec_id_compatible: str | None = field(
         default=None,
         metadata={
             "name": "CodecID_Compatible",
@@ -694,7 +693,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_id_description: Optional[str] = field(
+    codec_id_description: str | None = field(
         default=None,
         metadata={
             "name": "CodecID_Description",
@@ -702,7 +701,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_id_hint: Optional[str] = field(
+    codec_id_hint: str | None = field(
         default=None,
         metadata={
             "name": "CodecID_Hint",
@@ -710,7 +709,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_id_info: Optional[str] = field(
+    codec_id_info: str | None = field(
         default=None,
         metadata={
             "name": "CodecID_Info",
@@ -718,7 +717,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_id: Optional[str] = field(
+    codec_id: str | None = field(
         default=None,
         metadata={
             "name": "CodecID",
@@ -726,7 +725,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_id_string: Optional[str] = field(
+    codec_id_string: str | None = field(
         default=None,
         metadata={
             "name": "CodecID_String",
@@ -734,7 +733,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_id_url: Optional[str] = field(
+    codec_id_url: str | None = field(
         default=None,
         metadata={
             "name": "CodecID_Url",
@@ -742,7 +741,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_id_version: Optional[str] = field(
+    codec_id_version: str | None = field(
         default=None,
         metadata={
             "name": "CodecID_Version",
@@ -750,7 +749,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_info: Optional[str] = field(
+    codec_info: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Info",
@@ -758,7 +757,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec: Optional[str] = field(
+    codec: str | None = field(
         default=None,
         metadata={
             "name": "Codec",
@@ -766,7 +765,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_profile: Optional[str] = field(
+    codec_profile: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Profile",
@@ -774,7 +773,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_automatic: Optional[str] = field(
+    codec_settings_automatic: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_Automatic",
@@ -782,7 +781,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_bvop: Optional[str] = field(
+    codec_settings_bvop: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_BVOP",
@@ -790,7 +789,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_cabac: Optional[str] = field(
+    codec_settings_cabac: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_CABAC",
@@ -798,7 +797,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_endianness: Optional[str] = field(
+    codec_settings_endianness: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_Endianness",
@@ -806,7 +805,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_firm: Optional[str] = field(
+    codec_settings_firm: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_Firm",
@@ -814,7 +813,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_floor: Optional[str] = field(
+    codec_settings_floor: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_Floor",
@@ -822,7 +821,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_gmc: Optional[str] = field(
+    codec_settings_gmc: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_GMC",
@@ -830,7 +829,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_gmc_string: Optional[str] = field(
+    codec_settings_gmc_string: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_GMC_String",
@@ -838,7 +837,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_itu: Optional[str] = field(
+    codec_settings_itu: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_ITU",
@@ -846,7 +845,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_law: Optional[str] = field(
+    codec_settings_law: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_Law",
@@ -854,7 +853,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_matrix_data: Optional[str] = field(
+    codec_settings_matrix_data: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_Matrix_Data",
@@ -862,7 +861,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_matrix: Optional[str] = field(
+    codec_settings_matrix: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_Matrix",
@@ -870,7 +869,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings: Optional[str] = field(
+    codec_settings: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings",
@@ -878,7 +877,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_packet_bit_stream: Optional[str] = field(
+    codec_settings_packet_bit_stream: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_PacketBitStream",
@@ -886,7 +885,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_qpel: Optional[str] = field(
+    codec_settings_qpel: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_QPel",
@@ -894,7 +893,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_ref_frames: Optional[str] = field(
+    codec_settings_ref_frames: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_RefFrames",
@@ -902,7 +901,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_settings_sign: Optional[str] = field(
+    codec_settings_sign: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Settings_Sign",
@@ -910,7 +909,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_string: Optional[str] = field(
+    codec_string: str | None = field(
         default=None,
         metadata={
             "name": "Codec_String",
@@ -918,7 +917,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    codec_url: Optional[str] = field(
+    codec_url: str | None = field(
         default=None,
         metadata={
             "name": "Codec_Url",
@@ -926,7 +925,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    co_director: Optional[str] = field(
+    co_director: str | None = field(
         default=None,
         metadata={
             "name": "CoDirector",
@@ -934,7 +933,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    collection: Optional[str] = field(
+    collection: str | None = field(
         default=None,
         metadata={
             "name": "Collection",
@@ -942,7 +941,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colorimetry: Optional[str] = field(
+    colorimetry: str | None = field(
         default=None,
         metadata={
             "name": "Colorimetry",
@@ -950,7 +949,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    color_space: Optional[str] = field(
+    color_space: str | None = field(
         default=None,
         metadata={
             "name": "ColorSpace",
@@ -958,14 +957,14 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_description_present: Optional[str] = field(
+    colour_description_present: str | None = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": __NAMESPACE__,
         },
     )
-    colour_description_present_original: Optional[str] = field(
+    colour_description_present_original: str | None = field(
         default=None,
         metadata={
             "name": "colour_description_present_Original",
@@ -973,7 +972,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_description_present_original_source: Optional[str] = field(
+    colour_description_present_original_source: str | None = field(
         default=None,
         metadata={
             "name": "colour_description_present_Original_Source",
@@ -981,7 +980,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_description_present_source: Optional[str] = field(
+    colour_description_present_source: str | None = field(
         default=None,
         metadata={
             "name": "colour_description_present_Source",
@@ -989,14 +988,14 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_primaries: Optional[str] = field(
+    colour_primaries: str | None = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": __NAMESPACE__,
         },
     )
-    colour_primaries_original: Optional[str] = field(
+    colour_primaries_original: str | None = field(
         default=None,
         metadata={
             "name": "colour_primaries_Original",
@@ -1004,7 +1003,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_primaries_original_source: Optional[str] = field(
+    colour_primaries_original_source: str | None = field(
         default=None,
         metadata={
             "name": "colour_primaries_Original_Source",
@@ -1012,7 +1011,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_primaries_source: Optional[str] = field(
+    colour_primaries_source: str | None = field(
         default=None,
         metadata={
             "name": "colour_primaries_Source",
@@ -1020,14 +1019,14 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_range: Optional[str] = field(
+    colour_range: str | None = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": __NAMESPACE__,
         },
     )
-    colour_range_original: Optional[str] = field(
+    colour_range_original: str | None = field(
         default=None,
         metadata={
             "name": "colour_range_Original",
@@ -1035,7 +1034,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_range_original_source: Optional[str] = field(
+    colour_range_original_source: str | None = field(
         default=None,
         metadata={
             "name": "colour_range_Original_Source",
@@ -1043,7 +1042,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    colour_range_source: Optional[str] = field(
+    colour_range_source: str | None = field(
         default=None,
         metadata={
             "name": "colour_range_Source",
@@ -1051,7 +1050,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    comic: Optional[str] = field(
+    comic: str | None = field(
         default=None,
         metadata={
             "name": "Comic",
@@ -1059,7 +1058,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    comic_more: Optional[str] = field(
+    comic_more: str | None = field(
         default=None,
         metadata={
             "name": "Comic_More",
@@ -1067,7 +1066,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    comic_position_total: Optional[int] = field(
+    comic_position_total: int | None = field(
         default=None,
         metadata={
             "name": "Comic_Position_Total",
@@ -1075,7 +1074,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    comment: Optional[str] = field(
+    comment: str | None = field(
         default=None,
         metadata={
             "name": "Comment",
@@ -1083,7 +1082,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    commissioned_by: Optional[str] = field(
+    commissioned_by: str | None = field(
         default=None,
         metadata={
             "name": "CommissionedBy",
@@ -1091,7 +1090,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    compilation: Optional[str] = field(
+    compilation: str | None = field(
         default=None,
         metadata={
             "name": "Compilation",
@@ -1099,7 +1098,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    compilation_string: Optional[str] = field(
+    compilation_string: str | None = field(
         default=None,
         metadata={
             "name": "Compilation_String",
@@ -1107,7 +1106,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    complete_name_last: Optional[str] = field(
+    complete_name_last: str | None = field(
         default=None,
         metadata={
             "name": "CompleteName_Last",
@@ -1115,7 +1114,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    complete_name: Optional[str] = field(
+    complete_name: str | None = field(
         default=None,
         metadata={
             "name": "CompleteName",
@@ -1123,7 +1122,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    composer: Optional[str] = field(
+    composer: str | None = field(
         default=None,
         metadata={
             "name": "Composer",
@@ -1131,7 +1130,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    composer_nationality: Optional[str] = field(
+    composer_nationality: str | None = field(
         default=None,
         metadata={
             "name": "Composer_Nationality",
@@ -1139,7 +1138,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    composer_sort: Optional[str] = field(
+    composer_sort: str | None = field(
         default=None,
         metadata={
             "name": "Composer_Sort",
@@ -1147,7 +1146,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    compression_mode: Optional[str] = field(
+    compression_mode: str | None = field(
         default=None,
         metadata={
             "name": "Compression_Mode",
@@ -1155,7 +1154,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    compression_mode_string: Optional[str] = field(
+    compression_mode_string: str | None = field(
         default=None,
         metadata={
             "name": "Compression_Mode_String",
@@ -1163,7 +1162,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    compression_ratio: Optional[float] = field(
+    compression_ratio: float | None = field(
         default=None,
         metadata={
             "name": "Compression_Ratio",
@@ -1171,7 +1170,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    conductor: Optional[str] = field(
+    conductor: str | None = field(
         default=None,
         metadata={
             "name": "Conductor",
@@ -1179,7 +1178,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    content_type: Optional[str] = field(
+    content_type: str | None = field(
         default=None,
         metadata={
             "name": "ContentType",
@@ -1187,7 +1186,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    co_producer: Optional[str] = field(
+    co_producer: str | None = field(
         default=None,
         metadata={
             "name": "CoProducer",
@@ -1195,7 +1194,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    copyright: Optional[str] = field(
+    copyright: str | None = field(
         default=None,
         metadata={
             "name": "Copyright",
@@ -1203,7 +1202,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    copyright_url: Optional[str] = field(
+    copyright_url: str | None = field(
         default=None,
         metadata={
             "name": "Copyright_Url",
@@ -1211,7 +1210,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    costume_designer: Optional[str] = field(
+    costume_designer: str | None = field(
         default=None,
         metadata={
             "name": "CostumeDesigner",
@@ -1219,7 +1218,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    count: Optional[int] = field(
+    count: int | None = field(
         default=None,
         metadata={
             "name": "Count",
@@ -1227,7 +1226,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    countries: Optional[str] = field(
+    countries: str | None = field(
         default=None,
         metadata={
             "name": "Countries",
@@ -1235,7 +1234,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    country: Optional[str] = field(
+    country: str | None = field(
         default=None,
         metadata={
             "name": "Country",
@@ -1243,7 +1242,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    cover_data: Optional[str] = field(
+    cover_data: str | None = field(
         default=None,
         metadata={
             "name": "Cover_Data",
@@ -1251,7 +1250,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    cover_description: Optional[str] = field(
+    cover_description: str | None = field(
         default=None,
         metadata={
             "name": "Cover_Description",
@@ -1259,7 +1258,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    cover_mime: Optional[str] = field(
+    cover_mime: str | None = field(
         default=None,
         metadata={
             "name": "Cover_Mime",
@@ -1267,7 +1266,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    cover: Optional[str] = field(
+    cover: str | None = field(
         default=None,
         metadata={
             "name": "Cover",
@@ -1275,7 +1274,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    cover_type: Optional[str] = field(
+    cover_type: str | None = field(
         default=None,
         metadata={
             "name": "Cover_Type",
@@ -1283,7 +1282,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    cropped: Optional[str] = field(
+    cropped: str | None = field(
         default=None,
         metadata={
             "name": "Cropped",
@@ -1291,7 +1290,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    data_size: Optional[int] = field(
+    data_size: int | None = field(
         default=None,
         metadata={
             "name": "DataSize",
@@ -1299,7 +1298,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    default: Optional[str] = field(
+    default: str | None = field(
         default=None,
         metadata={
             "name": "Default",
@@ -1307,7 +1306,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    default_string: Optional[str] = field(
+    default_string: str | None = field(
         default=None,
         metadata={
             "name": "Default_String",
@@ -1315,7 +1314,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_drop_frame: Optional[str] = field(
+    delay_drop_frame: str | None = field(
         default=None,
         metadata={
             "name": "Delay_DropFrame",
@@ -1323,7 +1322,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay: Optional[float] = field(
+    delay: float | None = field(
         default=None,
         metadata={
             "name": "Delay",
@@ -1331,7 +1330,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_drop_frame: Optional[str] = field(
+    delay_original_drop_frame: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_DropFrame",
@@ -1339,7 +1338,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original: Optional[float] = field(
+    delay_original: float | None = field(
         default=None,
         metadata={
             "name": "Delay_Original",
@@ -1347,7 +1346,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_settings: Optional[str] = field(
+    delay_original_settings: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_Settings",
@@ -1355,7 +1354,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_source: Optional[str] = field(
+    delay_original_source: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_Source",
@@ -1363,7 +1362,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_string1: Optional[str] = field(
+    delay_original_string1: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_String1",
@@ -1371,7 +1370,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_string2: Optional[str] = field(
+    delay_original_string2: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_String2",
@@ -1379,7 +1378,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_string3: Optional[str] = field(
+    delay_original_string3: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_String3",
@@ -1387,7 +1386,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_string4: Optional[str] = field(
+    delay_original_string4: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_String4",
@@ -1395,7 +1394,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_string5: Optional[str] = field(
+    delay_original_string5: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_String5",
@@ -1403,7 +1402,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_original_string: Optional[str] = field(
+    delay_original_string: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Original_String",
@@ -1411,7 +1410,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_settings: Optional[str] = field(
+    delay_settings: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Settings",
@@ -1419,7 +1418,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_source: Optional[str] = field(
+    delay_source: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Source",
@@ -1427,7 +1426,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_source_string: Optional[str] = field(
+    delay_source_string: str | None = field(
         default=None,
         metadata={
             "name": "Delay_Source_String",
@@ -1435,7 +1434,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_string1: Optional[str] = field(
+    delay_string1: str | None = field(
         default=None,
         metadata={
             "name": "Delay_String1",
@@ -1443,7 +1442,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_string2: Optional[str] = field(
+    delay_string2: str | None = field(
         default=None,
         metadata={
             "name": "Delay_String2",
@@ -1451,7 +1450,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_string3: Optional[str] = field(
+    delay_string3: str | None = field(
         default=None,
         metadata={
             "name": "Delay_String3",
@@ -1459,7 +1458,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_string4: Optional[str] = field(
+    delay_string4: str | None = field(
         default=None,
         metadata={
             "name": "Delay_String4",
@@ -1467,7 +1466,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_string5: Optional[str] = field(
+    delay_string5: str | None = field(
         default=None,
         metadata={
             "name": "Delay_String5",
@@ -1475,7 +1474,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    delay_string: Optional[str] = field(
+    delay_string: str | None = field(
         default=None,
         metadata={
             "name": "Delay_String",
@@ -1483,7 +1482,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    description: Optional[str] = field(
+    description: str | None = field(
         default=None,
         metadata={
             "name": "Description",
@@ -1491,7 +1490,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    dimensions: Optional[str] = field(
+    dimensions: str | None = field(
         default=None,
         metadata={
             "name": "Dimensions",
@@ -1499,7 +1498,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    director: Optional[str] = field(
+    director: str | None = field(
         default=None,
         metadata={
             "name": "Director",
@@ -1507,7 +1506,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    director_of_photography: Optional[str] = field(
+    director_of_photography: str | None = field(
         default=None,
         metadata={
             "name": "DirectorOfPhotography",
@@ -1515,7 +1514,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    disabled: Optional[str] = field(
+    disabled: str | None = field(
         default=None,
         metadata={
             "name": "Disabled",
@@ -1523,7 +1522,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    disabled_string: Optional[str] = field(
+    disabled_string: str | None = field(
         default=None,
         metadata={
             "name": "Disabled_String",
@@ -1531,7 +1530,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    display_aspect_ratio_clean_aperture: Optional[float] = field(
+    display_aspect_ratio_clean_aperture: float | None = field(
         default=None,
         metadata={
             "name": "DisplayAspectRatio_CleanAperture",
@@ -1539,7 +1538,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    display_aspect_ratio_clean_aperture_string: Optional[str] = field(
+    display_aspect_ratio_clean_aperture_string: str | None = field(
         default=None,
         metadata={
             "name": "DisplayAspectRatio_CleanAperture_String",
@@ -1547,7 +1546,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    display_aspect_ratio: Optional[float] = field(
+    display_aspect_ratio: float | None = field(
         default=None,
         metadata={
             "name": "DisplayAspectRatio",
@@ -1555,7 +1554,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    display_aspect_ratio_original: Optional[float] = field(
+    display_aspect_ratio_original: float | None = field(
         default=None,
         metadata={
             "name": "DisplayAspectRatio_Original",
@@ -1563,7 +1562,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    display_aspect_ratio_original_string: Optional[str] = field(
+    display_aspect_ratio_original_string: str | None = field(
         default=None,
         metadata={
             "name": "DisplayAspectRatio_Original_String",
@@ -1571,7 +1570,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    display_aspect_ratio_string: Optional[str] = field(
+    display_aspect_ratio_string: str | None = field(
         default=None,
         metadata={
             "name": "DisplayAspectRatio_String",
@@ -1579,7 +1578,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    distributed_by: Optional[str] = field(
+    distributed_by: str | None = field(
         default=None,
         metadata={
             "name": "DistributedBy",
@@ -1587,7 +1586,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    dolby_vision_layers: Optional[str] = field(
+    dolby_vision_layers: str | None = field(
         default=None,
         metadata={
             "name": "DolbyVision_Layers",
@@ -1595,7 +1594,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    dolby_vision_profile: Optional[str] = field(
+    dolby_vision_profile: str | None = field(
         default=None,
         metadata={
             "name": "DolbyVision_Profile",
@@ -1603,7 +1602,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    dolby_vision_version: Optional[str] = field(
+    dolby_vision_version: str | None = field(
         default=None,
         metadata={
             "name": "DolbyVision_Version",
@@ -1611,7 +1610,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    domain: Optional[str] = field(
+    domain: str | None = field(
         default=None,
         metadata={
             "name": "Domain",
@@ -1619,7 +1618,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    dots_per_inch: Optional[str] = field(
+    dots_per_inch: str | None = field(
         default=None,
         metadata={
             "name": "DotsPerInch",
@@ -1627,7 +1626,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_base: Optional[str] = field(
+    duration_base: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Base",
@@ -1635,7 +1634,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_command: Optional[float] = field(
+    duration_end_command: float | None = field(
         default=None,
         metadata={
             "name": "Duration_End_Command",
@@ -1643,7 +1642,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_command_string1: Optional[str] = field(
+    duration_end_command_string1: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_Command_String1",
@@ -1651,7 +1650,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_command_string2: Optional[str] = field(
+    duration_end_command_string2: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_Command_String2",
@@ -1659,7 +1658,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_command_string3: Optional[str] = field(
+    duration_end_command_string3: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_Command_String3",
@@ -1667,7 +1666,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_command_string4: Optional[str] = field(
+    duration_end_command_string4: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_Command_String4",
@@ -1675,7 +1674,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_command_string5: Optional[str] = field(
+    duration_end_command_string5: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_Command_String5",
@@ -1683,7 +1682,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_command_string: Optional[str] = field(
+    duration_end_command_string: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_Command_String",
@@ -1691,7 +1690,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end: Optional[float] = field(
+    duration_end: float | None = field(
         default=None,
         metadata={
             "name": "Duration_End",
@@ -1699,7 +1698,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_string1: Optional[str] = field(
+    duration_end_string1: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_String1",
@@ -1707,7 +1706,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_string2: Optional[str] = field(
+    duration_end_string2: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_String2",
@@ -1715,7 +1714,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_string3: Optional[str] = field(
+    duration_end_string3: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_String3",
@@ -1723,7 +1722,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_string4: Optional[str] = field(
+    duration_end_string4: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_String4",
@@ -1731,7 +1730,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_string5: Optional[str] = field(
+    duration_end_string5: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_String5",
@@ -1739,7 +1738,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_end_string: Optional[str] = field(
+    duration_end_string: str | None = field(
         default=None,
         metadata={
             "name": "Duration_End_String",
@@ -1747,7 +1746,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_first_frame: Optional[float] = field(
+    duration_first_frame: float | None = field(
         default=None,
         metadata={
             "name": "Duration_FirstFrame",
@@ -1755,7 +1754,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_first_frame_string1: Optional[str] = field(
+    duration_first_frame_string1: str | None = field(
         default=None,
         metadata={
             "name": "Duration_FirstFrame_String1",
@@ -1763,7 +1762,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_first_frame_string2: Optional[str] = field(
+    duration_first_frame_string2: str | None = field(
         default=None,
         metadata={
             "name": "Duration_FirstFrame_String2",
@@ -1771,7 +1770,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_first_frame_string3: Optional[str] = field(
+    duration_first_frame_string3: str | None = field(
         default=None,
         metadata={
             "name": "Duration_FirstFrame_String3",
@@ -1779,7 +1778,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_first_frame_string4: Optional[str] = field(
+    duration_first_frame_string4: str | None = field(
         default=None,
         metadata={
             "name": "Duration_FirstFrame_String4",
@@ -1787,7 +1786,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_first_frame_string5: Optional[str] = field(
+    duration_first_frame_string5: str | None = field(
         default=None,
         metadata={
             "name": "Duration_FirstFrame_String5",
@@ -1795,7 +1794,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_first_frame_string: Optional[str] = field(
+    duration_first_frame_string: str | None = field(
         default=None,
         metadata={
             "name": "Duration_FirstFrame_String",
@@ -1803,7 +1802,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_last_frame: Optional[float] = field(
+    duration_last_frame: float | None = field(
         default=None,
         metadata={
             "name": "Duration_LastFrame",
@@ -1811,7 +1810,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_last_frame_string1: Optional[str] = field(
+    duration_last_frame_string1: str | None = field(
         default=None,
         metadata={
             "name": "Duration_LastFrame_String1",
@@ -1819,7 +1818,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_last_frame_string2: Optional[str] = field(
+    duration_last_frame_string2: str | None = field(
         default=None,
         metadata={
             "name": "Duration_LastFrame_String2",
@@ -1827,7 +1826,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_last_frame_string3: Optional[str] = field(
+    duration_last_frame_string3: str | None = field(
         default=None,
         metadata={
             "name": "Duration_LastFrame_String3",
@@ -1835,7 +1834,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_last_frame_string4: Optional[str] = field(
+    duration_last_frame_string4: str | None = field(
         default=None,
         metadata={
             "name": "Duration_LastFrame_String4",
@@ -1843,7 +1842,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_last_frame_string5: Optional[str] = field(
+    duration_last_frame_string5: str | None = field(
         default=None,
         metadata={
             "name": "Duration_LastFrame_String5",
@@ -1851,7 +1850,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_last_frame_string: Optional[str] = field(
+    duration_last_frame_string: str | None = field(
         default=None,
         metadata={
             "name": "Duration_LastFrame_String",
@@ -1859,7 +1858,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration: Optional[float] = field(
+    duration: float | None = field(
         default=None,
         metadata={
             "name": "Duration",
@@ -1867,7 +1866,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start2_end: Optional[float] = field(
+    duration_start2_end: float | None = field(
         default=None,
         metadata={
             "name": "Duration_Start2End",
@@ -1875,7 +1874,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start2_end_string1: Optional[str] = field(
+    duration_start2_end_string1: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start2End_String1",
@@ -1883,7 +1882,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start2_end_string2: Optional[str] = field(
+    duration_start2_end_string2: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start2End_String2",
@@ -1891,7 +1890,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start2_end_string3: Optional[str] = field(
+    duration_start2_end_string3: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start2End_String3",
@@ -1899,7 +1898,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start2_end_string4: Optional[str] = field(
+    duration_start2_end_string4: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start2End_String4",
@@ -1907,7 +1906,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start2_end_string5: Optional[str] = field(
+    duration_start2_end_string5: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start2End_String5",
@@ -1915,7 +1914,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start2_end_string: Optional[str] = field(
+    duration_start2_end_string: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start2End_String",
@@ -1923,7 +1922,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_command: Optional[float] = field(
+    duration_start_command: float | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_Command",
@@ -1931,7 +1930,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_command_string1: Optional[str] = field(
+    duration_start_command_string1: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_Command_String1",
@@ -1939,7 +1938,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_command_string2: Optional[str] = field(
+    duration_start_command_string2: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_Command_String2",
@@ -1947,7 +1946,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_command_string3: Optional[str] = field(
+    duration_start_command_string3: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_Command_String3",
@@ -1955,7 +1954,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_command_string4: Optional[str] = field(
+    duration_start_command_string4: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_Command_String4",
@@ -1963,7 +1962,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_command_string5: Optional[str] = field(
+    duration_start_command_string5: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_Command_String5",
@@ -1971,7 +1970,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_command_string: Optional[str] = field(
+    duration_start_command_string: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_Command_String",
@@ -1979,7 +1978,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start: Optional[float] = field(
+    duration_start: float | None = field(
         default=None,
         metadata={
             "name": "Duration_Start",
@@ -1987,7 +1986,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_string1: Optional[str] = field(
+    duration_start_string1: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_String1",
@@ -1995,7 +1994,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_string2: Optional[str] = field(
+    duration_start_string2: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_String2",
@@ -2003,7 +2002,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_string3: Optional[str] = field(
+    duration_start_string3: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_String3",
@@ -2011,7 +2010,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_string4: Optional[str] = field(
+    duration_start_string4: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_String4",
@@ -2019,7 +2018,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_string5: Optional[str] = field(
+    duration_start_string5: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_String5",
@@ -2027,7 +2026,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_start_string: Optional[str] = field(
+    duration_start_string: str | None = field(
         default=None,
         metadata={
             "name": "Duration_Start_String",
@@ -2035,7 +2034,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_string1: Optional[str] = field(
+    duration_string1: str | None = field(
         default=None,
         metadata={
             "name": "Duration_String1",
@@ -2043,7 +2042,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_string2: Optional[str] = field(
+    duration_string2: str | None = field(
         default=None,
         metadata={
             "name": "Duration_String2",
@@ -2051,7 +2050,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_string3: Optional[str] = field(
+    duration_string3: str | None = field(
         default=None,
         metadata={
             "name": "Duration_String3",
@@ -2059,7 +2058,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_string4: Optional[str] = field(
+    duration_string4: str | None = field(
         default=None,
         metadata={
             "name": "Duration_String4",
@@ -2067,7 +2066,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_string5: Optional[str] = field(
+    duration_string5: str | None = field(
         default=None,
         metadata={
             "name": "Duration_String5",
@@ -2075,7 +2074,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    duration_string: Optional[str] = field(
+    duration_string: str | None = field(
         default=None,
         metadata={
             "name": "Duration_String",
@@ -2083,7 +2082,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    edited_by: Optional[str] = field(
+    edited_by: str | None = field(
         default=None,
         metadata={
             "name": "EditedBy",
@@ -2091,7 +2090,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    element_count: Optional[int] = field(
+    element_count: int | None = field(
         default=None,
         metadata={
             "name": "ElementCount",
@@ -2099,7 +2098,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_application_company_name: Optional[str] = field(
+    encoded_application_company_name: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Application_CompanyName",
@@ -2107,7 +2106,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_application: Optional[str] = field(
+    encoded_application: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Application",
@@ -2115,7 +2114,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_application_name: Optional[str] = field(
+    encoded_application_name: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Application_Name",
@@ -2123,7 +2122,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_application_string: Optional[str] = field(
+    encoded_application_string: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Application_String",
@@ -2131,7 +2130,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_application_url: Optional[str] = field(
+    encoded_application_url: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Application_Url",
@@ -2139,7 +2138,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_application_version: Optional[str] = field(
+    encoded_application_version: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Application_Version",
@@ -2147,7 +2146,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_by: Optional[str] = field(
+    encoded_by: str | None = field(
         default=None,
         metadata={
             "name": "EncodedBy",
@@ -2155,7 +2154,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_date: Optional[str] = field(
+    encoded_date: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Date",
@@ -2163,7 +2162,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_library_company_name: Optional[str] = field(
+    encoded_library_company_name: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Library_CompanyName",
@@ -2171,7 +2170,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_library_date: Optional[str] = field(
+    encoded_library_date: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Library_Date",
@@ -2179,7 +2178,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_library: Optional[str] = field(
+    encoded_library: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Library",
@@ -2187,7 +2186,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_library_name: Optional[str] = field(
+    encoded_library_name: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Library_Name",
@@ -2195,7 +2194,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_library_settings: Optional[str] = field(
+    encoded_library_settings: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Library_Settings",
@@ -2203,7 +2202,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_library_string: Optional[str] = field(
+    encoded_library_string: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Library_String",
@@ -2211,7 +2210,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_library_version: Optional[str] = field(
+    encoded_library_version: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_Library_Version",
@@ -2219,7 +2218,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encoded_operating_system: Optional[str] = field(
+    encoded_operating_system: str | None = field(
         default=None,
         metadata={
             "name": "Encoded_OperatingSystem",
@@ -2227,7 +2226,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encryption_format: Optional[str] = field(
+    encryption_format: str | None = field(
         default=None,
         metadata={
             "name": "Encryption_Format",
@@ -2235,7 +2234,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encryption_initialization_vector: Optional[str] = field(
+    encryption_initialization_vector: str | None = field(
         default=None,
         metadata={
             "name": "Encryption_InitializationVector",
@@ -2243,7 +2242,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encryption_length: Optional[str] = field(
+    encryption_length: str | None = field(
         default=None,
         metadata={
             "name": "Encryption_Length",
@@ -2251,7 +2250,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encryption_method: Optional[str] = field(
+    encryption_method: str | None = field(
         default=None,
         metadata={
             "name": "Encryption_Method",
@@ -2259,7 +2258,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encryption: Optional[str] = field(
+    encryption: str | None = field(
         default=None,
         metadata={
             "name": "Encryption",
@@ -2267,7 +2266,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encryption_mode: Optional[str] = field(
+    encryption_mode: str | None = field(
         default=None,
         metadata={
             "name": "Encryption_Mode",
@@ -2275,7 +2274,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    encryption_padding: Optional[str] = field(
+    encryption_padding: str | None = field(
         default=None,
         metadata={
             "name": "Encryption_Padding",
@@ -2283,7 +2282,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    epg_positions_begin: Optional[int] = field(
+    epg_positions_begin: int | None = field(
         default=None,
         metadata={
             "name": "EPG_Positions_Begin",
@@ -2291,7 +2290,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    epg_positions_end: Optional[int] = field(
+    epg_positions_end: int | None = field(
         default=None,
         metadata={
             "name": "EPG_Positions_End",
@@ -2299,7 +2298,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_min_duration: Optional[float] = field(
+    events_min_duration: float | None = field(
         default=None,
         metadata={
             "name": "Events_MinDuration",
@@ -2307,7 +2306,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_min_duration_string1: Optional[str] = field(
+    events_min_duration_string1: str | None = field(
         default=None,
         metadata={
             "name": "Events_MinDuration_String1",
@@ -2315,7 +2314,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_min_duration_string2: Optional[str] = field(
+    events_min_duration_string2: str | None = field(
         default=None,
         metadata={
             "name": "Events_MinDuration_String2",
@@ -2323,7 +2322,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_min_duration_string3: Optional[str] = field(
+    events_min_duration_string3: str | None = field(
         default=None,
         metadata={
             "name": "Events_MinDuration_String3",
@@ -2331,7 +2330,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_min_duration_string4: Optional[str] = field(
+    events_min_duration_string4: str | None = field(
         default=None,
         metadata={
             "name": "Events_MinDuration_String4",
@@ -2339,7 +2338,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_min_duration_string5: Optional[str] = field(
+    events_min_duration_string5: str | None = field(
         default=None,
         metadata={
             "name": "Events_MinDuration_String5",
@@ -2347,7 +2346,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_min_duration_string: Optional[str] = field(
+    events_min_duration_string: str | None = field(
         default=None,
         metadata={
             "name": "Events_MinDuration_String",
@@ -2355,7 +2354,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_paint_on: Optional[str] = field(
+    events_paint_on: str | None = field(
         default=None,
         metadata={
             "name": "Events_PaintOn",
@@ -2363,7 +2362,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_pop_on: Optional[str] = field(
+    events_pop_on: str | None = field(
         default=None,
         metadata={
             "name": "Events_PopOn",
@@ -2371,7 +2370,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_roll_up: Optional[str] = field(
+    events_roll_up: str | None = field(
         default=None,
         metadata={
             "name": "Events_RollUp",
@@ -2379,7 +2378,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    events_total: Optional[str] = field(
+    events_total: str | None = field(
         default=None,
         metadata={
             "name": "Events_Total",
@@ -2387,7 +2386,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    executive_producer: Optional[str] = field(
+    executive_producer: str | None = field(
         default=None,
         metadata={
             "name": "ExecutiveProducer",
@@ -2395,7 +2394,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_created_date_local: Optional[str] = field(
+    file_created_date_local: str | None = field(
         default=None,
         metadata={
             "name": "File_Created_Date_Local",
@@ -2403,7 +2402,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_created_date: Optional[str] = field(
+    file_created_date: str | None = field(
         default=None,
         metadata={
             "name": "File_Created_Date",
@@ -2411,7 +2410,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_extension_last: Optional[str] = field(
+    file_extension_last: str | None = field(
         default=None,
         metadata={
             "name": "FileExtension_Last",
@@ -2419,7 +2418,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_extension: Optional[str] = field(
+    file_extension: str | None = field(
         default=None,
         metadata={
             "name": "FileExtension",
@@ -2427,7 +2426,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_modified_date_local: Optional[str] = field(
+    file_modified_date_local: str | None = field(
         default=None,
         metadata={
             "name": "File_Modified_Date_Local",
@@ -2435,7 +2434,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_modified_date: Optional[str] = field(
+    file_modified_date: str | None = field(
         default=None,
         metadata={
             "name": "File_Modified_Date",
@@ -2443,7 +2442,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_name_extension_last: Optional[str] = field(
+    file_name_extension_last: str | None = field(
         default=None,
         metadata={
             "name": "FileNameExtension_Last",
@@ -2451,7 +2450,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_name_extension: Optional[str] = field(
+    file_name_extension: str | None = field(
         default=None,
         metadata={
             "name": "FileNameExtension",
@@ -2459,7 +2458,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_name_last: Optional[str] = field(
+    file_name_last: str | None = field(
         default=None,
         metadata={
             "name": "FileName_Last",
@@ -2467,7 +2466,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_name: Optional[str] = field(
+    file_name: str | None = field(
         default=None,
         metadata={
             "name": "FileName",
@@ -2475,7 +2474,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_size: Optional[str] = field(
+    file_size: str | None = field(
         default=None,
         metadata={
             "name": "FileSize",
@@ -2483,7 +2482,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_size_string1: Optional[str] = field(
+    file_size_string1: str | None = field(
         default=None,
         metadata={
             "name": "FileSize_String1",
@@ -2491,7 +2490,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_size_string2: Optional[str] = field(
+    file_size_string2: str | None = field(
         default=None,
         metadata={
             "name": "FileSize_String2",
@@ -2499,7 +2498,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_size_string3: Optional[str] = field(
+    file_size_string3: str | None = field(
         default=None,
         metadata={
             "name": "FileSize_String3",
@@ -2507,7 +2506,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_size_string4: Optional[str] = field(
+    file_size_string4: str | None = field(
         default=None,
         metadata={
             "name": "FileSize_String4",
@@ -2515,7 +2514,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    file_size_string: Optional[str] = field(
+    file_size_string: str | None = field(
         default=None,
         metadata={
             "name": "FileSize_String",
@@ -2523,7 +2522,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    first_display_delay_frames: Optional[str] = field(
+    first_display_delay_frames: str | None = field(
         default=None,
         metadata={
             "name": "FirstDisplay_Delay_Frames",
@@ -2531,7 +2530,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    first_display_type: Optional[str] = field(
+    first_display_type: str | None = field(
         default=None,
         metadata={
             "name": "FirstDisplay_Type",
@@ -2539,7 +2538,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    first_packet_order: Optional[int] = field(
+    first_packet_order: int | None = field(
         default=None,
         metadata={
             "name": "FirstPacketOrder",
@@ -2547,7 +2546,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    folder_name_last: Optional[str] = field(
+    folder_name_last: str | None = field(
         default=None,
         metadata={
             "name": "FolderName_Last",
@@ -2555,7 +2554,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    folder_name: Optional[str] = field(
+    folder_name: str | None = field(
         default=None,
         metadata={
             "name": "FolderName",
@@ -2563,7 +2562,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    footer_size: Optional[int] = field(
+    footer_size: int | None = field(
         default=None,
         metadata={
             "name": "FooterSize",
@@ -2571,7 +2570,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    forced: Optional[str] = field(
+    forced: str | None = field(
         default=None,
         metadata={
             "name": "Forced",
@@ -2579,7 +2578,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    forced_string: Optional[str] = field(
+    forced_string: str | None = field(
         default=None,
         metadata={
             "name": "Forced_String",
@@ -2587,7 +2586,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_additional_features: Optional[str] = field(
+    format_additional_features: str | None = field(
         default=None,
         metadata={
             "name": "Format_AdditionalFeatures",
@@ -2595,7 +2594,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_commercial_if_any: Optional[str] = field(
+    format_commercial_if_any: str | None = field(
         default=None,
         metadata={
             "name": "Format_Commercial_IfAny",
@@ -2603,7 +2602,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_commercial: Optional[str] = field(
+    format_commercial: str | None = field(
         default=None,
         metadata={
             "name": "Format_Commercial",
@@ -2611,7 +2610,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_compression: Optional[str] = field(
+    format_compression: str | None = field(
         default=None,
         metadata={
             "name": "Format_Compression",
@@ -2619,7 +2618,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_extensions: Optional[str] = field(
+    format_extensions: str | None = field(
         default=None,
         metadata={
             "name": "Format_Extensions",
@@ -2627,7 +2626,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_info: Optional[str] = field(
+    format_info: str | None = field(
         default=None,
         metadata={
             "name": "Format_Info",
@@ -2635,7 +2634,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_level: Optional[str] = field(
+    format_level: str | None = field(
         default=None,
         metadata={
             "name": "Format_Level",
@@ -2643,7 +2642,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format: Optional[str] = field(
+    format: str | None = field(
         default=None,
         metadata={
             "name": "Format",
@@ -2651,7 +2650,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_profile: Optional[str] = field(
+    format_profile: str | None = field(
         default=None,
         metadata={
             "name": "Format_Profile",
@@ -2659,7 +2658,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_bvop: Optional[str] = field(
+    format_settings_bvop: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_BVOP",
@@ -2667,7 +2666,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_bvop_string: Optional[str] = field(
+    format_settings_bvop_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_BVOP_String",
@@ -2675,7 +2674,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_cabac: Optional[str] = field(
+    format_settings_cabac: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_CABAC",
@@ -2683,7 +2682,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_cabac_string: Optional[str] = field(
+    format_settings_cabac_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_CABAC_String",
@@ -2691,7 +2690,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_emphasis: Optional[str] = field(
+    format_settings_emphasis: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Emphasis",
@@ -2699,7 +2698,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_endianness: Optional[str] = field(
+    format_settings_endianness: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Endianness",
@@ -2707,7 +2706,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_firm: Optional[str] = field(
+    format_settings_firm: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Firm",
@@ -2715,7 +2714,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_floor: Optional[str] = field(
+    format_settings_floor: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Floor",
@@ -2723,7 +2722,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_frame_mode: Optional[str] = field(
+    format_settings_frame_mode: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_FrameMode",
@@ -2731,7 +2730,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_gmc: Optional[int] = field(
+    format_settings_gmc: int | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_GMC",
@@ -2739,7 +2738,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_gmc_string: Optional[str] = field(
+    format_settings_gmc_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_GMC_String",
@@ -2747,7 +2746,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_gop: Optional[str] = field(
+    format_settings_gop: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_GOP",
@@ -2755,7 +2754,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_itu: Optional[str] = field(
+    format_settings_itu: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_ITU",
@@ -2763,7 +2762,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_law: Optional[str] = field(
+    format_settings_law: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Law",
@@ -2771,7 +2770,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_matrix_data: Optional[str] = field(
+    format_settings_matrix_data: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Matrix_Data",
@@ -2779,7 +2778,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_matrix: Optional[str] = field(
+    format_settings_matrix: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Matrix",
@@ -2787,7 +2786,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_matrix_string: Optional[str] = field(
+    format_settings_matrix_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Matrix_String",
@@ -2795,7 +2794,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings: Optional[str] = field(
+    format_settings: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings",
@@ -2803,7 +2802,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_mode_extension: Optional[str] = field(
+    format_settings_mode_extension: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_ModeExtension",
@@ -2811,7 +2810,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_mode: Optional[str] = field(
+    format_settings_mode: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Mode",
@@ -2819,7 +2818,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_packing: Optional[str] = field(
+    format_settings_packing: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Packing",
@@ -2827,7 +2826,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_picture_structure: Optional[str] = field(
+    format_settings_picture_structure: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_PictureStructure",
@@ -2835,7 +2834,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_ps: Optional[str] = field(
+    format_settings_ps: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_PS",
@@ -2843,7 +2842,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_ps_string: Optional[str] = field(
+    format_settings_ps_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_PS_String",
@@ -2851,7 +2850,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_pulldown: Optional[str] = field(
+    format_settings_pulldown: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Pulldown",
@@ -2859,7 +2858,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_qpel: Optional[str] = field(
+    format_settings_qpel: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_QPel",
@@ -2867,7 +2866,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_qpel_string: Optional[str] = field(
+    format_settings_qpel_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_QPel_String",
@@ -2875,7 +2874,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_ref_frames: Optional[int] = field(
+    format_settings_ref_frames: int | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_RefFrames",
@@ -2883,7 +2882,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_ref_frames_string: Optional[str] = field(
+    format_settings_ref_frames_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_RefFrames_String",
@@ -2891,7 +2890,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_sbr: Optional[str] = field(
+    format_settings_sbr: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_SBR",
@@ -2899,7 +2898,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_sbr_string: Optional[str] = field(
+    format_settings_sbr_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_SBR_String",
@@ -2907,7 +2906,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_sign: Optional[str] = field(
+    format_settings_sign: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Sign",
@@ -2915,7 +2914,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_slice_count: Optional[int] = field(
+    format_settings_slice_count: int | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_SliceCount",
@@ -2923,7 +2922,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_slice_count_string: Optional[str] = field(
+    format_settings_slice_count_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_SliceCount_String",
@@ -2931,7 +2930,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_settings_wrapping: Optional[str] = field(
+    format_settings_wrapping: str | None = field(
         default=None,
         metadata={
             "name": "Format_Settings_Wrapping",
@@ -2939,7 +2938,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_string: Optional[str] = field(
+    format_string: str | None = field(
         default=None,
         metadata={
             "name": "Format_String",
@@ -2947,7 +2946,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_tier: Optional[str] = field(
+    format_tier: str | None = field(
         default=None,
         metadata={
             "name": "Format_Tier",
@@ -2955,7 +2954,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_url: Optional[str] = field(
+    format_url: str | None = field(
         default=None,
         metadata={
             "name": "Format_Url",
@@ -2963,7 +2962,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    format_version: Optional[str] = field(
+    format_version: str | None = field(
         default=None,
         metadata={
             "name": "Format_Version",
@@ -2971,7 +2970,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_count: Optional[int] = field(
+    frame_count: int | None = field(
         default=None,
         metadata={
             "name": "FrameCount",
@@ -2979,7 +2978,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_den: Optional[int] = field(
+    frame_rate_den: int | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Den",
@@ -2987,7 +2986,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_maximum: Optional[float] = field(
+    frame_rate_maximum: float | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Maximum",
@@ -2995,7 +2994,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_maximum_string: Optional[str] = field(
+    frame_rate_maximum_string: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Maximum_String",
@@ -3003,7 +3002,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_minimum: Optional[float] = field(
+    frame_rate_minimum: float | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Minimum",
@@ -3011,7 +3010,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_minimum_string: Optional[str] = field(
+    frame_rate_minimum_string: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Minimum_String",
@@ -3019,7 +3018,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate: Optional[float] = field(
+    frame_rate: float | None = field(
         default=None,
         metadata={
             "name": "FrameRate",
@@ -3027,7 +3026,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_mode: Optional[str] = field(
+    frame_rate_mode: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Mode",
@@ -3035,7 +3034,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_mode_original: Optional[str] = field(
+    frame_rate_mode_original: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Mode_Original",
@@ -3043,7 +3042,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_mode_original_string: Optional[str] = field(
+    frame_rate_mode_original_string: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Mode_Original_String",
@@ -3051,7 +3050,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_mode_string: Optional[str] = field(
+    frame_rate_mode_string: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Mode_String",
@@ -3059,7 +3058,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_nominal: Optional[float] = field(
+    frame_rate_nominal: float | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Nominal",
@@ -3067,7 +3066,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_nominal_string: Optional[str] = field(
+    frame_rate_nominal_string: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Nominal_String",
@@ -3075,7 +3074,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_num: Optional[int] = field(
+    frame_rate_num: int | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Num",
@@ -3083,7 +3082,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_original_den: Optional[float] = field(
+    frame_rate_original_den: float | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Original_Den",
@@ -3091,7 +3090,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_original: Optional[float] = field(
+    frame_rate_original: float | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Original",
@@ -3099,7 +3098,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_original_num: Optional[float] = field(
+    frame_rate_original_num: float | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Original_Num",
@@ -3107,7 +3106,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_original_string: Optional[str] = field(
+    frame_rate_original_string: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Original_String",
@@ -3115,7 +3114,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_real: Optional[float] = field(
+    frame_rate_real: float | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Real",
@@ -3123,7 +3122,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_real_string: Optional[str] = field(
+    frame_rate_real_string: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_Real_String",
@@ -3131,7 +3130,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    frame_rate_string: Optional[str] = field(
+    frame_rate_string: str | None = field(
         default=None,
         metadata={
             "name": "FrameRate_String",
@@ -3139,7 +3138,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    general_count: Optional[int] = field(
+    general_count: int | None = field(
         default=None,
         metadata={
             "name": "GeneralCount",
@@ -3147,7 +3146,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    genre: Optional[str] = field(
+    genre: str | None = field(
         default=None,
         metadata={
             "name": "Genre",
@@ -3155,7 +3154,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    gop_open_closed_first_frame: Optional[str] = field(
+    gop_open_closed_first_frame: str | None = field(
         default=None,
         metadata={
             "name": "Gop_OpenClosed_FirstFrame",
@@ -3163,7 +3162,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    gop_open_closed_first_frame_string: Optional[str] = field(
+    gop_open_closed_first_frame_string: str | None = field(
         default=None,
         metadata={
             "name": "Gop_OpenClosed_FirstFrame_String",
@@ -3171,7 +3170,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    gop_open_closed: Optional[str] = field(
+    gop_open_closed: str | None = field(
         default=None,
         metadata={
             "name": "Gop_OpenClosed",
@@ -3179,7 +3178,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    gop_open_closed_string: Optional[str] = field(
+    gop_open_closed_string: str | None = field(
         default=None,
         metadata={
             "name": "Gop_OpenClosed_String",
@@ -3187,7 +3186,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    grouping: Optional[str] = field(
+    grouping: str | None = field(
         default=None,
         metadata={
             "name": "Grouping",
@@ -3195,7 +3194,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    hdr_format_commercial: Optional[str] = field(
+    hdr_format_commercial: str | None = field(
         default=None,
         metadata={
             "name": "HDR_Format_Commercial",
@@ -3203,7 +3202,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    hdr_format_compatibility: Optional[str] = field(
+    hdr_format_compatibility: str | None = field(
         default=None,
         metadata={
             "name": "HDR_Format_Compatibility",
@@ -3211,7 +3210,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    hdr_format_level: Optional[str] = field(
+    hdr_format_level: str | None = field(
         default=None,
         metadata={
             "name": "HDR_Format_Level",
@@ -3219,7 +3218,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    hdr_format: Optional[str] = field(
+    hdr_format: str | None = field(
         default=None,
         metadata={
             "name": "HDR_Format",
@@ -3227,7 +3226,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    hdr_format_profile: Optional[str] = field(
+    hdr_format_profile: str | None = field(
         default=None,
         metadata={
             "name": "HDR_Format_Profile",
@@ -3235,7 +3234,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    hdr_format_settings: Optional[str] = field(
+    hdr_format_settings: str | None = field(
         default=None,
         metadata={
             "name": "HDR_Format_Settings",
@@ -3243,7 +3242,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    hdr_format_string: Optional[str] = field(
+    hdr_format_string: str | None = field(
         default=None,
         metadata={
             "name": "HDR_Format_String",
@@ -3251,7 +3250,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    hdr_format_version: Optional[str] = field(
+    hdr_format_version: str | None = field(
         default=None,
         metadata={
             "name": "HDR_Format_Version",
@@ -3259,7 +3258,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    header_size: Optional[int] = field(
+    header_size: int | None = field(
         default=None,
         metadata={
             "name": "HeaderSize",
@@ -3267,7 +3266,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    height_clean_aperture: Optional[int] = field(
+    height_clean_aperture: int | None = field(
         default=None,
         metadata={
             "name": "Height_CleanAperture",
@@ -3275,7 +3274,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    height_clean_aperture_string: Optional[str] = field(
+    height_clean_aperture_string: str | None = field(
         default=None,
         metadata={
             "name": "Height_CleanAperture_String",
@@ -3283,7 +3282,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    height: Optional[int] = field(
+    height: int | None = field(
         default=None,
         metadata={
             "name": "Height",
@@ -3291,7 +3290,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    height_offset: Optional[int] = field(
+    height_offset: int | None = field(
         default=None,
         metadata={
             "name": "Height_Offset",
@@ -3299,7 +3298,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    height_offset_string: Optional[str] = field(
+    height_offset_string: str | None = field(
         default=None,
         metadata={
             "name": "Height_Offset_String",
@@ -3307,7 +3306,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    height_original: Optional[int] = field(
+    height_original: int | None = field(
         default=None,
         metadata={
             "name": "Height_Original",
@@ -3315,7 +3314,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    height_original_string: Optional[str] = field(
+    height_original_string: str | None = field(
         default=None,
         metadata={
             "name": "Height_Original_String",
@@ -3323,7 +3322,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    height_string: Optional[str] = field(
+    height_string: str | None = field(
         default=None,
         metadata={
             "name": "Height_String",
@@ -3331,7 +3330,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    icra: Optional[str] = field(
+    icra: str | None = field(
         default=None,
         metadata={
             "name": "ICRA",
@@ -3339,7 +3338,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "name": "ID",
@@ -3347,7 +3346,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    id_string: Optional[str] = field(
+    id_string: str | None = field(
         default=None,
         metadata={
             "name": "ID_String",
@@ -3355,7 +3354,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    image_codec_list: Optional[str] = field(
+    image_codec_list: str | None = field(
         default=None,
         metadata={
             "name": "Image_Codec_List",
@@ -3363,7 +3362,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    image_count: Optional[int] = field(
+    image_count: int | None = field(
         default=None,
         metadata={
             "name": "ImageCount",
@@ -3371,7 +3370,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    image_format_list: Optional[str] = field(
+    image_format_list: str | None = field(
         default=None,
         metadata={
             "name": "Image_Format_List",
@@ -3379,7 +3378,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    image_format_with_hint_list: Optional[str] = field(
+    image_format_with_hint_list: str | None = field(
         default=None,
         metadata={
             "name": "Image_Format_WithHint_List",
@@ -3387,7 +3386,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    image_language_list: Optional[str] = field(
+    image_language_list: str | None = field(
         default=None,
         metadata={
             "name": "Image_Language_List",
@@ -3395,7 +3394,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    inform: Optional[str] = field(
+    inform: str | None = field(
         default=None,
         metadata={
             "name": "Inform",
@@ -3403,7 +3402,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    interlacement: Optional[str] = field(
+    interlacement: str | None = field(
         default=None,
         metadata={
             "name": "Interlacement",
@@ -3411,7 +3410,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    interlacement_string: Optional[str] = field(
+    interlacement_string: str | None = field(
         default=None,
         metadata={
             "name": "Interlacement_String",
@@ -3419,7 +3418,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    interleaved: Optional[str] = field(
+    interleaved: str | None = field(
         default=None,
         metadata={
             "name": "Interleaved",
@@ -3427,7 +3426,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    interleave_duration: Optional[float] = field(
+    interleave_duration: float | None = field(
         default=None,
         metadata={
             "name": "Interleave_Duration",
@@ -3435,7 +3434,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    interleave_duration_string: Optional[str] = field(
+    interleave_duration_string: str | None = field(
         default=None,
         metadata={
             "name": "Interleave_Duration_String",
@@ -3443,7 +3442,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    interleave_preload: Optional[float] = field(
+    interleave_preload: float | None = field(
         default=None,
         metadata={
             "name": "Interleave_Preload",
@@ -3451,7 +3450,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    interleave_preload_string: Optional[str] = field(
+    interleave_preload_string: str | None = field(
         default=None,
         metadata={
             "name": "Interleave_Preload_String",
@@ -3459,7 +3458,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    interleave_video_frames: Optional[float] = field(
+    interleave_video_frames: float | None = field(
         default=None,
         metadata={
             "name": "Interleave_VideoFrames",
@@ -3467,7 +3466,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    internet_media_type: Optional[str] = field(
+    internet_media_type: str | None = field(
         default=None,
         metadata={
             "name": "InternetMediaType",
@@ -3475,7 +3474,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    isbn: Optional[str] = field(
+    isbn: str | None = field(
         default=None,
         metadata={
             "name": "ISBN",
@@ -3483,7 +3482,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    isrc: Optional[str] = field(
+    isrc: str | None = field(
         default=None,
         metadata={
             "name": "ISRC",
@@ -3491,7 +3490,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    is_streamable: Optional[str] = field(
+    is_streamable: str | None = field(
         default=None,
         metadata={
             "name": "IsStreamable",
@@ -3499,7 +3498,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    keywords: Optional[str] = field(
+    keywords: str | None = field(
         default=None,
         metadata={
             "name": "Keywords",
@@ -3507,7 +3506,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    label_code: Optional[str] = field(
+    label_code: str | None = field(
         default=None,
         metadata={
             "name": "LabelCode",
@@ -3515,7 +3514,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    label: Optional[str] = field(
+    label: str | None = field(
         default=None,
         metadata={
             "name": "Label",
@@ -3523,7 +3522,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    language: Optional[str] = field(
+    language: str | None = field(
         default=None,
         metadata={
             "name": "Language",
@@ -3531,7 +3530,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    language_more: Optional[str] = field(
+    language_more: str | None = field(
         default=None,
         metadata={
             "name": "Language_More",
@@ -3539,7 +3538,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    language_string1: Optional[str] = field(
+    language_string1: str | None = field(
         default=None,
         metadata={
             "name": "Language_String1",
@@ -3547,7 +3546,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    language_string2: Optional[str] = field(
+    language_string2: str | None = field(
         default=None,
         metadata={
             "name": "Language_String2",
@@ -3555,7 +3554,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    language_string3: Optional[str] = field(
+    language_string3: str | None = field(
         default=None,
         metadata={
             "name": "Language_String3",
@@ -3563,7 +3562,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    language_string4: Optional[str] = field(
+    language_string4: str | None = field(
         default=None,
         metadata={
             "name": "Language_String4",
@@ -3571,7 +3570,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    language_string: Optional[str] = field(
+    language_string: str | None = field(
         default=None,
         metadata={
             "name": "Language_String",
@@ -3579,7 +3578,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    law_rating: Optional[str] = field(
+    law_rating: str | None = field(
         default=None,
         metadata={
             "name": "LawRating",
@@ -3587,7 +3586,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    law_rating_reason: Optional[str] = field(
+    law_rating_reason: str | None = field(
         default=None,
         metadata={
             "name": "LawRating_Reason",
@@ -3595,7 +3594,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    lccn: Optional[str] = field(
+    lccn: str | None = field(
         default=None,
         metadata={
             "name": "LCCN",
@@ -3603,7 +3602,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    lightness: Optional[str] = field(
+    lightness: str | None = field(
         default=None,
         metadata={
             "name": "Lightness",
@@ -3611,7 +3610,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    lines_count: Optional[str] = field(
+    lines_count: str | None = field(
         default=None,
         metadata={
             "name": "Lines_Count",
@@ -3619,7 +3618,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    lines_max_count_per_event: Optional[str] = field(
+    lines_max_count_per_event: str | None = field(
         default=None,
         metadata={
             "name": "Lines_MaxCountPerEvent",
@@ -3627,7 +3626,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    list_value: Optional[str] = field(
+    list_value: str | None = field(
         default=None,
         metadata={
             "name": "List",
@@ -3635,7 +3634,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    list_stream_kind: Optional[str] = field(
+    list_stream_kind: str | None = field(
         default=None,
         metadata={
             "name": "List_StreamKind",
@@ -3643,7 +3642,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    list_stream_pos: Optional[str] = field(
+    list_stream_pos: str | None = field(
         default=None,
         metadata={
             "name": "List_StreamPos",
@@ -3651,7 +3650,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    list_string: Optional[str] = field(
+    list_string: str | None = field(
         default=None,
         metadata={
             "name": "List_String",
@@ -3659,7 +3658,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    lyricist: Optional[str] = field(
+    lyricist: str | None = field(
         default=None,
         metadata={
             "name": "Lyricist",
@@ -3667,7 +3666,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    lyrics: Optional[str] = field(
+    lyrics: str | None = field(
         default=None,
         metadata={
             "name": "Lyrics",
@@ -3675,7 +3674,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastered_by: Optional[str] = field(
+    mastered_by: str | None = field(
         default=None,
         metadata={
             "name": "MasteredBy",
@@ -3683,7 +3682,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastered_date: Optional[str] = field(
+    mastered_date: str | None = field(
         default=None,
         metadata={
             "name": "Mastered_Date",
@@ -3691,7 +3690,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastering_display_color_primaries: Optional[str] = field(
+    mastering_display_color_primaries: str | None = field(
         default=None,
         metadata={
             "name": "MasteringDisplay_ColorPrimaries",
@@ -3699,7 +3698,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastering_display_color_primaries_original: Optional[str] = field(
+    mastering_display_color_primaries_original: str | None = field(
         default=None,
         metadata={
             "name": "MasteringDisplay_ColorPrimaries_Original",
@@ -3707,7 +3706,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastering_display_color_primaries_original_source: Optional[str] = field(
+    mastering_display_color_primaries_original_source: str | None = field(
         default=None,
         metadata={
             "name": "MasteringDisplay_ColorPrimaries_Original_Source",
@@ -3715,7 +3714,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastering_display_color_primaries_source: Optional[str] = field(
+    mastering_display_color_primaries_source: str | None = field(
         default=None,
         metadata={
             "name": "MasteringDisplay_ColorPrimaries_Source",
@@ -3723,7 +3722,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastering_display_luminance: Optional[str] = field(
+    mastering_display_luminance: str | None = field(
         default=None,
         metadata={
             "name": "MasteringDisplay_Luminance",
@@ -3731,7 +3730,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastering_display_luminance_original: Optional[str] = field(
+    mastering_display_luminance_original: str | None = field(
         default=None,
         metadata={
             "name": "MasteringDisplay_Luminance_Original",
@@ -3739,7 +3738,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastering_display_luminance_original_source: Optional[str] = field(
+    mastering_display_luminance_original_source: str | None = field(
         default=None,
         metadata={
             "name": "MasteringDisplay_Luminance_Original_Source",
@@ -3747,7 +3746,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mastering_display_luminance_source: Optional[str] = field(
+    mastering_display_luminance_source: str | None = field(
         default=None,
         metadata={
             "name": "MasteringDisplay_Luminance_Source",
@@ -3755,7 +3754,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_channel_positions: Optional[str] = field(
+    matrix_channel_positions: str | None = field(
         default=None,
         metadata={
             "name": "Matrix_ChannelPositions",
@@ -3763,7 +3762,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_channel_positions_string2: Optional[str] = field(
+    matrix_channel_positions_string2: str | None = field(
         default=None,
         metadata={
             "name": "Matrix_ChannelPositions_String2",
@@ -3771,7 +3770,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_channels: Optional[int] = field(
+    matrix_channels: int | None = field(
         default=None,
         metadata={
             "name": "Matrix_Channels",
@@ -3779,7 +3778,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_channels_string: Optional[str] = field(
+    matrix_channels_string: str | None = field(
         default=None,
         metadata={
             "name": "Matrix_Channels_String",
@@ -3787,14 +3786,14 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_coefficients: Optional[str] = field(
+    matrix_coefficients: str | None = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_coefficients_original: Optional[str] = field(
+    matrix_coefficients_original: str | None = field(
         default=None,
         metadata={
             "name": "matrix_coefficients_Original",
@@ -3802,7 +3801,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_coefficients_original_source: Optional[str] = field(
+    matrix_coefficients_original_source: str | None = field(
         default=None,
         metadata={
             "name": "matrix_coefficients_Original_Source",
@@ -3810,7 +3809,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_coefficients_source: Optional[str] = field(
+    matrix_coefficients_source: str | None = field(
         default=None,
         metadata={
             "name": "matrix_coefficients_Source",
@@ -3818,7 +3817,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    matrix_format: Optional[str] = field(
+    matrix_format: str | None = field(
         default=None,
         metadata={
             "name": "Matrix_Format",
@@ -3826,7 +3825,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    max_cll: Optional[str] = field(
+    max_cll: str | None = field(
         default=None,
         metadata={
             "name": "MaxCLL",
@@ -3834,7 +3833,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    max_cll_original: Optional[str] = field(
+    max_cll_original: str | None = field(
         default=None,
         metadata={
             "name": "MaxCLL_Original",
@@ -3842,7 +3841,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    max_cll_original_source: Optional[str] = field(
+    max_cll_original_source: str | None = field(
         default=None,
         metadata={
             "name": "MaxCLL_Original_Source",
@@ -3850,7 +3849,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    max_cll_source: Optional[str] = field(
+    max_cll_source: str | None = field(
         default=None,
         metadata={
             "name": "MaxCLL_Source",
@@ -3858,7 +3857,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    max_fall: Optional[str] = field(
+    max_fall: str | None = field(
         default=None,
         metadata={
             "name": "MaxFALL",
@@ -3866,7 +3865,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    max_fall_original: Optional[str] = field(
+    max_fall_original: str | None = field(
         default=None,
         metadata={
             "name": "MaxFALL_Original",
@@ -3874,7 +3873,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    max_fall_original_source: Optional[str] = field(
+    max_fall_original_source: str | None = field(
         default=None,
         metadata={
             "name": "MaxFALL_Original_Source",
@@ -3882,7 +3881,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    max_fall_source: Optional[str] = field(
+    max_fall_source: str | None = field(
         default=None,
         metadata={
             "name": "MaxFALL_Source",
@@ -3890,7 +3889,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    menu_codec_list: Optional[str] = field(
+    menu_codec_list: str | None = field(
         default=None,
         metadata={
             "name": "Menu_Codec_List",
@@ -3898,7 +3897,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    menu_count: Optional[int] = field(
+    menu_count: int | None = field(
         default=None,
         metadata={
             "name": "MenuCount",
@@ -3906,7 +3905,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    menu_format_list: Optional[str] = field(
+    menu_format_list: str | None = field(
         default=None,
         metadata={
             "name": "Menu_Format_List",
@@ -3914,7 +3913,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    menu_format_with_hint_list: Optional[str] = field(
+    menu_format_with_hint_list: str | None = field(
         default=None,
         metadata={
             "name": "Menu_Format_WithHint_List",
@@ -3922,7 +3921,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    menu_id: Optional[str] = field(
+    menu_id: str | None = field(
         default=None,
         metadata={
             "name": "MenuID",
@@ -3930,7 +3929,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    menu_id_string: Optional[str] = field(
+    menu_id_string: str | None = field(
         default=None,
         metadata={
             "name": "MenuID_String",
@@ -3938,7 +3937,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    menu_language_list: Optional[str] = field(
+    menu_language_list: str | None = field(
         default=None,
         metadata={
             "name": "Menu_Language_List",
@@ -3946,7 +3945,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mood: Optional[str] = field(
+    mood: str | None = field(
         default=None,
         metadata={
             "name": "Mood",
@@ -3954,7 +3953,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    movie_country: Optional[str] = field(
+    movie_country: str | None = field(
         default=None,
         metadata={
             "name": "Movie_Country",
@@ -3962,7 +3961,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    movie: Optional[str] = field(
+    movie: str | None = field(
         default=None,
         metadata={
             "name": "Movie",
@@ -3970,7 +3969,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    movie_more: Optional[str] = field(
+    movie_more: str | None = field(
         default=None,
         metadata={
             "name": "Movie_More",
@@ -3978,7 +3977,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    movie_url: Optional[str] = field(
+    movie_url: str | None = field(
         default=None,
         metadata={
             "name": "Movie_Url",
@@ -3986,7 +3985,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    multi_view_base_profile: Optional[str] = field(
+    multi_view_base_profile: str | None = field(
         default=None,
         metadata={
             "name": "MultiView_BaseProfile",
@@ -3994,7 +3993,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    multi_view_count: Optional[str] = field(
+    multi_view_count: str | None = field(
         default=None,
         metadata={
             "name": "MultiView_Count",
@@ -4002,7 +4001,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    multi_view_layout: Optional[str] = field(
+    multi_view_layout: str | None = field(
         default=None,
         metadata={
             "name": "MultiView_Layout",
@@ -4010,7 +4009,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    music_by: Optional[str] = field(
+    music_by: str | None = field(
         default=None,
         metadata={
             "name": "MusicBy",
@@ -4018,7 +4017,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    muxing_mode: Optional[str] = field(
+    muxing_mode: str | None = field(
         default=None,
         metadata={
             "name": "MuxingMode",
@@ -4026,7 +4025,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    muxing_mode_more_info: Optional[str] = field(
+    muxing_mode_more_info: str | None = field(
         default=None,
         metadata={
             "name": "MuxingMode_MoreInfo",
@@ -4034,7 +4033,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    network_name: Optional[str] = field(
+    network_name: str | None = field(
         default=None,
         metadata={
             "name": "NetworkName",
@@ -4042,7 +4041,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_album: Optional[str] = field(
+    original_album: str | None = field(
         default=None,
         metadata={
             "name": "Original_Album",
@@ -4050,7 +4049,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_lyricist: Optional[str] = field(
+    original_lyricist: str | None = field(
         default=None,
         metadata={
             "name": "Original_Lyricist",
@@ -4058,7 +4057,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_movie: Optional[str] = field(
+    original_movie: str | None = field(
         default=None,
         metadata={
             "name": "Original_Movie",
@@ -4066,7 +4065,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_network_name: Optional[str] = field(
+    original_network_name: str | None = field(
         default=None,
         metadata={
             "name": "Original_NetworkName",
@@ -4074,7 +4073,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    mediaarea_net_mediainfo_original_network_name: Optional[str] = field(
+    mediaarea_net_mediainfo_original_network_name: str | None = field(
         default=None,
         metadata={
             "name": "OriginalNetworkName",
@@ -4082,7 +4081,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_part: Optional[str] = field(
+    original_part: str | None = field(
         default=None,
         metadata={
             "name": "Original_Part",
@@ -4090,7 +4089,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_performer: Optional[str] = field(
+    original_performer: str | None = field(
         default=None,
         metadata={
             "name": "Original_Performer",
@@ -4098,7 +4097,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_released_date: Optional[str] = field(
+    original_released_date: str | None = field(
         default=None,
         metadata={
             "name": "Original_Released_Date",
@@ -4106,7 +4105,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_form_cropped: Optional[str] = field(
+    original_source_form_cropped: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceForm_Cropped",
@@ -4114,7 +4113,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_form_distributed_by: Optional[str] = field(
+    original_source_form_distributed_by: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceForm_DistributedBy",
@@ -4122,7 +4121,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_form: Optional[str] = field(
+    original_source_form: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceForm",
@@ -4130,7 +4129,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_form_name: Optional[str] = field(
+    original_source_form_name: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceForm_Name",
@@ -4138,7 +4137,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_form_num_colors: Optional[str] = field(
+    original_source_form_num_colors: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceForm_NumColors",
@@ -4146,7 +4145,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_form_sharpness: Optional[str] = field(
+    original_source_form_sharpness: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceForm_Sharpness",
@@ -4154,7 +4153,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_medium_id: Optional[str] = field(
+    original_source_medium_id: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceMedium_ID",
@@ -4162,7 +4161,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_medium_id_string: Optional[str] = field(
+    original_source_medium_id_string: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceMedium_ID_String",
@@ -4170,7 +4169,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_source_medium: Optional[str] = field(
+    original_source_medium: str | None = field(
         default=None,
         metadata={
             "name": "OriginalSourceMedium",
@@ -4178,7 +4177,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    original_track: Optional[str] = field(
+    original_track: str | None = field(
         default=None,
         metadata={
             "name": "Original_Track",
@@ -4186,7 +4185,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    other_codec_list: Optional[str] = field(
+    other_codec_list: str | None = field(
         default=None,
         metadata={
             "name": "Other_Codec_List",
@@ -4194,7 +4193,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    other_count: Optional[int] = field(
+    other_count: int | None = field(
         default=None,
         metadata={
             "name": "OtherCount",
@@ -4202,7 +4201,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    other_format_list: Optional[str] = field(
+    other_format_list: str | None = field(
         default=None,
         metadata={
             "name": "Other_Format_List",
@@ -4210,7 +4209,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    other_format_with_hint_list: Optional[str] = field(
+    other_format_with_hint_list: str | None = field(
         default=None,
         metadata={
             "name": "Other_Format_WithHint_List",
@@ -4218,7 +4217,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    other_language_list: Optional[str] = field(
+    other_language_list: str | None = field(
         default=None,
         metadata={
             "name": "Other_Language_List",
@@ -4226,7 +4225,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_maximum: Optional[float] = field(
+    overall_bit_rate_maximum: float | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_Maximum",
@@ -4234,7 +4233,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_maximum_string: Optional[str] = field(
+    overall_bit_rate_maximum_string: str | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_Maximum_String",
@@ -4242,7 +4241,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_minimum: Optional[float] = field(
+    overall_bit_rate_minimum: float | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_Minimum",
@@ -4250,7 +4249,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_minimum_string: Optional[str] = field(
+    overall_bit_rate_minimum_string: str | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_Minimum_String",
@@ -4258,7 +4257,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate: Optional[float] = field(
+    overall_bit_rate: float | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate",
@@ -4266,7 +4265,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_mode: Optional[str] = field(
+    overall_bit_rate_mode: str | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_Mode",
@@ -4274,7 +4273,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_mode_string: Optional[str] = field(
+    overall_bit_rate_mode_string: str | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_Mode_String",
@@ -4282,7 +4281,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_nominal: Optional[float] = field(
+    overall_bit_rate_nominal: float | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_Nominal",
@@ -4290,7 +4289,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_nominal_string: Optional[str] = field(
+    overall_bit_rate_nominal_string: str | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_Nominal_String",
@@ -4298,7 +4297,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    overall_bit_rate_string: Optional[str] = field(
+    overall_bit_rate_string: str | None = field(
         default=None,
         metadata={
             "name": "OverallBitRate_String",
@@ -4306,7 +4305,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    owner: Optional[str] = field(
+    owner: str | None = field(
         default=None,
         metadata={
             "name": "Owner",
@@ -4314,7 +4313,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    package_name: Optional[str] = field(
+    package_name: str | None = field(
         default=None,
         metadata={
             "name": "PackageName",
@@ -4322,7 +4321,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    part: Optional[str] = field(
+    part: str | None = field(
         default=None,
         metadata={
             "name": "Part",
@@ -4330,7 +4329,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    part_position: Optional[int] = field(
+    part_position: int | None = field(
         default=None,
         metadata={
             "name": "Part_Position",
@@ -4338,7 +4337,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    part_position_total: Optional[int] = field(
+    part_position_total: int | None = field(
         default=None,
         metadata={
             "name": "Part_Position_Total",
@@ -4346,7 +4345,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    performer: Optional[str] = field(
+    performer: str | None = field(
         default=None,
         metadata={
             "name": "Performer",
@@ -4354,7 +4353,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    performer_sort: Optional[str] = field(
+    performer_sort: str | None = field(
         default=None,
         metadata={
             "name": "Performer_Sort",
@@ -4362,7 +4361,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    performer_url: Optional[str] = field(
+    performer_url: str | None = field(
         default=None,
         metadata={
             "name": "Performer_Url",
@@ -4370,7 +4369,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    period: Optional[str] = field(
+    period: str | None = field(
         default=None,
         metadata={
             "name": "Period",
@@ -4378,7 +4377,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    pixel_aspect_ratio_clean_aperture: Optional[float] = field(
+    pixel_aspect_ratio_clean_aperture: float | None = field(
         default=None,
         metadata={
             "name": "PixelAspectRatio_CleanAperture",
@@ -4386,7 +4385,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    pixel_aspect_ratio_clean_aperture_string: Optional[str] = field(
+    pixel_aspect_ratio_clean_aperture_string: str | None = field(
         default=None,
         metadata={
             "name": "PixelAspectRatio_CleanAperture_String",
@@ -4394,7 +4393,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    pixel_aspect_ratio: Optional[float] = field(
+    pixel_aspect_ratio: float | None = field(
         default=None,
         metadata={
             "name": "PixelAspectRatio",
@@ -4402,7 +4401,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    pixel_aspect_ratio_original: Optional[float] = field(
+    pixel_aspect_ratio_original: float | None = field(
         default=None,
         metadata={
             "name": "PixelAspectRatio_Original",
@@ -4410,7 +4409,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    pixel_aspect_ratio_original_string: Optional[str] = field(
+    pixel_aspect_ratio_original_string: str | None = field(
         default=None,
         metadata={
             "name": "PixelAspectRatio_Original_String",
@@ -4418,7 +4417,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    pixel_aspect_ratio_string: Optional[str] = field(
+    pixel_aspect_ratio_string: str | None = field(
         default=None,
         metadata={
             "name": "PixelAspectRatio_String",
@@ -4426,7 +4425,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    played_count: Optional[int] = field(
+    played_count: int | None = field(
         default=None,
         metadata={
             "name": "Played_Count",
@@ -4434,7 +4433,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    played_first_date: Optional[str] = field(
+    played_first_date: str | None = field(
         default=None,
         metadata={
             "name": "Played_First_Date",
@@ -4442,7 +4441,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    played_last_date: Optional[str] = field(
+    played_last_date: str | None = field(
         default=None,
         metadata={
             "name": "Played_Last_Date",
@@ -4450,7 +4449,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    podcast_category: Optional[str] = field(
+    podcast_category: str | None = field(
         default=None,
         metadata={
             "name": "PodcastCategory",
@@ -4458,7 +4457,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    producer_copyright: Optional[str] = field(
+    producer_copyright: str | None = field(
         default=None,
         metadata={
             "name": "Producer_Copyright",
@@ -4466,7 +4465,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    producer: Optional[str] = field(
+    producer: str | None = field(
         default=None,
         metadata={
             "name": "Producer",
@@ -4474,7 +4473,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    production_designer: Optional[str] = field(
+    production_designer: str | None = field(
         default=None,
         metadata={
             "name": "ProductionDesigner",
@@ -4482,7 +4481,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    production_studio: Optional[str] = field(
+    production_studio: str | None = field(
         default=None,
         metadata={
             "name": "ProductionStudio",
@@ -4490,7 +4489,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    publisher: Optional[str] = field(
+    publisher: str | None = field(
         default=None,
         metadata={
             "name": "Publisher",
@@ -4498,7 +4497,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    publisher_url: Optional[str] = field(
+    publisher_url: str | None = field(
         default=None,
         metadata={
             "name": "Publisher_URL",
@@ -4506,7 +4505,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    rating: Optional[str] = field(
+    rating: str | None = field(
         default=None,
         metadata={
             "name": "Rating",
@@ -4514,7 +4513,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    recorded_date: Optional[str] = field(
+    recorded_date: str | None = field(
         default=None,
         metadata={
             "name": "Recorded_Date",
@@ -4522,7 +4521,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    recorded_location: Optional[str] = field(
+    recorded_location: str | None = field(
         default=None,
         metadata={
             "name": "Recorded_Location",
@@ -4530,7 +4529,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    reel: Optional[str] = field(
+    reel: str | None = field(
         default=None,
         metadata={
             "name": "Reel",
@@ -4538,7 +4537,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    reel_position: Optional[int] = field(
+    reel_position: int | None = field(
         default=None,
         metadata={
             "name": "Reel_Position",
@@ -4546,7 +4545,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    reel_position_total: Optional[int] = field(
+    reel_position_total: int | None = field(
         default=None,
         metadata={
             "name": "Reel_Position_Total",
@@ -4554,7 +4553,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    released_date: Optional[str] = field(
+    released_date: str | None = field(
         default=None,
         metadata={
             "name": "Released_Date",
@@ -4562,7 +4561,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    remixed_by: Optional[str] = field(
+    remixed_by: str | None = field(
         default=None,
         metadata={
             "name": "RemixedBy",
@@ -4570,7 +4569,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    replay_gain_gain: Optional[str] = field(
+    replay_gain_gain: str | None = field(
         default=None,
         metadata={
             "name": "ReplayGain_Gain",
@@ -4578,7 +4577,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    replay_gain_gain_string: Optional[str] = field(
+    replay_gain_gain_string: str | None = field(
         default=None,
         metadata={
             "name": "ReplayGain_Gain_String",
@@ -4586,7 +4585,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    replay_gain_peak: Optional[str] = field(
+    replay_gain_peak: str | None = field(
         default=None,
         metadata={
             "name": "ReplayGain_Peak",
@@ -4594,7 +4593,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    resolution: Optional[int] = field(
+    resolution: int | None = field(
         default=None,
         metadata={
             "name": "Resolution",
@@ -4602,7 +4601,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    resolution_string: Optional[str] = field(
+    resolution_string: str | None = field(
         default=None,
         metadata={
             "name": "Resolution_String",
@@ -4610,7 +4609,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    rotation: Optional[str] = field(
+    rotation: str | None = field(
         default=None,
         metadata={
             "name": "Rotation",
@@ -4618,7 +4617,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    rotation_string: Optional[str] = field(
+    rotation_string: str | None = field(
         default=None,
         metadata={
             "name": "Rotation_String",
@@ -4626,7 +4625,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    sampled_height: Optional[int] = field(
+    sampled_height: int | None = field(
         default=None,
         metadata={
             "name": "Sampled_Height",
@@ -4634,7 +4633,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    sampled_width: Optional[int] = field(
+    sampled_width: int | None = field(
         default=None,
         metadata={
             "name": "Sampled_Width",
@@ -4642,7 +4641,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    samples_per_frame: Optional[float] = field(
+    samples_per_frame: float | None = field(
         default=None,
         metadata={
             "name": "SamplesPerFrame",
@@ -4650,7 +4649,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    sampling_count: Optional[int] = field(
+    sampling_count: int | None = field(
         default=None,
         metadata={
             "name": "SamplingCount",
@@ -4658,7 +4657,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    sampling_rate: Optional[float] = field(
+    sampling_rate: float | None = field(
         default=None,
         metadata={
             "name": "SamplingRate",
@@ -4666,7 +4665,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    sampling_rate_string: Optional[str] = field(
+    sampling_rate_string: str | None = field(
         default=None,
         metadata={
             "name": "SamplingRate_String",
@@ -4674,7 +4673,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_order: Optional[str] = field(
+    scan_order: str | None = field(
         default=None,
         metadata={
             "name": "ScanOrder",
@@ -4682,7 +4681,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_order_original: Optional[str] = field(
+    scan_order_original: str | None = field(
         default=None,
         metadata={
             "name": "ScanOrder_Original",
@@ -4690,7 +4689,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_order_original_string: Optional[str] = field(
+    scan_order_original_string: str | None = field(
         default=None,
         metadata={
             "name": "ScanOrder_Original_String",
@@ -4698,7 +4697,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_order_stored_displayed_inverted: Optional[str] = field(
+    scan_order_stored_displayed_inverted: str | None = field(
         default=None,
         metadata={
             "name": "ScanOrder_StoredDisplayedInverted",
@@ -4706,7 +4705,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_order_stored: Optional[str] = field(
+    scan_order_stored: str | None = field(
         default=None,
         metadata={
             "name": "ScanOrder_Stored",
@@ -4714,7 +4713,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_order_stored_string: Optional[str] = field(
+    scan_order_stored_string: str | None = field(
         default=None,
         metadata={
             "name": "ScanOrder_Stored_String",
@@ -4722,7 +4721,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_order_string: Optional[str] = field(
+    scan_order_string: str | None = field(
         default=None,
         metadata={
             "name": "ScanOrder_String",
@@ -4730,7 +4729,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_type: Optional[str] = field(
+    scan_type: str | None = field(
         default=None,
         metadata={
             "name": "ScanType",
@@ -4738,7 +4737,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_type_original: Optional[str] = field(
+    scan_type_original: str | None = field(
         default=None,
         metadata={
             "name": "ScanType_Original",
@@ -4746,7 +4745,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_type_original_string: Optional[str] = field(
+    scan_type_original_string: str | None = field(
         default=None,
         metadata={
             "name": "ScanType_Original_String",
@@ -4754,7 +4753,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_type_store_method_fields_per_block: Optional[str] = field(
+    scan_type_store_method_fields_per_block: str | None = field(
         default=None,
         metadata={
             "name": "ScanType_StoreMethod_FieldsPerBlock",
@@ -4762,7 +4761,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_type_store_method: Optional[str] = field(
+    scan_type_store_method: str | None = field(
         default=None,
         metadata={
             "name": "ScanType_StoreMethod",
@@ -4770,7 +4769,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_type_store_method_string: Optional[str] = field(
+    scan_type_store_method_string: str | None = field(
         default=None,
         metadata={
             "name": "ScanType_StoreMethod_String",
@@ -4778,7 +4777,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    scan_type_string: Optional[str] = field(
+    scan_type_string: str | None = field(
         default=None,
         metadata={
             "name": "ScanType_String",
@@ -4786,7 +4785,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    screenplay_by: Optional[str] = field(
+    screenplay_by: str | None = field(
         default=None,
         metadata={
             "name": "ScreenplayBy",
@@ -4794,7 +4793,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    season: Optional[str] = field(
+    season: str | None = field(
         default=None,
         metadata={
             "name": "Season",
@@ -4802,7 +4801,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    season_position: Optional[int] = field(
+    season_position: int | None = field(
         default=None,
         metadata={
             "name": "Season_Position",
@@ -4810,7 +4809,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    season_position_total: Optional[int] = field(
+    season_position_total: int | None = field(
         default=None,
         metadata={
             "name": "Season_Position_Total",
@@ -4818,7 +4817,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    service_channel: Optional[str] = field(
+    service_channel: str | None = field(
         default=None,
         metadata={
             "name": "ServiceChannel",
@@ -4826,7 +4825,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    service_kind: Optional[str] = field(
+    service_kind: str | None = field(
         default=None,
         metadata={
             "name": "ServiceKind",
@@ -4834,7 +4833,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    service_kind_string: Optional[str] = field(
+    service_kind_string: str | None = field(
         default=None,
         metadata={
             "name": "ServiceKind_String",
@@ -4842,7 +4841,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    service_name: Optional[str] = field(
+    service_name: str | None = field(
         default=None,
         metadata={
             "name": "ServiceName",
@@ -4850,7 +4849,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    service_provider: Optional[str] = field(
+    service_provider: str | None = field(
         default=None,
         metadata={
             "name": "ServiceProvider",
@@ -4858,7 +4857,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    service_provider_url: Optional[str] = field(
+    service_provider_url: str | None = field(
         default=None,
         metadata={
             "name": "ServiceProvider_Url",
@@ -4866,7 +4865,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    service_type: Optional[str] = field(
+    service_type: str | None = field(
         default=None,
         metadata={
             "name": "ServiceType",
@@ -4874,7 +4873,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    service_url: Optional[str] = field(
+    service_url: str | None = field(
         default=None,
         metadata={
             "name": "Service_Url",
@@ -4882,7 +4881,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    sound_engineer: Optional[str] = field(
+    sound_engineer: str | None = field(
         default=None,
         metadata={
             "name": "SoundEngineer",
@@ -4890,7 +4889,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_first_frame: Optional[float] = field(
+    source_duration_first_frame: float | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_FirstFrame",
@@ -4898,7 +4897,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_first_frame_string1: Optional[str] = field(
+    source_duration_first_frame_string1: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_FirstFrame_String1",
@@ -4906,7 +4905,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_first_frame_string2: Optional[str] = field(
+    source_duration_first_frame_string2: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_FirstFrame_String2",
@@ -4914,7 +4913,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_first_frame_string3: Optional[str] = field(
+    source_duration_first_frame_string3: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_FirstFrame_String3",
@@ -4922,7 +4921,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_first_frame_string4: Optional[str] = field(
+    source_duration_first_frame_string4: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_FirstFrame_String4",
@@ -4930,7 +4929,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_first_frame_string5: Optional[str] = field(
+    source_duration_first_frame_string5: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_FirstFrame_String5",
@@ -4938,7 +4937,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_first_frame_string: Optional[str] = field(
+    source_duration_first_frame_string: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_FirstFrame_String",
@@ -4946,7 +4945,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_last_frame: Optional[float] = field(
+    source_duration_last_frame: float | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_LastFrame",
@@ -4954,7 +4953,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_last_frame_string1: Optional[str] = field(
+    source_duration_last_frame_string1: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_LastFrame_String1",
@@ -4962,7 +4961,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_last_frame_string2: Optional[str] = field(
+    source_duration_last_frame_string2: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_LastFrame_String2",
@@ -4970,7 +4969,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_last_frame_string3: Optional[str] = field(
+    source_duration_last_frame_string3: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_LastFrame_String3",
@@ -4978,7 +4977,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_last_frame_string4: Optional[str] = field(
+    source_duration_last_frame_string4: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_LastFrame_String4",
@@ -4986,7 +4985,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_last_frame_string5: Optional[str] = field(
+    source_duration_last_frame_string5: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_LastFrame_String5",
@@ -4994,7 +4993,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_last_frame_string: Optional[str] = field(
+    source_duration_last_frame_string: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_LastFrame_String",
@@ -5002,7 +5001,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration: Optional[float] = field(
+    source_duration: float | None = field(
         default=None,
         metadata={
             "name": "Source_Duration",
@@ -5010,7 +5009,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_string1: Optional[str] = field(
+    source_duration_string1: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_String1",
@@ -5018,7 +5017,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_string2: Optional[str] = field(
+    source_duration_string2: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_String2",
@@ -5026,7 +5025,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_string3: Optional[str] = field(
+    source_duration_string3: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_String3",
@@ -5034,7 +5033,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_string4: Optional[str] = field(
+    source_duration_string4: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_String4",
@@ -5042,7 +5041,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_string5: Optional[str] = field(
+    source_duration_string5: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_String5",
@@ -5050,7 +5049,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_duration_string: Optional[str] = field(
+    source_duration_string: str | None = field(
         default=None,
         metadata={
             "name": "Source_Duration_String",
@@ -5058,7 +5057,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_frame_count: Optional[int] = field(
+    source_frame_count: int | None = field(
         default=None,
         metadata={
             "name": "Source_FrameCount",
@@ -5066,7 +5065,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_sampling_count: Optional[int] = field(
+    source_sampling_count: int | None = field(
         default=None,
         metadata={
             "name": "Source_SamplingCount",
@@ -5074,7 +5073,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_encoded: Optional[int] = field(
+    source_stream_size_encoded: int | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Encoded",
@@ -5082,7 +5081,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_encoded_proportion: Optional[str] = field(
+    source_stream_size_encoded_proportion: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Encoded_Proportion",
@@ -5090,7 +5089,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_encoded_string1: Optional[str] = field(
+    source_stream_size_encoded_string1: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Encoded_String1",
@@ -5098,7 +5097,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_encoded_string2: Optional[str] = field(
+    source_stream_size_encoded_string2: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Encoded_String2",
@@ -5106,7 +5105,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_encoded_string3: Optional[str] = field(
+    source_stream_size_encoded_string3: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Encoded_String3",
@@ -5114,7 +5113,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_encoded_string4: Optional[str] = field(
+    source_stream_size_encoded_string4: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Encoded_String4",
@@ -5122,7 +5121,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_encoded_string5: Optional[str] = field(
+    source_stream_size_encoded_string5: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Encoded_String5",
@@ -5130,7 +5129,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_encoded_string: Optional[str] = field(
+    source_stream_size_encoded_string: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Encoded_String",
@@ -5138,7 +5137,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size: Optional[int] = field(
+    source_stream_size: int | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize",
@@ -5146,7 +5145,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_proportion: Optional[str] = field(
+    source_stream_size_proportion: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_Proportion",
@@ -5154,7 +5153,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_string1: Optional[str] = field(
+    source_stream_size_string1: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_String1",
@@ -5162,7 +5161,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_string2: Optional[str] = field(
+    source_stream_size_string2: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_String2",
@@ -5170,7 +5169,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_string3: Optional[str] = field(
+    source_stream_size_string3: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_String3",
@@ -5178,7 +5177,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_string4: Optional[str] = field(
+    source_stream_size_string4: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_String4",
@@ -5186,7 +5185,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_string5: Optional[str] = field(
+    source_stream_size_string5: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_String5",
@@ -5194,7 +5193,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    source_stream_size_string: Optional[str] = field(
+    source_stream_size_string: str | None = field(
         default=None,
         metadata={
             "name": "Source_StreamSize_String",
@@ -5202,7 +5201,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    standard: Optional[str] = field(
+    standard: str | None = field(
         default=None,
         metadata={
             "name": "Standard",
@@ -5210,7 +5209,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    status: Optional[int] = field(
+    status: int | None = field(
         default=None,
         metadata={
             "name": "Status",
@@ -5218,7 +5217,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stored_height: Optional[int] = field(
+    stored_height: int | None = field(
         default=None,
         metadata={
             "name": "Stored_Height",
@@ -5226,7 +5225,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stored_width: Optional[int] = field(
+    stored_width: int | None = field(
         default=None,
         metadata={
             "name": "Stored_Width",
@@ -5234,7 +5233,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_count: Optional[int] = field(
+    stream_count: int | None = field(
         default=None,
         metadata={
             "name": "StreamCount",
@@ -5242,7 +5241,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_kind_id: Optional[int] = field(
+    stream_kind_id: int | None = field(
         default=None,
         metadata={
             "name": "StreamKindID",
@@ -5250,7 +5249,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_kind: Optional[str] = field(
+    stream_kind: str | None = field(
         default=None,
         metadata={
             "name": "StreamKind",
@@ -5258,7 +5257,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_kind_pos: Optional[int] = field(
+    stream_kind_pos: int | None = field(
         default=None,
         metadata={
             "name": "StreamKindPos",
@@ -5266,7 +5265,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_kind_string: Optional[str] = field(
+    stream_kind_string: str | None = field(
         default=None,
         metadata={
             "name": "StreamKind_String",
@@ -5274,7 +5273,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_order: Optional[str] = field(
+    stream_order: str | None = field(
         default=None,
         metadata={
             "name": "StreamOrder",
@@ -5282,7 +5281,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_demuxed: Optional[int] = field(
+    stream_size_demuxed: int | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Demuxed",
@@ -5290,7 +5289,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_demuxed_string1: Optional[str] = field(
+    stream_size_demuxed_string1: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Demuxed_String1",
@@ -5298,7 +5297,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_demuxed_string2: Optional[str] = field(
+    stream_size_demuxed_string2: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Demuxed_String2",
@@ -5306,7 +5305,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_demuxed_string3: Optional[str] = field(
+    stream_size_demuxed_string3: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Demuxed_String3",
@@ -5314,7 +5313,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_demuxed_string4: Optional[str] = field(
+    stream_size_demuxed_string4: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Demuxed_String4",
@@ -5322,7 +5321,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_demuxed_string5: Optional[str] = field(
+    stream_size_demuxed_string5: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Demuxed_String5",
@@ -5330,7 +5329,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_demuxed_string: Optional[str] = field(
+    stream_size_demuxed_string: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Demuxed_String",
@@ -5338,7 +5337,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_encoded: Optional[int] = field(
+    stream_size_encoded: int | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Encoded",
@@ -5346,7 +5345,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_encoded_proportion: Optional[str] = field(
+    stream_size_encoded_proportion: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Encoded_Proportion",
@@ -5354,7 +5353,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_encoded_string1: Optional[str] = field(
+    stream_size_encoded_string1: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Encoded_String1",
@@ -5362,7 +5361,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_encoded_string2: Optional[str] = field(
+    stream_size_encoded_string2: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Encoded_String2",
@@ -5370,7 +5369,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_encoded_string3: Optional[str] = field(
+    stream_size_encoded_string3: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Encoded_String3",
@@ -5378,7 +5377,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_encoded_string4: Optional[str] = field(
+    stream_size_encoded_string4: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Encoded_String4",
@@ -5386,7 +5385,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_encoded_string5: Optional[str] = field(
+    stream_size_encoded_string5: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Encoded_String5",
@@ -5394,7 +5393,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_encoded_string: Optional[str] = field(
+    stream_size_encoded_string: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Encoded_String",
@@ -5402,7 +5401,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size: Optional[int] = field(
+    stream_size: int | None = field(
         default=None,
         metadata={
             "name": "StreamSize",
@@ -5410,7 +5409,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_proportion: Optional[str] = field(
+    stream_size_proportion: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_Proportion",
@@ -5418,7 +5417,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_string1: Optional[str] = field(
+    stream_size_string1: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_String1",
@@ -5426,7 +5425,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_string2: Optional[str] = field(
+    stream_size_string2: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_String2",
@@ -5434,7 +5433,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_string3: Optional[str] = field(
+    stream_size_string3: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_String3",
@@ -5442,7 +5441,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_string4: Optional[str] = field(
+    stream_size_string4: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_String4",
@@ -5450,7 +5449,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_string5: Optional[str] = field(
+    stream_size_string5: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_String5",
@@ -5458,7 +5457,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    stream_size_string: Optional[str] = field(
+    stream_size_string: str | None = field(
         default=None,
         metadata={
             "name": "StreamSize_String",
@@ -5466,7 +5465,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    subject: Optional[str] = field(
+    subject: str | None = field(
         default=None,
         metadata={
             "name": "Subject",
@@ -5474,7 +5473,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    sub_track: Optional[str] = field(
+    sub_track: str | None = field(
         default=None,
         metadata={
             "name": "SubTrack",
@@ -5482,7 +5481,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    summary: Optional[str] = field(
+    summary: str | None = field(
         default=None,
         metadata={
             "name": "Summary",
@@ -5490,7 +5489,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    synopsis: Optional[str] = field(
+    synopsis: str | None = field(
         default=None,
         metadata={
             "name": "Synopsis",
@@ -5498,7 +5497,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    tagged_application: Optional[str] = field(
+    tagged_application: str | None = field(
         default=None,
         metadata={
             "name": "Tagged_Application",
@@ -5506,7 +5505,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    tagged_date: Optional[str] = field(
+    tagged_date: str | None = field(
         default=None,
         metadata={
             "name": "Tagged_Date",
@@ -5514,7 +5513,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    terms_of_use: Optional[str] = field(
+    terms_of_use: str | None = field(
         default=None,
         metadata={
             "name": "TermsOfUse",
@@ -5522,7 +5521,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    text_codec_list: Optional[str] = field(
+    text_codec_list: str | None = field(
         default=None,
         metadata={
             "name": "Text_Codec_List",
@@ -5530,7 +5529,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    text_count: Optional[int] = field(
+    text_count: int | None = field(
         default=None,
         metadata={
             "name": "TextCount",
@@ -5538,7 +5537,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    text_format_list: Optional[str] = field(
+    text_format_list: str | None = field(
         default=None,
         metadata={
             "name": "Text_Format_List",
@@ -5546,7 +5545,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    text_format_with_hint_list: Optional[str] = field(
+    text_format_with_hint_list: str | None = field(
         default=None,
         metadata={
             "name": "Text_Format_WithHint_List",
@@ -5554,7 +5553,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    text_language_list: Optional[str] = field(
+    text_language_list: str | None = field(
         default=None,
         metadata={
             "name": "Text_Language_List",
@@ -5562,7 +5561,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    thanks_to: Optional[str] = field(
+    thanks_to: str | None = field(
         default=None,
         metadata={
             "name": "ThanksTo",
@@ -5570,7 +5569,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_drop_frame: Optional[str] = field(
+    time_code_drop_frame: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_DropFrame",
@@ -5578,7 +5577,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_first_frame: Optional[str] = field(
+    time_code_first_frame: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_FirstFrame",
@@ -5586,7 +5585,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_last_frame: Optional[str] = field(
+    time_code_last_frame: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_LastFrame",
@@ -5594,7 +5593,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_max_frame_number: Optional[str] = field(
+    time_code_max_frame_number: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_MaxFrameNumber",
@@ -5602,7 +5601,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_max_frame_number_theory: Optional[str] = field(
+    time_code_max_frame_number_theory: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_MaxFrameNumber_Theory",
@@ -5610,7 +5609,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_settings: Optional[str] = field(
+    time_code_settings: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_Settings",
@@ -5618,7 +5617,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_source: Optional[str] = field(
+    time_code_source: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_Source",
@@ -5626,7 +5625,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_striped: Optional[str] = field(
+    time_code_striped: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_Striped",
@@ -5634,7 +5633,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_striped_string: Optional[str] = field(
+    time_code_striped_string: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_Striped_String",
@@ -5642,7 +5641,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_stripped: Optional[str] = field(
+    time_code_stripped: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_Stripped",
@@ -5650,7 +5649,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_code_stripped_string: Optional[str] = field(
+    time_code_stripped_string: str | None = field(
         default=None,
         metadata={
             "name": "TimeCode_Stripped_String",
@@ -5658,7 +5657,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_stamp_first_frame: Optional[float] = field(
+    time_stamp_first_frame: float | None = field(
         default=None,
         metadata={
             "name": "TimeStamp_FirstFrame",
@@ -5666,7 +5665,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_stamp_first_frame_string1: Optional[str] = field(
+    time_stamp_first_frame_string1: str | None = field(
         default=None,
         metadata={
             "name": "TimeStamp_FirstFrame_String1",
@@ -5674,7 +5673,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_stamp_first_frame_string2: Optional[str] = field(
+    time_stamp_first_frame_string2: str | None = field(
         default=None,
         metadata={
             "name": "TimeStamp_FirstFrame_String2",
@@ -5682,7 +5681,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_stamp_first_frame_string3: Optional[str] = field(
+    time_stamp_first_frame_string3: str | None = field(
         default=None,
         metadata={
             "name": "TimeStamp_FirstFrame_String3",
@@ -5690,7 +5689,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_stamp_first_frame_string4: Optional[str] = field(
+    time_stamp_first_frame_string4: str | None = field(
         default=None,
         metadata={
             "name": "TimeStamp_FirstFrame_String4",
@@ -5698,7 +5697,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_stamp_first_frame_string5: Optional[str] = field(
+    time_stamp_first_frame_string5: str | None = field(
         default=None,
         metadata={
             "name": "TimeStamp_FirstFrame_String5",
@@ -5706,7 +5705,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_stamp_first_frame_string: Optional[str] = field(
+    time_stamp_first_frame_string: str | None = field(
         default=None,
         metadata={
             "name": "TimeStamp_FirstFrame_String",
@@ -5714,7 +5713,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_zone: Optional[str] = field(
+    time_zone: str | None = field(
         default=None,
         metadata={
             "name": "TimeZone",
@@ -5722,7 +5721,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    time_zones: Optional[str] = field(
+    time_zones: str | None = field(
         default=None,
         metadata={
             "name": "TimeZones",
@@ -5730,7 +5729,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    title: Optional[str] = field(
+    title: str | None = field(
         default=None,
         metadata={
             "name": "Title",
@@ -5738,7 +5737,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    title_more: Optional[str] = field(
+    title_more: str | None = field(
         default=None,
         metadata={
             "name": "Title_More",
@@ -5746,7 +5745,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    title_url: Optional[str] = field(
+    title_url: str | None = field(
         default=None,
         metadata={
             "name": "Title_Url",
@@ -5754,7 +5753,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    track: Optional[str] = field(
+    track: str | None = field(
         default=None,
         metadata={
             "name": "Track",
@@ -5762,7 +5761,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    track_more: Optional[str] = field(
+    track_more: str | None = field(
         default=None,
         metadata={
             "name": "Track_More",
@@ -5770,7 +5769,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    track_position: Optional[int] = field(
+    track_position: int | None = field(
         default=None,
         metadata={
             "name": "Track_Position",
@@ -5778,7 +5777,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    track_position_total: Optional[int] = field(
+    track_position_total: int | None = field(
         default=None,
         metadata={
             "name": "Track_Position_Total",
@@ -5786,7 +5785,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    track_sort: Optional[str] = field(
+    track_sort: str | None = field(
         default=None,
         metadata={
             "name": "Track_Sort",
@@ -5794,7 +5793,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    track_url: Optional[str] = field(
+    track_url: str | None = field(
         default=None,
         metadata={
             "name": "Track_Url",
@@ -5802,14 +5801,14 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    transfer_characteristics: Optional[str] = field(
+    transfer_characteristics: str | None = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": __NAMESPACE__,
         },
     )
-    transfer_characteristics_original: Optional[str] = field(
+    transfer_characteristics_original: str | None = field(
         default=None,
         metadata={
             "name": "transfer_characteristics_Original",
@@ -5817,7 +5816,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    transfer_characteristics_original_source: Optional[str] = field(
+    transfer_characteristics_original_source: str | None = field(
         default=None,
         metadata={
             "name": "transfer_characteristics_Original_Source",
@@ -5825,7 +5824,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    transfer_characteristics_source: Optional[str] = field(
+    transfer_characteristics_source: str | None = field(
         default=None,
         metadata={
             "name": "transfer_characteristics_Source",
@@ -5833,7 +5832,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    type_value: Optional[str] = field(
+    type_value: str | None = field(
         default=None,
         metadata={
             "name": "Type",
@@ -5841,7 +5840,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    umid: Optional[str] = field(
+    umid: str | None = field(
         default=None,
         metadata={
             "name": "UMID",
@@ -5849,7 +5848,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    unique_id: Optional[str] = field(
+    unique_id: str | None = field(
         default=None,
         metadata={
             "name": "UniqueID",
@@ -5857,7 +5856,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    unique_id_string: Optional[str] = field(
+    unique_id_string: str | None = field(
         default=None,
         metadata={
             "name": "UniqueID_String",
@@ -5865,7 +5864,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    universal_ad_id_registry: Optional[str] = field(
+    universal_ad_id_registry: str | None = field(
         default=None,
         metadata={
             "name": "UniversalAdID_Registry",
@@ -5873,7 +5872,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    universal_ad_id_string: Optional[str] = field(
+    universal_ad_id_string: str | None = field(
         default=None,
         metadata={
             "name": "UniversalAdID_String",
@@ -5881,7 +5880,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    universal_ad_id_value: Optional[str] = field(
+    universal_ad_id_value: str | None = field(
         default=None,
         metadata={
             "name": "UniversalAdID_Value",
@@ -5889,7 +5888,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video0_delay: Optional[int] = field(
+    video0_delay: int | None = field(
         default=None,
         metadata={
             "name": "Video0_Delay",
@@ -5897,7 +5896,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video0_delay_string1: Optional[str] = field(
+    video0_delay_string1: str | None = field(
         default=None,
         metadata={
             "name": "Video0_Delay_String1",
@@ -5905,7 +5904,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video0_delay_string2: Optional[str] = field(
+    video0_delay_string2: str | None = field(
         default=None,
         metadata={
             "name": "Video0_Delay_String2",
@@ -5913,7 +5912,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video0_delay_string3: Optional[str] = field(
+    video0_delay_string3: str | None = field(
         default=None,
         metadata={
             "name": "Video0_Delay_String3",
@@ -5921,7 +5920,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video0_delay_string4: Optional[str] = field(
+    video0_delay_string4: str | None = field(
         default=None,
         metadata={
             "name": "Video0_Delay_String4",
@@ -5929,7 +5928,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video0_delay_string5: Optional[str] = field(
+    video0_delay_string5: str | None = field(
         default=None,
         metadata={
             "name": "Video0_Delay_String5",
@@ -5937,7 +5936,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video0_delay_string: Optional[str] = field(
+    video0_delay_string: str | None = field(
         default=None,
         metadata={
             "name": "Video0_Delay_String",
@@ -5945,7 +5944,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_codec_list: Optional[str] = field(
+    video_codec_list: str | None = field(
         default=None,
         metadata={
             "name": "Video_Codec_List",
@@ -5953,7 +5952,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_count: Optional[int] = field(
+    video_count: int | None = field(
         default=None,
         metadata={
             "name": "VideoCount",
@@ -5961,7 +5960,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_delay: Optional[float] = field(
+    video_delay: float | None = field(
         default=None,
         metadata={
             "name": "Video_Delay",
@@ -5969,7 +5968,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_delay_string1: Optional[str] = field(
+    video_delay_string1: str | None = field(
         default=None,
         metadata={
             "name": "Video_Delay_String1",
@@ -5977,7 +5976,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_delay_string2: Optional[str] = field(
+    video_delay_string2: str | None = field(
         default=None,
         metadata={
             "name": "Video_Delay_String2",
@@ -5985,7 +5984,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_delay_string3: Optional[str] = field(
+    video_delay_string3: str | None = field(
         default=None,
         metadata={
             "name": "Video_Delay_String3",
@@ -5993,7 +5992,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_delay_string4: Optional[str] = field(
+    video_delay_string4: str | None = field(
         default=None,
         metadata={
             "name": "Video_Delay_String4",
@@ -6001,7 +6000,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_delay_string5: Optional[str] = field(
+    video_delay_string5: str | None = field(
         default=None,
         metadata={
             "name": "Video_Delay_String5",
@@ -6009,7 +6008,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_delay_string: Optional[str] = field(
+    video_delay_string: str | None = field(
         default=None,
         metadata={
             "name": "Video_Delay_String",
@@ -6017,7 +6016,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_format_list: Optional[str] = field(
+    video_format_list: str | None = field(
         default=None,
         metadata={
             "name": "Video_Format_List",
@@ -6025,7 +6024,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_format_with_hint_list: Optional[str] = field(
+    video_format_with_hint_list: str | None = field(
         default=None,
         metadata={
             "name": "Video_Format_WithHint_List",
@@ -6033,7 +6032,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    video_language_list: Optional[str] = field(
+    video_language_list: str | None = field(
         default=None,
         metadata={
             "name": "Video_Language_List",
@@ -6041,7 +6040,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    width_clean_aperture: Optional[int] = field(
+    width_clean_aperture: int | None = field(
         default=None,
         metadata={
             "name": "Width_CleanAperture",
@@ -6049,7 +6048,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    width_clean_aperture_string: Optional[str] = field(
+    width_clean_aperture_string: str | None = field(
         default=None,
         metadata={
             "name": "Width_CleanAperture_String",
@@ -6057,7 +6056,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    width: Optional[int] = field(
+    width: int | None = field(
         default=None,
         metadata={
             "name": "Width",
@@ -6065,7 +6064,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    width_offset: Optional[int] = field(
+    width_offset: int | None = field(
         default=None,
         metadata={
             "name": "Width_Offset",
@@ -6073,7 +6072,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    width_offset_string: Optional[str] = field(
+    width_offset_string: str | None = field(
         default=None,
         metadata={
             "name": "Width_Offset_String",
@@ -6081,7 +6080,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    width_original: Optional[int] = field(
+    width_original: int | None = field(
         default=None,
         metadata={
             "name": "Width_Original",
@@ -6089,7 +6088,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    width_original_string: Optional[str] = field(
+    width_original_string: str | None = field(
         default=None,
         metadata={
             "name": "Width_Original_String",
@@ -6097,7 +6096,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    width_string: Optional[str] = field(
+    width_string: str | None = field(
         default=None,
         metadata={
             "name": "Width_String",
@@ -6105,7 +6104,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    written_by: Optional[str] = field(
+    written_by: str | None = field(
         default=None,
         metadata={
             "name": "WrittenBy",
@@ -6113,7 +6112,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    written_date: Optional[str] = field(
+    written_date: str | None = field(
         default=None,
         metadata={
             "name": "Written_Date",
@@ -6121,7 +6120,7 @@ class Track(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    written_location: Optional[str] = field(
+    written_location: str | None = field(
         default=None,
         metadata={
             "name": "Written_Location",
@@ -6155,7 +6154,7 @@ class Media(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    ref: Optional[str] = field(
+    ref: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6168,7 +6167,7 @@ class MediaInfo(BaseModel):
         name = "MediaInfo"
         namespace = __NAMESPACE__
 
-    creating_application: Optional[Creation] = field(
+    creating_application: Creation | None = field(
         default=None,
         metadata={
             "name": "creatingApplication",
@@ -6176,7 +6175,7 @@ class MediaInfo(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    creating_library: Optional[Creation] = field(
+    creating_library: Creation | None = field(
         default=None,
         metadata={
             "name": "creatingLibrary",
@@ -6198,7 +6197,7 @@ class MediaInfo(BaseModel):
             "namespace": __NAMESPACE__,
         },
     )
-    version: Optional[str] = field(
+    version: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",

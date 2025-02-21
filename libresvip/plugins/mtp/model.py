@@ -1,5 +1,4 @@
 import dataclasses
-from typing import Optional
 
 from construct import (
     Byte,
@@ -159,19 +158,19 @@ class MutaTrack(DataclassMixin):
     pan: int = csfield(Int32ul)
     name: str = csfield(PaddedString(12, "utf-16-le"))
     padding: bytes = csfield(Bytes(52))
-    talk_track_data: Optional[list[MutaTalkTrackData]] = csfield(
+    talk_track_data: list[MutaTalkTrackData] | None = csfield(
         If(
             this.track_type == MutaTrackType.TALK,
             DataclassStruct(MutaTalkTrackData)[this.seq_count],
         )
     )
-    audio_track_data: Optional[list[MutaAudioTrackData]] = csfield(
+    audio_track_data: list[MutaAudioTrackData] | None = csfield(
         If(
             this.track_type == MutaTrackType.AUDIO,
             DataclassStruct(MutaAudioTrackData)[this.seq_count],
         ),
     )
-    song_track_data: Optional[list[MutaSongTrackData]] = csfield(
+    song_track_data: list[MutaSongTrackData] | None = csfield(
         If(
             this.track_type == MutaTrackType.SONG,
             DataclassStruct(MutaSongTrackData)[this.seq_count],

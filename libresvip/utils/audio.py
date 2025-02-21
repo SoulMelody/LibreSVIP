@@ -1,7 +1,6 @@
 import contextlib
 import pathlib
 import platform
-from typing import Optional, Union
 
 from pydantic import ValidationInfo
 
@@ -12,7 +11,7 @@ from libresvip.utils.translation import gettext_lazy as _
 def audio_path_validator(path: str, info: ValidationInfo) -> str:
     audio_path = pathlib.Path(path)
     if not audio_path.is_absolute() and info.context is not None:
-        project_path: Optional[pathlib.Path]
+        project_path: pathlib.Path | None
         if (project_path := info.context.get("path")) and not hasattr(project_path, "protocol"):
             audio_path = (project_path.parent / path).resolve()
             path = str(audio_path)
@@ -24,8 +23,8 @@ if platform.system() != "Emscripten":
     from pymediainfo import Track as MediaInfoTrack
 
     def audio_track_info(
-        file_path: Union[str, pathlib.Path], only_wav: bool = False
-    ) -> Optional[MediaInfoTrack]:
+        file_path: str | pathlib.Path, only_wav: bool = False
+    ) -> MediaInfoTrack | None:
         def filter_func(track: MediaInfoTrack) -> bool:
             return track.format == "PCM" if only_wav else (track.duration is not None)
 
@@ -64,8 +63,8 @@ else:
             js.importScripts(f"{MEDIAINFO_JS_DIST_PATH}/umd/index.min.js")
 
         def audio_track_info(
-            file_path: Union[str, pathlib.Path], only_wav: bool = False
-        ) -> Optional[MediaInfoTrack]:
+            file_path: str | pathlib.Path, only_wav: bool = False
+        ) -> MediaInfoTrack | None:
             if isinstance(file_path, str):
                 file_path = pathlib.Path(file_path)
 
@@ -106,6 +105,6 @@ else:
     except ImportError:
 
         def audio_track_info(
-            file_path: Union[str, pathlib.Path], only_wav: bool = False
-        ) -> Optional[MediaInfoTrack]:  # not implemented yet
+            file_path: str | pathlib.Path, only_wav: bool = False
+        ) -> MediaInfoTrack | None:  # not implemented yet
             return None

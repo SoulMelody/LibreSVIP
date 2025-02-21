@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from libresvip.model.base import Note, SongTempo, TimeSignature
@@ -11,10 +11,10 @@ if TYPE_CHECKING:
 @dataclass
 class KeyTick:
     tick: int
-    tempo: Optional[SongTempo] = None
-    note_start: Optional[Note] = None
-    note_end: Optional[Note] = None
-    track_index: Optional[int] = None
+    tempo: SongTempo | None = None
+    note_start: Note | None = None
+    note_end: Note | None = None
+    track_index: int | None = None
 
 
 @dataclass
@@ -26,9 +26,9 @@ class MXmlMeasureContent:
         SINGLE = 4
 
     duration: int
-    note: Optional[Note]
-    note_type: Optional[NoteType]
-    bpm: Optional[float] = None
+    note: Note | None
+    note_type: NoteType | None
+    bpm: float | None = None
 
     @classmethod
     def with_tempo(cls, bpm: float) -> MXmlMeasureContent:
@@ -47,5 +47,5 @@ class MXmlMeasureContent:
 class MXmlMeasure:
     tick_start: int
     length: int
-    time_signature: Optional[TimeSignature] = None
-    contents: Optional[list[MXmlMeasureContent]] = None
+    time_signature: TimeSignature | None = None
+    contents: list[MXmlMeasureContent] | None = None

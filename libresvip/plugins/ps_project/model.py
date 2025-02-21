@@ -1,4 +1,4 @@
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic import Field, ValidationInfo, model_validator
 from typing_extensions import Self
@@ -38,8 +38,8 @@ class PocketSingerBgmMetadata(BaseModel):
 
 class PocketSingerMetadata(BaseModel):
     ace_file_name: str = Field(alias="aceFileName")
-    background_image_name: Optional[str] = Field(None, alias="backgroundImageName")
-    bgm_info: Optional[PocketSingerBgmMetadata] = Field(None, alias="bgmInfo")
+    background_image_name: str | None = Field(None, alias="backgroundImageName")
+    bgm_info: PocketSingerBgmMetadata | None = Field(None, alias="bgmInfo")
 
 
 class PocketSingerPitchBend(BaseModel):
@@ -65,11 +65,11 @@ class PocketSingerSinWave(BaseModel):
 class PocketSingerNoteBase(BaseModel):
     start_time: float
     end_time: float
-    identifier: Optional[int] = None
-    energy_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
-    air_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
-    tension_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
-    falsetto_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
+    identifier: int | None = None
+    energy_envolope: list[PocketSingerEnvolopeItem] | None = None
+    air_envolope: list[PocketSingerEnvolopeItem] | None = None
+    tension_envolope: list[PocketSingerEnvolopeItem] | None = None
+    falsetto_envolope: list[PocketSingerEnvolopeItem] | None = None
 
 
 class PocketSingerBrNote(PocketSingerNoteBase):
@@ -78,7 +78,7 @@ class PocketSingerBrNote(PocketSingerNoteBase):
 
 class PocketSingerNote(PocketSingerNoteBase):
     pitch_bends: list[PocketSingerPitchBend] = Field(default_factory=list, alias="pitchBends")
-    consonant_time_head: Optional[list[float]] = None
+    consonant_time_head: list[float] | None = None
     phone: list[str] = Field(default_factory=list)
     grapheme_count: int = 1
     grapheme_index: int = 0
@@ -87,16 +87,16 @@ class PocketSingerNote(PocketSingerNoteBase):
     pitch: int
     type: Literal["phone"] = "phone"
     br: bool = False
-    sin_wave: Optional[PocketSingerSinWave] = None
-    user_pitch: Optional[list[PocketSingerPitchBend]] = None
-    consonant_time_tail: Optional[list[float]] = None
-    br_note: Optional[PocketSingerBrNote] = Field(None, alias="brNote")
-    user_phone: Optional[list[str]] = Field(None, alias="userPhone")
-    valid: Optional[bool] = None
-    key: Optional[str] = None
-    scale: Optional[list[int]] = None
-    config: Optional[str] = None
-    is_edit_phone: Optional[bool] = Field(None, alias="isEditPhone")
+    sin_wave: PocketSingerSinWave | None = None
+    user_pitch: list[PocketSingerPitchBend] | None = None
+    consonant_time_tail: list[float] | None = None
+    br_note: PocketSingerBrNote | None = Field(None, alias="brNote")
+    user_phone: list[str] | None = Field(None, alias="userPhone")
+    valid: bool | None = None
+    key: str | None = None
+    scale: list[int] | None = None
+    config: str | None = None
+    is_edit_phone: bool | None = Field(None, alias="isEditPhone")
 
 
 class PocketSingerRoleInfo(BaseModel):
@@ -112,7 +112,7 @@ class PocketSingerTrack(BaseModel):
     solo: bool = False
     notes: list[PocketSingerNote] = Field(default_factory=list)
     language: PocketSingerLyricsLanguage = PocketSingerLyricsLanguage.CHINESE
-    mix_info: Optional[str] = None
+    mix_info: str | None = None
     br_notes: list[PocketSingerBrNote] = Field(default_factory=list)
     role_info: PocketSingerRoleInfo = Field(default_factory=PocketSingerRoleInfo)
     mute: bool = False
@@ -141,9 +141,9 @@ class PocketSingerDebugInfo(BaseModel):
     record_type: str = Field("create", alias="recordType")
     os: str = "16"
     device: str = "iPad8,3"
-    build_version: Optional[str] = Field(None, alias="buildVersion")
+    build_version: str | None = Field(None, alias="buildVersion")
     platform: str = "iOS"
-    user_language: Optional[PocketSingerLyricsLanguage] = Field(None, alias="userLanguage")
+    user_language: PocketSingerLyricsLanguage | None = Field(None, alias="userLanguage")
 
 
 class PocketSingerSongInfo(BaseModel):
@@ -157,22 +157,22 @@ class PocketSingerSongInfo(BaseModel):
     duration: float
     beat_of_bar: int
     name: str
-    origin_duration: Optional[float] = None
-    origin_start: Optional[int] = None
-    author: Optional[str] = None
-    tuner: Optional[str] = None
-    song_id: Optional[int] = None
-    user_id: Optional[int] = None
+    origin_duration: float | None = None
+    origin_start: int | None = None
+    author: str | None = None
+    tuner: str | None = None
+    song_id: int | None = None
+    user_id: int | None = None
 
 
 class PocketSingerProject(BaseModel):
-    notes: Optional[list[PocketSingerNote]] = None
+    notes: list[PocketSingerNote] | None = None
     tracks: list[PocketSingerTrack] = Field(default_factory=list)
-    bpm: Optional[float] = None
+    bpm: float | None = None
     bgm_info: PocketSingerBgmInfo = Field(default_factory=PocketSingerBgmInfo)
     debug_info: PocketSingerDebugInfo = Field(default_factory=PocketSingerDebugInfo)
     version: int = 3
-    timestamp: Optional[int] = None
+    timestamp: int | None = None
     song_info: PocketSingerSongInfo
 
     @model_validator(mode="after")

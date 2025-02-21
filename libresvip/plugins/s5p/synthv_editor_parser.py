@@ -3,7 +3,7 @@ import functools
 import math
 import operator
 import pathlib
-from typing import Optional, cast
+from typing import cast
 
 import more_itertools
 import portion
@@ -136,7 +136,7 @@ class SynthVEditorParser:
         )
 
     def parse_notes(
-        self, s5p_notes: list[Optional[S5pNote]], db_defaults: S5pDbDefaults
+        self, s5p_notes: list[S5pNote | None], db_defaults: S5pDbDefaults
     ) -> list[Note]:
         self.vibrato_value_interval_dict = PiecewiseIntervalDict()
         self.vibrato_coef_interval_dict = PiecewiseIntervalDict()

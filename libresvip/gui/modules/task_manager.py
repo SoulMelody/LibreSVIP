@@ -6,7 +6,7 @@ import enum
 import pathlib
 import traceback
 import zipfile
-from typing import Any, Optional, get_args, get_type_hints
+from typing import Any, get_args, get_type_hints
 
 import more_itertools
 from loguru import logger
@@ -60,7 +60,7 @@ class ConversionWorker(QRunnable):
         input_options: dict[str, Any],
         output_options: dict[str, Any],
         middleware_options: dict[str, dict[str, Any]],
-        parent: Optional[QObject] = None,
+        parent: QObject | None = None,
     ) -> None:
         super().__init__(parent=parent)
         self.index = index
@@ -157,7 +157,7 @@ class SplitWorker(QRunnable):
         input_options: dict[str, Any],
         output_options: dict[str, Any],
         middleware_options: dict[str, dict[str, Any]],
-        parent: Optional[QObject] = None,
+        parent: QObject | None = None,
     ) -> None:
         super().__init__(parent=parent)
         self.index = index
@@ -257,7 +257,7 @@ class MergeWorker(QRunnable):
         input_options: dict[str, Any],
         output_options: dict[str, Any],
         middleware_options: dict[str, dict[str, Any]],
-        parent: Optional[QObject] = None,
+        parent: QObject | None = None,
     ) -> None:
         super().__init__(parent=parent)
         self.index = index
@@ -358,7 +358,7 @@ class TaskManager(QObject):
     middleware_options_updated = Signal()
     _start_conversion = Signal()
 
-    def __init__(self, parent: Optional[QObject] = None) -> None:
+    def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent=parent)
         self._conversion_mode = ConversionMode.DIRECT
         self.tasks = ModelProxy(dataclasses.asdict(BaseTask()))
@@ -536,20 +536,20 @@ class TaskManager(QObject):
         return deleted
 
     @property
-    def input_format(self) -> Optional[str]:
+    def input_format(self) -> str | None:
         return settings.last_input_format
 
     @input_format.setter
-    def input_format(self, value: Optional[str]) -> None:
+    def input_format(self, value: str | None) -> None:
         if value is not None:
             settings.last_input_format = value
 
     @property
-    def output_format(self) -> Optional[str]:
+    def output_format(self) -> str | None:
         return settings.last_output_format
 
     @output_format.setter
-    def output_format(self, value: Optional[str]) -> None:
+    def output_format(self, value: str | None) -> None:
         if value is not None:
             settings.last_output_format = value
 
@@ -732,7 +732,7 @@ class TaskManager(QObject):
                 )
             elif issubclass(
                 field_info.annotation,
-                (str, int, float, Color, BaseComplexModel),
+                str | int | float | Color | BaseComplexModel,
             ):
                 if issubclass(field_info.annotation, BaseComplexModel):
                     default_value = field_info.annotation.default_repr()
@@ -870,7 +870,7 @@ class TaskManager(QObject):
             self.tasks.delete_many(0, delete_len)
         getattr(self, f"{name}_changed").emit(value)
 
-    def plugin_info_file(self, plugin_archive: zipfile.Path) -> Optional[zipfile.Path]:
+    def plugin_info_file(self, plugin_archive: zipfile.Path) -> zipfile.Path | None:
         plugin_info_filename = None
         for plugin_file in plugin_archive.iterdir():
             if plugin_file.is_file() and plugin_file.name.endswith(

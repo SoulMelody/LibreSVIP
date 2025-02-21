@@ -1,5 +1,5 @@
 import pathlib
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Any
 
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 from xsdata_pydantic.bindings import XmlParser, XmlSerializer
@@ -69,7 +69,7 @@ class VsqxConverter(plugin_base.SVSConverterBase):
         return VsqxParser(options, path).parse_project(vsqx_proj)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        vsqx_generator_class: type[Union[Vsq3Generator, Vsq4Generator]]
+        vsqx_generator_class: type[Vsq3Generator | Vsq4Generator]
         if options.vsqx_version == VsqxVersion.VSQ3:
             vsqx_generator_class = Vsq3Generator
             vsqx_namespace = VSQ3_NS

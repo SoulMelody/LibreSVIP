@@ -1,5 +1,3 @@
-from typing import Optional
-
 from PySide6.QtCore import QObject, Slot
 from PySide6.QtQml import QmlElement
 
@@ -16,7 +14,7 @@ QML_IMPORT_MINOR_VERSION = 0
 
 @QmlElement
 class Clipboard(QObject):
-    def __init__(self, parent: Optional[QObject] = None) -> None:
+    def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent=parent)
         self.clipboard = app.clipboard()
 

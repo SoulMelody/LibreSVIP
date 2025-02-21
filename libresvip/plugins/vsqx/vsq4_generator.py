@@ -1,6 +1,6 @@
 import dataclasses
 import operator
-from typing import Union, cast
+from typing import cast
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
@@ -59,7 +59,7 @@ from .vocaloid_pitch import generate_for_vocaloid
 class Vsq4Generator:
     options: OutputOptions
     first_bar_length: int = dataclasses.field(init=False)
-    style_params: dict[str, Union[int, list[int]]] = dataclasses.field(init=False)
+    style_params: dict[str, int | list[int]] = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> Vsq4:

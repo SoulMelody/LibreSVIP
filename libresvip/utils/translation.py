@@ -2,11 +2,10 @@ import contextlib
 import contextvars
 import gettext
 import sys
-from typing import Optional
 
-singleton_translation: Optional[gettext.NullTranslations] = None
-lazy_translation: contextvars.ContextVar[Optional[gettext.NullTranslations]] = (
-    contextvars.ContextVar("translator")
+singleton_translation: gettext.NullTranslations | None = None
+lazy_translation: contextvars.ContextVar[gettext.NullTranslations | None] = contextvars.ContextVar(
+    "translator"
 )
 
 
@@ -21,7 +20,7 @@ def gettext_lazy(message: str) -> str:
     return gettext.gettext(message)
 
 
-def pgettext_lazy(context: Optional[str], message: str) -> str:
+def pgettext_lazy(context: str | None, message: str) -> str:
     if context is None:
         frame = sys._getframe(1)
         context = frame.f_globals.get("__package__")

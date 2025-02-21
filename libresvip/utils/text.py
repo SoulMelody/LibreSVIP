@@ -7,7 +7,7 @@ import re
 import textwrap
 import uuid
 from collections.abc import Callable
-from typing import Any, Optional
+from typing import Any
 
 import charset_normalizer.constant
 import zhon
@@ -27,8 +27,8 @@ class CustomBoundriesMixin:
     def __init__(
         self,
         *args: Any,
-        left_boundary: Optional[str] = None,
-        right_boundary: Optional[str] = None,
+        left_boundary: str | None = None,
+        right_boundary: str | None = None,
         **kwargs: Any,
     ) -> None:
         default_word_boundary = "" if kwargs.get("match_substrings") is True else WORD_BOUNDARY
@@ -42,7 +42,7 @@ class CustomBoundriesMixin:
 
     def compile(
         self,
-        word_boundary: Optional[str] = None,
+        word_boundary: str | None = None,
         re_flags: int = -1,
     ) -> re.Pattern[str]:
         left_boundary = self.left_boundary if word_boundary is None else word_boundary
@@ -90,7 +90,7 @@ def supported_charset_names() -> list[str]:
     return sorted(encoding_names)
 
 
-def shorten_error_message(message: Optional[str]) -> str:
+def shorten_error_message(message: str | None) -> str:
     if message is None:
         return ""
     error_lines = textwrap.wrap(message, 70)

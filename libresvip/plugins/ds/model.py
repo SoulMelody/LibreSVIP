@@ -1,5 +1,5 @@
 import enum
-from typing import Literal, Optional, Union
+from typing import Literal
 
 from pydantic import (
     Field,
@@ -23,35 +23,35 @@ class DsItem(BaseModel):
     text: list[str]
     ph_seq: list[str]
     note_seq: list[str]
-    note_dur: Optional[list[float]] = None
-    note_dur_seq: Optional[list[float]] = None
-    note_slur: Optional[list[int]] = None
-    note_glide: Optional[list[GlideStyle]] = None
-    is_slur_seq: Optional[list[int]] = None
-    ph_dur: Optional[list[float]] = None
-    ph_num: Optional[list[int]] = None
-    f0_timestep: Optional[float] = None
-    f0_seq: Optional[Union[str, list[float]]] = None
-    input_type: Optional[Literal["phoneme"]] = None
-    offset: Union[str, float]
-    seed: Optional[int] = None
-    spk_mix: Optional[dict[str, list[float]]] = None
-    spk_mix_timestep: Optional[float] = None
-    gender: Optional[list[float]] = None
-    gender_timestep: Optional[float] = None
-    velocity: Optional[list[float]] = None
-    velocity_timestep: Optional[float] = None
+    note_dur: list[float] | None = None
+    note_dur_seq: list[float] | None = None
+    note_slur: list[int] | None = None
+    note_glide: list[GlideStyle] | None = None
+    is_slur_seq: list[int] | None = None
+    ph_dur: list[float] | None = None
+    ph_num: list[int] | None = None
+    f0_timestep: float | None = None
+    f0_seq: str | list[float] | None = None
+    input_type: Literal["phoneme"] | None = None
+    offset: str | float
+    seed: int | None = None
+    spk_mix: dict[str, list[float]] | None = None
+    spk_mix_timestep: float | None = None
+    gender: list[float] | None = None
+    gender_timestep: float | None = None
+    velocity: list[float] | None = None
+    velocity_timestep: float | None = None
 
     @field_validator("text", "note_seq", "ph_seq", mode="before")
     @classmethod
-    def _validate_str_list(cls, value: Optional[str], _info: ValidationInfo) -> Optional[list[str]]:
+    def _validate_str_list(cls, value: str | None, _info: ValidationInfo) -> list[str] | None:
         return None if value is None else value.split()
 
     @field_validator("note_glide", mode="before")
     @classmethod
     def _validate_glide_list(
-        cls, value: Optional[str], _info: ValidationInfo
-    ) -> Optional[list[GlideStyle]]:
+        cls, value: str | None, _info: ValidationInfo
+    ) -> list[GlideStyle] | None:
         return None if value is None else [GlideStyle(x) for x in value.split()]
 
     @field_validator(
@@ -64,14 +64,12 @@ class DsItem(BaseModel):
         mode="before",
     )
     @classmethod
-    def _validate_float_list(
-        cls, value: Optional[str], _info: ValidationInfo
-    ) -> Optional[list[float]]:
+    def _validate_float_list(cls, value: str | None, _info: ValidationInfo) -> list[float] | None:
         return None if value is None else [float(x) for x in value.split()]
 
     @field_validator("is_slur_seq", "note_slur", "ph_num", mode="before")
     @classmethod
-    def _validate_int_list(cls, value: Optional[str], _info: ValidationInfo) -> Optional[list[int]]:
+    def _validate_int_list(cls, value: str | None, _info: ValidationInfo) -> list[int] | None:
         return None if value is None else [int(x) for x in value.split()]
 
     @field_serializer(
@@ -90,7 +88,7 @@ class DsItem(BaseModel):
         when_used="json-unless-none",
     )
     @classmethod
-    def _serialize_list(cls, value: list[Union[str, int, float]], _info: SerializationInfo) -> str:
+    def _serialize_list(cls, value: list[str | int | float], _info: SerializationInfo) -> str:
         return " ".join(str(x) for x in value)
 
     @field_serializer(
@@ -104,8 +102,8 @@ class DsItem(BaseModel):
     @field_validator("spk_mix", mode="before")
     @classmethod
     def _validate_nested_dict(
-        cls, values: Optional[dict[str, str]], _info: ValidationInfo
-    ) -> Optional[dict[str, list[float]]]:
+        cls, values: dict[str, str] | None, _info: ValidationInfo
+    ) -> dict[str, list[float]] | None:
         if values is None:
             return None
 
