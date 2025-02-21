@@ -479,7 +479,7 @@ class TUIApp(App[None]):
     @work
     async def handle_add_task(self, event: Button.Pressed) -> None:
         if path_str := await self.push_screen_wait(
-            FileOpen("/", title=_("Open")),
+            FileOpen("/", title=_("Open"), open_button=_("Open"), cancel_button=_("Cancel")),
         ):
             selected_path = pathlib.Path(path_str)
         else:
@@ -691,7 +691,12 @@ class TUIApp(App[None]):
     @work
     async def handle_change_output_directory(self, event: Button.Pressed) -> None:
         if directory := await self.push_screen_wait(
-            SelectDirectory("/", title=_("Select directory")),
+            SelectDirectory(
+                "/",
+                title=_("Select directory"),
+                select_button=_("Select"),
+                cancel_button=_("Cancel"),
+            )
         ):
             settings.save_folder = pathlib.Path(directory)
             self.query_one("#output_directory").update(str(directory))
