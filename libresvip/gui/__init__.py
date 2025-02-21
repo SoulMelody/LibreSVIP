@@ -1,6 +1,7 @@
+from importlib.resources import as_file
+
 from PySide6 import QtCore
 
-from libresvip.core.compat import as_file
 from libresvip.core.constants import res_dir
 
 

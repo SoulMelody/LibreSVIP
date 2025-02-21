@@ -12,12 +12,12 @@ from importlib.machinery import (
     SourceFileLoader,
     all_suffixes,
 )
-from typing import TYPE_CHECKING, Generic, Optional, cast
+from importlib.resources import files
+from typing import TYPE_CHECKING, Generic, TypeGuard, cast
 
 from loguru import logger
-from typing_extensions import TypeGuard, TypeVar
+from typing_extensions import TypeVar
 
-from libresvip.core.compat import files
 from libresvip.core.config import get_ui_settings, settings
 from libresvip.core.constants import app_dir, pkg_dir, res_dir
 from libresvip.utils.module_loading import import_module
@@ -61,9 +61,9 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
     def find_spec(
         self,
         fullname: str,
-        path: Optional[list[str]],
-        target: Optional[ModuleType] = None,
-    ) -> Optional[ModuleSpec]:
+        path: list[str] | None,
+        target: ModuleType | None = None,
+    ) -> ModuleSpec | None:
         if not fullname.startswith(self.plugin_namespace) or not path:
             return None
         path = [str(path) for path in self.plugin_places]
@@ -218,7 +218,7 @@ def merge_translation(
     return ori_translation
 
 
-def get_translation(lang: Optional[str] = None) -> gettext.NullTranslations:
+def get_translation(lang: str | None = None) -> gettext.NullTranslations:
     if lang is None:
         lang = get_ui_settings().language.value
     translation = gettext.NullTranslations()

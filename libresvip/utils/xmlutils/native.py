@@ -1,5 +1,5 @@
 import io
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 from xml.sax import saxutils
 
 if TYPE_CHECKING:
@@ -11,7 +11,7 @@ class EchoGenerator(saxutils.XMLGenerator):
 
     def __init__(
         self,
-        out: Optional[io.IOBase] = None,
+        out: io.IOBase | None = None,
         encoding: str = "iso-8859-1",
         short_empty_elements: bool = False,
     ) -> None:

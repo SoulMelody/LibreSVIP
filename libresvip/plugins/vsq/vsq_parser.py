@@ -2,7 +2,6 @@ import configparser
 import dataclasses
 import math
 import re
-from typing import Optional
 
 import mido_fix as mido
 
@@ -171,7 +170,7 @@ class VsqParser:
         vsq_track: configparser.ConfigParser,
         note_list: list[Note],
         tick_prefix: int,
-    ) -> Optional[ParamCurve]:
+    ) -> ParamCurve | None:
         pit: list[ControllerEvent] = []
         pbs: list[ControllerEvent] = []
         if vsq_track.has_section("PitchBendBPList"):

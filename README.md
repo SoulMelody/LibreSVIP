@@ -14,7 +14,7 @@ LibreSVIP is a cross-platform and universal converter for many Singing Voice Syn
 
 Download from github releases: [Releases](https://github.com/SoulMelody/LibreSVIP/releases)
 
-Alternatively, you can install LibreSVIP with desktop support via pip (requires python 3.9+):
+Alternatively, you can install LibreSVIP with desktop support via pip (requires python 3.10+):
 
 ```bash
 pip install libresvip[desktop]

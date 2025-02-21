@@ -56,7 +56,7 @@ def prompt_fields(option_class: BaseModel) -> dict[str, Any]:
                     translated_title,
                     default=default_value,
                 )
-            elif issubclass(field_info.annotation, (str, Color)):
+            elif issubclass(field_info.annotation, str | Color):
                 option_kwargs[option_key] = Prompt.ask(
                     translated_title,
                     default=default_value,

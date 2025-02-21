@@ -6,7 +6,7 @@ import threading
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from functools import partial
-from typing import Any, BinaryIO, Union
+from typing import Any, BinaryIO
 
 from construct import (
     Adapter,
@@ -124,7 +124,7 @@ class Utf8CodePoint(Construct):
 
     def _build(
         self,
-        obj: Union[str, bytes],
+        obj: str | bytes,
         stream: BinaryIO,
         context: Context,
         path: CSPath,
@@ -160,7 +160,7 @@ class LengthPrefixedString(Construct):
 
     def _build(
         self,
-        obj: Union[str, bytes],
+        obj: str | bytes,
         stream: BinaryIO,
         context: Context,
         path: CSPath,

@@ -1,8 +1,7 @@
+from importlib.resources import files
 from typing import Final
 
 import platformdirs
-
-from libresvip.core.compat import files
 
 PACKAGE_NAME: Final[str] = "libresvip"
 

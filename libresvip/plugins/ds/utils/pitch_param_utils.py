@@ -1,5 +1,3 @@
-from typing import Optional
-
 from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
 from libresvip.utils.music_math import midi2hz
@@ -18,7 +16,7 @@ class PitchParamUtils:
         )
 
     @classmethod
-    def encode_point_list(cls, os_point_list: Points, end: int) -> Optional[list[DsParamNode]]:
+    def encode_point_list(cls, os_point_list: Points, end: int) -> list[DsParamNode] | None:
         if valid_points := [
             p for p in os_point_list.root if p.x >= 1930 and p.x + 10 < end and p.y >= 0
         ]:

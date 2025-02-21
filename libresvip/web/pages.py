@@ -15,14 +15,13 @@ import traceback
 import webbrowser
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
+from importlib.resources import as_file
 from operator import not_
 from typing import (
     TYPE_CHECKING,
     BinaryIO,
-    Optional,
     SupportsFloat,
     TypeVar,
-    Union,
     get_args,
     get_type_hints,
 )
@@ -51,7 +50,7 @@ from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile, as_file
+from libresvip.core.compat import ZipFile
 from libresvip.core.config import (
     ConversionMode,
     DarkMode,
@@ -100,14 +99,14 @@ class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
             self.language = detected_language
 
 
-def dark_mode2str(mode: DarkMode) -> Optional[bool]:
+def dark_mode2str(mode: DarkMode) -> bool | None:
     if mode == DarkMode.LIGHT:
         return False
     elif mode == DarkMode.DARK:
         return True
 
 
-def str2dark_mode(value: Optional[bool]) -> DarkMode:
+def str2dark_mode(value: bool | None) -> DarkMode:
     return {
         True: DarkMode.DARK,
         False: DarkMode.LIGHT,
@@ -115,7 +114,7 @@ def str2dark_mode(value: Optional[bool]) -> DarkMode:
     }.get(value, DarkMode.SYSTEM)
 
 
-def int_validator(value: Optional[SupportsFloat]) -> bool:
+def int_validator(value: SupportsFloat | None) -> bool:
     if isinstance(value, int):
         return True
     elif isinstance(value, str):
@@ -126,7 +125,7 @@ def int_validator(value: Optional[SupportsFloat]) -> bool:
         return False
 
 
-def float_validator(value: Optional[SupportsFloat]) -> bool:
+def float_validator(value: SupportsFloat | None) -> bool:
     if isinstance(value, SupportsFloat):
         return not math.isnan(float(value))
     else:
@@ -139,9 +138,9 @@ class ConversionTask:
     upload_path: pathlib.Path
     output_path: pathlib.Path
     running: bool
-    success: Optional[bool]
-    error: Optional[str]
-    warning: Optional[str]
+    success: bool | None
+    error: str | None
+    warning: str | None
 
     def reset(self) -> None:
         self.running = False
@@ -210,7 +209,7 @@ plugin_details = {
 
 @ui.page("/")
 @ui.page("/?lang={lang}")
-def page_layout(lang: Optional[str] = None) -> None:
+def page_layout(lang: str | None = None) -> None:
     settings: LibreSvipBaseUISettings
 
     if app.native.main_window is not None:
@@ -408,7 +407,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
-                    elif issubclass(field_info.annotation, (str, BaseComplexModel)):
+                    elif issubclass(field_info.annotation, str | BaseComplexModel):
                         if issubclass(field_info.annotation, BaseComplexModel):
                             default_value = field_info.annotation.default_repr()
                             option_dict[option_key] = default_value
@@ -416,7 +415,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
-                    elif issubclass(field_info.annotation, (int, float)):
+                    elif issubclass(field_info.annotation, int | float):
                         with (
                             ui.number(
                                 label=_(field_info.title),
@@ -463,7 +462,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             for option_key, field_info in option_class.model_fields.items():
                 if issubclass(
                     field_info.annotation,
-                    (str, Color, enum.Enum, BaseComplexModel),
+                    str | Color | enum.Enum | BaseComplexModel,
                 ):
                     field_types[option_key] = str
                 else:
@@ -526,7 +525,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
-                    elif issubclass(field_info.annotation, (str, BaseComplexModel)):
+                    elif issubclass(field_info.annotation, str | BaseComplexModel):
                         if issubclass(field_info.annotation, BaseComplexModel):
                             default_value = field_info.annotation.default_repr()
                             option_dict[option_key] = default_value
@@ -534,7 +533,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
-                    elif issubclass(field_info.annotation, (int, float)):
+                    elif issubclass(field_info.annotation, int | float):
                         with (
                             ui.number(
                                 label=_(field_info.title),
@@ -759,7 +758,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         async def _add_task(
             self,
             name: str,
-            content: Union[BinaryIO, pathlib.Path],
+            content: BinaryIO | pathlib.Path,
         ) -> None:
             if settings.auto_detect_input_format:
                 cur_suffix = name.rpartition(".")[-1].lower()
@@ -942,7 +941,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 return Response(*result)
             raise HTTPException(404, "File not found")
 
-        def _export_one(self, filename: str) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+        def _export_one(self, filename: str) -> tuple[bytes, int, dict[str, str], str] | None:
             if not (task := self.files_to_convert.get(filename)) or not task.success:
                 return None
             if self._conversion_mode == ConversionMode.SPLIT:
@@ -971,7 +970,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         def _export_all(
             self,
-        ) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+        ) -> tuple[bytes, int, dict[str, str], str] | None:
             if len(self.files_to_convert) == 0:
                 return None
             elif len(self.files_to_convert) == 1:
@@ -1010,7 +1009,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 file_paths = await app.native.main_window.create_file_dialog(
                     allow_multiple=True,
                     file_types=[
-                        select_input.options[select_input.value],
+                        " " + select_input.options[select_input.value].rpartition(" ")[-1],
                         _("All files (*.*)"),
                     ],
                 )
@@ -1045,7 +1044,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     file_types=(
                         _("Compressed Archive (*.zip)")
                         if save_filename.endswith(".zip")
-                        else select_output.options[select_output.value],
+                        else " " + select_output.options[select_output.value].rpartition(" ")[-1],
                         _("All files (*.*)"),
                     ),
                 )
@@ -1790,34 +1789,35 @@ def page_layout(lang: Optional[str] = None) -> None:
         async def handle_key(e: KeyEventArguments) -> None:
             if e.modifiers.alt or e.modifiers.ctrl or e.modifiers.meta or e.modifiers.shift:
                 if e.modifiers.alt and e.action.keyup and not e.action.repeat:
-                    if e.key == "c":
-                        convert_menu.open()
-                    elif e.key == "[":
-                        input_formats_menu.open()
-                    elif e.key == "]":
-                        output_formats_menu.open()
-                    elif e.key == "t":
-                        theme_menu.open()
-                    elif e.key == "h":
-                        help_menu.open()
-                    elif e.key == "o":
-                        await selected_formats.add_upload()
-                    elif e.key == "i":
-                        about_dialog.open()
-                    elif e.key == "\\":
-                        swap_values()
-                    elif e.key == "/":
-                        selected_formats.reset()
-                    elif e.key == "w":
-                        dark_toggler.disable()
-                    elif e.key == "b":
-                        dark_toggler.enable()
-                    elif e.key == "a":
-                        dark_toggler.auto()
-                    elif e.key == "s":
-                        settings_dialog.open()
-                    elif e.key == "Enter":
-                        await selected_formats.batch_convert()
+                    match e.key.name:
+                        case "c":
+                            convert_menu.open()
+                        case "[":
+                            input_formats_menu.open()
+                        case "]":
+                            output_formats_menu.open()
+                        case "t":
+                            theme_menu.open()
+                        case "h":
+                            help_menu.open()
+                        case "o":
+                            await selected_formats.add_upload()
+                        case "i":
+                            about_dialog.open()
+                        case "\\":
+                            swap_values()
+                        case "/":
+                            selected_formats.reset()
+                        case "w":
+                            dark_toggler.disable()
+                        case "b":
+                            dark_toggler.enable()
+                        case "a":
+                            dark_toggler.auto()
+                        case "s":
+                            settings_dialog.open()
+                        case "Enter":
+                            await selected_formats.batch_convert()
             elif e.key.number is not None and not e.action.repeat and e.action.keyup:
                 key = e.key.number
                 for formats_menu, format_item in [

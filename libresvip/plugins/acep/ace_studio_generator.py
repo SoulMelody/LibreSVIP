@@ -2,7 +2,6 @@ import dataclasses
 import math
 import random
 from collections.abc import Callable
-from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
@@ -105,7 +104,7 @@ class AceGenerator:
             for tempo in tempos
         ]
 
-    def generate_track(self, track: Track) -> Optional[AcepTrack]:
+    def generate_track(self, track: Track) -> AcepTrack | None:
         if isinstance(track, InstrumentalTrack):
             ace_audio_track = AcepAudioTrack()
             audio_pattern = AcepAudioPattern(path=track.audio_file_path)

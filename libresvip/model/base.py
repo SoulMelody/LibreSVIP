@@ -7,9 +7,7 @@ from types import SimpleNamespace
 from typing import (
     Annotated,
     Literal,
-    Optional,
     Protocol,
-    Union,
     runtime_checkable,
 )
 
@@ -76,7 +74,7 @@ class ParamCurve(BaseModel):
     @classmethod
     def load_points(
         cls,
-        points: Union[Points, list[tuple[int, int]], list[dict[str, int]]],
+        points: Points | list[tuple[int, int]] | list[dict[str, int]],
         _info: ValidationInfo,
     ) -> Points:
         return (
@@ -210,11 +208,11 @@ class Note(BaseModel):
     start_pos: int = Field(0, alias="StartPos")
     length: int = Field(0, alias="Length")
     key_number: int = Field(0, alias="KeyNumber")
-    head_tag: Optional[str] = Field(None, alias="HeadTag")
+    head_tag: str | None = Field(None, alias="HeadTag")
     lyric: str = Field("", alias="Lyric")
-    pronunciation: Optional[str] = Field(None, alias="Pronunciation")
-    edited_phones: Optional[Phones] = Field(None, alias="EditedPhones")
-    vibrato: Optional[VibratoParam] = Field(None, alias="Vibrato")
+    pronunciation: str | None = Field(None, alias="Pronunciation")
+    edited_phones: Phones | None = Field(None, alias="EditedPhones")
+    vibrato: VibratoParam | None = Field(None, alias="Vibrato")
 
     @property
     def end_pos(self) -> int:
@@ -249,7 +247,7 @@ class InstrumentalTrack(TrackMixin):
     offset: int = Field(default=0, alias="Offset")
 
 
-Track = Annotated[Union[SingingTrack, InstrumentalTrack], Field(discriminator="type_")]
+Track = Annotated[SingingTrack | InstrumentalTrack, Field(discriminator="type_")]
 
 
 class Project(BaseModel):

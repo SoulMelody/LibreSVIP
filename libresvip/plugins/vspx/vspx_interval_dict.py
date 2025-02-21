@@ -1,7 +1,6 @@
 import dataclasses
 import functools
 import math
-from typing import Optional, Union
 
 import more_itertools
 import portion
@@ -16,7 +15,7 @@ from .model import VocalSharpDefaultTrill, VocalSharpNoteTrack, VocalSharpTrill
 def vspx_sine_vibrato_interpolation(
     seconds: float,
     vibrato_start: float,
-    trill: Union[VocalSharpTrill, VocalSharpDefaultTrill],
+    trill: VocalSharpTrill | VocalSharpDefaultTrill,
 ) -> float:
     return (
         math.sin(math.pi * (2 * (seconds - vibrato_start) * trill.frequency + trill.phase))
@@ -39,7 +38,7 @@ def vspx_cosine_vibrato_coef_release_interpolation(
 @dataclasses.dataclass
 class BasePitchCurve:
     note_track: dataclasses.InitVar[VocalSharpNoteTrack]
-    default_trill: dataclasses.InitVar[Optional[VocalSharpDefaultTrill]]
+    default_trill: dataclasses.InitVar[VocalSharpDefaultTrill | None]
     synchronizer: TimeSynchronizer
     key_interval_dict: PiecewiseIntervalDict = dataclasses.field(
         default_factory=PiecewiseIntervalDict
@@ -54,7 +53,7 @@ class BasePitchCurve:
     def __post_init__(
         self,
         note_track: VocalSharpNoteTrack,
-        default_trill: Optional[VocalSharpDefaultTrill],
+        default_trill: VocalSharpDefaultTrill | None,
     ) -> None:
         if not len(note_track.note):
             pass
@@ -141,8 +140,8 @@ class BasePitchCurve:
         self,
         start: float,
         end: float,
-        trill: Union[VocalSharpTrill, VocalSharpDefaultTrill],
-        por: Optional[float] = None,
+        trill: VocalSharpTrill | VocalSharpDefaultTrill,
+        por: float | None = None,
     ) -> None:
         self.vibrato_value_interval_dict[portion.closed(start, end)] = functools.partial(
             vspx_sine_vibrato_interpolation,
@@ -179,7 +178,7 @@ class BasePitchCurve:
         else:
             self.vibrato_coef_interval_dict[portion.closed(start, end)] = 0
 
-    def semitone_value_at(self, seconds: float) -> Optional[float]:
+    def semitone_value_at(self, seconds: float) -> float | None:
         if (pitch_value := self.key_interval_dict.get(seconds)) is not None and (
             vibrato_value := self.vibrato_value_interval_dict.get(seconds)
         ) is not None:

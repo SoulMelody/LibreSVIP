@@ -1,7 +1,7 @@
 import dataclasses
 import math
 from collections.abc import MutableSequence
-from typing import Optional, cast
+from typing import cast
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -129,7 +129,7 @@ class UstxGenerator:
         return ustx_voice_part
 
     @staticmethod
-    def generate_wave_part(os_track: InstrumentalTrack, track_no: int) -> Optional[UWavePart]:
+    def generate_wave_part(os_track: InstrumentalTrack, track_no: int) -> UWavePart | None:
         if track_info := audio_track_info(os_track.audio_file_path):
             return UWavePart(
                 name=os_track.title,

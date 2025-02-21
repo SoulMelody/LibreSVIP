@@ -1,6 +1,6 @@
 import functools
 from collections.abc import MutableMapping
-from typing import Any, Union
+from typing import Any
 
 from libresvip.core.config import LyricsReplacement, get_ui_settings
 from libresvip.extension import base as plugin_base
@@ -9,9 +9,7 @@ from libresvip.model.base import Project, SingingTrack
 from .options import ProcessOptions
 
 
-def replace_lyric(
-    replacement: Union[LyricsReplacement, MutableMapping[str, Any]], text: str
-) -> str:
+def replace_lyric(replacement: LyricsReplacement | MutableMapping[str, Any], text: str) -> str:
     if isinstance(replacement, MutableMapping):
         replacement = LyricsReplacement(**replacement)
     return replacement.replace(text)

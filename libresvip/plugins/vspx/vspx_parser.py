@@ -1,5 +1,4 @@
 import dataclasses
-from typing import Optional, Union
 
 from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -33,7 +32,7 @@ from .vspx_interval_dict import BasePitchCurve
 @dataclasses.dataclass
 class VocalSharpParser:
     options: InputOptions
-    default_trill: Optional[VocalSharpDefaultTrill] = None
+    default_trill: VocalSharpDefaultTrill | None = None
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
@@ -54,7 +53,7 @@ class VocalSharpParser:
             [
                 track
                 for track in vspx_project.project.tracks
-                if isinstance(track, (VocalSharpMonoTrack, VocalSharpStereoTrack))
+                if isinstance(track, VocalSharpMonoTrack | VocalSharpStereoTrack)
             ]
         )
         return Project(
@@ -142,7 +141,7 @@ class VocalSharpParser:
 
     def parse_instrumental_tracks(
         self,
-        track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]],
+        track_list: list[VocalSharpMonoTrack | VocalSharpStereoTrack],
     ) -> list[InstrumentalTrack]:
         tracks = []
         if self.options.import_instrumental_track:

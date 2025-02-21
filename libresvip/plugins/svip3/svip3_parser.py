@@ -2,7 +2,6 @@ import dataclasses
 import itertools
 import operator
 from collections.abc import MutableSequence
-from typing import Optional
 from urllib.parse import urljoin
 
 from google.protobuf import any_pb2
@@ -94,7 +93,7 @@ class Svip3Parser:
                     tracks.append(xstudio_audio_track)
         return tracks
 
-    def parse_audio_track(self, audio_track: Svip3AudioTrack) -> Optional[InstrumentalTrack]:
+    def parse_audio_track(self, audio_track: Svip3AudioTrack) -> InstrumentalTrack | None:
         audio_file_path = None
         offset = 0
         if len(audio_track.pattern_list):
@@ -177,14 +176,14 @@ class Svip3Parser:
         return svip3_note.pronouncing
 
     @staticmethod
-    def parse_head_tag(svip3_note: Svip3Note) -> Optional[str]:
+    def parse_head_tag(svip3_note: Svip3Note) -> str | None:
         if svip3_note.sil_len > 0:
             return "0"
         elif svip3_note.sp_len > 0:
             return "V"
         return None
 
-    def parse_edited_phones(self, svip3_note: Svip3Note) -> Optional[Phones]:
+    def parse_edited_phones(self, svip3_note: Svip3Note) -> Phones | None:
         if svip3_note.consonant_len > 0:
             return Phones(
                 head_length_in_secs=(

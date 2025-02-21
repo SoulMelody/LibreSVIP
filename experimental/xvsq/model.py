@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional
 
 from pydantic import BaseModel
 from xsdata_pydantic.fields import field
@@ -248,14 +248,14 @@ class ControlLeft(BaseModel):
 
 
 class ControlRight(BaseModel):
-    x: Union[float, int] = field(
+    x: float | int = field(
         metadata={
             "name": "X",
             "type": "Element",
             "required": True,
         }
     )
-    y: Union[float, int] = field(
+    y: float | int = field(
         metadata={
             "name": "Y",
             "type": "Element",
@@ -439,7 +439,7 @@ class L0(BaseModel):
             "required": True,
         }
     )
-    unknown_float: Union[int, float] = field(
+    unknown_float: int | float = field(
         metadata={
             "name": "UnknownFloat",
             "type": "Element",
@@ -453,7 +453,7 @@ class L0(BaseModel):
             "required": True,
         }
     )
-    consonant_adjustment: Union[int, str] = field(
+    consonant_adjustment: int | str = field(
         metadata={
             "name": "ConsonantAdjustment",
             "type": "Element",
@@ -809,7 +809,7 @@ class TimeSigTableEntry(BaseModel):
 
 
 class UstEvent(BaseModel):
-    flags: Optional[object] = field(
+    flags: object | None = field(
         default=None,
         metadata={
             "name": "Flags",
@@ -823,14 +823,14 @@ class UstEvent(BaseModel):
             "required": True,
         }
     )
-    properties: Optional[object] = field(
+    properties: object | None = field(
         default=None,
         metadata={
             "name": "Properties",
             "type": "Element",
         },
     )
-    lyric: Optional[object] = field(
+    lyric: object | None = field(
         default=None,
         metadata={
             "name": "Lyric",
@@ -1894,7 +1894,7 @@ class Id(BaseModel):
             "required": True,
         }
     )
-    icon_handle: Optional[IconHandle] = field(
+    icon_handle: IconHandle | None = field(
         default=None,
         metadata={
             "name": "IconHandle",
@@ -1950,14 +1950,14 @@ class Id(BaseModel):
             "required": True,
         }
     )
-    lyric_handle: Optional[LyricHandle] = field(
+    lyric_handle: LyricHandle | None = field(
         default=None,
         metadata={
             "name": "LyricHandle",
             "type": "Element",
         },
     )
-    vibrato_handle: Optional[VibratoHandle] = field(
+    vibrato_handle: VibratoHandle | None = field(
         default=None,
         metadata={
             "name": "VibratoHandle",
@@ -1971,7 +1971,7 @@ class Id(BaseModel):
             "required": True,
         }
     )
-    note_head_handle: Optional[NoteHeadHandle] = field(
+    note_head_handle: NoteHeadHandle | None = field(
         default=None,
         metadata={
             "name": "NoteHeadHandle",
@@ -2005,7 +2005,7 @@ class Id(BaseModel):
             "required": True,
         }
     )
-    icon_dynamics_handle: Optional[IconDynamicsHandle] = field(
+    icon_dynamics_handle: IconDynamicsHandle | None = field(
         default=None,
         metadata={
             "name": "IconDynamicsHandle",
@@ -2194,112 +2194,112 @@ class BezierCurves(BaseModel):
             "required": True,
         }
     )
-    vibrato_rate: Optional[object] = field(
+    vibrato_rate: object | None = field(
         default=None,
         metadata={
             "name": "VibratoRate",
             "type": "Element",
         },
     )
-    vibrato_depth: Optional[object] = field(
+    vibrato_depth: object | None = field(
         default=None,
         metadata={
             "name": "VibratoDepth",
             "type": "Element",
         },
     )
-    harmonics: Optional[object] = field(
+    harmonics: object | None = field(
         default=None,
         metadata={
             "name": "Harmonics",
             "type": "Element",
         },
     )
-    fx2_depth: Optional[object] = field(
+    fx2_depth: object | None = field(
         default=None,
         metadata={
             "name": "FX2Depth",
             "type": "Element",
         },
     )
-    reso1_freq: Optional[object] = field(
+    reso1_freq: object | None = field(
         default=None,
         metadata={
             "name": "Reso1Freq",
             "type": "Element",
         },
     )
-    reso1_bw: Optional[object] = field(
+    reso1_bw: object | None = field(
         default=None,
         metadata={
             "name": "Reso1BW",
             "type": "Element",
         },
     )
-    reso1_amp: Optional[object] = field(
+    reso1_amp: object | None = field(
         default=None,
         metadata={
             "name": "Reso1Amp",
             "type": "Element",
         },
     )
-    reso2_freq: Optional[object] = field(
+    reso2_freq: object | None = field(
         default=None,
         metadata={
             "name": "Reso2Freq",
             "type": "Element",
         },
     )
-    reso2_bw: Optional[object] = field(
+    reso2_bw: object | None = field(
         default=None,
         metadata={
             "name": "Reso2BW",
             "type": "Element",
         },
     )
-    reso2_amp: Optional[object] = field(
+    reso2_amp: object | None = field(
         default=None,
         metadata={
             "name": "Reso2Amp",
             "type": "Element",
         },
     )
-    reso3_freq: Optional[object] = field(
+    reso3_freq: object | None = field(
         default=None,
         metadata={
             "name": "Reso3Freq",
             "type": "Element",
         },
     )
-    reso3_bw: Optional[object] = field(
+    reso3_bw: object | None = field(
         default=None,
         metadata={
             "name": "Reso3BW",
             "type": "Element",
         },
     )
-    reso3_amp: Optional[object] = field(
+    reso3_amp: object | None = field(
         default=None,
         metadata={
             "name": "Reso3Amp",
             "type": "Element",
         },
     )
-    reso4_freq: Optional[object] = field(
+    reso4_freq: object | None = field(
         default=None,
         metadata={
             "name": "Reso4Freq",
             "type": "Element",
         },
     )
-    reso4_bw: Optional[object] = field(
+    reso4_bw: object | None = field(
         default=None,
         metadata={
             "name": "Reso4BW",
             "type": "Element",
         },
     )
-    reso4_amp: Optional[object] = field(
+    reso4_amp: object | None = field(
         default=None,
         metadata={
             "name": "Reso4Amp",

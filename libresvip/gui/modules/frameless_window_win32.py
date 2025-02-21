@@ -1,7 +1,7 @@
 # mypy: disable-error-code="attr-defined"
 import ctypes
 from ctypes.wintypes import MSG
-from typing import Optional, SupportsInt
+from typing import SupportsInt
 
 from PySide6.QtCore import QPoint, QRect, Qt, Slot
 from PySide6.QtGui import QGuiApplication, QMouseEvent, QWindow
@@ -28,7 +28,7 @@ class MARGINS(ctypes.Structure):
 
 @QmlElement
 class FramelessWindow(QQuickWindow):
-    def __init__(self, parent: Optional[QWindow] = None, border_width: int = 5) -> None:
+    def __init__(self, parent: QWindow | None = None, border_width: int = 5) -> None:
         super().__init__(parent)
         self.flags: Qt.WindowType = (
             self.flags
@@ -37,7 +37,7 @@ class FramelessWindow(QQuickWindow):
             | Qt.WindowType.WindowMinMaxButtonsHint
         )
         self.border_width = border_width
-        self.maximize_btn: Optional[QQuickItem] = None
+        self.maximize_btn: QQuickItem | None = None
         self.maximize_btn_hovered = False
         self.set_borderless()
         screen_geometry = self.screen().available_geometry
@@ -95,7 +95,7 @@ class FramelessWindow(QQuickWindow):
         style &= ~win32con.WS_EX_LAYERED
         user32.SetWindowLongW(hwnd, win32con.GWL_EXSTYLE, style)
 
-    def add_dwm_effect(self) -> Optional[SupportsInt]:
+    def add_dwm_effect(self) -> SupportsInt | None:
         if not self.is_composition_enabled:
             return None
 

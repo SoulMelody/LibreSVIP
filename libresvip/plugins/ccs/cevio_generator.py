@@ -1,6 +1,5 @@
 import dataclasses
 import datetime
-from typing import Optional
 
 from wanakana import PROLONGED_SOUND_MARK
 from xsdata.models.datatype import XmlTime
@@ -203,7 +202,7 @@ class CeVIOGenerator:
 
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]
-    ) -> Optional[CeVIOParameter]:
+    ) -> CeVIOParameter | None:
         if (data := generate_for_cevio(pitch, tempo_list, self.first_bar_length)) is not None:
             log_f0_node = CeVIOParameter(length=data.length)
             log_f0_node.data.extend(

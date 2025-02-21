@@ -1,7 +1,6 @@
 import atexit
 import io
 from contextlib import ExitStack
-from typing import Optional
 
 from loguru import _logger
 from typing_extensions import Self
@@ -27,7 +26,7 @@ def show_warning(message: str) -> None:
 class CatchWarnings:
     def __init__(self) -> None:
         self._handler_id = None
-        self._exit_stack: Optional[ExitStack] = None
+        self._exit_stack: ExitStack | None = None
         self._output = io.StringIO()
         self.output = ""
 

@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel
 from xsdata_pydantic.fields import field
@@ -21,7 +20,7 @@ class Dependency(BaseModel):
     class Meta:
         name = "dependency"
 
-    catalog: Optional[str] = field(
+    catalog: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -33,13 +32,13 @@ class Location(BaseModel):
     class Meta:
         name = "location"
 
-    filename: Optional[str] = field(
+    filename: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    line: Optional[str] = field(
+    line: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -192,7 +191,7 @@ class Translation(BaseModel):
     class Meta:
         name = "translation"
 
-    type_value: Optional[TranslationType] = field(
+    type_value: TranslationType | None = field(
         default=None,
         metadata={
             "name": "type",
@@ -239,49 +238,49 @@ class Message(BaseModel):
             "type": "Element",
         },
     )
-    source: Optional[Source] = field(
+    source: Source | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    oldsource: Optional[Oldsource] = field(
+    oldsource: Oldsource | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    comment: Optional[Comment] = field(
+    comment: Comment | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    oldcomment: Optional[Oldcomment] = field(
+    oldcomment: Oldcomment | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    extracomment: Optional[Extracomment] = field(
+    extracomment: Extracomment | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    translatorcomment: Optional[Translatorcomment] = field(
+    translatorcomment: Translatorcomment | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    translation: Optional[Translation] = field(
+    translation: Translation | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    userdata: Optional[Userdata] = field(
+    userdata: Userdata | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -294,7 +293,7 @@ class Message(BaseModel):
             "type": "Element",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -318,7 +317,7 @@ class Context(BaseModel):
             "required": True,
         }
     )
-    comment: Optional[Comment] = field(
+    comment: Comment | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -331,7 +330,7 @@ class Context(BaseModel):
             "min_occurs": 1,
         },
     )
-    encoding: Optional[str] = field(
+    encoding: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -350,7 +349,7 @@ class Ts(BaseModel):
             "type": "Element",
         },
     )
-    dependencies: Optional[Dependencies] = field(
+    dependencies: Dependencies | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -368,19 +367,19 @@ class Ts(BaseModel):
             "type": "Element",
         },
     )
-    version: Optional[str] = field(
+    version: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    sourcelanguage: Optional[str] = field(
+    sourcelanguage: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    language: Optional[str] = field(
+    language: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",

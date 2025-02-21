@@ -2,7 +2,6 @@ import dataclasses
 import functools
 import operator
 from collections.abc import Iterator
-from typing import Optional
 
 from sortedcontainers import SortedKeyList
 
@@ -90,7 +89,7 @@ class USTParser:
         ]
 
     def parse_notes(
-        self, initial_tempo: Optional[float], notes: list[UTAUNote]
+        self, initial_tempo: float | None, notes: list[UTAUNote]
     ) -> Iterator[tuple[list[Note], UtauMode1TrackPitchData, UtauMode2TrackPitchData]]:
         note_list = []
         mode1_track_pitch_data = UtauMode1TrackPitchData()

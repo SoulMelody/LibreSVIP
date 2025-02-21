@@ -1,6 +1,5 @@
 import dataclasses
 import pathlib
-from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
@@ -225,7 +224,7 @@ class VocaloidGenerator:
             )
         return tracks
 
-    def generate_pitch_data(self, track: SingingTrack) -> Optional[list[VocaloidControllers]]:
+    def generate_pitch_data(self, track: SingingTrack) -> list[VocaloidControllers] | None:
         raw_pitch_data = generate_for_vocaloid(
             track.edited_params.pitch,
             track.note_list,

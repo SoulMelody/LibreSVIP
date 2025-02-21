@@ -3,7 +3,7 @@ import operator
 import re
 from collections.abc import Callable
 from functools import partial, reduce
-from typing import Optional, cast
+from typing import cast
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
@@ -113,8 +113,8 @@ class SynthVParser:
         self,
         sv_curve: SVParamCurve,
         mapping_func: Callable[[float], int],
-        base_value: Optional[float] = None,
-        master_curve: Optional[SVParamCurve] = None,
+        base_value: float | None = None,
+        master_curve: SVParamCurve | None = None,
     ) -> ParamCurve:
         if base_value is None:
             base_value = 0.0
@@ -250,8 +250,8 @@ class SynthVParser:
         vibrato_env: SVParamCurve,
         sv_notes: list[SVNote],
         step: int = 5,
-        master_pitch_diff: Optional[SVParamCurve] = None,
-        master_vibrato_env: Optional[SVParamCurve] = None,
+        master_pitch_diff: SVParamCurve | None = None,
+        master_vibrato_env: SVParamCurve | None = None,
     ) -> ParamCurve:
         curve = ParamCurve()
         if not sv_notes:
@@ -409,7 +409,7 @@ class SynthVParser:
         self,
         sv_params: SVParameters,
         sv_notes: list[SVNote],
-        master_params: Optional[SVParameters] = None,
+        master_params: SVParameters | None = None,
     ) -> Params:
         params = Params()
         if self.options.import_pitch:
@@ -615,7 +615,7 @@ class SynthVParser:
             )
         return note_list
 
-    def parse_track(self, sv_track: SVTrack) -> Optional[Track]:
+    def parse_track(self, sv_track: SVTrack) -> Track | None:
         if sv_track.main_ref.is_instrumental:
             if self.options.import_instrumental_track and sv_track.main_ref.audio is not None:
                 svip_track = InstrumentalTrack(

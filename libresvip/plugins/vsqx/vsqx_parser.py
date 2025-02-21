@@ -2,7 +2,6 @@ import dataclasses
 import functools
 import math
 import pathlib
-from typing import Optional
 
 import more_itertools
 import portion
@@ -273,7 +272,7 @@ class VsqxParser:
         vibrato_rate_interval_dict: PiecewiseIntervalDict,
         vibrato_depth_interval_dict: PiecewiseIntervalDict,
         tick_offset: int,
-    ) -> Optional[ParamCurve]:
+    ) -> ParamCurve | None:
         pitch_data = VocaloidPartPitchData(
             start_pos=musical_part.pos_tick - tick_offset,
             pit=[

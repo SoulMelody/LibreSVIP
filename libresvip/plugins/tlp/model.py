@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from itertools import chain
-from typing import Annotated, Any, Literal, NamedTuple, Optional, Union, cast
+from typing import Annotated, Any, Literal, NamedTuple, cast
 
 from more_itertools import batched
 from pydantic import (
@@ -52,7 +52,7 @@ class TuneLabAutomation(BaseModel):
     @field_validator("values", mode="before")
     @classmethod
     def validate_values(
-        cls, values: list[Union[float, TuneLabPoint]], _info: ValidationInfo
+        cls, values: list[float | TuneLabPoint], _info: ValidationInfo
     ) -> TuneLabPoints:
         if _info.mode == "json":
             return TuneLabPoints(root=[TuneLabPoint._make(each) for each in batched(values, 2)])
@@ -70,7 +70,7 @@ class TuneLabNote(BaseModel):
     dur: float
     pitch: int
     lyric: str
-    pronunciation: Optional[str] = None
+    pronunciation: str | None = None
     phonemes: list[TuneLabPhoneme] = Field(default_factory=list)
     properties: dict[str, Any] = Field(default_factory=dict)
 
@@ -96,7 +96,7 @@ class TuneLabBasePart(BaseModel):
 
 class TuneLabMidiPart(TuneLabBasePart):
     type_: Literal["midi"] = Field("midi", alias="type")
-    gain: Optional[float] = 0.0
+    gain: float | None = 0.0
     voice: TuneLabVoice = Field(default_factory=TuneLabVoice)
     properties: dict[str, Any] = Field(default_factory=dict)
     notes: list[TuneLabNote] = Field(default_factory=list)
@@ -108,7 +108,7 @@ class TuneLabMidiPart(TuneLabBasePart):
     @classmethod
     def validate_pitch(
         cls,
-        pitch: Union[list[list[float]], list[TuneLabPoints]],
+        pitch: list[list[float]] | list[TuneLabPoints],
         _info: ValidationInfo,
     ) -> list[TuneLabPoints]:
         if _info.mode == "json":
@@ -124,7 +124,7 @@ class TuneLabAudioPart(TuneLabBasePart):
     path: str
 
 
-TuneLabPart = Annotated[Union[TuneLabMidiPart, TuneLabAudioPart], Field(discriminator="type_")]
+TuneLabPart = Annotated[TuneLabMidiPart | TuneLabAudioPart, Field(discriminator="type_")]
 
 
 class TuneLabTrack(BaseModel):
@@ -134,7 +134,7 @@ class TuneLabTrack(BaseModel):
     mute: bool
     solo: bool
     color: str = ""
-    as_refer: Optional[bool] = Field(False, alias="asRefer")
+    as_refer: bool | None = Field(False, alias="asRefer")
     parts: list[TuneLabPart] = Field(default_factory=list)
 
 

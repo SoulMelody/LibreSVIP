@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from more_itertools import locate, rlocate
 
@@ -14,7 +14,7 @@ def find_last_index(obj_list: list[T], pred: Callable[[T], bool]) -> int:
     return next(rlocate(obj_list, pred), -1)
 
 
-def binary_find_first(n: list[T], pred: Callable[[T], bool]) -> Optional[T]:
+def binary_find_first(n: list[T], pred: Callable[[T], bool]) -> T | None:
     if not len(n):
         return None
     left, right = 0, len(n) - 1
@@ -27,7 +27,7 @@ def binary_find_first(n: list[T], pred: Callable[[T], bool]) -> Optional[T]:
     return n[right] if pred(n[right]) else None
 
 
-def binary_find_last(n: list[T], pred: Callable[[T], bool]) -> Optional[T]:
+def binary_find_last(n: list[T], pred: Callable[[T], bool]) -> T | None:
     if not len(n):
         return None
     left, right = 0, len(n) - 1

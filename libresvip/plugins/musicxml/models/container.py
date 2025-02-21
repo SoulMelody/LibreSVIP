@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, ConfigDict
 from xsdata_pydantic.fields import field
 
@@ -29,7 +27,7 @@ class Rootfile(BaseModel):
             "required": True,
         }
     )
-    media_type: Optional[str] = field(
+    media_type: str | None = field(
         default=None,
         metadata={
             "name": "media-type",

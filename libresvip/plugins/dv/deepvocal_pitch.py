@@ -4,7 +4,7 @@ import dataclasses
 import operator
 from functools import singledispatch
 from itertools import groupby
-from typing import Optional, SupportsFloat
+from typing import SupportsFloat
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo
@@ -44,7 +44,7 @@ class DvNoteWithPitch:
 
 def merge_points_from_segments(
     segments: list[DvSegmentPitchRawData],
-) -> Optional[list[Point]]:
+) -> list[Point] | None:
     points = []
     for segment in segments:
         for dv_point in segment.data:
@@ -58,7 +58,7 @@ def merge_points_from_segments(
     return points or None
 
 
-def merge_same_tick_points(points: list[Point]) -> Optional[list[Point]]:
+def merge_same_tick_points(points: list[Point]) -> list[Point] | None:
     merged_points = []
     for tick, group in groupby(iter(points), key=operator.attrgetter("x")):
         group_list = list(group)
@@ -77,7 +77,7 @@ def merge_same_tick_points(points: list[Point]) -> Optional[list[Point]]:
     return merged_points or None
 
 
-def merge_same_value_points(points: list[Point]) -> Optional[list[Point]]:
+def merge_same_value_points(points: list[Point]) -> list[Point] | None:
     merged_points = [next(group) for key, group in groupby(points, key=operator.attrgetter("y"))]
     return merged_points or None
 
@@ -277,7 +277,7 @@ def pitch_from_dv_track(
     segments: list[DvSegmentPitchRawData],
     notes: list[DvNoteWithPitch],
     tempos: list[SongTempo],
-) -> Optional[ParamCurve]:
+) -> ParamCurve | None:
     merged_points = merge_points_from_segments(segments)
     if merged_points is None:
         return None
@@ -292,7 +292,7 @@ def pitch_from_dv_track(
 
 def generate_for_dv(
     first_bar_length: int, pitch: ParamCurve, notes: list[Note]
-) -> Optional[DvSegmentPitchRawData]:
+) -> DvSegmentPitchRawData | None:
     if not len(pitch.points):
         return None
     data = [DvPoint(x=-1, y=-1)]

@@ -3,10 +3,10 @@ import functools
 import math
 import re
 from collections.abc import Callable
-from typing import Optional
+from typing import Concatenate
 
 from more_itertools import pairwise
-from typing_extensions import Concatenate, ParamSpec
+from typing_extensions import ParamSpec
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.model.point import Point
@@ -77,8 +77,8 @@ def midi2hz(midi: float, a4_midi: int = 69, base_freq: float = 440.0) -> float:
 
 def clamp(
     x: float,
-    lower: Optional[float] = None,
-    upper: Optional[float] = None,
+    lower: float | None = None,
+    upper: float | None = None,
 ) -> float:
     """Limit a value to a given range.
 
@@ -255,7 +255,7 @@ def db_to_float(db: float, using_amplitude: bool = True) -> float:
     return 10 ** (db / 20) if using_amplitude else 10 ** (db / 10)
 
 
-def ratio_to_db(ratio: float, val2: Optional[float] = None, using_amplitude: bool = True) -> float:
+def ratio_to_db(ratio: float, val2: float | None = None, using_amplitude: bool = True) -> float:
     """
     Converts the input float to db, which represents the equivalent
     to the ratio in power represented by the multiplier passed in.

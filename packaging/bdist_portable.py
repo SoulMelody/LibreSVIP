@@ -3,7 +3,7 @@
 import os
 import pathlib
 from sysconfig import get_python_version
-from typing import ClassVar, Optional
+from typing import ClassVar
 
 from loguru import logger
 from setuptools import Command
@@ -15,7 +15,7 @@ from setuptools._distutils.util import get_platform
 class BdistPortable(Command):
     description = 'create a "portable" built distribution'
 
-    user_options: ClassVar[list[tuple[str, Optional[str], str]]] = [
+    user_options: ClassVar[list[tuple[str, str | None, str]]] = [
         (
             "bdist-dir=",
             "d",
@@ -68,9 +68,9 @@ class BdistPortable(Command):
     default_format: ClassVar[dict[str, str]] = {"posix": "gztar", "nt": "zip"}
 
     def initialize_options(self) -> None:
-        self.bdist_dir: Optional[pathlib.Path] = None
+        self.bdist_dir: pathlib.Path | None = None
         self.plat_name = None
-        self.format: Optional[str] = None
+        self.format: str | None = None
         self.keep_temp = 0
         self.dist_dir = None
         self.skip_build = None

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import abc
-from typing import TYPE_CHECKING, Any, Generic, NamedTuple, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Generic, NamedTuple, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -68,7 +68,7 @@ class PointList(abc.ABC, Generic[PointType]):
     def sort(self, /, *args: Any, **kwds: Any) -> None:
         self.root.sort(*args, **kwds)
 
-    def extend(self, other: Union[PointList[PointType], Iterable[PointType]]) -> None:
+    def extend(self, other: PointList[PointType] | Iterable[PointType]) -> None:
         if isinstance(other, PointList):
             self.root.extend(other.root)
         else:

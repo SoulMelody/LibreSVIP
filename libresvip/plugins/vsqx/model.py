@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 from pydantic import Field
 
 from libresvip.model.base import BaseModel
@@ -51,30 +49,30 @@ from .models.vsqx4 import VVoice as Vsq4VVoice
 from .models.vsqx4 import VVoiceTable as Vsq4VVoiceTable
 from .models.vsqx4 import WavPart as Vsq4WavPart
 
-Vsqx = Union[Vsq3, Vsq4]
-VsqxMasterTrack = Union[Vsq3MasterTrack, Vsq4MasterTrack]
-VsqxMCtrl = Union[Vsq3MCtrl, Vsq4MCtrl]
-VsqxMixer = Union[Vsq3Mixer, Vsq4Mixer]
-VsqxMonoTrack = Union[Vsq3MonoTrack, Vsq4MonoTrack]
-VsqxMusicalPart = Union[Vsq3MusicalPart, Vsq4MusicalPart]
-VsqxNote = Union[Vsq3Note, Vsq4Note]
-VsqxNoteStyle = Union[Vsq3NoteStyle, Vsq4NoteStyle]
-VsqxParameterNames = Union[Vsq3ParameterNames, Vsq4ParameterNames]
-VsqxPartStyle = Union[Vsq3PartStyle, Vsq4PartStyle]
-VsqxTypePhonemes = Union[Vsq3TypePhonemes, Vsq4TypePhonemes]
-VsqxSinger = Union[Vsq3Singer, Vsq4Singer]
-VsqxStereoTrack = Union[Vsq3StereoTrack, Vsq4StereoTrack]
-VsqxStereoUnitList = Union[list[Vsq3StereoUnit], list[Vsq4StereoUnit]]
-VsqxMonoUnitList = Union[list[Vsq3MonoUnit], list[Vsq4MonoUnit]]
-VsqxWavUnitList = Union[VsqxStereoUnitList, VsqxMonoUnitList]
-VsqxTempoList = Union[list[Vsq3Tempo], list[Vsq4Tempo]]
-VsqxTimeSigList = Union[list[Vsq3TimeSig], list[Vsq4TimeSig]]
-VsqxTypeParamAttr = Union[Vsq3TypeParamAttr, Vsq4TypeParamAttr]
-VsqxVsTrackList = Union[list[Vsq3VsTrack], list[Vsq4VsTrack]]
-VsqxVsUnitList = Union[list[Vsq3VsUnit], list[Vsq4VsUnit]]
-VsqxVVoice = Union[Vsq3VVoice, Vsq4VVoice]
-VsqxVVoiceTable = Union[Vsq3VVoiceTable, Vsq4VVoiceTable]
-VsqxWavPartList = Union[list[Vsq3WavPart], list[Vsq4WavPart]]
+Vsqx = Vsq3 | Vsq4
+VsqxMasterTrack = Vsq3MasterTrack | Vsq4MasterTrack
+VsqxMCtrl = Vsq3MCtrl | Vsq4MCtrl
+VsqxMixer = Vsq3Mixer | Vsq4Mixer
+VsqxMonoTrack = Vsq3MonoTrack | Vsq4MonoTrack
+VsqxMusicalPart = Vsq3MusicalPart | Vsq4MusicalPart
+VsqxNote = Vsq3Note | Vsq4Note
+VsqxNoteStyle = Vsq3NoteStyle | Vsq4NoteStyle
+VsqxParameterNames = Vsq3ParameterNames | Vsq4ParameterNames
+VsqxPartStyle = Vsq3PartStyle | Vsq4PartStyle
+VsqxTypePhonemes = Vsq3TypePhonemes | Vsq4TypePhonemes
+VsqxSinger = Vsq3Singer | Vsq4Singer
+VsqxStereoTrack = Vsq3StereoTrack | Vsq4StereoTrack
+VsqxStereoUnitList = list[Vsq3StereoUnit] | list[Vsq4StereoUnit]
+VsqxMonoUnitList = list[Vsq3MonoUnit] | list[Vsq4MonoUnit]
+VsqxWavUnitList = VsqxStereoUnitList | VsqxMonoUnitList
+VsqxTempoList = list[Vsq3Tempo] | list[Vsq4Tempo]
+VsqxTimeSigList = list[Vsq3TimeSig] | list[Vsq4TimeSig]
+VsqxTypeParamAttr = Vsq3TypeParamAttr | Vsq4TypeParamAttr
+VsqxVsTrackList = list[Vsq3VsTrack] | list[Vsq4VsTrack]
+VsqxVsUnitList = list[Vsq3VsUnit] | list[Vsq4VsUnit]
+VsqxVVoice = Vsq3VVoice | Vsq4VVoice
+VsqxVVoiceTable = Vsq3VVoiceTable | Vsq4VVoiceTable
+VsqxWavPartList = list[Vsq3WavPart] | list[Vsq4WavPart]
 
 
 class VocaloidStyleTypes(BaseModel):
@@ -87,8 +85,8 @@ class VocaloidStyleTypes(BaseModel):
     rise_portamento: int = Field(0, alias="risePort")
     vibrato_length: int = Field(0, alias="vibLen")
     vibrato_type: int = Field(0, alias="vibType")
-    vibrato_depth: Optional[list[int]] = Field(None, alias="vibDep")
-    vibrato_rate: Optional[list[int]] = Field(None, alias="vibRate")
+    vibrato_depth: list[int] | None = Field(None, alias="vibDep")
+    vibrato_rate: list[int] | None = Field(None, alias="vibRate")
 
 
 __all__ = [

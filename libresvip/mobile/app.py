@@ -2,7 +2,8 @@ import enum
 import io
 import pathlib
 import traceback
-from typing import Optional, get_args, get_type_hints
+from importlib.resources import as_file
+from typing import get_args, get_type_hints
 
 import flet as ft
 import more_itertools
@@ -12,7 +13,7 @@ from pydantic_extra_types.color import Color
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile, as_file
+from libresvip.core.compat import ZipFile
 from libresvip.core.config import settings
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
@@ -139,7 +140,7 @@ def main(page: ft.Page) -> None:
                         col=10 if field_info.description is not None else 12,
                     )
                 )
-            elif issubclass(field_info.annotation, (str, BaseComplexModel, Color)):
+            elif issubclass(field_info.annotation, str | BaseComplexModel | Color):
                 if issubclass(field_info.annotation, BaseComplexModel):
                     default_value = field_info.annotation.default_repr()
                 fields.append(
@@ -163,7 +164,7 @@ def main(page: ft.Page) -> None:
                 )
         return fields
 
-    def build_input_options(value: Optional[str]) -> list[ft.Control]:
+    def build_input_options(value: str | None) -> list[ft.Control]:
         if value in plugin_manager.plugin_registry:
             input_plugin = plugin_manager.plugin_registry[value]
             if (
@@ -193,7 +194,7 @@ def main(page: ft.Page) -> None:
                 return build_options(middleware_option_cls)
         return []
 
-    def build_output_options(value: Optional[str]) -> list[ft.Control]:
+    def build_output_options(value: str | None) -> list[ft.Control]:
         if value in plugin_manager.plugin_registry:
             output_plugin = plugin_manager.plugin_registry[value]
             if (
@@ -208,7 +209,7 @@ def main(page: ft.Page) -> None:
                 return build_options(output_option_cls)
         return []
 
-    def set_last_input_format(value: Optional[str]) -> None:
+    def set_last_input_format(value: str | None) -> None:
         if input_select.current.value != value:
             input_select.current.value = value
         last_input_format = page.client_storage.get("last_input_format")
@@ -221,7 +222,7 @@ def main(page: ft.Page) -> None:
                 task_list_view.current.update()
             page.client_storage.set("last_input_format", value)
 
-    def set_last_output_format(value: Optional[str]) -> None:
+    def set_last_output_format(value: str | None) -> None:
         if output_select.current.value != value:
             output_select.current.value = value
         last_output_format = page.client_storage.get("last_output_format")
@@ -638,7 +639,7 @@ def main(page: ft.Page) -> None:
     def on_route_change(event: ft.RouteChangeEvent) -> None:
         page.views.clear()
 
-        def click_navigation_bar(event: Optional[ft.ControlEvent]) -> None:
+        def click_navigation_bar(event: ft.ControlEvent | None) -> None:
             for index, p in enumerate(pages.controls):
                 p.visible = index == bottom_nav_bar.selected_index
             page.update()
@@ -1185,7 +1186,7 @@ def main(page: ft.Page) -> None:
             )
         page.update()
 
-    def view_pop(view: Optional[ft.View]) -> None:
+    def view_pop(view: ft.View | None) -> None:
         page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route or "/")

@@ -1,5 +1,4 @@
 import dataclasses
-from typing import Union
 
 from construct import (
     Byte,
@@ -141,7 +140,7 @@ class DvTrackType(EnumBase):
 @dataclasses.dataclass
 class DvTrack(DataclassMixin):
     track_type: DvTrackType = csfield(TEnum(Int32ul, DvTrackType))
-    track_data: Union[DvSingingTrack, DvAudioTrack] = csfield(
+    track_data: DvSingingTrack | DvAudioTrack = csfield(
         IfThenElse(
             this.track_type == DvTrackType.SINGING,
             DataclassStruct(DvSingingTrack),

@@ -1,6 +1,6 @@
 import re
 from functools import cache
-from typing import Any, Optional
+from typing import Any
 
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, Slot
 
@@ -56,7 +56,7 @@ class PluginCadidatesTableModel(QAbstractTableModel):
 
     def header_data(
         self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
-    ) -> Optional[str]:
+    ) -> str | None:
         if role != Qt.ItemDataRole.DisplayRole:
             return None
 
@@ -119,7 +119,7 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
 
     def header_data(
         self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
-    ) -> Optional[str]:
+    ) -> str | None:
         if role != Qt.ItemDataRole.DisplayRole:
             return None
 

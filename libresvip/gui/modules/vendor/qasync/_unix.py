@@ -10,7 +10,7 @@ from __future__ import annotations
 import asyncio
 import selectors
 from collections.abc import Iterator, Mapping
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from loguru import logger
 from PySide6 import QtCore
@@ -56,7 +56,7 @@ class _Selector(selectors.BaseSelector):
         self.__write_notifiers: dict[FileDescriptorLike, QtCore.QSocketNotifier] = {}
         self.__parent = parent
 
-    def select(self, timeout: Optional[float] = None) -> list[tuple[selectors.SelectorKey, int]]:
+    def select(self, timeout: float | None = None) -> list[tuple[selectors.SelectorKey, int]]:
         """Implement abstract method even though we don't need it."""
         raise NotImplementedError
 
@@ -83,7 +83,7 @@ class _Selector(selectors.BaseSelector):
         self,
         fileobj: FileDescriptorLike,
         events: int,
-        data: Optional[Any] = None,
+        data: Any | None = None,
     ) -> selectors.SelectorKey:
         if (not events) or (events & ~(EVENT_READ | EVENT_WRITE)):
             msg = f"Invalid events: {events!r}"
@@ -144,7 +144,7 @@ class _Selector(selectors.BaseSelector):
         self,
         fileobj: FileDescriptorLike,
         events: int,
-        data: Optional[Any] = None,
+        data: Any | None = None,
     ) -> selectors.SelectorKey:
         try:
             key = self._fd_to_key[self._fileobj_lookup(fileobj)]
@@ -169,7 +169,7 @@ class _Selector(selectors.BaseSelector):
     def get_map(self) -> Mapping[FileDescriptorLike, selectors.SelectorKey]:
         return self.__map  # type: ignore[return-value]
 
-    def _key_from_fd(self, fd: FileDescriptor) -> Optional[selectors.SelectorKey]:
+    def _key_from_fd(self, fd: FileDescriptor) -> selectors.SelectorKey | None:
         """
         Return the key associated to a given file descriptor.
 

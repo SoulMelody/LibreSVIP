@@ -4,7 +4,8 @@ import platform
 import time
 from collections.abc import Awaitable, Sequence
 from functools import partial
-from typing import TYPE_CHECKING, Optional
+from importlib.resources import as_file
+from typing import TYPE_CHECKING
 
 import httpx
 from desktop_notifier import Button, DesktopNotifier, Notification
@@ -16,7 +17,6 @@ from PySide6.QtQml import QmlElement
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 import libresvip
-from libresvip.core.compat import as_file
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -38,7 +38,7 @@ class Notifier(QObject):
         super().__init__()
         self.request_timeout = 30
         self.notify_timeout = 5
-        self.last_notify_time: Optional[float] = None
+        self.last_notify_time: float | None = None
         try:
             icon_path: AbstractContextManager[Path] = as_file(res_dir / "libresvip.ico")
             app.aboutToQuit.connect(lambda: icon_path.__exit__(None, None, None))
@@ -222,7 +222,7 @@ class Notifier(QObject):
         message: str,
         buttons: Sequence[Button] = (),
         send_timeout: int = -1,
-    ) -> Optional[Awaitable[Notification]]:
+    ) -> Awaitable[Notification] | None:
         try:
             if self.last_notify_time is None:
                 pass

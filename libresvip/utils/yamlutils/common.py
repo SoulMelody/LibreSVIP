@@ -1,7 +1,6 @@
 import re
 from base64 import b64encode
 from hashlib import sha224
-from typing import Union
 
 from yaml.resolver import BaseResolver
 
@@ -57,5 +56,5 @@ def set_yaml_grammar(
             resolver.yaml_implicit_resolvers[start_char].append((r["tag"], r["regexp"]))
 
 
-def hash_key(key: Union[str, bytes]) -> str:
+def hash_key(key: str | bytes) -> str:
     return b64encode(sha224(key.encode() if isinstance(key, str) else key).digest()).decode()

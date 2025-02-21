@@ -1,6 +1,6 @@
 # mypy: disable-error-code="misc"
 import enum
-from typing import Annotated, Any, Optional
+from typing import Annotated, Any
 
 from pydantic import Field
 
@@ -20,16 +20,16 @@ class PpsfCurveType(enum.IntEnum):
 
 
 class PpsfCurvePointSeq(BaseModel):
-    border_type: Optional[int] = Field(None, alias="border-type")
-    note_index: Optional[int] = Field(None, alias="note-index")
+    border_type: int | None = Field(None, alias="border-type")
+    note_index: int | None = Field(None, alias="note-index")
     region_index: int = Field(alias="region-index")
-    edited_by_user: Optional[bool] = Field(False, alias="edited-by-user")
-    seg_array_id: Optional[int] = Field(None, alias="seg-array-id")
-    abs_value: Optional[int] = Field(None, alias="abs-value")
+    edited_by_user: bool | None = Field(False, alias="edited-by-user")
+    seg_array_id: int | None = Field(None, alias="seg-array-id")
+    abs_value: int | None = Field(None, alias="abs-value")
 
 
 class PpsfCurvePoint(BaseModel):
-    plugin_descriptor: Optional[str] = Field(None, alias="plugin-descriptor")
+    plugin_descriptor: str | None = Field(None, alias="plugin-descriptor")
     sequence: list[PpsfCurvePointSeq] = Field(default_factory=list)
     sub_track_category: int = Field(alias="sub-track-category")
     sub_track_id: int = Field(alias="sub-track-id")
@@ -50,44 +50,44 @@ class PpsfNote(BaseModel):
     language: PpsfLanguage = PpsfLanguage.JAPANESE
     region_index: int = Field(alias="region-index")
     syllables: list[PpsfSyllable] = Field(default_factory=list)
-    event_index: Optional[int] = None
-    length: Optional[int] = None
-    muted: Optional[bool] = False
-    vibrato_preset_id: Optional[int] = 0
-    voice_color_id: Optional[int] = 0
-    voice_release_id: Optional[int] = 0
-    note_env_preset_id: Optional[int] = 2
-    note_gain_value: Optional[int] = 0
-    note_param_edited_stats: Optional[int] = 0
-    portamento_length: Optional[int] = 180
-    portamento_offset: Optional[int] = -120
-    vibrato_depth: Optional[int] = 0
-    vibrato_rate: Optional[int] = 0
-    auto_ai_consonant_length_enabled: Optional[bool] = False
-    auto_ai_f0_enabled: Optional[bool] = True
-    auto_ai_vibrato_blend_amount: Optional[int] = None
-    auto_ai_vibrato_blend_type: Optional[int] = None
-    auto_ai_vibrato_default_type: Optional[int] = None
-    auto_ai_vibrato_depth: Optional[int] = 0
-    auto_ai_vibrato_enabled: Optional[bool] = False
-    auto_ai_vibrato_offset: Optional[float] = None
-    auto_ai_vibrato_offset_by_user: Optional[bool] = False
+    event_index: int | None = None
+    length: int | None = None
+    muted: bool | None = False
+    vibrato_preset_id: int | None = 0
+    voice_color_id: int | None = 0
+    voice_release_id: int | None = 0
+    note_env_preset_id: int | None = 2
+    note_gain_value: int | None = 0
+    note_param_edited_stats: int | None = 0
+    portamento_length: int | None = 180
+    portamento_offset: int | None = -120
+    vibrato_depth: int | None = 0
+    vibrato_rate: int | None = 0
+    auto_ai_consonant_length_enabled: bool | None = False
+    auto_ai_f0_enabled: bool | None = True
+    auto_ai_vibrato_blend_amount: int | None = None
+    auto_ai_vibrato_blend_type: int | None = None
+    auto_ai_vibrato_default_type: int | None = None
+    auto_ai_vibrato_depth: int | None = 0
+    auto_ai_vibrato_enabled: bool | None = False
+    auto_ai_vibrato_offset: float | None = None
+    auto_ai_vibrato_offset_by_user: bool | None = False
 
 
 class PpsfRegion(BaseModel):
-    auto_expand_left: Optional[bool] = Field(None, alias="auto-expand-left")
-    auto_expand_right: Optional[bool] = Field(None, alias="auto-expand-right")
+    auto_expand_left: bool | None = Field(None, alias="auto-expand-left")
+    auto_expand_right: bool | None = Field(None, alias="auto-expand-right")
     length: int
     muted: bool = False
     name: str = ""
     position: int
     z_order: int = Field(0, alias="z-order")
-    audio_event_index: Optional[int] = Field(None, alias="audio-event-index")
+    audio_event_index: int | None = Field(None, alias="audio-event-index")
 
 
 class PpsfSubTrack(BaseModel):
     height: int
-    plugin_descriptor: Optional[str] = Field(None, alias="plugin-descriptor")
+    plugin_descriptor: str | None = Field(None, alias="plugin-descriptor")
     sub_track_category: int = Field(alias="sub-track-category")
     sub_track_id: int = Field(alias="sub-track-id")
 
@@ -96,11 +96,11 @@ class PpsfParamPoint(BaseModel):
     curve_type: PpsfCurveType = PpsfCurveType.NORMAL
     pos: int
     value: int
-    region_index: Optional[int] = Field(None, alias="region-index")
-    border_type: Optional[int] = Field(None, alias="border-type")
-    note_index: Optional[int] = Field(None, alias="note-index")
-    edited_by_user: Optional[bool] = Field(None, alias="edited-by-user")
-    seg_array_id: Optional[int] = Field(None, alias="seg-array-id")
+    region_index: int | None = Field(None, alias="region-index")
+    border_type: int | None = Field(None, alias="border-type")
+    note_index: int | None = Field(None, alias="note-index")
+    edited_by_user: bool | None = Field(None, alias="edited-by-user")
+    seg_array_id: int | None = Field(None, alias="seg-array-id")
 
 
 class PpsfBaseSequence(BaseModel):
@@ -111,14 +111,14 @@ class PpsfBaseSequence(BaseModel):
 
 
 class PpsfSeqParam(BaseModel):
-    base_sequence: Optional[PpsfBaseSequence] = Field(None, alias="base-sequence")
-    layers: Optional[list[Any]] = Field(default_factory=list)
+    base_sequence: PpsfBaseSequence | None = Field(None, alias="base-sequence")
+    layers: list[Any] | None = Field(default_factory=list)
 
 
 class PpsfParameter(PpsfBaseSequence):
-    default: Optional[int] = None
-    max_value: Optional[int] = Field(None, alias="max")
-    min_value: Optional[int] = Field(None, alias="min")
+    default: int | None = None
+    max_value: int | None = Field(None, alias="max")
+    min_value: int | None = Field(None, alias="min")
 
 
 class PpsfFsmEffect(BaseModel):
@@ -133,12 +133,12 @@ class PpsfFsmEffect(BaseModel):
 
 class PpsfEventTrack(BaseModel):
     curve_points: list[PpsfCurvePoint] = Field(default_factory=list, alias="curve-points")
-    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(default_factory=list, alias="fsm-effects")
+    fsm_effects: list[PpsfFsmEffect] | None = Field(default_factory=list, alias="fsm-effects")
     height: int = 64
     index: int
     mute_solo: int = Field(0, alias="mute-solo")
     notes: list[PpsfNote] = Field(default_factory=list)
-    nt_envelope_preset_id: Optional[int] = Field(None, alias="nt-envelope-preset-id")
+    nt_envelope_preset_id: int | None = Field(None, alias="nt-envelope-preset-id")
     regions: list[PpsfRegion] = Field(default_factory=list)
     sub_tracks: list[PpsfSubTrack] = Field(default_factory=list, alias="sub-tracks")
     total_height: int = Field(64, alias="total-height")
@@ -160,7 +160,7 @@ class PpsfTrackEditor(BaseModel):
     horizontal_scale: float = Field(0.08, alias="horizontal-scale")
     horizontal_scroll: int = Field(0, alias="horizontal-scroll")
     tempo_track: PpsfTempoTrack = Field(default_factory=PpsfTempoTrack, alias="tempo-track")
-    user_markers: Optional[list[Any]] = Field(default_factory=list, alias="user-markers")
+    user_markers: list[Any] | None = Field(default_factory=list, alias="user-markers")
     width: int = 1024
     x: int = 100
     y: int = 100
@@ -168,25 +168,25 @@ class PpsfTrackEditor(BaseModel):
 
 class PpsfLoopPoint(BaseModel):
     begin: int = 0
-    enabled: Optional[bool] = Field(False, validation_alias="enable")
+    enabled: bool | None = Field(False, validation_alias="enable")
     end: int = 7680
 
 
 class PpsfMetronome(BaseModel):
-    enabled: Optional[bool] = Field(False, validation_alias="enable")
+    enabled: bool | None = Field(False, validation_alias="enable")
     wav: str = "null"
 
 
 class PpsfGuiSettings(BaseModel):
-    loop_point: Optional[PpsfLoopPoint] = Field(default_factory=PpsfLoopPoint)
-    metronome: Optional[PpsfMetronome] = Field(default_factory=PpsfMetronome)
-    ambient_enabled: Optional[bool] = Field(None, alias="ambient-enabled")
+    loop_point: PpsfLoopPoint | None = Field(default_factory=PpsfLoopPoint)
+    metronome: PpsfMetronome | None = Field(default_factory=PpsfMetronome)
+    ambient_enabled: bool | None = Field(None, alias="ambient-enabled")
     file_fullpath: str = Field("", alias="file-fullpath")
     playback_position: int = Field(0, alias="playback-position")
     project_length: int = Field(0, alias="project-length")
     track_editor: PpsfTrackEditor = Field(default_factory=PpsfTrackEditor, alias="track-editor")
-    auto_connect_interval_msec: Optional[int] = Field(None, alias="auto-connect-interval-msec")
-    is_saved_by_nt2: Optional[bool] = Field(None, alias="is-saved-by-nt2")
+    auto_connect_interval_msec: int | None = Field(None, alias="auto-connect-interval-msec")
+    is_saved_by_nt2: bool | None = Field(None, alias="is-saved-by-nt2")
 
 
 class PpsfFileAudioData(BaseModel):
@@ -199,7 +199,7 @@ class PpsfAudioTrackEvent(BaseModel):
     playback_offset_sample: int = 0
     tick_length: int = 0
     tick_pos: int
-    enabled: Optional[bool] = Field(True, validation_alias="enable")
+    enabled: bool | None = Field(True, validation_alias="enable")
 
 
 def default_gain() -> PpsfSeqParam:
@@ -228,7 +228,7 @@ class PpsfMixer(BaseModel):
 
 class PpsfAudioTrackItem(BaseModel):
     block_size: int = 279
-    enabled: Optional[bool] = Field(True, validation_alias="enable")
+    enabled: bool | None = Field(True, validation_alias="enable")
     events: list[PpsfAudioTrackEvent] = Field(default_factory=list)
     input_channel: int = 0
     mixer: PpsfMixer = Field(default_factory=PpsfMixer)
@@ -283,8 +283,8 @@ class PpsfVocaloidTrackEvent(BaseModel):
     velocity: int
     vib_category: int
     vib_offset: int
-    vib_depth: Optional[list[PpsfParamPoint]] = None
-    vib_rate: Optional[list[PpsfParamPoint]] = None
+    vib_depth: list[PpsfParamPoint] | None = None
+    vib_rate: list[PpsfParamPoint] | None = None
 
 
 class PpsfVocaloidTrackItem(BaseModel):
@@ -322,27 +322,27 @@ def default_portamento_envelope() -> PpsfEnvelope:
 
 
 class PpsfDvlTrackEvent(BaseModel):
-    adjust_speed: Optional[bool] = False
+    adjust_speed: bool | None = False
     attack_speed_rate: int = 800000
     consonant_rate: int = 950000
     consonant_speed_rate: int = 1000000
-    enabled: Optional[bool] = Field(True, validation_alias="enable")
+    enabled: bool | None = Field(True, validation_alias="enable")
     length: int
     lyric: str
     note_number: int
-    note_off_pit_envelope: Optional[PpsfEnvelope] = Field(default_factory=PpsfEnvelope)
-    note_on_pit_envelope: Optional[PpsfEnvelope] = Field(default_factory=PpsfEnvelope)
-    portamento_envelope: Optional[PpsfEnvelope] = Field(default_factory=default_portamento_envelope)
-    vib_depth: Optional[PpsfEnvelope] = None
-    vib_rate: Optional[PpsfEnvelope] = None
-    vib_setting_id: Optional[int] = None
+    note_off_pit_envelope: PpsfEnvelope | None = Field(default_factory=PpsfEnvelope)
+    note_on_pit_envelope: PpsfEnvelope | None = Field(default_factory=PpsfEnvelope)
+    portamento_envelope: PpsfEnvelope | None = Field(default_factory=default_portamento_envelope)
+    vib_depth: PpsfEnvelope | None = None
+    vib_rate: PpsfEnvelope | None = None
+    vib_setting_id: int | None = None
     portamento_type: int = 5
     pos: int
     protected: bool = False
     release_speed_rate: int = 1400000
     symbols: str = ""
-    vcl_like_note_off: Optional[bool] = False
-    is_consonant_length_by_user: Optional[bool] = False
+    vcl_like_note_off: bool | None = False
+    is_consonant_length_by_user: bool | None = False
 
     @property
     def end_pos(self) -> int:
@@ -350,7 +350,7 @@ class PpsfDvlTrackEvent(BaseModel):
 
 
 class PpsfDvlTrackItem(BaseModel):
-    enabled: Optional[bool] = Field(True, validation_alias="enable")
+    enabled: bool | None = Field(True, validation_alias="enable")
     events: list[PpsfDvlTrackEvent] = Field(default_factory=list)
     mixer: PpsfMixer = Field(default_factory=PpsfMixer)
     name: str = "HATSUNE MIKU NT Original"
@@ -374,15 +374,15 @@ class PpsfTempos(BaseModel):
 class PpsfInnerProject(BaseModel):
     audio_track: list[PpsfAudioTrackItem] = Field(default_factory=list)
     block_size: int = 279
-    loop_point: Optional[PpsfLoopPoint] = None
+    loop_point: PpsfLoopPoint | None = None
     meter: PpsfMeters = Field(default_factory=PpsfMeters)
-    metronome: Optional[PpsfMetronome] = None
+    metronome: PpsfMetronome | None = None
     name: str = ""
     sampling_rate: int = 48000
     singer_table: list[PpsfSingerTableItem] = Field(default_factory=list)
     tempo: PpsfTempos = Field(default_factory=PpsfTempos)
     vocaloid_track: list[PpsfVocaloidTrackItem] = Field(default_factory=list)
-    dvl_track: Optional[list[PpsfDvlTrackItem]] = None
+    dvl_track: list[PpsfDvlTrackItem] | None = None
 
 
 class PpsfRoot(BaseModel):

@@ -1,7 +1,6 @@
 import dataclasses
 import struct
 from collections import defaultdict
-from typing import Optional
 
 from construct import (
     Byte,
@@ -34,34 +33,35 @@ class PiaproStudioLegacyParser:
     clips2track_indexes: dict[int, int] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, ppsf_project: PpsfLegacyProject) -> Project:
-        events_chunk: Optional[PpsfChunk] = None
+        events_chunk: PpsfChunk | None = None
         for chunk in ppsf_project.body.chunks:
-            if chunk.magic == "Clips":
-                for clip_group in chunk.data.clips:
-                    for clip in clip_group:
-                        if clip.magic == "Vocaloid3NoteClip":
-                            (clip_offset,) = struct.unpack_from(
-                                "<i", clip.data, len(clip.data) - 32
-                            )
-                            self.clip_offsets.append(clip_offset)
-            elif chunk.magic == "EditorDatas":
-                for track_data in chunk.data.editor_datas:
-                    for clip_data in track_data.data.clip_datas:
-                        self.clip_note_counts.append(len(clip_data.data.note_datas))
-            elif chunk.magic == "Events":
-                events_chunk = chunk
-            elif chunk.magic == "Tracks":
-                clip_indexes_struct = Struct(
-                    PascalString(Byte, "utf-8"),
-                    "indexes" / PrefixedArray(Byte, Int16ul),
-                )
-                for track_group in chunk.data.tracks:
-                    if track_group.magic == "Vocaloid3EventTracks":
-                        clip_index = 0
-                        for i, track in enumerate(track_group.data):
-                            clip_indexes = clip_indexes_struct.parse(track.data[30:])
-                            for clip_index in clip_indexes.indexes:
-                                self.clips2track_indexes[clip_index] = i
+            match chunk.magic:
+                case "Clips":
+                    for clip_group in chunk.data.clips:
+                        for clip in clip_group:
+                            if clip.magic == "Vocaloid3NoteClip":
+                                (clip_offset,) = struct.unpack_from(
+                                    "<i", clip.data, len(clip.data) - 32
+                                )
+                                self.clip_offsets.append(clip_offset)
+                case "EditorDatas":
+                    for track_data in chunk.data.editor_datas:
+                        for clip_data in track_data.data.clip_datas:
+                            self.clip_note_counts.append(len(clip_data.data.note_datas))
+                case "Events":
+                    events_chunk = chunk
+                case "Tracks":
+                    clip_indexes_struct = Struct(
+                        PascalString(Byte, "utf-8"),
+                        "indexes" / PrefixedArray(Byte, Int16ul),
+                    )
+                    for track_group in chunk.data.tracks:
+                        if track_group.magic == "Vocaloid3EventTracks":
+                            clip_index = 0
+                            for i, track in enumerate(track_group.data):
+                                clip_indexes = clip_indexes_struct.parse(track.data[30:])
+                                for clip_index in clip_indexes.indexes:
+                                    self.clips2track_indexes[clip_index] = i
         tempos, time_signatures = self.parse_tempos_and_time_signatures(events_chunk)
         return Project(
             song_tempo_list=tempos,
@@ -70,7 +70,7 @@ class PiaproStudioLegacyParser:
         )
 
     def parse_tempos_and_time_signatures(
-        self, events_chunk: Optional[Container] = None
+        self, events_chunk: Container | None = None
     ) -> tuple[list[SongTempo], list[TimeSignature]]:
         tempos = []
         time_signatures: list[TimeSignature] = []
@@ -121,7 +121,7 @@ class PiaproStudioLegacyParser:
             time_signatures.append(TimeSignature())
         return tempos, time_signatures
 
-    def parse_tracks(self, events_chunk: Optional[Container] = None) -> list[SingingTrack]:
+    def parse_tracks(self, events_chunk: Container | None = None) -> list[SingingTrack]:
         tracks: list[SingingTrack] = []
         if events_chunk is not None:
             lyric_info_struct = Struct(

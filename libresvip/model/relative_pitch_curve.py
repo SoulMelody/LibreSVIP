@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import dataclasses
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 import portion
 
@@ -33,7 +33,7 @@ class RelativePitchCurve:
     ) -> list[Point]:
         converted_data: list[Point] = []
         prev_x = None
-        prev_y: Optional[float] = None
+        prev_y: float | None = None
         for point in points:
             pos = point.x + (0 if to_absolute else -self.first_bar_length)
             cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)

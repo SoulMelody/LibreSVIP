@@ -6,7 +6,7 @@ import inspect
 import math
 import struct
 from itertools import chain
-from typing import Generic, Literal, NamedTuple, Optional, TypeVar
+from typing import Generic, Literal, NamedTuple, TypeVar
 
 from more_itertools import batched
 
@@ -256,7 +256,7 @@ class XSNote(XSIOverlappable):
         default_factory=XSNoteHeadTag,
         metadata={"alias": "_headTag", "order": 5},
     )
-    note_phone_info: Optional[XSNotePhoneInfo] = dataclasses.field(
+    note_phone_info: XSNotePhoneInfo | None = dataclasses.field(
         default=None,
         metadata={"alias": to_backing_field("NotePhoneInfo"), "order": 7},
     )
@@ -264,11 +264,11 @@ class XSNote(XSIOverlappable):
         default=0,
         metadata={"alias": to_backing_field("VibratoPercent"), "order": 8},
     )
-    vibrato: Optional[XSVibratoStyle] = dataclasses.field(
+    vibrato: XSVibratoStyle | None = dataclasses.field(
         default=None,
         metadata={"alias": to_backing_field("Vibrato"), "order": 9},
     )
-    vibrato_percent_info: Optional[XSVibratoPercentInfo] = dataclasses.field(
+    vibrato_percent_info: XSVibratoPercentInfo | None = dataclasses.field(
         default=None,
         metadata={
             "alias": to_backing_field("VibratoPercentInfo"),
@@ -418,7 +418,7 @@ class XSSingingTrack(XSITrack):  # type: ignore[override]
             "order": 5,
         },
     )
-    edited_power_line: Optional[XSLineParam] = dataclasses.field(
+    edited_power_line: XSLineParam | None = dataclasses.field(
         default=None,
         metadata={
             "alias": "_editedPowerLine",
@@ -550,7 +550,7 @@ class XSAppModel:
             "order": 7,
         },
     )
-    actual_project_file_path: Optional[str] = dataclasses.field(
+    actual_project_file_path: str | None = dataclasses.field(
         default=None,
         metadata={
             "alias": to_backing_field("ActualProjectFilePath"),

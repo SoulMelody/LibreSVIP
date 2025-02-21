@@ -1,6 +1,6 @@
 import asyncio
 from collections.abc import Callable
-from typing import Any, Optional
+from typing import Any
 
 from nicegui.elements.mixins.color_elements import BackgroundColorElement
 from nicegui.elements.mixins.disableable_element import DisableableElement
@@ -13,9 +13,9 @@ class QFab(TextElement, DisableableElement, BackgroundColorElement):
         self,
         text: str = "",
         *,
-        on_click: Optional[Callable[..., Any]] = None,
-        color: Optional[str] = "primary",
-        icon: Optional[str] = None,
+        on_click: Callable[..., Any] | None = None,
+        color: str | None = "primary",
+        icon: str | None = None,
     ) -> None:
         super().__init__(tag="q-fab", text=text, background_color=color)
 
@@ -47,9 +47,9 @@ class QFabAction(TextElement, DisableableElement, BackgroundColorElement):
         self,
         text: str = "",
         *,
-        on_click: Optional[Callable[..., Any]] = None,
-        color: Optional[str] = "primary",
-        icon: Optional[str] = None,
+        on_click: Callable[..., Any] | None = None,
+        color: str | None = "primary",
+        icon: str | None = None,
     ) -> None:
         super().__init__(tag="q-fab-action", text=text, background_color=color)
 

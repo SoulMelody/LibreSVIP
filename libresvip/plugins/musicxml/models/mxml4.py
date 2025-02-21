@@ -1,5 +1,4 @@
 from decimal import Decimal
-from typing import Optional, Union
 
 from pydantic import BaseModel, ConfigDict
 from xsdata_pydantic.fields import field
@@ -125,19 +124,19 @@ class Bookmark(BaseModel):
             "required": True,
         }
     )
-    name: Optional[str] = field(
+    name: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    element: Optional[str] = field(
+    element: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    position: Optional[int] = field(
+    position: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -182,7 +181,7 @@ class Feature(BaseModel):
             "required": True,
         },
     )
-    type_value: Optional[str] = field(
+    type_value: str | None = field(
         default=None,
         metadata={
             "name": "type",
@@ -242,7 +241,7 @@ class MeasureLayout(BaseModel):
         name = "measure-layout"
 
     model_config = ConfigDict(defer_build=True)
-    measure_distance: Optional[Decimal] = field(
+    measure_distance: Decimal | None = field(
         default=None,
         metadata={
             "name": "measure-distance",
@@ -262,7 +261,7 @@ class MidiDevice(BaseModel):
             "required": True,
         },
     )
-    port: Optional[int] = field(
+    port: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -270,7 +269,7 @@ class MidiDevice(BaseModel):
             "max_inclusive": 16,
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -283,7 +282,7 @@ class MidiInstrument(BaseModel):
         name = "midi-instrument"
 
     model_config = ConfigDict(defer_build=True)
-    midi_channel: Optional[int] = field(
+    midi_channel: int | None = field(
         default=None,
         metadata={
             "name": "midi-channel",
@@ -292,14 +291,14 @@ class MidiInstrument(BaseModel):
             "max_inclusive": 16,
         },
     )
-    midi_name: Optional[str] = field(
+    midi_name: str | None = field(
         default=None,
         metadata={
             "name": "midi-name",
             "type": "Element",
         },
     )
-    midi_bank: Optional[int] = field(
+    midi_bank: int | None = field(
         default=None,
         metadata={
             "name": "midi-bank",
@@ -308,7 +307,7 @@ class MidiInstrument(BaseModel):
             "max_inclusive": 16384,
         },
     )
-    midi_program: Optional[int] = field(
+    midi_program: int | None = field(
         default=None,
         metadata={
             "name": "midi-program",
@@ -317,7 +316,7 @@ class MidiInstrument(BaseModel):
             "max_inclusive": 128,
         },
     )
-    midi_unpitched: Optional[int] = field(
+    midi_unpitched: int | None = field(
         default=None,
         metadata={
             "name": "midi-unpitched",
@@ -326,7 +325,7 @@ class MidiInstrument(BaseModel):
             "max_inclusive": 128,
         },
     )
-    volume: Optional[Decimal] = field(
+    volume: Decimal | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -334,7 +333,7 @@ class MidiInstrument(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    pan: Optional[Decimal] = field(
+    pan: Decimal | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -342,7 +341,7 @@ class MidiInstrument(BaseModel):
             "max_inclusive": Decimal("180"),
         },
     )
-    elevation: Optional[Decimal] = field(
+    elevation: Decimal | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -415,13 +414,13 @@ class OtherListening(BaseModel):
             "required": True,
         }
     )
-    player: Optional[str] = field(
+    player: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    time_only: Optional[str] = field(
+    time_only: str | None = field(
         default=None,
         metadata={
             "name": "time-only",
@@ -462,7 +461,7 @@ class OtherText(BaseModel):
             "required": True,
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -514,14 +513,14 @@ class StaffLayout(BaseModel):
         name = "staff-layout"
 
     model_config = ConfigDict(defer_build=True)
-    staff_distance: Optional[Decimal] = field(
+    staff_distance: Decimal | None = field(
         default=None,
         metadata={
             "name": "staff-distance",
             "type": "Element",
         },
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -540,7 +539,7 @@ class StaffSize(BaseModel):
             "min_inclusive": Decimal("0"),
         }
     )
-    scaling: Optional[Decimal] = field(
+    scaling: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -575,7 +574,7 @@ class Timpani(BaseModel):
         name = "timpani"
 
     model_config = ConfigDict(defer_build=True)
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -595,7 +594,7 @@ class TypedText(BaseModel):
             "required": True,
         },
     )
-    type_value: Optional[str] = field(
+    type_value: str | None = field(
         default=None,
         metadata={
             "name": "type",
@@ -609,14 +608,14 @@ class VirtualInstrument(BaseModel):
         name = "virtual-instrument"
 
     model_config = ConfigDict(defer_build=True)
-    virtual_library: Optional[str] = field(
+    virtual_library: str | None = field(
         default=None,
         metadata={
             "name": "virtual-library",
             "type": "Element",
         },
     )
-    virtual_name: Optional[str] = field(
+    virtual_name: str | None = field(
         default=None,
         metadata={
             "name": "virtual-name",
@@ -630,13 +629,13 @@ class Wait(BaseModel):
         name = "wait"
 
     model_config = ConfigDict(defer_build=True)
-    player: Optional[str] = field(
+    player: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    time_only: Optional[str] = field(
+    time_only: str | None = field(
         default=None,
         metadata={
             "name": "time-only",
@@ -656,65 +655,65 @@ class Accidental(BaseModel):
             "required": True,
         }
     )
-    cautionary: Optional[YesNo] = field(
+    cautionary: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    editorial: Optional[YesNo] = field(
+    editorial: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    parentheses: Optional[YesNo] = field(
+    parentheses: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    bracket: Optional[YesNo] = field(
+    bracket: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    size: Optional[SymbolSize] = field(
+    size: SymbolSize | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -722,35 +721,35 @@ class Accidental(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -769,53 +768,53 @@ class AccidentalMark(BaseModel):
             "required": True,
         }
     )
-    parentheses: Optional[YesNo] = field(
+    parentheses: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    bracket: Optional[YesNo] = field(
+    bracket: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    size: Optional[SymbolSize] = field(
+    size: SymbolSize | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -823,48 +822,48 @@ class AccidentalMark(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"(acc|medRenFla|medRenNatura|medRenShar|kievanAccidental)(\c+)",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -882,41 +881,41 @@ class AccidentalText(BaseModel):
             "required": True,
         }
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -924,55 +923,47 @@ class AccidentalText(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    underline: Optional[int] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-            "min_inclusive": 0,
-            "max_inclusive": 3,
-        },
-    )
-    overline: Optional[int] = field(
+    underline: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -980,7 +971,15 @@ class AccidentalText(BaseModel):
             "max_inclusive": 3,
         },
     )
-    line_through: Optional[int] = field(
+    overline: int | None = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "min_inclusive": 0,
+            "max_inclusive": 3,
+        },
+    )
+    line_through: int | None = field(
         default=None,
         metadata={
             "name": "line-through",
@@ -989,7 +988,7 @@ class AccidentalText(BaseModel):
             "max_inclusive": 3,
         },
     )
-    rotation: Optional[Decimal] = field(
+    rotation: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -997,47 +996,47 @@ class AccidentalText(BaseModel):
             "max_inclusive": Decimal("180"),
         },
     )
-    letter_spacing: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    letter_spacing: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "letter-spacing",
             "type": "Attribute",
         },
     )
-    line_height: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    line_height: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "line-height",
             "type": "Attribute",
         },
     )
-    lang: Optional[Union[str, LangValue]] = field(
+    lang: str | LangValue | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XML_NS,
         },
     )
-    space: Optional[SpaceValue] = field(
+    space: SpaceValue | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XML_NS,
         },
     )
-    dir: Optional[TextDirection] = field(
+    dir: TextDirection | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    enclosure: Optional[EnclosureShape] = field(
+    enclosure: EnclosureShape | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1058,7 +1057,7 @@ class Accord(BaseModel):
             "required": True,
         }
     )
-    tuning_alter: Optional[Decimal] = field(
+    tuning_alter: Decimal | None = field(
         default=None,
         metadata={
             "name": "tuning-alter",
@@ -1074,7 +1073,7 @@ class Accord(BaseModel):
             "max_inclusive": 9,
         }
     )
-    string: Optional[int] = field(
+    string: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1087,14 +1086,14 @@ class AccordionRegistration(BaseModel):
         name = "accordion-registration"
 
     model_config = ConfigDict(defer_build=True)
-    accordion_high: Optional[Empty] = field(
+    accordion_high: Empty | None = field(
         default=None,
         metadata={
             "name": "accordion-high",
             "type": "Element",
         },
     )
-    accordion_middle: Optional[int] = field(
+    accordion_middle: int | None = field(
         default=None,
         metadata={
             "name": "accordion-middle",
@@ -1103,42 +1102,42 @@ class AccordionRegistration(BaseModel):
             "max_inclusive": 3,
         },
     )
-    accordion_low: Optional[Empty] = field(
+    accordion_low: Empty | None = field(
         default=None,
         metadata={
             "name": "accordion-low",
             "type": "Element",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -1146,47 +1145,47 @@ class AccordionRegistration(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1199,7 +1198,7 @@ class Arpeggiate(BaseModel):
         name = "arpeggiate"
 
     model_config = ConfigDict(defer_build=True)
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1207,60 +1206,60 @@ class Arpeggiate(BaseModel):
             "max_inclusive": 16,
         },
     )
-    direction: Optional[UpDown] = field(
+    direction: UpDown | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    unbroken: Optional[YesNo] = field(
+    unbroken: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1273,62 +1272,62 @@ class Arrow(BaseModel):
         name = "arrow"
 
     model_config = ConfigDict(defer_build=True)
-    arrow_direction: Optional[ArrowDirection] = field(
+    arrow_direction: ArrowDirection | None = field(
         default=None,
         metadata={
             "name": "arrow-direction",
             "type": "Element",
         },
     )
-    arrow_style: Optional[ArrowStyle] = field(
+    arrow_style: ArrowStyle | None = field(
         default=None,
         metadata={
             "name": "arrow-style",
             "type": "Element",
         },
     )
-    arrowhead: Optional[Empty] = field(
+    arrowhead: Empty | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    circular_arrow: Optional[CircularArrow] = field(
+    circular_arrow: CircularArrow | None = field(
         default=None,
         metadata={
             "name": "circular-arrow",
             "type": "Element",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -1336,41 +1335,41 @@ class Arrow(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1390,13 +1389,13 @@ class Assess(BaseModel):
             "required": True,
         }
     )
-    player: Optional[str] = field(
+    player: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    time_only: Optional[str] = field(
+    time_only: str | None = field(
         default=None,
         metadata={
             "name": "time-only",
@@ -1416,7 +1415,7 @@ class BarStyleColor(BaseModel):
             "required": True,
         }
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1437,7 +1436,7 @@ class Barre(BaseModel):
             "required": True,
         }
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1456,41 +1455,41 @@ class BassStep(BaseModel):
             "required": True,
         }
     )
-    text: Optional[str] = field(
+    text: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -1498,28 +1497,28 @@ class BassStep(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1546,26 +1545,26 @@ class Beam(BaseModel):
             "max_inclusive": 8,
         },
     )
-    repeater: Optional[YesNo] = field(
+    repeater: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    fan: Optional[Fan] = field(
+    fan: Fan | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1578,7 +1577,7 @@ class BeatRepeat(BaseModel):
         name = "beat-repeat"
 
     model_config = ConfigDict(defer_build=True)
-    slash_type: Optional[NoteTypeValue] = field(
+    slash_type: NoteTypeValue | None = field(
         default=None,
         metadata={
             "name": "slash-type",
@@ -1606,13 +1605,13 @@ class BeatRepeat(BaseModel):
             "required": True,
         }
     )
-    slashes: Optional[int] = field(
+    slashes: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    use_dots: Optional[YesNo] = field(
+    use_dots: YesNo | None = field(
         default=None,
         metadata={
             "name": "use-dots",
@@ -1652,7 +1651,7 @@ class Beater(BaseModel):
             "required": True,
         }
     )
-    tip: Optional[TipDirection] = field(
+    tip: TipDirection | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1672,7 +1671,7 @@ class Bracket(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1687,70 +1686,70 @@ class Bracket(BaseModel):
             "required": True,
         }
     )
-    end_length: Optional[Decimal] = field(
+    end_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "end-length",
             "type": "Attribute",
         },
     )
-    line_type: Optional[LineType] = field(
+    line_type: LineType | None = field(
         default=None,
         metadata={
             "name": "line-type",
             "type": "Attribute",
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1768,35 +1767,35 @@ class BreathMark(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -1804,35 +1803,35 @@ class BreathMark(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1850,35 +1849,35 @@ class Caesura(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -1886,35 +1885,35 @@ class Caesura(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1932,7 +1931,7 @@ class Cancel(BaseModel):
             "required": True,
         }
     )
-    location: Optional[CancelLocation] = field(
+    location: CancelLocation | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -1951,73 +1950,73 @@ class Clef(BaseModel):
             "required": True,
         }
     )
-    line: Optional[int] = field(
+    line: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    clef_octave_change: Optional[int] = field(
+    clef_octave_change: int | None = field(
         default=None,
         metadata={
             "name": "clef-octave-change",
             "type": "Element",
         },
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    additional: Optional[YesNo] = field(
+    additional: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    size: Optional[SymbolSize] = field(
+    size: SymbolSize | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    after_barline: Optional[YesNo] = field(
+    after_barline: YesNo | None = field(
         default=None,
         metadata={
             "name": "after-barline",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2025,42 +2024,42 @@ class Clef(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2073,35 +2072,35 @@ class Coda(BaseModel):
         name = "coda"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2109,53 +2108,53 @@ class Coda(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2176,7 +2175,7 @@ class Dashes(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2184,56 +2183,56 @@ class Dashes(BaseModel):
             "max_inclusive": 16,
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2251,35 +2250,35 @@ class DegreeAlter(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2287,35 +2286,35 @@ class DegreeAlter(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    plus_minus: Optional[YesNo] = field(
+    plus_minus: YesNo | None = field(
         default=None,
         metadata={
             "name": "plus-minus",
@@ -2334,41 +2333,41 @@ class DegreeType(BaseModel):
             "required": True,
         }
     )
-    text: Optional[str] = field(
+    text: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2376,28 +2375,28 @@ class DegreeType(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2416,47 +2415,47 @@ class DegreeValue(BaseModel):
             "required": True,
         }
     )
-    symbol: Optional[DegreeSymbolValue] = field(
+    symbol: DegreeSymbolValue | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    text: Optional[str] = field(
+    text: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2464,28 +2463,28 @@ class DegreeValue(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2499,7 +2498,7 @@ class Double(BaseModel):
         name = "double"
 
     model_config = ConfigDict(defer_build=True)
-    above: Optional[YesNo] = field(
+    above: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2675,35 +2674,35 @@ class Dynamics(BaseModel):
             "type": "Element",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2711,61 +2710,53 @@ class Dynamics(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    underline: Optional[int] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-            "min_inclusive": 0,
-            "max_inclusive": 3,
-        },
-    )
-    overline: Optional[int] = field(
+    underline: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2773,7 +2764,15 @@ class Dynamics(BaseModel):
             "max_inclusive": 3,
         },
     )
-    line_through: Optional[int] = field(
+    overline: int | None = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "min_inclusive": 0,
+            "max_inclusive": 3,
+        },
+    )
+    line_through: int | None = field(
         default=None,
         metadata={
             "name": "line-through",
@@ -2782,13 +2781,13 @@ class Dynamics(BaseModel):
             "max_inclusive": 3,
         },
     )
-    enclosure: Optional[EnclosureShape] = field(
+    enclosure: EnclosureShape | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2806,7 +2805,7 @@ class Effect(BaseModel):
             "required": True,
         }
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2826,7 +2825,7 @@ class Elision(BaseModel):
             "required": True,
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2834,35 +2833,35 @@ class Elision(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -2876,7 +2875,7 @@ class EmptyFont(BaseModel):
         name = "empty-font"
 
     model_config = ConfigDict(defer_build=True)
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2884,21 +2883,21 @@ class EmptyFont(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
@@ -2912,70 +2911,70 @@ class EmptyLine(BaseModel):
         name = "empty-line"
 
     model_config = ConfigDict(defer_build=True)
-    line_shape: Optional[LineShape] = field(
+    line_shape: LineShape | None = field(
         default=None,
         metadata={
             "name": "line-shape",
             "type": "Attribute",
         },
     )
-    line_type: Optional[LineType] = field(
+    line_type: LineType | None = field(
         default=None,
         metadata={
             "name": "line-type",
             "type": "Attribute",
         },
     )
-    line_length: Optional[LineLength] = field(
+    line_length: LineLength | None = field(
         default=None,
         metadata={
             "name": "line-length",
             "type": "Attribute",
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -2983,35 +2982,35 @@ class EmptyLine(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3024,35 +3023,35 @@ class EmptyPlacement(BaseModel):
         name = "empty-placement"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3060,35 +3059,35 @@ class EmptyPlacement(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3101,35 +3100,35 @@ class EmptyPlacementSmufl(BaseModel):
         name = "empty-placement-smufl"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3137,41 +3136,41 @@ class EmptyPlacementSmufl(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3184,42 +3183,42 @@ class EmptyPrintObjectStyleAlign(BaseModel):
         name = "empty-print-object-style-align"
 
     model_config = ConfigDict(defer_build=True)
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3227,41 +3226,41 @@ class EmptyPrintObjectStyleAlign(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3274,35 +3273,35 @@ class EmptyPrintStyle(BaseModel):
         name = "empty-print-style"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3310,28 +3309,28 @@ class EmptyPrintStyle(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3345,35 +3344,35 @@ class EmptyPrintStyleAlign(BaseModel):
         name = "empty-print-style-align"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3381,41 +3380,41 @@ class EmptyPrintStyleAlign(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3428,35 +3427,35 @@ class EmptyPrintStyleAlignId(BaseModel):
         name = "empty-print-style-align-id"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3464,47 +3463,47 @@ class EmptyPrintStyleAlignId(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3517,35 +3516,35 @@ class EmptyTrillSound(BaseModel):
         name = "empty-trill-sound"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3553,75 +3552,75 @@ class EmptyTrillSound(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    start_note: Optional[StartNote] = field(
+    start_note: StartNote | None = field(
         default=None,
         metadata={
             "name": "start-note",
             "type": "Attribute",
         },
     )
-    trill_step: Optional[TrillStep] = field(
+    trill_step: TrillStep | None = field(
         default=None,
         metadata={
             "name": "trill-step",
             "type": "Attribute",
         },
     )
-    two_note_turn: Optional[TwoNoteTurn] = field(
+    two_note_turn: TwoNoteTurn | None = field(
         default=None,
         metadata={
             "name": "two-note-turn",
             "type": "Attribute",
         },
     )
-    accelerate: Optional[YesNo] = field(
+    accelerate: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    beats: Optional[Decimal] = field(
+    beats: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "min_inclusive": Decimal("2"),
         },
     )
-    second_beat: Optional[Decimal] = field(
+    second_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "second-beat",
@@ -3630,7 +3629,7 @@ class EmptyTrillSound(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    last_beat: Optional[Decimal] = field(
+    last_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "last-beat",
@@ -3666,42 +3665,42 @@ class Ending(BaseModel):
             "required": True,
         }
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3709,55 +3708,55 @@ class Ending(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    system: Optional[SystemRelation] = field(
+    system: SystemRelation | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    end_length: Optional[Decimal] = field(
+    end_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "end-length",
             "type": "Attribute",
         },
     )
-    text_x: Optional[Decimal] = field(
+    text_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "text-x",
             "type": "Attribute",
         },
     )
-    text_y: Optional[Decimal] = field(
+    text_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "text-y",
@@ -3771,42 +3770,42 @@ class Extend(BaseModel):
         name = "extend"
 
     model_config = ConfigDict(defer_build=True)
-    type_value: Optional[StartStopContinue] = field(
+    type_value: StartStopContinue | None = field(
         default=None,
         metadata={
             "name": "type",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3825,42 +3824,42 @@ class Fermata(BaseModel):
             "required": True,
         }
     )
-    type_value: Optional[UprightInverted] = field(
+    type_value: UprightInverted | None = field(
         default=None,
         metadata={
             "name": "type",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3868,35 +3867,35 @@ class Fermata(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -3915,47 +3914,47 @@ class Fingering(BaseModel):
             "required": True,
         },
     )
-    substitution: Optional[YesNo] = field(
+    substitution: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    alternate: Optional[YesNo] = field(
+    alternate: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -3963,35 +3962,35 @@ class Fingering(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4009,13 +4008,13 @@ class FirstFret(BaseModel):
             "required": True,
         }
     )
-    text: Optional[str] = field(
+    text: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    location: Optional[LeftRight] = field(
+    location: LeftRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4034,41 +4033,41 @@ class FormattedSymbol(BaseModel):
             "required": True,
         },
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -4076,55 +4075,47 @@ class FormattedSymbol(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    underline: Optional[int] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-            "min_inclusive": 0,
-            "max_inclusive": 3,
-        },
-    )
-    overline: Optional[int] = field(
+    underline: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4132,7 +4123,15 @@ class FormattedSymbol(BaseModel):
             "max_inclusive": 3,
         },
     )
-    line_through: Optional[int] = field(
+    overline: int | None = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "min_inclusive": 0,
+            "max_inclusive": 3,
+        },
+    )
+    line_through: int | None = field(
         default=None,
         metadata={
             "name": "line-through",
@@ -4141,7 +4140,7 @@ class FormattedSymbol(BaseModel):
             "max_inclusive": 3,
         },
     )
-    rotation: Optional[Decimal] = field(
+    rotation: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4149,27 +4148,27 @@ class FormattedSymbol(BaseModel):
             "max_inclusive": Decimal("180"),
         },
     )
-    letter_spacing: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    letter_spacing: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "letter-spacing",
             "type": "Attribute",
         },
     )
-    line_height: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    line_height: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "line-height",
             "type": "Attribute",
         },
     )
-    dir: Optional[TextDirection] = field(
+    dir: TextDirection | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    enclosure: Optional[EnclosureShape] = field(
+    enclosure: EnclosureShape | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4188,41 +4187,41 @@ class FormattedSymbolId(BaseModel):
             "required": True,
         },
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -4230,55 +4229,47 @@ class FormattedSymbolId(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    underline: Optional[int] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-            "min_inclusive": 0,
-            "max_inclusive": 3,
-        },
-    )
-    overline: Optional[int] = field(
+    underline: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4286,7 +4277,15 @@ class FormattedSymbolId(BaseModel):
             "max_inclusive": 3,
         },
     )
-    line_through: Optional[int] = field(
+    overline: int | None = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "min_inclusive": 0,
+            "max_inclusive": 3,
+        },
+    )
+    line_through: int | None = field(
         default=None,
         metadata={
             "name": "line-through",
@@ -4295,7 +4294,7 @@ class FormattedSymbolId(BaseModel):
             "max_inclusive": 3,
         },
     )
-    rotation: Optional[Decimal] = field(
+    rotation: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4303,33 +4302,33 @@ class FormattedSymbolId(BaseModel):
             "max_inclusive": Decimal("180"),
         },
     )
-    letter_spacing: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    letter_spacing: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "letter-spacing",
             "type": "Attribute",
         },
     )
-    line_height: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    line_height: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "line-height",
             "type": "Attribute",
         },
     )
-    dir: Optional[TextDirection] = field(
+    dir: TextDirection | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    enclosure: Optional[EnclosureShape] = field(
+    enclosure: EnclosureShape | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4348,41 +4347,41 @@ class FormattedText(BaseModel):
             "required": True,
         },
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -4390,55 +4389,47 @@ class FormattedText(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    underline: Optional[int] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-            "min_inclusive": 0,
-            "max_inclusive": 3,
-        },
-    )
-    overline: Optional[int] = field(
+    underline: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4446,7 +4437,15 @@ class FormattedText(BaseModel):
             "max_inclusive": 3,
         },
     )
-    line_through: Optional[int] = field(
+    overline: int | None = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "min_inclusive": 0,
+            "max_inclusive": 3,
+        },
+    )
+    line_through: int | None = field(
         default=None,
         metadata={
             "name": "line-through",
@@ -4455,7 +4454,7 @@ class FormattedText(BaseModel):
             "max_inclusive": 3,
         },
     )
-    rotation: Optional[Decimal] = field(
+    rotation: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4463,41 +4462,41 @@ class FormattedText(BaseModel):
             "max_inclusive": Decimal("180"),
         },
     )
-    letter_spacing: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    letter_spacing: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "letter-spacing",
             "type": "Attribute",
         },
     )
-    line_height: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    line_height: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "line-height",
             "type": "Attribute",
         },
     )
-    lang: Optional[Union[str, LangValue]] = field(
+    lang: str | LangValue | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XML_NS,
         },
     )
-    space: Optional[SpaceValue] = field(
+    space: SpaceValue | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XML_NS,
         },
     )
-    dir: Optional[TextDirection] = field(
+    dir: TextDirection | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    enclosure: Optional[EnclosureShape] = field(
+    enclosure: EnclosureShape | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4516,41 +4515,41 @@ class FormattedTextId(BaseModel):
             "required": True,
         },
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -4558,55 +4557,47 @@ class FormattedTextId(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    underline: Optional[int] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-            "min_inclusive": 0,
-            "max_inclusive": 3,
-        },
-    )
-    overline: Optional[int] = field(
+    underline: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4614,7 +4605,15 @@ class FormattedTextId(BaseModel):
             "max_inclusive": 3,
         },
     )
-    line_through: Optional[int] = field(
+    overline: int | None = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "min_inclusive": 0,
+            "max_inclusive": 3,
+        },
+    )
+    line_through: int | None = field(
         default=None,
         metadata={
             "name": "line-through",
@@ -4623,7 +4622,7 @@ class FormattedTextId(BaseModel):
             "max_inclusive": 3,
         },
     )
-    rotation: Optional[Decimal] = field(
+    rotation: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4631,47 +4630,47 @@ class FormattedTextId(BaseModel):
             "max_inclusive": Decimal("180"),
         },
     )
-    letter_spacing: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    letter_spacing: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "letter-spacing",
             "type": "Attribute",
         },
     )
-    line_height: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    line_height: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "line-height",
             "type": "Attribute",
         },
     )
-    lang: Optional[Union[str, LangValue]] = field(
+    lang: str | LangValue | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XML_NS,
         },
     )
-    space: Optional[SpaceValue] = field(
+    space: SpaceValue | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XML_NS,
         },
     )
-    dir: Optional[TextDirection] = field(
+    dir: TextDirection | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    enclosure: Optional[EnclosureShape] = field(
+    enclosure: EnclosureShape | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4689,7 +4688,7 @@ class Fret(BaseModel):
             "required": True,
         }
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -4697,28 +4696,28 @@ class Fret(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4737,7 +4736,7 @@ class Glass(BaseModel):
             "required": True,
         }
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4772,56 +4771,56 @@ class Glissando(BaseModel):
             "max_inclusive": 16,
         },
     )
-    line_type: Optional[LineType] = field(
+    line_type: LineType | None = field(
         default=None,
         metadata={
             "name": "line-type",
             "type": "Attribute",
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -4829,35 +4828,35 @@ class Glissando(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4870,7 +4869,7 @@ class Grace(BaseModel):
         name = "grace"
 
     model_config = ConfigDict(defer_build=True)
-    steal_time_previous: Optional[Decimal] = field(
+    steal_time_previous: Decimal | None = field(
         default=None,
         metadata={
             "name": "steal-time-previous",
@@ -4879,7 +4878,7 @@ class Grace(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    steal_time_following: Optional[Decimal] = field(
+    steal_time_following: Decimal | None = field(
         default=None,
         metadata={
             "name": "steal-time-following",
@@ -4888,14 +4887,14 @@ class Grace(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    make_time: Optional[Decimal] = field(
+    make_time: Decimal | None = field(
         default=None,
         metadata={
             "name": "make-time",
             "type": "Attribute",
         },
     )
-    slash: Optional[YesNo] = field(
+    slash: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4913,7 +4912,7 @@ class GroupBarline(BaseModel):
             "required": True,
         }
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -4933,35 +4932,35 @@ class GroupName(BaseModel):
             "required": True,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -4969,35 +4968,35 @@ class GroupName(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5015,35 +5014,35 @@ class GroupSymbol(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5076,14 +5075,14 @@ class Grouping(BaseModel):
             "type": "Attribute",
         },
     )
-    member_of: Optional[str] = field(
+    member_of: str | None = field(
         default=None,
         metadata={
             "name": "member-of",
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5117,35 +5116,35 @@ class HammerOnPullOff(BaseModel):
             "max_inclusive": 16,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -5153,35 +5152,35 @@ class HammerOnPullOff(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5199,35 +5198,35 @@ class Handbell(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -5235,35 +5234,35 @@ class Handbell(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5281,7 +5280,7 @@ class HarmonClosed(BaseModel):
             "required": True,
         }
     )
-    location: Optional[HarmonClosedLocation] = field(
+    location: HarmonClosedLocation | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5294,75 +5293,75 @@ class Harmonic(BaseModel):
         name = "harmonic"
 
     model_config = ConfigDict(defer_build=True)
-    natural: Optional[Empty] = field(
+    natural: Empty | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    artificial: Optional[Empty] = field(
+    artificial: Empty | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    base_pitch: Optional[Empty] = field(
+    base_pitch: Empty | None = field(
         default=None,
         metadata={
             "name": "base-pitch",
             "type": "Element",
         },
     )
-    touching_pitch: Optional[Empty] = field(
+    touching_pitch: Empty | None = field(
         default=None,
         metadata={
             "name": "touching-pitch",
             "type": "Element",
         },
     )
-    sounding_pitch: Optional[Empty] = field(
+    sounding_pitch: Empty | None = field(
         default=None,
         metadata={
             "name": "sounding-pitch",
             "type": "Element",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -5370,35 +5369,35 @@ class Harmonic(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5416,42 +5415,42 @@ class HarmonyAlter(BaseModel):
             "required": True,
         }
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -5459,35 +5458,35 @@ class HarmonyAlter(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    location: Optional[LeftRight] = field(
+    location: LeftRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5505,7 +5504,7 @@ class HoleClosed(BaseModel):
             "required": True,
         }
     )
-    location: Optional[HoleClosedLocation] = field(
+    location: HoleClosedLocation | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5518,35 +5517,35 @@ class HorizontalTurn(BaseModel):
         name = "horizontal-turn"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -5554,75 +5553,75 @@ class HorizontalTurn(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    start_note: Optional[StartNote] = field(
+    start_note: StartNote | None = field(
         default=None,
         metadata={
             "name": "start-note",
             "type": "Attribute",
         },
     )
-    trill_step: Optional[TrillStep] = field(
+    trill_step: TrillStep | None = field(
         default=None,
         metadata={
             "name": "trill-step",
             "type": "Attribute",
         },
     )
-    two_note_turn: Optional[TwoNoteTurn] = field(
+    two_note_turn: TwoNoteTurn | None = field(
         default=None,
         metadata={
             "name": "two-note-turn",
             "type": "Attribute",
         },
     )
-    accelerate: Optional[YesNo] = field(
+    accelerate: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    beats: Optional[Decimal] = field(
+    beats: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "min_inclusive": Decimal("2"),
         },
     )
-    second_beat: Optional[Decimal] = field(
+    second_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "second-beat",
@@ -5631,7 +5630,7 @@ class HorizontalTurn(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    last_beat: Optional[Decimal] = field(
+    last_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "last-beat",
@@ -5640,7 +5639,7 @@ class HorizontalTurn(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    slash: Optional[YesNo] = field(
+    slash: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5666,59 +5665,59 @@ class Image(BaseModel):
             "required": True,
         }
     )
-    height: Optional[Decimal] = field(
+    height: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    width: Optional[Decimal] = field(
+    width: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[ValignImage] = field(
+    valign: ValignImage | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5731,26 +5730,26 @@ class InstrumentChange(BaseModel):
         name = "instrument-change"
 
     model_config = ConfigDict(defer_build=True)
-    instrument_sound: Optional[str] = field(
+    instrument_sound: str | None = field(
         default=None,
         metadata={
             "name": "instrument-sound",
             "type": "Element",
         },
     )
-    solo: Optional[Empty] = field(
+    solo: Empty | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    ensemble: Optional[Union[int, PositiveIntegerOrEmptyValue]] = field(
+    ensemble: int | PositiveIntegerOrEmptyValue | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    virtual_instrument: Optional[VirtualInstrument] = field(
+    virtual_instrument: VirtualInstrument | None = field(
         default=None,
         metadata={
             "name": "virtual-instrument",
@@ -5770,7 +5769,7 @@ class Interchangeable(BaseModel):
         name = "interchangeable"
 
     model_config = ConfigDict(defer_build=True)
-    time_relation: Optional[TimeRelation] = field(
+    time_relation: TimeRelation | None = field(
         default=None,
         metadata={
             "name": "time-relation",
@@ -5792,13 +5791,13 @@ class Interchangeable(BaseModel):
             "min_occurs": 1,
         },
     )
-    symbol: Optional[TimeSymbol] = field(
+    symbol: TimeSymbol | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    separator: Optional[TimeSeparator] = field(
+    separator: TimeSeparator | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5816,41 +5815,41 @@ class Inversion(BaseModel):
             "required": True,
         }
     )
-    text: Optional[str] = field(
+    text: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -5858,28 +5857,28 @@ class Inversion(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5898,7 +5897,7 @@ class KeyAccidental(BaseModel):
             "required": True,
         }
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5925,7 +5924,7 @@ class KeyOctave(BaseModel):
             "required": True,
         }
     )
-    cancel: Optional[YesNo] = field(
+    cancel: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -5943,69 +5942,69 @@ class Kind(BaseModel):
             "required": True,
         }
     )
-    use_symbols: Optional[YesNo] = field(
+    use_symbols: YesNo | None = field(
         default=None,
         metadata={
             "name": "use-symbols",
             "type": "Attribute",
         },
     )
-    text: Optional[str] = field(
+    text: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    stack_degrees: Optional[YesNo] = field(
+    stack_degrees: YesNo | None = field(
         default=None,
         metadata={
             "name": "stack-degrees",
             "type": "Attribute",
         },
     )
-    parentheses_degrees: Optional[YesNo] = field(
+    parentheses_degrees: YesNo | None = field(
         default=None,
         metadata={
             "name": "parentheses-degrees",
             "type": "Attribute",
         },
     )
-    bracket_degrees: Optional[YesNo] = field(
+    bracket_degrees: YesNo | None = field(
         default=None,
         metadata={
             "name": "bracket-degrees",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -6013,41 +6012,41 @@ class Kind(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6066,32 +6065,32 @@ class Level(BaseModel):
             "required": True,
         },
     )
-    reference: Optional[YesNo] = field(
+    reference: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    type_value: Optional[StartStopSingle] = field(
+    type_value: StartStopSingle | None = field(
         default=None,
         metadata={
             "name": "type",
             "type": "Attribute",
         },
     )
-    parentheses: Optional[YesNo] = field(
+    parentheses: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    bracket: Optional[YesNo] = field(
+    bracket: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    size: Optional[SymbolSize] = field(
+    size: SymbolSize | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6110,27 +6109,27 @@ class LineDetail(BaseModel):
             "required": True,
         }
     )
-    width: Optional[Decimal] = field(
+    width: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    line_type: Optional[LineType] = field(
+    line_type: LineType | None = field(
         default=None,
         metadata={
             "name": "line-type",
             "type": "Attribute",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
@@ -6160,14 +6159,14 @@ class Link(BaseModel):
             "namespace": XLINK_NS,
         },
     )
-    role: Optional[str] = field(
+    role: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XLINK_NS,
         },
     )
-    title: Optional[str] = field(
+    title: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6188,46 +6187,46 @@ class Link(BaseModel):
             "namespace": XLINK_NS,
         },
     )
-    name: Optional[str] = field(
+    name: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    element: Optional[str] = field(
+    element: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    position: Optional[int] = field(
+    position: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
@@ -6241,19 +6240,19 @@ class LyricFont(BaseModel):
         name = "lyric-font"
 
     model_config = ConfigDict(defer_build=True)
-    number: Optional[str] = field(
+    number: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    name: Optional[str] = field(
+    name: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -6261,21 +6260,21 @@ class LyricFont(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
@@ -6289,19 +6288,19 @@ class LyricLanguage(BaseModel):
         name = "lyric-language"
 
     model_config = ConfigDict(defer_build=True)
-    number: Optional[str] = field(
+    number: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    name: Optional[str] = field(
+    name: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    lang: Union[str, LangValue] = field(
+    lang: str | LangValue = field(
         metadata={
             "type": "Attribute",
             "namespace": XML_NS,
@@ -6320,61 +6319,61 @@ class MeasureNumbering(BaseModel):
             "required": True,
         }
     )
-    system: Optional[SystemRelationNumber] = field(
+    system: SystemRelationNumber | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    staff: Optional[int] = field(
+    staff: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    multiple_rest_always: Optional[YesNo] = field(
+    multiple_rest_always: YesNo | None = field(
         default=None,
         metadata={
             "name": "multiple-rest-always",
             "type": "Attribute",
         },
     )
-    multiple_rest_range: Optional[YesNo] = field(
+    multiple_rest_range: YesNo | None = field(
         default=None,
         metadata={
             "name": "multiple-rest-range",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -6382,41 +6381,41 @@ class MeasureNumbering(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6429,7 +6428,7 @@ class MeasureRepeat(BaseModel):
         name = "measure-repeat"
 
     model_config = ConfigDict(defer_build=True)
-    value: Union[int, PositiveIntegerOrEmptyValue] = field()
+    value: int | PositiveIntegerOrEmptyValue = field()
     type_value: StartStop = field(
         metadata={
             "name": "type",
@@ -6437,7 +6436,7 @@ class MeasureRepeat(BaseModel):
             "required": True,
         }
     )
-    slashes: Optional[int] = field(
+    slashes: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6455,7 +6454,7 @@ class Membrane(BaseModel):
             "required": True,
         }
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6474,7 +6473,7 @@ class Metal(BaseModel):
             "required": True,
         }
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6541,7 +6540,7 @@ class MultipleRest(BaseModel):
             "required": True,
         }
     )
-    use_symbols: Optional[YesNo] = field(
+    use_symbols: YesNo | None = field(
         default=None,
         metadata={
             "name": "use-symbols",
@@ -6562,7 +6561,7 @@ class NonArpeggiate(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6570,48 +6569,48 @@ class NonArpeggiate(BaseModel):
             "max_inclusive": 16,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6649,7 +6648,7 @@ class NoteType(BaseModel):
             "required": True,
         }
     )
-    size: Optional[SymbolSize] = field(
+    size: SymbolSize | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6667,19 +6666,19 @@ class Notehead(BaseModel):
             "required": True,
         }
     )
-    filled: Optional[YesNo] = field(
+    filled: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    parentheses: Optional[YesNo] = field(
+    parentheses: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -6687,35 +6686,35 @@ class Notehead(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6742,7 +6741,7 @@ class NumeralKey(BaseModel):
             "required": True,
         }
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
@@ -6763,41 +6762,41 @@ class NumeralRoot(BaseModel):
             "max_inclusive": 7,
         }
     )
-    text: Optional[str] = field(
+    text: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -6805,28 +6804,28 @@ class NumeralRoot(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6847,7 +6846,7 @@ class OctaveShift(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6861,49 +6860,49 @@ class OctaveShift(BaseModel):
             "type": "Attribute",
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -6911,35 +6910,35 @@ class OctaveShift(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6957,7 +6956,7 @@ class Offset(BaseModel):
             "required": True,
         }
     )
-    sound: Optional[YesNo] = field(
+    sound: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -6986,14 +6985,14 @@ class Opus(BaseModel):
             "namespace": XLINK_NS,
         },
     )
-    role: Optional[str] = field(
+    role: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XLINK_NS,
         },
     )
-    title: Optional[str] = field(
+    title: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7027,42 +7026,42 @@ class OtherDirection(BaseModel):
             "required": True,
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -7070,53 +7069,53 @@ class OtherDirection(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7150,42 +7149,42 @@ class OtherNotation(BaseModel):
             "max_inclusive": 16,
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -7193,47 +7192,47 @@ class OtherNotation(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7252,35 +7251,35 @@ class OtherPlacementText(BaseModel):
             "required": True,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -7288,41 +7287,41 @@ class OtherPlacementText(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7363,7 +7362,7 @@ class PageMargins(BaseModel):
             "required": True,
         }
     )
-    type_value: Optional[MarginType] = field(
+    type_value: MarginType | None = field(
         default=None,
         metadata={
             "name": "type",
@@ -7383,13 +7382,13 @@ class PartClef(BaseModel):
             "required": True,
         }
     )
-    line: Optional[int] = field(
+    line: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    clef_octave_change: Optional[int] = field(
+    clef_octave_change: int | None = field(
         default=None,
         metadata={
             "name": "clef-octave-change",
@@ -7433,14 +7432,14 @@ class PartLink(BaseModel):
             "namespace": XLINK_NS,
         },
     )
-    role: Optional[str] = field(
+    role: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XLINK_NS,
         },
     )
-    title: Optional[str] = field(
+    title: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7474,35 +7473,35 @@ class PartName(BaseModel):
             "required": True,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -7510,42 +7509,42 @@ class PartName(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7563,49 +7562,49 @@ class PartSymbol(BaseModel):
             "required": True,
         }
     )
-    top_staff: Optional[int] = field(
+    top_staff: int | None = field(
         default=None,
         metadata={
             "name": "top-staff",
             "type": "Attribute",
         },
     )
-    bottom_staff: Optional[int] = field(
+    bottom_staff: int | None = field(
         default=None,
         metadata={
             "name": "bottom-staff",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7626,7 +7625,7 @@ class Pedal(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7634,53 +7633,53 @@ class Pedal(BaseModel):
             "max_inclusive": 16,
         },
     )
-    line: Optional[YesNo] = field(
+    line: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    sign: Optional[YesNo] = field(
+    sign: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    abbreviated: Optional[YesNo] = field(
+    abbreviated: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -7688,47 +7687,47 @@ class Pedal(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7768,7 +7767,7 @@ class PerMinute(BaseModel):
             "required": True,
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -7776,21 +7775,21 @@ class PerMinute(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
@@ -7810,7 +7809,7 @@ class Pitch(BaseModel):
             "required": True,
         }
     )
-    alter: Optional[Decimal] = field(
+    alter: Decimal | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -7836,7 +7835,7 @@ class Pitched(BaseModel):
             "required": True,
         }
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7856,35 +7855,35 @@ class PlacementText(BaseModel):
             "required": True,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -7892,35 +7891,35 @@ class PlacementText(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7959,7 +7958,7 @@ class Play(BaseModel):
             "type": "Element",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -7991,35 +7990,35 @@ class PrincipalVoice(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -8027,47 +8026,47 @@ class PrincipalVoice(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8080,7 +8079,7 @@ class Release(Empty):
         name = "release"
 
     model_config = ConfigDict(defer_build=True)
-    offset: Optional[Decimal] = field(
+    offset: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8099,20 +8098,20 @@ class Repeat(BaseModel):
             "required": True,
         }
     )
-    times: Optional[int] = field(
+    times: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    after_jump: Optional[YesNo] = field(
+    after_jump: YesNo | None = field(
         default=None,
         metadata={
             "name": "after-jump",
             "type": "Attribute",
         },
     )
-    winged: Optional[Winged] = field(
+    winged: Winged | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8125,14 +8124,14 @@ class Rest(BaseModel):
         name = "rest"
 
     model_config = ConfigDict(defer_build=True)
-    display_step: Optional[Step] = field(
+    display_step: Step | None = field(
         default=None,
         metadata={
             "name": "display-step",
             "type": "Element",
         },
     )
-    display_octave: Optional[int] = field(
+    display_octave: int | None = field(
         default=None,
         metadata={
             "name": "display-octave",
@@ -8141,7 +8140,7 @@ class Rest(BaseModel):
             "max_inclusive": 9,
         },
     )
-    measure: Optional[YesNo] = field(
+    measure: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8159,41 +8158,41 @@ class RootStep(BaseModel):
             "required": True,
         }
     )
-    text: Optional[str] = field(
+    text: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -8201,28 +8200,28 @@ class RootStep(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8243,33 +8242,33 @@ class ScoreInstrument(BaseModel):
             "required": True,
         }
     )
-    instrument_abbreviation: Optional[str] = field(
+    instrument_abbreviation: str | None = field(
         default=None,
         metadata={
             "name": "instrument-abbreviation",
             "type": "Element",
         },
     )
-    instrument_sound: Optional[str] = field(
+    instrument_sound: str | None = field(
         default=None,
         metadata={
             "name": "instrument-sound",
             "type": "Element",
         },
     )
-    solo: Optional[Empty] = field(
+    solo: Empty | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    ensemble: Optional[Union[int, PositiveIntegerOrEmptyValue]] = field(
+    ensemble: int | PositiveIntegerOrEmptyValue | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    virtual_instrument: Optional[VirtualInstrument] = field(
+    virtual_instrument: VirtualInstrument | None = field(
         default=None,
         metadata={
             "name": "virtual-instrument",
@@ -8289,35 +8288,35 @@ class Segno(BaseModel):
         name = "segno"
 
     model_config = ConfigDict(defer_build=True)
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -8325,53 +8324,53 @@ class Segno(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8385,7 +8384,7 @@ class Slash(BaseModel):
         name = "slash"
 
     model_config = ConfigDict(defer_build=True)
-    slash_type: Optional[NoteTypeValue] = field(
+    slash_type: NoteTypeValue | None = field(
         default=None,
         metadata={
             "name": "slash-type",
@@ -8413,14 +8412,14 @@ class Slash(BaseModel):
             "required": True,
         }
     )
-    use_dots: Optional[YesNo] = field(
+    use_dots: YesNo | None = field(
         default=None,
         metadata={
             "name": "use-dots",
             "type": "Attribute",
         },
     )
-    use_stems: Optional[YesNo] = field(
+    use_stems: YesNo | None = field(
         default=None,
         metadata={
             "name": "use-stems",
@@ -8455,56 +8454,56 @@ class Slide(BaseModel):
             "max_inclusive": 16,
         },
     )
-    line_type: Optional[LineType] = field(
+    line_type: LineType | None = field(
         default=None,
         metadata={
             "name": "line-type",
             "type": "Attribute",
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -8512,48 +8511,48 @@ class Slide(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    accelerate: Optional[YesNo] = field(
+    accelerate: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    beats: Optional[Decimal] = field(
+    beats: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "min_inclusive": Decimal("2"),
         },
     )
-    first_beat: Optional[Decimal] = field(
+    first_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "first-beat",
@@ -8562,7 +8561,7 @@ class Slide(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    last_beat: Optional[Decimal] = field(
+    last_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "last-beat",
@@ -8571,7 +8570,7 @@ class Slide(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8599,117 +8598,117 @@ class Slur(BaseModel):
             "max_inclusive": 16,
         },
     )
-    line_type: Optional[LineType] = field(
+    line_type: LineType | None = field(
         default=None,
         metadata={
             "name": "line-type",
             "type": "Attribute",
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    orientation: Optional[OverUnder] = field(
+    orientation: OverUnder | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    bezier_x: Optional[Decimal] = field(
+    bezier_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-x",
             "type": "Attribute",
         },
     )
-    bezier_y: Optional[Decimal] = field(
+    bezier_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-y",
             "type": "Attribute",
         },
     )
-    bezier_x2: Optional[Decimal] = field(
+    bezier_x2: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-x2",
             "type": "Attribute",
         },
     )
-    bezier_y2: Optional[Decimal] = field(
+    bezier_y2: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-y2",
             "type": "Attribute",
         },
     )
-    bezier_offset: Optional[Decimal] = field(
+    bezier_offset: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-offset",
             "type": "Attribute",
         },
     )
-    bezier_offset2: Optional[Decimal] = field(
+    bezier_offset2: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-offset2",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8729,35 +8728,35 @@ class StaffDivide(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -8765,47 +8764,47 @@ class StaffDivide(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8825,7 +8824,7 @@ class StaffTuning(BaseModel):
             "required": True,
         }
     )
-    tuning_alter: Optional[Decimal] = field(
+    tuning_alter: Decimal | None = field(
         default=None,
         metadata={
             "name": "tuning-alter",
@@ -8859,35 +8858,35 @@ class Stem(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -8915,19 +8914,19 @@ class Stick(BaseModel):
             "required": True,
         }
     )
-    tip: Optional[TipDirection] = field(
+    tip: TipDirection | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    parentheses: Optional[YesNo] = field(
+    parentheses: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    dashed_circle: Optional[YesNo] = field(
+    dashed_circle: YesNo | None = field(
         default=None,
         metadata={
             "name": "dashed-circle",
@@ -8946,35 +8945,35 @@ class String(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -8982,35 +8981,35 @@ class String(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9030,35 +9029,35 @@ class StringMute(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -9066,47 +9065,47 @@ class StringMute(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9125,35 +9124,35 @@ class StyleText(BaseModel):
             "required": True,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -9161,28 +9160,28 @@ class StyleText(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9209,13 +9208,13 @@ class Supports(BaseModel):
             "required": True,
         }
     )
-    attribute: Optional[str] = field(
+    attribute: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    value: Optional[str] = field(
+    value: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9228,32 +9227,32 @@ class Swing(BaseModel):
         name = "swing"
 
     model_config = ConfigDict(defer_build=True)
-    straight: Optional[Empty] = field(
+    straight: Empty | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    first: Optional[int] = field(
+    first: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    second: Optional[int] = field(
+    second: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    swing_type: Optional[SwingTypeValue] = field(
+    swing_type: SwingTypeValue | None = field(
         default=None,
         metadata={
             "name": "swing-type",
             "type": "Element",
         },
     )
-    swing_style: Optional[str] = field(
+    swing_style: str | None = field(
         default=None,
         metadata={
             "name": "swing-style",
@@ -9274,19 +9273,19 @@ class Sync(BaseModel):
             "required": True,
         }
     )
-    latency: Optional[int] = field(
+    latency: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    player: Optional[str] = field(
+    player: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    time_only: Optional[str] = field(
+    time_only: str | None = field(
         default=None,
         metadata={
             "name": "time-only",
@@ -9307,41 +9306,41 @@ class Tap(BaseModel):
             "required": True,
         },
     )
-    hand: Optional[TapHand] = field(
+    hand: TapHand | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -9349,35 +9348,35 @@ class Tap(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9396,7 +9395,7 @@ class TextElementData(BaseModel):
             "required": True,
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -9404,35 +9403,35 @@ class TextElementData(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    underline: Optional[int] = field(
+    underline: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9440,7 +9439,7 @@ class TextElementData(BaseModel):
             "max_inclusive": 3,
         },
     )
-    overline: Optional[int] = field(
+    overline: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9448,7 +9447,7 @@ class TextElementData(BaseModel):
             "max_inclusive": 3,
         },
     )
-    line_through: Optional[int] = field(
+    line_through: int | None = field(
         default=None,
         metadata={
             "name": "line-through",
@@ -9457,7 +9456,7 @@ class TextElementData(BaseModel):
             "max_inclusive": 3,
         },
     )
-    rotation: Optional[Decimal] = field(
+    rotation: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9465,21 +9464,21 @@ class TextElementData(BaseModel):
             "max_inclusive": Decimal("180"),
         },
     )
-    letter_spacing: Optional[Union[Decimal, NumberOrNormalValue]] = field(
+    letter_spacing: Decimal | NumberOrNormalValue | None = field(
         default=None,
         metadata={
             "name": "letter-spacing",
             "type": "Attribute",
         },
     )
-    lang: Optional[Union[str, LangValue]] = field(
+    lang: str | LangValue | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "namespace": XML_NS,
         },
     )
-    dir: Optional[TextDirection] = field(
+    dir: TextDirection | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9499,7 +9498,7 @@ class Tie(BaseModel):
             "required": True,
         }
     )
-    time_only: Optional[str] = field(
+    time_only: str | None = field(
         default=None,
         metadata={
             "name": "time-only",
@@ -9521,7 +9520,7 @@ class Tied(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9529,117 +9528,117 @@ class Tied(BaseModel):
             "max_inclusive": 16,
         },
     )
-    line_type: Optional[LineType] = field(
+    line_type: LineType | None = field(
         default=None,
         metadata={
             "name": "line-type",
             "type": "Attribute",
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    orientation: Optional[OverUnder] = field(
+    orientation: OverUnder | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    bezier_x: Optional[Decimal] = field(
+    bezier_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-x",
             "type": "Attribute",
         },
     )
-    bezier_y: Optional[Decimal] = field(
+    bezier_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-y",
             "type": "Attribute",
         },
     )
-    bezier_x2: Optional[Decimal] = field(
+    bezier_x2: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-x2",
             "type": "Attribute",
         },
     )
-    bezier_y2: Optional[Decimal] = field(
+    bezier_y2: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-y2",
             "type": "Attribute",
         },
     )
-    bezier_offset: Optional[Decimal] = field(
+    bezier_offset: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-offset",
             "type": "Attribute",
         },
     )
-    bezier_offset2: Optional[Decimal] = field(
+    bezier_offset2: Decimal | None = field(
         default=None,
         metadata={
             "name": "bezier-offset2",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9666,7 +9665,7 @@ class TimeModification(BaseModel):
             "required": True,
         }
     )
-    normal_type: Optional[NoteTypeValue] = field(
+    normal_type: NoteTypeValue | None = field(
         default=None,
         metadata={
             "name": "normal-type",
@@ -9701,35 +9700,35 @@ class Tremolo(BaseModel):
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -9737,41 +9736,41 @@ class Tremolo(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9784,7 +9783,7 @@ class TupletDot(BaseModel):
         name = "tuplet-dot"
 
     model_config = ConfigDict(defer_build=True)
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -9792,28 +9791,28 @@ class TupletDot(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9832,7 +9831,7 @@ class TupletNumber(BaseModel):
             "required": True,
         }
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -9840,28 +9839,28 @@ class TupletNumber(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9880,7 +9879,7 @@ class TupletType(BaseModel):
             "required": True,
         }
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -9888,28 +9887,28 @@ class TupletType(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9923,14 +9922,14 @@ class Unpitched(BaseModel):
         name = "unpitched"
 
     model_config = ConfigDict(defer_build=True)
-    display_step: Optional[Step] = field(
+    display_step: Step | None = field(
         default=None,
         metadata={
             "name": "display-step",
             "type": "Element",
         },
     )
-    display_octave: Optional[int] = field(
+    display_octave: int | None = field(
         default=None,
         metadata={
             "name": "display-octave",
@@ -9953,7 +9952,7 @@ class WavyLine(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -9961,89 +9960,89 @@ class WavyLine(BaseModel):
             "max_inclusive": 16,
         },
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"(wiggle\c+)|(guitar\c*VibratoStroke)",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    start_note: Optional[StartNote] = field(
+    start_note: StartNote | None = field(
         default=None,
         metadata={
             "name": "start-note",
             "type": "Attribute",
         },
     )
-    trill_step: Optional[TrillStep] = field(
+    trill_step: TrillStep | None = field(
         default=None,
         metadata={
             "name": "trill-step",
             "type": "Attribute",
         },
     )
-    two_note_turn: Optional[TwoNoteTurn] = field(
+    two_note_turn: TwoNoteTurn | None = field(
         default=None,
         metadata={
             "name": "two-note-turn",
             "type": "Attribute",
         },
     )
-    accelerate: Optional[YesNo] = field(
+    accelerate: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    beats: Optional[Decimal] = field(
+    beats: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "min_inclusive": Decimal("2"),
         },
     )
-    second_beat: Optional[Decimal] = field(
+    second_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "second-beat",
@@ -10052,7 +10051,7 @@ class WavyLine(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    last_beat: Optional[Decimal] = field(
+    last_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "last-beat",
@@ -10075,7 +10074,7 @@ class Wedge(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10083,75 +10082,75 @@ class Wedge(BaseModel):
             "max_inclusive": 16,
         },
     )
-    spread: Optional[Decimal] = field(
+    spread: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    niente: Optional[YesNo] = field(
+    niente: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    line_type: Optional[LineType] = field(
+    line_type: LineType | None = field(
         default=None,
         metadata={
             "name": "line-type",
             "type": "Attribute",
         },
     )
-    dash_length: Optional[Decimal] = field(
+    dash_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "dash-length",
             "type": "Attribute",
         },
     )
-    space_length: Optional[Decimal] = field(
+    space_length: Decimal | None = field(
         default=None,
         metadata={
             "name": "space-length",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10169,7 +10168,7 @@ class Wood(BaseModel):
             "required": True,
         }
     )
-    smufl: Optional[str] = field(
+    smufl: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10249,13 +10248,13 @@ class Backup(BaseModel):
             "min_exclusive": Decimal("0"),
         }
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -10268,39 +10267,39 @@ class Barline(BaseModel):
         name = "barline"
 
     model_config = ConfigDict(defer_build=True)
-    bar_style: Optional[BarStyleColor] = field(
+    bar_style: BarStyleColor | None = field(
         default=None,
         metadata={
             "name": "bar-style",
             "type": "Element",
         },
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    wavy_line: Optional[WavyLine] = field(
+    wavy_line: WavyLine | None = field(
         default=None,
         metadata={
             "name": "wavy-line",
             "type": "Element",
         },
     )
-    segno: Optional[Segno] = field(
+    segno: Segno | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    coda: Optional[Coda] = field(
+    coda: Coda | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -10313,13 +10312,13 @@ class Barline(BaseModel):
             "max_occurs": 2,
         },
     )
-    ending: Optional[Ending] = field(
+    ending: Ending | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    repeat: Optional[Repeat] = field(
+    repeat: Repeat | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -10331,27 +10330,27 @@ class Barline(BaseModel):
             "type": "Attribute",
         },
     )
-    segno_attribute: Optional[str] = field(
+    segno_attribute: str | None = field(
         default=None,
         metadata={
             "name": "segno",
             "type": "Attribute",
         },
     )
-    coda_attribute: Optional[str] = field(
+    coda_attribute: str | None = field(
         default=None,
         metadata={
             "name": "coda",
             "type": "Attribute",
         },
     )
-    divisions: Optional[Decimal] = field(
+    divisions: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10364,7 +10363,7 @@ class Bass(BaseModel):
         name = "bass"
 
     model_config = ConfigDict(defer_build=True)
-    bass_separator: Optional[StyleText] = field(
+    bass_separator: StyleText | None = field(
         default=None,
         metadata={
             "name": "bass-separator",
@@ -10378,14 +10377,14 @@ class Bass(BaseModel):
             "required": True,
         }
     )
-    bass_alter: Optional[HarmonyAlter] = field(
+    bass_alter: HarmonyAlter | None = field(
         default=None,
         metadata={
             "name": "bass-alter",
             "type": "Element",
         },
     )
-    arrangement: Optional[HarmonyArrangement] = field(
+    arrangement: HarmonyArrangement | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10405,61 +10404,61 @@ class Bend(BaseModel):
             "required": True,
         }
     )
-    pre_bend: Optional[Empty] = field(
+    pre_bend: Empty | None = field(
         default=None,
         metadata={
             "name": "pre-bend",
             "type": "Element",
         },
     )
-    release: Optional[Release] = field(
+    release: Release | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    with_bar: Optional[PlacementText] = field(
+    with_bar: PlacementText | None = field(
         default=None,
         metadata={
             "name": "with-bar",
             "type": "Element",
         },
     )
-    shape: Optional[BendShape] = field(
+    shape: BendShape | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -10467,48 +10466,48 @@ class Bend(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    accelerate: Optional[YesNo] = field(
+    accelerate: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    beats: Optional[Decimal] = field(
+    beats: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "min_inclusive": Decimal("2"),
         },
     )
-    first_beat: Optional[Decimal] = field(
+    first_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "first-beat",
@@ -10517,7 +10516,7 @@ class Bend(BaseModel):
             "max_inclusive": Decimal("100"),
         },
     )
-    last_beat: Optional[Decimal] = field(
+    last_beat: Decimal | None = field(
         default=None,
         metadata={
             "name": "last-beat",
@@ -10552,7 +10551,7 @@ class Credit(BaseModel):
             "type": "Element",
         },
     )
-    credit_image: Optional[Image] = field(
+    credit_image: Image | None = field(
         default=None,
         metadata={
             "name": "credit-image",
@@ -10573,13 +10572,13 @@ class Credit(BaseModel):
             "type": "Element",
         },
     )
-    page: Optional[int] = field(
+    page: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10613,7 +10612,7 @@ class Degree(BaseModel):
             "required": True,
         }
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
@@ -10667,38 +10666,38 @@ class Figure(BaseModel):
         name = "figure"
 
     model_config = ConfigDict(defer_build=True)
-    prefix: Optional[StyleText] = field(
+    prefix: StyleText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    figure_number: Optional[StyleText] = field(
+    figure_number: StyleText | None = field(
         default=None,
         metadata={
             "name": "figure-number",
             "type": "Element",
         },
     )
-    suffix: Optional[StyleText] = field(
+    suffix: StyleText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    extend: Optional[Extend] = field(
+    extend: Extend | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -10718,25 +10717,25 @@ class Forward(BaseModel):
             "min_exclusive": Decimal("0"),
         }
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    voice: Optional[str] = field(
+    voice: str | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    staff: Optional[int] = field(
+    staff: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -10761,13 +10760,13 @@ class FrameNote(BaseModel):
             "required": True,
         }
     )
-    fingering: Optional[Fingering] = field(
+    fingering: Fingering | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    barre: Optional[Barre] = field(
+    barre: Barre | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -10787,35 +10786,35 @@ class HarmonMute(BaseModel):
             "required": True,
         }
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -10823,35 +10822,35 @@ class HarmonMute(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10872,35 +10871,35 @@ class HarpPedals(BaseModel):
             "min_occurs": 1,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -10908,47 +10907,47 @@ class HarpPedals(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10961,7 +10960,7 @@ class HeelToe(EmptyPlacement):
         name = "heel-toe"
 
     model_config = ConfigDict(defer_build=True)
-    substitution: Optional[YesNo] = field(
+    substitution: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -10974,7 +10973,7 @@ class Hole(BaseModel):
         name = "hole"
 
     model_config = ConfigDict(defer_build=True)
-    hole_type: Optional[str] = field(
+    hole_type: str | None = field(
         default=None,
         metadata={
             "name": "hole-type",
@@ -10988,42 +10987,42 @@ class Hole(BaseModel):
             "required": True,
         }
     )
-    hole_shape: Optional[str] = field(
+    hole_shape: str | None = field(
         default=None,
         metadata={
             "name": "hole-shape",
             "type": "Element",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -11031,35 +11030,35 @@ class Hole(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -11072,19 +11071,19 @@ class Key(BaseModel):
         name = "key"
 
     model_config = ConfigDict(defer_build=True)
-    cancel: Optional[Cancel] = field(
+    cancel: Cancel | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    fifths: Optional[int] = field(
+    fifths: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    mode: Optional[str] = field(
+    mode: str | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -11118,41 +11117,41 @@ class Key(BaseModel):
             "type": "Element",
         },
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -11160,42 +11159,42 @@ class Key(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -11247,7 +11246,7 @@ class Listening(BaseModel):
             "type": "Element",
         },
     )
-    offset: Optional[Offset] = field(
+    offset: Offset | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -11287,111 +11286,111 @@ class Lyric(BaseModel):
             "sequence": 1,
         },
     )
-    laughing: Optional[Empty] = field(
+    laughing: Empty | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    humming: Optional[Empty] = field(
+    humming: Empty | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    end_line: Optional[Empty] = field(
+    end_line: Empty | None = field(
         default=None,
         metadata={
             "name": "end-line",
             "type": "Element",
         },
     )
-    end_paragraph: Optional[Empty] = field(
+    end_paragraph: Empty | None = field(
         default=None,
         metadata={
             "name": "end-paragraph",
             "type": "Element",
         },
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    number: Optional[str] = field(
+    number: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    name: Optional[str] = field(
+    name: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    time_only: Optional[str] = field(
+    time_only: str | None = field(
         default=None,
         metadata={
             "name": "time-only",
@@ -11399,7 +11398,7 @@ class Lyric(BaseModel):
             "pattern": r"[1-9][0-9]*(, ?[1-9][0-9]*)*",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -11412,40 +11411,40 @@ class MeasureStyle(BaseModel):
         name = "measure-style"
 
     model_config = ConfigDict(defer_build=True)
-    multiple_rest: Optional[MultipleRest] = field(
+    multiple_rest: MultipleRest | None = field(
         default=None,
         metadata={
             "name": "multiple-rest",
             "type": "Element",
         },
     )
-    measure_repeat: Optional[MeasureRepeat] = field(
+    measure_repeat: MeasureRepeat | None = field(
         default=None,
         metadata={
             "name": "measure-repeat",
             "type": "Element",
         },
     )
-    beat_repeat: Optional[BeatRepeat] = field(
+    beat_repeat: BeatRepeat | None = field(
         default=None,
         metadata={
             "name": "beat-repeat",
             "type": "Element",
         },
     )
-    slash: Optional[Slash] = field(
+    slash: Slash | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -11453,35 +11452,35 @@ class MeasureStyle(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -11501,13 +11500,13 @@ class MetronomeTuplet(TimeModification):
             "required": True,
         }
     )
-    bracket: Optional[YesNo] = field(
+    bracket: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    show_number: Optional[ShowTuplet] = field(
+    show_number: ShowTuplet | None = field(
         default=None,
         metadata={
             "name": "show-number",
@@ -11521,19 +11520,19 @@ class Mordent(EmptyTrillSound):
         name = "mordent"
 
     model_config = ConfigDict(defer_build=True)
-    long: Optional[YesNo] = field(
+    long: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    approach: Optional[AboveBelow] = field(
+    approach: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    departure: Optional[AboveBelow] = field(
+    departure: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -11560,7 +11559,7 @@ class NameDisplay(BaseModel):
             "type": "Element",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
@@ -11602,14 +11601,14 @@ class Numeral(BaseModel):
             "required": True,
         }
     )
-    numeral_alter: Optional[HarmonyAlter] = field(
+    numeral_alter: HarmonyAlter | None = field(
         default=None,
         metadata={
             "name": "numeral-alter",
             "type": "Element",
         },
     )
-    numeral_key: Optional[NumeralKey] = field(
+    numeral_key: NumeralKey | None = field(
         default=None,
         metadata={
             "name": "numeral-key",
@@ -11623,14 +11622,14 @@ class PageLayout(BaseModel):
         name = "page-layout"
 
     model_config = ConfigDict(defer_build=True)
-    page_height: Optional[Decimal] = field(
+    page_height: Decimal | None = field(
         default=None,
         metadata={
             "name": "page-height",
             "type": "Element",
         },
     )
-    page_width: Optional[Decimal] = field(
+    page_width: Decimal | None = field(
         default=None,
         metadata={
             "name": "page-width",
@@ -11652,7 +11651,7 @@ class PartTranspose(BaseModel):
         name = "part-transpose"
 
     model_config = ConfigDict(defer_build=True)
-    diatonic: Optional[int] = field(
+    diatonic: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -11664,14 +11663,14 @@ class PartTranspose(BaseModel):
             "required": True,
         }
     )
-    octave_change: Optional[int] = field(
+    octave_change: int | None = field(
         default=None,
         metadata={
             "name": "octave-change",
             "type": "Element",
         },
     )
-    double: Optional[Double] = field(
+    double: Double | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -11684,103 +11683,103 @@ class Percussion(BaseModel):
         name = "percussion"
 
     model_config = ConfigDict(defer_build=True)
-    glass: Optional[Glass] = field(
+    glass: Glass | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    metal: Optional[Metal] = field(
+    metal: Metal | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    wood: Optional[Wood] = field(
+    wood: Wood | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    pitched: Optional[Pitched] = field(
+    pitched: Pitched | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    membrane: Optional[Membrane] = field(
+    membrane: Membrane | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    effect: Optional[Effect] = field(
+    effect: Effect | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    timpani: Optional[Timpani] = field(
+    timpani: Timpani | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    beater: Optional[Beater] = field(
+    beater: Beater | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    stick: Optional[Stick] = field(
+    stick: Stick | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    stick_location: Optional[StickLocation] = field(
+    stick_location: StickLocation | None = field(
         default=None,
         metadata={
             "name": "stick-location",
             "type": "Element",
         },
     )
-    other_percussion: Optional[OtherText] = field(
+    other_percussion: OtherText | None = field(
         default=None,
         metadata={
             "name": "other-percussion",
             "type": "Element",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -11788,53 +11787,53 @@ class Percussion(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    enclosure: Optional[EnclosureShape] = field(
+    enclosure: EnclosureShape | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -11854,7 +11853,7 @@ class Root(BaseModel):
             "required": True,
         }
     )
-    root_alter: Optional[HarmonyAlter] = field(
+    root_alter: HarmonyAlter | None = field(
         default=None,
         metadata={
             "name": "root-alter",
@@ -11875,7 +11874,7 @@ class Scordatura(BaseModel):
             "min_occurs": 1,
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -11915,82 +11914,82 @@ class Sound(BaseModel):
             "type": "Element",
         },
     )
-    swing: Optional[Swing] = field(
+    swing: Swing | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    offset: Optional[Offset] = field(
+    offset: Offset | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    tempo: Optional[Decimal] = field(
+    tempo: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "min_inclusive": Decimal("0"),
         },
     )
-    dynamics: Optional[Decimal] = field(
+    dynamics: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "min_inclusive": Decimal("0"),
         },
     )
-    dacapo: Optional[YesNo] = field(
+    dacapo: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    segno: Optional[str] = field(
+    segno: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    dalsegno: Optional[str] = field(
+    dalsegno: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    coda: Optional[str] = field(
+    coda: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    tocoda: Optional[str] = field(
+    tocoda: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    divisions: Optional[Decimal] = field(
+    divisions: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    forward_repeat: Optional[YesNo] = field(
+    forward_repeat: YesNo | None = field(
         default=None,
         metadata={
             "name": "forward-repeat",
             "type": "Attribute",
         },
     )
-    fine: Optional[str] = field(
+    fine: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    time_only: Optional[str] = field(
+    time_only: str | None = field(
         default=None,
         metadata={
             "name": "time-only",
@@ -11998,21 +11997,13 @@ class Sound(BaseModel):
             "pattern": r"[1-9][0-9]*(, ?[1-9][0-9]*)*",
         },
     )
-    pizzicato: Optional[YesNo] = field(
+    pizzicato: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    pan: Optional[Decimal] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-            "min_inclusive": Decimal("-180"),
-            "max_inclusive": Decimal("180"),
-        },
-    )
-    elevation: Optional[Decimal] = field(
+    pan: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -12020,28 +12011,36 @@ class Sound(BaseModel):
             "max_inclusive": Decimal("180"),
         },
     )
-    damper_pedal: Optional[Union[YesNo, Decimal]] = field(
+    elevation: Decimal | None = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "min_inclusive": Decimal("-180"),
+            "max_inclusive": Decimal("180"),
+        },
+    )
+    damper_pedal: YesNo | Decimal | None = field(
         default=None,
         metadata={
             "name": "damper-pedal",
             "type": "Attribute",
         },
     )
-    soft_pedal: Optional[Union[YesNo, Decimal]] = field(
+    soft_pedal: YesNo | Decimal | None = field(
         default=None,
         metadata={
             "name": "soft-pedal",
             "type": "Attribute",
         },
     )
-    sostenuto_pedal: Optional[Union[YesNo, Decimal]] = field(
+    sostenuto_pedal: YesNo | Decimal | None = field(
         default=None,
         metadata={
             "name": "sostenuto-pedal",
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -12054,14 +12053,14 @@ class StaffDetails(BaseModel):
         name = "staff-details"
 
     model_config = ConfigDict(defer_build=True)
-    staff_type: Optional[StaffType] = field(
+    staff_type: StaffType | None = field(
         default=None,
         metadata={
             "name": "staff-type",
             "type": "Element",
         },
     )
-    staff_lines: Optional[int] = field(
+    staff_lines: int | None = field(
         default=None,
         metadata={
             "name": "staff-lines",
@@ -12082,40 +12081,40 @@ class StaffDetails(BaseModel):
             "type": "Element",
         },
     )
-    capo: Optional[int] = field(
+    capo: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    staff_size: Optional[StaffSize] = field(
+    staff_size: StaffSize | None = field(
         default=None,
         metadata={
             "name": "staff-size",
             "type": "Element",
         },
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    show_frets: Optional[ShowFrets] = field(
+    show_frets: ShowFrets | None = field(
         default=None,
         metadata={
             "name": "show-frets",
             "type": "Attribute",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    print_spacing: Optional[YesNo] = field(
+    print_spacing: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-spacing",
@@ -12177,66 +12176,66 @@ class Time(BaseModel):
             "type": "Element",
         },
     )
-    interchangeable: Optional[Interchangeable] = field(
+    interchangeable: Interchangeable | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    senza_misura: Optional[str] = field(
+    senza_misura: str | None = field(
         default=None,
         metadata={
             "name": "senza-misura",
             "type": "Element",
         },
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    symbol: Optional[TimeSymbol] = field(
+    symbol: TimeSymbol | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    separator: Optional[TimeSeparator] = field(
+    separator: TimeSeparator | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -12244,54 +12243,54 @@ class Time(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -12304,7 +12303,7 @@ class Transpose(BaseModel):
         name = "transpose"
 
     model_config = ConfigDict(defer_build=True)
-    diatonic: Optional[int] = field(
+    diatonic: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -12316,26 +12315,26 @@ class Transpose(BaseModel):
             "required": True,
         }
     )
-    octave_change: Optional[int] = field(
+    octave_change: int | None = field(
         default=None,
         metadata={
             "name": "octave-change",
             "type": "Element",
         },
     )
-    double: Optional[Double] = field(
+    double: Double | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -12348,14 +12347,14 @@ class TupletPortion(BaseModel):
         name = "tuplet-portion"
 
     model_config = ConfigDict(defer_build=True)
-    tuplet_number: Optional[TupletNumber] = field(
+    tuplet_number: TupletNumber | None = field(
         default=None,
         metadata={
             "name": "tuplet-number",
             "type": "Element",
         },
     )
-    tuplet_type: Optional[TupletType] = field(
+    tuplet_type: TupletType | None = field(
         default=None,
         metadata={
             "name": "tuplet-type",
@@ -12376,21 +12375,21 @@ class Work(BaseModel):
         name = "work"
 
     model_config = ConfigDict(defer_build=True)
-    work_number: Optional[str] = field(
+    work_number: str | None = field(
         default=None,
         metadata={
             "name": "work-number",
             "type": "Element",
         },
     )
-    work_title: Optional[str] = field(
+    work_title: str | None = field(
         default=None,
         metadata={
             "name": "work-title",
             "type": "Element",
         },
     )
-    opus: Optional[Opus] = field(
+    opus: Opus | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -12510,7 +12509,7 @@ class Articulations(BaseModel):
             "type": "Element",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -12530,54 +12529,54 @@ class FiguredBass(BaseModel):
             "min_occurs": 1,
         },
     )
-    duration: Optional[Decimal] = field(
+    duration: Decimal | None = field(
         default=None,
         metadata={
             "type": "Element",
             "min_exclusive": Decimal("0"),
         },
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -12585,87 +12584,87 @@ class FiguredBass(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    print_dot: Optional[YesNo] = field(
+    print_dot: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-dot",
             "type": "Attribute",
         },
     )
-    print_spacing: Optional[YesNo] = field(
+    print_spacing: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-spacing",
             "type": "Attribute",
         },
     )
-    print_lyric: Optional[YesNo] = field(
+    print_lyric: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-lyric",
             "type": "Attribute",
         },
     )
-    parentheses: Optional[YesNo] = field(
+    parentheses: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -12678,7 +12677,7 @@ class ForPart(BaseModel):
         name = "for-part"
 
     model_config = ConfigDict(defer_build=True)
-    part_clef: Optional[PartClef] = field(
+    part_clef: PartClef | None = field(
         default=None,
         metadata={
             "name": "part-clef",
@@ -12692,13 +12691,13 @@ class ForPart(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -12725,7 +12724,7 @@ class Frame(BaseModel):
             "required": True,
         }
     )
-    first_fret: Optional[FirstFret] = field(
+    first_fret: FirstFret | None = field(
         default=None,
         metadata={
             "name": "first-fret",
@@ -12740,72 +12739,72 @@ class Frame(BaseModel):
             "min_occurs": 1,
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[ValignImage] = field(
+    valign: ValignImage | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    height: Optional[Decimal] = field(
+    height: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    width: Optional[Decimal] = field(
+    width: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    unplayed: Optional[str] = field(
+    unplayed: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -12830,13 +12829,13 @@ class Identification(BaseModel):
             "type": "Element",
         },
     )
-    encoding: Optional[Encoding] = field(
+    encoding: Encoding | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    source: Optional[str] = field(
+    source: str | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -12848,7 +12847,7 @@ class Identification(BaseModel):
             "type": "Element",
         },
     )
-    miscellaneous: Optional[Miscellaneous] = field(
+    miscellaneous: Miscellaneous | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -12882,14 +12881,14 @@ class MetronomeNote(BaseModel):
             "type": "Element",
         },
     )
-    metronome_tied: Optional[MetronomeTied] = field(
+    metronome_tied: MetronomeTied | None = field(
         default=None,
         metadata={
             "name": "metronome-tied",
             "type": "Element",
         },
     )
-    metronome_tuplet: Optional[MetronomeTuplet] = field(
+    metronome_tuplet: MetronomeTuplet | None = field(
         default=None,
         metadata={
             "name": "metronome-tuplet",
@@ -13025,7 +13024,7 @@ class Ornaments(BaseModel):
             "sequence": 1,
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -13038,62 +13037,62 @@ class PartGroup(BaseModel):
         name = "part-group"
 
     model_config = ConfigDict(defer_build=True)
-    group_name: Optional[GroupName] = field(
+    group_name: GroupName | None = field(
         default=None,
         metadata={
             "name": "group-name",
             "type": "Element",
         },
     )
-    group_name_display: Optional[NameDisplay] = field(
+    group_name_display: NameDisplay | None = field(
         default=None,
         metadata={
             "name": "group-name-display",
             "type": "Element",
         },
     )
-    group_abbreviation: Optional[GroupName] = field(
+    group_abbreviation: GroupName | None = field(
         default=None,
         metadata={
             "name": "group-abbreviation",
             "type": "Element",
         },
     )
-    group_abbreviation_display: Optional[NameDisplay] = field(
+    group_abbreviation_display: NameDisplay | None = field(
         default=None,
         metadata={
             "name": "group-abbreviation-display",
             "type": "Element",
         },
     )
-    group_symbol: Optional[GroupSymbol] = field(
+    group_symbol: GroupSymbol | None = field(
         default=None,
         metadata={
             "name": "group-symbol",
             "type": "Element",
         },
     )
-    group_barline: Optional[GroupBarline] = field(
+    group_barline: GroupBarline | None = field(
         default=None,
         metadata={
             "name": "group-barline",
             "type": "Element",
         },
     )
-    group_time: Optional[Empty] = field(
+    group_time: Empty | None = field(
         default=None,
         metadata={
             "name": "group-time",
             "type": "Element",
         },
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -13119,28 +13118,28 @@ class SystemLayout(BaseModel):
         name = "system-layout"
 
     model_config = ConfigDict(defer_build=True)
-    system_margins: Optional[SystemMargins] = field(
+    system_margins: SystemMargins | None = field(
         default=None,
         metadata={
             "name": "system-margins",
             "type": "Element",
         },
     )
-    system_distance: Optional[Decimal] = field(
+    system_distance: Decimal | None = field(
         default=None,
         metadata={
             "name": "system-distance",
             "type": "Element",
         },
     )
-    top_system_distance: Optional[Decimal] = field(
+    top_system_distance: Decimal | None = field(
         default=None,
         metadata={
             "name": "top-system-distance",
             "type": "Element",
         },
     )
-    system_dividers: Optional[SystemDividers] = field(
+    system_dividers: SystemDividers | None = field(
         default=None,
         metadata={
             "name": "system-dividers",
@@ -13353,7 +13352,7 @@ class Technical(BaseModel):
             "type": "Element",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -13366,14 +13365,14 @@ class Tuplet(BaseModel):
         name = "tuplet"
 
     model_config = ConfigDict(defer_build=True)
-    tuplet_actual: Optional[TupletPortion] = field(
+    tuplet_actual: TupletPortion | None = field(
         default=None,
         metadata={
             "name": "tuplet-actual",
             "type": "Element",
         },
     )
-    tuplet_normal: Optional[TupletPortion] = field(
+    tuplet_normal: TupletPortion | None = field(
         default=None,
         metadata={
             "name": "tuplet-normal",
@@ -13387,7 +13386,7 @@ class Tuplet(BaseModel):
             "required": True,
         }
     )
-    number: Optional[int] = field(
+    number: int | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -13395,68 +13394,68 @@ class Tuplet(BaseModel):
             "max_inclusive": 16,
         },
     )
-    bracket: Optional[YesNo] = field(
+    bracket: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    show_number: Optional[ShowTuplet] = field(
+    show_number: ShowTuplet | None = field(
         default=None,
         metadata={
             "name": "show-number",
             "type": "Attribute",
         },
     )
-    show_type: Optional[ShowTuplet] = field(
+    show_type: ShowTuplet | None = field(
         default=None,
         metadata={
             "name": "show-type",
             "type": "Attribute",
         },
     )
-    line_shape: Optional[LineShape] = field(
+    line_shape: LineShape | None = field(
         default=None,
         metadata={
             "name": "line-shape",
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -13469,19 +13468,19 @@ class Attributes(BaseModel):
         name = "attributes"
 
     model_config = ConfigDict(defer_build=True)
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    divisions: Optional[Decimal] = field(
+    divisions: Decimal | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -13500,20 +13499,20 @@ class Attributes(BaseModel):
             "type": "Element",
         },
     )
-    staves: Optional[int] = field(
+    staves: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    part_symbol: Optional[PartSymbol] = field(
+    part_symbol: PartSymbol | None = field(
         default=None,
         metadata={
             "name": "part-symbol",
             "type": "Element",
         },
     )
-    instruments: Optional[int] = field(
+    instruments: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -13567,35 +13566,35 @@ class Attributes(BaseModel):
                 "required": True,
             },
         )
-        default_x: Optional[Decimal] = field(
+        default_x: Decimal | None = field(
             default=None,
             metadata={
                 "name": "default-x",
                 "type": "Attribute",
             },
         )
-        default_y: Optional[Decimal] = field(
+        default_y: Decimal | None = field(
             default=None,
             metadata={
                 "name": "default-y",
                 "type": "Attribute",
             },
         )
-        relative_x: Optional[Decimal] = field(
+        relative_x: Decimal | None = field(
             default=None,
             metadata={
                 "name": "relative-x",
                 "type": "Attribute",
             },
         )
-        relative_y: Optional[Decimal] = field(
+        relative_y: Decimal | None = field(
             default=None,
             metadata={
                 "name": "relative-y",
                 "type": "Attribute",
             },
         )
-        font_family: Optional[str] = field(
+        font_family: str | None = field(
             default=None,
             metadata={
                 "name": "font-family",
@@ -13603,35 +13602,35 @@ class Attributes(BaseModel):
                 "pattern": r"[^,]+(, ?[^,]+)*",
             },
         )
-        font_style: Optional[FontStyle] = field(
+        font_style: FontStyle | None = field(
             default=None,
             metadata={
                 "name": "font-style",
                 "type": "Attribute",
             },
         )
-        font_size: Optional[Union[Decimal, CssFontSize]] = field(
+        font_size: Decimal | CssFontSize | None = field(
             default=None,
             metadata={
                 "name": "font-size",
                 "type": "Attribute",
             },
         )
-        font_weight: Optional[FontWeight] = field(
+        font_weight: FontWeight | None = field(
             default=None,
             metadata={
                 "name": "font-weight",
                 "type": "Attribute",
             },
         )
-        color: Optional[str] = field(
+        color: str | None = field(
             default=None,
             metadata={
                 "type": "Attribute",
                 "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
             },
         )
-        lang: Optional[Union[str, LangValue]] = field(
+        lang: str | LangValue | None = field(
             default=None,
             metadata={
                 "type": "Attribute",
@@ -13645,27 +13644,27 @@ class Defaults(BaseModel):
         name = "defaults"
 
     model_config = ConfigDict(defer_build=True)
-    scaling: Optional[Scaling] = field(
+    scaling: Scaling | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    concert_score: Optional[Empty] = field(
+    concert_score: Empty | None = field(
         default=None,
         metadata={
             "name": "concert-score",
             "type": "Element",
         },
     )
-    page_layout: Optional[PageLayout] = field(
+    page_layout: PageLayout | None = field(
         default=None,
         metadata={
             "name": "page-layout",
             "type": "Element",
         },
     )
-    system_layout: Optional[SystemLayout] = field(
+    system_layout: SystemLayout | None = field(
         default=None,
         metadata={
             "name": "system-layout",
@@ -13679,20 +13678,20 @@ class Defaults(BaseModel):
             "type": "Element",
         },
     )
-    appearance: Optional[Appearance] = field(
+    appearance: Appearance | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    music_font: Optional[EmptyFont] = field(
+    music_font: EmptyFont | None = field(
         default=None,
         metadata={
             "name": "music-font",
             "type": "Element",
         },
     )
-    word_font: Optional[EmptyFont] = field(
+    word_font: EmptyFont | None = field(
         default=None,
         metadata={
             "name": "word-font",
@@ -13763,92 +13762,92 @@ class Harmony(BaseModel):
             "type": "Element",
         },
     )
-    frame: Optional[Frame] = field(
+    frame: Frame | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    offset: Optional[Offset] = field(
+    offset: Offset | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    staff: Optional[int] = field(
+    staff: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    type_value: Optional[HarmonyType] = field(
+    type_value: HarmonyType | None = field(
         default=None,
         metadata={
             "name": "type",
             "type": "Attribute",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    print_frame: Optional[YesNo] = field(
+    print_frame: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-frame",
             "type": "Attribute",
         },
     )
-    arrangement: Optional[HarmonyArrangement] = field(
+    arrangement: HarmonyArrangement | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -13856,47 +13855,47 @@ class Harmony(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    system: Optional[SystemRelation] = field(
+    system: SystemRelation | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -13931,14 +13930,14 @@ class Metronome(BaseModel):
             "type": "Element",
         },
     )
-    per_minute: Optional[PerMinute] = field(
+    per_minute: PerMinute | None = field(
         default=None,
         metadata={
             "name": "per-minute",
             "type": "Element",
         },
     )
-    metronome_arrows: Optional[Empty] = field(
+    metronome_arrows: Empty | None = field(
         default=None,
         metadata={
             "name": "metronome-arrows",
@@ -13952,42 +13951,42 @@ class Metronome(BaseModel):
             "type": "Element",
         },
     )
-    metronome_relation: Optional[str] = field(
+    metronome_relation: str | None = field(
         default=None,
         metadata={
             "name": "metronome-relation",
             "type": "Element",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -13995,66 +13994,66 @@ class Metronome(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    halign: Optional[LeftCenterRight] = field(
+    halign: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    valign: Optional[Valign] = field(
+    valign: Valign | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    justify: Optional[LeftCenterRight] = field(
+    justify: LeftCenterRight | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    parentheses: Optional[YesNo] = field(
+    parentheses: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -14067,13 +14066,13 @@ class Notations(BaseModel):
         name = "notations"
 
     model_config = ConfigDict(defer_build=True)
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -14166,14 +14165,14 @@ class Notations(BaseModel):
             "type": "Element",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -14186,14 +14185,14 @@ class Print(BaseModel):
         name = "print"
 
     model_config = ConfigDict(defer_build=True)
-    page_layout: Optional[PageLayout] = field(
+    page_layout: PageLayout | None = field(
         default=None,
         metadata={
             "name": "page-layout",
             "type": "Element",
         },
     )
-    system_layout: Optional[SystemLayout] = field(
+    system_layout: SystemLayout | None = field(
         default=None,
         metadata={
             "name": "system-layout",
@@ -14207,70 +14206,70 @@ class Print(BaseModel):
             "type": "Element",
         },
     )
-    measure_layout: Optional[MeasureLayout] = field(
+    measure_layout: MeasureLayout | None = field(
         default=None,
         metadata={
             "name": "measure-layout",
             "type": "Element",
         },
     )
-    measure_numbering: Optional[MeasureNumbering] = field(
+    measure_numbering: MeasureNumbering | None = field(
         default=None,
         metadata={
             "name": "measure-numbering",
             "type": "Element",
         },
     )
-    part_name_display: Optional[NameDisplay] = field(
+    part_name_display: NameDisplay | None = field(
         default=None,
         metadata={
             "name": "part-name-display",
             "type": "Element",
         },
     )
-    part_abbreviation_display: Optional[NameDisplay] = field(
+    part_abbreviation_display: NameDisplay | None = field(
         default=None,
         metadata={
             "name": "part-abbreviation-display",
             "type": "Element",
         },
     )
-    staff_spacing: Optional[Decimal] = field(
+    staff_spacing: Decimal | None = field(
         default=None,
         metadata={
             "name": "staff-spacing",
             "type": "Attribute",
         },
     )
-    new_system: Optional[YesNo] = field(
+    new_system: YesNo | None = field(
         default=None,
         metadata={
             "name": "new-system",
             "type": "Attribute",
         },
     )
-    new_page: Optional[YesNo] = field(
+    new_page: YesNo | None = field(
         default=None,
         metadata={
             "name": "new-page",
             "type": "Attribute",
         },
     )
-    blank_page: Optional[int] = field(
+    blank_page: int | None = field(
         default=None,
         metadata={
             "name": "blank-page",
             "type": "Attribute",
         },
     )
-    page_number: Optional[str] = field(
+    page_number: str | None = field(
         default=None,
         metadata={
             "name": "page-number",
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -14283,7 +14282,7 @@ class ScorePart(BaseModel):
         name = "score-part"
 
     model_config = ConfigDict(defer_build=True)
-    identification: Optional[Identification] = field(
+    identification: Identification | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -14304,21 +14303,21 @@ class ScorePart(BaseModel):
             "required": True,
         },
     )
-    part_name_display: Optional[NameDisplay] = field(
+    part_name_display: NameDisplay | None = field(
         default=None,
         metadata={
             "name": "part-name-display",
             "type": "Element",
         },
     )
-    part_abbreviation: Optional[PartName] = field(
+    part_abbreviation: PartName | None = field(
         default=None,
         metadata={
             "name": "part-abbreviation",
             "type": "Element",
         },
     )
-    part_abbreviation_display: Optional[NameDisplay] = field(
+    part_abbreviation_display: NameDisplay | None = field(
         default=None,
         metadata={
             "name": "part-abbreviation-display",
@@ -14401,7 +14400,7 @@ class DirectionType(BaseModel):
             "type": "Element",
         },
     )
-    wedge: Optional[Wedge] = field(
+    wedge: Wedge | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -14413,83 +14412,83 @@ class DirectionType(BaseModel):
             "type": "Element",
         },
     )
-    dashes: Optional[Dashes] = field(
+    dashes: Dashes | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    bracket: Optional[Bracket] = field(
+    bracket: Bracket | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    pedal: Optional[Pedal] = field(
+    pedal: Pedal | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    metronome: Optional[Metronome] = field(
+    metronome: Metronome | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    octave_shift: Optional[OctaveShift] = field(
+    octave_shift: OctaveShift | None = field(
         default=None,
         metadata={
             "name": "octave-shift",
             "type": "Element",
         },
     )
-    harp_pedals: Optional[HarpPedals] = field(
+    harp_pedals: HarpPedals | None = field(
         default=None,
         metadata={
             "name": "harp-pedals",
             "type": "Element",
         },
     )
-    damp: Optional[EmptyPrintStyleAlignId] = field(
+    damp: EmptyPrintStyleAlignId | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    damp_all: Optional[EmptyPrintStyleAlignId] = field(
+    damp_all: EmptyPrintStyleAlignId | None = field(
         default=None,
         metadata={
             "name": "damp-all",
             "type": "Element",
         },
     )
-    eyeglasses: Optional[EmptyPrintStyleAlignId] = field(
+    eyeglasses: EmptyPrintStyleAlignId | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    string_mute: Optional[StringMute] = field(
+    string_mute: StringMute | None = field(
         default=None,
         metadata={
             "name": "string-mute",
             "type": "Element",
         },
     )
-    scordatura: Optional[Scordatura] = field(
+    scordatura: Scordatura | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    image: Optional[Image] = field(
+    image: Image | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    principal_voice: Optional[PrincipalVoice] = field(
+    principal_voice: PrincipalVoice | None = field(
         default=None,
         metadata={
             "name": "principal-voice",
@@ -14502,28 +14501,28 @@ class DirectionType(BaseModel):
             "type": "Element",
         },
     )
-    accordion_registration: Optional[AccordionRegistration] = field(
+    accordion_registration: AccordionRegistration | None = field(
         default=None,
         metadata={
             "name": "accordion-registration",
             "type": "Element",
         },
     )
-    staff_divide: Optional[StaffDivide] = field(
+    staff_divide: StaffDivide | None = field(
         default=None,
         metadata={
             "name": "staff-divide",
             "type": "Element",
         },
     )
-    other_direction: Optional[OtherDirection] = field(
+    other_direction: OtherDirection | None = field(
         default=None,
         metadata={
             "name": "other-direction",
             "type": "Element",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -14536,7 +14535,7 @@ class Note(BaseModel):
         name = "note"
 
     model_config = ConfigDict(defer_build=True)
-    grace: Optional[Grace] = field(
+    grace: Grace | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -14598,25 +14597,25 @@ class Note(BaseModel):
             "type": "Element",
         },
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    voice: Optional[str] = field(
+    voice: str | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    type_value: Optional[NoteType] = field(
+    type_value: NoteType | None = field(
         default=None,
         metadata={
             "name": "type",
@@ -14629,39 +14628,39 @@ class Note(BaseModel):
             "type": "Element",
         },
     )
-    accidental: Optional[Accidental] = field(
+    accidental: Accidental | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    time_modification: Optional[TimeModification] = field(
+    time_modification: TimeModification | None = field(
         default=None,
         metadata={
             "name": "time-modification",
             "type": "Element",
         },
     )
-    stem: Optional[Stem] = field(
+    stem: Stem | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    notehead: Optional[Notehead] = field(
+    notehead: Notehead | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    notehead_text: Optional[NoteheadText] = field(
+    notehead_text: NoteheadText | None = field(
         default=None,
         metadata={
             "name": "notehead-text",
             "type": "Element",
         },
     )
-    staff: Optional[int] = field(
+    staff: int | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -14686,47 +14685,47 @@ class Note(BaseModel):
             "type": "Element",
         },
     )
-    play: Optional[Play] = field(
+    play: Play | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    listen: Optional[Listen] = field(
+    listen: Listen | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    default_x: Optional[Decimal] = field(
+    default_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-x",
             "type": "Attribute",
         },
     )
-    default_y: Optional[Decimal] = field(
+    default_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "default-y",
             "type": "Attribute",
         },
     )
-    relative_x: Optional[Decimal] = field(
+    relative_x: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-x",
             "type": "Attribute",
         },
     )
-    relative_y: Optional[Decimal] = field(
+    relative_y: Decimal | None = field(
         default=None,
         metadata={
             "name": "relative-y",
             "type": "Attribute",
         },
     )
-    font_family: Optional[str] = field(
+    font_family: str | None = field(
         default=None,
         metadata={
             "name": "font-family",
@@ -14734,77 +14733,77 @@ class Note(BaseModel):
             "pattern": r"[^,]+(, ?[^,]+)*",
         },
     )
-    font_style: Optional[FontStyle] = field(
+    font_style: FontStyle | None = field(
         default=None,
         metadata={
             "name": "font-style",
             "type": "Attribute",
         },
     )
-    font_size: Optional[Union[Decimal, CssFontSize]] = field(
+    font_size: Decimal | CssFontSize | None = field(
         default=None,
         metadata={
             "name": "font-size",
             "type": "Attribute",
         },
     )
-    font_weight: Optional[FontWeight] = field(
+    font_weight: FontWeight | None = field(
         default=None,
         metadata={
             "name": "font-weight",
             "type": "Attribute",
         },
     )
-    color: Optional[str] = field(
+    color: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "pattern": r"#[\dA-F]{6}([\dA-F][\dA-F])?",
         },
     )
-    print_object: Optional[YesNo] = field(
+    print_object: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-object",
             "type": "Attribute",
         },
     )
-    print_dot: Optional[YesNo] = field(
+    print_dot: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-dot",
             "type": "Attribute",
         },
     )
-    print_spacing: Optional[YesNo] = field(
+    print_spacing: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-spacing",
             "type": "Attribute",
         },
     )
-    print_lyric: Optional[YesNo] = field(
+    print_lyric: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-lyric",
             "type": "Attribute",
         },
     )
-    print_leger: Optional[YesNo] = field(
+    print_leger: YesNo | None = field(
         default=None,
         metadata={
             "name": "print-leger",
             "type": "Attribute",
         },
     )
-    dynamics: Optional[Decimal] = field(
+    dynamics: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
             "min_inclusive": Decimal("0"),
         },
     )
-    end_dynamics: Optional[Decimal] = field(
+    end_dynamics: Decimal | None = field(
         default=None,
         metadata={
             "name": "end-dynamics",
@@ -14812,19 +14811,19 @@ class Note(BaseModel):
             "min_inclusive": Decimal("0"),
         },
     )
-    attack: Optional[Decimal] = field(
+    attack: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    release: Optional[Decimal] = field(
+    release: Decimal | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    time_only: Optional[str] = field(
+    time_only: str | None = field(
         default=None,
         metadata={
             "name": "time-only",
@@ -14832,13 +14831,13 @@ class Note(BaseModel):
             "pattern": r"[1-9][0-9]*(, ?[1-9][0-9]*)*",
         },
     )
-    pizzicato: Optional[YesNo] = field(
+    pizzicato: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -14881,67 +14880,67 @@ class Direction(BaseModel):
             "min_occurs": 1,
         },
     )
-    offset: Optional[Offset] = field(
+    offset: Offset | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    footnote: Optional[FormattedText] = field(
+    footnote: FormattedText | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    level: Optional[Level] = field(
+    level: Level | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    voice: Optional[str] = field(
+    voice: str | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    staff: Optional[int] = field(
+    staff: int | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    sound: Optional[Sound] = field(
+    sound: Sound | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    listening: Optional[Listening] = field(
+    listening: Listening | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    placement: Optional[AboveBelow] = field(
+    placement: AboveBelow | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    directive: Optional[YesNo] = field(
+    directive: YesNo | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    system: Optional[SystemRelation] = field(
+    system: SystemRelation | None = field(
         default=None,
         metadata={
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    id: str | None = field(
         default=None,
         metadata={
             "type": "Attribute",
@@ -14954,33 +14953,33 @@ class ScorePartwise(BaseModel):
         name = "score-partwise"
 
     model_config = ConfigDict(defer_build=True)
-    work: Optional[Work] = field(
+    work: Work | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    movement_number: Optional[str] = field(
+    movement_number: str | None = field(
         default=None,
         metadata={
             "name": "movement-number",
             "type": "Element",
         },
     )
-    movement_title: Optional[str] = field(
+    movement_title: str | None = field(
         default=None,
         metadata={
             "name": "movement-title",
             "type": "Element",
         },
     )
-    identification: Optional[Identification] = field(
+    identification: Identification | None = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    defaults: Optional[Defaults] = field(
+    defaults: Defaults | None = field(
         default=None,
         metadata={
             "type": "Element",
@@ -15123,33 +15122,33 @@ class ScorePartwise(BaseModel):
                     "required": True,
                 }
             )
-            text: Optional[str] = field(
+            text: str | None = field(
                 default=None,
                 metadata={
                     "type": "Attribute",
                     "min_length": 1,
                 },
             )
-            implicit: Optional[YesNo] = field(
+            implicit: YesNo | None = field(
                 default=None,
                 metadata={
                     "type": "Attribute",
                 },
             )
-            non_controlling: Optional[YesNo] = field(
+            non_controlling: YesNo | None = field(
                 default=None,
                 metadata={
                     "name": "non-controlling",
                     "type": "Attribute",
                 },
             )
-            width: Optional[Decimal] = field(
+            width: Decimal | None = field(
                 default=None,
                 metadata={
                     "type": "Attribute",
                 },
             )
-            id: Optional[str] = field(
+            id: str | None = field(
                 default=None,
                 metadata={
                     "type": "Attribute",

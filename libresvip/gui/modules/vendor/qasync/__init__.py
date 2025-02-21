@@ -27,7 +27,7 @@ import sys
 import time
 from concurrent.futures import Future
 from queue import Queue
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from loguru import logger
 from PySide6 import QtCore, QtWidgets
@@ -62,18 +62,9 @@ class _QThreadWorker(QtCore.QThread):
 
     def __init__(
         self,
-        queue: Queue[
-            Optional[
-                tuple[
-                    Future[_T],
-                    Callable[_P, _T],
-                    Any,
-                    Any,
-                ]
-            ]
-        ],
+        queue: Queue[tuple[Future[_T], Callable[_P, _T], Any, Any] | None],
         num: int,
-        stack_size: Optional[int] = None,
+        stack_size: int | None = None,
     ) -> None:
         self.__queue = queue
         self.__num = num
@@ -130,10 +121,10 @@ class QThreadExecutor:
     ...     assert r == 4
     """
 
-    def __init__(self, max_workers: int = 10, stack_size: Optional[int] = None) -> None:
+    def __init__(self, max_workers: int = 10, stack_size: int | None = None) -> None:
         super().__init__()
         self.__max_workers = max_workers
-        self.__queue: Queue[Optional[Any]] = Queue()
+        self.__queue: Queue[Any | None] = Queue()
         if stack_size is None:
             # Match cpython/Python/thread_pthread.h
             if sys.platform.startswith("darwin"):
@@ -187,9 +178,9 @@ class QThreadExecutor:
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_value: Optional[BaseException],
-        traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
     ) -> None:
         self.shutdown()
 
@@ -269,7 +260,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
 
     def __init__(
         self,
-        app: Optional[QtCore.QCoreApplication] = None,
+        app: QtCore.QCoreApplication | None = None,
         set_running_loop: bool = False,
         already_running: bool = False,
     ) -> None:
@@ -397,7 +388,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         delay: float,
         callback: Callable[[Unpack[_Ts]], object],
         *args: Unpack[_Ts],
-        context: Optional[Context] = None,
+        context: Context | None = None,
     ) -> asyncio.TimerHandle:
         """Register callback to be invoked after a certain delay."""
         if asyncio.iscoroutinefunction(callback):
@@ -423,7 +414,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         self,
         callback: Callable[[Unpack[_Ts]], object],
         *args: Unpack[_Ts],
-        context: Optional[Context] = None,
+        context: Context | None = None,
     ) -> asyncio.Handle:
         """Register a callback to be run on the next iteration of the event loop."""
         return self.call_later(0, callback, *args, context=context)
@@ -433,7 +424,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         when: float,
         callback: Callable[[Unpack[_Ts]], object],
         *args: Unpack[_Ts],
-        context: Optional[Context] = None,
+        context: Context | None = None,
     ) -> asyncio.TimerHandle:
         """Register callback to be invoked at a certain time."""
         return self.call_later(when - self.time(), callback, *args, context=context)
@@ -469,7 +460,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         )
         self._read_notifiers[fd] = notifier
 
-    def _remove_reader(self, fd: FileDescriptor) -> Optional[bool]:
+    def _remove_reader(self, fd: FileDescriptor) -> bool | None:
         """Remove reader callback."""
         if self.is_closed():
             return None
@@ -512,7 +503,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         )
         self._write_notifiers[fd] = notifier
 
-    def _remove_writer(self, fd: FileDescriptor) -> Optional[bool]:
+    def _remove_writer(self, fd: FileDescriptor) -> bool | None:
         """Remove writer callback."""
         if self.is_closed():
             return None
@@ -587,7 +578,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         self,
         callback: Callable[[Unpack[_Ts]], _T],
         *args: Unpack[_Ts],
-        context: Optional[Context] = None,
+        context: Context | None = None,
     ) -> asyncio.Handle:
         """Thread-safe version of call_soon."""
         self.signaller.signal.emit(callback, args)
@@ -629,7 +620,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
 
     # Error handlers.
 
-    def set_exception_handler(self, handler: Optional[asyncio.events._ExceptionHandler]) -> None:
+    def set_exception_handler(self, handler: asyncio.events._ExceptionHandler | None) -> None:
         self.__exception_handler = handler  # type: ignore[assignment]
 
     def default_exception_handler(self, context: asyncio.events._Context) -> None:
@@ -710,9 +701,9 @@ class _QEventLoop(asyncio.AbstractEventLoop):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_value: Optional[BaseException],
-        traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
     ) -> None:
         self.stop()
         self.close()

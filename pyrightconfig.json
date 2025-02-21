@@ -1,5 +1,5 @@
 {
-    "pythonVersion": "3.9",
+    "pythonVersion": "3.10",
     "enableTypeIgnoreComments": true,
     "typeCheckingMode": "strict",
     "reportAttributeAccessIssue": "none",
@@ -41,5 +41,6 @@
     "reportOperatorIssue": "warning",
     "reportArgumentType": "warning",
     "reportIndexIssue": "warning",
+    "reportMatchNotExhaustive": "warning",
     "reportCallInDefaultInitializer": "error"
 }

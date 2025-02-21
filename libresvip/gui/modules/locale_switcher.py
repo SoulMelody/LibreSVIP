@@ -1,5 +1,5 @@
 import gettext
-from typing import Any, Optional
+from typing import Any
 
 from PySide6.QtCore import QLocale, QObject, QTranslator, Signal, Slot
 from PySide6.QtQml import QmlElement
@@ -28,7 +28,7 @@ class GettextTranslator(QTranslator):
         self,
         context: str,
         source_text: str,
-        disambiguation: Optional[bytes] = None,
+        disambiguation: bytes | None = None,
         n: int = 0,
     ) -> str:
         if translation.singleton_translation is not None and source_text.strip():

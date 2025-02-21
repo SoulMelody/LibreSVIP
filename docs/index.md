@@ -14,7 +14,7 @@ LibreSVIP 是一个跨平台且通用的文件转换工具，它适用于多种�
 
 从Github发布页下载: [发布页地址](https://github.com/SoulMelody/LibreSVIP/releases)
 
-或者你也可以通过pip安装带有桌面支持的LibreSVIP (需要先安装 python 3.9 以上版本):
+或者你也可以通过pip安装带有桌面支持的LibreSVIP (需要先安装 python 3.10 以上版本):
 
 ```bash
 pip install libresvip[desktop]

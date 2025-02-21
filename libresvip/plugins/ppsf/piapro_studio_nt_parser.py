@@ -1,5 +1,4 @@
 import dataclasses
-from typing import Optional
 
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars
 from libresvip.model.base import (
@@ -94,7 +93,7 @@ class PiaproStudioNTParser:
 
     def parse_singing_tracks(
         self,
-        ppsf_dvl_tracks: Optional[list[PpsfDvlTrackItem]],
+        ppsf_dvl_tracks: list[PpsfDvlTrackItem] | None,
         event_tracks: list[PpsfEventTrack],
     ) -> list[SingingTrack]:
         tracks = []

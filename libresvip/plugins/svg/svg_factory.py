@@ -1,6 +1,5 @@
 import dataclasses
 import itertools
-from typing import Optional
 
 import more_itertools
 from drawsvg import Line, Lines, Rectangle, Text
@@ -112,7 +111,7 @@ text {{
     def draw_text(
         self,
         position: TextPositionOption,
-        text: Optional[str],
+        text: str | None,
         parameters: NotePositionParameters,
         is_phoneme: bool,
     ) -> None:

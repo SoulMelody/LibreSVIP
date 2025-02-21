@@ -1,6 +1,6 @@
 import dataclasses
 import operator
-from typing import Optional, cast
+from typing import cast
 
 import more_itertools
 from wanakana import PROLONGED_SOUND_MARK
@@ -31,7 +31,7 @@ from .options import InputOptions
 class CeVIOParser:
     options: InputOptions
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
-    singer_id2name: dict[Optional[str], str] = dataclasses.field(default_factory=dict)
+    singer_id2name: dict[str | None, str] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, ccs_project: CeVIOCreativeStudioProject) -> Project:
         scene_node = ccs_project.sequence.scene
@@ -94,7 +94,7 @@ class CeVIOParser:
         index: int,
         unit_node: CeVIOUnit,
         group_node: CeVIOGroup,
-        track_name: Optional[str],
+        track_name: str | None,
     ) -> InstrumentalTrack:
         return InstrumentalTrack(
             title=track_name or f"Track {index + 1}",
@@ -113,7 +113,7 @@ class CeVIOParser:
         index: int,
         unit_node: CeVIOUnit,
         group_node: CeVIOGroup,
-        track_name: Optional[str],
+        track_name: str | None,
     ) -> tuple[SingingTrack, list[SongTempo], list[TimeSignature]]:
         time_nodes = unit_node.song.beat.time if unit_node.song.beat is not None else []
 
@@ -252,7 +252,7 @@ class CeVIOParser:
         return track, tempos, time_signatures
 
     @staticmethod
-    def parse_param_data(data_element: CeVIOData) -> Optional[CeVIOParamEvent]:
+    def parse_param_data(data_element: CeVIOData) -> CeVIOParamEvent | None:
         value = float(data_element.value) if data_element.value is not None else None
         if value is not None:
             index = data_element.index or None

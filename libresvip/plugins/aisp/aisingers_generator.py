@@ -1,6 +1,5 @@
 import bisect
 import dataclasses
-from typing import Union
 
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE, get_pinyin_series
@@ -203,7 +202,7 @@ class AiSingersGenerator:
 
         pitch_param_time_in_note = dict(pitch_param_in_note)
 
-        ais_pitch_param: list[Union[int, float]] = []
+        ais_pitch_param: list[int | float] = []
         for sample_time in sample_time_list:
             if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
                 distance = -1

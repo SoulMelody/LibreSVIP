@@ -1,6 +1,5 @@
 import functools
 from collections.abc import Callable
-from typing import Optional
 
 import more_itertools
 
@@ -23,7 +22,7 @@ def _update_curve_points_position(
     func: Callable[[int], float],
     ori_first_bar_ticks: int,
     new_first_bar_ticks: int,
-    limit_func: Optional[Callable[[int], bool]] = None,
+    limit_func: Callable[[int], bool] | None = None,
 ) -> ParamCurve:
     return ParamCurve(
         points=Points(

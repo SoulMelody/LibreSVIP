@@ -1,5 +1,5 @@
 import abc
-from typing import Annotated, Any, Literal, Optional, Union
+from typing import Annotated, Any, Literal
 
 from pydantic import Field
 
@@ -87,7 +87,7 @@ class DspxParamAnchor(BaseModel):
     nodes: list[DspxParamNode] = Field(default_factory=list)
 
 
-DsParamCurve = Annotated[Union[DspxParamFree, DspxParamAnchor], Field(discriminator="type_")]
+DsParamCurve = Annotated[DspxParamFree | DspxParamAnchor, Field(discriminator="type_")]
 
 
 class DspxParam(BaseModel):
@@ -135,7 +135,7 @@ class DspxPhonemes(BaseModel):
 
 class DspxPronunciation(BaseModel):
     original: str = DEFAULT_PHONEME
-    edited: Optional[str] = None
+    edited: str | None = None
 
 
 class DspxNote(HasExtra):
@@ -168,7 +168,7 @@ class DspxSingingClip(DspxClipMixin, BaseModel):
     params: DspxParams = Field(default_factory=DspxParams)
 
 
-DspxClip = Annotated[Union[DspxAudioClip, DspxSingingClip], Field(discriminator="type_")]
+DspxClip = Annotated[DspxAudioClip | DspxSingingClip, Field(discriminator="type_")]
 
 
 class DspxTrackControl(BaseModel):
@@ -179,8 +179,8 @@ class DspxTrackControl(BaseModel):
 
 
 class DspxTrackColor(BaseModel):
-    color_id: Optional[int] = Field(None, alias="id")
-    value: Optional[str] = None
+    color_id: int | None = Field(None, alias="id")
+    value: str | None = None
 
 
 class DspxTrack(HasExtra):
