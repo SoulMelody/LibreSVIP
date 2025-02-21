@@ -360,3 +360,36 @@ jobs:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
             ./packaging/build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
+
+  release_mobile_win32:
+    runs-on: windows-latest
+    needs: [make-outputs]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+      - name: Build with pyinstaller
+        shell: bash -el {0}
+        run: |
+          uv venv --python cpython-3.13.1-windows-x86-none
+          uv sync --extra mobile --extra crypto --extra ujson --extra ruamel_yaml --extra lxml
+          cd packaging
+          uv pip install -r requirements-pyinstaller.in
+          uv run pyinstaller libresvip-mobile.spec
+          cd dist
+          7z a LibreSVIP-mobile-${{ needs.make-outputs.outputs.VERSION }}.win32.7z libresvip-mobile
+          rm -rf libresvip-mobile
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: libresvip-mobile-win32.zip
+          path: ./packaging/dist/
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
+          files: |
+            ./packaging/dist/LibreSVIP-mobile-${{ needs.make-outputs.outputs.VERSION }}.win32.7z
