@@ -3,7 +3,7 @@ import pathlib
 import subprocess
 from collections.abc import Iterator
 from configparser import RawConfigParser
-from typing import Any, BinaryIO, Optional, Union, cast
+from typing import Any, BinaryIO, cast
 
 from babel.messages import setuptools_frontend
 from ts_model import TranslationType, Ts
@@ -27,7 +27,7 @@ def extract_from_plugin_metadata(
     keywords: list[str],
     comment_tags: list[str],
     options: dict[str, Any],
-) -> Iterator[tuple[int, str, Union[Optional[str], tuple[Optional[str], ...]], str]]:
+) -> Iterator[tuple[int, str, str | None | tuple[str | None, ...], str]]:
     try:
         plugin_info = DummyPluginInfo.load_from_string(fileobj.read().decode("utf-8"))
     except UnicodeDecodeError:
@@ -62,7 +62,7 @@ def extract_from_qt_ts(
     keywords: list[str],
     comment_tags: list[str],
     options: dict[str, Any],
-) -> Iterator[tuple[int, str, Union[str, tuple[str, str]], str]]:
+) -> Iterator[tuple[int, str, str | tuple[str, str], str]]:
     xml_parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=False))
     ts = xml_parser.from_bytes(fileobj.read(), Ts)
     for context in ts.context:
