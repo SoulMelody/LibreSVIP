@@ -1,7 +1,7 @@
 import csv
 import io
+from importlib.resources import files
 
-from libresvip.core.compat import files
 from libresvip.utils.translation import gettext_lazy as _
 
 

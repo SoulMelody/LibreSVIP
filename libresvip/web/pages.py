@@ -15,6 +15,7 @@ import traceback
 import webbrowser
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
+from importlib.resources import as_file
 from operator import not_
 from typing import (
     TYPE_CHECKING,
@@ -49,7 +50,7 @@ from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile, as_file
+from libresvip.core.compat import ZipFile
 from libresvip.core.config import (
     ConversionMode,
     DarkMode,

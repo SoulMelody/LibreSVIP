@@ -17,9 +17,7 @@ except ImportError:
     except ImportError:
         import zstandard as zstd
 
-__all__ = ["Traversable", "ZipFile", "as_file", "files", "json", "zstd"]
-
-from importlib.resources import as_file, files
+__all__ = ["Traversable", "ZipFile", "json", "zstd"]
 
 if sys.version_info < (3, 11):
     from importlib_resources.abc import Traversable

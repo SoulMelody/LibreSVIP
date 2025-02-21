@@ -4,6 +4,7 @@ import platform
 import time
 from collections.abc import Awaitable, Sequence
 from functools import partial
+from importlib.resources import as_file
 from typing import TYPE_CHECKING
 
 import httpx
@@ -16,7 +17,6 @@ from PySide6.QtQml import QmlElement
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 import libresvip
-from libresvip.core.compat import as_file
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.utils.translation import gettext_lazy as _
 

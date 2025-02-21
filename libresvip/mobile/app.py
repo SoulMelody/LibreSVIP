@@ -2,6 +2,7 @@ import enum
 import io
 import pathlib
 import traceback
+from importlib.resources import as_file
 from typing import get_args, get_type_hints
 
 import flet as ft
@@ -12,7 +13,7 @@ from pydantic_extra_types.color import Color
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile, as_file
+from libresvip.core.compat import ZipFile
 from libresvip.core.config import settings
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings

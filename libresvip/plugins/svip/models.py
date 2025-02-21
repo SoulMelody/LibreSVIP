@@ -1,9 +1,10 @@
 import dataclasses
 import re
+from importlib.resources import files
 
 from bidict import bidict
 
-from libresvip.core.compat import files, json
+from libresvip.core.compat import json
 
 from .msnrbf.xstudio_models import (
     XSNoteHeadTagEnum,
