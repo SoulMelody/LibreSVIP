@@ -1,6 +1,11 @@
-export LIBRESVIP_VERSION=`uv run python -c 'import libresvip;print(libresvip.__version__)'`
-export FLET_VERSION=`uv run python -c 'import flet;print(flet.version.version)'`
-sed -i '1441,1471d' $(uv run python -c 'from flet_cli.commands import build;print(build.__file__)')
+export LIBRESVIP_VERSION=`uv run --locked python -c 'import libresvip;print(libresvip.__version__)'`
+export FLET_VERSION=`uv run --locked python -c 'import flet;print(flet.version.version)'`
+export FLET_BUILD_COMMAND_PATH=`uv run --locked python -c 'from flet_cli.commands import build;print(build.__file__)'`
+export START_LINE_NUM=`awk "/# requirements/{print NR}" $FLET_BUILD_COMMAND_PATH`
+export END_LINE_NUM=`awk "/# site-packages variable/{print NR;exit;}" $FLET_BUILD_COMMAND_PATH`
+if [ -n "$START_LINE_NUM" ]; then
+    sed -i $START_LINE_NUM','$END_LINE_NUM'd' $FLET_BUILD_COMMAND_PATH
+fi
 cp  ../libresvip/mobile/__main__.py main.py
 uv run flet build apk -v \
     --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
