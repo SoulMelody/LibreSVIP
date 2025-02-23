@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-02-21 03:48\n"
+"PO-Revision-Date: 2025-02-23 12:54\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 #, python-brace-format
@@ -1180,7 +1180,7 @@ msgstr "选择目录"
 
 #: ../libresvip/tui/app.py:694
 msgid "Select"
-msgstr ""
+msgstr "选择"
 
 #: ../libresvip/tui/app.py:740 ../libresvip/web/pages.py:1566
 msgid "Advanced Settings"
