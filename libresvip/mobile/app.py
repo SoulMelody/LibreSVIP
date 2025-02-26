@@ -25,8 +25,8 @@ from libresvip.utils.translation import gettext_lazy as _
 
 def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
-    page.window.width = 600
-    page.window.height = 700
+    page.window.width = 480
+    page.window.height = 720
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
 
