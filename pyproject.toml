@@ -108,6 +108,7 @@ code_gen = [
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
+  "basedpyright>=1.28.0",
   "pre-commit>=4.1.0",
   "ruff>=0.9.7",
   "mypy>=1.15.0",
@@ -233,6 +234,7 @@ known-first-party = ['libresvip', 'tests']
 keep-runtime-typing = true
 
 [tool.mypy]
+python_version = "3.10"
 disable_error_code = "import-not-found,import-untyped,unused-ignore"
 warn_redundant_casts = true
 warn_unused_ignores = true
@@ -243,6 +245,57 @@ disallow_untyped_defs = true
 warn_no_return = false
 no_site_packages = true
 explicit_package_bases = true
+plugins = [
+  "pydantic.mypy"
+]
+
+[tool.pyright]
+pythonVersion = "3.10"
+typeCheckingMode = "strict"
+enableTypeIgnoreComments = true
+reportAttributeAccessIssue = "none"
+reportAssignmentType = "none"
+reportCallIssue = "none"
+reportIncompleteStub = "none"
+reportMissingImports = "none"
+reportMissingParameterType = "none"
+reportMissingTypeStubs = "warning"
+reportUnknownMemberType = "none"
+reportUnknownParameterType = "none"
+reportUnknownVariableType = "none"
+reportUnusedFunction = "none"
+reportUninitializedInstanceVariable = "none"
+reportMissingModuleSource = "none"
+reportIncompatibleMethodOverride = "none"
+reportIncompatibleVariableOverride = "none"
+reportUnknownArgumentType = "none"
+reportUnusedVariable = "none"
+reportUnusedImport = "none"
+reportUnnecessaryContains = "none"
+reportRedeclaration = "none"
+reportUntypedFunctionDecorator = "none"
+reportUntypedClassDecorator = "none"
+reportFunctionMemberAccess = "none"
+reportUntypedBaseClass = "warning"
+reportAbstractUsage = "warning"
+reportMissingTypeArgument = "warning"
+reportUnknownLambdaType = "warning"
+reportPrivateUsage = "warning"
+reportOptionalOperand = "warning"
+reportInvalidTypeForm = "warning"
+reportUnnecessaryComparison = "warning"
+reportReturnType = "warning"
+reportGeneralTypeIssues = "warning"
+reportOptionalMemberAccess = "warning"
+reportUnnecessaryTypeIgnoreComment = "warning"
+reportUnnecessaryIsInstance = "warning"
+reportOperatorIssue = "warning"
+reportArgumentType = "warning"
+reportIndexIssue = "warning"
+reportMatchNotExhaustive = "warning"
+reportCallInDefaultInitializer = "error"
+venvPath = "."
+venv = ".venv"
 
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]

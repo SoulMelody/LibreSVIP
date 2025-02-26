@@ -1,6 +1,3 @@
-ci:
-    skip: [pyright]
-
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.9.7
@@ -19,15 +16,16 @@ repos:
           - --config-file=pyproject.toml
           - .
         pass_filenames: false
-        additional_dependencies: [proto-plus-stubs, types-lxml, types-parsimonious, types-pyyaml, types-ujson]
-
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.394
-    hooks:
-    - id: pyright
+        additional_dependencies: &mypy_deps
+          - proto-plus-stubs
+          - pydantic
+          - types-lxml
+          - types-parsimonious
+          - types-pyyaml
+          - types-ujson
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.6.2
+    rev: 0.6.3
     hooks:
       - id: uv-lock
         args: ["--frozen"]

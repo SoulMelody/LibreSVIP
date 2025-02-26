@@ -19,7 +19,9 @@ def audio_path_validator(path: str, info: ValidationInfo) -> str:
 
 
 if platform.system() != "Emscripten":
-    from pymediainfo import ET, MediaInfo
+    import xml.etree.ElementTree as ET
+
+    from pymediainfo import MediaInfo
     from pymediainfo import Track as MediaInfoTrack
 
     def audio_track_info(
