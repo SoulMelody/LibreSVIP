@@ -252,12 +252,11 @@ plugins = [
 [tool.pyright]
 pythonVersion = "3.10"
 typeCheckingMode = "strict"
-enableTypeIgnoreComments = true
 reportAttributeAccessIssue = "none"
 reportAssignmentType = "none"
 reportCallIssue = "none"
-reportIncompleteStub = "none"
-reportMissingImports = "none"
+reportIncompleteStub = "warning"
+reportMissingImports = "warning"
 reportMissingParameterType = "none"
 reportMissingTypeStubs = "warning"
 reportUnknownMemberType = "none"
@@ -294,8 +293,6 @@ reportArgumentType = "warning"
 reportIndexIssue = "warning"
 reportMatchNotExhaustive = "warning"
 reportCallInDefaultInitializer = "error"
-venvPath = "."
-venv = ".venv"
 
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]

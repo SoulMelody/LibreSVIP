@@ -103,9 +103,9 @@ class _QThreadWorker(QtCore.QThread):
 
         logger.debug("Thread #{} stopped", self.__num)
 
-    def wait(self) -> None:
+    def wait(self, *args: Any, **kwargs: Any) -> bool:
         logger.debug("Waiting for thread #{} to stop...", self.__num)
-        super().wait()
+        return super().wait(*args, **kwargs)
 
 
 class QThreadExecutor:
@@ -586,7 +586,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
     def run_in_executor(
         self,
         executor: Executor,
-        callback: Callable[[Unpack[_Ts]], _T],
+        func: Callable[[Unpack[_Ts]], _T],
         *args: Unpack[_Ts],
     ) -> asyncio.Future[_T]:
         """Run callback in executor.
@@ -594,15 +594,15 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         If no executor is provided, the default executor will be used, which defers execution to
         a background thread.
         """
-        self.__log_debug("Running callback {} with args {} in executor", callback, args)
-        if isinstance(callback, asyncio.Handle):
+        self.__log_debug("Running callback {} with args {} in executor", func, args)
+        if isinstance(func, asyncio.Handle):
             assert not args
-            assert not isinstance(callback, asyncio.TimerHandle)
-            if callback._cancelled:
+            assert not isinstance(func, asyncio.TimerHandle)
+            if func._cancelled:
                 f: asyncio.Future[Any] = asyncio.Future()
                 f.set_result(None)
                 return f
-            callback, args = callback.callback, callback.args
+            func, args = func.callback, func.args
 
         if executor is None:
             self.__log_debug("Using default executor")
@@ -613,7 +613,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
             executor = QThreadExecutor()
             self.__default_executor = executor
 
-        return asyncio.wrap_future(executor.submit(callback, *args))
+        return asyncio.wrap_future(executor.submit(func, *args))
 
     def set_default_executor(self, executor: Any) -> None:
         self.__default_executor = executor

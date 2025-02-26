@@ -3,7 +3,7 @@ import ctypes
 from ctypes.wintypes import MSG
 from typing import SupportsInt
 
-from PySide6.QtCore import QPoint, QRect, Qt, Slot
+from PySide6.QtCore import QByteArray, QPoint, QRect, Qt, Slot
 from PySide6.QtGui import QGuiApplication, QMouseEvent, QWindow
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickItem, QQuickWindow
@@ -104,7 +104,9 @@ class FramelessWindow(QQuickWindow):
         margins = MARGINS(-1, -1, -1, -1)
         return dwmapi.DwmExtendFrameIntoClientArea(self.hwnd, ctypes.byref(margins))
 
-    def native_event(self, event_type: bytes, message: SupportsInt) -> tuple[bool, SupportsInt]:
+    def native_event(
+        self, event_type: QByteArray | bytes | bytearray | memoryview, message: SupportsInt
+    ) -> object:
         if self.maximize_btn is None:
             self.maximize_btn = self.find_child(QQuickItem, "maximizeButton")
         if event_type == b"windows_generic_MSG":

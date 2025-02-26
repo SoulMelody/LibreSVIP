@@ -245,8 +245,8 @@ class _EventWorker(QtCore.QThread):
         self.__sig_events: QtCore.SignalInstance = parent.sig_events
         self.__semaphore = QtCore.QSemaphore()
 
-    def start(self) -> None:
-        super().start()
+    def start(self, /, priority: QtCore.QThread.Priority = ...) -> None:  # type: ignore[assignment]
+        super().start(priority=priority)
         self.__semaphore.acquire()
 
     def stop(self) -> None:

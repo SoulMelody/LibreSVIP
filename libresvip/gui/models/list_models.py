@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from functools import cache
 from typing import TYPE_CHECKING, Any
 
 from PySide6.QtCore import (
     QAbstractListModel,
+    QByteArray,
     QModelIndex,
     QObject,
+    QPersistentModelIndex,
     QStringListModel,
     Slot,
 )
@@ -229,23 +230,32 @@ class ModelProxy(QAbstractListModel):
     # -------------------------------------------------------------------------
     # overrides
 
-    def data(self, index: QModelIndex, role: int) -> Any:
+    def data(self, index: QModelIndex | QPersistentModelIndex, /, role: int = ...) -> Any:  # type: ignore[assignment]
         name = self._role_2_name[role]
         return self._items[index.row()].get(name, "")
 
-    def set_data(self, index: QModelIndex, value: Any, role: int) -> bool:
+    def set_data(
+        self,
+        index: QModelIndex | QPersistentModelIndex,
+        value: Any,
+        /,
+        role: int = ...,  # type: ignore[assignment]
+    ) -> bool:
+        # 获取指定角色的名称
         name = self._role_names[role]
+        # 将指定角色的值设置为传入的值
         self._items[index.row()][name] = value
+        # 发射数据改变信号
         self.dataChanged.emit(index, index)
+        # 返回True表示设置成功
         return True
 
-    def row_count(self, parent: QModelIndex) -> int:
+    def row_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
         return len(self._items)
 
-    @cache
-    def role_names(self) -> dict[int, bytes]:
+    def role_names(self) -> dict[int, QByteArray]:
         # return self._role_2_name
-        return {k: v.encode("utf-8") for k, v in self._role_2_name.items()}
+        return {k: QByteArray(v.encode("utf-8")) for k, v in self._role_2_name.items()}
 
 
 class LyricReplacementPresetsModel(QStringListModel):

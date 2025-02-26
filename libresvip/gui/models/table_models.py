@@ -1,8 +1,14 @@
 import re
-from functools import cache
 from typing import Any
 
-from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, Slot
+from PySide6.QtCore import (
+    QAbstractTableModel,
+    QByteArray,
+    QModelIndex,
+    QPersistentModelIndex,
+    Qt,
+    Slot,
+)
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -48,14 +54,18 @@ class PluginCadidatesTableModel(QAbstractTableModel):
         ]
         self.end_insert_rows()
 
-    def row_count(self, parent: QModelIndex) -> int:
+    def row_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
         return len(self.plugin_candidates)
 
-    def column_count(self, parent: QModelIndex) -> int:
+    def column_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
         return len(self.column_names)
 
     def header_data(
-        self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
+        self,
+        section: int,
+        orientation: Qt.Orientation,
+        /,
+        role: int = ...,  # type: ignore[assignment]
     ) -> str | None:
         if role != Qt.ItemDataRole.DisplayRole:
             return None
@@ -66,8 +76,9 @@ class PluginCadidatesTableModel(QAbstractTableModel):
 
     def data(
         self,
-        index: QModelIndex,
-        role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole,
+        index: QModelIndex | QPersistentModelIndex,
+        /,
+        role: int = ...,  # type: ignore[assignment]
     ) -> Any:
         if role == Qt.ItemDataRole.DisplayRole or (
             role == Qt.ItemDataRole.EditRole and index.column() == 3
@@ -75,17 +86,16 @@ class PluginCadidatesTableModel(QAbstractTableModel):
             return self.plugin_candidates[index.row()][index.column()]
         return None
 
-    def flags(self, index: QModelIndex) -> Qt.ItemFlag:
+    def flags(self, index: QModelIndex | QPersistentModelIndex) -> Qt.ItemFlag:
         item_flags = Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
         if index.column() == 3:
             item_flags |= Qt.ItemFlag.ItemIsEditable
         return item_flags
 
-    @cache
-    def role_names(self) -> dict[int, bytes]:
+    def role_names(self) -> dict[int, QByteArray]:
         return {
-            Qt.ItemDataRole.DisplayRole: b"display",
-            Qt.ItemDataRole.EditRole: b"value",
+            Qt.ItemDataRole.DisplayRole: QByteArray(b"display"),
+            Qt.ItemDataRole.EditRole: QByteArray(b"value"),
         }
 
 
@@ -111,14 +121,18 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
             _("Actions"),
         ]
 
-    def row_count(self, parent: QModelIndex) -> int:
+    def row_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
         return len(settings.lyric_replace_rules[self.preset])
 
-    def column_count(self, parent: QModelIndex) -> int:
+    def column_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
         return len(self.column_names)
 
     def header_data(
-        self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
+        self,
+        section: int,
+        orientation: Qt.Orientation,
+        /,
+        role: int = ...,  # type: ignore[assignment]
     ) -> str | None:
         if role != Qt.ItemDataRole.DisplayRole:
             return None
@@ -129,14 +143,15 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
 
     def data(
         self,
-        index: QModelIndex,
-        role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole,
+        index: QModelIndex | QPersistentModelIndex,
+        /,
+        role: int = ...,  # type: ignore[assignment]
     ) -> Any:
         column_index = index.column()
         if role in [
             Qt.ItemDataRole.DisplayRole,
             Qt.ItemDataRole.EditRole,
-        ] and (0 <= column_index < len(self.column_keys)):
+        ] and 0 <= column_index < len(self.column_keys):
             prop = getattr(
                 settings.lyric_replace_rules[self.preset][index.row()],
                 self.column_keys[column_index],
@@ -151,9 +166,10 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
 
     def set_data(
         self,
-        index: QModelIndex,
+        index: QModelIndex | QPersistentModelIndex,
         value: Any,
-        role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole,
+        /,
+        role: int = ...,  # type: ignore[assignment]
     ) -> bool:
         key = self.column_keys[index.column()]
         row = index.row()
@@ -171,7 +187,7 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
             setattr(rule, key, value)
         return True
 
-    def flags(self, index: QModelIndex) -> Qt.ItemFlag:
+    def flags(self, index: QModelIndex | QPersistentModelIndex) -> Qt.ItemFlag:
         item_flags = Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
         column = index.column()
         if 0 < column < len(self.column_keys) and (column_key := self.column_keys[column]):
@@ -184,11 +200,10 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
                 item_flags |= Qt.ItemFlag.ItemIsEditable
         return item_flags
 
-    @cache
-    def role_names(self) -> dict[int, bytes]:
+    def role_names(self) -> dict[int, QByteArray]:
         return {
-            Qt.ItemDataRole.DisplayRole: b"display",
-            Qt.ItemDataRole.EditRole: b"value",
+            Qt.ItemDataRole.DisplayRole: QByteArray(b"display"),
+            Qt.ItemDataRole.EditRole: QByteArray(b"value"),
         }
 
     @Slot(str)
