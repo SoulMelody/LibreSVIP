@@ -115,17 +115,13 @@ def encode_notes(
                 )
                 ds_phoneme.vowel = DsPhonemeItem(
                     phoneme=vowel,
-                    duration=None
-                    if cur_actual_start_in_secs == cur_start_in_secs
-                    else round(cur_actual_end_in_secs - cur_start_in_secs, 6),
+                    duration=round(cur_actual_end_in_secs - cur_start_in_secs, 6),
                     note_name=midi2note(note.key_number),
                 )
             else:  # 纯元音
                 ds_phoneme.vowel = DsPhonemeItem(
                     phoneme=vowel,
-                    duration=None
-                    if cur_actual_start_in_secs == cur_start_in_secs
-                    else round(cur_actual_end_in_secs - cur_actual_start_in_secs, 6),
+                    duration=round(cur_actual_end_in_secs - cur_actual_start_in_secs, 6),
                     note_name=midi2note(note.key_number),
                 )
         ds_note = DsNote(

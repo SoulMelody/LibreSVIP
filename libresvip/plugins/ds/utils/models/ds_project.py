@@ -19,7 +19,6 @@ class DsProjectModel:
         input_note_seq = ""
         input_duration = ""
         input_slur = ""
-        input_duration_seq = ""
         is_slur_seq = ""
         phoneme_dur_seq = ""
         phoneme_dur_enabled = True
@@ -39,13 +38,9 @@ class DsProjectModel:
                 is_slur_seq += "0 "
                 phoneme_counts[-1] += 1
             phoneme_seq += vowel.phoneme
-            if vowel.duration is not None:
-                phoneme_dur_seq += str(vowel.duration)
-            elif phoneme_dur_enabled:
-                phoneme_dur_enabled = False
+            phoneme_dur_seq += str(vowel.duration)
             input_note_seq += vowel.note_name
             input_duration += str(cur_note.duration)
-            input_duration_seq += str(cur_note.duration)
             is_slur_seq += "1" if cur_note.is_slur else "0"
             input_slur += "1" if cur_note.is_slur else "0"
             if i < len(ds_notes) - 1:
@@ -53,7 +48,6 @@ class DsProjectModel:
                     input_text += " "
                 input_note_seq += " "
                 input_duration += " "
-                input_duration_seq += " "
                 input_slur += " "
                 is_slur_seq += " "
                 phoneme_seq += " "
@@ -74,7 +68,7 @@ class DsProjectModel:
             ph_seq=phoneme_seq,
             note_seq=input_note_seq,
             note_dur=input_duration,
-            note_dur_seq=input_duration_seq,
+            note_dur_seq=phoneme_dur_seq,
             note_slur=input_slur,
             is_slur_seq=is_slur_seq,
             ph_dur=phoneme_dur_seq if phoneme_dur_enabled else None,
