@@ -1,8 +1,6 @@
-from libresvip.core.exceptions import ParamsError
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
 from libresvip.utils.music_math import midi2note
-from libresvip.utils.translation import gettext_lazy as _
 
 from . import lyric_util, pinyin_util
 from .models.ds_note import (
@@ -39,8 +37,6 @@ def encode_notes(
         cur_actual_end_in_secs = cur_end_in_secs
         if note.edited_phones is not None and note.edited_phones.head_length_in_secs >= 0:
             cur_actual_start_in_secs -= note.edited_phones.head_length_in_secs
-        elif "-" not in note.lyric:
-            raise ParamsError(_("The source file lacks phoneme parameters."))
         if (
             index < len(os_notes) - 1
             and os_notes[index + 1].edited_phones is not None
@@ -112,18 +108,24 @@ def encode_notes(
                 )
                 ds_phoneme.consonant = DsPhonemeItem(
                     phoneme=consonant,
-                    duration=round(cur_start_in_secs - cur_actual_start_in_secs, 6),
+                    duration=None
+                    if cur_actual_start_in_secs == cur_start_in_secs
+                    else round(cur_start_in_secs - cur_actual_start_in_secs, 6),
                     note_name=consonant_note_name,
                 )
                 ds_phoneme.vowel = DsPhonemeItem(
                     phoneme=vowel,
-                    duration=round(cur_actual_end_in_secs - cur_start_in_secs, 6),
+                    duration=None
+                    if cur_actual_start_in_secs == cur_start_in_secs
+                    else round(cur_actual_end_in_secs - cur_start_in_secs, 6),
                     note_name=midi2note(note.key_number),
                 )
             else:  # 纯元音
                 ds_phoneme.vowel = DsPhonemeItem(
                     phoneme=vowel,
-                    duration=round(cur_actual_end_in_secs - cur_actual_start_in_secs, 6),
+                    duration=None
+                    if cur_actual_start_in_secs == cur_start_in_secs
+                    else round(cur_actual_end_in_secs - cur_actual_start_in_secs, 6),
                     note_name=midi2note(note.key_number),
                 )
         ds_note = DsNote(

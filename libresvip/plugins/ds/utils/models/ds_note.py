@@ -5,13 +5,13 @@ from typing import Literal
 @dataclass
 class DsPhonemeItem:
     phoneme: str = ""
-    duration: float = 0.0
+    duration: float | None = None
     note_name: str = ""
 
 
 @dataclass
 class DsPhoneme:
-    consonant: DsPhonemeItem = field(default_factory=DsPhonemeItem)
+    consonant: DsPhonemeItem | None = None
     vowel: DsPhonemeItem = field(default_factory=DsPhonemeItem)
 
 

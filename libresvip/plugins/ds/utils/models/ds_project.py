@@ -22,6 +22,7 @@ class DsProjectModel:
         input_duration_seq = ""
         is_slur_seq = ""
         phoneme_dur_seq = ""
+        phoneme_dur_enabled = True
         for i in range(len(ds_notes)):
             cur_note = ds_notes[i]
             ds_phoneme = cur_note.ds_phoneme
@@ -29,14 +30,19 @@ class DsProjectModel:
             vowel = ds_phoneme.vowel
             input_text += cur_note.lyric.replace("-", "")
             phoneme_counts.append(1)
-            if consonant.phoneme:
+            if consonant is not None:
                 phoneme_seq += f"{consonant.phoneme} "
-                phoneme_dur_seq += f"{consonant.duration} "
+                if consonant.duration is not None:
+                    phoneme_dur_seq += f"{consonant.duration} "
+                elif phoneme_dur_enabled:
+                    phoneme_dur_enabled = False
                 is_slur_seq += "0 "
-                input_duration_seq += f"{consonant.duration} "
                 phoneme_counts[-1] += 1
             phoneme_seq += vowel.phoneme
-            phoneme_dur_seq += str(vowel.duration)
+            if vowel.duration is not None:
+                phoneme_dur_seq += str(vowel.duration)
+            elif phoneme_dur_enabled:
+                phoneme_dur_enabled = False
             input_note_seq += vowel.note_name
             input_duration += str(cur_note.duration)
             input_duration_seq += str(cur_note.duration)
@@ -71,7 +77,7 @@ class DsProjectModel:
             note_dur_seq=input_duration_seq,
             note_slur=input_slur,
             is_slur_seq=is_slur_seq,
-            ph_dur=phoneme_dur_seq,
+            ph_dur=phoneme_dur_seq if phoneme_dur_enabled else None,
             ph_num=" ".join(str(phoneme_count) for phoneme_count in phoneme_counts),
             f0_timestep=str(self.pitch_param_curve.step_size),
             f0_seq=f0_sequence,
