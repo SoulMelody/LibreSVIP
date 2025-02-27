@@ -12,9 +12,7 @@ from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.model.point import Point
 
 P = ParamSpec("P")
-NOTE_RE = re.compile(
-    r"^(?P<note>[A-Ga-g])" r"(?P<accidental>[#♯𝄪b!♭𝄫♮]*)" r"(?P<octave>[+-]?\d+)?$"
-)
+NOTE_RE = re.compile(r"^(?P<note>[A-Ga-g])(?P<accidental>[#♯𝄪b!♭𝄫♮]*)(?P<octave>[+-]?\d+)?$")
 
 
 def midi2note(midi: float) -> str:

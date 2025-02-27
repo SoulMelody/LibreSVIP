@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from ..model import DsItem
+from .ds_file import DsItem
 from .ds_note import DsNote
 from .ds_param_curve import DsParamCurve
 

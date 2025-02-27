@@ -4,7 +4,8 @@ from libresvip.model.base import Note
 from libresvip.utils.music_math import midi2note
 from libresvip.utils.translation import gettext_lazy as _
 
-from ..models.ds_note import (
+from . import lyric_util, pinyin_util
+from .models.ds_note import (
     AspirationDsNote,
     AspirationDsPhoneme,
     DsNote,
@@ -13,7 +14,6 @@ from ..models.ds_note import (
     RestDsNote,
     RestDsPhoneme,
 )
-from . import lyric_util, pinyin_util
 
 
 def encode_notes(

@@ -198,9 +198,12 @@ select = [
   "EM",    # error messages
   "EXE",   # executable
   "F",     # flakes
+  "FA",    # future annotations
   "FLY",   # flynt
   "I",     # import sorting
+  "ICN",   # import conventions
   "INT",   # gettext
+  "ISC",   # implicit str concat
   "N",     # naming
   "PERF",  # perflint
   "PIE",   # assign and return
@@ -210,11 +213,14 @@ select = [
   "PT",    # pytest-style
   "PTH",   # pathlib
   "PYI",   # stubs
+  "Q",     # quotes
   "RUF",   # ruff
+  "RSE",   # raise
   "SIM",   # simplify
   "T10",   # debugger
   "T20",   # print
-  "TC",   # type-checking
+  "TC",    # type-checking
+  "TID",   # tidy imports
   "TRY",   # tryceratops
   "UP",    # pyupgrade
   "W",     # style warnings

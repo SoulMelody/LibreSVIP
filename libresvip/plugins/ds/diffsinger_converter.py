@@ -7,8 +7,8 @@ from libresvip.model.reset_time_axis import reset_time_axis
 
 from .diffsinger_generator import DiffSingerGenerator
 from .diffsinger_parser import DiffSingerParser
-from .model import DsProject
 from .options import InputOptions, OutputOptions
+from .utils.models.ds_file import DsProject
 from .utils.project_util import split_into_segments
 
 

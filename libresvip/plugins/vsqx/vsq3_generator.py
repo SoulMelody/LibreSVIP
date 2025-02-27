@@ -29,7 +29,6 @@ from .constants import (
     DEFAULT_CHINESE_PHONEME,
     DEFAULT_JAPANESE_PHONEME,
 )
-from .enums import VocaloidLanguage
 from .model import (
     VocaloidStyleTypes,
     Vsq3,
@@ -51,6 +50,7 @@ from .model import (
     Vsq3VVoice,
     Vsq3WavPart,
 )
+from .models.enums import VocaloidLanguage
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid
 

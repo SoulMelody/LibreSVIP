@@ -8,7 +8,7 @@ from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.utils.xmlutils import DefaultXmlWriter
 
-from .enums import VsqxVersion
+from .models.enums import VsqxVersion
 from .models.vsqx3 import VSQ3_NS
 from .models.vsqx4 import VSQ4_NS
 from .options import InputOptions, OutputOptions

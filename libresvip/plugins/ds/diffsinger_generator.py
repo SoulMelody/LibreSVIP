@@ -6,11 +6,11 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Project, SingingTrack
 from libresvip.utils.translation import gettext_lazy as _
 
-from .model import DsItem
-from .models.ds_project import DsProjectModel
 from .options import OutputOptions
 from .utils import pinyin_util
 from .utils.gender_param_utils import GenderParamUtils
+from .utils.models.ds_file import DsItem
+from .utils.models.ds_project import DsProjectModel
 from .utils.note_list_util import encode_notes
 from .utils.pitch_param_utils import PitchParamUtils
 

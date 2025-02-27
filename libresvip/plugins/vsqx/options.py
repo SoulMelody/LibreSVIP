@@ -6,7 +6,7 @@ from libresvip.model.option_mixins import (
 )
 from libresvip.utils.translation import gettext_lazy as _
 
-from .enums import VocaloidLanguage, VsqxVersion
+from .models.enums import VocaloidLanguage, VsqxVersion
 
 
 class InputOptions(

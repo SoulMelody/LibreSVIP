@@ -3,7 +3,7 @@ from contextvars import ContextVar
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.utils.translation import gettext_lazy as _
 
-from ..phoneme_dict import get_opencpop_dict
+from .phoneme_dict import get_opencpop_dict
 
 pinyin_list_ctx: ContextVar[list[str]] = ContextVar("pinyin_list")
 phoneme_table_ctx: ContextVar[dict[str, str]] = ContextVar("phoneme_table")

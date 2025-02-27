@@ -5,8 +5,8 @@ import operator
 import more_itertools
 
 from .model import PitchPoint, USTXProject, UVoicePart
+from .time_axis import TimeAxis
 from .utils import music_math
-from .utils.time_axis import TimeAxis
 
 
 @dataclasses.dataclass

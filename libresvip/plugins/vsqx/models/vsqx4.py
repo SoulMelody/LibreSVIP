@@ -5,7 +5,7 @@ from xsdata_pydantic.fields import field
 
 from libresvip.model.base import BaseModel
 
-from ..enums import VocaloidLanguage
+from .enums import VocaloidLanguage
 
 VSQ4_NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/"
 
