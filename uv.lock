@@ -1479,7 +1479,7 @@ requires-dist = [
     { name = "rich", specifier = ">=13.9.4,<14.0.0" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.10" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
-    { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.4.0" },
+    { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.4.1" },
     { name = "typer-slim", specifier = ">=0.15.2,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.6,<1.0.0" },
@@ -3398,14 +3398,14 @@ wheels = [
 
 [[package]]
 name = "textual-fspicker"
-version = "0.4.0"
+version = "0.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "textual" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0f/76/61349cb50c50041d19158e1a9c73513d25b9bb8da55a563bb740f2b0d1a2/textual_fspicker-0.4.0.tar.gz", hash = "sha256:f1a83c65518cf29b9bbdbb4871e623fefae7495a9178316f1e1913f7500de23d", size = 149116 }
+sdist = { url = "https://files.pythonhosted.org/packages/a4/b0/5f895b15562064ef473bc1e882b6dfb1df4c29fd3259ba09aae481e289a6/textual_fspicker-0.4.1.tar.gz", hash = "sha256:94815262c12d38b69ccba85804d334b998f90ebda7c43d362e9665e59d72cb87", size = 356376 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d5/20/f165e7a111bf254f8329b05d2e39650fdd718422b39e03d81de3666ba6e4/textual_fspicker-0.4.0-py3-none-any.whl", hash = "sha256:ab4e84d699e83b9737fc3c77b04c9dc6305da059372e316d88129d312216f28d", size = 21059 },
+    { url = "https://files.pythonhosted.org/packages/0b/17/6787a44e5516901f81ebd1ad65e28f8b46260a38be38b5136242b7ed08d7/textual_fspicker-0.4.1-py3-none-any.whl", hash = "sha256:c143f126c8664ba3bfe844d853d26caf0832c7d1b0f16d69e4a8654e8b2fb3d3", size = 21033 },
 ]
 
 [[package]]
