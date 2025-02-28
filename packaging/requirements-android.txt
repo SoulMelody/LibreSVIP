@@ -9,7 +9,7 @@ colorama==0.4.6 ; sys_platform == 'win32'
 construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
 construct-typing==0.6.2
 drawsvg==2.4.0
-flet==0.27.2
+flet==0.27.3
 fsspec==2025.2.0
 h11==0.14.0 ; platform_system != 'Pyodide'
 httpcore==1.0.7 ; platform_system != 'Pyodide'
