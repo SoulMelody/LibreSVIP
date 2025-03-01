@@ -308,8 +308,6 @@ jobs:
   release_apk:
     runs-on: ubuntu-latest
     needs: [make-outputs]
-    env:
-      FLUTTER_VERSION: "3.27.3"
 
     steps:
       - uses: actions/checkout@v4
@@ -325,11 +323,6 @@ jobs:
           uv sync --extra mobile
           uv run python -m ensurepip --upgrade
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
@@ -338,7 +331,6 @@ jobs:
 
       - name: Flet Build APK
         run: |
-          flutter config --no-analytics
           cd packaging
           uv run python install_mobile_requirements.py --platform android_24_arm64_v8a --arch arm64-v8a
           uv run python install_mobile_requirements.py --platform android_24_armeabi_v7a --arch armeabi-v7a
