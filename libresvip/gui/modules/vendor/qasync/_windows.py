@@ -247,7 +247,7 @@ class _EventWorker(QtCore.QThread):
 
     def start(
         self, /, priority: QtCore.QThread.Priority = QtCore.QThread.Priority.NormalPriority
-    ) -> None:  # type: ignore[assignment]
+    ) -> None:
         super().start(priority=priority)
         self.__semaphore.acquire()
 

@@ -234,6 +234,7 @@ class YamlSettings(pydantic_settings.BaseSettings):
     def save(self) -> None:
         file_path = self._settings_dir / self.__FILENAME__
         try:
+            file_path.parent.mkdir(parents=True, exist_ok=True)
             file_path.write_text(
                 yaml.dump(self.model_dump(), None, get_omega_conf_dumper()), encoding="utf-8"
             )
