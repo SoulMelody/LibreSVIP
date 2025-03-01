@@ -421,12 +421,12 @@ def main(page: ft.Page) -> None:
     page.overlay.extend([file_picker, permission_handler])
 
     def check_permission(e: ft.ControlEvent) -> None:
-        result = permission_handler.check_permission(e.control.data)
+        result: fph.PermissionStatus | None = permission_handler.check_permission(e.control.data)
         banner_ref = ft.Ref[ft.Banner]()
         dismiss_btn = ft.TextButton(text=_("OK"), on_click=lambda _: page.close(banner_ref.current))
-        if result != ft.PermissionStatus.GRANTED:
+        if result != fph.PermissionStatus.GRANTED:
             result = permission_handler.request_permission(e.control.data)
-            if result == ft.PermissionStatus.GRANTED:
+            if result == fph.PermissionStatus.GRANTED:
                 banner = ft.Banner(
                     ft.Text(_("Permission granted, you can now select files from your device.")),
                     ref=banner_ref,
@@ -1104,7 +1104,7 @@ def main(page: ft.Page) -> None:
                                 ),
                                 ft.ElevatedButton(
                                     _("Request permission to access files"),
-                                    data=ft.PermissionType.MANAGE_EXTERNAL_STORAGE,
+                                    data=fph.PermissionType.MANAGE_EXTERNAL_STORAGE,
                                     on_click=check_permission,
                                     col=12,
                                 ),
