@@ -40,9 +40,6 @@ class Notifier(QObject):
         self.notify_timeout = 5
         self.last_notify_time: float | None = None
         try:
-            icon_path: AbstractContextManager[Path] = as_file(res_dir / "libresvip.ico")
-            app.aboutToQuit.connect(lambda: icon_path.__exit__(None, None, None))
-
             if platform.system() == "Darwin":
                 from desktop_notifier.backends.macos_support import (
                     is_bundle,
@@ -53,6 +50,8 @@ class Notifier(QObject):
                     msg = "macOS app is not signed"
                     raise RuntimeError(msg)  # noqa: TRY301
 
+            icon_path: AbstractContextManager[Path] = as_file(res_dir / "libresvip.ico")
+            app.aboutToQuit.connect(lambda: icon_path.__exit__(None, None, None))
             self.notifier = DesktopNotifier(app_name=PACKAGE_NAME, app_icon=icon_path.__enter__())
         except Exception:
             self.notifier = None
