@@ -9,6 +9,7 @@ from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import (
     legato_chars,
     romaji2xsampa,
 )
+from libresvip.core.lyric_phoneme.korean.vocaloid_xsampa import hangul2xsampa
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -121,6 +122,8 @@ class VocaloidGenerator:
             return pinyin2xsampa.get(pinyin, DEFAULT_CHINESE_PHONEME)
         elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
             return romaji2xsampa.get(to_romaji(lyric), DEFAULT_JAPANESE_PHONEME)
+        elif self.options.default_lang_id == VocaloidLanguage.KOREAN:
+            return hangul2xsampa(lyric)
         return DEFAULT_CHINESE_PHONEME
 
     def generate_tracks(self, track_list: list[Track]) -> list[VocaloidTracks]:
@@ -216,6 +219,7 @@ class VocaloidGenerator:
         if singing_track_found and self.options.default_lang_id not in [
             VocaloidLanguage.SIMPLIFIED_CHINESE,
             VocaloidLanguage.JAPANESE,
+            VocaloidLanguage.KOREAN,
         ]:
             show_warning(
                 _(

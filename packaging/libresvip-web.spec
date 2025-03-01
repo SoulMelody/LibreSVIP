@@ -37,6 +37,7 @@ a = Analysis(
         "drawsvg",
         "google.protobuf.any_pb2",
         "jinja2",
+        "ko_pron",
         "mido_fix",
         "parsimonious",
         "portion",

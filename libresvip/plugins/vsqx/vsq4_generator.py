@@ -9,6 +9,7 @@ from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import (
     legato_chars,
     romaji2xsampa,
 )
+from libresvip.core.lyric_phoneme.korean.vocaloid_xsampa import hangul2xsampa
 from libresvip.core.tick_counter import shift_beat_list, skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
@@ -231,6 +232,10 @@ class Vsq4Generator:
                         to_romaji(vsqx_note.lyric),
                         DEFAULT_JAPANESE_PHONEME,
                     ),
+                )
+            elif self.options.default_lang_id == VocaloidLanguage.KOREAN:
+                vsqx_note.phnms = Vsq4TypePhonemes(
+                    value=hangul2xsampa(vsqx_note.lyric),
                 )
             else:
                 vsqx_note.phnms = Vsq4TypePhonemes(value=DEFAULT_CHINESE_PHONEME)
