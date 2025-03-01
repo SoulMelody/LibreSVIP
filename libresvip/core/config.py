@@ -374,6 +374,7 @@ if config_path.exists():
     )
 else:
     settings = LibreSvipSettings()
+    settings._settings_dir = app_dir.user_config_path
 settings.lyric_replace_rules.setdefault("default", [])
 
 

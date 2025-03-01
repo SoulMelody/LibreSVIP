@@ -80,13 +80,14 @@ def supported_charset_names() -> list[str]:
     encoding_names = []
     for module_info in pkgutil.walk_packages(encodings.__path__):
         cp_name = module_info.name
-        sub_module = importlib.import_module(f"encodings.{cp_name}")
-        if not cp_name.endswith("_codec") and hasattr(sub_module, "getregentry"):
-            with contextlib.suppress(ValueError):
-                iana_name = charset_normalizer.utils.iana_name(cp_name)
-                encoding_names.append(
-                    charset_normalizer.constant.CHARDET_CORRESPONDENCE.get(iana_name, iana_name)
-                )
+        with contextlib.suppress(ImportError):
+            sub_module = importlib.import_module(f"encodings.{cp_name}")
+            if not cp_name.endswith("_codec") and hasattr(sub_module, "getregentry"):
+                with contextlib.suppress(ValueError):
+                    iana_name = charset_normalizer.utils.iana_name(cp_name)
+                    encoding_names.append(
+                        charset_normalizer.constant.CHARDET_CORRESPONDENCE.get(iana_name, iana_name)
+                    )
     return sorted(encoding_names)
 
 

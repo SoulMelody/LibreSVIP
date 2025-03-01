@@ -353,6 +353,8 @@ class TaskManager(QObject):
     conversion_mode_changed = Signal(str)
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
+    input_fields_changed = Signal()
+    output_fields_changed = Signal()
     task_count_changed = Signal(int)
     busy_changed = Signal(bool)
     middleware_options_updated = Signal()
@@ -766,6 +768,7 @@ class TaskManager(QObject):
                 self.input_fields.append_many(input_fields)
             if not self._input_fields_inited:
                 self._input_fields_inited = True
+            self.input_fields_changed.emit()
 
     @Slot(str)
     def set_output_fields(self, output_format: str) -> None:
@@ -783,6 +786,7 @@ class TaskManager(QObject):
                 self.output_fields.append_many(output_fields)
             if not self._output_fields_inited:
                 self._output_fields_inited = True
+            self.output_fields_changed.emit()
 
     @Slot(str, result="QVariant")
     def plugin_info(self, name: str) -> dict[str, str]:

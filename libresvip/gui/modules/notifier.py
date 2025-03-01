@@ -46,11 +46,10 @@ class Notifier(QObject):
             if platform.system() == "Darwin":
                 from desktop_notifier.backends.macos_support import (
                     is_bundle,
-                    is_signed_bundle,
                     macos_version,
                 )
 
-                if macos_version >= Version("10.14") and is_bundle() and not is_signed_bundle():
+                if macos_version >= Version("10.14") and not is_bundle():
                     msg = "macOS app is not signed"
                     raise RuntimeError(msg)  # noqa: TRY301
 

@@ -1328,7 +1328,7 @@ Page {
                 }
                 Repeater {
                     id: inputFields
-                    model: taskManager.qget("input_fields")
+                    model: []
                     delegate: Rectangle {
                         width: 0
                         height: 0
@@ -1383,7 +1383,7 @@ Page {
                 }
                 Repeater {
                     id: outputFields
-                    model: taskManager.qget("output_fields")
+                    model: []
                     delegate: Rectangle {
                         width: 0
                         height: 0
@@ -1433,6 +1433,23 @@ Page {
                             if (item) {
                                 this.Component.onDestruction.connect(item.destroy);
                             }
+                        }
+                    }
+                }
+                Connections {
+                    target: taskManager
+                    function onInput_fields_changed() {
+                        inputFields.model.splice(0, inputFields.model.length);
+                        let _input_fields = taskManager.qget("input_fields");
+                        for (var i = 0; i < _input_fields.rowCount(); i++) {
+                            inputFields.model.push(_input_fields.get(i));
+                        }
+                    }
+                    function onOutput_fields_changed() {
+                        outputFields.model.splice(0, outputFields.model.length);
+                        let _output_fields = taskManager.qget("output_fields");
+                        for (var i = 0; i < _output_fields.rowCount(); i++) {
+                            outputFields.model.push(_output_fields.get(i));
                         }
                     }
                 }
