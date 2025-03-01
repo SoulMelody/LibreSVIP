@@ -6,6 +6,7 @@ from importlib.resources import as_file
 from typing import get_args, get_type_hints
 
 import flet as ft
+import flet_permission_handler as fph
 import more_itertools
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
@@ -416,7 +417,7 @@ def main(page: ft.Page) -> None:
             task_list_view.current.update()
 
     file_picker = ft.FilePicker(on_result=on_files_selected, on_upload=on_upload_progress)
-    permission_handler = ft.PermissionHandler()
+    permission_handler = fph.PermissionHandler()
     page.overlay.extend([file_picker, permission_handler])
 
     def check_permission(e: ft.ControlEvent) -> None:

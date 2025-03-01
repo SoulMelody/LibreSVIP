@@ -9,7 +9,6 @@ fi
 cp  ../libresvip/mobile/__main__.py main.py
 uv run flet build apk -v \
     --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
-    --include-packages flet_permission_handler \
     --org org.soulmelody \
     --project LibreSVIP \
     --build-version $LIBRESVIP_VERSION \
