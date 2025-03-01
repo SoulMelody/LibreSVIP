@@ -137,6 +137,7 @@ class Vsq4Generator:
         elif self.options.default_lang_id not in [
             VocaloidLanguage.SIMPLIFIED_CHINESE,
             VocaloidLanguage.JAPANESE,
+            VocaloidLanguage.KOREAN,
         ]:
             show_warning(
                 _(
