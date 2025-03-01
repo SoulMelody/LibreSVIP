@@ -95,6 +95,8 @@ class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
                 detected_language = Language.from_locale("zh_CN")
             elif first_lang.startswith("ja"):
                 detected_language = Language.from_locale("ja_JP")
+            elif first_lang.startswith("de"):
+                detected_language = Language.from_locale("de_DE")
         if detected_language is not None:
             self.language = detected_language
 
