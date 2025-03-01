@@ -6,6 +6,7 @@ export END_LINE_NUM=`awk "/# site-packages variable/{print NR;exit;}" $FLET_BUIL
 if [ -n "$START_LINE_NUM" ]; then
     sed -i $START_LINE_NUM','$END_LINE_NUM'd' $FLET_BUILD_COMMAND_PATH
 fi
+sed -i 's/dev_packages_configured/True/' $FLET_BUILD_COMMAND_PATH
 cp  ../libresvip/mobile/__main__.py main.py
 uv run flet build apk -v \
     --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
