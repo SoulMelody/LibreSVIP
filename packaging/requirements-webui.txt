@@ -20,7 +20,7 @@ construct-typing==0.6.2
 docutils==0.21.2
 drawsvg==2.4.0
 exceptiongroup==1.2.2 ; python_full_version < '3.11'
-fastapi==0.115.10
+fastapi==0.115.11
 frozenlist==1.5.0
 fsspec==2025.2.0
 h11==0.14.0
