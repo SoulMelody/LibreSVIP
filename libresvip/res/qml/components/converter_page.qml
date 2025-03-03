@@ -20,7 +20,7 @@ Page {
         RowLayout {
             property var field: {}
             property int index
-            property QtObject list_view
+            property QtObject list_model
             height: 40
             Layout.fillWidth: true
             Label {
@@ -36,7 +36,7 @@ Page {
                 Layout.fillWidth: true
                 text: field.value
                 onEditingFinished: {
-                    list_view.model.update(index, {
+                    list_model.update(index, {
                         value: text
                     });
                 }
@@ -48,7 +48,7 @@ Page {
                 onClicked: {
                     dialogs.colorDialog.bind_color(colorField.text, color => {
                         colorField.text = color;
-                        list_view.model.update(index, {
+                        list_model.update(index, {
                             value: colorField.text
                         });
                     });
@@ -74,7 +74,7 @@ Page {
         RowLayout {
             property var field: {}
             property int index
-            property QtObject list_view
+            property QtObject list_model
             height: 40
             Layout.fillWidth: true
             Label {
@@ -90,7 +90,7 @@ Page {
                     this.checked = field.value;
                 }
                 onCheckedChanged: {
-                    list_view.model.update(index, {
+                    list_model.update(index, {
                         value: this.checked
                     });
                 }
@@ -121,7 +121,7 @@ Page {
             id: comboBoxRow
             property var field: {}
             property int index
-            property QtObject list_view
+            property QtObject list_model
             height: 40
             Layout.fillWidth: true
             Label {
@@ -171,7 +171,7 @@ Page {
                     this.currentIndex = indexOfValue(field.value);
                 }
                 onActivated: index => {
-                    list_view.model.update(comboBoxRow.index, {
+                    list_model.update(comboBoxRow.index, {
                         value: this.currentValue
                     });
                 }
@@ -197,7 +197,7 @@ Page {
         RowLayout {
             property var field: {}
             property int index
-            property QtObject list_view
+            property QtObject list_model
             height: 40
             Layout.fillWidth: true
             Label {
@@ -224,7 +224,7 @@ Page {
                     }
                 }
                 onEditingFinished: {
-                    list_view.model.update(index, {
+                    list_model.update(index, {
                         value: text
                     });
                 }
@@ -1158,7 +1158,7 @@ Page {
                                             item = switchItem.createObject(middlewareContainer, {
                                                 "field": middleware_state,
                                                 "index": i,
-                                                "list_view": middlewareFields
+                                                "list_model": middlewareFields.model
                                             });
                                             break;
                                         }
@@ -1167,7 +1167,7 @@ Page {
                                             item = comboBoxItem.createObject(middlewareContainer, {
                                                 "field": middleware_state,
                                                 "index": i,
-                                                "list_view": middlewareFields
+                                                "list_model": middlewareFields.model
                                             });
                                             break;
                                         }
@@ -1176,7 +1176,7 @@ Page {
                                             item = colorPickerItem.createObject(middlewareContainer, {
                                                 "field": middleware_state,
                                                 "index": i,
-                                                "list_view": middlewareFields
+                                                "list_model": middlewareFields.model
                                             });
                                             break;
                                         }
@@ -1185,7 +1185,7 @@ Page {
                                             item = textFieldItem.createObject(middlewareContainer, {
                                                 "field": middleware_state,
                                                 "index": i,
-                                                "list_view": middlewareFields
+                                                "list_model": middlewareFields.model
                                             });
                                             break;
                                         }
@@ -1337,13 +1337,14 @@ Page {
                             let separator_item = separatorItem.createObject(inputContainer);
                             this.Component.onDestruction.connect(separator_item.destroy);
                             let item = null;
+                            let list_model = taskManager.qget("input_fields");
                             switch (modelData.type) {
                             case "bool":
                                 {
                                     item = switchItem.createObject(inputContainer, {
                                         "field": modelData,
                                         "index": modelData.index,
-                                        "list_view": inputFields
+                                        "list_model": list_model
                                     });
                                     break;
                                 }
@@ -1352,7 +1353,7 @@ Page {
                                     item = comboBoxItem.createObject(inputContainer, {
                                         "field": modelData,
                                         "index": modelData.index,
-                                        "list_view": inputFields
+                                        "list_model": list_model
                                     });
                                     break;
                                 }
@@ -1361,7 +1362,7 @@ Page {
                                     item = colorPickerItem.createObject(inputContainer, {
                                         "field": modelData,
                                         "index": modelData.index,
-                                        "list_view": inputFields
+                                        "list_model": list_model
                                     });
                                     break;
                                 }
@@ -1370,7 +1371,7 @@ Page {
                                     item = textFieldItem.createObject(inputContainer, {
                                         "field": modelData,
                                         "index": modelData.index,
-                                        "list_view": inputFields
+                                        "list_model": list_model
                                     });
                                     break;
                                 }
@@ -1392,13 +1393,14 @@ Page {
                             let separator_item = separatorItem.createObject(outputContainer);
                             this.Component.onDestruction.connect(separator_item.destroy);
                             let item = null;
+                            let list_model = taskManager.qget("output_fields");
                             switch (modelData.type) {
                             case "bool":
                                 {
                                     item = switchItem.createObject(outputContainer, {
                                         "field": modelData,
                                         "index": modelData.index,
-                                        "list_view": outputFields
+                                        "list_model": list_model
                                     });
                                     break;
                                 }
@@ -1407,7 +1409,7 @@ Page {
                                     item = comboBoxItem.createObject(outputContainer, {
                                         "field": modelData,
                                         "index": modelData.index,
-                                        "list_view": outputFields
+                                        "list_model": list_model
                                     });
                                     break;
                                 }
@@ -1416,7 +1418,7 @@ Page {
                                     item = colorPickerItem.createObject(outputContainer, {
                                         "field": modelData,
                                         "index": modelData.index,
-                                        "list_view": outputFields
+                                        "list_model": list_model
                                     });
                                     break;
                                 }
@@ -1425,7 +1427,7 @@ Page {
                                     item = textFieldItem.createObject(outputContainer, {
                                         "field": modelData,
                                         "index": modelData.index,
-                                        "list_view": outputFields
+                                        "list_model": list_model
                                     });
                                     break;
                                 }

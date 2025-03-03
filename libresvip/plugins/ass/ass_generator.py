@@ -51,7 +51,7 @@ class AssGenerator:
         else:
             return True
 
-    def commit_current_lyric_line(self, lyric_lines: list[SSAEvent], buffer: list[Note]) -> None:
+    def commit_current_lyric_line(self, lyric_lines: SSAFile, buffer: list[Note]) -> None:
         start_time = int(self.synchronizer.get_actual_secs_from_ticks(buffer[0].start_pos) * 1000)
         end_time = int(self.synchronizer.get_actual_secs_from_ticks(buffer[-1].end_pos) * 1000)
         lyrics = "".join(
