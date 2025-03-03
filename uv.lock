@@ -953,7 +953,7 @@ wheels = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.23.2"
+version = "1.23.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -968,9 +968,9 @@ dependencies = [
     { name = "pypandoc" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/86/39/f868ef9a5b8c8b9e24810d33c258376001c9b80e3f5b6bccf9ed8d2e9017/gapic_generator-1.23.2.tar.gz", hash = "sha256:dfd743ff4fa572bd6f0c2d87d0378e344259b3ef9fe478d90e00d154001b9599", size = 1429821 }
+sdist = { url = "https://files.pythonhosted.org/packages/af/a0/5c446293d1c7ac03e45e5b3eaacd9171ef04bd453e756f88a9ec4719379f/gapic_generator-1.23.3.tar.gz", hash = "sha256:626a026d1062ff6da68363b6c9bb8baa22cb4b1737a1fd1cbd135203d88f5ce8", size = 1429830 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c6/dc/57182c0018361bd86d8e2c1d556db37e9f5a46b4713e723b4cddcb276d6f/gapic_generator-1.23.2-py3-none-any.whl", hash = "sha256:cc4c4d5480ff93008fa37fdee6a0b280aa96fbc18bf9eb78c5475cdb661e44d9", size = 2160859 },
+    { url = "https://files.pythonhosted.org/packages/dc/15/f5e5e803d661068b7358e5b246ccf2c7297ec8b07980abdd803c2f36c898/gapic_generator-1.23.3-py3-none-any.whl", hash = "sha256:1f888767a00676fca5106a77f51cb9f0a934c274f2ee07d2114ebf762af02b40", size = 2160767 },
 ]
 
 [[package]]
@@ -1537,7 +1537,7 @@ all = [
     { name = "basedpyright", specifier = ">=1.28.1" },
     { name = "cx-freeze", specifier = ">=7.2.10" },
     { name = "datamodel-code-generator", specifier = ">=0.28.2" },
-    { name = "gapic-generator", specifier = ">=1.23.2" },
+    { name = "gapic-generator", specifier = ">=1.23.3" },
     { name = "mkdocs-material", specifier = ">=9.6.7,<10.0.0" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "nuitka", specifier = ">=2.6.7" },
@@ -1558,7 +1558,7 @@ all = [
 ]
 code-gen = [
     { name = "datamodel-code-generator", specifier = ">=0.28.2" },
-    { name = "gapic-generator", specifier = ">=1.23.2" },
+    { name = "gapic-generator", specifier = ">=1.23.3" },
     { name = "xsdata", extras = ["cli"], specifier = ">=24.12" },
 ]
 docs = [{ name = "mkdocs-material", specifier = ">=9.6.7,<10.0.0" }]
