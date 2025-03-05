@@ -21,7 +21,7 @@ httpx==0.28.1
 idna==3.10
 importlib-metadata==8.6.1 ; python_full_version < '3.10'
 importlib-resources==6.5.2 ; python_full_version < '3.11'
-jinja2==3.1.5
+jinja2==3.1.6
 ko-pron==1.3
 loguru==0.7.3
 lxml==5.3.1
