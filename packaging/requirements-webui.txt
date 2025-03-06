@@ -1,5 +1,5 @@
 aiofiles==24.1.0
-aiohappyeyeballs==2.4.8
+aiohappyeyeballs==2.5.0
 aiohttp==3.11.13
 aiosignal==1.3.2
 altgraph==0.17.4
