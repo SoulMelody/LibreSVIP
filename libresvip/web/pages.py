@@ -223,6 +223,7 @@ def page_layout(lang: str | None = None) -> None:
         app.on_shutdown(save_settings)
     else:
         settings = LibreSvipWebUserSettings()
+        settings.lyric_replace_rules.setdefault("default", [])
         request = request_contextvar.get()
         session_id = request.session["id"]
 
