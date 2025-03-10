@@ -1532,7 +1532,7 @@ requires-dist = [
     { name = "parsimonious", specifier = ">=0.10.0,<0.11.0" },
     { name = "platformdirs", specifier = ">=4.3.6,<5.0.0" },
     { name = "portion", specifier = ">=2.6.0,<3.0.0" },
-    { name = "proto-plus", specifier = ">=1.26.0,<2.0.0" },
+    { name = "proto-plus", specifier = ">=1.26.1,<2.0.0" },
     { name = "pydantic", specifier = ">=2.10.6,<3.0.0" },
     { name = "pydantic-extra-types", specifier = ">=2.10.2,<3.0.0" },
     { name = "pydantic-settings", extras = ["yaml"], specifier = ">=2.8.1,<3.0.0" },
@@ -2497,14 +2497,14 @@ wheels = [
 
 [[package]]
 name = "proto-plus"
-version = "1.26.0"
+version = "1.26.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "protobuf" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/26/79/a5c6cbb42268cfd3ddc652dc526889044a8798c688a03ff58e5e92b743c8/proto_plus-1.26.0.tar.gz", hash = "sha256:6e93d5f5ca267b54300880fff156b6a3386b3fa3f43b1da62e680fc0c586ef22", size = 56136 }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/ac/87285f15f7cce6d4a008f33f1757fb5a13611ea8914eb58c3d0d26243468/proto_plus-1.26.1.tar.gz", hash = "sha256:21a515a4c4c0088a773899e23c7bbade3d18f9c66c73edd4c7ee3816bc96a012", size = 56142 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/42/c3/59308ccc07b34980f9d532f7afc718a9f32b40e52cde7a740df8d55632fb/proto_plus-1.26.0-py3-none-any.whl", hash = "sha256:bf2dfaa3da281fc3187d12d224c707cb57214fb2c22ba854eb0c105a3fb2d4d7", size = 50166 },
+    { url = "https://files.pythonhosted.org/packages/4e/6d/280c4c2ce28b1593a19ad5239c8b826871fc6ec275c21afc8e1820108039/proto_plus-1.26.1-py3-none-any.whl", hash = "sha256:13285478c2dcf2abb829db158e1047e2f1e8d63a077d94263c2b88b043c75a66", size = 50163 },
 ]
 
 [[package]]
