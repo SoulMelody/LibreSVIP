@@ -35,7 +35,14 @@ jobs:
           UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
 
   docker-publish:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - platform: linux/amd64
+            runs-on: ubuntu-24.04
+          - platform: linux/arm64
+            runs-on: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runs-on }}
     if: ${{ inputs.publish_docker }}
     permissions:
       packages: write
@@ -62,3 +69,4 @@ jobs:
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
+            platforms: ${{ matrix.platform }}
