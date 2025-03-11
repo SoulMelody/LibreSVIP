@@ -43,7 +43,7 @@ pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
 pycryptodomex==3.21.0
 pydantic==2.10.6
 pydantic-core==2.27.2
-pydantic-extra-types==2.10.2
+pydantic-extra-types==2.10.3
 pydantic-settings==2.8.1
 pygments==2.19.1
 pyinstaller==6.12.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
