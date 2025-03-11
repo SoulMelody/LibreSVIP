@@ -1534,7 +1534,7 @@ requires-dist = [
     { name = "portion", specifier = ">=2.6.0,<3.0.0" },
     { name = "proto-plus", specifier = ">=1.26.1,<2.0.0" },
     { name = "pydantic", specifier = ">=2.10.6,<3.0.0" },
-    { name = "pydantic-extra-types", specifier = ">=2.10.2,<3.0.0" },
+    { name = "pydantic-extra-types", specifier = ">=2.10.3,<3.0.0" },
     { name = "pydantic-settings", extras = ["yaml"], specifier = ">=2.8.1,<3.0.0" },
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = ">=7.0.1,<7.0.2" },
     { name = "pypinyin", specifier = ">=0.53.0,<1.0.0" },
@@ -2686,15 +2686,15 @@ wheels = [
 
 [[package]]
 name = "pydantic-extra-types"
-version = "2.10.2"
+version = "2.10.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/23/ed/69f3f3de12c02ebd58b2f66ffb73d0f5a1b10b322227897499753cebe818/pydantic_extra_types-2.10.2.tar.gz", hash = "sha256:934d59ab7a02ff788759c3a97bc896f5cfdc91e62e4f88ea4669067a73f14b98", size = 86893 }
+sdist = { url = "https://files.pythonhosted.org/packages/53/fa/6b268a47839f8af46ffeb5bb6aee7bded44fbad54e6bf826c11f17aef91a/pydantic_extra_types-2.10.3.tar.gz", hash = "sha256:dcc0a7b90ac9ef1b58876c9b8fdede17fbdde15420de9d571a9fccde2ae175bb", size = 95128 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/da/86bc9addde8a24348ac15f8f7dcb853f78e9573c7667800dd9bc60558678/pydantic_extra_types-2.10.2-py3-none-any.whl", hash = "sha256:9eccd55a2b7935cea25f0a67f6ff763d55d80c41d86b887d88915412ccf5b7fa", size = 35473 },
+    { url = "https://files.pythonhosted.org/packages/38/0a/f6f8e5f79d188e2f3fa9ecfccfa72538b685985dd5c7c2886c67af70e685/pydantic_extra_types-2.10.3-py3-none-any.whl", hash = "sha256:e8b372752b49019cd8249cc192c62a820d8019f5382a8789d0f887338a59c0f3", size = 37175 },
 ]
 
 [[package]]
