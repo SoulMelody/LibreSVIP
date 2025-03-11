@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.9
+    rev: v0.9.10
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
@@ -25,7 +25,7 @@ repos:
           - types-ujson
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.6.3
+    rev: 0.6.5
     hooks:
       - id: uv-lock
         args: ["--frozen"]
