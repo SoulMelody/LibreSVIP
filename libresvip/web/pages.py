@@ -224,8 +224,9 @@ def page_layout(lang: str | None = None) -> None:
     else:
         settings = LibreSvipWebUserSettings()
         settings.lyric_replace_rules.setdefault("default", [])
-        request = request_contextvar.get()
-        session_id = request.session["id"]
+        session_id = None
+        if (request := request_contextvar.get()) is not None:
+            session_id = request.session["id"]
 
         for key, value in app.storage.user.items():
             if hasattr(settings, key):
