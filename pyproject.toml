@@ -112,7 +112,7 @@ i18n = ["babel>=2.17.0"]
 linting = [
   "basedpyright>=1.28.1",
   "pre-commit>=4.1.0",
-  "ruff>=0.9.10",
+  "ruff>=0.10.0",
   "mypy>=1.15.0",
   "sourcery>=1.35.0",
   "proto-plus-stubs>=0.7.0",
@@ -127,7 +127,7 @@ packaging = [
   "pyinstaller>=6.12.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.6.7"]
+docs = ["mkdocs-material<10.0.0,>=9.6.8"]
 test = ["pytest>=8.3.5", "pytest-datadir>=1.6.1", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
