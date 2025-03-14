@@ -45,7 +45,7 @@ def extract_plugin_msgs() -> None:
     for entry_path, plugin_info in itertools.chain.from_iterable(
         (middleware_manager._candidates, plugin_manager._candidates)
     ):
-        plugin_dir = cast(pathlib.Path, entry_path).parent
+        plugin_dir = cast("pathlib.Path", entry_path).parent
         cmdinst = setuptools_frontend.extract_messages()
         cmdinst.initialize_options()
         cmdinst.omit_header = True
