@@ -35,7 +35,7 @@ class USTGenerator:
             singing_tracks = [
                 track for track in project.track_list if isinstance(track, SingingTrack)
             ]
-            if not len(singing_tracks):
+            if not singing_tracks:
                 msg = _("No singing track found")
                 raise NoTrackError(msg)
             ust_tracks = [

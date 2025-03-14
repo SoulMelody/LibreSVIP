@@ -120,7 +120,7 @@ class UstxGenerator:
             ustx_voice_part,
             ustx_project,
             cast(
-                MutableSequence[tuple[int, int]],
+                "MutableSequence[tuple[int, int]]",
                 os_track.edited_params.pitch.points.root,
             ),
             first_bar_length,

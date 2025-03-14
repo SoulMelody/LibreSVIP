@@ -142,7 +142,7 @@ class VxBetaParser:
             pitch_points = [Point.start_point()]
             prev_pos = None
             for point in pitch_data.time_based_pitch_sequence.pitch_sequence:
-                if prev_pos and point.position - prev_pos > 1 and len(pitch_points):
+                if prev_pos and point.position - prev_pos > 1 and pitch_points:
                     pitch_points.append(
                         Point(
                             x=pitch_points[-1].x,

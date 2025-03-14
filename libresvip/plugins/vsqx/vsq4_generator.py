@@ -159,7 +159,7 @@ class Vsq4Generator:
                 musical_part.part_style.attr.extend(
                     Vsq4TypeParamAttr(
                         type_param_attr_id=param_name,
-                        value=cast(int, param_value),
+                        value=cast("int", param_value),
                     )
                     for param_name, param_value in self.style_params.items()
                     if param_value is not None
@@ -174,7 +174,7 @@ class Vsq4Generator:
             )
             vs_track_list.append(vsqx_track)
             vs_unit_list.append(vsqx_unit)
-        if not len(vs_track_list):
+        if not vs_track_list:
             pass
         return vs_track_list, vs_unit_list
 
@@ -213,7 +213,7 @@ class Vsq4Generator:
             vsqx_note.note_style.attr.extend(
                 Vsq4TypeParamAttr(
                     type_param_attr_id=param_name,
-                    value=cast(int, param_value),
+                    value=cast("int", param_value),
                 )
                 for param_name, param_value in self.style_params.items()
                 if param_value is not None

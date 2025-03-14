@@ -17,9 +17,10 @@ try:
 except ImportError:
     from yaml import SafeLoader as DefaultSafeLoader
 
+from typing_extensions import Self
+
 from libresvip.core.constants import app_dir
 
-T = TypeVar("T", bound="YamlSettings")
 E = TypeVar("E", bound=enum.Enum)
 YAML_BOOL_TYPES = [
     "y",
@@ -194,7 +195,7 @@ class YamlSettings(pydantic_settings.BaseSettings):
         return (pathlib.Path(settings_dir).resolve() / cls.__FILENAME__).exists()
 
     @classmethod
-    def create(cls: type[T], settings_dir: str | pathlib.Path, exists_ok: bool = False) -> T:
+    def create(cls, settings_dir: str | pathlib.Path, exists_ok: bool = False) -> Self:
         settings_dir = pathlib.Path(settings_dir).resolve()
         if not exists_ok and cls.exists(settings_dir):
             msg = f"`{cls.__FILENAME__}` already exists in `{settings_dir}`"
@@ -206,11 +207,11 @@ class YamlSettings(pydantic_settings.BaseSettings):
 
     @classmethod
     def load(
-        cls: type[T],
+        cls,
         settings_dir: str | pathlib.Path,
         create_if_missing: bool = False,
         raise_error_if_failed: bool = True,
-    ) -> T:
+    ) -> Self:
         settings_dir = pathlib.Path(settings_dir).resolve()
         if not cls.exists(settings_dir):
             if create_if_missing:

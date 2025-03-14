@@ -57,7 +57,7 @@ def pitch_to_utau_mode1_track(pitch: ParamCurve, notes: list[Note]) -> UtauMode1
             for point in pitch.points.root
             if note.start_pos <= point.x - 1920 < note.end_pos and point.y != -100
         ]
-        if not len(data):
+        if not data:
             note_pitch_data.append(UtauMode1NotePitchData())
             continue
         resampled_data = dot_resampled(data, MODE1_PITCH_SAMPLING_INTERVAL_TICK)

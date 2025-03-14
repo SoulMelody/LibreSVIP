@@ -99,7 +99,7 @@ class VsqParser:
             if event.type == "time_signature":
                 tick_in_full_note = (
                     time_signature_changes[-1].bar_length(self.ticks_per_beat)
-                    if len(time_signature_changes)
+                    if time_signature_changes
                     else 4 * self.ticks_per_beat
                 )
                 tick = event.time

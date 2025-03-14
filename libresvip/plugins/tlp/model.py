@@ -116,7 +116,7 @@ class TuneLabMidiPart(TuneLabBasePart):
                 TuneLabPoints(root=[TuneLabPoint._make(each) for each in batched(values, 2)])
                 for values in pitch
             ]
-        return cast(list[TuneLabPoints], pitch)
+        return cast("list[TuneLabPoints]", pitch)
 
 
 class TuneLabAudioPart(TuneLabBasePart):

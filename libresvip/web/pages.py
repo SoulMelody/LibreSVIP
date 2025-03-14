@@ -601,7 +601,7 @@ def page_layout(lang: str | None = None) -> None:
         def __post_init__(self) -> None:
             self.middleware_enabled_states = create_model(
                 "middleware_enabled_states",
-                **{abbr: (bool, False) for abbr in middleware_manager.plugin_registry},
+                **dict.fromkeys(middleware_manager.plugin_registry, (bool, False)),
             )()
             self.middleware_options = create_model(
                 "middleware_options",

@@ -235,7 +235,7 @@ class SvipWriter(NrbfIOBase):
             dataclasses.fields(obj),
             key=lambda field: field.metadata.get("order", 0),
         )
-        class_name = cast(str, inspect.getdoc(type(obj)))
+        class_name = cast("str", inspect.getdoc(type(obj)))
 
         if (
             subcon_class_name is not None
@@ -327,7 +327,7 @@ class SvipWriter(NrbfIOBase):
                             {"info": PrimitiveTypeEnum.Byte}
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = cast(str, inspect.getdoc(field_type))
+                        sub_class_name = cast("str", inspect.getdoc(field_type))
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
@@ -381,7 +381,7 @@ class SvipWriter(NrbfIOBase):
                             {
                                 "value": self.write_binary_array(
                                     value,
-                                    cast(str, subcon_class_name),
+                                    cast("str", subcon_class_name),
                                     self.model_library_id,
                                 )
                             }
@@ -391,7 +391,7 @@ class SvipWriter(NrbfIOBase):
                             {"value": self.create_primitive_array(getattr(obj, field.name))}
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = cast(str, inspect.getdoc(field_type))
+                        sub_class_name = cast("str", inspect.getdoc(field_type))
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
@@ -479,7 +479,7 @@ class SvipWriter(NrbfIOBase):
                             {
                                 "value": self.write_binary_array(
                                     value,
-                                    cast(str, subcon_class_name),
+                                    cast("str", subcon_class_name),
                                     self.model_library_id,
                                 )
                             }
@@ -489,7 +489,7 @@ class SvipWriter(NrbfIOBase):
                             {"value": self.create_primitive_array(getattr(obj, field.name))}
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = cast(str, inspect.getdoc(field_type))
+                        sub_class_name = cast("str", inspect.getdoc(field_type))
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"

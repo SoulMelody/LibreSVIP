@@ -159,7 +159,7 @@ class Vsq3Generator:
                 musical_part.part_style.attr.extend(
                     Vsq3TypeParamAttr(
                         type_param_attr_id=param_name,
-                        value=cast(int, param_value),
+                        value=cast("int", param_value),
                     )
                     for param_name, param_value in self.style_params.items()
                     if param_value is not None
@@ -211,7 +211,7 @@ class Vsq3Generator:
             vsqx_note.note_style.attr.extend(
                 Vsq3TypeParamAttr(
                     type_param_attr_id=param_name,
-                    value=cast(int, param_value),
+                    value=cast("int", param_value),
                 )
                 for param_name, param_value in self.style_params.items()
                 if param_value is not None

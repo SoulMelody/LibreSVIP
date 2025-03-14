@@ -154,7 +154,7 @@ class ParamCurve(BaseModel):
                 if point.x >= 0 and point.y < sys.maxsize // 2:
                     if point.y != interrupt_value:
                         buffer.append(point)
-                    elif len(buffer):
+                    elif buffer:
                         segments.append(buffer.copy())
                         buffer.clear()
         else:
@@ -167,7 +167,7 @@ class ParamCurve(BaseModel):
                 elif next_point.y != interrupt_value:
                     if current_point.x >= 0 and (i <= 1 or self.points[i - 2].y != interrupt_value):
                         buffer.append(current_point)
-                elif len(buffer):
+                elif buffer:
                     segments.append(buffer.copy())
                     buffer.clear()
                 current_point = next_point
@@ -178,7 +178,7 @@ class ParamCurve(BaseModel):
                 or self.points[i - 2].y != interrupt_value
             ):
                 buffer.append(current_point)
-        if len(buffer):
+        if buffer:
             segments.append(buffer.copy())
         return segments
 

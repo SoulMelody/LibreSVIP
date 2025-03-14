@@ -34,8 +34,8 @@ class CoordinateHelper:
         for point in track.edited_params.pitch.points.root[1:-1]:
             if point.y == -100:
                 continue
-            self.key_range_start = min(self.key_range_start, int(math.floor(point.y / 100)))
-            self.key_range_end = max(self.key_range_end, int(math.ceil(point.y / 100)))
+            self.key_range_start = min(self.key_range_start, math.floor(point.y / 100))
+            self.key_range_end = max(self.key_range_end, math.ceil(point.y / 100))
 
     def get_note_position_parameters(self, note: Note) -> NotePositionParameters:
         text_x = 0

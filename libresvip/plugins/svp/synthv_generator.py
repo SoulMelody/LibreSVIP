@@ -221,7 +221,7 @@ class SynthVGenerator:
             if point.x >= self.first_bar_tick:
                 point = point._replace(x=point.x - self.first_bar_tick)
                 if point.y == -100:
-                    if not len(buffer):
+                    if not buffer:
                         continue
                     if last_point is None or last_point.x + min_interval < buffer[0].x:
                         if last_point is not None and last_point.x + 2 * min_interval < buffer[0].x:
@@ -336,7 +336,7 @@ class SynthVGenerator:
             if self.first_bar_tick <= point.x < sys.maxsize // 2:
                 point = point._replace(x=point.x - self.first_bar_tick)
                 if point.y == termination:
-                    if not len(buffer):
+                    if not buffer:
                         continue
                     if last_point is None or last_point.x + min_interval < buffer[0].x:
                         if last_point is not None and last_point.x + 2 * min_interval < buffer[0].x:
@@ -364,7 +364,7 @@ class SynthVGenerator:
                 else:
                     buffer.append(point)
 
-        if not len(buffer):
+        if not buffer:
             if last_point is not None:
                 point_list.append(
                     SVPoint(

@@ -67,7 +67,7 @@ class BinarySvipGenerator:
             else "SVIP6.0.0"
         )
         model = XSAppModel()
-        self.first_bar_tick = int(round(project.time_signature_list[0].bar_length()))
+        self.first_bar_tick = round(project.time_signature_list[0].bar_length())
         self.first_bar_tempo = [
             tempo for tempo in project.song_tempo_list if tempo.position < self.first_bar_tick
         ]

@@ -49,7 +49,7 @@ class ModelProxy(QAbstractListModel):
         else:
             # trick: set default value to '' instead of None to improve
             # compatibility.
-            self._defaults = {x: "" for x in role_names}
+            self._defaults = dict.fromkeys(role_names, "")
 
     @property
     def _role_names(self) -> tuple[str, ...]:

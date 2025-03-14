@@ -84,7 +84,7 @@ def pitch_from_voisona_track(
 
     next_pos = None
     for event in events_normalized:
-        pos = int(cast(float, event.idx)) - data.tick_prefix
+        pos = int(cast("float", event.idx)) - data.tick_prefix
         secs = synchronizer.get_actual_secs_from_ticks(pos)
         length = event.repeat
         try:
@@ -95,7 +95,7 @@ def pitch_from_voisona_track(
                     converted_points.append(Point(x=round(pos), y=value))
                 current_value = value
             secs_step = synchronizer.get_duration_secs_from_ticks(pos, pos + 5)
-            for pos_x in range(pos, int(cast(float, pos + length)), 5):
+            for pos_x in range(pos, int(cast("float", pos + length)), 5):
                 if value_diff := vibrato_value_interval_dict.get(secs):
                     value_diff *= vibrato_amplitude_interval_dict.get(secs, 1)
                     converted_points.append(Point(x=pos_x, y=round(value + value_diff)))
@@ -392,9 +392,7 @@ def denormalize_from_tick(
             )
             current_tempo_index += 1
         repeat += repeat_in_ticks / (TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2])
-        events.append(
-            VoiSonaParamEvent(round(pos), int(round(max(repeat, 1))), event_double.value or 0)
-        )
+        events.append(VoiSonaParamEvent(round(pos), round(max(repeat, 1)), event_double.value or 0))
     return events
 
 

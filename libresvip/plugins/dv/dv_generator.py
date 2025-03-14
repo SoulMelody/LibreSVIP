@@ -128,7 +128,7 @@ class DeepVocalGenerator:
                 )
                 track_list.append(
                     DvTrack(
-                        track_type=cast(DvTrackType, DvTrackType.AUDIO),
+                        track_type=cast("DvTrackType", DvTrackType.AUDIO),
                         track_data=dv_track,
                     )
                 )
@@ -194,7 +194,7 @@ class DeepVocalGenerator:
             )
             track_list.append(
                 DvTrack(
-                    track_type=cast(DvTrackType, DvTrackType.SINGING),
+                    track_type=cast("DvTrackType", DvTrackType.SINGING),
                     track_data=dv_track,
                 )
             )
@@ -205,8 +205,8 @@ class DeepVocalGenerator:
             DvNote(
                 start=note.start_pos,
                 length=note.length,
-                key=cast(int, convert_note_key(note.key_number)),
-                phoneme=cast(str, note.pronunciation)
+                key=cast("int", convert_note_key(note.key_number)),
+                phoneme=cast("str", note.pronunciation)
                 or (
                     note.lyric
                     if CHINESE_RE.search(note.lyric) is None

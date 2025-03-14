@@ -87,7 +87,7 @@ class PiaproStudioLegacyParser:
                         if event.data[-1] == 0:
                             if tick == 0:
                                 events_by_level.append([])
-                            if len(events_by_level):
+                            if events_by_level:
                                 events_by_level[-1].append((tick, event.data))
 
                 if len(events_by_level) > 1:
@@ -101,7 +101,7 @@ class PiaproStudioLegacyParser:
                         )
                     for tick, event_data in events_by_level[-1]:
                         (denominator, numerator) = struct.unpack_from("<2b", event_data, 4)
-                        if len(time_signatures):
+                        if time_signatures:
                             prev_bar_length = time_signatures[-1].bar_length()
                             prev_bar_index = time_signatures[-1].bar_index
                         else:

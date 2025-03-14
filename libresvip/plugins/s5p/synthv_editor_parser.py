@@ -85,7 +85,7 @@ class SynthVEditorParser:
             )
             for item in meter
         ]
-        if not len(time_signatures):
+        if not time_signatures:
             time_signatures.append(TimeSignature(bar_index=0, numerator=4, denominator=4))
         return time_signatures
 
@@ -267,7 +267,7 @@ class SynthVEditorParser:
                         )
                     )
             if value_diff := self.vibrato_value_interval_dict.get(pos_secs, 0):
-                value_diff *= cast(float, self.vibrato_coef_interval_dict[pos_secs]) * 2000
+                value_diff *= cast("float", self.vibrato_coef_interval_dict[pos_secs]) * 2000
             points.append(
                 Point(
                     x=pos,

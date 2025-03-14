@@ -91,7 +91,7 @@ class TuneLabParser:
                     )
                 elif isinstance(part, TuneLabMidiPart) and len(part.notes):
                     if (
-                        len(track_list)
+                        track_list
                         and isinstance(track_list[-1], SingingTrack)
                         and (
                             not track_list[-1].note_list
@@ -212,7 +212,9 @@ class TuneLabParser:
             anchor_group = [point for point in pitch_part.root if not math.isnan(point.value)]
             if len(anchor_group) < 2:
                 continue
-            interpolator = HermiteInterpolator(points=cast(list[tuple[float, float]], anchor_group))
+            interpolator = HermiteInterpolator(
+                points=cast("list[tuple[float, float]]", anchor_group)
+            )
             xs = list(
                 more_itertools.numeric_range(anchor_group[0].pos, anchor_group[-1].pos + 1, 5)
             )

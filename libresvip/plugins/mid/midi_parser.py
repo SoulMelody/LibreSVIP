@@ -265,7 +265,7 @@ class MidiParser:
                 edited_params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(
                     rel_pitch_points, pitch_simulator
                 )
-            if len(notes):
+            if notes:
                 tracks.append(
                     SingingTrack(
                         title=track_name or f"Track {track_idx + 1} ({channel})",

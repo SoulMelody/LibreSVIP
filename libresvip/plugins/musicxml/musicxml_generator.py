@@ -175,7 +175,7 @@ class MusicXMLGenerator:
         return part_node, score_part
 
     def generate_nodes_for_tempo(self, tempo: MXmlMeasureContent) -> tuple[Sound, Direction]:
-        sound_node = Sound(tempo=Decimal.from_float(cast(float, tempo.bpm)))
+        sound_node = Sound(tempo=Decimal.from_float(cast("float", tempo.bpm)))
         direction_node = Direction(
             direction_type=[
                 DirectionType(

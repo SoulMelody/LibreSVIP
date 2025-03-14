@@ -30,7 +30,7 @@ def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
     language = None
     for lyric, language in zip(lyrics, languages):
         if LATIN_ALPHABET.match(lyric) is not None:
-            if len(builder):
+            if builder:
                 phoneme_list.extend(
                     (to_romaji(part) for part in builder)
                     if language == "japanese"

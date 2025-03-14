@@ -71,7 +71,7 @@ class AcepParamCurve(BaseModel):
     def points2values(self) -> Self:
         if self.curve_type == "anchor" and self.points is not None and len(self.points.root):
             interpolator = HermiteInterpolator(
-                cast(list[tuple[float, float]], self.points.root),
+                cast("list[tuple[float, float]]", self.points.root),
             )
             self.offset = math.floor(self.points.root[0].pos)
             self.values = interpolator.interpolate(

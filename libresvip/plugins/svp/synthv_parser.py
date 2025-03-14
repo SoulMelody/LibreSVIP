@@ -51,7 +51,7 @@ from .param_expression import CurveGenerator, ParamExpression, PitchGenerator
 from .phoneme_utils import default_phone_marks, sv_g2p, xsampa2pinyin
 from .track_merge_utils import track_override_with
 
-clip = cast(Callable[[int], int], partial(clamp, lower=-1000, upper=1000))
+clip = cast("Callable[[int], int]", partial(clamp, lower=-1000, upper=1000))
 
 
 @dataclasses.dataclass

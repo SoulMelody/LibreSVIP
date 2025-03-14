@@ -199,16 +199,16 @@ class CeVIOParser:
         cevio_track_pitch_data = None
         if self.options.import_pitch and unit_node.song.parameter.log_f0 is not None:
             pitch_data_nodes: list[CeVIOData] = cast(
-                list[CeVIOData], unit_node.song.parameter.log_f0.data
+                "list[CeVIOData]", unit_node.song.parameter.log_f0.data
             )
             vibrato_amplitude_nodes: list[CeVIOData] = cast(
-                list[CeVIOData],
+                "list[CeVIOData]",
                 unit_node.song.parameter.vib_amp.data
                 if unit_node.song.parameter.vib_amp is not None
                 else [],
             )
             vibrato_frequency_nodes: list[CeVIOData] = cast(
-                list[CeVIOData],
+                "list[CeVIOData]",
                 unit_node.song.parameter.vib_frq.data
                 if unit_node.song.parameter.vib_frq is not None
                 else [],

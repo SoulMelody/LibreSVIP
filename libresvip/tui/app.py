@@ -537,7 +537,7 @@ class TUIApp(App[None]):
         tab_id = self.query_one("#task_list").current
         task_row = task_row_item.get_child_by_type(TaskRow)
         sub_tasks = [
-            cast(ListItem, sub_task_item).get_child_by_type(TaskRow)
+            cast("ListItem", sub_task_item).get_child_by_type(TaskRow)
             for sub_task_item in sub_task_items
         ]
         task_row.log_text = ""

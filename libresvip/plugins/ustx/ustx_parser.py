@@ -65,7 +65,7 @@ class UstxParser:
             )
             for tempo in tempos
         ]
-        if not len(song_tempo_list):
+        if not song_tempo_list:
             song_tempo_list.append(SongTempo(position=0, bpm=DEFAULT_BPM))
         return song_tempo_list
 
@@ -81,7 +81,7 @@ class UstxParser:
             )
             for time_signature in time_signatures
         ]
-        if not len(time_signature_list):
+        if not time_signature_list:
             time_signature_list.append(TimeSignature())
         return time_signature_list
 

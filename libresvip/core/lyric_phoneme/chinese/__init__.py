@@ -27,7 +27,7 @@ def get_pinyin_series(
         non_chinese = ""
         for char in part:
             if WHITE_SPACE.match(char) is not None or (ignore_hyphens and char == "-"):
-                if len(non_chinese):
+                if non_chinese:
                     result_items.append(non_chinese)
                     count += 1
                     non_chinese = ""

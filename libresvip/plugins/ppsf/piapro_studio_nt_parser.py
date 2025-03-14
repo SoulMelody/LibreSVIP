@@ -60,7 +60,7 @@ class PiaproStudioNTParser:
                 )
                 for meter in ppsf_meters.sequence
             )
-        if not len(time_signatures) or time_signatures[0].bar_index != 0:
+        if not time_signatures or time_signatures[0].bar_index != 0:
             time_signatures.insert(0, first_time_signature)
         return time_signatures
 
@@ -72,7 +72,7 @@ class PiaproStudioNTParser:
                 SongTempo(bpm=tempo.value / 10000, position=tempo.tick)
                 for tempo in ppsf_tempos.sequence
             )
-        if not len(tempos) or tempos[0].position != 0:
+        if not tempos or tempos[0].position != 0:
             tempos.insert(0, first_tempo)
         return tempos
 

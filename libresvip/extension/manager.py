@@ -6,7 +6,6 @@ import functools
 import gettext
 import inspect
 import sys
-from importlib.abc import MetaPathFinder
 from importlib.machinery import (
     PathFinder,
     SourceFileLoader,
@@ -31,6 +30,7 @@ from .meta_info import (
 
 if TYPE_CHECKING:
     import pathlib
+    from importlib.abc import MetaPathFinder
     from importlib.machinery import ModuleSpec
     from types import ModuleType
 
@@ -52,7 +52,7 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
     _candidates: list[tuple[Traversable, PluginInfo_co]] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
-        sys.meta_path.append(cast(MetaPathFinder, self))
+        sys.meta_path.append(cast("MetaPathFinder", self))
 
     @functools.cached_property
     def lib_suffixes(self) -> list[str]:

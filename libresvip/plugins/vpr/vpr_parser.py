@@ -116,7 +116,7 @@ class VocaloidParser:
                     elif part.ai_voice is not None:
                         comp_id = part.ai_voice.comp_id or ""
                         supported_lang_ids.extend(part.ai_voice.lang_ids)
-                    if len(supported_lang_ids):
+                    if supported_lang_ids:
                         main_lang_id = supported_lang_ids[0]
                     else:
                         main_lang_id = VocaloidLanguage.SIMPLIFIED_CHINESE

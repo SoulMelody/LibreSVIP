@@ -161,7 +161,7 @@ class AceGenerator:
                     if cur_start - prev_end > self.options.split_threshold * TICKS_IN_BEAT > 0:
                         generate_vocal_pattern()
                     buffer.append(cur_note)
-                if len(buffer):
+                if buffer:
                     generate_vocal_pattern()
             ace_track = ace_vocal_track
         else:

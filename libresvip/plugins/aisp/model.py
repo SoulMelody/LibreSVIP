@@ -1,7 +1,6 @@
 import enum
 import itertools
-from collections.abc import Iterable
-from typing import Annotated, Literal, cast
+from typing import TYPE_CHECKING, Annotated, Literal, cast
 
 import more_itertools
 from pydantic import (
@@ -14,6 +13,9 @@ from pydantic import (
 )
 
 from libresvip.model.base import BaseModel
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class AISTrackType(enum.IntEnum):
@@ -44,7 +46,7 @@ class AISNote(BaseModel):
             return None
         value_list = value.split() if isinstance(value, str) else value
         pit_list = []
-        for x in cast(Iterable[float | str], value_list):
+        for x in cast("Iterable[float | str]", value_list):
             if isinstance(x, str) and "x" in x:
                 x, _, repeat_times = x.partition("x")
                 pit_list.extend([float(x)] * int(repeat_times))

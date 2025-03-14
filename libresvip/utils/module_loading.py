@@ -1,13 +1,15 @@
-import pathlib
 import sys
 import zipfile
-from importlib.abc import Loader
 from importlib.machinery import ModuleSpec, SourcelessFileLoader
 from importlib.util import module_from_spec, spec_from_file_location
 from types import ModuleType
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from libresvip.core.compat import Traversable
+
+if TYPE_CHECKING:
+    import pathlib
+    from importlib.abc import Loader
 
 
 class ZipLoader(SourcelessFileLoader):
@@ -37,11 +39,11 @@ def load_module(name: str, plugin_path: Traversable) -> ModuleType:
         and hasattr(plugin_path, "at")
     ):
         loader = ZipLoader(zip_file=plugin_path.root, file_path=plugin_path.at)
-        spec = ModuleSpec(name, cast(Loader, loader), is_package=True, origin=plugin_path.at)
+        spec = ModuleSpec(name, cast("Loader", loader), is_package=True, origin=plugin_path.at)
     else:
         spec = spec_from_file_location(
             name,
-            cast(pathlib.Path, plugin_path),
+            cast("pathlib.Path", plugin_path),
             submodule_search_locations=[
                 str(plugin_path)
                 if plugin_path.is_dir()
