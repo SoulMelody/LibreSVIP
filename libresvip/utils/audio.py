@@ -104,7 +104,7 @@ else:
                 else:
                     show_warning(_("Audio file not found: ") + f"{file_path}")
             return None
-    except ImportError:
+    except (ImportError, SystemError):
 
         def audio_track_info(
             file_path: str | pathlib.Path, only_wav: bool = False
