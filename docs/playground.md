@@ -237,6 +237,8 @@ def _(
     import pathlib
     import tempfile
 
+    from libresvip.utils.translation import gettext_lazy as _
+
     mo.stop(f.contents(0) is None or btn.value is False, mo.md(""))
 
     temp_path = pathlib.Path(tempfile.mkdtemp())
