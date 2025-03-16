@@ -16,7 +16,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v46
         with:
           files_yaml: |
             po:
@@ -65,8 +65,8 @@ jobs:
       - name: Build docs
         if: steps.changed-files.outputs.docs_any_changed == 'true'
         run: |
-          uv venv
-          uv pip install mkdocs-material
+          uv venv --python 3.12 # upgrade to latest version until mkdocs-marimo solves compatibility issues
+          uv pip install mkdocs-material mkdocs-marimo
           uv run mkdocs build
 
       - uses: peaceiris/actions-gh-pages@v4

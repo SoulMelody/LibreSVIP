@@ -38,9 +38,9 @@ markdown_extensions:
   - pymdownx.snippets
   - tables
 
-# plugins:
-#   - marimo:
-#       display_code: false
+plugins:
+  - marimo:
+      display_code: false
 
 nav:
   - 快速开始:
@@ -53,7 +53,7 @@ nav:
     - 代码规范: coding_style.md
     - 歌声合成工程格式一览: project_formats.md
   - 常见问题: faq.md
-  # - 实验场: playground.md
+  - 实验场: playground.md
 
 extra:
   social:
