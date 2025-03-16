@@ -25,6 +25,7 @@ jobs:
               - "**/*.qml"
             requirements:
               - "pyproject.toml"
+              - "uv.lock"
               - "packaging/requirements-flet.in"
               - "packaging/requirements-mobile.in"
               - "packaging/requirements-pyinstaller.in"
