@@ -40,7 +40,7 @@ portion==2.6.0
 proto-plus==1.26.1
 protobuf==6.30.1
 pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
-pycryptodomex==3.21.0
+pycryptodomex==3.22.0
 pydantic==2.10.6
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.3
@@ -78,13 +78,13 @@ ujson==5.10.0
 universal-pathlib==0.2.6
 wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
-winrt-runtime==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-applicationmodel-core==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-data-xml-dom==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-foundation==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-foundation-collections==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-runtime==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-applicationmodel-core==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-data-xml-dom==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-foundation==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-foundation-collections==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-foundation-interop==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-ui-notifications==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-ui-notifications==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 xsdata==24.12
 xsdata-pydantic==24.5
 zhon==2.1.1
