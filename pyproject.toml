@@ -105,7 +105,7 @@ desktop = [
 [dependency-groups]
 code_gen = [
   "datamodel-code-generator>=0.28.4",
-  "gapic-generator>=1.23.5",
+  "gapic-generator>=1.23.6",
   "xsdata[cli]>=24.12",
 ]
 i18n = ["babel>=2.17.0"]
@@ -127,7 +127,7 @@ packaging = [
   "pyinstaller>=6.12.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.6.8"]
+docs = ["mkdocs-material<10.0.0,>=9.6.9"]
 test = ["pytest>=8.3.5", "pytest-datadir>=1.6.1", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
