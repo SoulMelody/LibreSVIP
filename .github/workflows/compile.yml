@@ -66,7 +66,7 @@ jobs:
       - name: Build docs
         if: steps.changed-files.outputs.docs_any_changed == 'true'
         run: |
-          uv venv --python 3.12 # upgrade to latest version until mkdocs-marimo solves compatibility issues
+          uv venv
           uv pip install mkdocs-material mkdocs-marimo
           uv run mkdocs build
 
