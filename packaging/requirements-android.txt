@@ -28,7 +28,7 @@ more-itertools==10.6.0
 oauthlib==3.2.2 ; platform_system != 'Pyodide'
 packaging==24.2
 parsimonious==0.10.0
-platformdirs==4.3.6
+platformdirs==4.3.7
 portion==2.6.0
 proto-plus==1.26.1
 protobuf==6.30.1
