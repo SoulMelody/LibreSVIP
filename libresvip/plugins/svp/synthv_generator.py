@@ -66,8 +66,13 @@ class SynthVGenerator:
         sv_project = SVProject()
         if self.options.version_compatibility == SVProjectVersionCompatibility.BELOW_1_9_0:
             sv_project.instant_mode_enabled = False
+        elif (
+            self.options.version_compatibility
+            == SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2
+        ):
+            sv_project.version = SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2.value
         else:
-            sv_project.version = SVProjectVersionCompatibility.ABOVE_1_9_0.value
+            sv_project.version = SVProjectVersionCompatibility.ABOVE_2_0_0.value
         new_meters = skip_beat_list(project.time_signature_list, 1)
         self.first_bar_tick = round(project.time_signature_list[0].bar_length())
         self.first_bar_tempo = [
@@ -261,7 +266,7 @@ class SynthVGenerator:
         onset = ticks_to_position(note.start_pos)
         return SVNote(
             instant_mode=False
-            if self.options.version_compatibility == SVProjectVersionCompatibility.ABOVE_1_9_0
+            if self.options.version_compatibility != SVProjectVersionCompatibility.BELOW_1_9_0
             else None,
             onset=onset,
             pitch=note.key_number,
