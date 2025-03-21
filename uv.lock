@@ -1568,7 +1568,7 @@ requires-dist = [
     { name = "pysubs2", specifier = ">=1.8.0,<2.0.0" },
     { name = "pyzipper", marker = "extra == 'crypto'", specifier = ">=0.3.6" },
     { name = "pyzstd", marker = "platform_python_implementation == 'PyPy'", specifier = ">=0.16.2,<1.0.0" },
-    { name = "repro-zipfile", marker = "python_full_version < '3.11'", specifier = ">=0.3.1,<1.0.0" },
+    { name = "repro-zipfile", marker = "python_full_version < '3.11'", specifier = ">=0.4.0,<1.0.0" },
     { name = "retrie", specifier = ">=0.3.1,<1.0.0" },
     { name = "rich", specifier = ">=13.9.4,<14.0.0" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.10" },
@@ -3380,11 +3380,11 @@ wheels = [
 
 [[package]]
 name = "repro-zipfile"
-version = "0.3.1"
+version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/14/96/0b9ce462701212e480726d9a03001c289152381336a8f441274a9b2f509f/repro_zipfile-0.3.1.tar.gz", hash = "sha256:7d24c9d2da4ecde3baeeb8c63b78f4cb5066674d9c3fd7ba72d8d58726c6d013", size = 20705 }
+sdist = { url = "https://files.pythonhosted.org/packages/ed/86/a680b85796b667a060bc673294e8adc3201a28381b23a61702ac0f51f732/repro_zipfile-0.4.0.tar.gz", hash = "sha256:fde4cf1300e740f2fd1745708ba8f1366a70853a39af6266e1e04ae81c1231c1", size = 21777 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/47/85/cabc4d6da2f15084f6f7ec6905de48e001fb3cd92b096681b31b317ffba5/repro_zipfile-0.3.1-py3-none-any.whl", hash = "sha256:6b12e451b07a6bb1b93eb70c31b6da81b10ceaf278ea007c408743df7b4a05e4", size = 10834 },
+    { url = "https://files.pythonhosted.org/packages/48/6e/d956269ebfb35f11bd05ef67a29ee49fc361ca22eac303b0e84d0bd9990c/repro_zipfile-0.4.0-py3-none-any.whl", hash = "sha256:557ef51e17d583e2bdcaf152517843f176604f1fa9d43cf6d08b0ab152dcb719", size = 11670 },
 ]
 
 [[package]]
