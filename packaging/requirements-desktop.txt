@@ -61,7 +61,7 @@ pyyaml==6.0.2
 pyzipper==0.3.6
 pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 regex==2024.11.6
-repro-zipfile==0.3.1 ; python_full_version < '3.11'
+repro-zipfile==0.4.0 ; python_full_version < '3.11'
 retrie==0.3.1
 rich==13.9.4
 ruamel-yaml==0.18.10
