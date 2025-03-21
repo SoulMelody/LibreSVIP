@@ -26,6 +26,7 @@ synthv_language_presets = {
     "japanese": SynthVLanguagePreset(language="japanese", phoneset="romaji"),
     "english": SynthVLanguagePreset(language="english", phoneset="arpabet"),
     "spanish": SynthVLanguagePreset(language="spanish", phoneset="xsampa"),
+    "korean": SynthVLanguagePreset(language="korean", phoneset="xsampa"),
 }
 
 
@@ -46,6 +47,7 @@ class LanguageOption(Enum):
     JAPANESE: Annotated[str, Field(title=_("Japanese"))] = "japanese"
     ENGLISH: Annotated[str, Field(title=_("English"))] = "english"
     SPANISH: Annotated[str, Field(title=_("Spanish"))] = "spanish"
+    KOREAN: Annotated[str, Field(title=_("Korean"))] = "korean"
 
 
 class BreathOption(Enum):

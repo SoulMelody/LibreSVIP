@@ -487,7 +487,9 @@ class SVVoice(SVBaseAttributes):
     f_f0_vbr: float | None = Field(5.5, alias="fF0Vbr")
     vocal_mode_inherited: bool = Field(True, alias="vocalModeInherited")
     vocal_mode_preset: str = Field("", alias="vocalModePreset")
-    vocal_mode_params: dict[str, float] | None = Field(None, alias="vocalModeParams")
+    vocal_mode_params: dict[str, float | dict[str, float]] | None = Field(
+        None, alias="vocalModeParams"
+    )
     render_mode: str | None = Field(None, alias="renderMode")
 
     def to_attributes(self) -> SVNoteAttributes:
