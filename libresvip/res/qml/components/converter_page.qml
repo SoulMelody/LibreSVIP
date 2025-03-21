@@ -170,8 +170,8 @@ Page {
                 Component.onCompleted: {
                     this.currentIndex = indexOfValue(field.value);
                 }
-                onActivated: index => {
-                    list_model.update(comboBoxRow.index, {
+                onActivated: selected => {
+                    list_model.update(index, {
                         value: this.currentValue
                     });
                 }

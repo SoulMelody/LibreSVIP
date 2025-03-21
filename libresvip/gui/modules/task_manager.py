@@ -370,6 +370,7 @@ class TaskManager(QObject):
         self.output_formats = ModelProxy({"value": "", "text": ""})
         self.input_fields = ModelProxy(
             {
+                "index": 0,
                 "name": "",
                 "title": "",
                 "description": "",
@@ -382,6 +383,7 @@ class TaskManager(QObject):
         self._input_fields_inited = False
         self.output_fields = ModelProxy(
             {
+                "index": 0,
                 "name": "",
                 "title": "",
                 "description": "",
@@ -647,11 +649,12 @@ class TaskManager(QObject):
     @staticmethod
     def inspect_fields(option_class: BaseModel) -> list[dict[str, Any]]:
         fields = []
-        for option_key, field_info in option_class.model_fields.items():
+        for i, (option_key, field_info) in enumerate(option_class.model_fields.items()):
             default_value = None if field_info.default is PydanticUndefined else field_info.default
             if issubclass(field_info.annotation, bool):
                 fields.append(
                     {
+                        "index": i,
                         "type": "bool",
                         "name": option_key,
                         "title": field_info.title,
@@ -683,6 +686,7 @@ class TaskManager(QObject):
                         logger.warning(enum_item.name)
                 fields.append(
                     {
+                        "index": i,
                         "type": "enum",
                         "name": option_key,
                         "title": field_info.title,
@@ -703,6 +707,7 @@ class TaskManager(QObject):
                 ]
                 fields.append(
                     {
+                        "index": i,
                         "type": "enum",
                         "name": option_key,
                         "title": field_info.title,
@@ -723,6 +728,7 @@ class TaskManager(QObject):
                 ]
                 fields.append(
                     {
+                        "index": i,
                         "type": "enum",
                         "name": option_key,
                         "title": field_info.title,
@@ -740,6 +746,7 @@ class TaskManager(QObject):
                     default_value = field_info.annotation.default_repr()
                 fields.append(
                     {
+                        "index": i,
                         "type": "color"
                         if issubclass(field_info.annotation, Color)
                         else field_info.annotation.__name__,

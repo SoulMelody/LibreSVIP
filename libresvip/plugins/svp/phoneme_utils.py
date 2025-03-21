@@ -3,6 +3,7 @@ from collections.abc import Iterable
 from importlib.resources import files
 
 from bidict import bidict
+from ko_pron.ko_pron import romanise
 
 from libresvip.core.compat import json
 from libresvip.core.constants import DEFAULT_PHONEME
@@ -24,6 +25,15 @@ phoneme_dictionary = {
 }
 
 
+def sv_g2p_one(buffer: list[str], language: str | None) -> Iterable[str]:
+    if language == "japanese":
+        return (to_romaji(part) for part in buffer)
+    elif language == "korean":
+        return (phoneme_dictionary["korean"].get(romanise(part, "rr"), "l 6") for part in buffer)
+    else:
+        return get_pinyin_series(buffer, filter_non_chinese=False)
+
+
 def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
     phoneme_list: list[str] = []
     builder: list[str] = []
@@ -31,21 +41,13 @@ def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
     for lyric, language in zip(lyrics, languages):
         if LATIN_ALPHABET.match(lyric) is not None:
             if builder:
-                phoneme_list.extend(
-                    (to_romaji(part) for part in builder)
-                    if language == "japanese"
-                    else get_pinyin_series(builder, filter_non_chinese=False)
-                )
+                phoneme_list.extend(sv_g2p_one(builder, language))
                 builder.clear()
             phoneme_list.append(lyric)
         else:
             builder.append(lyric)
     if builder:
-        phoneme_list.extend(
-            (to_romaji(part) for part in builder)
-            if language == "japanese"
-            else get_pinyin_series(builder, filter_non_chinese=False)
-        )
+        phoneme_list.extend(sv_g2p_one(builder, language))
     return phoneme_list
 
 

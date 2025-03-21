@@ -463,7 +463,7 @@ class SynthVParser:
         note.lyric = SVNote.normalize_lyric(sv_note.lyrics)
         if sv_note.phonemes:
             note_default_language = sv_note.attributes.default_language(database)
-            if note_default_language == "japanese":
+            if note_default_language in ["japanese", "korean"]:
                 note.pronunciation = sv_note.phonemes
             elif note_default_language in ["mandarin", "cantonese"]:
                 note.pronunciation = xsampa2pinyin(sv_note.phonemes, note_default_language)
