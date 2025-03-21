@@ -254,14 +254,14 @@ wheels = [
 
 [[package]]
 name = "basedpyright"
-version = "1.28.2"
+version = "1.28.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "nodejs-wheel-binaries" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fe/36/fb4eb931b3fc799d48cb0df6e7cd3977bcec50baddcc47b5148a22ac1c16/basedpyright-1.28.2.tar.gz", hash = "sha256:62abb9a22d9de97b538dd4acc170029d52e0a86702a723f67e80b83f36dc2116", size = 21618467 }
+sdist = { url = "https://files.pythonhosted.org/packages/37/bb/d5b68bfacecaee6abccef32871fe9d93e74d48ff9f89da967d52f3965b2c/basedpyright-1.28.3.tar.gz", hash = "sha256:c860a42b963a3d5eaa7141612653af0b3735ca1a1bf7b15c25efa8bdcba6f1eb", size = 21620897 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f1/6e/5ec54da6cf16c31a57d69b5ca84d5bc031cd2a1a2337aa8bb97d4de75699/basedpyright-1.28.2-py3-none-any.whl", hash = "sha256:8ef6414858ed6a005c7f0a1816e2f45feb84baae02a75acc3fe2c9c89da1459c", size = 11506651 },
+    { url = "https://files.pythonhosted.org/packages/43/7a/e303376c43f676d38a9df5bca9ce34760ed87707fcaaba813c3e6fffc343/basedpyright-1.28.3-py3-none-any.whl", hash = "sha256:1787283dd3a4c9698708b8dee59026e1bcebaf954c7d4711a47c3fe1f884da7f", size = 11506366 },
 ]
 
 [[package]]
@@ -1591,7 +1591,7 @@ provides-extras = ["crypto", "desktop", "lxml", "mobile", "ruamel-yaml", "tui", 
 [package.metadata.requires-dev]
 all = [
     { name = "babel", specifier = ">=2.17.0" },
-    { name = "basedpyright", specifier = ">=1.28.2" },
+    { name = "basedpyright", specifier = ">=1.28.3" },
     { name = "cx-freeze", specifier = ">=7.2.10" },
     { name = "datamodel-code-generator", specifier = ">=0.28.4" },
     { name = "gapic-generator", specifier = ">=1.23.6" },
@@ -1625,7 +1625,7 @@ docs = [
 ]
 i18n = [{ name = "babel", specifier = ">=2.17.0" }]
 linting = [
-    { name = "basedpyright", specifier = ">=1.28.2" },
+    { name = "basedpyright", specifier = ">=1.28.3" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
