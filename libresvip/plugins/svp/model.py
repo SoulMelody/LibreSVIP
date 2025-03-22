@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 import sys
 from itertools import chain
-from typing import Any, Literal, NamedTuple
+from typing import Annotated, Any, Literal, NamedTuple
 
 import zhon
 from more_itertools import batched
@@ -128,8 +128,7 @@ class SVTime(BaseModel):
     tempo: list[SVTempo] = Field(default_factory=list)
 
 
-class SVParamCurve(BaseModel):
-    mode: Literal["linear", "cubic", "cosine", "sigmoid"] = Field("linear")
+class SVBasePoints(BaseModel):
     points: SVPoints = Field(default_factory=SVPoints)
 
     @field_validator("points", mode="before")
@@ -142,6 +141,10 @@ class SVParamCurve(BaseModel):
     @field_serializer("points", when_used="json")
     def serialize_points(self, points: SVPoints, _info: FieldSerializationInfo) -> list[float]:
         return list(chain.from_iterable(points.root))
+
+
+class SVParamCurve(SVBasePoints):
+    mode: Literal["linear", "cubic", "cosine", "sigmoid"] = Field("linear")
 
     def edited_range(self, default_value: float = 0.0) -> RangeInterval:
         tolerance = 1e-6
@@ -187,8 +190,31 @@ class SVParamCurve(BaseModel):
 
 class SVParamTake(BaseModel):
     id_value: int = Field(alias="id")
-    expr: float
+    seed_duration: int | None = Field(None, alias="seedDuration")
+    seed_pitch: int | None = Field(None, alias="seedPitch")
+    seed_timbre: int | None = Field(None, alias="seedTimbre")
+    expr: float | None = None
     liked: bool = False
+
+
+class SVBasePitchControl(BaseModel):
+    pos: int
+    pitch: float
+    id_value: str = Field(alias="id")
+
+
+class SVPointPitchControl(SVBasePitchControl):
+    type_: Literal["point"] = Field("point", alias="type")
+
+
+class SVCurvePitchControl(SVBasePitchControl, SVBasePoints):
+    type_: Literal["curve"] = Field("curve", alias="type")
+
+
+SVPitchControl = Annotated[
+    SVPointPitchControl | SVCurvePitchControl,
+    Field(discriminator="type_"),
+]
 
 
 class SVParamTakes(BaseModel):
@@ -381,6 +407,7 @@ class SVNote(BaseModel):
     accent: str | None = None
     attributes: SVNoteAttributes = Field(default_factory=SVNoteAttributes)
     system_attributes: SVNoteAttributes | None = Field(None, alias="systemAttributes")
+    takes: SVParamTakes | None = None
     pitch_takes: SVParamTakes | None = Field(None, alias="pitchTakes")
     timbre_takes: SVParamTakes | None = Field(None, alias="timbreTakes")
     musical_type: Literal["singing", "rap"] | None = Field("singing", alias="musicalType")
@@ -466,6 +493,9 @@ class SVParameters(BaseModel):
     tone_shift: SVParamCurve | None = Field(
         default_factory=SVParamCurve, alias="toneShift", title="音区偏移"
     )
+    mouth_opening: SVParamCurve | None = Field(
+        default_factory=SVParamCurve, alias="mouthOpening", title="口型"
+    )
 
     def __add__(self, offset: int) -> SVParameters:
         new_params = self.model_copy(deep=True)
@@ -531,6 +561,7 @@ class SVRef(BaseModel):
     blick_absolute_end: int | None = Field(-1, alias="blickAbsoluteEnd")
     blick_offset: int = Field(default=0, alias="blickOffset")
     pitch_offset: int = Field(default=0, alias="pitchOffset")
+    takes: SVParamTakes | None = None
     pitch_takes: SVParamTakes | None = Field(None, alias="pitchTakes")
     timbre_takes: SVParamTakes | None = Field(None, alias="timbreTakes")
     database: SVDatabase = Field(default_factory=SVDatabase)
@@ -547,6 +578,7 @@ class SVGroup(BaseModel):
     parameters: SVParameters = Field(default_factory=SVParameters)
     uuid: str = Field(default_factory=uuid_str)
     vocal_modes: dict[str, SVParamCurve] = Field(default_factory=dict, alias="vocalModes")
+    pitch_controls: list[SVPitchControl] = Field(default_factory=list, alias="pitchControls")
 
     @field_validator("notes", mode="before")
     @classmethod
