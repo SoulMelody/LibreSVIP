@@ -222,6 +222,12 @@ class SVParamTakes(BaseModel):
     takes: list[SVParamTake] = Field(default_factory=list)
 
 
+class SVPhonemeAttribute(BaseModel):
+    left_offset: float | None = Field(None, alias="leftOffset")
+    strength: float
+    alt: int
+
+
 class SVNoteAttributes(SVBaseAttributes):
     t_f0_left: float | None = Field(None, alias="tF0Left")
     t_f0_right: float | None = Field(None, alias="tF0Right")
@@ -243,6 +249,7 @@ class SVNoteAttributes(SVBaseAttributes):
     r_tone: float | None = Field(None, alias="rTone")
     r_intonation: float | None = Field(None, alias="rIntonation")
     even_syllable_duration: float | None = Field(None, alias="evenSyllableDuration")
+    phonemes: list[SVPhonemeAttribute] | None = None
 
     def _get_transition_offset(self) -> float:
         return constants.DEFAULT_PITCH_TRANSITION if self.t_f0_offset is None else self.t_f0_offset
