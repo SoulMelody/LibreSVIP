@@ -5,7 +5,7 @@ from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 
 from .model import SVProject
-from .options import InputOptions, OutputOptions
+from .options import InputOptions, OutputOptions, SVProjectVersionCompatibility
 from .synthv_generator import SynthVGenerator
 from .synthv_parser import SynthVParser
 
@@ -29,5 +29,9 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
                 sv_project.model_dump(mode="json", by_alias=True, exclude_none=True),
                 separators=(",", ":"),
             ).encode("utf-8")
-            + b"\x00"
+            + (
+                b""
+                if options.version_compatibility == SVProjectVersionCompatibility.ABOVE_2_0_0
+                else b"\x00"
+            )
         )

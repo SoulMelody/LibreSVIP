@@ -211,7 +211,6 @@ build_exe_options = {
     "include_msvcr": True,
     "zip_includes": zip_includes,
     "zip_include_packages": [
-        "PySide6",
         "libresvip.cli",
         "libresvip.core",
         "libresvip.gui",

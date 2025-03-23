@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
-    InstrumentalTrack,
     Note,
     ParamCurve,
     Params,
@@ -29,6 +28,7 @@ from .constants import TICK_RATE
 from .interval_utils import ticks_to_position
 from .model import (
     SVAudio,
+    SVCurvePitchControl,
     SVMeter,
     SVMixer,
     SVNote,
@@ -131,6 +131,12 @@ class SynthVGenerator:
                 portamento=PortamentoPitch.sigmoid_portamento(),
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
+            if self.options.version_compatibility == SVProjectVersionCompatibility.ABOVE_2_0_0:
+                sv_track.main_group.pitch_controls = self.generate_pitch_controls(
+                    track.edited_params.pitch.reduce_sample_rate(
+                        self.options.down_sample, interrupt_value=-100
+                    )
+                )
 
             self.lyrics_phonemes = sv_g2p(
                 (SVNote.normalize_phoneme(note) for note in track.note_list),
@@ -145,15 +151,13 @@ class SynthVGenerator:
             elif self.options.vibrato == VibratoOption.HYBRID:
                 for index in self.no_vibrato_indexes:
                     sv_track.main_group.notes[index].attributes.vibrato_depth = 0
-        elif isinstance(track, InstrumentalTrack):
+        else:
             sv_track.main_ref.is_instrumental = True
             sv_track.disp_color = "ff4794cb"
             sv_track.main_ref.audio = SVAudio(filename=track.audio_file_path, duration=0)
             sv_track.main_ref.blick_offset = self.generate_audio_offset(track.offset)
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
                 sv_track.main_ref.audio.duration = track_info.duration / 1000
-        else:
-            return None
         return sv_track
 
     def generate_audio_offset(self, offset: int) -> int:
@@ -181,10 +185,7 @@ class SynthVGenerator:
         return max(ratio_to_db(max(volume, 0.06)), -24.0)
 
     def generate_params(self, parameters: Params) -> SVParameters:
-        return SVParameters(
-            pitch_delta=self.generate_pitch_curve(
-                parameters.pitch.reduce_sample_rate(self.options.down_sample, -100)
-            ),
+        sv_params = SVParameters(
             loudness=self.generate_param_curve(
                 parameters.volume.reduce_sample_rate(self.options.down_sample),
                 0,
@@ -211,6 +212,58 @@ class SynthVGenerator:
                 (1000.0).__rtruediv__,
             ),
         )
+        if self.options.version_compatibility != SVProjectVersionCompatibility.ABOVE_2_0_0:
+            sv_params.pitch_delta = self.generate_pitch_curve(
+                parameters.pitch.reduce_sample_rate(self.options.down_sample, -100)
+            )
+        return sv_params
+
+    def generate_pitch_controls(self, curve: ParamCurve) -> list[SVCurvePitchControl]:
+        pitch_controls: list[SVCurvePitchControl] = []
+        buffer: list[Point] = []
+        for point in curve.points.root:
+            if point.x >= self.first_bar_tick:
+                point = point._replace(x=point.x - self.first_bar_tick)
+                if point.y == -100:
+                    if not buffer:
+                        continue
+                    base_positon = ticks_to_position(buffer[0].x)
+                    base_pitch = buffer[0].y
+                    pitch_controls.append(
+                        SVCurvePitchControl(
+                            pos=base_positon,
+                            pitch=base_pitch / 100.0,
+                            id_value=str(len(pitch_controls) + 1),
+                            points=[
+                                SVPoint(
+                                    offset=ticks_to_position(tmp_point.x) - base_positon,
+                                    value=(tmp_point.y - base_pitch) / 100.0,
+                                )
+                                for tmp_point in buffer
+                            ],
+                        )
+                    )
+                    buffer.clear()
+                else:
+                    buffer.append(point)
+        if buffer:
+            base_positon = ticks_to_position(buffer[0].x)
+            base_pitch = buffer[0].y
+            pitch_controls.append(
+                SVCurvePitchControl(
+                    pos=base_positon,
+                    pitch=base_pitch / 100.0,
+                    id_value=str(len(pitch_controls) + 1),
+                    points=[
+                        SVPoint(
+                            offset=ticks_to_position(tmp_point.x) - base_positon,
+                            value=(tmp_point.y - base_pitch) / 100.0,
+                        )
+                        for tmp_point in buffer
+                    ],
+                )
+            )
+        return pitch_controls
 
     def generate_pitch_curve(self, curve: ParamCurve) -> SVParamCurve:
         sv_curve = SVParamCurve()
