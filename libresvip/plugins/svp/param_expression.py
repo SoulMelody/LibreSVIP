@@ -14,6 +14,7 @@ from .layer_generator import (
     BaseLayerGenerator,
     GaussianLayerGenerator,
     NoteStruct,
+    PitchControlLayerGenerator,
     VibratoLayerGenerator,
 )
 
@@ -24,7 +25,7 @@ if TYPE_CHECKING:
 
     from libresvip.core.time_sync import TimeSynchronizer
 
-    from .model import SVNote
+    from .model import SVNote, SVPitchControl
 
 
 class ParamOperators(enum.Enum):
@@ -220,6 +221,8 @@ class PitchGenerator(ParamExpression):
     _pitch_diff: dataclasses.InitVar[ParamExpression]
     _vibrato_env: dataclasses.InitVar[ParamExpression]
     _note_list: dataclasses.InitVar[list[SVNote]]
+    _pitch_controls: dataclasses.InitVar[list[SVPitchControl] | None]
+    pitch_control_layer: PitchControlLayerGenerator | None = None
 
     def __post_init__(
         self,
@@ -227,6 +230,7 @@ class PitchGenerator(ParamExpression):
         _pitch_diff: ParamExpression,
         _vibrato_env: ParamExpression,
         _note_list: list[SVNote],
+        _pitch_controls: list[SVPitchControl] | None,
     ) -> None:
         self.synchronizer = _synchronizer
         self.pitch_diff = _pitch_diff
@@ -257,17 +261,25 @@ class PitchGenerator(ParamExpression):
         self.base_layer = BaseLayerGenerator(note_structs)
         self.vibrato_layer = VibratoLayerGenerator(note_structs)
         self.gaussian_layer = GaussianLayerGenerator(note_structs)
+        if _pitch_controls:
+            self.pitch_control_layer = PitchControlLayerGenerator(_pitch_controls)
 
     def value_at_ticks(self, ticks: int) -> float:
         return self.value_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
 
     def value_at_secs(self, secs: float) -> float:
         ticks = round(self.synchronizer.get_actual_ticks_from_secs(secs))
+        if self.pitch_control_layer:
+            pitch_control_value = self.pitch_control_layer.value_at_ticks(ticks)
+        else:
+            pitch_control_value = None
+        if pitch_control_value is None:
+            pitch_control_value = (
+                self.base_layer.pitch_at_secs(secs)
+                + self.vibrato_layer.pitch_diff_at_secs(secs)
+                + self.gaussian_layer.pitch_diff_at_secs(secs)
+            )
         return (
-            self.base_layer.pitch_at_secs(secs)
-            + self.pitch_diff.value_at_ticks(ticks)
-            + self.vibrato_layer.pitch_diff_at_secs(secs)
-            * self.vibrato_env.value_at_ticks(ticks)
-            / 1000
-            + self.gaussian_layer.pitch_diff_at_secs(secs)
+            pitch_control_value
+            + self.pitch_diff.value_at_ticks(ticks) * self.vibrato_env.value_at_ticks(ticks) / 1000
         )

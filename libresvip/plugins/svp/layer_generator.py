@@ -1,17 +1,22 @@
 import dataclasses
+import functools
 import math
 from collections.abc import Callable
 from typing import NamedTuple
 
 import more_itertools
+import portion
 
 from libresvip.core.exceptions import NotesOverlappedError, ParamsError
-from libresvip.utils.music_math import clamp
+from libresvip.core.time_interval import PiecewiseIntervalDict
+from libresvip.utils.music_math import clamp, linear_interpolation
 from libresvip.utils.search import find_index
 from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import MAX_BREAK
+from .interval_utils import position_to_ticks
 from .lambert_w import LambertW
+from .model import SVCurvePitchControl, SVPitchControl
 
 
 class NoteStruct(NamedTuple):
@@ -474,3 +479,36 @@ class VibratoLayerGenerator:
         return sum(
             node.value_at_secs(secs) for node in self.vibrato_nodes if node.start <= secs < node.end
         )
+
+
+@dataclasses.dataclass
+class PitchControlLayerGenerator:
+    _pitch_controls: dataclasses.InitVar[list[SVPitchControl]]
+    interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
+
+    def __post_init__(self, _pitch_controls: list[SVPitchControl]) -> None:
+        for pitch_control in _pitch_controls:
+            if isinstance(pitch_control, SVCurvePitchControl) and len(pitch_control.points):
+                prev_point = pitch_control.points.root[0]
+                base_position = position_to_ticks(pitch_control.pos)
+                prev_ticks = position_to_ticks(prev_point.offset) + base_position
+                prev_value = (pitch_control.pitch + prev_point.value) * 100
+                self.interval_dict[portion.singleton(prev_ticks)] = prev_value
+                for point in pitch_control.points.root[1:]:
+                    ticks = position_to_ticks(point.offset) + base_position
+                    value = (pitch_control.pitch + point.value) * 100
+                    self.interval_dict[
+                        portion.closedopen(
+                            prev_ticks,
+                            ticks,
+                        )
+                    ] = functools.partial(
+                        linear_interpolation,  # type: ignore[call-arg]
+                        start=(prev_ticks, prev_value),
+                        end=(ticks, value),
+                    )
+                    prev_ticks = ticks
+                    prev_value = value
+
+    def value_at_ticks(self, ticks: int) -> float | None:
+        return self.interval_dict.get(ticks)

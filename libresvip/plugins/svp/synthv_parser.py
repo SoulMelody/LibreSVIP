@@ -41,6 +41,7 @@ from .model import (
     SVNote,
     SVParamCurve,
     SVParameters,
+    SVPitchControl,
     SVProject,
     SVTempo,
     SVTrack,
@@ -252,6 +253,7 @@ class SynthVParser:
         step: int = 5,
         master_pitch_diff: SVParamCurve | None = None,
         master_vibrato_env: SVParamCurve | None = None,
+        pitch_controls: list[SVPitchControl] | None = None,
     ) -> ParamCurve:
         curve = ParamCurve()
         if not sv_notes:
@@ -337,6 +339,13 @@ class SynthVParser:
             ]
         ).expand(120)
 
+        generator = PitchGenerator(
+            _synchronizer=self.synchronizer,
+            _note_list=sv_notes,
+            _pitch_diff=pitch_diff_expr,
+            _vibrato_env=vibrato_env_expr,
+            _pitch_controls=pitch_controls,
+        )
         if self.options.pitch in {PitchOption.VIBRATO, PitchOption.PLAIN}:
             regard_default_vibrato_as_unedited = self.options.pitch == PitchOption.PLAIN
             pitch_interval = 0.1
@@ -379,15 +388,11 @@ class SynthVParser:
             param_edited_range = pitch_diff.edited_range() | vibrato_env.edited_range(1.0)
             if master_pitch_diff is not None:
                 param_edited_range |= master_pitch_diff.edited_range()
+            if generator.pitch_control_layer is not None:
+                param_edited_range.interval |= generator.pitch_control_layer.interval_dict.domain()
             if master_vibrato_env is not None:
                 param_edited_range |= master_vibrato_env.edited_range(1.0)
             interval &= note_edited_range | param_edited_range
-        generator = PitchGenerator(
-            _synchronizer=self.synchronizer,
-            _note_list=sv_notes,
-            _pitch_diff=pitch_diff_expr,
-            _vibrato_env=vibrato_env_expr,
-        )
         curve.points.append(Point.start_point())
         for start, end in interval.shift(self.first_bar_tick).sub_ranges():
             curve.points.append(Point(start, -100))
@@ -410,6 +415,7 @@ class SynthVParser:
         sv_params: SVParameters,
         sv_notes: list[SVNote],
         master_params: SVParameters | None = None,
+        pitch_controls: list[SVPitchControl] | None = None,
     ) -> Params:
         params = Params()
         if self.options.import_pitch:
@@ -420,6 +426,7 @@ class SynthVParser:
                 5,
                 master_params.pitch_delta if master_params else None,
                 master_params.vibrato_env if master_params else None,
+                pitch_controls or None,
             )
         if self.options.import_volume:
             params.volume = self.parse_param_curve(
@@ -570,12 +577,7 @@ class SynthVParser:
                         * current_duration[index]
                         / current_duration[index + 1]
                     )
-            if (
-                next_head_part_edited
-                and current_duration is not None
-                and next_phone_marks is not None
-                and next_duration is not None
-            ):
+            if next_head_part_edited and current_duration is not None and next_duration is not None:
                 if note_list[i + 1].edited_phones is None:
                     note_list[i + 1].edited_phones = Phones()
                 space_in_secs = min(
@@ -662,6 +664,7 @@ class SynthVParser:
                                 group.parameters,
                                 group.notes,
                                 sv_track.main_group.parameters,
+                                group.pitch_controls,
                             ),
                         )
                     )
@@ -689,6 +692,7 @@ class SynthVParser:
                                     group.parameters,
                                     group.notes,
                                     sv_track.main_group.parameters,
+                                    group.pitch_controls,
                                 ),
                             )
                         )
@@ -700,6 +704,7 @@ class SynthVParser:
                                 group.parameters,
                                 group.notes,
                                 sv_track.main_group.parameters,
+                                group.pitch_controls,
                             ),
                             self.first_bar_tick,
                         )

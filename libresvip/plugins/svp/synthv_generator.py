@@ -319,7 +319,8 @@ class SynthVGenerator:
         onset = ticks_to_position(note.start_pos)
         return SVNote(
             instant_mode=False
-            if self.options.version_compatibility != SVProjectVersionCompatibility.BELOW_1_9_0
+            if self.options.version_compatibility
+            == SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2
             else None,
             onset=onset,
             pitch=note.key_number,
