@@ -34,6 +34,7 @@ from .model import (
     SVNote,
     SVParamCurve,
     SVParameters,
+    SVPhonemeAttribute,
     SVPoint,
     SVProject,
     SVTempo,
@@ -473,13 +474,14 @@ class SynthVGenerator:
         current_phone_marks = default_phone_marks(
             self.lyrics_phonemes[0], self.options.language_override.value
         )
-        if (
-            current_phone_marks[0] > 0
-            and notes[0].edited_phones is not None
-            and notes[0].edited_phones.head_length_in_secs > 0
-        ):
-            ratio = notes[0].edited_phones.head_length_in_secs / current_phone_marks[0]
-            current_sv_note.attributes.set_phone_duration(0, clamp(ratio, 0.2, 1.8))
+        if notes[0].edited_phones is not None and notes[0].edited_phones.head_length_in_secs > 0:
+            if self.options.version_compatibility == SVProjectVersionCompatibility.ABOVE_2_0_0:
+                current_sv_note.attributes.phonemes = [
+                    SVPhonemeAttribute(left_offset=-notes[0].edited_phones.head_length_in_secs)
+                ]
+            elif current_phone_marks[0] > 0:
+                ratio = notes[0].edited_phones.head_length_in_secs / current_phone_marks[0]
+                current_sv_note.attributes.set_phone_duration(0, clamp(ratio, 0.2, 1.8))
         for next_note, cur_phoneme, next_phoneme in zip(
             notes[1:], self.lyrics_phonemes[:-1], self.lyrics_phonemes[1:]
         ):

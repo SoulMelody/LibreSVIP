@@ -527,23 +527,30 @@ class SynthVParser:
             return note_list
         current_sv_note = sv_note_list[0]
         current_duration = current_sv_note.attributes.dur
+        current_phonemes = current_sv_note.attributes.phonemes
         current_phone_marks = default_phone_marks(
             lyrics_phoneme[0],
             current_sv_note.attributes.default_language(database),
         )
 
-        if (
-            current_phone_marks[0] > 0
-            and current_duration is not None
-            and current_duration[0] != 1.0
-        ):
-            note_list[0].edited_phones = Phones(
-                head_length_in_secs=min(1.8, current_duration[0] * current_phone_marks[0]),
-            )
+        if current_phone_marks[0] > 0:
+            if current_duration is not None and current_duration[0] != 1.0:
+                note_list[0].edited_phones = Phones(
+                    head_length_in_secs=min(1.8, current_duration[0] * current_phone_marks[0]),
+                )
+            elif (
+                current_phonemes is not None
+                and len(current_phonemes) > 0
+                and current_phonemes[0].left_offset is not None
+            ):
+                note_list[0].edited_phones = Phones(
+                    head_length_in_secs=min(1.8, -current_phonemes[0].left_offset),
+                )
 
         for i in range(len(sv_note_list) - 1):
             next_sv_note = sv_note_list[i + 1]
             next_duration = next_sv_note.attributes.dur
+            next_phonemes = next_sv_note.attributes.phonemes
             next_phone_marks = default_phone_marks(
                 lyrics_phoneme[i + 1],
                 next_sv_note.attributes.default_language(database),
@@ -555,9 +562,16 @@ class SynthVParser:
                 and current_duration is not None
                 and len(current_duration) > index
             )
-            next_head_part_edited = (
-                next_phone_marks[0] > 0 and next_duration is not None and len(next_duration)
-            )
+            next_head_part_length = None
+            if next_phone_marks[0] > 0:
+                if next_duration is not None and len(next_duration):
+                    next_head_part_length = next_duration[0] * next_phone_marks[0]
+                elif (
+                    next_phonemes is not None
+                    and len(next_phonemes)
+                    and next_phonemes[0].left_offset is not None
+                ):
+                    next_head_part_length = -next_phonemes[0].left_offset
             if (
                 current_main_part_edited
                 and current_duration is not None
@@ -577,7 +591,7 @@ class SynthVParser:
                         * current_duration[index]
                         / current_duration[index + 1]
                     )
-            if next_head_part_edited and current_duration is not None and next_duration is not None:
+            if next_head_part_length is not None and current_duration is not None:
                 if note_list[i + 1].edited_phones is None:
                     note_list[i + 1].edited_phones = Phones()
                 space_in_secs = min(
@@ -587,33 +601,35 @@ class SynthVParser:
                         note_list[i + 1].start_pos + self.first_bar_tick,
                     ),
                 )
-                length = next_phone_marks[0] * next_duration[0]
                 if current_main_part_edited:
                     ratio = (
                         2 / (current_duration[index] + current_duration[index + 1])
                         if len(current_duration) > index + 1
                         else 1 / current_duration[index]
                     )
-                    if length * ratio > self.synchronizer.get_duration_secs_from_ticks(
-                        note_list[i].end_pos + self.first_bar_tick,
-                        note_list[i + 1].start_pos + self.first_bar_tick,
+                    if (
+                        next_head_part_length * ratio
+                        > self.synchronizer.get_duration_secs_from_ticks(
+                            note_list[i].end_pos + self.first_bar_tick,
+                            note_list[i + 1].start_pos + self.first_bar_tick,
+                        )
                     ):
-                        length *= ratio
+                        next_head_part_length *= ratio
                 note_list[i + 1].edited_phones.head_length_in_secs = min(  #  type: ignore[union-attr]
-                    0.9 * space_in_secs, length
+                    0.9 * space_in_secs, next_head_part_length
                 )
             current_duration = next_duration
             current_phone_marks = next_phone_marks
-        idx = 1 if current_phone_marks[0] > 0 else 0
+        index = 1 if current_phone_marks[0] > 0 else 0
         if (
             current_phone_marks[1] > 0
             and current_duration is not None
-            and len(current_duration) > idx + 1
+            and len(current_duration) > index + 1
         ):
             if note_list[-1].edited_phones is None:
                 note_list[-1].edited_phones = Phones()
             note_list[-1].edited_phones.mid_ratio_over_tail = (
-                current_phone_marks[1] * current_duration[idx] / current_duration[idx + 1]
+                current_phone_marks[1] * current_duration[index] / current_duration[index + 1]
             )
         return note_list
 
