@@ -154,9 +154,13 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv.sources]
-construct = { url = "https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl" }
-mido-fix = { url = "https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" }
-wanakana-python = { url = "https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" }
+construct = { index = "piwheels" }
+mido-fix = { index = "piwheels" }
+wanakana-python = { index = "piwheels" }
+
+[[tool.uv.index]]
+name = "piwheels"
+url = "https://www.piwheels.org/simple"
 
 [tool.hatch.version]
 path = "libresvip/__init__.py"
