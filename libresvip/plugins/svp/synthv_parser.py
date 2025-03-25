@@ -533,19 +533,22 @@ class SynthVParser:
             current_sv_note.attributes.default_language(database),
         )
 
-        if current_phone_marks[0] > 0:
-            if current_duration is not None and current_duration[0] != 1.0:
-                note_list[0].edited_phones = Phones(
-                    head_length_in_secs=min(1.8, current_duration[0] * current_phone_marks[0]),
-                )
-            elif (
-                current_phonemes is not None
-                and len(current_phonemes) > 0
-                and current_phonemes[0].left_offset is not None
-            ):
-                note_list[0].edited_phones = Phones(
-                    head_length_in_secs=min(1.8, -current_phonemes[0].left_offset),
-                )
+        if (
+            current_phonemes is not None
+            and len(current_phonemes) > 0
+            and current_phonemes[0].left_offset is not None
+        ):
+            note_list[0].edited_phones = Phones(
+                head_length_in_secs=min(1.8, -current_phonemes[0].left_offset),
+            )
+        elif (
+            current_phone_marks[0] > 0
+            and current_duration is not None
+            and current_duration[0] != 1.0
+        ):
+            note_list[0].edited_phones = Phones(
+                head_length_in_secs=min(1.8, current_duration[0] * current_phone_marks[0]),
+            )
 
         for i in range(len(sv_note_list) - 1):
             next_sv_note = sv_note_list[i + 1]
@@ -562,16 +565,16 @@ class SynthVParser:
                 and current_duration is not None
                 and len(current_duration) > index
             )
-            next_head_part_length = None
-            if next_phone_marks[0] > 0:
-                if next_duration is not None and len(next_duration):
-                    next_head_part_length = next_duration[0] * next_phone_marks[0]
-                elif (
-                    next_phonemes is not None
-                    and len(next_phonemes)
-                    and next_phonemes[0].left_offset is not None
-                ):
-                    next_head_part_length = -next_phonemes[0].left_offset
+            if (
+                next_phonemes is not None
+                and len(next_phonemes)
+                and next_phonemes[0].left_offset is not None
+            ):
+                next_head_part_length = -next_phonemes[0].left_offset
+            elif next_phone_marks[0] > 0 and next_duration is not None and len(next_duration):
+                next_head_part_length = next_duration[0] * next_phone_marks[0]
+            else:
+                next_head_part_length = None
             if (
                 current_main_part_edited
                 and current_duration is not None
