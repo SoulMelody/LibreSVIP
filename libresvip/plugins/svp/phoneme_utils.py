@@ -9,7 +9,6 @@ from libresvip.core.compat import json
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.utils.text import LATIN_ALPHABET
 
 from .constants import DEFAULT_DURATIONS, DEFAULT_PHONE_RATIO
 
@@ -27,11 +26,19 @@ phoneme_dictionary = {
 
 def sv_g2p_one(buffer: list[str], language: str | None) -> Iterable[str]:
     if language == "japanese":
-        return (to_romaji(part) for part in buffer)
+        graphemes = (to_romaji(part) for part in buffer)
+        default_phoneme = "r a"
     elif language == "korean":
-        return (phoneme_dictionary["korean"].get(romanise(part, "rr"), "l 6") for part in buffer)
+        graphemes = (romanise(part, "rr") for part in buffer)
+        default_phoneme = "l 6"
+    elif language == "mandarin":
+        graphemes = get_pinyin_series(buffer, filter_non_chinese=False)  # type: ignore[assignment]
+        default_phoneme = "l a"
     else:
-        return get_pinyin_series(buffer, filter_non_chinese=False)
+        yield from buffer
+        return
+    for grapheme in graphemes:
+        yield phoneme_dictionary[language].get(grapheme, default_phoneme)
 
 
 def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
@@ -39,7 +46,7 @@ def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
     builder: list[str] = []
     language = None
     for lyric, language in zip(lyrics, languages):
-        if LATIN_ALPHABET.match(lyric) is not None:
+        if re.search(r"\s", lyric) is not None:
             if builder:
                 phoneme_list.extend(sv_g2p_one(builder, language))
                 builder.clear()
