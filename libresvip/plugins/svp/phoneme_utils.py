@@ -2,6 +2,7 @@ import re
 from collections.abc import Iterable
 from importlib.resources import files
 
+import jyutping
 from bidict import bidict
 from ko_pron.ko_pron import romanise
 
@@ -33,6 +34,11 @@ def sv_g2p_one(buffer: list[str], language: str | None) -> Iterable[str]:
         default_phoneme = "l 6"
     elif language == "mandarin":
         graphemes = get_pinyin_series(buffer, filter_non_chinese=False)  # type: ignore[assignment]
+        default_phoneme = "l a"
+    elif language == "cantonese":
+        graphemes = (
+            " ".join(re.sub(r"\d+$", " ", each) for each in jyutping.get(part)) for part in buffer
+        )
         default_phoneme = "l a"
     else:
         yield from buffer
