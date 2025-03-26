@@ -68,13 +68,13 @@ rich==13.9.4
 ruamel-yaml==0.18.10
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 rubicon-objc==0.5.0 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
-setuptools==78.0.2
+setuptools==78.1.0
 shellingham==1.5.4
 shiboken6==6.8.2.1
 sniffio==1.3.1
 sortedcontainers==2.4.0
 typer-slim==0.15.2
-typing-extensions==4.12.2
+typing-extensions==4.13.0
 ujson==5.10.0
 universal-pathlib==0.2.6
 wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
