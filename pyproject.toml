@@ -119,8 +119,8 @@ linting = [
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2025.3.4",
   "types-parsimonious>=0.10.0.20240331",
-  "types-pyyaml>=6.0.12.20241230",
-  "types-ujson>=5.10.0.20240515",
+  "types-pyyaml>=6.0.12.20250326",
+  "types-ujson>=5.10.0.20250326",
 ]
 packaging = [
   "cx-Freeze>=8.0.0",
