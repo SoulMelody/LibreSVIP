@@ -11,6 +11,7 @@ async def _():
         micropip.add_mock_package('packaging', '24.2')
 
         await micropip.install("https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl")
+        await micropip.install("https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl")
         await micropip.install("https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl")
         await micropip.install("https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl")
         await micropip.install("ruamel-yaml")
