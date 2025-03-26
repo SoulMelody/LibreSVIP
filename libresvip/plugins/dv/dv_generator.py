@@ -17,7 +17,6 @@ from libresvip.model.base import (
 from libresvip.utils.audio import audio_track_info
 
 from .constants import (
-    DEFAULT_PHONEME_BYTES,
     DEFAULT_VOLUME,
     MIN_SEGMENT_LENGTH,
 )
@@ -28,6 +27,7 @@ from .model import (
     DvInnerProject,
     DvNote,
     DvNoteParameter,
+    DvPhoneme,
     DvPoint,
     DvProject,
     DvSegment,
@@ -229,7 +229,14 @@ class DeepVocalGenerator:
                         DvPoint(x=1124, y=0),
                     ],
                 ),
-                unknown_phonemes=DEFAULT_PHONEME_BYTES,
+                phonemes=DvPhoneme(
+                    unknown_1=0,
+                    unknown_2=1.0,
+                    unknown_3=0,
+                    unknown_4=1.0,
+                    unknown_5=1.0,
+                    unknown_6=1.0,
+                ),
                 ben_depth=0,
                 ben_length=0,
                 por_head=0,

@@ -2,11 +2,12 @@ import dataclasses
 
 from construct import (
     Byte,
-    Bytes,
     BytesInteger,
     Const,
+    Float32l,
     GreedyBytes,
     IfThenElse,
+    Int8sl,
     PascalString,
     Prefixed,
     PrefixedArray,
@@ -60,6 +61,16 @@ class DvNoteParameter(DataclassMixin):
 
 
 @dataclasses.dataclass
+class DvPhoneme(DataclassMixin):
+    unknown_1: int = csfield(Int8sl)
+    unknown_2: float = csfield(Float32l)
+    unknown_3: int = csfield(Int8sl)
+    unknown_4: float = csfield(Float32l)
+    unknown_5: float = csfield(Float32l)
+    unknown_6: float = csfield(Float32l)
+
+
+@dataclasses.dataclass
 class DvNote(DataclassMixin):
     start: int = csfield(Int32sl)
     length: int = csfield(Int32ul)
@@ -72,7 +83,7 @@ class DvNote(DataclassMixin):
         Prefixed(Int32ul, DataclassStruct(DvNoteParameter))
     )
     unknown: bytes = csfield(Const(NOTE_UNKNOWN_DATA_BLOCK))
-    unknown_phonemes: bytes = csfield(Bytes(18))
+    phonemes: bytes = csfield(DataclassStruct(DvPhoneme))
     ben_depth: int = csfield(Int32ul)
     ben_length: int = csfield(Int32ul)
     por_tail: int = csfield(Int32ul)

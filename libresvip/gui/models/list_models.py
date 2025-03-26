@@ -200,6 +200,8 @@ class ModelProxy(QAbstractListModel):
 
     @Slot(int, dict)
     def update(self, index: int, item: Item) -> None:
+        if index >= len(self._items):
+            return
         self._items[index].update(item)
         # emit signal of `self.dataChanged` to notify qml side that some item
         # has been changed.
