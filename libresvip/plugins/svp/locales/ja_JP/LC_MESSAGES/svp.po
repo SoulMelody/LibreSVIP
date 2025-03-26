@@ -10,15 +10,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2025-03-26 07:56\n"
 
 msgid "Notes Overlapped"
 msgstr ""
 
-msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
+msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
 msgstr ""
 
-msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
+msgid "Compatible with Synthesizer V Studio 1.10.0 to 1.11.2"
+msgstr ""
+
+msgid "Compatible with Synthesizer V Studio 2.0 and up"
 msgstr ""
 
 msgid "Mandarin"
@@ -34,6 +37,9 @@ msgid "English"
 msgstr ""
 
 msgid "Spanish"
+msgstr ""
+
+msgid "Korean"
 msgstr ""
 
 msgid "Ignore all breath notes"
