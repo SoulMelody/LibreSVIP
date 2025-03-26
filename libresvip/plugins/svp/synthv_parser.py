@@ -639,7 +639,9 @@ class SynthVParser:
             self.voice_settings = sv_track.main_ref.voice
             master_note_attributes = self.voice_settings.to_attributes()
             if self.options.instant:
-                self.instant_pitch = sv_track.main_ref.system_pitch_delta
+                self.instant_pitch = (
+                    sv_track.main_ref.system_pitch_delta + sv_track.main_ref.blick_offset
+                )
             for note in sv_track.main_group.notes:
                 note.merge_attributes(master_note_attributes)
             singing_track = SingingTrack(
@@ -660,7 +662,7 @@ class SynthVParser:
                     voice_settings = sv_ref.voice
                     master_note_attributes = voice_settings.to_attributes()
                     if self.options.instant:
-                        self.instant_pitch = sv_ref.system_pitch_delta
+                        self.instant_pitch = sv_ref.system_pitch_delta + sv_ref.blick_offset
                     for note in group.notes:
                         note.merge_attributes(master_note_attributes)
                     self.group_split_counts[sv_ref.group_id] += 1
@@ -687,7 +689,7 @@ class SynthVParser:
                     voice_settings = sv_ref.voice
                     master_note_attributes = voice_settings.to_attributes()
                     if self.options.instant:
-                        self.instant_pitch = sv_ref.system_pitch_delta
+                        self.instant_pitch = sv_ref.system_pitch_delta + sv_ref.blick_offset
                     for note in group.notes:
                         note.merge_attributes(master_note_attributes)
                     if merged_group.overlapped_with(group):
