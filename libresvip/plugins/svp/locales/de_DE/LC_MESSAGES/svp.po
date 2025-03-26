@@ -10,16 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-19 01:02\n"
+"PO-Revision-Date: 2025-03-26 07:56\n"
 
 msgid "Notes Overlapped"
 msgstr "Noten überlappen sich"
 
-msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
-msgstr "Kompatibel mit SynthesizerV Studio 1.9.0 und älter"
+msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
+msgstr ""
 
-msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
-msgstr "Inkompatibel mit SynthesizerV Studio 1.9.0 und älter"
+msgid "Compatible with Synthesizer V Studio 1.10.0 to 1.11.2"
+msgstr ""
+
+msgid "Compatible with Synthesizer V Studio 2.0 and up"
+msgstr ""
 
 msgid "Mandarin"
 msgstr ""
@@ -35,6 +38,9 @@ msgstr "Englisch"
 
 msgid "Spanish"
 msgstr "Spanisch"
+
+msgid "Korean"
+msgstr ""
 
 msgid "Ignore all breath notes"
 msgstr "Alle Atemnoten ignorieren"

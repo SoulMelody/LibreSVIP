@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 06:38\n"
+"PO-Revision-Date: 2025-03-26 07:55\n"
 
 msgid "No singing track found"
 msgstr "未找到演唱轨"
@@ -60,9 +60,7 @@ msgstr "为负时不进行格式化。"
 msgid "Cannot find dict."
 msgstr "无法找到词典文件"
 
-msgid "The source file lacks phoneme parameters."
-msgstr "源文件缺少音素参数"
-
+#, python-brace-format
 msgid "The selected dictionary does not contain the pronunciation \"{}\". Please check the pronunciation or try another dictionary."
 msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 

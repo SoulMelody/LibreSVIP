@@ -10,28 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:32\n"
-
-msgid "VSQx 3"
-msgstr ""
-
-msgid "VSQx 4"
-msgstr ""
-
-msgid "日本語"
-msgstr ""
-
-msgid "English"
-msgstr ""
-
-msgid "한국어"
-msgstr ""
-
-msgid "Español"
-msgstr ""
-
-msgid "简体中文"
-msgstr ""
+"PO-Revision-Date: 2025-03-26 07:56\n"
 
 msgid "Combine syllables"
 msgstr ""
@@ -82,5 +61,26 @@ msgid "Conversion plugin for Vocaloid Sequence XML file"
 msgstr ""
 
 msgid "Sder Colin"
+msgstr ""
+
+msgid "VSQx 3"
+msgstr ""
+
+msgid "VSQx 4"
+msgstr ""
+
+msgid "日本語"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "한국어"
+msgstr ""
+
+msgid "Español"
+msgstr ""
+
+msgid "简体中文"
 msgstr ""
 
