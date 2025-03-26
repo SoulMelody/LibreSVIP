@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 06:38\n"
+"PO-Revision-Date: 2025-03-26 07:55\n"
 
 msgid "MIDI"
 msgstr ""
@@ -27,6 +27,7 @@ msgstr "岁月静好_初心不忘"
 msgid "No tempo labels found in the imported project."
 msgstr "在导入的工程中未找到速度记号。"
 
+#, python-brace-format
 msgid "Overlapping notes in track {}"
 msgstr "轨道{}中存在重叠音符"
 
