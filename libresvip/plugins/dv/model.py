@@ -63,11 +63,11 @@ class DvNoteParameter(DataclassMixin):
 @dataclasses.dataclass
 class DvPhoneme(DataclassMixin):
     unknown_1: int = csfield(Int8sl)
-    unknown_2: float = csfield(Float32l)
-    unknown_3: int = csfield(Int8sl)
-    unknown_4: float = csfield(Float32l)
-    unknown_5: float = csfield(Float32l)
-    unknown_6: float = csfield(Float32l)
+    consonant_rate: float = csfield(Float32l)
+    vowel_modified: int = csfield(Int8sl)
+    medial: float = csfield(Float32l)
+    rime: float = csfield(Float32l)
+    ending: float = csfield(Float32l)
 
 
 @dataclasses.dataclass
