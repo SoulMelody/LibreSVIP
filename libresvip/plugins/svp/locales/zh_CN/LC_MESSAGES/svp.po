@@ -10,16 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 06:38\n"
+"PO-Revision-Date: 2025-03-26 07:56\n"
 
 msgid "Notes Overlapped"
 msgstr "音符重叠"
 
-msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
-msgstr "与 SynthesizerV Studio 1.9.0 及以下版本兼容"
+msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
+msgstr ""
 
-msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
-msgstr "与 SynthesizerV Studio 1.9.0 及以下版本不兼容"
+msgid "Compatible with Synthesizer V Studio 1.10.0 to 1.11.2"
+msgstr ""
+
+msgid "Compatible with Synthesizer V Studio 2.0 and up"
+msgstr ""
 
 msgid "Mandarin"
 msgstr "普通话"
@@ -35,6 +38,9 @@ msgstr "英语"
 
 msgid "Spanish"
 msgstr "西班牙语"
+
+msgid "Korean"
+msgstr ""
 
 msgid "Ignore all breath notes"
 msgstr "忽略所有换气音符"
