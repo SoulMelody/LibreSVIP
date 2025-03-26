@@ -23,7 +23,7 @@
     </message>
     <message>
         <location filename="../qml/components/converter_page.qml" line="270"/>
-        <location filename="../qml/components/converter_page.qml" line="1703"/>
+        <location filename="../qml/components/converter_page.qml" line="1722"/>
         <source>Select File Formats</source>
         <translation>格式选择</translation>
     </message>
@@ -80,7 +80,7 @@
     </message>
     <message>
         <location filename="../qml/components/converter_page.qml" line="904"/>
-        <location filename="../qml/components/converter_page.qml" line="1710"/>
+        <location filename="../qml/components/converter_page.qml" line="1729"/>
         <source>Advanced Settings</source>
         <translation>高级选项</translation>
     </message>
@@ -145,53 +145,53 @@
         <translation>[ 导出为 </translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1448"/>
-        <location filename="../qml/components/converter_page.qml" line="1717"/>
+        <location filename="../qml/components/converter_page.qml" line="1467"/>
+        <location filename="../qml/components/converter_page.qml" line="1736"/>
         <source>Output Settings</source>
         <translation>输出设置</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1535"/>
+        <location filename="../qml/components/converter_page.qml" line="1554"/>
         <source>Choose Output Folder</source>
         <translation>选择输出文件夹</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1543"/>
+        <location filename="../qml/components/converter_page.qml" line="1562"/>
         <source>Output Folder</source>
         <translation>输出文件夹</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1557"/>
+        <location filename="../qml/components/converter_page.qml" line="1576"/>
         <source>Deal with Conflicts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1519"/>
+        <location filename="../qml/components/converter_page.qml" line="1538"/>
         <source>Start Conversion</source>
         <translation>开始转换</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1519"/>
+        <location filename="../qml/components/converter_page.qml" line="1538"/>
         <source>Converting</source>
         <translation>转换中</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1453"/>
+        <location filename="../qml/components/converter_page.qml" line="1472"/>
         <source>Open Output Folder When Done</source>
         <translation>完成后打开输出路径</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1567"/>
+        <location filename="../qml/components/converter_page.qml" line="1586"/>
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1571"/>
+        <location filename="../qml/components/converter_page.qml" line="1590"/>
         <source>Skip</source>
         <translation>跳过</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1575"/>
+        <location filename="../qml/components/converter_page.qml" line="1594"/>
         <source>Prompt</source>
         <translation>询问</translation>
     </message>

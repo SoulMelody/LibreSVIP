@@ -1,24 +1,3 @@
-msgid "VSQx 3"
-msgstr ""
-
-msgid "VSQx 4"
-msgstr ""
-
-msgid "日本語"
-msgstr ""
-
-msgid "English"
-msgstr ""
-
-msgid "한국어"
-msgstr ""
-
-msgid "Español"
-msgstr ""
-
-msgid "简体中文"
-msgstr ""
-
 msgid "Combine syllables"
 msgstr ""
 
@@ -72,5 +51,26 @@ msgid "Conversion plugin for Vocaloid Sequence XML file"
 msgstr ""
 
 msgid "Sder Colin"
+msgstr ""
+
+msgid "VSQx 3"
+msgstr ""
+
+msgid "VSQx 4"
+msgstr ""
+
+msgid "日本語"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "한국어"
+msgstr ""
+
+msgid "Español"
+msgstr ""
+
+msgid "简体中文"
 msgstr ""
 

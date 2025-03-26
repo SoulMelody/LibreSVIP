@@ -13,6 +13,7 @@ msgstr ""
 msgid "No tempo labels found in the imported project."
 msgstr ""
 
+#, python-brace-format
 msgid "Overlapping notes in track {}"
 msgstr ""
 

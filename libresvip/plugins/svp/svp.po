@@ -1,10 +1,13 @@
 msgid "Notes Overlapped"
 msgstr ""
 
-msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
+msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
 msgstr ""
 
-msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
+msgid "Compatible with Synthesizer V Studio 1.10.0 to 1.11.2"
+msgstr ""
+
+msgid "Compatible with Synthesizer V Studio 2.0 and up"
 msgstr ""
 
 msgid "Mandarin"
@@ -20,6 +23,9 @@ msgid "English"
 msgstr ""
 
 msgid "Spanish"
+msgstr ""
+
+msgid "Korean"
 msgstr ""
 
 msgid "Ignore all breath notes"
