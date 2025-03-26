@@ -89,8 +89,6 @@ class PocketSingerParser:
                 note.head_tag = "V"
             if ps_note.consonant_time_head:
                 note.edited_phones = Phones(head_length_in_secs=ps_note.consonant_time_head[0])
-            else:
-                note.edited_phones = Phones(head_length_in_secs=0)
             if self.options.import_pitch:
                 pitch_bends = ps_note.pitch_bends or ps_note.user_pitch or []
                 if note_pitch_points := [

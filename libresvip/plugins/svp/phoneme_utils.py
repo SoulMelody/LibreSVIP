@@ -8,7 +8,7 @@ from ko_pron.ko_pron import romanise
 
 from libresvip.core.compat import json
 from libresvip.core.constants import DEFAULT_PHONEME
-from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE, WHITE_SPACE, get_pinyin_series
 from libresvip.core.lyric_phoneme.japanese import to_romaji
 
 from .constants import DEFAULT_DURATIONS, DEFAULT_PHONE_RATIO
@@ -52,7 +52,7 @@ def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
     builder: list[str] = []
     language = None
     for lyric, language in zip(lyrics, languages):
-        if re.search(r"\s", lyric) is not None:
+        if WHITE_SPACE.search(lyric) is not None and CHINESE_RE.search(lyric) is None:
             if builder:
                 phoneme_list.extend(sv_g2p_one(builder, language))
                 builder.clear()

@@ -200,7 +200,7 @@ class VibratoParam(BaseModel):
 
 
 class Phones(BaseModel):
-    head_length_in_secs: float = Field(1.0, alias="HeadLengthInSecs")
+    head_length_in_secs: float = Field(-1.0, alias="HeadLengthInSecs")
     mid_ratio_over_tail: float = Field(-1.0, alias="MidRatioOverTail")
 
 

@@ -498,7 +498,7 @@ class PitchControlLayerGenerator:
                     ticks = position_to_ticks(point.offset) + base_position
                     value = (pitch_control.pitch + point.value) * 100
                     self.interval_dict[
-                        portion.closedopen(
+                        portion.openclosed(
                             prev_ticks,
                             ticks,
                         )

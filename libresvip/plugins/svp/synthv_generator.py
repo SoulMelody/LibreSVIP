@@ -474,13 +474,16 @@ class SynthVGenerator:
         current_phone_marks = default_phone_marks(
             self.lyrics_phonemes[0], self.options.language_override.value
         )
-        if notes[0].edited_phones is not None and notes[0].edited_phones.head_length_in_secs > 0:
+        if (
+            current_note.edited_phones is not None
+            and current_note.edited_phones.head_length_in_secs > 0
+        ):
             if self.options.version_compatibility == SVProjectVersionCompatibility.ABOVE_2_0_0:
                 current_sv_note.attributes.phonemes = [
-                    SVPhonemeAttribute(left_offset=-notes[0].edited_phones.head_length_in_secs)
+                    SVPhonemeAttribute(left_offset=-current_note.edited_phones.head_length_in_secs)
                 ]
             elif current_phone_marks[0] > 0:
-                ratio = notes[0].edited_phones.head_length_in_secs / current_phone_marks[0]
+                ratio = current_note.edited_phones.head_length_in_secs / current_phone_marks[0]
                 current_sv_note.attributes.set_phone_duration(0, clamp(ratio, 0.2, 1.8))
         for next_note, cur_phoneme, next_phoneme in zip(
             notes[1:], self.lyrics_phonemes[:-1], self.lyrics_phonemes[1:]
@@ -503,6 +506,13 @@ class SynthVGenerator:
 
             index = 1 if current_phone_marks[0] > 0 else 0
             if (
+                next_note.edited_phones is not None
+                and next_note.edited_phones.head_length_in_secs > 0
+            ):
+                next_sv_note.attributes.phonemes = [
+                    SVPhonemeAttribute(left_offset=-next_note.edited_phones.head_length_in_secs)
+                ]
+            elif (
                 current_main_part_edited
                 and next_head_part_edited
                 and (current_note.edited_phones is not None)

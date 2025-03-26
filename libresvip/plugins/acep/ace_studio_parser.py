@@ -220,8 +220,6 @@ class AceParser:
                 if self.content_version < 7
                 else ace_note.head_consonants[0]
             )
-        else:
-            note.edited_phones = Phones(head_length_in_secs=0)
         return note
 
     def parse_params(self, ace_params: AcepParams, ace_note_list: list[AcepNote]) -> Params:
