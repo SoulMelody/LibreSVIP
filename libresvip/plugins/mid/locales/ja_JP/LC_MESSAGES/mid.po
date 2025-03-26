@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2025-03-26 07:55\n"
 
 msgid "MIDI"
 msgstr ""
@@ -27,6 +27,7 @@ msgstr ""
 msgid "No tempo labels found in the imported project."
 msgstr ""
 
+#, python-brace-format
 msgid "Overlapping notes in track {}"
 msgstr ""
 
