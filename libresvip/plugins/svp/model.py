@@ -224,8 +224,8 @@ class SVParamTakes(BaseModel):
 
 class SVPhonemeAttribute(BaseModel):
     left_offset: float | None = Field(None, alias="leftOffset")
-    strength: float
-    alt: float
+    strength: float = 0
+    alt: int = 0
     position: float | None = None
     activity: float | None = None
 
@@ -245,7 +245,7 @@ class SVNoteAttributes(SVBaseAttributes):
     d_f0_jitter: float | None = Field(None, alias="dF0Jitter")
     t_note_offset: float | None = Field(None, alias="tNoteOffset")
     dur: list[float] | None = None
-    alt: list[float] | None = None
+    alt: list[int] | None = None
     expr_group: str | None = Field(None, alias="exprGroup")
     exp_value_x: float | None = Field(None, alias="expValueX")
     exp_value_y: float | None = Field(None, alias="expValueY")
