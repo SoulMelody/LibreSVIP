@@ -2,6 +2,8 @@ import sys
 
 from PySide6.QtGui import QIcon, QPixmap
 
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
+
 from libresvip.core.constants import res_dir
 from libresvip.gui.modules import (
     LocaleSwitcher,
@@ -10,8 +12,6 @@ from libresvip.gui.modules import (
     event_loop,
     qml_engine,
 )
-
-from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 
 def startup() -> None:
