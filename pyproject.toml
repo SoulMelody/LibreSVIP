@@ -50,7 +50,6 @@ dependencies = [
   "pymediainfo<7.0.2,>=7.0.1; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.53.0",
   "pysubs2<2.0.0,>=1.8.0",
-  "pyzstd<1.0.0,>=0.16.2; platform_python_implementation == \"PyPy\"",
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.0,>=13.9.4",
@@ -58,7 +57,6 @@ dependencies = [
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
-  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
 ]
 name = "libresvip"
 dynamic = ["readme", "version"]
@@ -69,6 +67,10 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
+zstd = [
+  "pyzstd<1.0.0,>=0.16.2; platform_python_implementation == \"PyPy\"",
+  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
+]
 crypto = [
   "cffi>=1.17.1; sys_platform != \"win32\" or python_version <= \"3.11\"",
   "pyzipper>=0.3.6",

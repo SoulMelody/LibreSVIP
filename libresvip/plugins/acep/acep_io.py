@@ -9,9 +9,18 @@ try:
 except ImportError:
     with contextlib.suppress(ImportError):
         sys.modules["Cryptodome"] = __import__("Crypto")
+
+try:
+    import pyzstd as zstd
+except ImportError:
+    try:
+        import numcodecs.zstd as zstd
+    except ImportError:
+        import zstandard as zstd
+
 from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
 
-from libresvip.core.compat import json, zstd
+from libresvip.core.compat import json
 from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
 from libresvip.utils.translation import gettext_lazy as _
