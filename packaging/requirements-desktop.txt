@@ -60,7 +60,6 @@ python-dotenv==1.1.0
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2
 pyzipper==0.3.6
-pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 regex==2024.11.6
 repro-zipfile==0.4.0 ; python_full_version < '3.11'
 retrie==0.3.1
@@ -91,4 +90,3 @@ xsdata==24.12
 xsdata-pydantic==24.5
 zhon==2.1.1
 zipp==3.21.0 ; python_full_version < '3.10'
-zstandard==0.23.0 ; platform_python_implementation == 'CPython'
