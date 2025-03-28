@@ -1,6 +1,6 @@
 import math
 import struct
-from typing import BinaryIO, Union
+from typing import BinaryIO, TypeAlias
 
 import more_itertools
 from construct import (
@@ -28,7 +28,8 @@ from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 Variant = bool | int | float | str | bytes | list["Variant"]
-Node = dict[str, Union[Variant, "Node", list["Node"]]]
+NodeType: TypeAlias = "Node"
+Node = dict[str, Variant | NodeType | list[NodeType]]
 
 JUCEVarTypes = CSEnum(
     Byte,
