@@ -37,7 +37,12 @@ def sv_g2p_one(buffer: list[str], language: str | None) -> Iterable[str]:
         default_phoneme = "l a"
     elif language == "cantonese":
         graphemes = (
-            " ".join(re.sub(r"\d+$", " ", each) for each in jyutping.get(part)) for part in buffer
+            " ".join(
+                re.sub(r"\d+$", " ", each) if each is not None else ""
+                for each in jyutping.get(part)
+            ).strip()
+            or part
+            for part in buffer
         )
         default_phoneme = "l a"
     else:
