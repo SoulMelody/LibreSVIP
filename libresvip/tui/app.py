@@ -32,6 +32,7 @@ from textual.widgets import (
     Input,
     Label,
     Link,
+    ListItem,
     ListView,
     Log,
     Markdown,
@@ -46,7 +47,6 @@ from textual.widgets import (
     TabPane,
     Tabs,
 )
-from textual.widgets._list_item import ListItem
 from textual.widgets.selection_list import Selection
 from textual_fspicker import FileOpen, SelectDirectory
 from upath import UPath

@@ -69,7 +69,7 @@ def main(page: ft.Page) -> None:
         for middleware_id in middleware_manager.plugin_registry
     }
 
-    def build_options(option_class: BaseModel) -> list[ft.Control]:
+    def build_options(option_class: type[BaseModel]) -> list[ft.Control]:
         fields = []
         for option_key, field_info in option_class.model_fields.items():
             default_value = None if field_info.default is PydanticUndefined else field_info.default

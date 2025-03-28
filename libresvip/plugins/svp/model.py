@@ -510,7 +510,7 @@ class SVParameters(BaseModel):
 
     def __add__(self, offset: int) -> SVParameters:
         new_params = self.model_copy(deep=True)
-        for key in new_params.model_fields:
+        for key in type(self).model_fields:
             if (val := getattr(new_params, key, None)) is not None:
                 setattr(new_params, key, val + offset)
         return new_params

@@ -647,7 +647,7 @@ class TaskManager(QObject):
         return result
 
     @staticmethod
-    def inspect_fields(option_class: BaseModel) -> list[dict[str, Any]]:
+    def inspect_fields(option_class: type[BaseModel]) -> list[dict[str, Any]]:
         fields = []
         for i, (option_key, field_info) in enumerate(option_class.model_fields.items()):
             default_value = None if field_info.default is PydanticUndefined else field_info.default

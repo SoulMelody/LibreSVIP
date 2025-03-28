@@ -11,7 +11,7 @@ from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 
-def prompt_fields(option_class: BaseModel) -> dict[str, Any]:
+def prompt_fields(option_class: type[BaseModel]) -> dict[str, Any]:
     option_kwargs = {}
     if hasattr(option_class, "model_fields"):
         for i, (option_key, field_info) in enumerate(option_class.model_fields.items()):
