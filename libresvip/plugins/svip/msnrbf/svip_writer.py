@@ -7,7 +7,8 @@ import math
 import pathlib
 from collections import defaultdict
 from queue import Queue
-from typing import Any, Union, cast, get_args, get_origin
+from types import UnionType
+from typing import Any, cast, get_args, get_origin
 
 from construct import Container, ListContainer
 
@@ -277,7 +278,7 @@ class SvipWriter(NrbfIOBase):
                         if dataclasses.is_dataclass(field_args[0]):
                             subcon_class_name = inspect.getdoc(field_args[0])
                     elif (
-                        field_origin == Union
+                        field_origin == UnionType
                         and len(field_args) == 2
                         and issubclass(field_args[-1], type(None))
                     ):
@@ -446,7 +447,7 @@ class SvipWriter(NrbfIOBase):
                         if dataclasses.is_dataclass(field_args[0]):
                             subcon_class_name = inspect.getdoc(field_args[0])
                     elif (
-                        field_origin == Union
+                        field_origin == UnionType
                         and len(field_args) == 2
                         and issubclass(field_args[-1], type(None))
                     ):
