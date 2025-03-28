@@ -90,9 +90,12 @@ Page {
                     this.checked = field.value;
                 }
                 onCheckedChanged: {
-                    list_model.update(index, {
-                        value: this.checked
-                    });
+                    let new_field = list_model.get(index);
+                    if (field.title === new_field.title) {
+                        list_model.update(index, {
+                            value: this.checked
+                        });
+                    }
                 }
             }
             Rectangle {
