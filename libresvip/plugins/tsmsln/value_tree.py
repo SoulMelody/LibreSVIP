@@ -1,6 +1,6 @@
 import math
 import struct
-from typing import BinaryIO, TypeAlias
+from typing import Any, BinaryIO, TypeVar
 
 import more_itertools
 from construct import (
@@ -28,7 +28,7 @@ from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 Variant = bool | int | float | str | bytes | list["Variant"]
-NodeType: TypeAlias = "Node"
+NodeType = TypeVar("NodeType", bound="Node[Any]")
 Node = dict[str, Variant | NodeType | list[NodeType]]
 
 JUCEVarTypes = CSEnum(
@@ -118,8 +118,8 @@ def build_variant(variant: Container) -> Variant:
     return variant.value
 
 
-def build_tree_dict(node: Container) -> Node:
-    attr_dict: Node = {
+def build_tree_dict(node: Container) -> Node[Any]:
+    attr_dict: Node[Any] = {
         attr.name: (
             build_tree_dict(JUCENode.parse(attr.data.value))
             if isinstance(attr.data.value, bytes)
@@ -131,7 +131,7 @@ def build_tree_dict(node: Container) -> Node:
         (build_tree_dict(child) for child in node.children),
         key=lambda item: next(iter(item.keys())),
     )
-    children_dict: Node = {
+    children_dict: Node[Any] = {
         key: [next(iter(item.values())) for item in buckets[key]] for key in buckets
     }
     return {node.name: children_dict | attr_dict}
