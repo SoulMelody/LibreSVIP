@@ -46,6 +46,7 @@ pysubs2==1.8.0
 python-dotenv==1.1.0
 pyyaml==6.0.2
 pyzipper==0.3.6
+pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 regex==2024.11.6
 repath==0.9.0
 retrie==0.3.1
@@ -63,3 +64,4 @@ win32-setctime==1.2.0 ; sys_platform == 'win32'
 xsdata==24.12
 xsdata-pydantic==24.5
 zhon==2.1.1
+zstandard==0.23.0 ; platform_python_implementation == 'CPython'
