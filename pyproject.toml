@@ -102,7 +102,7 @@ desktop = [
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.28.1",
   "desktop-notifier>=6.0.0; platform_python_implementation == \"CPython\"",
-  "winrt-runtime==2.3.0; platform_python_implementation == \"CPython\" and sys_platform == \"win32\"",
+  "winrt-runtime==3.0.0; platform_python_implementation == \"CPython\" and sys_platform == \"win32\"",
   "libresvip[upath]",
 ]
 
