@@ -22,7 +22,7 @@ drawsvg==2.4.0
 exceptiongroup==1.2.2 ; python_full_version < '3.11'
 fastapi==0.115.12
 frozenlist==1.5.0
-fsspec==2025.3.0
+fsspec==2025.3.1
 h11==0.14.0
 httpcore==1.0.7
 httpx==0.28.1
@@ -72,7 +72,7 @@ pyobjc-framework-cocoa==11.0 ; sys_platform == 'darwin'
 pyobjc-framework-quartz==11.0 ; sys_platform == 'darwin'
 pyobjc-framework-security==11.0 ; sys_platform == 'darwin'
 pyobjc-framework-webkit==11.0 ; sys_platform == 'darwin'
-pypinyin==0.53.0
+pypinyin==0.54.0
 pysubs2==1.8.0
 python-dotenv==1.1.0
 python-engineio==4.11.2
