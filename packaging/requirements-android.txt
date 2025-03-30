@@ -48,7 +48,7 @@ pyzipper==0.3.6
 pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 repath==0.9.0
 retrie==0.3.1
-rich==13.9.4
+rich==14.0.0
 ruamel-yaml==0.18.10
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 six==1.17.0

@@ -88,7 +88,7 @@ qtpy==2.4.3 ; sys_platform == 'openbsd6'
 repro-zipfile==0.4.0 ; python_full_version < '3.11'
 requests==2.32.3
 retrie==0.3.1
-rich==13.9.4
+rich==14.0.0
 ruamel-yaml==0.18.10
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 setuptools==78.1.0
