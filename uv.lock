@@ -1581,7 +1581,7 @@ requires-dist = [
     { name = "pydantic-extra-types", specifier = ">=2.10.3,<3.0.0" },
     { name = "pydantic-settings", extras = ["yaml"], specifier = ">=2.8.1,<3.0.0" },
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = ">=7.0.1,<7.0.2" },
-    { name = "pypinyin", specifier = ">=0.53.0,<1.0.0" },
+    { name = "pypinyin", specifier = ">=0.54.0,<1.0.0" },
     { name = "pyside6", marker = "extra == 'desktop'", specifier = ">=6.8.3,<6.8.4" },
     { name = "pysubs2", specifier = ">=1.8.0,<2.0.0" },
     { name = "pyzipper", marker = "extra == 'crypto'", specifier = ">=0.3.6" },
@@ -3001,11 +3001,11 @@ wheels = [
 
 [[package]]
 name = "pypinyin"
-version = "0.53.0"
+version = "0.54.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b8/2d/58c9e7d0825d834fc5ac62a340640953d39a80e78cba70eb73d3bad5b4be/pypinyin-0.53.0.tar.gz", hash = "sha256:a2d39ddc2bd31b55897bbb10d2e11a0c4d399988a97c00ad489c151afd9b106d", size = 824458 }
+sdist = { url = "https://files.pythonhosted.org/packages/c9/7f/81cb5416ddacfeccca8eeedcd3543a72b093b26d9c4ca7bde8beea733e4e/pypinyin-0.54.0.tar.gz", hash = "sha256:9ab0d07ff51d191529e22134a60e109d0526d80b7a80afa73da4c89521610958", size = 837455 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b1/af/a1f9ee31b860ea55985a743b53fc06e61fe156bc1a9d64d94a81afa80470/pypinyin-0.53.0-py2.py3-none-any.whl", hash = "sha256:a906768919da3c31771f2c5e0e5a759214dc38d0087e15e6ff67649e03df8097", size = 834720 },
+    { url = "https://files.pythonhosted.org/packages/b6/ec/2c04ac863e7a85bb68b0b655cec2f19853d51d305ce3d785848db6037b8d/pypinyin-0.54.0-py2.py3-none-any.whl", hash = "sha256:5f776f19b9fd922e4121a114810b22048d90e6e8037fb1c07f4c40f987ae6e7a", size = 837012 },
 ]
 
 [[package]]
