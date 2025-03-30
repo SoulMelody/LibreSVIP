@@ -51,7 +51,7 @@ dependencies = [
   "pysubs2<2.0.0,>=1.8.0",
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
-  "rich<14.0.0,>=13.9.4",
+  "rich<14.0.1,>=14.0.0",
   "tatsu-lts>=5.13.1",
   "typer-slim<1.0.0,>=0.15.2",
   "wanakana-python",
