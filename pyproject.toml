@@ -40,7 +40,6 @@ dependencies = [
   "mido-fix",
   "more-itertools<11.0.0,>=10.6.0",
   "packaging<24.3,>=24.2",
-  "parsimonious<0.11.0,>=0.10.0",
   "platformdirs<5.0.0,>=4.3.7",
   "portion<3.0.0,>=2.6.0",
   "proto-plus<2.0.0,>=1.26.1",
@@ -53,6 +52,7 @@ dependencies = [
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.0,>=13.9.4",
+  "tatsu-lts>=5.13.1",
   "typer-slim<1.0.0,>=0.15.2",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
@@ -121,7 +121,6 @@ linting = [
   "sourcery>=1.35.0",
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2025.3.30",
-  "types-parsimonious>=0.10.0.20240331",
   "types-pyyaml>=6.0.12.20250326",
   "types-ujson>=5.10.0.20250326",
 ]

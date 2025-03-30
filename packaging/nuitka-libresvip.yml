@@ -16,10 +16,10 @@
       - .drawsvg
       - .jinja2
       - .mido_fix
-      - .parsimonious
       - .proto
       - .pysubs2
       - .pyzipper
+      - .tatsu
       - .xsdata_pydantic
 
 - module-name: xsdata

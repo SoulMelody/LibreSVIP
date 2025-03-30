@@ -36,7 +36,7 @@ a = Analysis(
         "jyutping",
         "ko_pron",
         "mido_fix",
-        "parsimonious",
+        "tatsu",
         "portion",
         "proto",
         "pypinyin",

@@ -1,122 +1,117 @@
-import ast
 from typing import Any, Literal
 
-from parsimonious import Grammar, NodeVisitor
-from parsimonious.nodes import Node
+import tatsu
 from pydantic import BaseModel, Field
+from tatsu.objectmodel import Node
+from tatsu.walkers import NodeWalker
 
 from .constants import MAX_ACCEPTED_BPM
 
-ust_grammar = Grammar(
-    r"""
-    ust_project =
-        ust_header?
-        ust_setting_section
-        ust_track*
-        newline*
-
-    ust_header =
-        "[#VERSION]"
-        newline "UST Version" "="? float
-        (newline "Charset" "=" value)?
-
-    ust_setting_section =
-        newline? "[#SETTING]"
-        (newline ust_setting_line)*
-
-    ust_time_signature =
-        "(" int "/" int  "/" int ")"
-
-    ust_setting_line =
-        ("UstVersion" "=" float) /
-        ("Tempo" "=" value) /
-        ("TimeSignatures" "=" ust_time_signature ("," ust_time_signature)* ","?) /
-        ("Tracks" "=" int) /
-        (~"Project(Name)?" "=" value) /
-        ("VoiceDir" "=" value) /
-        ("OutFile" "=" value) /
-        ("CacheDir" "=" value) /
-        ("Tool1" "=" value) /
-        ("Tool2" "=" value) /
-        ("Mode2" "=" bool) /
-        ("Autoren" "=" bool) /
-        ("MapFirst" "=" bool) /
-        ("Flags" "=" value)
-
-    ust_track =
-        ust_note*
-        (newline ust_track_end)?
-
-    ust_note =
-        newline ust_note_head
-        (newline ust_note_attr " "*)*
-
-    ust_note_head =
-        "[#" ~"(\\d+|PREV|NEXT|INSERT|DELETE)" "]"
-
-    ust_track_end = "[#TRACKEND]"
-
-    ust_tag_entry = ust_note_head / ust_track_end
-
-    utau_pitch_bend_mode =
-        "s" / "r" / "j" / "null" / ""
-
-    ust_pitch_bend_type =
-        "5" / "OldData"
-
-    ust_note_attr =
-        ("Length" "=" float) /
-        ("Duration" "=" float) /
-        ("Lyric" "=" value) /
-        ("NoteNum" "=" int) /
-        ("Delta" "=" int) /
-        ("PreUtterance" "=" value) /
-        ("VoiceOverlap" "=" float) /
-        ("Intensity" "=" float) /
-        (~"Modulation|Moduration" "=" float) /
-        ("StartPoint" "=" float) /
-        ("Envelope" "=" ust_envelope) /
-        ("Tempo" "=" value) /
-        ("Velocity" "=" float) /
-        ("Label" "=" value) /
-        ("Flags" "=" value) /
-        ("PBType" "=" ust_pitch_bend_type) /
-        ("PBStart" "=" float) /
-        (~"Piches|Pitches|PitchBend" "=" int ("," int)* ) /
-        ("PBS" "=" optional_float (~";|," optional_float)*) /
-        ("PBW" "=" optional_float ("," optional_float)*) /
-        ("PBY" "=" optional_float ("," optional_float)*) /
-        ("VBR" "=" optional_float ("," optional_float)*) /
-        ("PBM" "=" utau_pitch_bend_mode ("," utau_pitch_bend_mode)* ) /
-        ("stptrim" "=" float) /
-        ("layer" "=" int) /
-        ("@preuttr" "=" float) /
-        ("@overlap" "=" float) /
-        ("@stpoint" "=" float) /
-        ("@filename" "=" value) /
-        ("@alias" "=" value) /
-        ("@cache" "=" value) /
-        (~"\\$?[^=\r\n]+" "=" value) /
-        (!ust_tag_entry value)
-
-    ust_envelope =
-        float ("," float){6}
-        (
-            (",%," float? ("," float? ("," float?)?)?) /
-            (",," float) /
-            ",%" /
-            ("," float)*
-        )
-
-    value = ~"[^\r\n]*"
-    newline = ~"\r?\n"
-    bool = "1" / "0" / "True" / "False"
-    optional_float = float / "null" / ""
-    float = ((int "."? digit*) / ("-"? "." digits)) (~"[eE][+-]?" digits)?
-    int = "-"? digits
-    digits = digit+
-    digit = ~"[0-9]"
+ust_grammar = tatsu.compile(
     """
+    @@grammar::Ust
+    @@whitespace :: None
+
+    ust_project::ust_project
+        =
+        header:[ust_header]
+        setting_section:ust_setting_section
+        tracks:{ust_track}* {newline}* $;
+    ust_header::ust_header
+        =
+        "[#VERSION]" newline
+        "UST Version" ["="] ust_version:float
+        [newline "Charset" "=" charset:value] ;
+    ust_setting_section::ust_setting_section
+        = [newline]
+        "[#SETTING]"
+        setting_lines:{newline ust_setting_line}* ;
+    ust_setting_line::ust_setting_line
+        =
+        (key:"UstVersion" "=" value:float)
+        | (key:"Tempo" "=" value:value)
+        | (key:"TimeSignatures" "=" value:(ust_time_signature {"," ust_time_signature}*) [","])
+        | (key:"Tracks" "=" value:int)
+        | (key:?"Project(Name)?" "=" value:value)
+        | (key:"VoiceDir" "=" value:value)
+        | (key:"OutFile" "=" value:value)
+        | (key:"CacheDir" "=" value:value)
+        | (key:"Tool1" "=" value:value)
+        | (key:"Tool2" "=" value:value)
+        | (key:"Mode2" "=" value:bool)
+        | (key:"Autoren" "=" value:bool)
+        | (key:"MapFirst" "=" value:bool)
+        | (key:"Flags" "=" value:value) ;
+    ust_time_signature::ust_time_signature
+        =
+        "(" numerator:int
+        "/" denominator:int
+        "/" bar_index:int ")" ;
+    ust_track
+        = notes:{ust_note}* [newline ust_track_end] ;
+    ust_note::ust_note
+        =
+        newline head:ust_note_head
+        attrs:{newline ust_note_attr {" "}*}* ;
+    ust_note_head
+        = "[#" note_type:?"(\\d+|PREV|NEXT|INSERT|DELETE)" "]" ;
+    ust_track_end
+        = "[#TRACKEND]" ;
+    utau_pitch_bend_mode::utau_pitch_bend_mode
+        = "s" | "r" | "j" | "null" | () ;
+    ust_pitch_bend_type
+        = "5" | "OldData" ;
+    ust_note_attr
+        =
+        (key:"Length" "=" value:float)
+        | (key:"Duration" "=" value:float)
+        | (key:"Lyric" "=" value:value)
+        | (key:"NoteNum" "=" value:int)
+        | (key:"Delta" "=" value:int)
+        | (key:"PreUtterance" "=" value:value)
+        | (key:"VoiceOverlap" "=" value:float)
+        | (key:"Intensity" "=" value:float)
+        | (key:?"Modulation|Moduration" "=" value:float)
+        | (key:"StartPoint" "=" value:float)
+        | (key:"Envelope" "=" value:ust_envelope)
+        | (key:"Tempo" "=" value:value)
+        | (key:"Velocity" "=" value:float)
+        | (key:"Label" "=" value:value)
+        | (key:"Flags" "=" value:value)
+        | (key:"PBType" "=" value:ust_pitch_bend_type)
+        | (key:"PBStart" "=" value:float)
+        | (key:?"Piches|Pitches|PitchBend" "=" value:(int {"," int}*) )
+        | (key:"PBS" "=" value:(optional_float {?";|," optional_float}*))
+        | (key:"PBW" "=" value:(optional_float {"," optional_float}*))
+        | (key:"PBY" "=" value:(optional_float {"," optional_float}*))
+        | (key:"VBR" "=" value:(optional_float {"," optional_float}*))
+        | (key:"PBM" "=" value:(utau_pitch_bend_mode {"," utau_pitch_bend_mode}*))
+        | (key:"stptrim" "=" value:float)
+        | (key:"layer" "=" value:int)
+        | (key:"@preuttr" "=" value:float)
+        | (key:"@overlap" "=" value:float)
+        | (key:"@stpoint" "=" value:float)
+        | (key:"@filename" "=" value:value)
+        | (key:"@alias" "=" value:value)
+        | (key:"@cache" "=" value:value)
+        | (key:/\\$?[^=\r\n]+/ "=" value:value)
+        | (!(ust_note_head | ust_track_end) key:() value:value) ;
+    ust_envelope::ust_envelope
+        = p1:float "," p2:float "," p3:float "," v1:float "," v2:float "," v3:float "," v4:float
+        (
+            ",%," p4:[float] ["," p5:[float] ["," v5:[float]]] |
+            ",," p4:float |
+            ",%" |
+            other_points:{"," float}*
+        ) ;
+    value = /[^\r\n]*/ ;
+    newline = /\r?\n/ ;
+    bool::bool = "1" | "0" | "True" | "False" ;
+    optional_float::optional_float = float | "null" | () ;
+    float::float = /[-]?(?:(?:\\d+(?:\\.\\d*)?)|(?:\\.\\d+))(?:[eE][-+]?\\d+)?/ ;
+    int::int = /[-]?[0-9]+/ ;
+    """,
+    asmodel=True,
 )
 
 UTAUPitchBendMode = Literal["s", "r", "j", ""]
@@ -214,227 +209,180 @@ class UTAUProject(BaseModel):
     track: list[UTAUTrack] = Field(default_factory=list)
 
 
-class UstVisitor(NodeVisitor):
-    def __init__(self) -> None:
-        super().__init__()
-        self.pending_metadata: dict[str, Any] = {}
-        self.pending_note_attrs: dict[str, Any] = {}
-        self.pending_notes: list[UTAUNote] = []
+class UstWalker(NodeWalker):
+    def walk_ust_project(self, node: Node) -> bool:
+        pending_metadata: dict[str, Any] = {"track": []}
+        if node.header is not None:
+            pending_metadata["ust_version"] = node.header.ust_version
+            pending_metadata["charset"] = node.header.charset
+        for each in node.setting_section.setting_lines:
+            line = each[1]
+            match line.key:
+                case "Tempo":
+                    if (tempo_value := self.tempo2bpm(line.value)) < MAX_ACCEPTED_BPM:
+                        pending_metadata["tempo"] = tempo_value
+                case "UstVersion":
+                    pending_metadata["ust_version"] = line.value
+                case "Tracks":
+                    pending_metadata["track_count"] = line.value
+                case "Project" | "ProjectName":
+                    pending_metadata["project_name"] = line.value
+                case "Mode2":
+                    pending_metadata["pitch_mode2"] = self.walk(line.value)
+                case "VoiceDir":
+                    pending_metadata["voice_dir"] = line.value
+                case "OutFile":
+                    pending_metadata["out_file"] = line.value
+                case "CacheDir":
+                    pending_metadata["cache_dir"] = line.value
+                case "Tool1":
+                    pending_metadata["tool1"] = line.value
+                case "Tool2":
+                    pending_metadata["tool2"] = line.value
+                case "Autoren":
+                    pending_metadata["autoren"] = self.walk(line.value)
+                case "MapFirst":
+                    pending_metadata["map_first"] = self.walk(line.value)
+                case "Flags":
+                    pending_metadata["flags"] = line.value
+                case "TimeSignatures":
+                    values = self.walk(line.value)
+                    pending_metadata["time_signatures"] = [
+                        values[0],
+                        *(each[1] for each in values[1]),
+                    ]
+        for track in node.tracks:
+            if ust_track := self.walk(track):
+                pending_metadata["track"].append(ust_track)
+        return UTAUProject(**pending_metadata)
 
+    def walk_ust_time_signature(self, node: Node) -> UTAUTimeSignature:
+        return UTAUTimeSignature(
+            numerator=node.numerator, denominator=node.denominator, bar_index=node.bar_index
+        )
+
+    def walk_ust_envelope(self, node: Node) -> UTAUEnvelope:
+        extra_kwargs = {}
+        if hasattr(node, "p4"):
+            extra_kwargs["p4"] = node.p4
+        if hasattr(node, "p5"):
+            extra_kwargs["p5"] = node.p5
+        if hasattr(node, "v5"):
+            extra_kwargs["v5"] = node.v5
+        if hasattr(node, "other_points"):
+            extra_kwargs["other_points"] = [i[1] for i in node.other_points]
+        return UTAUEnvelope(
+            p1=node.p1,
+            p2=node.p2,
+            p3=node.p3,
+            v1=node.v1,
+            v2=node.v2,
+            v3=node.v3,
+            v4=node.v4,
+            **extra_kwargs,
+        )
+
+    #     return envelope
     @staticmethod
     def tempo2bpm(tempo: str) -> float:
         return float(tempo.replace(",", "."))
 
-    def visit_ust_project(self, node: Node, visited_children: list[Any]) -> UTAUProject:
-        self.pending_metadata["track"] = [
-            track for track in visited_children[2] if track is not None
-        ]
-        return UTAUProject(**self.pending_metadata)
+    def walk_optional_float(self, node: Node) -> OptionalFloat:
+        return node.ast if isinstance(node.ast, float) else ""
 
-    def visit_ust_header(self, node: Node, visited_children: list[Any]) -> None:
-        self.pending_metadata["ust_version"] = visited_children[4]
-        if isinstance(visited_children[-1], list):
-            self.pending_metadata["charset"] = visited_children[-1][-1][-1]
+    def walk_utau_pitch_bend_mode(self, node: Node) -> UTAUPitchBendMode:
+        return node.ast if node.ast in ["s", "r", "j"] else ""
 
-    def visit_ust_setting_line(self, node: Node, visited_children: list[Any]) -> None:
-        key = visited_children[0][0].text
-        match key:
-            case "Tempo":
-                if (tempo_value := self.tempo2bpm(visited_children[0][2])) < MAX_ACCEPTED_BPM:
-                    self.pending_metadata["tempo"] = tempo_value
-            case "UstVersion":
-                self.pending_metadata["ust_version"] = visited_children[0][2]
-            case "Tracks":
-                self.pending_metadata["track_count"] = visited_children[0][2]
-            case "Project" | "ProjectName":
-                self.pending_metadata["project_name"] = visited_children[0][2]
-            case "Mode2":
-                self.pending_metadata["pitch_mode2"] = visited_children[0][2]
-            case "VoiceDir":
-                self.pending_metadata["voice_dir"] = visited_children[0][2]
-            case "OutFile":
-                self.pending_metadata["out_file"] = visited_children[0][2]
-            case "CacheDir":
-                self.pending_metadata["cache_dir"] = visited_children[0][2]
-            case "Tool1":
-                self.pending_metadata["tool1"] = visited_children[0][2]
-            case "Tool2":
-                self.pending_metadata["tool2"] = visited_children[0][2]
-            case "Autoren":
-                self.pending_metadata["autoren"] = visited_children[0][2]
-            case "MapFirst":
-                self.pending_metadata["map_first"] = visited_children[0][2]
-            case "Flags":
-                self.pending_metadata["flags"] = visited_children[0][2]
-            case "TimeSignatures":
-                numerator, denominator, bar_index = visited_children[0][2][1::2]
-                self.pending_metadata["time_signatures"] = [
-                    UTAUTimeSignature(
-                        numerator=numerator,
-                        denominator=denominator,
-                        bar_index=bar_index,
-                    )
-                ]
-                for pair in visited_children[0][3]:
-                    numerator, denominator, bar_index = pair[1][1::2]
-                    self.pending_metadata["time_signatures"].append(
-                        UTAUTimeSignature(
-                            numerator=numerator,
-                            denominator=denominator,
-                            bar_index=bar_index,
-                        )
-                    )
+    def walk_ust_track(self, node: Node) -> UTAUTrack | None:
+        if ust_notes := [self.walk(i) for i in node.notes]:
+            return UTAUTrack(notes=ust_notes)
 
-    def visit_ust_envelope(self, node: Node, visited_children: list[Any]) -> UTAUEnvelope:
-        kwargs = {"p1": visited_children[0]}
-        (
-            kwargs["p2"],
-            kwargs["p3"],
-            kwargs["v1"],
-            kwargs["v2"],
-            kwargs["v3"],
-            kwargs["v4"],
-        ) = (pair[1] for pair in visited_children[1][:6])
-        if isinstance(visited_children[2][0], list):
-            if isinstance(visited_children[2][0][0], list):
-                kwargs["other_points"] = [pair[1] for pair in visited_children[2][0]]
-            elif visited_children[2][0][0].text == ",,":
-                kwargs["p4"] = visited_children[2][0][1]
-            elif visited_children[2][0][0].text == ",%,":
-                if isinstance(visited_children[2][0][1], list):
-                    kwargs["p4"] = visited_children[2][0][1][0]
-                if isinstance(visited_children[2][0][2], list):
-                    if isinstance(visited_children[2][0][2][0][1], list):
-                        kwargs["p5"] = visited_children[2][0][2][0][1][0]
-                    if isinstance(visited_children[2][0][2][0][2], list) and isinstance(
-                        visited_children[2][0][2][0][2][0][1], list
-                    ):
-                        kwargs["v5"] = visited_children[2][0][2][0][2][0][1][0]
-        return UTAUEnvelope(**kwargs)
-
-    def visit_value(self, node: Node, visited_children: list[Any]) -> str:
-        return node.text
-
-    def visit_utau_pitch_bend_mode(self, node: Node, visited_children: list[Any]) -> str:
-        return "" if node.text == "null" else node.text
-
-    def visit_ust_pitch_bend_type(self, node: Node, visited_children: list[Any]) -> str:
-        return node.text
-
-    def visit_ust_note_attr(self, node: Node, visited_children: list[Any]) -> None:
-        key = visited_children[0][0].text
-        match key:
-            case "Length":
-                self.pending_note_attrs["length"] = visited_children[0][2]
-            case "Lyric":
-                self.pending_note_attrs["lyric"] = visited_children[0][2]
-            case "NoteNum":
-                self.pending_note_attrs["note_num"] = visited_children[0][2]
-            case "Tempo":
-                self.pending_note_attrs["tempo"] = self.tempo2bpm(visited_children[0][2])
-            case "PBType":
-                self.pending_note_attrs["pitchbend_type"] = visited_children[0][2]
-            case "PBStart":
-                self.pending_note_attrs["pitchbend_start"] = visited_children[0][2]
-            case "Modulation" | "Moduration":
-                self.pending_note_attrs["modulation"] = visited_children[0][2]
-            case "Envelope":
-                self.pending_note_attrs["envelope"] = visited_children[0][2]
-            case "Flags":
-                self.pending_note_attrs["flags"] = visited_children[0][2]
-            case "Intensity":
-                self.pending_note_attrs["intensity"] = visited_children[0][2]
-            case "Velocity":
-                self.pending_note_attrs["velocity"] = visited_children[0][2]
-            case "PreUtterance":
-                self.pending_note_attrs["pre_utterance"] = visited_children[0][2]
-            case "StartPoint":
-                self.pending_note_attrs["start_point"] = visited_children[0][2]
-            case "Delta":
-                self.pending_note_attrs["delta"] = visited_children[0][2]
-            case "Duration":
-                self.pending_note_attrs["duration"] = visited_children[0][2]
-            case "VoiceOverlap":
-                self.pending_note_attrs["voice_overlap"] = visited_children[0][2]
-            case "Label":
-                self.pending_note_attrs["label"] = visited_children[0][2]
-            case "Piches" | "Pitches" | "PitchBend":
-                self.pending_note_attrs["pitch_bend_points"] = [visited_children[0][2]]
-                if isinstance(visited_children[0][3], list):
-                    self.pending_note_attrs["pitch_bend_points"].extend(
-                        [pair[1] for pair in visited_children[0][3]]
-                    )
-            case "PBS" | "PBM" | "PBW" | "PBY":
-                self.pending_note_attrs[key.lower()] = [visited_children[0][2]]
-                if isinstance(visited_children[0][3], list):
-                    self.pending_note_attrs[key.lower()].extend(
-                        [pair[1] for pair in visited_children[0][3]]
-                    )
-            case "VBR":
-                vibrato_kwargs = {"length": visited_children[0][2]}
-                for i, pair in enumerate(visited_children[0][3]):
-                    if isinstance(pair[1], float):
-                        if i == 0:
-                            vibrato_kwargs["period"] = pair[1]
-                        elif i == 1:
-                            vibrato_kwargs["depth"] = pair[1]
-                        elif i == 2:
-                            vibrato_kwargs["fade_in"] = pair[1]
-                        elif i == 3:
-                            vibrato_kwargs["fade_out"] = pair[1]
-                        elif i == 4:
-                            vibrato_kwargs["phase_shift"] = pair[1]
-                        elif i == 5:
-                            vibrato_kwargs["shift"] = pair[1]
-                self.pending_note_attrs["vbr"] = UtauNoteVibrato(**vibrato_kwargs)
-            case "stptrim":
-                self.pending_note_attrs["stp_trim"] = visited_children[0][2]
-            case "layer":
-                self.pending_note_attrs["layer"] = visited_children[0][2]
-            case "@preuttr":
-                self.pending_note_attrs["at_preutterance"] = visited_children[0][2]
-            case "@overlap":
-                self.pending_note_attrs["at_overlap"] = visited_children[0][2]
-            case "@stpoint":
-                self.pending_note_attrs["at_start_point"] = visited_children[0][2]
-            case "@filename":
-                self.pending_note_attrs["sample_filename"] = visited_children[0][2]
-            case "@alias":
-                self.pending_note_attrs["alias"] = visited_children[0][2]
-            case "@cache":
-                self.pending_note_attrs["cache_location"] = visited_children[0][2]
-            # case _: # ignored
-
-    def visit_ust_note_head(self, node: Node, visited_children: list[Any]) -> None:
-        if len(self.pending_note_attrs):
-            self.pending_notes.append(UTAUNote(**self.pending_note_attrs))
-            self.pending_note_attrs = {}
-        self.pending_note_attrs["note_type"] = visited_children[1].text
-
-    def visit_ust_track(self, node: Node, visited_children: list[Any]) -> UTAUTrack | None:
-        if len(self.pending_note_attrs):
-            self.pending_notes.append(UTAUNote(**self.pending_note_attrs))
-            self.pending_note_attrs = {}
-        if len(self.pending_notes):
-            ust_track = UTAUTrack(notes=self.pending_notes)
-            self.pending_notes = []
-            return ust_track
-
-    def visit_bool(self, node: Node, visited_children: list[Any]) -> bool:
-        return ast.literal_eval(node.text)
-
-    def visit_int(self, node: Node, visited_children: list[Any]) -> int:
-        return int(node.text)
-
-    def visit_float(self, node: Node, visited_children: list[Any]) -> float:
-        return float(node.text)
-
-    def visit_optional_float(self, node: Node, visited_children: list[Any]) -> OptionalFloat:
-        return (
-            visited_children[0]
-            if len(visited_children) == 1 and isinstance(visited_children[0], float)
-            else ""
-        )
-
-    def generic_visit(self, node: Node, visited_children: list[Any]) -> Any:
-        return visited_children or node
+    def walk_ust_note(self, node: Node) -> UTAUNote:
+        pending_note_attrs = {}
+        pending_note_attrs["note_type"] = node.head.note_type
+        for each in node.attrs:
+            attr = each[1]
+            match attr.key:
+                case "Length":
+                    pending_note_attrs["length"] = attr.value
+                case "Lyric":
+                    pending_note_attrs["lyric"] = attr.value
+                case "NoteNum":
+                    pending_note_attrs["note_num"] = attr.value
+                case "Tempo":
+                    pending_note_attrs["tempo"] = self.tempo2bpm(attr.value)
+                case "PBType":
+                    pending_note_attrs["pitchbend_type"] = attr.value
+                case "PBStart":
+                    pending_note_attrs["pitchbend_start"] = attr.value
+                case "Modulation" | "Moduration":
+                    pending_note_attrs["modulation"] = attr.value
+                case "Envelope":
+                    pending_note_attrs["envelope"] = self.walk(attr.value)
+                case "Flags":
+                    pending_note_attrs["flags"] = attr.value
+                case "Intensity":
+                    pending_note_attrs["intensity"] = attr.value
+                case "Velocity":
+                    pending_note_attrs["velocity"] = attr.value
+                case "PreUtterance":
+                    pending_note_attrs["pre_utterance"] = attr.value
+                case "StartPoint":
+                    pending_note_attrs["start_point"] = attr.value
+                case "Delta":
+                    pending_note_attrs["delta"] = attr.value
+                case "Duration":
+                    pending_note_attrs["duration"] = attr.value
+                case "VoiceOverlap":
+                    pending_note_attrs["voice_overlap"] = attr.value
+                case "Label":
+                    pending_note_attrs["label"] = attr.value
+                case "Piches" | "Pitches" | "PitchBend":
+                    pending_note_attrs["pitch_bend_points"] = [
+                        attr.value[0],
+                        *(i[1] for i in attr.value[1]),
+                    ]
+                case "PBS" | "PBM" | "PBW" | "PBY":
+                    pending_note_attrs[attr.key.lower()] = [
+                        self.walk(attr.value[0]),
+                        *(self.walk(i[1]) for i in attr.value[1]),
+                    ]
+                case "VBR":
+                    vibrato_kwargs = {
+                        "length": self.walk(attr.value[0]),
+                    }
+                    for i, v in enumerate(attr.value[1]):
+                        value = self.walk(v[1])
+                        if isinstance(value, float):
+                            if i == 0:
+                                vibrato_kwargs["period"] = value
+                            elif i == 1:
+                                vibrato_kwargs["depth"] = value
+                            elif i == 2:
+                                vibrato_kwargs["fade_in"] = value
+                            elif i == 3:
+                                vibrato_kwargs["fade_out"] = value
+                            elif i == 4:
+                                vibrato_kwargs["phase_shift"] = value
+                            elif i == 5:
+                                vibrato_kwargs["shift"] = value
+                    pending_note_attrs["vibrato"] = UtauNoteVibrato(**vibrato_kwargs)
+                case "stptrim":
+                    pending_note_attrs["stp_trim"] = attr.value
+                case "layer":
+                    pending_note_attrs["layer"] = attr.value
+                case "@preuttr":
+                    pending_note_attrs["at_preutterance"] = attr.value
+                case "@overlap":
+                    pending_note_attrs["at_overlap"] = attr.value
+                case "@stpoint":
+                    pending_note_attrs["at_start_point"] = attr.value
+                case "@filename":
+                    pending_note_attrs["sample_filename"] = attr.value
+                case "@alias":
+                    pending_note_attrs["alias"] = attr.value
+                case "@cache":
+                    pending_note_attrs["cache_location"] = attr.value
+                # case _:
+                #     print(f"Unknown attr: {attr.key} = {attr.value}")
+        return UTAUNote(**pending_note_attrs)

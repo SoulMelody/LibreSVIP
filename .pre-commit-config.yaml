@@ -20,7 +20,6 @@ repos:
           - proto-plus-stubs
           - pydantic
           - types-lxml
-          - types-parsimonious
           - types-pyyaml
           - types-ujson
 

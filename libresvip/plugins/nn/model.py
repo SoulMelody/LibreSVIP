@@ -1,41 +1,67 @@
-from typing import Any
-
-from parsimonious import Grammar, NodeVisitor
-from parsimonious.nodes import Node
+import tatsu
 from pydantic import Field
+from tatsu.objectmodel import Node
+from tatsu.walkers import NodeWalker
 
 from libresvip.model.base import BaseModel
 
-nn_grammar = Grammar(
-    r"""
-    nn_project        =
-        nn_info_line newline
-        int newline
-        (nn_note newline?)*
-        nn_chord?
-        nn_drum?
-
-    nn_chord          =
-        "#CHORD" newline
-        int newline
-        ('[' nn_legacy_points ']' newline)*
-
-    nn_drum           =
-        "#DRUM" newline
-        '[' nn_legacy_points ']' newline
-
-    newline           = ~"\r?\n"
-    nn_time_signature = int " " int
-    nn_info_line      = float ' ' nn_time_signature ' ' int ' ' int ' ' int ' 0 0 0 0'
-    nn_points         = int (',' int)*
-    nn_legacy_points  = int (', ' int)*
-    nn_note           = ' ' word ' ' pinyin ' ' int ' ' int ' ' int ' ' int ' ' int ' ' int ' ' int ' ' int ' ' int ' ' nn_points ' ' nn_points ' ' int
-
-    word              = ~"([\u4e00-\u9fff]|-|[a-z]+)"
-    pinyin            = ~"[a-z-]+"
-    float             = ~"[-+]?(\\d+(\\.\\d*)?|\\.\\d+)"
-    int               = ~"[-+]?\\d+"
+nn_grammar = tatsu.compile(
     """
+    @@grammar::Nn
+    @@whitespace :: None
+
+    nn_project::nn_project
+        =
+        info_line:nn_info_line newline
+        note_count:int newline
+        notes:{nn_note [newline]}*
+        [nn_chord] [nn_drum] ;
+
+    nn_chord
+        = "#CHORD" newline int newline {'[' nn_legacy_points ']' newline}* ;
+    nn_drum
+        = "#DRUM" newline '[' nn_legacy_points ']' newline ;
+    nn_legacy_points  = int {', ' int}* ;
+
+    nn_points::nn_points
+        =
+        point_count:int
+        points:{',' int}* ;
+    nn_note::nn_note
+        =
+        ' ' lyric:word
+        ' ' pronunciation:pinyin
+        ' ' start:int
+        ' ' duration:int
+        ' ' key:int
+        ' ' cle:int
+        ' ' vel:int
+        ' ' por:int
+        ' ' vibrato_length:int
+        ' ' vibrato_depth:int
+        ' ' vibrato_rate:int
+        ' ' dynamics:nn_points
+        ' ' pitch:nn_points
+        ' ' pitch_bend_sensitivity:int ;
+    nn_time_signature::nn_time_signature
+        =
+        numerator:int ' '
+        denominator:int ;
+    nn_info_line::nn_info_line
+        =
+        tempo:float ' '
+        time_signature:nn_time_signature ' '
+        bar_count:int ' '
+        version:int ' '
+        unknown:int ' 0 0 0 0' ;
+
+    newline           = /\r?\n/ ;
+    word              = ?"([\u4e00-\u9fff]|-|[a-z]+)" ;
+    pinyin            = ?"[a-z-]+" ;
+    float::float      = ?"[-+]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)" ;
+    int::int          = ?"[-+]?\\d+" ;
+    """,
+    asmodel=True,
 )
 
 
@@ -80,82 +106,49 @@ class NNProject(BaseModel):
     notes: list[NNNote] = Field(default_factory=list)
 
 
-class NNVisitor(NodeVisitor):
-    def visit_nn_project(self, node: Node, visited_children: list[Any]) -> NNProject:
-        info_line, _, note_count, _, note_pairs, _, _ = visited_children
-        return NNProject(
-            info_line=info_line,
-            note_count=note_count,
-            notes=[note_pair[0] for note_pair in note_pairs],
-        )
+class NnWalker(NodeWalker):
+    def walk_nn_points(self, node: Node) -> NNPoints:
+        return NNPoints(point_count=node.point_count, points=[i[1] for i in node.points])
 
-    def visit_nn_info_line(self, node: Node, visited_children: list[Any]) -> NNInfoLine:
-        tempo, time_signature, bar_count, version, unknown = visited_children[::2]
-        return NNInfoLine(
-            tempo=tempo,
-            time_signature=time_signature,
-            bar_count=bar_count,
-            version=version,
-            unknown=unknown,
-        )
-
-    def visit_nn_time_signature(self, node: Node, visited_children: list[Any]) -> NNTimeSignature:
-        numerator, _, denominator = visited_children
-        return NNTimeSignature(numerator=numerator, denominator=denominator)
-
-    def visit_nn_note(self, node: Node, visited_children: list[Any]) -> NNNote:
-        (
-            lyric,
-            pronunciation,
-            start,
-            duration,
-            key,
-            cle,
-            vel,
-            por,
-            vibrato_length,
-            vibrato_depth,
-            vibrato_rate,
-            dynamics,
-            pitch,
-            pitch_bend_sensitivity,
-        ) = visited_children[1::2]
+    def walk_nn_note(self, node: Node) -> NNNote:
         return NNNote(
-            lyric=lyric,
-            pronunciation=pronunciation,
-            start=start,
-            duration=duration,
-            key=key,
-            cle=cle,
-            vel=vel,
-            por=por,
-            vibrato_length=vibrato_length,
-            vibrato_depth=vibrato_depth,
-            vibrato_rate=vibrato_rate,
-            dynamics=dynamics,
-            pitch=pitch,
-            pitch_bend_sensitivity=pitch_bend_sensitivity,
+            lyric=node.lyric,
+            pronunciation=node.pronunciation,
+            start=node.start,
+            duration=node.duration,
+            key=node.key,
+            cle=node.cle,
+            vel=node.vel,
+            por=node.por,
+            vibrato_length=node.vibrato_length,
+            vibrato_depth=node.vibrato_depth,
+            vibrato_rate=node.vibrato_rate,
+            dynamics=self.walk(node.dynamics),
+            pitch=self.walk(node.pitch),
+            pitch_bend_sensitivity=node.pitch_bend_sensitivity,
         )
 
-    def visit_nn_points(self, node: Node, visited_children: list[Any]) -> NNPoints:
-        point_count, point_node_root = visited_children
-        points = [point_node[-1] for point_node in point_node_root]
-        return NNPoints(point_count=point_count, points=points)
+    def walk_nn_info_line(self, node: Node) -> NNInfoLine:
+        return NNInfoLine(
+            tempo=node.tempo,
+            time_signature=self.walk(node.time_signature),
+            bar_count=node.bar_count,
+            version=node.version,
+            unknown=node.unknown,
+        )
 
-    def visit_word(self, node: Node, visited_children: list[Any]) -> str:
-        return node.text
+    def walk_nn_time_signature(self, node: Node) -> NNTimeSignature:
+        return NNTimeSignature(
+            numerator=node.numerator,
+            denominator=node.denominator,
+        )
 
-    def visit_pinyin(self, node: Node, visited_children: list[Any]) -> str:
-        return node.text
-
-    def visit_int(self, node: Node, visited_children: list[Any]) -> int:
-        return int(node.text)
-
-    def visit_float(self, node: Node, visited_children: list[Any]) -> float:
-        return float(node.text)
-
-    def generic_visit(self, node: Node, visited_children: list[Any]) -> Any:
-        return visited_children or node
+    def walk_nn_project(self, node: Node) -> NNProject:
+        return NNProject(
+            info_line=self.walk(node.info_line),
+            note_count=node.note_count,
+            notes=[n[0] for n in self.walk(node.notes)],
+        )
 
 
-nn_visitor = NNVisitor()
+nn_walker = NnWalker()

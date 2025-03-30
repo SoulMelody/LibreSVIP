@@ -5,7 +5,7 @@ from libresvip.model.base import Project
 from libresvip.model.reset_time_axis import reset_time_axis
 from libresvip.utils.text import to_unicode
 
-from .model import nn_grammar, nn_visitor
+from .model import NnWalker, nn_grammar
 from .niaoniao_generator import NiaoniaoGenerator
 from .niaoniao_parser import NiaoNiaoParser
 from .options import InputOptions, OutputOptions
@@ -15,7 +15,7 @@ from .template import render_nn
 class NiaoNiaoConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         tree = nn_grammar.parse(to_unicode(path.read_bytes()))
-        nn_project = nn_visitor.visit(tree)
+        nn_project = NnWalker().walk(tree)
         return NiaoNiaoParser(options).parse_project(nn_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
