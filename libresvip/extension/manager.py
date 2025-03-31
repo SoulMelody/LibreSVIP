@@ -5,6 +5,7 @@ import dataclasses
 import functools
 import gettext
 import inspect
+import io
 import sys
 from importlib.machinery import (
     PathFinder,
@@ -13,13 +14,14 @@ from importlib.machinery import (
 )
 from importlib.resources import files
 from typing import TYPE_CHECKING, Generic, TypeGuard, cast
+from urllib.parse import urljoin
 
 from loguru import logger
 from typing_extensions import TypeVar
 
 from libresvip.core.config import get_ui_settings, settings
 from libresvip.core.constants import app_dir, pkg_dir, res_dir
-from libresvip.utils.module_loading import import_module
+from libresvip.utils.module_loading import ZipLoader, import_module
 
 from .base import BasePlugin_co, MiddlewareBase, SVSConverterBase
 from .meta_info import (
@@ -205,7 +207,18 @@ def merge_translation(
     lang: str,
 ) -> gettext.NullTranslations:
     msg_dir = resource_dir / "locales" / lang / "LC_MESSAGES"
-    if msg_dir.is_dir():
+    if hasattr(resource_dir, "_spec") and isinstance(resource_dir._spec.loader, ZipLoader):
+        msg_dir = urljoin(resource_dir._spec.origin, f"locales/{lang}/LC_MESSAGES")
+        if child_file_name := next(
+            x
+            for x in resource_dir._spec.loader.zip_file.namelist()
+            if x.endswith(".mo") and x.startswith(msg_dir)
+        ):
+            with io.BytesIO(resource_dir._spec.loader.get_data(child_file_name)) as fp:
+                child_translation = gettext.GNUTranslations(fp)
+                new_translation = copy.copy(ori_translation)
+                new_translation.add_fallback(child_translation)
+    elif msg_dir.is_dir():
         for child_file in msg_dir.iterdir():
             if child_file.name.endswith(".mo"):
                 with child_file.open("rb") as fp:

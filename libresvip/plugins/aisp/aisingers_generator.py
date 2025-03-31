@@ -88,7 +88,7 @@ class AiSingersGenerator:
         for i, time_signature in enumerate(time_signatures):
             if time_signature.bar_index > prev_bar_index and i:
                 cur_tick += prev_bar_length * (time_signature.bar_index - prev_bar_index)
-            tick_indexes.append(cur_tick)
+            tick_indexes.append(int(cur_tick))
             if time_signature.bar_index > prev_bar_index:
                 prev_bar_index = time_signature.bar_index
                 prev_bar_length = time_signature.bar_length()
