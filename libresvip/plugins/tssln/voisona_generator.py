@@ -49,7 +49,7 @@ class VoiSonaGenerator:
         default_time_signatures = self.generate_time_signatures(project.time_signature_list)
         default_tempos = self.generate_tempos(project.song_tempo_list)
         voisona_project.tracks.append(VoiSonaTrack())
-        for i, track in enumerate(project.track_list):
+        for i, track in enumerate(project.track_list, start=1):
             if isinstance(track, InstrumentalTrack):
                 audio_track = VoiSonaAudioTrackItem(
                     name=f"Audio{i}",

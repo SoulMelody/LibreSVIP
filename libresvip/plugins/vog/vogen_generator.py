@@ -38,17 +38,15 @@ class VogenGenerator:
         return f"{time_signature.numerator}/{time_signature.denominator}"
 
     def generate_tracks(self, track_list: list[Track]) -> list[VogenTrack]:
-        tracks = []
-        for i, track in enumerate(track_list):
-            if isinstance(track, SingingTrack):
-                tracks.append(
-                    VogenTrack(
-                        name=track.title,
-                        singer_id=track.ai_singer_name,
-                        notes=self.generate_notes(track.note_list),
-                    )
-                )
-        return tracks
+        return [
+            VogenTrack(
+                name=track.title,
+                singer_id=track.ai_singer_name,
+                notes=self.generate_notes(track.note_list),
+            )
+            for track in track_list
+            if isinstance(track, SingingTrack)
+        ]
 
     def generate_notes(self, note_list: list[Note]) -> list[VogenNote]:
         return [

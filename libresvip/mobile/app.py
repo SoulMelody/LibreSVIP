@@ -589,10 +589,12 @@ def main(page: ft.Page) -> None:
                     )
                     if conversion_mode == "split":
                         output_path.mkdir(parents=True, exist_ok=True)
-                        for i, child_project in enumerate(project.split_tracks(max_track_count)):
+                        for i, child_project in enumerate(
+                            project.split_tracks(max_track_count), start=1
+                        ):
                             output_plugin.plugin_object.dump(
                                 output_path
-                                / f"{list_tile.subtitle.value}_{i + 1:0=2d}.{output_format}",
+                                / f"{list_tile.subtitle.value}_{i:0=2d}.{output_format}",
                                 child_project,
                                 output_option,
                             )

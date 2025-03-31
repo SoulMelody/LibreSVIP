@@ -151,7 +151,7 @@ def split_project(
             typer.echo(option_type)
             option_kwargs = prompt_fields(option_class)
         for i, project in track(
-            enumerate(sub_projects),
+            enumerate(sub_projects, start=1),
             description=_("Converting ..."),
             total=len(sub_projects),
         ):
@@ -162,7 +162,7 @@ def split_project(
             ) in middleware_with_options:
                 project = middleware_func(project, option_class(**option_kwargs))
             output_plugin.plugin_object.dump(
-                out_dir / f"{in_path.stem}_{i + 1:02d}.{output_ext}",
+                out_dir / f"{in_path.stem}_{i:02d}.{output_ext}",
                 project,
                 option_class(**option_kwargs),
             )

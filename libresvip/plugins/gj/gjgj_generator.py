@@ -93,14 +93,11 @@ class GjgjGenerator:
     ) -> tuple[list[GjgjSingingTrack], list[GjgjInstrumentalTrack]]:
         singing_tracks = []
         instrumental_tracks = []
-        track_index = 1
-        for track in track_list:
+        for track_index, track in enumerate(track_list, start=1):
             if isinstance(track, SingingTrack):
                 singing_tracks.append(self.generate_singing_track(track, track_index))
-                track_index += 1
-            elif isinstance(track, InstrumentalTrack):
+            else:
                 instrumental_tracks.append(self.generate_instrumental_track(track, track_index))
-                track_index += 1
         return singing_tracks, instrumental_tracks
 
     def generate_singing_track(self, track: SingingTrack, track_index: int) -> GjgjSingingTrack:

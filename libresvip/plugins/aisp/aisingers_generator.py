@@ -81,17 +81,17 @@ class AiSingersGenerator:
         self, tempos: list[SongTempo], time_signatures: list[TimeSignature]
     ) -> list[AISTempo]:
         ais_tempos = []
+        prev_bar_length = 1920.0
         prev_bar_index = 1
-        cur_tick = 0
+        cur_tick = 0.0
         tick_indexes = []
         for i, time_signature in enumerate(time_signatures):
             if time_signature.bar_index > prev_bar_index and i:
-                cur_tick += time_signature[i - 1].bar_length() * (
-                    time_signature.bar_index - prev_bar_index
-                )
+                cur_tick += prev_bar_length * (time_signature.bar_index - prev_bar_index)
             tick_indexes.append(cur_tick)
             if time_signature.bar_index > prev_bar_index:
                 prev_bar_index = time_signature.bar_index
+                prev_bar_length = time_signature.bar_length()
         for tempo in tempos:
             ts_index = min(
                 bisect.bisect_left(tick_indexes, tempo.position),

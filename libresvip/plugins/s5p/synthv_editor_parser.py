@@ -109,11 +109,11 @@ class SynthVEditorParser:
                 volume=self.parse_volume(track.mixer.gain_decibel),
                 pan=track.mixer.pan,
                 ai_singer_name=track.db_name or "",
-                title=track.name or f"Track {i + 1}",
+                title=track.name or f"Track {i}",
                 note_list=note_list,
                 edited_params=self.parse_params(track.parameters, note_list),
             )
-            for i, track in enumerate(tracks)
+            for i, track in enumerate(tracks, start=1)
             if (note_list := self.parse_notes(track.notes, track.db_defaults))
         ]
 

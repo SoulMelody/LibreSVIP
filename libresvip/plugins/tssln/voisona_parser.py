@@ -62,13 +62,13 @@ class VoiSonaParser:
                     if isinstance(item, VoiSonaAudioTrackItem) and item.audio_event is not None:
                         tracks.extend(
                             InstrumentalTrack(
-                                title=f"{item.name} {i + 1}",
+                                title=f"{item.name} {i}",
                                 audio_file_path=event.path,
                                 offset=int(
                                     self.time_synchronizer.get_actual_ticks_from_secs(event.offset)
                                 ),
                             )
-                            for i, event in enumerate(item.audio_event)
+                            for i, event in enumerate(item.audio_event, start=1)
                         )
         time_signatures = self.merge_time_signatures(time_signatures)
         return Project(

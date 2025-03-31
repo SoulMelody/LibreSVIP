@@ -128,11 +128,11 @@ class DeepVocalParser:
     ) -> list[SingingTrack]:
         track_list = []
         for dv_track in dv_singing_tracks:
-            for i, segment in enumerate(dv_track.segments):
+            for i, segment in enumerate(dv_track.segments, start=1):
                 note_with_pitch: list[DvNoteWithPitch] = []
                 tick_offset = segment.start
                 track = SingingTrack(
-                    title=f"{dv_track.name} {i + 1}",
+                    title=f"{dv_track.name} {i}",
                     mute=dv_track.mute,
                     solo=dv_track.solo,
                     ai_singer_name=segment.singer_name,

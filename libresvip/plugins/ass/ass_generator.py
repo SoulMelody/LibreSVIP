@@ -42,7 +42,7 @@ class AssGenerator:
                 commit_flag = True
             if commit_flag:
                 self.commit_current_lyric_line(lyric_lines, buffer)
-                buffer = []
+                buffer.clear()
         return lyric_lines
 
     def lyric_included(self, lyric: str) -> bool:

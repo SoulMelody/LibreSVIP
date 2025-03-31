@@ -146,9 +146,9 @@ class VocalSharpParser:
         tracks = []
         if self.options.import_instrumental_track:
             for track in track_list:
-                for i, sequence in enumerate(track.sequences):
+                for i, sequence in enumerate(track.sequences, start=1):
                     instrumental_track = InstrumentalTrack(
-                        title=sequence.name or f"{track.name} {i + 1}",
+                        title=sequence.name or f"{track.name} {i}",
                         mute=track.is_mute == "True",
                         solo=track.is_solo == "True",
                         offset=sequence.pos,

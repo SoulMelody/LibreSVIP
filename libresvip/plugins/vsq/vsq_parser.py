@@ -52,7 +52,8 @@ class VsqParser:
             song_tempo_list=song_tempo_list,
             time_signature_list=time_signature_list,
             track_list=[
-                self.parse_track(text, i + 1, tick_prefix) for i, text in enumerate(tracks_as_text)
+                self.parse_track(text, i, tick_prefix)
+                for i, text in enumerate(tracks_as_text, start=1)
             ],
         )
 

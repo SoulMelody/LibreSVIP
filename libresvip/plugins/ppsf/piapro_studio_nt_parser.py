@@ -82,9 +82,9 @@ class PiaproStudioNTParser:
         tracks = []
         if self.options.import_instrumental_track:
             for track in ppsf_audio_tracks:
-                for i, event in enumerate(track.events):
+                for i, event in enumerate(track.events, start=1):
                     instrumental_track = InstrumentalTrack(
-                        title=f"{track.name} {i + 1}",
+                        title=f"{track.name} {i}",
                         audio_file_path=event.file_audio_data.file_path,
                         offset=event.tick_pos,
                     )

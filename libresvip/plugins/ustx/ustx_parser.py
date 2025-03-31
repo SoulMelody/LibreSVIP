@@ -92,9 +92,9 @@ class UstxParser:
                 solo=ustx_track.solo,
                 mute=ustx_track.mute,
                 ai_singer_name=ustx_track.singer or "",
-                title=ustx_track.track_name or f"Track {i + 1}",
+                title=ustx_track.track_name or f"Track {i}",
             )
-            for i, ustx_track in enumerate(tracks)
+            for i, ustx_track in enumerate(tracks, start=1)
         ]
         if self.options.import_pitch:
             for track in track_list:

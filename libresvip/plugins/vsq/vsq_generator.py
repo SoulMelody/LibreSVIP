@@ -140,8 +140,8 @@ class VsqGenerator:
         lyrics_lines = []
         tick_prefix = self.first_bar_length
         tick_lists = [note.start_pos + tick_prefix for note in track.note_list]
-        for i, note in enumerate(track.note_list):
-            number = f"{i + 1}"
+        for i, note in enumerate(track.note_list, start=1):
+            number = str(i)
             notes_lines.extend(
                 [
                     f"[ID#{number.zfill(4)}]",
@@ -194,7 +194,7 @@ class VsqGenerator:
                 result.extend([f"Feder{i}=0", f"Panpot{i}=0", f"Mute{i}=0", f"Solo{i}=0"])
         result.extend(["[EventList]", "0=ID#0000"])
         result.extend(
-            f"{tick}=ID#{str(index + 1).zfill(4)}" for index, tick in enumerate(tick_lists)
+            f"{tick}=ID#{str(index).zfill(4)}" for index, tick in enumerate(tick_lists, start=1)
         )
         result.extend(
             [

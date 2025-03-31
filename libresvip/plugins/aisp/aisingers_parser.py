@@ -94,7 +94,7 @@ class AiSingersParser:
                         audio_file_path=item.path_audio,
                         offset=item.start * 15,
                     )
-                    for i, item in enumerate(ais_track.items)
+                    for i, item in enumerate(ais_track.items, start=1)
                 )
         return track_list
 

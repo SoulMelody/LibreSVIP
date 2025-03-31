@@ -14,11 +14,11 @@ from libresvip.utils.translation import gettext_lazy as _
 def prompt_fields(option_class: type[BaseModel]) -> dict[str, Any]:
     option_kwargs = {}
     if hasattr(option_class, "model_fields"):
-        for i, (option_key, field_info) in enumerate(option_class.model_fields.items()):
+        for i, (option_key, field_info) in enumerate(option_class.model_fields.items(), start=1):
             default_value = None if field_info.default is PydanticUndefined else field_info.default
             if field_info.title is None or field_info.annotation is None:
                 continue
-            translated_title = f"{i + 1}. {{}}".format(_(field_info.title))
+            translated_title = f"{i}. {{}}".format(_(field_info.title))
             if option_key == "lyric_replacement_preset_name":
                 choice = Prompt.ask(
                     translated_title,

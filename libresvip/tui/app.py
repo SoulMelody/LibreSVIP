@@ -604,11 +604,11 @@ class TUIApp(App[None]):
                     if tab_id == "split":
                         output_path.mkdir(parents=True, exist_ok=True)
                         for i, child_project in enumerate(
-                            project.split_tracks(settings.max_track_count)
+                            project.split_tracks(settings.max_track_count), start=1
                         ):
                             output_plugin.plugin_object.dump(
                                 output_path
-                                / f"{task_row.stem}_{i + 1:0=2d}.{settings.last_output_format}",
+                                / f"{task_row.stem}_{i:0=2d}.{settings.last_output_format}",
                                 child_project,
                                 output_option,
                             )

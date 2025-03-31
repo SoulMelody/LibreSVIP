@@ -82,10 +82,10 @@ class MusicXMLGenerator:
         prev_note_node = None
         prev_is_slur = False
         slur_number = 1
-        for i, measure in enumerate(measures):
+        for i, measure in enumerate(measures, start=1):
             slur_number = 1
             measure_node = ScorePartwise.Part.Measure(
-                number=str(i + 1),
+                number=str(i),
                 attributes=[
                     Attributes(
                         divisions=Decimal.from_float(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)

@@ -66,10 +66,10 @@ def print_plugin_summary(
     table.add_column(_("Author"), justify="left", style="cyan")
     table.add_column(_("Identifier"), justify="left", style="cyan")
     table.add_column(_("Applicable file format"), justify="left", style="cyan")
-    for num, plugin in enumerate(plugins):
+    for num, plugin in enumerate(plugins, start=1):
         format_desc = f"{_(plugin.file_format)} (*.{plugin.suffix})"
         table.add_row(
-            f"[{num + 1}] ",
+            f"[{num}] ",
             plugin.name + margin,
             str(plugin.version) + margin,
             _(plugin.author) + margin,
