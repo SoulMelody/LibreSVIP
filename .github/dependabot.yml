@@ -21,3 +21,5 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 100
+    ignore:
+      - dependency-name: "*.txt"
