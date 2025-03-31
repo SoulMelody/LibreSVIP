@@ -55,7 +55,7 @@ propcache==0.3.1
 proto-plus==1.26.1
 protobuf==6.30.2
 proxy-tools==0.1.0
-pscript==0.7.7
+pscript==0.8.0
 pycparser==2.22
 pycryptodomex==3.22.0
 pydantic==2.11.1
