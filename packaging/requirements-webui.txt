@@ -47,7 +47,7 @@ multidict==6.2.0
 nicegui==2.13.0
 orjson==3.10.16 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
-pefile==2023.2.7 ; sys_platform == 'win32'
+pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==11.1.0 ; sys_platform == 'darwin'
 platformdirs==4.3.7
 portion==2.6.0

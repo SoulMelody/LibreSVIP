@@ -33,7 +33,7 @@ mdurl==0.1.2
 mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.6.0
 packaging==24.2
-pefile==2023.2.7 ; sys_platform == 'win32'
+pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==11.1.0 ; sys_platform == 'darwin'
 platformdirs==4.3.7
 portion==2.6.0
