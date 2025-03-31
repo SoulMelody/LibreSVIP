@@ -245,9 +245,6 @@ ignore = [
 [tool.ruff.lint.isort]
 known-first-party = ['libresvip', 'tests']
 
-[tool.ruff.lint.pyupgrade]
-keep-runtime-typing = true
-
 [tool.mypy]
 python_version = "3.10"
 disable_error_code = "import-not-found,import-untyped,unused-ignore"
