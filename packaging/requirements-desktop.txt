@@ -14,7 +14,7 @@ desktop-notifier==6.0.0 ; platform_python_implementation == 'CPython'
 drawsvg==2.4.0
 exceptiongroup==1.2.2 ; python_full_version < '3.11'
 fonticon-materialdesignicons7==7.2.96
-fsspec==2025.3.1
+fsspec==2025.3.2
 h11==0.14.0
 httpcore==1.0.7
 httpx==0.28.1
@@ -33,8 +33,8 @@ mdurl==0.1.2
 mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.6.0
 packaging==24.2
-pefile==2024.8.26 ; sys_platform == 'win32'
-pillow==11.1.0 ; sys_platform == 'darwin'
+pefile==2023.2.7 ; sys_platform == 'win32'
+pillow==11.2.0 ; sys_platform == 'darwin'
 platformdirs==4.3.7
 portion==2.6.0
 proto-plus==1.26.1
