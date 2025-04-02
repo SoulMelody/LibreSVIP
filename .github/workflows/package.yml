@@ -143,6 +143,7 @@ jobs:
           curl https://bootstrap.pypa.io/get-pip.py -o python/get-pip.py
           docker compose -f docker-compose-wine-arm64.yml up
           mkdir archive
+          sudo chmod -R 777 dist
           cd dist
           curl -O https://mediaarea.net/download/binary/mediainfo-gui/25.03/MediaInfo_GUI_25.03_Windows_ARM64_WithoutInstaller.7z
           7z x MediaInfo_GUI_25.03_Windows_ARM64_WithoutInstaller.7z
