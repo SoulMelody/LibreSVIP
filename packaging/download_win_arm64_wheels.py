@@ -102,6 +102,7 @@ def download_win_arm64_wheels() -> None:
                 logger.info(f"Using pre-built {requirement.name} wheel...")
                 wheel_path = native_packages[requirement.name]
                 shutil.copy(wheel_path, cwd / wheel_path.name)
+    shutil.rmtree(wheels_dir)
 
 
 if __name__ == "__main__":
