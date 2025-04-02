@@ -121,11 +121,11 @@ linting = [
   "sourcery>=1.35.0",
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2025.3.30",
-  "types-pyyaml>=6.0.12.20250326",
+  "types-pyyaml>=6.0.12.20250402",
   "types-ujson>=5.10.0.20250326",
 ]
 packaging = [
-  "cx-Freeze>=8.0.0",
+  "cx-Freeze>=8.1.0",
   "nuitka>=2.6.9",
   "pyinstaller>=6.12.0",
   "shellingham<2.0.0,>=1.5.4",
