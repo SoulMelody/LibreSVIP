@@ -64,10 +64,6 @@ def download_win_arm64_wheels() -> None:
             )
             is True
         ) and requirement.name not in [
-            "pyside6",  # wait until pyside6 6.9 is available for win_arm64
-            "pyside6-addons",
-            "pyside6-essentials",
-            "shiboken6",
             "pycryptodomex",
             "pyzipper",
         ]:
