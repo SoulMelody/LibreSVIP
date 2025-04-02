@@ -144,6 +144,10 @@ jobs:
           docker compose -f docker-compose-wine-arm64.yml up
           mkdir archive
           cd dist
+          curl -O https://mediaarea.net/download/binary/mediainfo-gui/25.03/MediaInfo_GUI_25.03_Windows_ARM64_WithoutInstaller.7z
+          7z x MediaInfo_GUI_25.03_Windows_ARM64_WithoutInstaller.7z
+          mkdir -p libresvip/_internal/pymediainfo
+          cp MediaInfo.dll libresvip/_internal/pymediainfo
           7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -157,50 +161,6 @@ jobs:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
             ./packaging/archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z
-
-  # release_windows_arm64:
-  #   runs-on: ubuntu-latest
-  #   needs: [make-outputs]
-  #   env:
-  #     PYINSTALLER_VERSION: "6.12.0"
-  #     PYTHON_VERSION: "3.12"
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Set up uv
-  #       uses: astral-sh/setup-uv@v5
-  #       with:
-  #         version: "latest"
-  #     - name: Build with pyinstaller
-  #       run: |
-  #         uv build --wheel
-  #         uv venv --python $PYTHON_VERSION
-  #         cd packaging
-  #         export MINGW_PACKAGE_PREFIX=mingw-w64-clang-aarch64
-  #         export MSYSTEM=CLANGARM64
-  #         uv run python -m ensurepip
-  #         uv run python mingw_install.py
-  #         docker compose -f docker-compose-msys2-clangarm64.yml up
-  #         uv run python -m pip download pyinstaller==$PYINSTALLER_VERSION --platform win_arm64 --only-binary=:all:
-  #         uv run python -m pip install wheel
-  #         uv run python -m wheel unpack pyinstaller-$PYINSTALLER_VERSION-py3-none-win_arm64.whl
-  #         sudo mv ./pyinstaller-$PYINSTALLER_VERSION/PyInstaller/bootloader/Windows-64bit-arm ./clangarm64/lib/python$PYTHON_VERSION/site-packages/PyInstaller/bootloader
-  #         sudo cp ./clangarm64/bin/libmediainfo-0.dll ./clangarm64/lib/python$PYTHON_VERSION/site-packages/pymediainfo/
-  #         docker compose -f docker-compose-build-wine-arm64.yml up
-  #         mkdir archive
-  #         cd dist
-  #         7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
-  #     - name: Upload build artifact
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: libresvip-win-arm64.zip
-  #         path: ./packaging/archive/
-  #     - name: Create Release
-  #       uses: softprops/action-gh-release@v2
-  #       if: startsWith(github.ref, 'refs/tags/')
-  #       with:
-  #         tag_name: v${{ needs.make-outputs.outputs.VERSION }}
-  #         files: |
-  #           ./packaging/archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z
 
   release_linux_x86_64:
     runs-on: ubuntu-latest
