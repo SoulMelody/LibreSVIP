@@ -20,8 +20,8 @@ async def _():
         await micropip.install("zstandard")
         micropip.add_mock_package('zstandard', '0.23.0')
 
-        micropip.add_mock_package('pydantic', '2.10.6')
-        micropip.add_mock_package('pydantic-core', '2.27.2')
+        micropip.add_mock_package('pydantic', '2.11.2')
+        micropip.add_mock_package('pydantic-core', '2.33.1')
 
         await micropip.install("pycryptodome")
         micropip.add_mock_package('pycryptodomex', "3.21.0")
