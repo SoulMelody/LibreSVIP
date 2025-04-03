@@ -43,7 +43,7 @@ markupsafe==3.0.2
 mdurl==0.1.2
 mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.6.0
-multidict==6.3.1
+multidict==6.2.0
 nicegui==2.13.0
 orjson==3.10.16 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
@@ -58,8 +58,8 @@ proxy-tools==0.1.0
 pscript==0.7.7
 pycparser==2.22
 pycryptodomex==3.22.0
-pydantic==2.11.1
-pydantic-core==2.33.0
+pydantic==2.11.2
+pydantic-core==2.33.1
 pydantic-extra-types==2.10.3
 pydantic-settings==2.8.1
 pygments==2.19.1
