@@ -19,7 +19,7 @@ def download_win_arm64_wheels() -> None:
     cwd = pathlib.Path()
 
     python_version = "3.13"
-    bundle_url = "https://ghproxy.net/https://github.com/cgohlke/win_arm64-wheels/releases/download/v2025.3.31/2025.3.31-experimental-cp313-win_arm64.whl.zip"
+    bundle_url = "https://github.com/cgohlke/win_arm64-wheels/releases/download/v2025.3.31/2025.3.31-experimental-cp313-win_arm64.whl.zip"
     bundle_path = pathlib.Path(bundle_url)
     arm64_wheels_archive = cwd / bundle_path.name
     wheels_dir = cwd / bundle_path.with_suffix("").name
