@@ -43,7 +43,7 @@ markupsafe==3.0.2
 mdurl==0.1.2
 mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.6.0
-multidict==6.2.0
+multidict==6.3.2
 nicegui==2.13.0
 orjson==3.10.16 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
@@ -99,7 +99,7 @@ sortedcontainers==2.4.0
 starlette==0.46.1
 tatsu-lts==5.13.1
 typer-slim==0.15.2
-typing-extensions==4.13.0
+typing-extensions==4.13.1
 typing-inspection==0.4.0
 ujson==5.10.0
 universal-pathlib==0.2.6
