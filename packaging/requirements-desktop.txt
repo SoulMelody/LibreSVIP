@@ -79,7 +79,7 @@ ujson==5.10.0
 universal-pathlib==0.2.6
 wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
-winrt-runtime==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-runtime==3.0.0.post1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-applicationmodel-core==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-data-xml-dom==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-foundation==3.0.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
