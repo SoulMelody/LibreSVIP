@@ -1,0 +1,1 @@
+winrt-runtime>=3.0.0.post1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
