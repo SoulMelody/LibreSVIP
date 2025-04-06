@@ -83,7 +83,7 @@ ruamel_yaml = [
   "ruamel.yaml>=0.18.10",
   "ruamel.yaml.clib>=0.2.12; platform_python_implementation == \"CPython\" and python_version == \"3.13\"",
 ]
-lxml = ["lxml>=5.3.1"]
+lxml = ["lxml>=5.3.2"]
 tui = [
   "textual-fspicker>=0.4.1",
   "libresvip[upath]",
