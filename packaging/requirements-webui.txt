@@ -114,7 +114,7 @@ win32-setctime==1.2.0 ; sys_platform == 'win32'
 wsproto==1.2.0
 xsdata==24.12
 xsdata-pydantic==24.5
-yarl==1.18.3
+yarl==1.19.0
 zhon==2.1.1
 zipp==3.21.0 ; python_full_version < '3.10'
 zstandard==0.23.0 ; platform_python_implementation == 'CPython'
