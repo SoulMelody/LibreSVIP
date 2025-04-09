@@ -33,6 +33,7 @@ def download_win_arm64_wheels() -> None:
     third_party_arm64_packages = {
         "lxml": None,
         "markupsafe": None,
+        "protobuf": None,
         "pyyaml": None,
         "regex": None,
         "ruamel_yaml_clib": "ruamel-yaml-clib",
