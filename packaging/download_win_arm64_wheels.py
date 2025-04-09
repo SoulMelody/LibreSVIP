@@ -22,7 +22,7 @@ def download_win_arm64_wheels() -> None:
     bundle_url = "https://github.com/cgohlke/win_arm64-wheels/releases/download/v2025.3.31/2025.3.31-experimental-cp313-win_arm64.whl.zip"
     bundle_path = pathlib.Path(bundle_url)
     arm64_wheels_archive = cwd / bundle_path.name
-    wheels_dir = cwd / bundle_path.with_suffix("").name
+    wheels_dir = cwd / bundle_path.with_suffix("").with_suffix("").name
     if not wheels_dir.exists():
         if not arm64_wheels_archive.exists():
             with urllib.request.urlopen(bundle_url) as response:
@@ -104,7 +104,6 @@ def download_win_arm64_wheels() -> None:
                 logger.info(f"Using pre-built {requirement.name} wheel...")
                 wheel_path = native_packages[requirement.name]
                 shutil.copy(wheel_path, cwd / wheel_path.name)
-    shutil.rmtree(wheels_dir)
 
 
 if __name__ == "__main__":
