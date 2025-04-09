@@ -44,7 +44,7 @@ mdurl==0.1.2
 mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.6.0
 multidict==6.2.0
-nicegui==2.14.0
+nicegui==2.14.1
 orjson==3.10.16 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
 pefile==2023.2.7 ; sys_platform == 'win32'
