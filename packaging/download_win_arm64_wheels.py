@@ -67,7 +67,7 @@ def download_win_arm64_wheels() -> None:
         ):
             if requirement.name not in native_packages:
                 if requirement.name == "pycryptodomex":
-                    download_url = "https://github.moeyy.xyz/https://github.com/RockLakeGrass/Windows-on-ARM64-Toolchain/blob/main/Python/packages/pycryptodome/pycryptodome-3.15.0-cp35-abi3-win_arm64.whl"
+                    download_url = "https://github.com/RockLakeGrass/Windows-on-ARM64-Toolchain/blob/main/Python/packages/pycryptodome/pycryptodome-3.15.0-cp35-abi3-win_arm64.whl"
                 else:
                     download_url = f"{requirement.name}{requirement.specifier}"
                 logger.info(f"Downloading {requirement.name}...")
