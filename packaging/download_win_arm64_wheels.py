@@ -64,11 +64,12 @@ def download_win_arm64_wheels() -> None:
                 }
             )
             is True
-        ) and requirement.name not in [
-            "pycryptodomex",
-            "pyzipper",
-        ]:
+        ):
             if requirement.name not in native_packages:
+                if requirement.name == "pycryptodomex":
+                    download_url = "https://github.moeyy.xyz/https://github.com/RockLakeGrass/Windows-on-ARM64-Toolchain/blob/main/Python/packages/pycryptodome/pycryptodome-3.15.0-cp35-abi3-win_arm64.whl"
+                else:
+                    download_url = f"{requirement.name}{requirement.specifier}"
                 logger.info(f"Downloading {requirement.name}...")
                 try:
                     subprocess.check_call(
@@ -77,7 +78,7 @@ def download_win_arm64_wheels() -> None:
                             "-m",
                             "pip",
                             "download",
-                            f"{requirement.name}{requirement.specifier}",
+                            download_url,
                             "--no-deps",
                             "--platform",
                             "win_arm64",
