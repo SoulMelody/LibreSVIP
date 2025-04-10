@@ -182,7 +182,7 @@ class ModelProxy(QAbstractListModel):
 
     @Slot(int, result="QVariant")
     def get(self, index: int) -> Item:
-        return self._items[index]
+        return {} if index >= len(self._items) else self._items[index]
 
     @Slot(int, result="QVariant")
     @Slot(int, int, result="QVariant")
