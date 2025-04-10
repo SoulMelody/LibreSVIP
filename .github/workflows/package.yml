@@ -137,8 +137,8 @@ jobs:
           uv run python download_win_arm64_wheels.py
           ls *.whl > requirements.txt
           mkdir python
-          curl -O https://www.python.org/ftp/python/3.13.2/python-3.13.2-embed-arm64.zip
-          unzip python-3.13.2-embed-arm64.zip -d python
+          curl -O https://www.python.org/ftp/python/3.13.3/python-3.13.3-embed-arm64.zip
+          unzip python-3.13.3-embed-arm64.zip -d python
           rm python/python313._pth
           curl https://bootstrap.pypa.io/get-pip.py -o python/get-pip.py
           docker compose -f docker-compose-wine-arm64.yml up
@@ -365,7 +365,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python cpython-3.13.2-windows-x86-none
+          uv venv --python cpython-3.13.3-windows-x86-none
           uv sync --extra mobile --extra crypto --extra ujson --extra ruamel_yaml --extra lxml --extra zstd
           cd packaging
           uv pip install -r requirements-pyinstaller.in
