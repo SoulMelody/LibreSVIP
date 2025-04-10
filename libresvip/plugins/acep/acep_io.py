@@ -11,12 +11,44 @@ except ImportError:
         sys.modules["Cryptodome"] = __import__("Crypto")
 
 try:
-    import pyzstd as zstd
+    import zstd
 except ImportError:
     try:
-        import numcodecs.zstd as zstd
+        import pyzstd as zstd
     except ImportError:
-        import zstandard as zstd
+        try:
+            import numcodecs.zstd as zstd
+        except ImportError:
+            try:
+                import zstandard as zstd
+            except ImportError:
+                import ctypes.util
+                import io
+                import os
+
+                if sys.platform == "win32":
+                    if archiveint_dll := ctypes.util.find_library("archiveint.dll"):
+                        os.environ["LIBARCHIVE"] = archiveint_dll
+
+                import libarchive
+
+                class zstd:  # type: ignore[no-redef]  # noqa: N801
+                    @staticmethod
+                    def decompress(data: bytes) -> bytes:
+                        with io.BytesIO() as stream:
+                            with libarchive.memory_reader(data, "raw", "zstd") as archive:
+                                for entry in archive:
+                                    for block in entry.get_blocks():
+                                        stream.write(block)
+                            return stream.getvalue()
+
+                    @staticmethod
+                    def compress(data: bytes) -> bytes:
+                        with io.BytesIO() as stream:
+                            with libarchive.custom_writer(stream.write, "raw", "zstd") as archive:
+                                archive.add_file_from_memory("data", len(data), data)
+                            return stream.getvalue()
+
 
 from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
 
