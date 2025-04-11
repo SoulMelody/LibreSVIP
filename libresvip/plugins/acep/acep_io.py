@@ -23,31 +23,80 @@ except ImportError:
                 import zstandard as zstd
             except ImportError:
                 import ctypes.util
-                import io
-                import os
 
-                if sys.platform == "win32":
-                    if archiveint_dll := ctypes.util.find_library("archiveint.dll"):
-                        os.environ["LIBARCHIVE"] = archiveint_dll
+                from . import ctypes_buffer
 
-                import libarchive
+                CLEVEL_DEFAULT = 3
+                CLEVEL_MAX = 22
+
+                _libname = ctypes.util.find_library("libzstd") or ctypes.util.find_library("zstd")
+                if not _libname:
+                    msg = "zstd library not found"
+                    raise ImportError(msg)
+                _lib = ctypes.CDLL(_libname)
+
+                _ZSTD_compress = _lib.ZSTD_compress
+                _ZSTD_compress.restype = ctypes.c_size_t
+                _ZSTD_compress.argtypes = [
+                    ctypes.c_void_p,
+                    ctypes.c_size_t,
+                    ctypes.c_void_p,
+                    ctypes.c_size_t,
+                    ctypes.c_int,
+                ]
+
+                _ZSTD_compressBound = _lib.ZSTD_compressBound
+                _ZSTD_compressBound.restype = ctypes.c_size_t
+                _ZSTD_compressBound.argtypes = [ctypes.c_size_t]
+
+                _ZSTD_decompress = _lib.ZSTD_decompress
+                _ZSTD_decompress.restype = ctypes.c_size_t
+                _ZSTD_decompress.argtypes = [
+                    ctypes.c_void_p,
+                    ctypes.c_size_t,
+                    ctypes.c_void_p,
+                    ctypes.c_size_t,
+                ]
+
+                _ZSTD_getFrameContentSize = _lib.ZSTD_getFrameContentSize
+                _ZSTD_getFrameContentSize.restype = ctypes.c_ulonglong
+                _ZSTD_getFrameContentSize.argtypes = [ctypes.c_void_p, ctypes.c_size_t]
+
+                _array_type = ctypes.c_uint8 * 0
 
                 class zstd:  # type: ignore[no-redef]  # noqa: N801
-                    @staticmethod
-                    def decompress(data: bytes) -> bytes:
-                        with io.BytesIO() as stream:
-                            with libarchive.memory_reader(data, "raw", "zstd") as archive:
-                                for entry in archive:
-                                    for block in entry.get_blocks():
-                                        stream.write(block)
-                            return stream.getvalue()
+                    """adapted from https://github.com/MaaAssistantArknights/UpdateEngine/blob/master/makedelta/zstd_ctypes.py"""
 
                     @staticmethod
-                    def compress(data: bytes) -> bytes:
-                        with io.BytesIO() as stream:
-                            with libarchive.custom_writer(stream.write, "raw", "zstd") as archive:
-                                archive.add_file_from_memory("data", len(data), data)
-                            return stream.getvalue()
+                    def decompress(data: bytes) -> bytes | None:
+                        with ctypes_buffer.CtypesSimpleBuffer(data) as inbuf:
+                            content_size = _ZSTD_getFrameContentSize(inbuf, len(inbuf))
+                            if content_size == 0:
+                                msg = "Invalid zstd frame"
+                                raise ValueError(msg)
+                            out = bytearray(content_size)
+                            outlen = _ZSTD_decompress(
+                                _array_type.from_buffer(out), content_size, inbuf, len(inbuf)
+                            )
+                            if _lib.ZSTD_isError(outlen):
+                                msg = f"Decompression error: {_lib.ZSTD_getErrorName(outlen)}"
+                                raise RuntimeError(msg)
+                            return bytes(out[:outlen])
+
+                    @staticmethod
+                    def compress(data: bytes) -> bytes | None:
+                        with ctypes_buffer.CtypesSimpleBuffer(data) as inbuf:
+                            outbuflen = _ZSTD_compressBound(len(inbuf))
+                            out = bytearray(outbuflen)
+                            outlen = _ZSTD_compress(
+                                _array_type.from_buffer(out),
+                                outbuflen,
+                                inbuf,
+                                len(inbuf),
+                                CLEVEL_DEFAULT,
+                            )
+                            out = out[:outlen]
+                            return bytes(out)
 
 
 from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
