@@ -194,6 +194,7 @@ class SVParamTake(BaseModel):
     seed_pitch: int | None = Field(None, alias="seedPitch")
     seed_timbre: int | None = Field(None, alias="seedTimbre")
     expr: float | None = None
+    enh: float | None = None
     liked: bool = False
 
 
@@ -239,6 +240,7 @@ class SVNoteAttributes(SVBaseAttributes):
     t_f0_vbr_left: float | None = Field(None, alias="tF0VbrLeft")
     t_f0_vbr_right: float | None = Field(None, alias="tF0VbrRight")
     d_f0_vbr: float | None = Field(None, alias="dF0Vbr")
+    d_f0_vbr_mod: float | None = Field(None, alias="dF0VbrMod")
     f_f0_vbr: float | None = Field(None, alias="fF0Vbr")
     t_f0_offset: float | None = Field(None, alias="tF0Offset")
     p_f0_vbr: float | None = Field(None, alias="pF0Vbr")
