@@ -48,7 +48,7 @@ nicegui==2.14.1
 orjson==3.10.16 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
 pefile==2023.2.7 ; sys_platform == 'win32'
-pillow==11.1.0 ; sys_platform == 'darwin'
+pillow==11.2.1 ; sys_platform == 'darwin'
 platformdirs==4.3.7
 portion==2.6.0
 propcache==0.3.1
@@ -75,9 +75,9 @@ pyobjc-framework-webkit==11.0 ; sys_platform == 'darwin'
 pypinyin==0.54.0
 pysubs2==1.8.0
 python-dotenv==1.1.0
-python-engineio==4.11.2
+python-engineio==4.12.0
 python-multipart==0.0.20
-python-socketio==5.12.1
+python-socketio==5.13.0
 pythonnet==3.0.5 ; sys_platform == 'win32'
 pywebview==5.4
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
@@ -112,7 +112,7 @@ watchfiles==1.0.5
 websockets==15.0.1
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 wsproto==1.2.0
-xsdata==24.12
+xsdata==25.4
 xsdata-pydantic==24.5
 yarl==1.19.0
 zhon==2.1.1
