@@ -604,7 +604,7 @@ dependencies = [
     { name = "striprtf", marker = "sys_platform == 'win32'" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/95/01/e5fc16ac1c3911917ca2a3f069d724f5a2facdf41c83b66146dc4754bfac/cx_freeze-8.1.0.tar.gz", hash = "sha256:3ae9b54832b03c6cf95cc9d21fe5663c6cc6a0e8de0ea46eb7966df102c039ec", size = 3176696 }
+sdist = { url = "https://files.pythonhosted.org/packages/7d/18/3a861c92fc9bab767263a5e0a3a3751ebe310f32a52320930646899647bd/cx_Freeze-8.1.0.tar.gz", hash = "sha256:db7857a2f878db7e6b14c66b856d12020813aae79b25b02cc73a98f9f05f7ae0", size = 3178682 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/fb/5e/ffd1f8cd9305268c1ab86db412bf03b703341b750c3d7c6ce4ebdd7f5b2b/cx_freeze-8.1.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:022d14d472a24a6c127f18246fc244cfbfbd4006137f3609f5ca7f62e0925f32", size = 19015329 },
     { url = "https://files.pythonhosted.org/packages/2e/3e/3926bef1fa6637aeee7a8e9d9207ccaead8294484507b2ae9a5feeda1c0c/cx_freeze-8.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:44fafda87e88a27fab17eaa21b3339696468d632e2b48cd37eec4937ea1bac20", size = 13004688 },
@@ -998,7 +998,7 @@ wheels = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.23.6"
+version = "1.24.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -1013,9 +1013,9 @@ dependencies = [
     { name = "pypandoc" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ac/2b/91220cb78bbcd674083c70db904f4af7ade5bfcaf8cea055857a45fb5be4/gapic_generator-1.23.6.tar.gz", hash = "sha256:b049b12cb4ec1c4318ba84f92b67c40989b86ee8b9735a0a7271357eec3ce8a8", size = 1429509 }
+sdist = { url = "https://files.pythonhosted.org/packages/52/ec/25a5a3c00ab55bb7c521cb29910b731749fe5eeaf3ba1c75c98b040678d4/gapic_generator-1.24.0.tar.gz", hash = "sha256:a56aacf4f999a7770c87499a0e7b70ef4dafb98d897c0f8f468b82a93ba6a989", size = 1478108 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/dd/d2/0215fe80b1a2f3d9358367f164b1ffbe7e84bb6013d0b0d16243e8bf3190/gapic_generator-1.23.6-py3-none-any.whl", hash = "sha256:1f3ae5c054a9dc32808d76e98c8b594a9714eb051ed4bf0d2ad1e42d355a8d0b", size = 2160568 },
+    { url = "https://files.pythonhosted.org/packages/c7/7d/7b1e27978fa4121e20bb428558ef31739c2d08bae8f09e4f9c9144abc0ee/gapic_generator-1.24.0-py3-none-any.whl", hash = "sha256:055a0f97fdc6360596e8c3f7beefe1c28d41340edd2d8967fe8454c9ee7131f3", size = 2218653 },
 ]
 
 [[package]]
@@ -1613,7 +1613,7 @@ all = [
     { name = "basedpyright", specifier = ">=1.28.5" },
     { name = "cx-freeze", specifier = ">=8.1.0" },
     { name = "datamodel-code-generator", specifier = ">=0.28.5" },
-    { name = "gapic-generator", specifier = ">=1.23.6" },
+    { name = "gapic-generator", specifier = ">=1.24.0" },
     { name = "mkdocs-marimo", specifier = ">=0.2.1" },
     { name = "mkdocs-material", specifier = ">=9.6.11,<10.0.0" },
     { name = "mypy", specifier = ">=1.15.0" },
@@ -1634,7 +1634,7 @@ all = [
 ]
 code-gen = [
     { name = "datamodel-code-generator", specifier = ">=0.28.5" },
-    { name = "gapic-generator", specifier = ">=1.23.6" },
+    { name = "gapic-generator", specifier = ">=1.24.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=25.4" },
 ]
 docs = [
