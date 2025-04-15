@@ -120,7 +120,7 @@ jobs:
             ./packaging/dist/LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z
 
   release_windows_arm64:
-    runs-on: ubuntu-latest
+    runs-on: windows-11-arm
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
@@ -129,21 +129,18 @@ jobs:
         with:
           version: "latest"
       - name: Build with pyinstaller
+        shell: bash -el {0}
         run: |
           uv build --wheel
           uv venv
-          cd packaging
           uv run python -m ensurepip
+          cd dist
+          uv run python -m pip install *.whl --no-deps
+          cd ../packaging
           uv run python download_win_arm64_wheels.py
-          ls *.whl > requirements.txt
-          mkdir python
-          curl -O https://www.python.org/ftp/python/3.13.3/python-3.13.3-embed-arm64.zip
-          unzip python-3.13.3-embed-arm64.zip -d python
-          rm python/python313._pth
-          curl https://bootstrap.pypa.io/get-pip.py -o python/get-pip.py
-          docker compose -f docker-compose-wine-arm64.yml up
+          uv run python -m pip install *.whl --no-deps
+          uv run pyinstaller libresvip.spec
           mkdir archive
-          sudo chmod -R 777 dist
           cd dist
           curl -O https://mediaarea.net/download/binary/mediainfo-gui/25.03/MediaInfo_GUI_25.03_Windows_ARM64_WithoutInstaller.7z
           7z x MediaInfo_GUI_25.03_Windows_ARM64_WithoutInstaller.7z
