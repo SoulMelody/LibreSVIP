@@ -580,6 +580,7 @@ class SVRef(BaseModel):
     database: SVDatabase = Field(default_factory=SVDatabase)
     dictionary: str = ""
     voice: SVVoice = Field(default_factory=SVVoice)
+    voice_preset_name: str | None = Field(None, alias="voicePresetName")
     group_id: str = Field(default_factory=uuid_str, alias="groupID")
     is_instrumental: bool = Field(default=False, alias="isInstrumental")
     system_pitch_delta: SVParamCurve = Field(default_factory=SVParamCurve, alias="systemPitchDelta")
