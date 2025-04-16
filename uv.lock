@@ -1572,7 +1572,7 @@ requires-dist = [
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.3.2" },
     { name = "mido-fix", url = "https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" },
     { name = "more-itertools", specifier = ">=10.6.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.14.1" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.15.0" },
     { name = "packaging", specifier = ">=24.2,<24.3" },
     { name = "platformdirs", specifier = ">=4.3.7,<5.0.0" },
     { name = "portion", specifier = ">=2.6.0,<3.0.0" },
@@ -2281,7 +2281,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.14.1"
+version = "2.15.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2296,6 +2296,7 @@ dependencies = [
     { name = "markdown2" },
     { name = "orjson", marker = "platform_machine != 'i386' and platform_machine != 'i686'" },
     { name = "pygments" },
+    { name = "python-engineio" },
     { name = "python-multipart" },
     { name = "python-socketio", extra = ["asyncio-client"] },
     { name = "requests" },
@@ -2306,9 +2307,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/63/ce/878f7b465cf4ba932ffa46417b00d44759bef5487dd46135d9762e1fd930/nicegui-2.14.1.tar.gz", hash = "sha256:cc8b34fe25eab8f2bf9f4399e93d811b285f44ee684a45cd6f4c14853fcdcdf5", size = 16035846 }
+sdist = { url = "https://files.pythonhosted.org/packages/65/4e/6e6ab26320c5b5c992c5879de58d08d59decadf59a274bf88cbc89de88d3/nicegui-2.15.0.tar.gz", hash = "sha256:0b63bcf9634744d285aa618f74c4d57ea7264fd8f8a9e331cf10d528ba37355c", size = 16036134 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/21/ea/d5dddaae27403acfb6c645299394b368b479c6314cc2e0e88102a4649959/nicegui-2.14.1-py3-none-any.whl", hash = "sha256:3c5d7f71db4b26d1df0784acadd352b221c33ab85f0d3974f3a3ffdb622b9fc5", size = 16485114 },
+    { url = "https://files.pythonhosted.org/packages/5e/48/a302bfeddd0948cccb028716204baa1dc1cfd38d6d6016e42168ddd66295/nicegui-2.15.0-py3-none-any.whl", hash = "sha256:0e401108447ae0e6b0a77c1de2611b67c4508f095a6f34d98a4640a2e17e2a08", size = 16485380 },
 ]
 
 [[package]]
@@ -3135,14 +3136,14 @@ wheels = [
 
 [[package]]
 name = "python-engineio"
-version = "4.11.2"
+version = "4.12.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "simple-websocket" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/52/e0/a9e0fe427ce7f1b7dbf9531fa00ffe4b557c4a7bc8e71891c115af123170/python_engineio-4.11.2.tar.gz", hash = "sha256:145bb0daceb904b4bb2d3eb2d93f7dbb7bb87a6a0c4f20a94cc8654dec977129", size = 91381 }
+sdist = { url = "https://files.pythonhosted.org/packages/f7/e1/eee1129544b7f78fa2afa9fa0fce153cdcb21015b9b331d1b8adf90f45cb/python_engineio-4.12.0.tar.gz", hash = "sha256:f42a36a868d7063aa10ddccf6bd6117a169b6bd00d7ca53999772093b62014f9", size = 91503 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/07/8f/978a0b913e3f8ad33a9a2fe204d32efe3d1ee34ecb1f2829c1cfbdd92082/python_engineio-4.11.2-py3-none-any.whl", hash = "sha256:f0971ac4c65accc489154fe12efd88f53ca8caf04754c46a66e85f5102ef22ad", size = 59239 },
+    { url = "https://files.pythonhosted.org/packages/2b/f7/0aeea75424c47633c1d98557a2323be23bed31fa950f00161b34a5150d06/python_engineio-4.12.0-py3-none-any.whl", hash = "sha256:a0c47c129c39777e8ebc6d18011efd50db2144e4e8f08983acae8a3614626535", size = 59319 },
 ]
 
 [[package]]
