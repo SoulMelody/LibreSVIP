@@ -65,7 +65,7 @@ pydantic-settings==2.8.1
 pygments==2.19.1
 pyinstaller==6.12.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.12.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
-pyinstaller-hooks-contrib==2025.2
+pyinstaller-hooks-contrib==2025.3
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pyobjc-core==11.0 ; sys_platform == 'darwin'
 pyobjc-framework-cocoa==11.0 ; sys_platform == 'darwin'
@@ -114,7 +114,7 @@ win32-setctime==1.2.0 ; sys_platform == 'win32'
 wsproto==1.2.0
 xsdata==25.4
 xsdata-pydantic==24.5
-yarl==1.19.0
+yarl==1.20.0
 zhon==2.1.1
 zipp==3.21.0 ; python_full_version < '3.10'
 zstandard==0.23.0 ; platform_python_implementation == 'CPython'
