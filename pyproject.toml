@@ -107,15 +107,15 @@ desktop = [
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.28.5",
-  "gapic-generator>=1.24.0",
+  "datamodel-code-generator>=0.30.0",
+  "gapic-generator>=1.24.1",
   "xsdata[cli]>=25.4",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
   "basedpyright>=1.28.5",
   "pre-commit>=4.2.0",
-  "ruff>=0.11.5",
+  "ruff>=0.11.6",
   "mypy>=1.15.0",
   "sourcery>=1.35.0",
   "proto-plus-stubs>=0.7.0",
@@ -131,7 +131,7 @@ packaging = [
 ]
 docs = [
     "mkdocs-marimo>=0.2.1",
-    "mkdocs-material<10.0.0,>=9.6.11",
+    "mkdocs-material<10.0.0,>=9.6.12",
 ]
 test = ["pytest>=8.3.5", "pytest-datadir>=1.6.1", "textual-dev>=1.7.0"]
 all = [
