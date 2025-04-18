@@ -37,7 +37,7 @@ pycryptodomex==3.22.0
 pydantic==2.9.1
 pydantic-core==2.23.3
 pydantic-extra-types==2.10.3
-pydantic-settings==2.8.1
+pydantic-settings==2.9.0
 pygments==2.19.1
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.54.0
@@ -57,6 +57,7 @@ sortedcontainers==2.4.0
 tatsu-lts==5.13.1
 typer-slim==0.15.2
 typing-extensions==4.13.2
+typing-inspection==0.4.0
 universal-pathlib==0.2.6
 wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'

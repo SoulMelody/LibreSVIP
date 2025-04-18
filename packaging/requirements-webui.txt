@@ -21,7 +21,7 @@ docutils==0.21.2
 drawsvg==2.4.0
 exceptiongroup==1.2.2 ; python_full_version < '3.11'
 fastapi==0.115.12
-frozenlist==1.5.0
+frozenlist==1.6.0
 fsspec==2025.3.2
 h11==0.14.0
 httpcore==1.0.8
@@ -61,7 +61,7 @@ pycryptodomex==3.22.0
 pydantic==2.11.3
 pydantic-core==2.33.1
 pydantic-extra-types==2.10.3
-pydantic-settings==2.8.1
+pydantic-settings==2.9.0
 pygments==2.19.1
 pyinstaller==6.12.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.12.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
