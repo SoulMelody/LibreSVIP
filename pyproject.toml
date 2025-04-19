@@ -39,7 +39,7 @@ dependencies = [
   "loguru<1.0.0,>=0.7.3",
   "mido-fix",
   "more-itertools<11.0.0,>=10.6.0",
-  "packaging<24.3,>=24.2",
+  "packaging<25.1,>=25.0",
   "platformdirs<5.0.0,>=4.3.7",
   "portion<3.0.0,>=2.6.0",
   "proto-plus<2.0.0,>=1.26.1",
