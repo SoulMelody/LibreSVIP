@@ -14,20 +14,20 @@ plugin_registry = plugin_manager.plugin_registry
 
 
 def test_ust_write(shared_datadir: pathlib.Path) -> None:
-    from libresvip.plugins.ust.model import UstWalker, ust_grammar
+    from libresvip.plugins.ust.model import UstWalker, get_ust_grammar
     from libresvip.plugins.ust.template import render_ust
 
     proj_path = shared_datadir / "test.ust"
-    tree = ust_grammar.parse(to_unicode(proj_path.read_bytes()))
+    tree = get_ust_grammar().parse(to_unicode(proj_path.read_bytes()))
     proj = UstWalker().walk(tree)
     render_ust(proj, pathlib.Path("test.ust"), encoding="utf-8")
 
 
 def test_nn_read(shared_datadir: pathlib.Path) -> None:
-    from libresvip.plugins.nn.model import NnWalker, nn_grammar
+    from libresvip.plugins.nn.model import NnWalker, get_nn_grammar
 
     proj_path = shared_datadir / "test.nn"
-    tree = nn_grammar.parse(proj_path.read_text(encoding="utf-8"))
+    tree = get_nn_grammar().parse(proj_path.read_text(encoding="utf-8"))
     proj = NnWalker().walk(tree)
     for note in proj.notes:
         rich.print(len(note.dynamics.points))

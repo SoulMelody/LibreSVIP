@@ -1,68 +1,71 @@
 import tatsu
 from pydantic import Field
+from tatsu.grammars import Grammar
 from tatsu.objectmodel import Node
 from tatsu.walkers import NodeWalker
 
 from libresvip.model.base import BaseModel
 
-nn_grammar = tatsu.compile(
-    """
-    @@grammar::Nn
-    @@whitespace :: None
 
-    nn_project::nn_project
-        =
-        info_line:nn_info_line newline
-        note_count:int newline
-        notes:{nn_note [newline]}*
-        [nn_chord] [nn_drum] ;
+def get_nn_grammar() -> Grammar:
+    return tatsu.compile(
+        """
+        @@grammar::Nn
+        @@whitespace :: None
 
-    nn_chord
-        = "#CHORD" newline int newline {'[' nn_legacy_points ']' newline}* ;
-    nn_drum
-        = "#DRUM" newline '[' nn_legacy_points ']' newline ;
-    nn_legacy_points  = int {', ' int}* ;
+        nn_project::nn_project
+            =
+            info_line:nn_info_line newline
+            note_count:int newline
+            notes:{nn_note [newline]}*
+            [nn_chord] [nn_drum] ;
 
-    nn_points::nn_points
-        =
-        point_count:int
-        points:{',' int}* ;
-    nn_note::nn_note
-        =
-        ' ' lyric:word
-        ' ' pronunciation:pinyin
-        ' ' start:int
-        ' ' duration:int
-        ' ' key:int
-        ' ' cle:int
-        ' ' vel:int
-        ' ' por:int
-        ' ' vibrato_length:int
-        ' ' vibrato_depth:int
-        ' ' vibrato_rate:int
-        ' ' dynamics:nn_points
-        ' ' pitch:nn_points
-        ' ' pitch_bend_sensitivity:int ;
-    nn_time_signature::nn_time_signature
-        =
-        numerator:int ' '
-        denominator:int ;
-    nn_info_line::nn_info_line
-        =
-        tempo:float ' '
-        time_signature:nn_time_signature ' '
-        bar_count:int ' '
-        version:int ' '
-        unknown:int ' 0 0 0 0' ;
+        nn_chord
+            = "#CHORD" newline int newline {'[' nn_legacy_points ']' newline}* ;
+        nn_drum
+            = "#DRUM" newline '[' nn_legacy_points ']' newline ;
+        nn_legacy_points  = int {', ' int}* ;
 
-    newline           = /\r?\n/ ;
-    word              = ?"([\u4e00-\u9fff]|-|[a-z]+)" ;
-    pinyin            = ?"[a-z-]+" ;
-    float::float      = ?"[-+]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)" ;
-    int::int          = ?"[-+]?\\d+" ;
-    """,
-    asmodel=True,
-)
+        nn_points::nn_points
+            =
+            point_count:int
+            points:{',' int}* ;
+        nn_note::nn_note
+            =
+            ' ' lyric:word
+            ' ' pronunciation:pinyin
+            ' ' start:int
+            ' ' duration:int
+            ' ' key:int
+            ' ' cle:int
+            ' ' vel:int
+            ' ' por:int
+            ' ' vibrato_length:int
+            ' ' vibrato_depth:int
+            ' ' vibrato_rate:int
+            ' ' dynamics:nn_points
+            ' ' pitch:nn_points
+            ' ' pitch_bend_sensitivity:int ;
+        nn_time_signature::nn_time_signature
+            =
+            numerator:int ' '
+            denominator:int ;
+        nn_info_line::nn_info_line
+            =
+            tempo:float ' '
+            time_signature:nn_time_signature ' '
+            bar_count:int ' '
+            version:int ' '
+            unknown:int ' 0 0 0 0' ;
+
+        newline           = /\r?\n/ ;
+        word              = ?"([\u4e00-\u9fff]|-|[a-z]+)" ;
+        pinyin            = ?"[a-z-]+" ;
+        float::float      = ?"[-+]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)" ;
+        int::int          = ?"[-+]?\\d+" ;
+        """,
+        asmodel=True,
+    )
 
 
 class NNPoints(BaseModel):

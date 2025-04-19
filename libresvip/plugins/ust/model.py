@@ -2,117 +2,121 @@ from typing import Any, Literal
 
 import tatsu
 from pydantic import BaseModel, Field
+from tatsu.grammars import Grammar
 from tatsu.objectmodel import Node
 from tatsu.walkers import NodeWalker
 
 from .constants import MAX_ACCEPTED_BPM
 
-ust_grammar = tatsu.compile(
-    """
-    @@grammar::Ust
-    @@whitespace :: None
 
-    ust_project::ust_project
-        =
-        header:[ust_header]
-        setting_section:ust_setting_section
-        tracks:{ust_track}* {newline}* $;
-    ust_header::ust_header
-        =
-        "[#VERSION]" newline
-        "UST Version" ["="] ust_version:float
-        [newline "Charset" "=" charset:value] ;
-    ust_setting_section::ust_setting_section
-        = [newline]
-        "[#SETTING]"
-        setting_lines:{newline ust_setting_line}* ;
-    ust_setting_line::ust_setting_line
-        =
-        (key:"UstVersion" "=" value:float)
-        | (key:"Tempo" "=" value:value)
-        | (key:"TimeSignatures" "=" value:(ust_time_signature {"," ust_time_signature}*) [","])
-        | (key:"Tracks" "=" value:int)
-        | (key:?"Project(Name)?" "=" value:value)
-        | (key:"VoiceDir" "=" value:value)
-        | (key:"OutFile" "=" value:value)
-        | (key:"CacheDir" "=" value:value)
-        | (key:"Tool1" "=" value:value)
-        | (key:"Tool2" "=" value:value)
-        | (key:"Mode2" "=" value:bool)
-        | (key:"Autoren" "=" value:bool)
-        | (key:"MapFirst" "=" value:bool)
-        | (key:"Flags" "=" value:value) ;
-    ust_time_signature::ust_time_signature
-        =
-        "(" numerator:int
-        "/" denominator:int
-        "/" bar_index:int ")" ;
-    ust_track
-        = notes:{ust_note}* [newline ust_track_end] ;
-    ust_note::ust_note
-        =
-        newline head:ust_note_head
-        attrs:{newline ust_note_attr {" "}*}* ;
-    ust_note_head
-        = "[#" note_type:?"(\\d+|PREV|NEXT|INSERT|DELETE)" "]" ;
-    ust_track_end
-        = "[#TRACKEND]" ;
-    utau_pitch_bend_mode::utau_pitch_bend_mode
-        = "s" | "r" | "j" | "null" | () ;
-    ust_pitch_bend_type
-        = "5" | "OldData" ;
-    ust_note_attr
-        =
-        (key:"Length" "=" value:float)
-        | (key:"Duration" "=" value:float)
-        | (key:"Lyric" "=" value:value)
-        | (key:"NoteNum" "=" value:int)
-        | (key:"Delta" "=" value:int)
-        | (key:"PreUtterance" "=" value:value)
-        | (key:"VoiceOverlap" "=" value:float)
-        | (key:"Intensity" "=" value:float)
-        | (key:?"Modulation|Moduration" "=" value:float)
-        | (key:"StartPoint" "=" value:float)
-        | (key:"Envelope" "=" value:ust_envelope)
-        | (key:"Tempo" "=" value:value)
-        | (key:"Velocity" "=" value:float)
-        | (key:"Label" "=" value:value)
-        | (key:"Flags" "=" value:value)
-        | (key:"PBType" "=" value:ust_pitch_bend_type)
-        | (key:"PBStart" "=" value:float)
-        | (key:?"Piches|Pitches|PitchBend" "=" value:(int {"," int}*) )
-        | (key:"PBS" "=" value:(optional_float {?";|," optional_float}*))
-        | (key:"PBW" "=" value:(optional_float {"," optional_float}*))
-        | (key:"PBY" "=" value:(optional_float {"," optional_float}*))
-        | (key:"VBR" "=" value:(optional_float {"," optional_float}*))
-        | (key:"PBM" "=" value:(utau_pitch_bend_mode {"," utau_pitch_bend_mode}*))
-        | (key:"stptrim" "=" value:float)
-        | (key:"layer" "=" value:int)
-        | (key:"@preuttr" "=" value:float)
-        | (key:"@overlap" "=" value:float)
-        | (key:"@stpoint" "=" value:float)
-        | (key:"@filename" "=" value:value)
-        | (key:"@alias" "=" value:value)
-        | (key:"@cache" "=" value:value)
-        | (key:/\\$?[^=\r\n]+/ "=" value:value)
-        | (!(ust_note_head | ust_track_end) key:() value:value) ;
-    ust_envelope::ust_envelope
-        = p1:float "," p2:float "," p3:float "," v1:float "," v2:float "," v3:float "," v4:float
-        (
-            ",%," p4:[float] ["," p5:[float] ["," v5:[float]]] |
-            ",," p4:float |
-            ",%" |
-            other_points:{"," float}*
-        ) ;
-    value = /[^\r\n]*/ ;
-    newline = /\r?\n/ ;
-    bool::bool = "1" | "0" | "True" | "False" ;
-    optional_float::optional_float = float | "null" | () ;
-    float::float = /[-]?(?:(?:\\d+(?:\\.\\d*)?)|(?:\\.\\d+))(?:[eE][-+]?\\d+)?/ ;
-    int::int = /[-]?[0-9]+/ ;
-    """,
-    asmodel=True,
-)
+def get_ust_grammar() -> Grammar:
+    return tatsu.compile(
+        """
+        @@grammar::Ust
+        @@whitespace :: None
+
+        ust_project::ust_project
+            =
+            header:[ust_header]
+            setting_section:ust_setting_section
+            tracks:{ust_track}* {newline}* $;
+        ust_header::ust_header
+            =
+            "[#VERSION]" newline
+            "UST Version" ["="] ust_version:float
+            [newline "Charset" "=" charset:value] ;
+        ust_setting_section::ust_setting_section
+            = [newline]
+            "[#SETTING]"
+            setting_lines:{newline ust_setting_line}* ;
+        ust_setting_line::ust_setting_line
+            =
+            (key:"UstVersion" "=" value:float)
+            | (key:"Tempo" "=" value:value)
+            | (key:"TimeSignatures" "=" value:(ust_time_signature {"," ust_time_signature}*) [","])
+            | (key:"Tracks" "=" value:int)
+            | (key:?"Project(Name)?" "=" value:value)
+            | (key:"VoiceDir" "=" value:value)
+            | (key:"OutFile" "=" value:value)
+            | (key:"CacheDir" "=" value:value)
+            | (key:"Tool1" "=" value:value)
+            | (key:"Tool2" "=" value:value)
+            | (key:"Mode2" "=" value:bool)
+            | (key:"Autoren" "=" value:bool)
+            | (key:"MapFirst" "=" value:bool)
+            | (key:"Flags" "=" value:value) ;
+        ust_time_signature::ust_time_signature
+            =
+            "(" numerator:int
+            "/" denominator:int
+            "/" bar_index:int ")" ;
+        ust_track
+            = notes:{ust_note}* [newline ust_track_end] ;
+        ust_note::ust_note
+            =
+            newline head:ust_note_head
+            attrs:{newline ust_note_attr {" "}*}* ;
+        ust_note_head
+            = "[#" note_type:?"(\\d+|PREV|NEXT|INSERT|DELETE)" "]" ;
+        ust_track_end
+            = "[#TRACKEND]" ;
+        utau_pitch_bend_mode::utau_pitch_bend_mode
+            = "s" | "r" | "j" | "null" | () ;
+        ust_pitch_bend_type
+            = "5" | "OldData" ;
+        ust_note_attr
+            =
+            (key:"Length" "=" value:float)
+            | (key:"Duration" "=" value:float)
+            | (key:"Lyric" "=" value:value)
+            | (key:"NoteNum" "=" value:int)
+            | (key:"Delta" "=" value:int)
+            | (key:"PreUtterance" "=" value:value)
+            | (key:"VoiceOverlap" "=" value:float)
+            | (key:"Intensity" "=" value:float)
+            | (key:?"Modulation|Moduration" "=" value:float)
+            | (key:"StartPoint" "=" value:float)
+            | (key:"Envelope" "=" value:ust_envelope)
+            | (key:"Tempo" "=" value:value)
+            | (key:"Velocity" "=" value:float)
+            | (key:"Label" "=" value:value)
+            | (key:"Flags" "=" value:value)
+            | (key:"PBType" "=" value:ust_pitch_bend_type)
+            | (key:"PBStart" "=" value:float)
+            | (key:?"Piches|Pitches|PitchBend" "=" value:(int {"," int}*) )
+            | (key:"PBS" "=" value:(optional_float {?";|," optional_float}*))
+            | (key:"PBW" "=" value:(optional_float {"," optional_float}*))
+            | (key:"PBY" "=" value:(optional_float {"," optional_float}*))
+            | (key:"VBR" "=" value:(optional_float {"," optional_float}*))
+            | (key:"PBM" "=" value:(utau_pitch_bend_mode {"," utau_pitch_bend_mode}*))
+            | (key:"stptrim" "=" value:float)
+            | (key:"layer" "=" value:int)
+            | (key:"@preuttr" "=" value:float)
+            | (key:"@overlap" "=" value:float)
+            | (key:"@stpoint" "=" value:float)
+            | (key:"@filename" "=" value:value)
+            | (key:"@alias" "=" value:value)
+            | (key:"@cache" "=" value:value)
+            | (key:/\\$?[^=\r\n]+/ "=" value:value)
+            | (!(ust_note_head | ust_track_end) key:() value:value) ;
+        ust_envelope::ust_envelope
+            = p1:float "," p2:float "," p3:float "," v1:float "," v2:float "," v3:float "," v4:float
+            (
+                ",%," p4:[float] ["," p5:[float] ["," v5:[float]]] |
+                ",," p4:float |
+                ",%" |
+                other_points:{"," float}*
+            ) ;
+        value = /[^\r\n]*/ ;
+        newline = /\r?\n/ ;
+        bool::bool = "1" | "0" | "True" | "False" ;
+        optional_float::optional_float = float | "null" | () ;
+        float::float = /[-]?(?:(?:\\d+(?:\\.\\d*)?)|(?:\\.\\d+))(?:[eE][-+]?\\d+)?/ ;
+        int::int = /[-]?[0-9]+/ ;
+        """,
+        asmodel=True,
+    )
+
 
 UTAUPitchBendMode = Literal["s", "r", "j", ""]
 
