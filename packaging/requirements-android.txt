@@ -27,7 +27,7 @@ mdurl==0.1.2
 mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.6.0
 oauthlib==3.2.2 ; platform_system != 'Pyodide'
-packaging==24.2
+packaging==25.0
 platformdirs==4.3.7
 portion==2.6.0
 proto-plus==1.26.1
