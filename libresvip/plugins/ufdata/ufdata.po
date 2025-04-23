@@ -4,7 +4,7 @@ msgstr ""
 msgid "UtaFormatix3 data format"
 msgstr ""
 
-msgid "Convertion plugin for UFData format"
+msgid "Conversion plugin for UFData format"
 msgstr ""
 
 msgid "Sder Colin"

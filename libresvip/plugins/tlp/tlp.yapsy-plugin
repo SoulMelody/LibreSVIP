@@ -7,5 +7,5 @@ Author = LiuYunPlayer
 Version = 0.5.8
 Website = https://space.bilibili.com/24331207
 Format = TuneLab project file
-Description = Convertion plugin for TuneLab project file
+Description = Conversion plugin for TuneLab project file
 Suffix = tlp

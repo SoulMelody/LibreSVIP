@@ -33,7 +33,7 @@ msgstr ""
 msgid "VX-β project file"
 msgstr ""
 
-msgid "Convertion plugin for VX-β project file"
+msgid "Conversion plugin for VX-β project file"
 msgstr ""
 
 msgid "SoulMelody"
