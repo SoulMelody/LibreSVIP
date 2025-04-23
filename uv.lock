@@ -254,14 +254,14 @@ wheels = [
 
 [[package]]
 name = "basedpyright"
-version = "1.29.0"
+version = "1.29.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "nodejs-wheel-binaries" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0b/fc/bbd086fc914a55edae7a5618ab43a3261d129aec52865aac03cd1717987c/basedpyright-1.29.0.tar.gz", hash = "sha256:90742d5a59e4f877ad3639bafb7a40280512129572b56dd51d8cb9375070d7c0", size = 21756697, upload_time = "2025-04-19T03:55:44.641Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b9/18/f5e488eac4960ad9a2e71b95f0d91cf93a982c7f68aa90e4e0554f0bc37e/basedpyright-1.29.1.tar.gz", hash = "sha256:06bbe6c3b50ab4af20f80e154049477a50d8b81d2522eadbc9f472f2f92cd44b", size = 21773469, upload_time = "2025-04-23T13:29:42.47Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fa/de/f9fd8e409110ec1c327eb67ba8d99a99b8ad40ad36f868a5bfc93f8cdc6c/basedpyright-1.29.0-py3-none-any.whl", hash = "sha256:926ae39eaccfe15e7dbd997dd4e48b22f98bcf201e4cbb8620aa6b8cfbee723b", size = 11390969, upload_time = "2025-04-19T03:55:41.201Z" },
+    { url = "https://files.pythonhosted.org/packages/95/1b/1bb837bbb7e259928f33d3c105dfef4f5349ef08b3ef45576801256e3234/basedpyright-1.29.1-py3-none-any.whl", hash = "sha256:b7eb65b9d4aaeeea29a349ac494252032a75a364942d0ac466d7f07ddeacc786", size = 11397959, upload_time = "2025-04-23T13:29:38.106Z" },
 ]
 
 [[package]]
@@ -1610,7 +1610,7 @@ provides-extras = ["crypto", "desktop", "lxml", "mobile", "ruamel-yaml", "tui", 
 [package.metadata.requires-dev]
 all = [
     { name = "babel", specifier = ">=2.17.0" },
-    { name = "basedpyright", specifier = ">=1.29.0" },
+    { name = "basedpyright", specifier = ">=1.29.1" },
     { name = "cx-freeze", specifier = ">=8.2.0" },
     { name = "datamodel-code-generator", specifier = ">=0.30.0" },
     { name = "gapic-generator", specifier = ">=1.24.1" },
@@ -1643,7 +1643,7 @@ docs = [
 ]
 i18n = [{ name = "babel", specifier = ">=2.17.0" }]
 linting = [
-    { name = "basedpyright", specifier = ">=1.29.0" },
+    { name = "basedpyright", specifier = ">=1.29.1" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
