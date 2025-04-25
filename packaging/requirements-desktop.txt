@@ -3,7 +3,7 @@ annotated-types==0.7.0
 anyio==4.9.0
 bidict==0.23.1
 certifi==2025.1.31
-cffi==1.17.1 ; sys_platform != 'win32'
+cffi==1.17.1 ; python_full_version < '3.12' or sys_platform != 'win32'
 charset-normalizer==3.4.1
 click==8.1.8
 colorama==0.4.6 ; sys_platform == 'win32'
@@ -12,12 +12,15 @@ construct-typing==0.6.2
 dbus-fast==2.44.1 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
 desktop-notifier==6.1.0 ; platform_python_implementation == 'CPython'
 drawsvg==2.4.0
+exceptiongroup==1.2.2 ; python_full_version < '3.11'
 fonticon-materialdesignicons7==7.2.96
 fsspec==2025.3.2
-h11==0.14.0
-httpcore==1.0.8
+h11==0.16.0
+httpcore==1.0.9
 httpx==0.28.1
 idna==3.10
+importlib-metadata==8.6.1 ; python_full_version < '3.10'
+importlib-resources==6.5.2 ; python_full_version < '3.11'
 jinja2==3.1.6
 jyutping @ https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl
 ko-pron==1.3
@@ -36,7 +39,7 @@ platformdirs==4.3.7
 portion==2.6.0
 proto-plus==1.26.1
 protobuf==6.30.2
-pycparser==2.22 ; sys_platform != 'win32'
+pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
 pycryptodomex==3.22.0
 pydantic==2.11.3
 pydantic-core==2.33.1
@@ -57,12 +60,13 @@ pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2
 pyzipper==0.3.6
 pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
+repro-zipfile==0.4.0 ; python_full_version < '3.11'
 retrie==0.3.1
 rich==14.0.0
 ruamel-yaml==0.18.10
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 rubicon-objc==0.5.0 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
-setuptools==79.0.0
+setuptools==79.0.1
 shellingham==1.5.4
 shiboken6==6.9.0
 sniffio==1.3.1
@@ -84,4 +88,5 @@ winrt-windows-ui-notifications==3.1.0 ; platform_python_implementation == 'CPyth
 xsdata==25.4
 xsdata-pydantic==24.5
 zhon==2.1.1
+zipp==3.21.0 ; python_full_version < '3.10'
 zstandard==0.23.0 ; platform_python_implementation == 'CPython'
