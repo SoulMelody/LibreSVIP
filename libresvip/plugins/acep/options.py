@@ -135,6 +135,7 @@ class InputOptions(
 (3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.
 (4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.
 (5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."""),
+        json_schema_extra={"type": "string", "default": "none,0,10,0,0"},
     )
     tension_normalization: NormalizationArgument = Field(
         default_factory=NormalizationArgument,
@@ -145,6 +146,7 @@ class InputOptions(
 (3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.
 (4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.
 (5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."""),
+        json_schema_extra={"type": "string", "default": "none,0,10,0,0"},
     )
     energy_normalization: NormalizationArgument = Field(
         default_factory=NormalizationArgument,
@@ -155,6 +157,7 @@ class InputOptions(
 (3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.
 (4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.
 (5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."""),
+        json_schema_extra={"type": "string", "default": "none,0,10,0,0"},
     )
 
     @field_validator(
