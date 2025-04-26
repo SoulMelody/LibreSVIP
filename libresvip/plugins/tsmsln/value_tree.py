@@ -22,6 +22,7 @@ from construct import (
     this,
 )
 from construct import Enum as CSEnum
+from construct import Optional as CSOptional
 from construct import Path as CSPath
 from construct_typed import Context
 from typing_extensions import Never
@@ -78,25 +79,27 @@ JUCECompressedInt = JUCECompressedIntStruct()
 
 JUCEVariant: Container = Prefixed(
     JUCECompressedInt,
-    Struct(
-        "type" / JUCEVarTypes,
-        "value"
-        / Switch(
-            this.type,
-            {
-                "INT": Int32sl,
-                "BOOL_TRUE": Computed(lambda ctx: True),
-                "BOOL_FALSE": Computed(lambda ctx: False),
-                "DOUBLE": Float64l,
-                "STRING": CString("utf-8"),
-                "INT64": Int64sl,
-                "ARRAY": PrefixedArray(
-                    JUCECompressedInt,
-                    LazyBound(lambda: JUCEVariant),
-                ),
-                "BINARY": GreedyBytes,
-            },
-        ),
+    CSOptional(
+        Struct(
+            "type" / JUCEVarTypes,
+            "value"
+            / Switch(
+                this.type,
+                {
+                    "INT": Int32sl,
+                    "BOOL_TRUE": Computed(lambda ctx: True),
+                    "BOOL_FALSE": Computed(lambda ctx: False),
+                    "DOUBLE": Float64l,
+                    "STRING": CString("utf-8"),
+                    "INT64": Int64sl,
+                    "ARRAY": PrefixedArray(
+                        JUCECompressedInt,
+                        LazyBound(lambda: JUCEVariant),
+                    ),
+                    "BINARY": GreedyBytes,
+                },
+            ),
+        )
     ),
 )
 
@@ -126,6 +129,7 @@ def build_tree_dict(node: Container) -> Node[Any]:
             else build_variant(attr.data)
         )
         for attr in node.attrs
+        if attr.data is not None
     }
     buckets = more_itertools.bucket(
         (build_tree_dict(child) for child in node.children),

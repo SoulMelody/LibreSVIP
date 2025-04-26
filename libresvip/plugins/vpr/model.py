@@ -160,7 +160,7 @@ class VocaloidSingingSkill(BaseModel):
 class VocaloidTempo(VocaloidFolded):
     events: list[VocaloidPoint] = Field(default_factory=list)
     global_value: VocaloidGlobal | None = Field(alias="global", default_factory=VocaloidGlobal)
-    height: int | None = 0
+    height: float | None = 0
     ara: VocaloidEnabled | None = None
 
 
@@ -169,7 +169,7 @@ class VocaloidTimeSigs(VocaloidFolded):
 
 
 class VocaloidAutomation(VocaloidFolded):
-    height: int = 0
+    height: float | None = 0
     events: list[VocaloidPoint] = Field(default_factory=list)
 
 
@@ -239,6 +239,7 @@ class VocaloidVoicePart(VocaloidWithDur):
     style_preset_id: str | None = Field(None, alias="stylePresetID")
     style_name: str | None = Field("No Effect", alias="styleName")
     voice: VocaloidVoice | None = None
+    secondary_voice: VocaloidVoice | None = Field(None, alias="secondaryVoice")
     ai_voice: VocaloidAIVoice | None = Field(None, alias="aiVoice")
     controllers: list[VocaloidControllers] | None = None
 
@@ -277,6 +278,7 @@ class VocaloidBaseTracks(VocaloidFolded):
     panpot: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
     volume: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
     last_scroll_position_note_number: int | None = Field(None, alias="lastScrollPositionNoteNumber")
+    audio_effects: list[VocaloidEffects] = Field(default_factory=list, alias="audioEffects")
 
 
 class VocaloidStandardTrack(VocaloidBaseTracks):

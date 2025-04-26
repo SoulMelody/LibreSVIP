@@ -83,6 +83,12 @@ class VoiSonaEmotionListItem(BaseModel):
 class VoiSonaSpecialSymbol(BaseModel):
     special_symbol_raspy: list[str] = Field(default_factory=list, alias="SpecialSymbolRaspy")
     special_symbol_falsetto: list[str] = Field(default_factory=list, alias="SpecialSymbolFalsetto")
+    special_symbol_head_fall: list[str] = Field(default_factory=list, alias="SpecialSymbolHeadFall")
+    special_symbol_pitch_flip_up: list[str] = Field(
+        default_factory=list, alias="SpecialSymbolPitchFlipUp"
+    )
+    special_symbol_exhale: list[str] = Field(default_factory=list, alias="SpecialSymbolExhale")
+    special_symbol_whisper: list[str] = Field(default_factory=list, alias="SpecialSymbolWhisper")
 
 
 class VoiSonaVoiceInformation(BaseModel):
@@ -147,7 +153,7 @@ class VoiSonaNoteItem(BaseModel):
     pitch_octave: int = Field(alias="PitchOctave")
     lyric: str = Field(alias="Lyric")
     syllabic: int = Field(alias="Syllabic")
-    phoneme: str = Field(alias="Phoneme")
+    phoneme: str | None = Field(None, alias="Phoneme")
     do_re_mi: bool | None = Field(None, alias="DoReMi")
     accent: bool | None = Field(None, alias="Accent")
     breath: bool | None = Field(None, alias="Breath")
