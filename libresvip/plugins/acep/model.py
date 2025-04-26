@@ -284,6 +284,11 @@ class AcepVocalPattern(AcepPattern):
     parameters: AcepParams = Field(default_factory=AcepParams)
 
 
+class AcepInstrumentPattern(AcepPattern):
+    notes: list[AcepNote] = Field(default_factory=list)
+    time_unit: str | None = Field("tick", alias="timeUnit")
+
+
 class AcepTrackProperties(BaseModel):
     name: str = ""
     color: str = "#91bcdc"
@@ -296,6 +301,7 @@ class AcepTrackProperties(BaseModel):
     listen: bool | None = False
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
     built_in_fx: dict[str, Any] = Field(default_factory=dict, alias="builtInFx")
+    input_source: dict[str, Any] | None = Field(None, alias="inputSource")
 
 
 class AcepEmptyTrack(AcepTrackProperties, BaseModel):
@@ -305,6 +311,14 @@ class AcepEmptyTrack(AcepTrackProperties, BaseModel):
 class AcepAudioTrack(AcepTrackProperties, BaseModel):
     type_: Literal["audio"] = Field(default="audio", alias="type")
     patterns: list[AcepAudioPattern] = Field(default_factory=list)
+    input_channel_index: int | None = Field(None, alias="inputChannelIndex")
+
+
+class AcepInstrumentTrack(AcepTrackProperties, BaseModel):
+    type_: Literal["instrument"] = Field(default="instrument", alias="type")
+    patterns: list[AcepInstrumentPattern] = Field(default_factory=list)
+    instruments: list[dict[str, Any]] = Field(default_factory=list)
+    ensemble_info: dict[str, Any] = Field(default_factory=dict, alias="ensembleInfo")
 
 
 class AcepSeedComposition(BaseModel):
@@ -338,6 +352,7 @@ class AcepVocalTrack(AcepTrackProperties, BaseModel):
     patterns: list[AcepVocalPattern] = Field(default_factory=list)
     choir_info: dict[str, Any] = Field(default_factory=dict, alias="choirInfo")
     singers: list[AcepSingerConfig] = Field(default_factory=list)
+    record_mode: str | None = Field(None, alias="recordMode")
 
     @model_validator(mode="after")
     def migrate_singer_attr(self) -> Self:
@@ -378,7 +393,7 @@ class AcepChordTrack(AcepTrackProperties, BaseModel):
 
 
 AcepTrack = Annotated[
-    AcepAudioTrack | AcepEmptyTrack | AcepVocalTrack | AcepChordTrack,
+    AcepAudioTrack | AcepEmptyTrack | AcepVocalTrack | AcepChordTrack | AcepInstrumentTrack,
     Field(discriminator="type_"),
 ]
 
@@ -411,6 +426,8 @@ class AcepProject(BaseModel):
     singer_library_id: str | None = "1200593006"
     time_signatures: list[AcepTimeSignature] = Field(default_factory=list, alias="timeSignatures")
     track_control_panel_w: int | None = Field(0, alias="trackControlPanelW")
+    svc_results: list[dict[str, Any]] = Field(default_factory=list, alias="svcResults")
+    piano_display_config: dict[str, Any] | None = Field(None, alias="pianoDisplayConfig")
 
     @model_validator(mode="after")
     def migrate_time_signatures(self) -> Self:
