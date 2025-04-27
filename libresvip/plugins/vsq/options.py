@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.option_mixins import EnablePitchImportationMixin
+from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 
@@ -19,6 +20,7 @@ class InputOptions(EnablePitchImportationMixin, BaseModel):
         default="SHIFT_JIS",
         title=_("Lyric text encoding"),
         description=_("Unless the lyrics are garbled, this option should not be changed."),
+        json_schema_extra={"enum": supported_charset_names()},
     )
     breath: BreathOption = Field(
         default=BreathOption.IGNORE,
@@ -38,4 +40,5 @@ class OutputOptions(BaseModel):
         default="SHIFT_JIS",
         title=_("Lyric text encoding"),
         description=_("Unless the lyrics are garbled, this option should not be changed."),
+        json_schema_extra={"enum": supported_charset_names()},
     )

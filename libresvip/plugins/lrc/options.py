@@ -4,6 +4,7 @@ from typing import Annotated
 
 from pydantic import BaseModel, Field
 
+from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 
@@ -82,4 +83,8 @@ class OutputOptions(BaseModel):
         description=_("If you need lyrics without timeline, turn off this option."),
         default=True,
     )
-    encoding: str = Field(title=_("Lyric Text encoding"), default="utf-8")
+    encoding: str = Field(
+        title=_("Lyric Text encoding"),
+        default="utf-8",
+        json_schema_extra={"enum": supported_charset_names()},
+    )

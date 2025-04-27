@@ -9,6 +9,7 @@ from libresvip.model.option_mixins import (
     EnablePitchImportationMixin,
     EnableVolumeImportationMixin,
 )
+from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 
@@ -24,6 +25,7 @@ class InputOptions(EnablePitchImportationMixin, EnableVolumeImportationMixin, Ba
         default="utf-8",
         title=_("Lyric text encoding"),
         description=_("Unless the lyrics are garbled, this option should not be changed."),
+        json_schema_extra={"enum": supported_charset_names()},
     )
     import_time_signatures: bool = Field(
         default=True,
@@ -68,6 +70,7 @@ class OutputOptions(BaseModel):
         default="utf-8",
         title=_("Lyric text encoding"),
         description=_("Unless the lyrics are garbled, this option should not be changed."),
+        json_schema_extra={"enum": supported_charset_names()},
     )
     transpose: int = Field(
         default=0,

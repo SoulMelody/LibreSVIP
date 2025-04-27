@@ -5,6 +5,7 @@ from typing import Annotated
 from pydantic import BaseModel, Field
 
 from libresvip.model.option_mixins import SelectSingleTrackMixin
+from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 
@@ -50,4 +51,8 @@ class OutputOptions(SelectSingleTrackMixin, BaseModel):
         ),
         default=True,
     )
-    encoding: str = Field(title=_("Text encoding"), default="utf-8")
+    encoding: str = Field(
+        title=_("Text encoding"),
+        default="utf-8",
+        json_schema_extra={"enum": supported_charset_names()},
+    )

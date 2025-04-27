@@ -5,6 +5,7 @@ from libresvip.model.option_mixins import (
     EnablePitchImportationMixin,
     SelectSingleTrackMixin,
 )
+from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 
@@ -12,6 +13,7 @@ class InputOptions(EnablePitchImportationMixin, BaseModel):
     encoding: str = Field(
         default="SHIFT_JIS",
         title=_("Text encoding"),
+        json_schema_extra={"enum": supported_charset_names()},
     )
 
 
@@ -24,4 +26,5 @@ class OutputOptions(SelectSingleTrackMixin, BaseModel):
     encoding: str = Field(
         default="SHIFT_JIS",
         title=_("Text encoding"),
+        json_schema_extra={"enum": supported_charset_names()},
     )
