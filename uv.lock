@@ -714,7 +714,7 @@ wheels = [
 
 [[package]]
 name = "desktop-notifier"
-version = "6.1.0"
+version = "6.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "bidict", marker = "python_full_version < '3.13' or platform_python_implementation == 'CPython'" },
@@ -729,9 +729,9 @@ dependencies = [
     { name = "winrt-windows-foundation-collections", marker = "(python_full_version < '3.13' and sys_platform == 'win32') or (platform_python_implementation == 'CPython' and sys_platform == 'win32')" },
     { name = "winrt-windows-ui-notifications", marker = "(python_full_version < '3.13' and sys_platform == 'win32') or (platform_python_implementation == 'CPython' and sys_platform == 'win32')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/40/9c/a2195c4fdecf5c360c39c0c350ca28baf52fa9dfc6b763ae4f6dd1dd9d88/desktop_notifier-6.1.0.tar.gz", hash = "sha256:044e0cbb2cf476cebf91959df072d3ceb9def4f248ec5075e46fd56f717ce83c", size = 34495, upload_time = "2025-04-06T12:42:44.64Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/16/62/6ce4ba09ba8b2751a51e42dc93bec8e2c212535438bd8b4d8635b3017398/desktop_notifier-6.1.1.tar.gz", hash = "sha256:eb28f5c1cc69cb133f4bebede83e5d8dec83abf2f9e602d7ec7cce2897cd8930", size = 34285, upload_time = "2025-04-27T19:14:17.049Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1e/4a/e56a259028a3bf3611d8a7ed94ed118f6525daeb7e233b386a6b560e89b9/desktop_notifier-6.1.0-py3-none-any.whl", hash = "sha256:6deeb144df9234c9182358eefb8725d04434b96ef6ab14d5383dab51ec771f0b", size = 34262, upload_time = "2025-04-06T12:42:43.601Z" },
+    { url = "https://files.pythonhosted.org/packages/7e/0b/231359d72e12b2a681b83b32df6cf01733fa0490583aa98e9781cb3eab76/desktop_notifier-6.1.1-py3-none-any.whl", hash = "sha256:57c7ddc3213f3af0ea445804a6fda94bef6b286c8e4e50598295180c2b862386", size = 34156, upload_time = "2025-04-27T19:14:15.591Z" },
 ]
 
 [[package]]
@@ -1558,7 +1558,7 @@ requires-dist = [
     { name = "charset-normalizer", specifier = ">=3.4.1,<4.0.0" },
     { name = "construct", url = "https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl" },
     { name = "construct-typing", specifier = ">=0.6.2,<1.0.0" },
-    { name = "desktop-notifier", marker = "platform_python_implementation == 'CPython' and extra == 'desktop'", specifier = ">=6.1.0" },
+    { name = "desktop-notifier", marker = "platform_python_implementation == 'CPython' and extra == 'desktop'", specifier = ">=6.1.1" },
     { name = "drawsvg", specifier = ">=2.4.0,<3.0.0" },
     { name = "flet", extras = ["cli", "desktop"], marker = "extra == 'mobile'", specifier = ">=0.27.6" },
     { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.1.0" },
