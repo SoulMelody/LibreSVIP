@@ -2,7 +2,7 @@ altgraph==0.17.4
 annotated-types==0.7.0
 anyio==4.9.0
 bidict==0.23.1
-certifi==2025.1.31
+certifi==2025.4.26
 cffi==1.17.1 ; python_full_version < '3.12' or sys_platform != 'win32'
 charset-normalizer==3.4.1
 click==8.1.8
@@ -10,7 +10,7 @@ colorama==0.4.6 ; sys_platform == 'win32'
 construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
 construct-typing==0.6.2
 dbus-fast==2.44.1 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
-desktop-notifier==6.1.0 ; platform_python_implementation == 'CPython'
+desktop-notifier==6.1.1 ; platform_python_implementation == 'CPython'
 drawsvg==2.4.0
 exceptiongroup==1.2.2 ; python_full_version < '3.11'
 fonticon-materialdesignicons7==7.2.96
@@ -19,7 +19,7 @@ h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
 idna==3.10
-importlib-metadata==8.6.1 ; python_full_version < '3.10'
+importlib-metadata==8.7.0 ; python_full_version < '3.10'
 importlib-resources==6.5.2 ; python_full_version < '3.11'
 jinja2==3.1.6
 jyutping @ https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl
@@ -66,7 +66,7 @@ rich==14.0.0
 ruamel-yaml==0.18.10
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 rubicon-objc==0.5.0 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
-setuptools==79.0.1
+setuptools==80.0.0
 shellingham==1.5.4
 shiboken6==6.9.0
 sniffio==1.3.1
