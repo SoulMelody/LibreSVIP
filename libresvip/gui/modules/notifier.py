@@ -2,13 +2,13 @@ import asyncio
 import fnmatch
 import platform
 import time
-from collections.abc import Awaitable, Sequence
+from collections.abc import Sequence
 from functools import partial
 from importlib.resources import as_file
 from typing import TYPE_CHECKING
 
 import httpx
-from desktop_notifier import Button, DesktopNotifier, Notification
+from desktop_notifier import Button, DesktopNotifier
 from loguru import logger
 from packaging.version import Version
 from PySide6.QtCore import QObject, QTimer, Slot
@@ -61,7 +61,7 @@ class Notifier(QObject):
         async with httpx.AsyncClient(follow_redirects=True, verify=False) as client:
             try:
                 await self.clear_all_messages_async()
-                await self.notify_async(
+                notify_id = await self.notify_async(
                     title=_("Downloading"),
                     message=_("Please wait..."),
                     send_timeout=self.request_timeout,
@@ -72,6 +72,8 @@ class Notifier(QObject):
                         async for chunk in response.aiter_bytes():
                             f.write(chunk)
                             f.flush()
+                if notify_id:
+                    await self.clear_message_async(notify_id)
                 open_path(app_dir.user_downloads_path)
             except httpx.HTTPError:
                 await self.notify_async(
@@ -90,7 +92,7 @@ class Notifier(QObject):
         ) as client:
             try:
                 await self.clear_all_messages_async()
-                await self.notify_async(
+                notify_id = await self.notify_async(
                     title=_("Checking for Updates"),
                     message=_("Please wait..."),
                     send_timeout=self.notify_timeout,
@@ -98,6 +100,8 @@ class Notifier(QObject):
                 resp = await client.get(
                     "https://api.github.com/repos/SoulMelody/LibreSVIP/releases/latest"
                 )
+                if notify_id:
+                    await self.clear_message_async(notify_id)
                 if resp.status_code == 200:
                     data = resp.json()
                     local_version = Version(libresvip.__version__)
@@ -220,7 +224,7 @@ class Notifier(QObject):
         message: str,
         buttons: Sequence[Button] = (),
         send_timeout: int = -1,
-    ) -> Awaitable[Notification] | None:
+    ) -> str | None:
         try:
             if self.last_notify_time is None:
                 pass
@@ -240,6 +244,12 @@ class Notifier(QObject):
         try:
             if len(await self.notifier.get_current_notifications()):
                 await self.notifier.clear_all()
+        except Exception as e:
+            logger.exception(e)
+
+    async def clear_message_async(self, identifier: str) -> None:
+        try:
+            await self.notifier.clear(identifier)
         except Exception as e:
             logger.exception(e)
 
