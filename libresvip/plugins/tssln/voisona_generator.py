@@ -1,9 +1,7 @@
 import dataclasses
 
 from libresvip.core.constants import KEY_IN_OCTAVE
-from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -12,9 +10,8 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils.translation import gettext_lazy as _
 
-from .constants import DEFAULT_PHONEME, OCTAVE_OFFSET, TICK_RATE
+from .constants import OCTAVE_OFFSET, TICK_RATE
 from .model import (
     VoiSonaAudioEventItem,
     VoiSonaAudioTrackItem,
@@ -118,29 +115,20 @@ class VoiSonaGenerator:
             prev_time_signature = time_signature
         return beat
 
-    def generate_notes(self, notes: list[Note]) -> list[VoiSonaNoteItem]:
-        voisona_notes = []
-        for note in notes:
-            lyric = note.lyric
-            phoneme = ""
-            if note.pronunciation:
-                phoneme = note.pronunciation
-            elif not is_kana(lyric) and not is_romaji(lyric):
-                phoneme = DEFAULT_PHONEME
-                msg_prefix = _("Unsupported lyric: ")
-                show_warning(f"{msg_prefix} {lyric}")
-            voisona_notes.append(
-                VoiSonaNoteItem(
-                    clock=int(note.start_pos * TICK_RATE),
-                    duration=int(note.length * TICK_RATE),
-                    lyric=note.lyric,
-                    pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
-                    pitch_step=note.key_number % KEY_IN_OCTAVE,
-                    syllabic=0,
-                    phoneme=phoneme,
-                )
+    @staticmethod
+    def generate_notes(notes: list[Note]) -> list[VoiSonaNoteItem]:
+        return [
+            VoiSonaNoteItem(
+                clock=int(note.start_pos * TICK_RATE),
+                duration=int(note.length * TICK_RATE),
+                lyric=note.lyric,
+                pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
+                pitch_step=note.key_number % KEY_IN_OCTAVE,
+                syllabic=0,
+                phoneme=note.pronunciation,
             )
-        return voisona_notes
+            for note in notes
+        ]
 
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]
