@@ -58,6 +58,7 @@ class Notifier(QObject):
 
     async def download_release(self, url: str, filename: str) -> None:
         app_dir.user_downloads_path.mkdir(parents=True, exist_ok=True)
+        notify_id = None
         async with httpx.AsyncClient(follow_redirects=True, verify=False) as client:
             try:
                 await self.clear_all_messages_async()
@@ -72,8 +73,6 @@ class Notifier(QObject):
                         async for chunk in response.aiter_bytes():
                             f.write(chunk)
                             f.flush()
-                if notify_id:
-                    await self.clear_message_async(notify_id)
                 open_path(app_dir.user_downloads_path)
             except httpx.HTTPError:
                 await self.notify_async(
@@ -83,10 +82,14 @@ class Notifier(QObject):
                     ),
                     send_timeout=self.notify_timeout,
                 )
+            finally:
+                if notify_id:
+                    await self.clear_message_async(notify_id)
 
     async def _check_for_updates(self) -> None:
         failed = False
         logger.info("Checking for updates...")
+        notify_id = None
         async with httpx.AsyncClient(
             follow_redirects=True, timeout=self.request_timeout, verify=False
         ) as client:
@@ -100,8 +103,6 @@ class Notifier(QObject):
                 resp = await client.get(
                     "https://api.github.com/repos/SoulMelody/LibreSVIP/releases/latest"
                 )
-                if notify_id:
-                    await self.clear_message_async(notify_id)
                 if resp.status_code == 200:
                     data = resp.json()
                     local_version = Version(libresvip.__version__)
@@ -198,6 +199,9 @@ class Notifier(QObject):
                     failed = True
             except httpx.HTTPError:
                 failed = True
+            finally:
+                if notify_id:
+                    await self.clear_message_async(notify_id)
             if failed:
                 await self.notify_async(
                     title=_("Error occurred while Checking for Updates"),
