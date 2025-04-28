@@ -1593,7 +1593,7 @@ requires-dist = [
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
     { name = "tatsu-lts", specifier = ">=5.13.1" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.4.1" },
-    { name = "typer-slim", specifier = ">=0.15.2,<1.0.0" },
+    { name = "typer-slim", specifier = ">=0.15.3,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.6,<1.0.0" },
     { name = "universal-pathlib", marker = "extra == 'mobile'", specifier = ">=0.2.6,<1.0.0" },
@@ -3763,15 +3763,15 @@ wheels = [
 
 [[package]]
 name = "typer-slim"
-version = "0.15.2"
+version = "0.15.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/29/67/88189eb827c491646511dc6c806e2e6e543241cae5438383aa042b1dfa40/typer_slim-0.15.2.tar.gz", hash = "sha256:4a666bb7839a88f51dd25d078d36dbc1d0f37c8c2696e184fbc1f3eaa314a91b", size = 100755, upload_time = "2025-02-27T19:17:41.239Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4a/62/b569dc0bdaf733250afb4693f00a88ef16232b19f8b6b6c3ef1c245e33a7/typer_slim-0.15.3.tar.gz", hash = "sha256:c134ae789afe8957c3f5f420eed07df53621271aca192b8e497d43a29b94c878", size = 101634, upload_time = "2025-04-28T21:41:00.621Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9e/84/9b68e98bf7417d25e38b27a0296bfcbc6719b15d7000f4c09d9716fa9d11/typer_slim-0.15.2-py3-none-any.whl", hash = "sha256:4273014a3378b24367bffed45c2ce8dd3d85bd201a6f02e51ba6b19f336009be", size = 45117, upload_time = "2025-02-27T19:17:36.408Z" },
+    { url = "https://files.pythonhosted.org/packages/92/b1/0f3d4f3e35fd82248ed5bcb70c6249baebb39f0ab3faf7f9818101eec991/typer_slim-0.15.3-py3-none-any.whl", hash = "sha256:626c125b1b01eebafdc2bb12326b401863d1c4752342e3f9c1d9f829939fe300", size = 45310, upload_time = "2025-04-28T21:40:56.231Z" },
 ]
 
 [[package]]
