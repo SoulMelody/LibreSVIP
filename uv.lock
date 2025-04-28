@@ -657,7 +657,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.30.0"
+version = "0.30.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -671,9 +671,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tomli", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/98/cc/645364517fa8269db348229e7939eae7b6c7e8fff8de12cbf49ef7320db8/datamodel_code_generator-0.30.0.tar.gz", hash = "sha256:00972ab4d3368d06ec29e8b6f06ff1d8cdddf1ee33e6401d5c58f31954692959", size = 446241, upload_time = "2025-04-17T15:24:55.795Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ef/bc/627a77eafcf7101c9f5710130b2def98593709a8d29676e4a58f09cd2a23/datamodel_code_generator-0.30.1.tar.gz", hash = "sha256:d125012face4cd1eca6c9300297a1f5775a9d5ff8fc3f68d34d0944a7beea105", size = 446630, upload_time = "2025-04-28T13:58:36.438Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/6c/78844a408221886f867e3c4842140b04a8d8fad28ee6db35e929b4ebda49/datamodel_code_generator-0.30.0-py3-none-any.whl", hash = "sha256:b1244f3f1b3e98daa48adeb6c366ed432305a1e9f363a57e6f8a7dd3ad364e70", size = 118024, upload_time = "2025-04-17T15:24:53.511Z" },
+    { url = "https://files.pythonhosted.org/packages/e1/b3/01aab190372914399bbc77f89ac3b24b439c3d97a52a6198f1cd1396ef3a/datamodel_code_generator-0.30.1-py3-none-any.whl", hash = "sha256:9601dfa3da8aa8d8d54e182059f78836b1768a807d5c26df798db12d4054c8f3", size = 118045, upload_time = "2025-04-28T13:58:34.318Z" },
 ]
 
 [[package]]
@@ -1612,12 +1612,12 @@ all = [
     { name = "babel", specifier = ">=2.17.0" },
     { name = "basedpyright", specifier = ">=1.29.1" },
     { name = "cx-freeze", specifier = ">=8.2.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.30.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.30.1" },
     { name = "gapic-generator", specifier = ">=1.24.1" },
     { name = "mkdocs-marimo", specifier = ">=0.2.1" },
     { name = "mkdocs-material", specifier = ">=9.6.12,<10.0.0" },
     { name = "mypy", specifier = ">=1.15.0" },
-    { name = "nuitka", specifier = ">=2.6.9" },
+    { name = "nuitka", specifier = ">=2.7" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "pyinstaller", specifier = ">=6.13.0" },
@@ -1633,7 +1633,7 @@ all = [
     { name = "xsdata", extras = ["cli"], specifier = ">=25.4" },
 ]
 code-gen = [
-    { name = "datamodel-code-generator", specifier = ">=0.30.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.30.1" },
     { name = "gapic-generator", specifier = ">=1.24.1" },
     { name = "xsdata", extras = ["cli"], specifier = ">=25.4" },
 ]
@@ -1655,7 +1655,7 @@ linting = [
 ]
 packaging = [
     { name = "cx-freeze", specifier = ">=8.2.0" },
-    { name = "nuitka", specifier = ">=2.6.9" },
+    { name = "nuitka", specifier = ">=2.7" },
     { name = "pyinstaller", specifier = ">=6.13.0" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
 ]
@@ -2339,13 +2339,13 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "2.6.9"
+version = "2.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ordered-set" },
     { name = "zstandard" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/dc/2b/b88531a2735ac05346bffd9a106a45a02c81bcb34d6f5de518a488d53900/Nuitka-2.6.9.tar.gz", hash = "sha256:50e1d2fae48c32b0103850df5ad2ccdde7f3c736545681c0896a5ce233597a5d", size = 3869212, upload_time = "2025-03-28T08:55:00.715Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2d/c8/ff5f8ccdd112101d0026006887708083db587a02b9379ea726f8f9a93c03/Nuitka-2.7.tar.gz", hash = "sha256:b0d5ad394cbfe93820116cfe94605e50bb20f5707b6fb41e09c421a7c9a2c53d", size = 3885354, upload_time = "2025-04-28T09:58:43.897Z" }
 
 [[package]]
 name = "oauthlib"
