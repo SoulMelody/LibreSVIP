@@ -3,9 +3,9 @@ from __future__ import annotations
 
 from enum import Enum
 from types import SimpleNamespace
-from typing import Annotated, Literal
+from typing import TYPE_CHECKING, Annotated, Literal
 
-from pydantic import Field, ValidationInfo, field_validator
+from pydantic import Field, SerializationInfo, ValidationInfo, field_serializer, field_validator
 
 from libresvip.model.base import BaseModel
 from libresvip.model.option_mixins import (
@@ -18,6 +18,9 @@ from libresvip.utils.translation import gettext_lazy as _
 
 from .enums import AcepLyricsLanguage
 from .singers import DEFAULT_SINGER
+
+if TYPE_CHECKING:
+    from pydantic.json_schema import JsonSchemaValue
 
 
 class StrengthMappingOption(Enum):
@@ -66,9 +69,8 @@ class NormalizationArgument(BaseModel):
 
     @classmethod
     def default_repr(cls) -> str:
-        fields = cls.model_fields
-        default_strs = [str(field.default) for field in fields.values()]
-        return ",".join(default_strs)
+        default_obj = cls()
+        return default_obj.to_str()
 
     @classmethod
     def from_str(cls, v: str) -> NormalizationArgument:
@@ -79,9 +81,18 @@ class NormalizationArgument(BaseModel):
             obj = cls()
         return obj
 
+    def to_str(self) -> str:
+        return ",".join(str(getattr(self, field)) for field in type(self).model_fields)
+
     @property
     def enabled(self) -> bool:
         return self.normalize_method != "none"
+
+
+def finalize_normalization_argument(s: JsonSchemaValue) -> None:
+    s.pop("$ref", None)
+    s["type"] = "string"
+    s["default"] = "none,0,10,0,0"
 
 
 class InputOptions(
@@ -135,6 +146,7 @@ class InputOptions(
 (3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.
 (4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.
 (5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."""),
+        json_schema_extra=finalize_normalization_argument,
     )
     tension_normalization: NormalizationArgument = Field(
         default_factory=NormalizationArgument,
@@ -145,6 +157,7 @@ class InputOptions(
 (3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.
 (4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.
 (5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."""),
+        json_schema_extra=finalize_normalization_argument,
     )
     energy_normalization: NormalizationArgument = Field(
         default_factory=NormalizationArgument,
@@ -155,6 +168,7 @@ class InputOptions(
 (3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.
 (4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.
 (5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."""),
+        json_schema_extra=finalize_normalization_argument,
     )
 
     @field_validator(
@@ -170,6 +184,14 @@ class InputOptions(
         if isinstance(v, str):
             v = NormalizationArgument.from_str(v).model_dump()
         return NormalizationArgument.model_validate(v)
+
+    @field_serializer(
+        "breath_normalization", "tension_normalization", "energy_normalization", when_used="json"
+    )
+    def _serialize_normalization_argument(
+        self, v: NormalizationArgument, _info: SerializationInfo
+    ) -> str:
+        return v.to_str()
 
 
 class OutputOptions(BaseModel):
