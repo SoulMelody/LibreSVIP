@@ -3,7 +3,7 @@ anyio==4.9.0 ; platform_system != 'Pyodide'
 bidict==0.23.1
 certifi==2025.4.26 ; platform_system != 'Pyodide'
 cffi==1.17.1 ; sys_platform != 'win32'
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
 click==8.1.8
 colorama==0.4.6 ; sys_platform == 'win32'
 construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
