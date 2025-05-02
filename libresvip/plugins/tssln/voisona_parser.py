@@ -177,7 +177,14 @@ class VoiSonaParser:
                         vibrato_frequency_events=vibrato_frequency_data,
                     )
         time_signatures = shift_beat_list(time_signatures, 1)
-        singing_track = SingingTrack(title=track.name, note_list=notes)
+        singer_name = ""
+        if track.plugin_data.state_information.voice_information:
+            singer_name = track.plugin_data.state_information.voice_information[0].character_name
+        singing_track = SingingTrack(
+            title=track.name,
+            note_list=notes,
+            ai_singer_name=singer_name,
+        )
         if (
             self.options.import_pitch
             and voisona_track_pitch_data is not None
