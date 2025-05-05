@@ -37,7 +37,7 @@ jobs:
 
       - name: Set up uv
         if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.qml_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true' || steps.changed-files.outputs.docs_any_changed == 'true'
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           version: "latest"
 
