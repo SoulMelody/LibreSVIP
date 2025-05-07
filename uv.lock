@@ -998,7 +998,7 @@ wheels = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.24.1"
+version = "1.25.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -1013,9 +1013,9 @@ dependencies = [
     { name = "pypandoc" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/60/50/624a2597f2a489fcb64d37bb1401887f69f369bfbb390e943b918964c82e/gapic_generator-1.24.1.tar.gz", hash = "sha256:69c3618265c3d7ec239f16c56f6fda629b00e1b3a6c0c0ff139429fa1a5b692f", size = 1484731, upload-time = "2025-04-17T15:05:42.846Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1f/57/2a965ecd094847562fdfcebce26f6f909e46dadd454e288ae0c4eba5dec5/gapic_generator-1.25.0.tar.gz", hash = "sha256:a7a92734d85ec41298780a979776fd773061f08a5c27f233d42be41412579ab2", size = 1487932, upload-time = "2025-05-07T00:29:55.974Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9d/f1/446526e7f10ff8d4fd9e39211d57251ac5e4a8feb7ebfe3da5e27fc6fec5/gapic_generator-1.24.1-py3-none-any.whl", hash = "sha256:1b2abe258cd2cc766ddf0c0bcc40d986424828bde6844f1c808814eeb6f762ec", size = 2229549, upload-time = "2025-04-17T15:05:40.59Z" },
+    { url = "https://files.pythonhosted.org/packages/58/08/e6e40415e2f1a29580551508f273b9bed0b050b3d5082c22140690975ef3/gapic_generator-1.25.0-py3-none-any.whl", hash = "sha256:ed955f56e475a7ccea9583d9f35f446e5dff53af4faca7271d3b43d6b329a7d3", size = 2232125, upload-time = "2025-05-07T00:29:53.788Z" },
 ]
 
 [[package]]
@@ -1613,7 +1613,7 @@ all = [
     { name = "basedpyright", specifier = ">=1.29.1" },
     { name = "cx-freeze", specifier = ">=8.2.0" },
     { name = "datamodel-code-generator", specifier = ">=0.30.1" },
-    { name = "gapic-generator", specifier = ">=1.24.1" },
+    { name = "gapic-generator", specifier = ">=1.25.0" },
     { name = "mkdocs-marimo", specifier = ">=0.2.1" },
     { name = "mkdocs-material", specifier = ">=9.6.12,<10.0.0" },
     { name = "mypy", specifier = ">=1.15.0" },
@@ -1634,7 +1634,7 @@ all = [
 ]
 code-gen = [
     { name = "datamodel-code-generator", specifier = ">=0.30.1" },
-    { name = "gapic-generator", specifier = ">=1.24.1" },
+    { name = "gapic-generator", specifier = ">=1.25.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=25.4" },
 ]
 docs = [
