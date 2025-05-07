@@ -209,7 +209,12 @@ class TuneLabParser:
     ) -> list[Point]:
         points: list[Point] = [Point.start_point()]
         for pitch_part in pitch:
-            anchor_group = [point for point in pitch_part.root if not math.isnan(point.value)]
+            anchor_group = list(
+                more_itertools.unique_justseen(
+                    (point for point in pitch_part.root if not math.isnan(point.value)),
+                    key=operator.attrgetter("pos"),
+                )
+            )
             if len(anchor_group) < 2:
                 continue
             interpolator = HermiteInterpolator(
