@@ -30,7 +30,6 @@ jobs:
               - "packaging/requirements-desktop.in"
               - "packaging/requirements-mobile.in"
               - "packaging/requirements-pyinstaller.in"
-              - "packaging/requirements-pywebview.in"
             docs:
               - "docs/**"
               - "mkdocs.yml"
@@ -61,7 +60,6 @@ jobs:
         if: steps.changed-files.outputs.requirements_any_changed == 'true'
         run: |
           uv pip compile --universal --extra desktop --extra crypto --extra ujson --extra lxml --extra ruamel_yaml --extra zstd -U --no-annotate --no-header pyproject.toml packaging/requirements-pyinstaller.in --overrides packaging/requirements-desktop.in -o packaging/requirements-desktop.txt
-          uv pip compile --universal --extra webui --extra crypto --extra ujson --extra lxml --extra ruamel_yaml --extra zstd -U --no-annotate --no-header --no-emit-package httptools pyproject.toml packaging/requirements-pywebview.in packaging/requirements-pyinstaller.in -o packaging/requirements-webui.txt
           uv pip compile --universal --extra crypto --extra lxml --extra ruamel_yaml --extra zstd --extra upath -U --python-version 3.12 --no-annotate --no-header pyproject.toml packaging/requirements-flet.in --overrides packaging/requirements-mobile.in -o packaging/requirements-android.txt
 
       - name: Build docs

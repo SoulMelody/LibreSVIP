@@ -85,40 +85,6 @@ jobs:
           files: |
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z
 
-  release_windows_webview:
-    runs-on: windows-latest
-    needs: [make-outputs]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          version: "latest"
-      - name: Build with pyinstaller
-        shell: bash -el {0}
-        run: |
-          uv venv --python 3.13
-          uv build --wheel
-          cd packaging
-          uv pip install -r requirements-webui.txt
-          uv pip install ../dist/*.whl --no-deps
-          uv run pyinstaller libresvip-web.spec
-          cd dist
-          7z a LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z libresvip-web
-          rm -rf libresvip-web
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: libresvip-web-win-amd64.zip
-          path: ./packaging/dist/
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
-          files: |
-            ./packaging/dist/LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z
-
   release_windows_arm64:
     runs-on: windows-11-arm
     needs: [make-outputs]
