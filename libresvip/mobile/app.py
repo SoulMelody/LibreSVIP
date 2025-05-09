@@ -321,6 +321,7 @@ def main(page: ft.Page) -> None:
                         title=ft.Text(file.name),
                         subtitle=ft.Text(file_path.stem),
                         trailing=ft.PopupMenuButton(
+                            menu_position=ft.PopupMenuPosition.UNDER,
                             items=[
                                 ft.PopupMenuItem(
                                     icon=ft.Icons.REMOVE_RED_EYE_OUTLINED,
@@ -341,6 +342,7 @@ def main(page: ft.Page) -> None:
                             tooltip=_("Actions"),
                         ),
                         data={"path": file_path, "log_text": ""},
+                        content_padding=padding.Padding(0, 0, 30, 0),
                     )
                 )
             page.update()
@@ -394,6 +396,7 @@ def main(page: ft.Page) -> None:
                     title=ft.Text(e.file_name),
                     subtitle=ft.Text(file_path.stem),
                     trailing=ft.PopupMenuButton(
+                        menu_position=ft.PopupMenuPosition.UNDER,
                         items=[
                             ft.PopupMenuItem(
                                 icon=ft.Icons.REMOVE_RED_EYE_OUTLINED,
@@ -680,6 +683,7 @@ def main(page: ft.Page) -> None:
         switch_theme_btn = ft.PopupMenuButton(
             icon=ft.Icons.PALETTE_OUTLINED,
             tooltip=_("Switch Theme"),
+            menu_position=ft.PopupMenuPosition.UNDER,
             items=[
                 ft.PopupMenuItem(
                     text=_("System"),
@@ -701,6 +705,7 @@ def main(page: ft.Page) -> None:
         switch_language_btn = ft.PopupMenuButton(
             icon=ft.Icons.TRANSLATE_OUTLINED,
             tooltip=_("Switch Language"),
+            menu_position=ft.PopupMenuPosition.UNDER,
             items=[
                 ft.PopupMenuItem(text="简体中文", on_click=lambda _: change_language("zh_CN")),
                 ft.PopupMenuItem(text="English", on_click=lambda _: change_language("en_US")),
@@ -908,16 +913,6 @@ def main(page: ft.Page) -> None:
                                     col=12,
                                     on_change=change_reset_tasks_on_input_change,
                                 ),
-                                ft.Text(_("Max track count"), col=4),
-                                ft.Slider(
-                                    value=page.client_storage.get("max_track_count"),
-                                    min=1,
-                                    max=100,
-                                    divisions=100,
-                                    label="{value}",
-                                    col=8,
-                                    on_change=change_max_track_count,
-                                ),
                                 ft.TextField(
                                     ref=save_folder_text_field,
                                     label=_("Output Folder"),
@@ -955,6 +950,21 @@ def main(page: ft.Page) -> None:
                                 ft.DropdownOption("split", _("Split")),
                                 ft.DropdownOption("merge", _("Merge")),
                             ],
+                        ),
+                        ft.ResponsiveRow(
+                            [
+                                ft.Text(_("Max track count"), col=4),
+                                ft.Slider(
+                                    value=page.client_storage.get("max_track_count"),
+                                    min=1,
+                                    max=100,
+                                    divisions=100,
+                                    label="{value}",
+                                    col=8,
+                                    on_change=change_max_track_count,
+                                ),
+                            ],
+                            vertical_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
                         ft.ReorderableListView(
                             ref=task_list_view,
