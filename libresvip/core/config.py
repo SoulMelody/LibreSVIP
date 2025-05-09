@@ -111,9 +111,9 @@ def get_omega_conf_loader() -> DefaultSafeLoader:
         ),
         list("-+0123456789."),
     )
-    loader_class.yaml_implicit_resolvers = {
+    loader_class.resolver_registry.yaml_implicit_resolvers = {
         key: [(tag, regexp) for tag, regexp in resolvers if tag != "tag:yaml.org,2002:timestamp"]
-        for key, resolvers in loader_class.yaml_implicit_resolvers.items()
+        for key, resolvers in loader_class.resolver_registry.yaml_implicit_resolvers.items()
     }
 
     loader_class.add_constructor(
