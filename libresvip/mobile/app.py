@@ -666,16 +666,13 @@ def main(page: ft.Page) -> None:
             on_change=click_navigation_bar,
             destinations=[
                 ft.NavigationBarDestination(
-                    icon=ft.Icons.SWAP_HORIZ_OUTLINED, label=_("Select File Formats")
+                    icon=ft.Icons.SETTINGS_APPLICATIONS_OUTLINED, label=_("Basic Settings")
                 ),
                 ft.NavigationBarDestination(
                     icon=ft.Icons.TASK_ALT_OUTLINED, label=_("Conversion mode & Task list")
                 ),
                 ft.NavigationBarDestination(
                     icon=ft.Icons.SETTINGS_OUTLINED, label=_("Advanced Options")
-                ),
-                ft.NavigationBarDestination(
-                    icon=ft.Icons.SETTINGS_APPLICATIONS_OUTLINED, label=_("Basic Settings")
                 ),
                 ft.NavigationBarDestination(icon=ft.Icons.HELP_OUTLINED, label=_("About")),
             ],
@@ -899,9 +896,51 @@ def main(page: ft.Page) -> None:
                                     col=2,
                                     on_click=lambda _: show_plugin_info(output_select),
                                 ),
+                                ft.Switch(
+                                    _("Auto detect import format"),
+                                    value=page.client_storage.get("auto_detect_input_format"),
+                                    col=12,
+                                    on_change=change_auto_detect_input_format,
+                                ),
+                                ft.Switch(
+                                    _("Reset list when import format changed"),
+                                    value=page.client_storage.get("reset_tasks_on_input_change"),
+                                    col=12,
+                                    on_change=change_reset_tasks_on_input_change,
+                                ),
+                                ft.Text(_("Max track count"), col=4),
+                                ft.Slider(
+                                    value=page.client_storage.get("max_track_count"),
+                                    min=1,
+                                    max=100,
+                                    divisions=100,
+                                    label="{value}",
+                                    col=8,
+                                    on_change=change_max_track_count,
+                                ),
+                                ft.TextField(
+                                    ref=save_folder_text_field,
+                                    label=_("Output Folder"),
+                                    value=page.client_storage.get("save_folder"),
+                                    col=10,
+                                ),
+                                ft.IconButton(
+                                    ft.Icons.FOLDER_OPEN_OUTLINED,
+                                    tooltip=_("Change Output Directory"),
+                                    col=2,
+                                    on_click=lambda e: file_picker.get_directory_path(
+                                        _("Change Output Directory")
+                                    ),
+                                ),
+                                ft.ElevatedButton(
+                                    _("Request permission to access files"),
+                                    data=fph.PermissionType.MANAGE_EXTERNAL_STORAGE,
+                                    on_click=check_permission,
+                                    col=12,
+                                ),
                             ],
                             vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                        ),
+                        )
                     ],
                     visible=True,
                 ),
@@ -999,54 +1038,6 @@ def main(page: ft.Page) -> None:
                     ],
                     scroll=ft.ScrollMode.ALWAYS,
                     height=400,
-                    visible=False,
-                ),
-                ft.ResponsiveRow(
-                    [
-                        ft.Switch(
-                            _("Auto detect import format"),
-                            value=page.client_storage.get("auto_detect_input_format"),
-                            col=12,
-                            on_change=change_auto_detect_input_format,
-                        ),
-                        ft.Switch(
-                            _("Reset list when import format changed"),
-                            value=page.client_storage.get("reset_tasks_on_input_change"),
-                            col=12,
-                            on_change=change_reset_tasks_on_input_change,
-                        ),
-                        ft.Text(_("Max track count"), col=4),
-                        ft.Slider(
-                            value=page.client_storage.get("max_track_count"),
-                            min=1,
-                            max=100,
-                            divisions=100,
-                            label="{value}",
-                            col=8,
-                            on_change=change_max_track_count,
-                        ),
-                        ft.TextField(
-                            ref=save_folder_text_field,
-                            label=_("Output Folder"),
-                            value=page.client_storage.get("save_folder"),
-                            col=10,
-                        ),
-                        ft.IconButton(
-                            ft.Icons.FOLDER_OPEN_OUTLINED,
-                            tooltip=_("Change Output Directory"),
-                            col=2,
-                            on_click=lambda e: file_picker.get_directory_path(
-                                _("Change Output Directory")
-                            ),
-                        ),
-                        ft.ElevatedButton(
-                            _("Request permission to access files"),
-                            data=fph.PermissionType.MANAGE_EXTERNAL_STORAGE,
-                            on_click=check_permission,
-                            col=12,
-                        ),
-                    ],
-                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     visible=False,
                 ),
                 ft.ResponsiveRow(
