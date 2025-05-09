@@ -713,7 +713,7 @@ def main(page: ft.Page) -> None:
         window_buttons = []
         maximize_button = None
 
-        def on_maximize_click(e: ft.ControlEvent) -> None:
+        def on_maximize_click(e: ft.ControlEvent | ft.TapEvent) -> None:
             page.window.maximized = not page.window.maximized
             page.update()
             if maximize_button is None:
@@ -725,6 +725,9 @@ def main(page: ft.Page) -> None:
                 maximize_button.current.icon = ft.Icons.OPEN_IN_FULL_OUTLINED
                 maximize_button.current.tooltip = _("Maximize")
             maximize_button.current.update()
+
+        def on_start_dragging(e: ft.DragStartEvent) -> None:
+            page.window.start_dragging()
 
         if page.platform not in [ft.PagePlatform.IOS, ft.PagePlatform.ANDROID] and not page.web:
             maximize_button = ft.Ref[ft.IconButton]()
@@ -1108,6 +1111,7 @@ def main(page: ft.Page) -> None:
                         ft.Row([ft.Text("LibreSVIP")], expand=True),
                         expand=True,
                         on_double_tap=on_maximize_click,
+                        on_pan_start=on_start_dragging,
                     ),
                     bgcolor=ft.Colors.SURFACE,
                     actions=[
