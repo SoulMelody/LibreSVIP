@@ -711,10 +711,13 @@ def main(page: ft.Page) -> None:
             ],
         )
         window_buttons = []
+        maximize_button = None
 
         def on_maximize_click(e: ft.ControlEvent) -> None:
             page.window.maximized = not page.window.maximized
             page.update()
+            if maximize_button is None:
+                return
             if page.window.maximized:
                 maximize_button.current.icon = ft.Icons.CLOSE_FULLSCREEN_OUTLINED
                 maximize_button.current.tooltip = _("Restore")
