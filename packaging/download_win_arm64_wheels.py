@@ -35,6 +35,7 @@ def download_win_arm64_wheels() -> None:
         "markupsafe": None,
         "protobuf": None,
         "pyyaml": None,
+        "pyyaml-ft": "pyyaml",
         "regex": None,
         "ruamel_yaml_clib": "ruamel-yaml-clib",
         "ujson": None,
