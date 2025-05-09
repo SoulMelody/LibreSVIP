@@ -59,7 +59,7 @@ def main(page: ft.Page) -> None:
     save_folder_text_field = ft.Ref[ft.TextField]()
     temp_path = UPath("memory:/")
 
-    task_list_view = ft.Ref[ft.ListView]()
+    task_list_view = ft.Ref[ft.ReorderableListView]()
     input_select = ft.Ref[ft.Dropdown]()
     output_select = ft.Ref[ft.Dropdown]()
     conversion_mode_select = ft.Ref[ft.Dropdown]()
@@ -313,7 +313,7 @@ def main(page: ft.Page) -> None:
                             [
                                 ft.Icon(
                                     ft.Icons.ACCESS_TIME_FILLED_OUTLINED,
-                                    color=ft.colors.GREY_400,
+                                    color=ft.Colors.GREY_400,
                                 ),
                                 ft.ProgressRing(visible=False),
                             ]
@@ -323,17 +323,17 @@ def main(page: ft.Page) -> None:
                         trailing=ft.PopupMenuButton(
                             items=[
                                 ft.PopupMenuItem(
-                                    icon=ft.icons.REMOVE_RED_EYE_OUTLINED,
+                                    icon=ft.Icons.REMOVE_RED_EYE_OUTLINED,
                                     text=_("View Log"),
                                     on_click=show_task_log,
                                 ),
                                 ft.PopupMenuItem(
-                                    icon=ft.icons.EDIT,
+                                    icon=ft.Icons.EDIT,
                                     text=_("Rename"),
                                     on_click=open_rename_dialog,
                                 ),
                                 ft.PopupMenuItem(
-                                    icon=ft.icons.DELETE_OUTLINE,
+                                    icon=ft.Icons.DELETE_OUTLINE,
                                     text=_("Remove"),
                                     on_click=remove_task,
                                 ),
@@ -386,7 +386,7 @@ def main(page: ft.Page) -> None:
                         [
                             ft.Icon(
                                 ft.Icons.ACCESS_TIME_FILLED_OUTLINED,
-                                color=ft.colors.GREY_400,
+                                color=ft.Colors.GREY_400,
                             ),
                             ft.ProgressRing(visible=False),
                         ]
@@ -396,17 +396,17 @@ def main(page: ft.Page) -> None:
                     trailing=ft.PopupMenuButton(
                         items=[
                             ft.PopupMenuItem(
-                                icon=ft.icons.REMOVE_RED_EYE_OUTLINED,
+                                icon=ft.Icons.REMOVE_RED_EYE_OUTLINED,
                                 text=_("View Log"),
                                 on_click=show_task_log,
                             ),
                             ft.PopupMenuItem(
-                                icon=ft.icons.EDIT,
+                                icon=ft.Icons.EDIT,
                                 text=_("Rename"),
                                 on_click=open_rename_dialog,
                             ),
                             ft.PopupMenuItem(
-                                icon=ft.icons.DELETE_OUTLINE,
+                                icon=ft.Icons.DELETE_OUTLINE,
                                 text=_("Remove"),
                                 on_click=remove_task,
                             ),
@@ -917,10 +917,9 @@ def main(page: ft.Page) -> None:
                                 ft.DropdownOption("merge", _("Merge")),
                             ],
                         ),
-                        ft.ListView(
+                        ft.ReorderableListView(
                             ref=task_list_view,
                             expand=1,
-                            spacing=10,
                             auto_scroll=True,
                             padding=padding.symmetric(vertical=10),
                         ),
