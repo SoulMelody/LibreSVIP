@@ -8,6 +8,7 @@ from typing import get_args, get_type_hints
 import flet as ft
 import flet_permission_handler as fph
 import more_itertools
+from flet.core import padding
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
@@ -92,7 +93,7 @@ def main(page: ft.Page) -> None:
                         else:
                             continue
                         choices.append(
-                            ft.dropdown.Option(
+                            ft.DropdownOption(
                                 enum_item.value,
                                 _(enum_field.title),
                                 content=ft.Text(
@@ -710,23 +711,24 @@ def main(page: ft.Page) -> None:
             ],
         )
         window_buttons = []
+
+        def on_maximize_click(e: ft.ControlEvent) -> None:
+            page.window.maximized = not page.window.maximized
+            page.update()
+            if page.window.maximized:
+                maximize_button.current.icon = ft.Icons.CLOSE_FULLSCREEN_OUTLINED
+                maximize_button.current.tooltip = _("Restore")
+            else:
+                maximize_button.current.icon = ft.Icons.OPEN_IN_FULL_OUTLINED
+                maximize_button.current.tooltip = _("Maximize")
+            maximize_button.current.update()
+
         if page.platform not in [ft.PagePlatform.IOS, ft.PagePlatform.ANDROID] and not page.web:
             maximize_button = ft.Ref[ft.IconButton]()
 
             def on_minimize_click(e: ft.ControlEvent) -> None:
                 page.window.minimized = True
                 page.update()
-
-            def on_maximize_click(e: ft.ControlEvent) -> None:
-                page.window.maximized = not page.window.maximized
-                page.update()
-                if page.window.maximized:
-                    maximize_button.current.icon = ft.Icons.CLOSE_FULLSCREEN_OUTLINED
-                    maximize_button.current.tooltip = _("Restore")
-                else:
-                    maximize_button.current.icon = ft.Icons.OPEN_IN_FULL_OUTLINED
-                    maximize_button.current.tooltip = _("Maximize")
-                maximize_button.current.update()
 
             window_buttons.extend(
                 [
@@ -846,7 +848,7 @@ def main(page: ft.Page) -> None:
                                     label=_("Import format"),
                                     text_size=14,
                                     options=[
-                                        ft.dropdown.Option(
+                                        ft.DropdownOption(
                                             plugin_id,
                                             f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
                                         )
@@ -875,7 +877,7 @@ def main(page: ft.Page) -> None:
                                     label=_("Export format"),
                                     text_size=14,
                                     options=[
-                                        ft.dropdown.Option(
+                                        ft.DropdownOption(
                                             plugin_id,
                                             f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
                                         )
@@ -904,9 +906,9 @@ def main(page: ft.Page) -> None:
                             value="direct",
                             label=_("Conversion mode"),
                             options=[
-                                ft.dropdown.Option("direct", _("Direct")),
-                                ft.dropdown.Option("split", _("Split")),
-                                ft.dropdown.Option("merge", _("Merge")),
+                                ft.DropdownOption("direct", _("Direct")),
+                                ft.DropdownOption("split", _("Split")),
+                                ft.DropdownOption("merge", _("Merge")),
                             ],
                         ),
                         ft.ListView(
@@ -914,7 +916,7 @@ def main(page: ft.Page) -> None:
                             expand=1,
                             spacing=10,
                             auto_scroll=True,
-                            padding=ft.padding.symmetric(vertical=10),
+                            padding=padding.symmetric(vertical=10),
                         ),
                     ],
                     visible=False,
@@ -1100,7 +1102,9 @@ def main(page: ft.Page) -> None:
                 "/",
                 appbar=ft.AppBar(
                     title=ft.WindowDragArea(
-                        ft.Row([ft.Text("LibreSVIP")], expand=True), expand=True
+                        ft.Row([ft.Text("LibreSVIP")], expand=True),
+                        expand=True,
+                        on_double_tap=on_maximize_click,
                     ),
                     bgcolor=ft.Colors.SURFACE,
                     actions=[
@@ -1128,6 +1132,8 @@ def main(page: ft.Page) -> None:
         page.update()
 
     def view_pop(view: ft.View | None) -> None:
+        if len(page.views) == 1:
+            return
         page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route or "/")
