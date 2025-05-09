@@ -17,7 +17,14 @@ except ImportError:
     with contextlib.suppress(ImportError):
         sys.modules["Cryptodome"] = __import__("Crypto")
 
-for zstd_backend in ("compression.zstd", "zstd", "pyzstd", "zstandard", "numcodecs.zstd"):
+for zstd_backend in (
+    "compression.zstd",
+    "backports.zstd",
+    "zstd",
+    "pyzstd",
+    "zstandard",
+    "numcodecs.zstd",
+):
     with contextlib.suppress(ImportError):
         zstd = __import__(zstd_backend)
         break
