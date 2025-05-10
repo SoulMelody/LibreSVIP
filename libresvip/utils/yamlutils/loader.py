@@ -116,7 +116,11 @@ def get_loader(
         yaml.resolver.BaseResolver.DEFAULT_SEQUENCE_TAG, construct_sequence
     )
     loader_class.add_multi_constructor("", parse_unknown_tags)
-    loader_class.yaml_constructors.pop("tag:yaml.org,2002:binary", None)
-    loader_class.yaml_constructors.pop("tag:yaml.org,2002:set", None)
+    try:
+        constructor_registry = loader_class.constructor_registry
+    except AttributeError:
+        constructor_registry = loader_class
+    constructor_registry.yaml_constructors.pop("tag:yaml.org,2002:binary", None)
+    constructor_registry.yaml_constructors.pop("tag:yaml.org,2002:set", None)
     set_yaml_grammar(loader_class, expand_merge_keys=expand_merge_keys)
     return loader_class

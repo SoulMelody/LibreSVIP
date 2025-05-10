@@ -41,7 +41,7 @@ class NumericalExpression(BaseExpression):
 
 class OptionsExpression(BaseExpression):
     type_: Literal["Options"] = Field(ParamType.OPTIONS, alias="type")
-    options: list[str] = Field(default_factory=list)
+    options: list[str | bool] = Field(default_factory=list)
 
 
 UExpressionDescriptor = Annotated[

@@ -49,11 +49,15 @@ def set_yaml_grammar(
     resolvers = list(core_resolvers[grammar_version])
     if expand_merge_keys:
         resolvers.append(merge_resolver)
-    resolver.yaml_implicit_resolvers = {}
+    try:
+        resolver_registry = resolver.resolver_registry
+    except AttributeError:
+        resolver_registry = resolver
+    resolver_registry.yaml_implicit_resolvers = {}
     for r in resolvers:
         for start_char in r["start_chars"]:  # type: ignore[attr-defined]
-            resolver.yaml_implicit_resolvers.setdefault(start_char, [])
-            resolver.yaml_implicit_resolvers[start_char].append((r["tag"], r["regexp"]))
+            resolver_registry.yaml_implicit_resolvers.setdefault(start_char, [])
+            resolver_registry.yaml_implicit_resolvers[start_char].append((r["tag"], r["regexp"]))
 
 
 def hash_key(key: str | bytes) -> str:
