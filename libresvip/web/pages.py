@@ -859,8 +859,16 @@ def page_layout(lang: str | None = None) -> None:
                         ) in self.middleware_enabled_states.model_dump().items():
                             if enabled:
                                 middleware = middleware_manager.plugin_registry[middleware_abbr]
-                                if middleware.plugin_object is not None and hasattr(
-                                    middleware.plugin_object, "process"
+                                if (
+                                    middleware.plugin_object is not None
+                                    and hasattr(middleware.plugin_object, "process")
+                                    and (
+                                        middleware_option_class := get_type_hints(
+                                            middleware.plugin_object.process
+                                        ).get(
+                                            "options",
+                                        )
+                                    )
                                 ):
                                     middleware_option = getattr(
                                         self.middleware_options,
@@ -868,7 +876,7 @@ def page_layout(lang: str | None = None) -> None:
                                     )
                                     project = middleware.plugin_object.process(
                                         project,
-                                        middleware_option.model_validate(
+                                        middleware_option_class.model_validate(
                                             middleware_option,
                                             from_attributes=True,
                                         ),
