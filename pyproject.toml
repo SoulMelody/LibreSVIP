@@ -133,7 +133,7 @@ packaging = [
 ]
 docs = [
     "mkdocs-marimo>=0.2.1",
-    "mkdocs-material<10.0.0,>=9.6.12",
+    "mkdocs-material<10.0.0,>=9.6.13",
 ]
 test = ["pytest>=8.3.5", "pytest-datadir>=1.6.1", "textual-dev>=1.7.0"]
 all = [
