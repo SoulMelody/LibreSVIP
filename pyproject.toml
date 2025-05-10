@@ -70,7 +70,7 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 zstd = [
-  "pyzstd<1.0.0,>=0.16.2; platform_python_implementation == \"PyPy\"",
+  "pyzstd<1.0.0,>=0.17.0; platform_python_implementation == \"PyPy\"",
   "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
 ]
 crypto = [
