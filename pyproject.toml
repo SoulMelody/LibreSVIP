@@ -95,7 +95,7 @@ webui = [
   "libresvip[upath]",
 ]
 mobile = [
-  "flet[cli,desktop]>=0.28.1",
+  "flet[cli,desktop]>=0.28.2",
   "flet-permission-handler>=0.1.0",
   "libresvip[upath]",
 ]
