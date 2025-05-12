@@ -98,7 +98,7 @@ jobs:
         shell: bash -el {0}
         run: |
           uv build --wheel
-          uv venv
+          uv venv --python 3.13
           uv run python -m ensurepip
           cd dist
           uv run python -m pip install *.whl --no-deps
