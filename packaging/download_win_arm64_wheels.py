@@ -46,6 +46,7 @@ def download_win_arm64_wheels() -> None:
         if (matcher := WHEEL_INFO_RE.match(wheel_path.name)) is not None:
             pkg_name = matcher.group("name").lower()
             if pkg_name in third_party_arm64_packages and not pkg_name.startswith("pydantic"):
+                logger.debug(f"found {pkg_name} wheel")
                 native_packages[third_party_arm64_packages[pkg_name] or pkg_name] = wheel_path
 
     requirements_path = cwd / "requirements-desktop.txt"
