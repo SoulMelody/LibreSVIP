@@ -20,9 +20,9 @@ def download_win_arm64_wheels() -> None:
 
     python_version = "3.13"
     bundle_url = "https://github.com/cgohlke/win_arm64-wheels/releases/download/v2025.3.31/2025.3.31-experimental-cp313-win_arm64.whl.zip"
-    bundle_path = pathlib.Path(bundle_url)
+    bundle_path = pathlib.Path(bundle_url).with_suffix("")
     arm64_wheels_archive = cwd / bundle_path.name
-    wheels_dir = cwd / bundle_path.with_suffix("").with_suffix("").name
+    wheels_dir = cwd / bundle_path.with_suffix("").name
     if not wheels_dir.exists():
         if not arm64_wheels_archive.exists():
             with urllib.request.urlopen(bundle_url) as response:
@@ -46,7 +46,6 @@ def download_win_arm64_wheels() -> None:
         if (matcher := WHEEL_INFO_RE.match(wheel_path.name)) is not None:
             pkg_name = matcher.group("name").lower()
             if pkg_name in third_party_arm64_packages and not pkg_name.startswith("pydantic"):
-                logger.debug(f"found {pkg_name} wheel")
                 native_packages[third_party_arm64_packages[pkg_name] or pkg_name] = wheel_path
 
     requirements_path = cwd / "requirements-desktop.txt"
