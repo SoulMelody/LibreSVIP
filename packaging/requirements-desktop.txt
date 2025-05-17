@@ -40,7 +40,7 @@ portion==2.6.0
 proto-plus==1.26.1
 protobuf==6.31.0
 pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
-pycryptodomex==3.22.0
+pycryptodomex==3.23.0
 pydantic==2.11.4
 pydantic-core==2.33.2
 pydantic-extra-types==2.10.4
