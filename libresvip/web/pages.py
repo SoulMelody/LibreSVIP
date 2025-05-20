@@ -20,6 +20,7 @@ from operator import not_
 from typing import (
     TYPE_CHECKING,
     BinaryIO,
+    Literal,
     SupportsFloat,
     TypeVar,
     get_args,
@@ -101,19 +102,19 @@ class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
             self.language = detected_language
 
 
-def dark_mode2str(mode: DarkMode) -> bool | None:
-    if mode == DarkMode.LIGHT:
-        return False
-    elif mode == DarkMode.DARK:
+def dark_mode2bool(mode: DarkMode) -> bool | None:
+    if mode == DarkMode.DARK:
         return True
+    elif mode == DarkMode.LIGHT:
+        return False
 
 
-def str2dark_mode(value: bool | None) -> DarkMode:
+def dark_value2str(value: bool | None) -> str:
     return {
         True: DarkMode.DARK,
         False: DarkMode.LIGHT,
         None: DarkMode.SYSTEM,
-    }.get(value, DarkMode.SYSTEM)
+    }.get(value, DarkMode.SYSTEM).name.lower()
 
 
 def int_validator(value: SupportsFloat | None) -> bool:
@@ -211,7 +212,11 @@ plugin_details = {
 
 @ui.page("/")
 @ui.page("/?lang={lang}")
-def page_layout(lang: str | None = None) -> None:
+@ui.page("/?dark_mode={dark_mode}")
+@ui.page("/?lang={lang}&dark_mode={dark_mode}")
+def page_layout(
+    lang: str | None = None, dark_mode: Literal["dark", "light", "system"] = "system"
+) -> None:
     settings: LibreSvipBaseUISettings
 
     if app.native.main_window is not None:
@@ -219,6 +224,7 @@ def page_layout(lang: str | None = None) -> None:
 
         if lang is not None:
             settings.language = Language.from_locale(lang)
+        dark_mode = settings.dark_mode.name.lower()  # type: ignore[assignment]
 
         app.on_shutdown(save_settings)
     else:
@@ -231,7 +237,7 @@ def page_layout(lang: str | None = None) -> None:
         for key, value in app.storage.user.items():
             if hasattr(settings, key):
                 if key == "dark_mode":
-                    value = str2dark_mode(value)
+                    continue
                 elif key == "language":
                     value = Language.from_locale(value)
                 setattr(settings, key, value)
@@ -245,7 +251,7 @@ def page_layout(lang: str | None = None) -> None:
 
                 for key, default_value in default_settings_dict.items():
                     if key == "dark_mode":
-                        default_value = dark_mode2str(default_value)
+                        continue
                     if key not in storage or storage[key] != default_value:
                         storage[key] = default_value
 
@@ -1070,10 +1076,10 @@ def page_layout(lang: str | None = None) -> None:
             else:
                 ui.download(f"/export/{context.client.id}/{file_name}")
 
-    dark_toggler = ui.dark_mode().bind_value(
-        settings, "dark_mode", forward=str2dark_mode, backward=dark_mode2str
+    dark_toggler = ui.dark_mode(dark_mode2bool(getattr(DarkMode, dark_mode.upper())))
+    dark_toggler.on_value_change(
+        lambda: ui.navigate.to(f"/?lang={lang}&dark_mode={dark_value2str(dark_toggler.value)}")
     )
-    dark_toggler.on_value_change(lambda: ui.navigate.to("/"))
     selected_formats = SelectedFormats()
     if app.native.main_window is None:
         setattr(
@@ -1553,11 +1559,17 @@ def page_layout(lang: str | None = None) -> None:
                                 event: ValueChangeEventArguments,
                             ) -> None:
                                 if event.value == Language.CHINESE:
-                                    ui.navigate.to("/?lang=zh_CN")
+                                    ui.navigate.to(
+                                        f"/?lang=zh_CN&dark_mode={dark_value2str(dark_toggler.value)}"
+                                    )
                                 elif event.value == Language.ENGLISH:
-                                    ui.navigate.to("/?lang=en_US")
+                                    ui.navigate.to(
+                                        f"/?lang=en_US&dark_mode={dark_value2str(dark_toggler.value)}"
+                                    )
                                 elif event.value == Language.GERMAN:
-                                    ui.navigate.to("/?lang=de_DE")
+                                    ui.navigate.to(
+                                        f"/?lang=de_DE&dark_mode={dark_value2str(dark_toggler.value)}"
+                                    )
 
                             ui.select(
                                 {
