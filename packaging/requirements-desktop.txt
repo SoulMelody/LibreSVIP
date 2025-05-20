@@ -14,7 +14,7 @@ desktop-notifier==6.1.1 ; platform_python_implementation == 'CPython'
 drawsvg==2.4.0
 exceptiongroup==1.3.0 ; python_full_version < '3.11'
 fonticon-materialdesignicons7==7.2.96
-fsspec==2025.3.2
+fsspec==2025.5.0
 h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
@@ -67,7 +67,7 @@ rich==14.0.0
 ruamel-yaml==0.18.10
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 rubicon-objc==0.5.0 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
-setuptools==80.7.1
+setuptools==80.8.0
 shellingham==1.5.4
 shiboken6==6.9.0
 sniffio==1.3.1
