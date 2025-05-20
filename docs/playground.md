@@ -1,7 +1,7 @@
 /// marimo-embed
-    height: 600px
-    mode: read
-    app_width: wide
+height: 600px
+mode: read
+app_width: wide
 
 ```python(marimo)
 @app.cell
