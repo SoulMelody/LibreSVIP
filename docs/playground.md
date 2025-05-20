@@ -8,7 +8,7 @@
 async def _():
     try:
         import micropip
-        micropip.add_mock_package('packaging', '24.2')
+        micropip.add_mock_package('packaging', '25.0')
 
         await micropip.install("https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl")
         await micropip.install("https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl")
@@ -20,11 +20,11 @@ async def _():
         await micropip.install("zstandard")
         micropip.add_mock_package('zstandard', '0.23.0')
 
-        micropip.add_mock_package('pydantic', '2.11.2')
-        micropip.add_mock_package('pydantic-core', '2.33.1')
+        micropip.add_mock_package('pydantic', '2.11.4')
+        micropip.add_mock_package('pydantic-core', '2.33.2')
 
         await micropip.install("pycryptodome")
-        micropip.add_mock_package('pycryptodomex', "3.21.0")
+        micropip.add_mock_package('pycryptodomex', "3.22.0")
         await micropip.install("pyzipper")
 
         await micropip.install("libresvip")
