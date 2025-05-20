@@ -22,6 +22,7 @@ async def _():
 
         micropip.add_mock_package('pydantic', '2.11.4')
         micropip.add_mock_package('pydantic-core', '2.33.2')
+        micropip.add_mock_package('typing-extensions', '4.13.2')
 
         await micropip.install("pycryptodome")
         micropip.add_mock_package('pycryptodomex', "3.22.0")
