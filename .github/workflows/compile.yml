@@ -47,7 +47,7 @@ jobs:
           uv pip install babel setuptools
           cd scripts
           uv run python batch_compile_catalog.py
-      
+
       - name: Compile qt resources
         if: steps.changed-files.outputs.qml_any_changed == 'true'
         run: |

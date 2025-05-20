@@ -1,4 +1,5 @@
 # LibreSVIP
+
 [![PyPi](https://img.shields.io/pypi/v/libresvip)](https://pypi.org/project/libresvip/)
 [![Python Version](https://img.shields.io/pypi/pyversions/libresvip.svg)](https://pypi.org/project/libresvip/)
 [![PyPI - Downloads](https://static.pepy.tech/badge/libresvip/month)](https://pypi.org/project/libresvip/)
@@ -22,11 +23,11 @@ pip install libresvip[desktop]
 
 ## Translations
 
-![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[2].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
-![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress[1].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
-![de translation](https://img.shields.io/badge/dynamic/json?color=blue&label=de&style=flat&logo=crowdin&query=%24.progress[0].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
+![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress%5B2%5D.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
+![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress%5B1%5D.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
+![de translation](https://img.shields.io/badge/dynamic/json?color=blue&label=de&style=flat&logo=crowdin&query=%24.progress%5B0%5D.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
 
-If you also want to add or contribute to a translation, check [LibreSVIP's page on Crowdin](https://crowdin.com/project/libresvip). 
+If you also want to add or contribute to a translation, check [LibreSVIP's page on Crowdin](https://crowdin.com/project/libresvip).
 
 ## References
 
@@ -44,4 +45,5 @@ The following article will give you a brief introduction about python libraries 
 - [Parsing In Python: Tools And Libraries](https://tomassetti.me/parsing-in-python/)
 
 ## License
+
 LibreSVIP is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
