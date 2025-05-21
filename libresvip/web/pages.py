@@ -28,7 +28,7 @@ from typing import (
 )
 from urllib.parse import quote, unquote
 
-import aiofiles
+import anyio
 import more_itertools
 from nicegui import app, binding, ui
 from nicegui.context import context
@@ -1070,7 +1070,7 @@ def page_layout(
                     return
                 elif not isinstance(save_path, str):  # list[str]
                     save_path = save_path[0]
-                async with aiofiles.open(save_path, "wb") as content:
+                async with await anyio.open_file(save_path, "wb") as content:
                     await content.write(result[0])
                 ui.notify(_("Saved"), type="positive")
             else:
