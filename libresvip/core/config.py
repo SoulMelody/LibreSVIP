@@ -5,6 +5,7 @@ import enum
 import locale
 import pathlib
 import re
+import sys
 from typing import Annotated, Any, TypeVar
 
 import pydantic_settings
@@ -319,7 +320,13 @@ class Language(enum.Enum):
 
     @classmethod
     def auto(cls) -> Language:
-        sys_locale = locale.getdefaultlocale()[0]
+        if sys.platform == "win32":
+            import ctypes
+
+            windll = ctypes.windll.kernel32
+            sys_locale = locale.windows_locale[windll.GetUserDefaultUILanguage()]
+        else:
+            sys_locale = locale.getdefaultlocale()[0]
         return cls.from_locale(sys_locale or "en_US")
 
 

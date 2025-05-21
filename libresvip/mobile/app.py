@@ -32,6 +32,7 @@ def main(page: ft.Page) -> None:
     page.window.height = 720
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
+    page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.alignment.center)
 
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
@@ -728,9 +729,6 @@ def main(page: ft.Page) -> None:
                 maximize_button.current.tooltip = _("Maximize")
             maximize_button.current.update()
 
-        def on_start_dragging(e: ft.DragStartEvent) -> None:
-            page.window.start_dragging()
-
         if page.platform not in [ft.PagePlatform.IOS, ft.PagePlatform.ANDROID] and not page.web:
             maximize_button = ft.Ref[ft.IconButton]()
 
@@ -1110,8 +1108,6 @@ def main(page: ft.Page) -> None:
                     title=ft.WindowDragArea(
                         ft.Row([ft.Text("LibreSVIP")], expand=True),
                         expand=True,
-                        on_double_tap=on_maximize_click,
-                        on_pan_start=on_start_dragging,
                     ),
                     bgcolor=ft.Colors.SURFACE,
                     actions=[
