@@ -41,7 +41,7 @@ proto-plus==1.26.1
 protobuf==6.31.0
 pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
 pycryptodomex==3.23.0
-pydantic==2.11.4
+pydantic==2.11.5
 pydantic-core==2.33.2
 pydantic-extra-types==2.10.4
 pydantic-settings==2.9.1
@@ -75,7 +75,7 @@ sortedcontainers==2.4.0
 tatsu-lts==5.13.1
 typer-slim==0.15.4
 typing-extensions==4.13.2
-typing-inspection==0.4.0
+typing-inspection==0.4.1
 ujson==5.10.0
 universal-pathlib==0.2.6
 wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
