@@ -1599,7 +1599,7 @@ requires-dist = [
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.4.0" },
     { name = "mido-fix", url = "https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" },
     { name = "more-itertools", specifier = ">=10.7.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.17.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.18.0" },
     { name = "packaging", specifier = ">=25.0,<25.1" },
     { name = "platformdirs", specifier = ">=4.3.8,<5.0.0" },
     { name = "portion", specifier = ">=2.6.0,<3.0.0" },
@@ -2312,7 +2312,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.17.0"
+version = "2.18.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2340,9 +2340,9 @@ dependencies = [
     { name = "wait-for2" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a2/cd/036d4b8cb1d5e90a4878a624b5c1ce2d534d7f05a8bbb66c6ffd25b5d035/nicegui-2.17.0.tar.gz", hash = "sha256:35c01f4e67023283b808c7a3471fea0bdb94b1717024bb023365e7a390f5ca24", size = 13095765, upload-time = "2025-05-12T21:24:30.771Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1a/bd/e03e08ad173b07d536a09f4cd7635a748b4bdbcfb0b350c4fe02196a432a/nicegui-2.18.0.tar.gz", hash = "sha256:1f31807b6b462d504090dc1e5669594899a5e7ce40dc4097283c2061c511945d", size = 13096452, upload-time = "2025-05-23T07:22:52.456Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a5/26/9c80487bbf2cd459b914a1fca47f73ebc461e53cfa00fdf149870d90eb0c/nicegui-2.17.0-py3-none-any.whl", hash = "sha256:4d83233d77425dd7cb4d446c7950c17f4f85d0788f32f803bcd4cc4f3b8c16f2", size = 13476948, upload-time = "2025-05-12T21:24:27.171Z" },
+    { url = "https://files.pythonhosted.org/packages/9f/71/04fd39181540d003eb9c4d9e601c1b5304e090e3cf85b392940543179111/nicegui-2.18.0-py3-none-any.whl", hash = "sha256:a7abad84a9fd6163e5bbf4504843e27b97f9e27def9a0b28b062986ee7959969", size = 13477697, upload-time = "2025-05-23T07:22:49.269Z" },
 ]
 
 [[package]]
