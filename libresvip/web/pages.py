@@ -222,8 +222,6 @@ def page_layout(
     if app.native.main_window is not None:
         from libresvip.core.config import save_settings, settings
 
-        if lang is not None:
-            settings.language = Language.from_locale(lang)
         dark_mode = settings.dark_mode.name.lower()  # type: ignore[assignment]
 
         app.on_shutdown(save_settings)
@@ -256,13 +254,18 @@ def page_layout(
                         storage[key] = default_value
 
         context.client.on_disconnect(save_settings)
+    ui_settings_ctx.set(settings)
 
-    translation = get_translation()
+    if lang is not None:
+        settings.language = Language.from_locale(lang)
+
+    translation = None
 
     def set_context_vars() -> None:
+        nonlocal translation
+        ui_settings_ctx.set(settings)
+        translation = get_translation()
         lazy_translation.set(translation)
-        if app.native.main_window is not None:
-            ui_settings_ctx.set(settings)
 
     def context_vars_wrapper(func: Callable[P, R]) -> Callable[P, R]:
         @functools.wraps(func)
