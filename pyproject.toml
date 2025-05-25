@@ -82,7 +82,7 @@ upath = [
   "universal-pathlib<1.0.0,>=0.2.6",
 ]
 ruamel_yaml = [
-  "ruamel.yaml>=0.18.10",
+  "ruamel.yaml>=0.18.11",
   "ruamel.yaml.clib>=0.2.12; platform_python_implementation == \"CPython\" and python_version == \"3.13\"",
 ]
 lxml = ["lxml>=5.4.0"]
