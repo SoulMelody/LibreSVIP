@@ -9,7 +9,7 @@ import sys
 from typing import Annotated, Any, TypeVar
 
 import pydantic_settings
-import yaml
+import yaml.constructor
 from pydantic import BaseModel, Field, GetCoreSchemaHandler, ValidationError
 from pydantic_core import core_schema
 
@@ -58,9 +58,8 @@ def pydantic_enum(enum_cls: type[E]) -> type[E]:
         def get_enum(value: Any, validate_next: core_schema.ValidatorFunctionWrapHandler) -> E:
             if isinstance(value, cls):
                 return value
-            else:
-                name: str = validate_next(value)
-                return enum_cls[name]
+            name: str = validate_next(value)
+            return enum_cls[name]
 
         def serialize(enum: E) -> str:
             return enum.name
