@@ -30,6 +30,7 @@ a = Analysis(
     hiddenimports=[
         "bidict",
         "construct_typed",
+        "Cryptodome.Util.Padding",
         "drawsvg",
         "google.protobuf.any_pb2",
         "jinja2",
