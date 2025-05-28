@@ -59,7 +59,7 @@ else:
 
     try:
         import js
-        from pyodide.ffi import run_sync
+        import pyodide.ffi
 
         if not hasattr(js, "MediaInfo"):
             js.importScripts(f"{MEDIAINFO_JS_DIST_PATH}/umd/index.min.js")
@@ -67,6 +67,8 @@ else:
         def audio_track_info(
             file_path: str | pathlib.Path, only_wav: bool = False
         ) -> MediaInfoTrack | None:
+            if not pyodide.ffi.can_run_sync():
+                return None
             if isinstance(file_path, str):
                 file_path = pathlib.Path(file_path)
 
@@ -92,7 +94,7 @@ else:
                 if file_path.exists():
                     with contextlib.suppress(RuntimeError, ValueError):
                         content = file_path.read_bytes()
-                        xml_str = run_sync(parse_media_info())
+                        xml_str = pyodide.ffi.run_sync(parse_media_info())
                         media_info = XmlParser(
                             config=ParserConfig(fail_on_unknown_properties=False)
                         ).from_string(xml_str, MediaInfo)
