@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-05-28 07:16\n"
+"PO-Revision-Date: 2025-05-28 07:19\n"
 
 msgid "None"
 msgstr "无"
@@ -19,13 +19,13 @@ msgid "Hanzi to Pinyin"
 msgstr "汉字转拼音"
 
 msgid "Hanzi to Jyutping"
-msgstr ""
+msgstr "汉字转粤拼"
 
 msgid "Hangul to Romanization"
-msgstr ""
+msgstr "谚文转罗马音"
 
 msgid "Kana to Romaji"
-msgstr ""
+msgstr "假名转罗马音"
 
 msgid "To Hiragana"
 msgstr "日文转平假名"
