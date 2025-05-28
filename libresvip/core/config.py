@@ -204,9 +204,14 @@ class YamlSettings(pydantic_settings.BaseSettings):
         if not exists_ok and cls.exists(settings_dir):
             msg = f"`{cls.__FILENAME__}` already exists in `{settings_dir}`"
             raise FileExistsError(msg)
-        settings = cls()
-        settings._settings_dir = settings_dir
+        settings = cls.construct(settings_dir)
         settings.save()
+        return settings
+
+    @classmethod
+    def construct(cls, settings_dir: pathlib.Path, **kwargs: Any) -> Self:
+        settings = cls(**kwargs)
+        settings._settings_dir = settings_dir
         return settings
 
     @classmethod
@@ -385,8 +390,7 @@ if config_path.exists():
         app_dir.user_config_path, create_if_missing=True, raise_error_if_failed=False
     )
 else:
-    settings = LibreSvipSettings()
-    settings._settings_dir = app_dir.user_config_path
+    settings = LibreSvipSettings.construct(app_dir.user_config_path)
 settings.lyric_replace_rules.setdefault("default", [])
 
 
