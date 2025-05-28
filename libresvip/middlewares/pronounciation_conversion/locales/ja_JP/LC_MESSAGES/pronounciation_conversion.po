@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2025-05-28 07:16\n"
 
 msgid "None"
 msgstr ""
@@ -18,7 +18,13 @@ msgstr ""
 msgid "Hanzi to Pinyin"
 msgstr ""
 
-msgid "To Romaji"
+msgid "Hanzi to Jyutping"
+msgstr ""
+
+msgid "Hangul to Romanization"
+msgstr ""
+
+msgid "Kana to Romaji"
 msgstr ""
 
 msgid "To Hiragana"
