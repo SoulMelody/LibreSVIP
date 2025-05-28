@@ -4,7 +4,13 @@ msgstr ""
 msgid "Hanzi to Pinyin"
 msgstr ""
 
-msgid "To Romaji"
+msgid "Hanzi to Jyutping"
+msgstr ""
+
+msgid "Hangul to Romanization"
+msgstr ""
+
+msgid "Kana to Romaji"
 msgstr ""
 
 msgid "To Hiragana"
