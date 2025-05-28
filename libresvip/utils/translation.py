@@ -1,7 +1,10 @@
 import contextlib
 import contextvars
 import gettext
+import os
 import sys
+
+from that_depends import BaseContainer, providers
 
 singleton_translation: gettext.NullTranslations | None = None
 lazy_translation: contextvars.ContextVar[gettext.NullTranslations | None] = contextvars.ContextVar(
@@ -9,13 +12,19 @@ lazy_translation: contextvars.ContextVar[gettext.NullTranslations | None] = cont
 )
 
 
+class TranslationContainer(BaseContainer):
+    translation = providers.Selector(
+        lambda: os.getenv("LIBRESVIP_LANGUAGE_BACKEND", "local"),
+        local=providers.Singleton(lambda: singleton_translation),
+        remote=providers.Factory(lazy_translation.get, None),
+    )
+
+
 def gettext_lazy(message: str) -> str:
     if not message:
         return message
     with contextlib.suppress(LookupError):
-        if (translation := singleton_translation) is not None or (
-            translation := lazy_translation.get(None)
-        ) is not None:
+        if (translation := TranslationContainer.translation.resolve_sync()) is not None:
             return translation.gettext(message)
     return gettext.gettext(message)
 
@@ -29,8 +38,6 @@ def pgettext_lazy(context: str | None, message: str) -> str:
     if not message:
         return message
     with contextlib.suppress(LookupError):
-        if (translation := singleton_translation) is not None or (
-            translation := lazy_translation.get(None)
-        ) is not None:
+        if (translation := TranslationContainer.translation.resolve_sync()) is not None:
             return translation.pgettext(context, message)
     return gettext.pgettext(context, message)

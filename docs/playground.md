@@ -45,17 +45,17 @@ def _():
 
 @app.cell
 def _(mo):
-    from libresvip.core.config import Language, settings
+    from libresvip.core.config import Language
     from libresvip.extension.manager import get_translation
     from libresvip.utils import translation
     from libresvip.utils.translation import gettext_lazy as _
 
     def on_change_language(value: str):
         if value == "简体中文":
-            settings.language = Language.CHINESE
+            lang = "zh_CN"
         else:
-            settings.language = Language.ENGLISH
-        translation.singleton_translation = get_translation()
+            lang = "en_US"
+        translation.singleton_translation = get_translation(lang)
 
     language_select = mo.ui.dropdown(
         ['English', '简体中文'],

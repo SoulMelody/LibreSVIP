@@ -5,6 +5,7 @@ import enum
 import functools
 import io
 import math
+import os
 import pathlib
 import platform
 import re
@@ -2277,6 +2278,8 @@ def main() -> None:
         secrets_path.parent.mkdir(parents=True, exist_ok=True)
         secrets_path.write_text(secrets.token_urlsafe(32))
     storage_secret = secrets_path.read_text()
+    if args.server:
+        os.environ["LIBRESVIP_LANGUAGE_BACKEND"] = "remote"
 
     with as_file(res_dir / "libresvip.ico") as icon_path:
         ui.run(

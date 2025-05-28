@@ -48,11 +48,17 @@ def main(page: ft.Page) -> None:
 
     if not (page.client_storage.contains_key("language")):
         page.client_storage.set("language", "en_US")
-    translation.singleton_translation = get_translation(page.client_storage.get("language"))
+    if page.web:
+        translation.lazy_translation.set(get_translation(page.client_storage.get("language")))
+    else:
+        translation.singleton_translation = get_translation(page.client_storage.get("language"))
 
     def change_language(lang: str) -> None:
         page.client_storage.set("language", lang)
-        translation.singleton_translation = get_translation(lang)
+        if page.web:
+            translation.lazy_translation.set(get_translation(lang))
+        else:
+            translation.singleton_translation = get_translation(lang)
         page.go(f"/?lang={lang}")
 
     if not (page.client_storage.contains_key("save_folder")):
