@@ -38,7 +38,7 @@ if __name__ == "__main__":
         if not secrets_path.exists():
             secrets_path.parent.mkdir(parents=True, exist_ok=True)
             secrets_path.write_text(secrets.token_urlsafe(32))
-        os.environ["LIBRESVIP_LANGUAGE_BACKEND"] = "remote"
+        os.environ["LIBRESVIP_SETTINGS_BACKEND"] = "remote"
         os.environ["FLET_SECRET_KEY"] = secrets_path.read_text()
         flet_app = flet_web.fastapi.app(main, upload_dir=str(settings.save_folder))
         app = FastAPI()

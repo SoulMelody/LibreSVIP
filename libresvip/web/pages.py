@@ -2279,7 +2279,7 @@ def main() -> None:
         secrets_path.write_text(secrets.token_urlsafe(32))
     storage_secret = secrets_path.read_text()
     if args.server:
-        os.environ["LIBRESVIP_LANGUAGE_BACKEND"] = "remote"
+        os.environ["LIBRESVIP_SETTINGS_BACKEND"] = "remote"
 
     with as_file(res_dir / "libresvip.ico") as icon_path:
         ui.run(
