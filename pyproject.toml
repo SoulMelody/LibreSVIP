@@ -116,8 +116,8 @@ i18n = ["babel>=2.17.0"]
 linting = [
   "basedpyright>=1.29.2",
   "pre-commit>=4.2.0",
-  "ruff>=0.11.11",
-  "mypy>=1.15.0",
+  "ruff>=0.11.12",
+  "mypy>=1.16.0",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2025.3.30",
@@ -126,7 +126,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=8.3.0",
-  "nuitka>=2.7.4",
+  "nuitka>=2.7.5",
   "pyinstaller>=6.13.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
