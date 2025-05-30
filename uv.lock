@@ -1656,7 +1656,7 @@ all = [
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "pyinstaller", specifier = ">=6.13.0" },
     { name = "pytest", specifier = ">=8.3.5" },
-    { name = "pytest-datadir", specifier = ">=1.6.1" },
+    { name = "pytest-datadir", specifier = ">=1.7.0" },
     { name = "ruff", specifier = ">=0.11.12" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
     { name = "sourcery", specifier = ">=1.37.0" },
@@ -1695,7 +1695,7 @@ packaging = [
 ]
 test = [
     { name = "pytest", specifier = ">=8.3.5" },
-    { name = "pytest-datadir", specifier = ">=1.6.1" },
+    { name = "pytest-datadir", specifier = ">=1.7.0" },
     { name = "textual-dev", specifier = ">=1.7.0" },
 ]
 
@@ -3192,14 +3192,14 @@ wheels = [
 
 [[package]]
 name = "pytest-datadir"
-version = "1.6.1"
+version = "1.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bb/0e/63301415b9233f0131339799d49ce0c0e8804d82f3f12615056a70e563c5/pytest_datadir-1.6.1.tar.gz", hash = "sha256:4d204cf93cfe62ddc37b19922df6c8c0f133c2899c224bd339b24920e84e7fd3", size = 9391, upload-time = "2025-02-07T18:29:55.226Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e2/51/bcde0e5a96420166e305f48ead58d6834b7874d136b0c147c3606b18d19d/pytest_datadir-1.7.0.tar.gz", hash = "sha256:6f4948e50ad0e3c558e58752cf79ec5946334a7b21c86d569a3b94a0b3bb4527", size = 10795, upload-time = "2025-05-30T11:59:13.792Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/55/f1/5e4d95ce96c03332726d7fd87b7b500f178994b638ca6a88b4ed3ca64438/pytest_datadir-1.6.1-py3-none-any.whl", hash = "sha256:aa427f6218d3fc7481129d59c892bd7adfb8822613a2726ffc97f51968879cdb", size = 5156, upload-time = "2025-02-07T18:29:53.788Z" },
+    { url = "https://files.pythonhosted.org/packages/70/23/206e935bb7fc5d61d4b9be285bbe3c7bfa8628cc151558f94fbe28e31349/pytest_datadir-1.7.0-py3-none-any.whl", hash = "sha256:9dfb14e082a9e9c41b178ca35c3553266d54554f80d7941ed926957d8303c3e9", size = 6055, upload-time = "2025-05-30T11:59:12.178Z" },
 ]
 
 [[package]]
