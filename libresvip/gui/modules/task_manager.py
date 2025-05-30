@@ -29,7 +29,7 @@ from upath import UPath
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
-from libresvip.core.config import ConversionMode, get_ui_settings, settings
+from libresvip.core.config import ConversionMode, settings
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.gui.models.base_task import BaseTask
@@ -703,7 +703,7 @@ class TaskManager(QObject):
                         "text": preset,
                         "desc": "",
                     }
-                    for preset in get_ui_settings().lyric_replace_rules
+                    for preset in settings.lyric_replace_rules
                 ]
                 fields.append(
                     {

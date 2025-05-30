@@ -2,7 +2,7 @@ import functools
 from collections.abc import MutableMapping
 from typing import Any
 
-from libresvip.core.config import LyricsReplacement, get_ui_settings
+from libresvip.core.config import LibreSVIPSettingsContainer, LyricsReplacement
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, SingingTrack
 
@@ -17,8 +17,9 @@ def replace_lyric(text: str, replacement: LyricsReplacement | MutableMapping[str
 
 class ReplaceLyricsMiddleware(plugin_base.MiddlewareBase):
     def process(self, project: Project, options: ProcessOptions) -> Project:
-        settings = get_ui_settings()
-        if options.lyric_replacement_preset_name in settings.lyric_replace_rules:
+        if (settings := LibreSVIPSettingsContainer.settings.resolve_sync()) and (
+            options.lyric_replacement_preset_name in settings.lyric_replace_rules
+        ):
             for track in project.track_list:
                 if isinstance(track, SingingTrack):
                     for note in track.note_list:

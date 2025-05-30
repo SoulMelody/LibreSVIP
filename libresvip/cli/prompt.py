@@ -5,7 +5,7 @@ from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 
-from libresvip.core.config import get_ui_settings
+from libresvip.core.config import settings
 from libresvip.model.base import BaseComplexModel, BaseModel
 from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
@@ -22,7 +22,7 @@ def prompt_fields(option_class: type[BaseModel]) -> dict[str, Any]:
             if option_key == "lyric_replacement_preset_name":
                 choice = Prompt.ask(
                     translated_title,
-                    choices=list(get_ui_settings().lyric_replace_rules),
+                    choices=list(settings.lyric_replace_rules),
                     default=default_value,
                 )
                 option_kwargs[option_key] = choice

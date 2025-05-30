@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextvars
 import enum
 import locale
+import os
 import pathlib
 import re
 import sys
@@ -12,6 +13,7 @@ import pydantic_settings
 import yaml.constructor
 from pydantic import BaseModel, Field, GetCoreSchemaHandler, ValidationError
 from pydantic_core import core_schema
+from that_depends import BaseContainer, providers
 
 try:
     from yaml import CSafeLoader as DefaultSafeLoader
@@ -394,8 +396,12 @@ else:
 settings.lyric_replace_rules.setdefault("default", [])
 
 
-def get_ui_settings() -> LibreSvipBaseUISettings:
-    return ui_settings_ctx.get(None) or settings
+class LibreSVIPSettingsContainer(BaseContainer):
+    settings = providers.Selector(
+        lambda: os.getenv("LIBRESVIP_SETTINGS_BACKEND", "local"),
+        local=providers.Factory(lambda: settings),
+        remote=providers.Factory(ui_settings_ctx.get, None),
+    )
 
 
 def save_settings() -> None:
