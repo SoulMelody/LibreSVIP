@@ -268,7 +268,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         assert self.__app is not None, "No QApplication has been instantiated"
         self.__is_running = False
         self.__debug_enabled = False
-        self.__default_executor = None
+        self.__default_executor: Executor | QThreadExecutor | None = None
         self.__exception_handler = None
         self._read_notifiers: dict[FileDescriptor, QtCore.QSocketNotifier] = {}
         self._write_notifiers: dict[FileDescriptor, QtCore.QSocketNotifier] = {}
@@ -585,7 +585,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
 
     def run_in_executor(
         self,
-        executor: Executor,
+        executor: Executor | QThreadExecutor | None,
         func: Callable[[Unpack[_Ts]], _T],
         *args: Unpack[_Ts],
     ) -> asyncio.Future[_T]:
