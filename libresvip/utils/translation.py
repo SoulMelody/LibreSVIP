@@ -15,7 +15,7 @@ lazy_translation: contextvars.ContextVar[gettext.NullTranslations | None] = cont
 class TranslationContainer(BaseContainer):
     translation = providers.Selector(
         lambda: os.getenv("LIBRESVIP_SETTINGS_BACKEND", "local"),
-        local=providers.Singleton(lambda: singleton_translation),
+        local=providers.Factory(lambda: singleton_translation),
         remote=providers.Factory(lazy_translation.get, None),
     )
 
