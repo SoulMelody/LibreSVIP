@@ -134,7 +134,7 @@ docs = [
     "mkdocs-marimo>=0.2.1",
     "mkdocs-material<10.0.0,>=9.6.14",
 ]
-test = ["pytest>=8.3.5", "pytest-datadir>=1.7.0", "textual-dev>=1.7.0"]
+test = ["pytest>=8.4.0", "pytest-datadir>=1.7.1", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
