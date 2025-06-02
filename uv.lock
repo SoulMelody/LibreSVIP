@@ -1605,13 +1605,13 @@ requires-dist = [
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.4.0" },
     { name = "mido-fix", url = "https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" },
     { name = "more-itertools", specifier = ">=10.7.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.18.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.19.0" },
     { name = "packaging", specifier = ">=25.0,<25.1" },
     { name = "platformdirs", specifier = ">=4.3.8,<5.0.0" },
     { name = "portion", specifier = ">=2.6.1,<3.0.0" },
     { name = "proto-plus", specifier = ">=1.26.1,<2.0.0" },
     { name = "pydantic", specifier = ">=2.11.5,<3.0.0" },
-    { name = "pydantic-extra-types", specifier = ">=2.10.4,<3.0.0" },
+    { name = "pydantic-extra-types", specifier = ">=2.10.5,<3.0.0" },
     { name = "pydantic-settings", specifier = ">=2.9.1,<3.0.0" },
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = ">=7.0.1,<7.0.2" },
     { name = "pypinyin", specifier = ">=0.54.0,<1.0.0" },
@@ -2410,7 +2410,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.18.0"
+version = "2.19.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2438,9 +2438,9 @@ dependencies = [
     { name = "wait-for2" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1a/bd/e03e08ad173b07d536a09f4cd7635a748b4bdbcfb0b350c4fe02196a432a/nicegui-2.18.0.tar.gz", hash = "sha256:1f31807b6b462d504090dc1e5669594899a5e7ce40dc4097283c2061c511945d", size = 13096452, upload-time = "2025-05-23T07:22:52.456Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2b/a3/e7ec771f9968e86b41008f0409aa624fd75960efc59b7234e9bdec3fd751/nicegui-2.19.0.tar.gz", hash = "sha256:4af73221fb9004f82c1819aa4010fbfa3da3ee250a1b65815f8133e63bcc9f87", size = 13097343, upload-time = "2025-06-02T13:04:01.309Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9f/71/04fd39181540d003eb9c4d9e601c1b5304e090e3cf85b392940543179111/nicegui-2.18.0-py3-none-any.whl", hash = "sha256:a7abad84a9fd6163e5bbf4504843e27b97f9e27def9a0b28b062986ee7959969", size = 13477697, upload-time = "2025-05-23T07:22:49.269Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/59/b4457b3c7681ef090b9aaa1dea16cc414aa03055f4891d39c2f5e833c3b8/nicegui-2.19.0-py3-none-any.whl", hash = "sha256:942b14d40a388ddb60a2f1cb99a762691d8277d7bc654f70ba6669a7e326e5ed", size = 13478616, upload-time = "2025-06-02T13:03:57.679Z" },
 ]
 
 [[package]]
@@ -2988,15 +2988,15 @@ wheels = [
 
 [[package]]
 name = "pydantic-extra-types"
-version = "2.10.4"
+version = "2.10.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d9/33/0cde418479949cd6aa1ac669deffcd1c37d8d9cead99ddb48f344e75f2e3/pydantic_extra_types-2.10.4.tar.gz", hash = "sha256:bf8236a63d061eb3ecb1b2afa78ba0f97e3f67aa11dbbff56ec90491e8772edc", size = 95269, upload-time = "2025-04-28T08:18:34.869Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7e/ba/4178111ec4116c54e1dc7ecd2a1ff8f54256cdbd250e576882911e8f710a/pydantic_extra_types-2.10.5.tar.gz", hash = "sha256:1dcfa2c0cf741a422f088e0dbb4690e7bfadaaf050da3d6f80d6c3cf58a2bad8", size = 138429, upload-time = "2025-06-02T09:31:52.713Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/df/ac/bee195ee49256385fad460ce420aeb42703a648dba487c20b6fd107e42ea/pydantic_extra_types-2.10.4-py3-none-any.whl", hash = "sha256:ce064595af3cab05e39ae062752432dcd0362ff80f7e695b61a3493a4d842db7", size = 37276, upload-time = "2025-04-28T08:18:31.617Z" },
+    { url = "https://files.pythonhosted.org/packages/70/1a/5f4fd9e7285f10c44095a4f9fe17d0f358d1702a7c74a9278c794e8a7537/pydantic_extra_types-2.10.5-py3-none-any.whl", hash = "sha256:b60c4e23d573a69a4f1a16dd92888ecc0ef34fb0e655b4f305530377fa70e7a8", size = 38315, upload-time = "2025-06-02T09:31:51.229Z" },
 ]
 
 [[package]]
