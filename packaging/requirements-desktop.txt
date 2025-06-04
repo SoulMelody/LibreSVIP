@@ -44,17 +44,17 @@ pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
 pycryptodomex==3.23.0
 pydantic==2.11.5
 pydantic-core==2.33.2
-pydantic-extra-types==2.10.4
+pydantic-extra-types==2.10.5
 pydantic-settings==2.9.1
 pygments==2.19.1
-pyinstaller==6.13.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
-pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.13.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
+pyinstaller==6.14.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
+pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.14.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
 pyinstaller-hooks-contrib==2025.4
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.54.0
-pyside6==6.9.0
-pyside6-addons==6.9.0
-pyside6-essentials==6.9.0
+pyside6==6.9.1
+pyside6-addons==6.9.1
+pyside6-essentials==6.9.1
 pysubs2==1.8.0
 python-dotenv==1.1.0
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
@@ -67,15 +67,15 @@ retrie==0.3.1
 rich==14.0.0
 ruamel-yaml==0.18.12
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
-rubicon-objc==0.5.0 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
+rubicon-objc==0.5.1 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
 setuptools==80.9.0
 shellingham==1.5.4
-shiboken6==6.9.0
+shiboken6==6.9.1
 sniffio==1.3.1
 sortedcontainers==2.4.0
 tatsu-lts==5.13.1
 typer-slim==0.16.0
-typing-extensions==4.13.2
+typing-extensions==4.14.0
 typing-inspection==0.4.1
 ujson==5.10.0
 universal-pathlib==0.2.6

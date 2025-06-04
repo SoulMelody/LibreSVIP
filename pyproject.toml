@@ -44,7 +44,7 @@ dependencies = [
   "portion<3.0.0,>=2.6.1",
   "proto-plus<2.0.0,>=1.26.1",
   "pydantic<3.0.0,>=2.11.5",
-  "pydantic-extra-types<3.0.0,>=2.10.4",
+  "pydantic-extra-types<3.0.0,>=2.10.5",
   "pydantic-settings<3.0.0,>=2.9.1",
   "pymediainfo<7.0.2,>=7.0.1; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.54.0",
@@ -90,7 +90,7 @@ tui = [
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.18.0",
+  "nicegui>=2.19.0",
   "libresvip[upath]",
 ]
 mobile = [
@@ -99,7 +99,7 @@ mobile = [
   "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.9.1,>=6.9.0",
+  "pyside6<6.9.2,>=6.9.1",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.28.1",
   "desktop-notifier>=6.1.1; platform_python_implementation == \"CPython\"",
@@ -126,15 +126,15 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=8.3.0",
-  "nuitka>=2.7.5",
-  "pyinstaller>=6.13.0",
+  "nuitka>=2.7.6",
+  "pyinstaller>=6.14.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
     "mkdocs-marimo>=0.2.1",
     "mkdocs-material<10.0.0,>=9.6.14",
 ]
-test = ["pytest>=8.3.5", "pytest-datadir>=1.6.1", "textual-dev>=1.7.0"]
+test = ["pytest>=8.4.0", "pytest-datadir>=1.7.1", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
