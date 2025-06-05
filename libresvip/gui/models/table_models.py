@@ -13,7 +13,6 @@ from PySide6.QtCore import (
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import (
-    LyricsReplacement,
     LyricsReplaceMode,
     settings,
 )
@@ -122,7 +121,7 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
         ]
 
     def row_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
-        return len(settings.lyric_replace_rules[self.preset])
+        return len(settings.lyric_replace_rules.get(self.preset, []))
 
     def column_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
         return len(self.column_names)
@@ -208,10 +207,9 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
 
     @Slot(str)
     def append(self, mode: str) -> None:
-        settings.lyric_replace_rules[self.preset].append(
-            LyricsReplacement(  # type: ignore[call-arg]
-                mode=LyricsReplaceMode(mode), pattern_main="", replacement=""
-            )
+        settings.add_rule(
+            self.preset,
+            LyricsReplaceMode(mode),
         )
         self.modelReset.emit()
 
@@ -231,5 +229,5 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
     @Slot(int)
     def delete(self, index: int) -> None:
         self.begin_remove_rows(QModelIndex(), index, index)
-        settings.lyric_replace_rules[self.preset].pop(index)
+        settings.remove_rule(self.preset, index)
         self.end_remove_rows()

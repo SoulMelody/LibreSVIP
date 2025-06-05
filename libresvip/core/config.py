@@ -364,6 +364,38 @@ class LibreSvipBaseUISettings(YamlSettings):
     max_track_count: int = Field(default=1)
     lyric_replace_rules: dict[str, list[LyricsReplacement]] = Field(default_factory=dict)
 
+    @property
+    def lyric_replace_rules_groups(self) -> list[str]:
+        return list(self.lyric_replace_rules)
+
+    def add_rules_group(self, group_name: str) -> bool:
+        if group_name not in self.lyric_replace_rules:
+            self.lyric_replace_rules[group_name] = []
+            return True
+        return False
+
+    def remove_rules_group(self, group_name: str) -> bool:
+        if group_name in self.lyric_replace_rules:
+            del self.lyric_replace_rules[group_name]
+            return True
+        return False
+
+    def add_rule(self, group_name: str, mode: LyricsReplaceMode, index: int = -1) -> None:
+        self.add_rules_group(group_name)
+        rule = LyricsReplacement(
+            replacement="",
+            pattern_main="",
+            mode=mode,
+        )
+        if index == -1:
+            self.lyric_replace_rules[group_name].append(rule)
+        elif 0 <= index < len(self.lyric_replace_rules[group_name]):
+            self.lyric_replace_rules[group_name].insert(index, rule)
+
+    def remove_rule(self, group_name: str, index: int) -> None:
+        if group_name in self.lyric_replace_rules:
+            del self.lyric_replace_rules[group_name][index]
+
 
 ui_settings_ctx: contextvars.ContextVar[LibreSvipBaseUISettings | None] = contextvars.ContextVar(
     "ui_settings_ctx"

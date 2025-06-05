@@ -22,7 +22,7 @@ def prompt_fields(option_class: type[BaseModel]) -> dict[str, Any]:
             if option_key == "lyric_replacement_preset_name":
                 choice = Prompt.ask(
                     translated_title,
-                    choices=list(settings.lyric_replace_rules),
+                    choices=settings.lyric_replace_rules_groups,
                     default=default_value,
                 )
                 option_kwargs[option_key] = choice

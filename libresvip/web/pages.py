@@ -88,7 +88,6 @@ R = TypeVar("R")
 
 class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
     def __post_init__(self) -> None:
-        self.lyric_replace_rules.setdefault("default", [])
         detected_language = None
         request = request_contextvar.get()
         if accept_lang := request.headers.get("Accept-Language"):
@@ -1485,21 +1484,21 @@ def page_layout(
                                     event: ValueChangeEventArguments,
                                 ) -> None:
                                     if event.value is not None:
-                                        settings.lyric_replace_rules.setdefault(event.value, [])
+                                        settings.add_rules_group(event.value)
                                         table.update_rows(refresh_rules(event.value))
 
                                 preset_select = ui.select(
-                                    list(settings.lyric_replace_rules),
+                                    settings.lyric_replace_rules_groups,
                                     label=_("Preset: "),
                                     new_value_mode="add-unique",
                                     on_change=refresh_rows,
                                 ).bind_value(selected_formats, "current_preset")
 
                                 def delete_preset() -> None:
-                                    if preset_select.value != "default":
-                                        settings.lyric_replace_rules.pop(preset_select.value)
+                                    if preset_select.value and preset_select.value != "default":
+                                        settings.remove_rules_group(preset_select.value)
                                         preset_select.set_options(
-                                            list(settings.lyric_replace_rules),
+                                            settings.lyric_replace_rules_groups,
                                             value="default",
                                         )
 
