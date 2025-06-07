@@ -82,7 +82,7 @@ upath = [
   "universal-pathlib<1.0.0,>=0.2.6",
 ]
 ruamel_yaml = [
-  "ruamel.yaml>=0.18.12",
+  "ruamel.yaml>=0.18.13",
 ]
 lxml = ["lxml>=5.4.0"]
 tui = [
