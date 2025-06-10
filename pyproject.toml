@@ -82,7 +82,7 @@ upath = [
   "universal-pathlib<1.0.0,>=0.2.6",
 ]
 ruamel_yaml = [
-  "ruamel.yaml>=0.18.13",
+  "ruamel.yaml>=0.18.14",
 ]
 lxml = ["lxml>=5.4.0"]
 tui = [
@@ -109,7 +109,7 @@ desktop = [
 [dependency-groups]
 code_gen = [
   "datamodel-code-generator>=0.30.2",
-  "gapic-generator>=1.25.0",
+  "gapic-generator>=1.26.0",
   "xsdata[cli]>=25.4",
 ]
 i18n = ["babel>=2.17.0"]
