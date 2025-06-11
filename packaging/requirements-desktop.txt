@@ -59,7 +59,7 @@ pysubs2==1.8.0
 python-dotenv==1.1.0
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2 ; python_full_version < '3.13'
-pyyaml-ft==7.0.1 ; python_full_version >= '3.13'
+pyyaml-ft==8.0.0 ; python_full_version >= '3.13'
 pyzipper==0.3.6
 pyzstd==0.17.0 ; platform_python_implementation == 'PyPy'
 repro-zipfile==0.4.0 ; python_full_version < '3.11'
