@@ -17,6 +17,8 @@ try:
             return stream.getvalue()
 
 except ImportError:
+    from libresvip.core import compat  # noqa: F401 # isort:skip
+
     import yaml
 
     from .dumper import get_dumper

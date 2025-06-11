@@ -9,18 +9,19 @@ import sys
 from typing import Annotated, Any, TypeVar
 
 import pydantic_settings
-import yaml.constructor
 from pydantic import BaseModel, Field, GetCoreSchemaHandler, ValidationError
 from pydantic_core import core_schema
+from typing_extensions import Self
+
+from libresvip.core.constants import app_dir  # isort:skip
+from libresvip.core import compat  # noqa: F401 # isort:skip
+
+import yaml.constructor
 
 try:
     from yaml import CSafeLoader as DefaultSafeLoader
 except ImportError:
     from yaml import SafeLoader as DefaultSafeLoader
-
-from typing_extensions import Self
-
-from libresvip.core.constants import app_dir
 
 E = TypeVar("E", bound=enum.Enum)
 YAML_BOOL_TYPES = [
