@@ -77,6 +77,6 @@ def find_bar_index(beat_list: list[TimeSignature], ticks: int) -> int:
         tick = next_tick
     if len(beat_list):
         ticks2beat_interval_dict[portion.closedopen(tick, portion.inf)] = functools.partial(
-            calc_bar_index, base_tick=tick, beat=beat_list[0]
+            calc_bar_index, base_tick=tick, beat=beat_list[-1]
         )
     return ticks2beat_interval_dict[ticks]  # type: ignore[return-value]

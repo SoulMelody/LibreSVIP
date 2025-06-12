@@ -44,7 +44,8 @@ def get_ust_grammar() -> Grammar:
             | (key:"Mode2" "=" value:bool)
             | (key:"Autoren" "=" value:bool)
             | (key:"MapFirst" "=" value:bool)
-            | (key:"Flags" "=" value:value) ;
+            | (key:"Flags" "=" value:value)
+            | (key:"Charset" "=" value:value) ;
         ust_time_signature::ust_time_signature
             =
             "(" numerator:int
