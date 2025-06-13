@@ -174,8 +174,8 @@ class UstxParser:
                     note.pronunciation = ustx_note.lyric.removeprefix("?")
             if prev_ustx_note is not None:
                 if prev_ustx_note.end > ustx_note.position:
-                    msg = _("Notes Overlapped near bar {}").format(
-                        find_bar_index(self.time_signatures, ustx_note.position + tick_prefix)
+                    msg = _("Notes overlapped near bar {}").format(
+                        find_bar_index(self.time_signatures, note.start_pos)
                     )
                     raise NotesOverlappedError(msg)
                 elif (
