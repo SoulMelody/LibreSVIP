@@ -76,6 +76,6 @@ jobs:
           publish_dir: site
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: compile files
