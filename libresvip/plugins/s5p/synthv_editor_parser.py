@@ -20,7 +20,6 @@ from libresvip.model.base import (
     SingingTrack,
     SongTempo,
     TimeSignature,
-    Track,
 )
 from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
@@ -54,12 +53,13 @@ class SynthVEditorParser:
     options: InputOptions
     first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
     vibrato_value_interval_dict: PiecewiseIntervalDict = dataclasses.field(init=False)
     vibrato_coef_interval_dict: PiecewiseIntervalDict = dataclasses.field(init=False)
 
     def parse_project(self, s5p_project: S5pProject) -> Project:
-        time_signature_list = self.parse_time_signatures(s5p_project.meter)
-        self.first_bar_length = round(time_signature_list[0].bar_length())
+        self.time_signatures = self.parse_time_signatures(s5p_project.meter)
+        self.first_bar_length = round(self.time_signatures[0].bar_length())
         tempo_list = self.parse_tempos(s5p_project.tempo)
         self.synchronizer = TimeSynchronizer(tempo_list)
         track_list = self.parse_singing_tracks(s5p_project.tracks)
@@ -68,7 +68,7 @@ class SynthVEditorParser:
                 self.parse_instrumental_track(s5p_project.instrumental, s5p_project.mixer)
             )
         return Project(
-            time_signature_list=time_signature_list,
+            time_signature_list=self.time_signatures,
             song_tempo_list=tempo_list,
             track_list=track_list,
         )
@@ -101,7 +101,7 @@ class SynthVEditorParser:
             self.first_bar_length,
         )
 
-    def parse_singing_tracks(self, tracks: list[S5pTrack]) -> list[Track]:
+    def parse_singing_tracks(self, tracks: list[S5pTrack]) -> list[SingingTrack]:
         return [
             SingingTrack(
                 mute=track.mixer.muted,
@@ -224,6 +224,7 @@ class SynthVEditorParser:
                 synchronizer=self.synchronizer,
                 portamento=PortamentoPitch.sigmoid_portamento(),
                 note_list=note_list,
+                time_signature_list=self.time_signatures,
             )
             params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(
                 rel_pitch_points, pitch_simulator

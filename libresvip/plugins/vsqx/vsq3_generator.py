@@ -62,10 +62,12 @@ class Vsq3Generator:
     first_bar_length: int = dataclasses.field(init=False)
     style_params: dict[str, int | list[int]] = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> Vsq3:
         self.style_params = VocaloidStyleTypes().model_dump(by_alias=True)
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
+        self.time_signatures = project.time_signature_list
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
         vsqx = Vsq3()
         mixer = vsqx.mixer
@@ -244,7 +246,7 @@ class Vsq3Generator:
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq3MCtrl]:
         music_controls: list[Vsq3MCtrl] = []
         if pitch_raw_data := generate_for_vocaloid(
-            pitch, notes, self.first_bar_length, self.time_synchronizer
+            pitch, notes, self.time_signatures, self.first_bar_length, self.time_synchronizer
         ):
             music_controls.extend(
                 Vsq3MCtrl(

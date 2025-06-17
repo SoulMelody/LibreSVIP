@@ -9,7 +9,7 @@ from libresvip.core.constants import (
 )
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import Note, ParamCurve
+from libresvip.model.base import Note, ParamCurve, TimeSignature
 from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
@@ -34,6 +34,7 @@ def pitch_from_vocaloid_parts(
     data_by_parts: list[VocaloidPartPitchData],
     synchronizer: TimeSynchronizer,
     note_list: list[Note],
+    time_signature_list: list[TimeSignature],
     vibrato_rate_interval_dict: PiecewiseIntervalDict,
     vibrato_depth_interval_dict: PiecewiseIntervalDict,
     first_bar_length: int,
@@ -112,6 +113,7 @@ def pitch_from_vocaloid_parts(
         synchronizer=synchronizer,
         portamento=PortamentoPitch.vocaloid_portamento(),
         note_list=note_list,
+        time_signature_list=time_signature_list,
     )
     return (
         RelativePitchCurve(first_bar_length, lower_bound, upper_bound).to_absolute(
@@ -125,6 +127,7 @@ def pitch_from_vocaloid_parts(
 def generate_for_vocaloid(
     pitch: ParamCurve,
     notes: list[Note],
+    time_signature_list: list[TimeSignature],
     first_bar_length: int,
     synchronizer: TimeSynchronizer,
 ) -> VocaloidPartPitchData | None:
@@ -132,6 +135,7 @@ def generate_for_vocaloid(
         synchronizer=synchronizer,
         portamento=PortamentoPitch.vocaloid_portamento(),
         note_list=notes,
+        time_signature_list=time_signature_list,
     )
     data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, pitch_simulator)
     if not len(data):

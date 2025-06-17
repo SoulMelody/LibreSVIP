@@ -9,7 +9,7 @@ from libresvip.core.constants import (
     PITCH_MAX_VALUE,
 )
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import Note, ParamCurve
+from libresvip.model.base import Note, ParamCurve, TimeSignature
 from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
@@ -35,12 +35,14 @@ def generate_for_midi(
     first_bar_length: int,
     pitch: ParamCurve,
     notes: list[Note],
+    time_signature_list: list[TimeSignature],
     synchronizer: TimeSynchronizer,
 ) -> MIDIPitchData | None:
     pitch_simulator = PitchSimulator(
         synchronizer=synchronizer,
         portamento=PortamentoPitch.no_portamento(),
         note_list=notes,
+        time_signature_list=time_signature_list,
     )
     data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, pitch_simulator)
     if not len(data):

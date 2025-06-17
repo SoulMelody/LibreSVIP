@@ -264,6 +264,7 @@ class MidiParser:
                     synchronizer=self.synchronizer,
                     portamento=PortamentoPitch.no_portamento(),
                     note_list=notes,
+                    time_signature_list=self.time_signatures,
                 )
                 rel_pitch_points.sort(key=operator.attrgetter("x"))
                 edited_params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(

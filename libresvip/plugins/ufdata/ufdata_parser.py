@@ -32,18 +32,19 @@ class UFDataParser:
     options: InputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
 
     def parse_project(self, ufdata_project: UFData) -> Project:
         uf_project = ufdata_project.project
-        time_signature_list = self.parse_time_signatures(uf_project.time_signatures)
-        self.first_bar_length = round(time_signature_list[0].bar_length())
-        tick_prefix = int(time_signature_list[0].bar_length() * uf_project.measure_prefix)
+        self.time_signatures = self.parse_time_signatures(uf_project.time_signatures)
+        self.first_bar_length = round(self.time_signatures[0].bar_length())
+        tick_prefix = int(self.time_signatures[0].bar_length() * uf_project.measure_prefix)
         song_tempo_list = shift_tempo_list(self.parse_tempos(uf_project.tempos), tick_prefix)
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
             song_tempo_list=song_tempo_list,
             time_signature_list=shift_beat_list(
-                time_signature_list,
+                self.time_signatures,
                 uf_project.measure_prefix,
             ),
             track_list=self.parse_tracks(uf_project.tracks, tick_prefix),
@@ -131,6 +132,7 @@ class UFDataParser:
             synchronizer=self.synchronizer,
             portamento=PortamentoPitch.no_portamento(),
             note_list=note_list,
+            time_signature_list=self.time_signatures,
         )
         return RelativePitchCurve(self.first_bar_length).to_absolute(
             rel_pitch_points, pitch_simulator

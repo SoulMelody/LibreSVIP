@@ -41,9 +41,11 @@ class SynthVEditorGenerator:
     options: OutputOptions
     first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> S5pProject:
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
+        self.time_signatures = project.time_signature_list
         s5p_project = S5pProject(
             tempo=self.generate_tempos(project.song_tempo_list),
             meter=self.generate_time_signatures(project.time_signature_list),
@@ -151,6 +153,7 @@ class SynthVEditorGenerator:
             synchronizer=self.synchronizer,
             portamento=PortamentoPitch.sigmoid_portamento(),
             note_list=note_list,
+            time_signature_list=self.time_signatures,
         )
         rel_pitch_points = RelativePitchCurve(self.first_bar_length).from_absolute(
             edited_params.pitch.points.root, pitch_simulator

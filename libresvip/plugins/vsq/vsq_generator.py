@@ -31,6 +31,7 @@ class VsqGenerator:
     options: OutputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
 
     @property
     def tick_rate(self) -> float:
@@ -44,6 +45,7 @@ class VsqGenerator:
         self.first_bar_length = int(
             project.time_signature_list[0].bar_length(self.options.ticks_per_beat)
         )
+        self.time_signatures = project.time_signature_list
         master_track = mido.MidiTrack()
         master_track.name = "Master Track"
         self.generate_tempos(master_track, project.song_tempo_list)
@@ -228,7 +230,7 @@ class VsqGenerator:
     ) -> list[str]:
         result = []
         if pitch_raw_data := generate_for_vocaloid(
-            pitch, note_list, self.first_bar_length, self.synchronizer
+            pitch, note_list, self.time_signatures, self.first_bar_length, self.synchronizer
         ):
             if len(pitch_raw_data.pit):
                 result.append("[PitchBendBPList]")

@@ -42,7 +42,9 @@ class MidiGenerator:
         self.generate_time_signatures(master_track, project.time_signature_list)
         master_track.sort(key=operator.attrgetter("time"))
         mido_obj.tracks.append(master_track)
-        mido_obj.tracks.extend(self.generate_tracks(project.track_list))
+        mido_obj.tracks.extend(
+            self.generate_tracks(project.track_list, project.time_signature_list)
+        )
         self._convert_cumulative_to_delta(mido_obj.tracks)
         return mido_obj
 
@@ -90,15 +92,19 @@ class MidiGenerator:
                 )
                 prev_time_signature = time_signature
 
-    def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
+    def generate_tracks(
+        self, tracks: list[Track], time_signature_list: list[TimeSignature]
+    ) -> list[mido.MidiTrack]:
         return [
             mido_track
             for track in tracks
             if isinstance(track, SingingTrack)
-            and (mido_track := self.generate_track(track)) is not None
+            and (mido_track := self.generate_track(track, time_signature_list)) is not None
         ]
 
-    def generate_track(self, track: SingingTrack) -> mido.MidiTrack:
+    def generate_track(
+        self, track: SingingTrack, time_signature_list: list[TimeSignature]
+    ) -> mido.MidiTrack | None:
         lyrics = [
             note.pronunciation if note.pronunciation is not None else note.lyric
             for note in track.note_list
@@ -135,6 +141,7 @@ class MidiGenerator:
             self.first_bar_length,
             track.edited_params.pitch,
             track.note_list,
+            time_signature_list,
             self.synchronizer,
         ):
             for pbs_event in pitch_data.pbs:
