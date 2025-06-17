@@ -225,7 +225,7 @@ class VocaloidGenerator:
         ]:
             show_warning(
                 _(
-                    'Phonemes of all notes were set to "la". Please use "Job" -> "Convert Phonemes to Match Languages in the menu of VOCALOID to reset them.'
+                    'Phonemes of all notes were set to "la". Please use "Job" -> "Convert Phonemes to Match Languages" in the menu of VOCALOID to reset them.'
                 )
             )
         return tracks
