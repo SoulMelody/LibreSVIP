@@ -1,6 +1,3 @@
-msgid "Notes Overlapped"
-msgstr ""
-
 msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
 msgstr ""
 
@@ -160,5 +157,9 @@ msgid ""
 msgstr ""
 
 msgid "yqzhishen"
+msgstr ""
+
+#, python-brace-format
+msgid "Notes overlapped near bar {}"
 msgstr ""
 

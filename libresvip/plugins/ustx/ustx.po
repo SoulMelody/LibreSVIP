@@ -36,6 +36,7 @@ msgstr ""
 msgid "Oxygen Dioxide"
 msgstr ""
 
-msgid "Notes Overlapped"
+#, python-brace-format
+msgid "Notes overlapped near bar {}"
 msgstr ""
 
