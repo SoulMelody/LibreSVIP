@@ -1651,7 +1651,7 @@ all = [
     { name = "mkdocs-marimo", specifier = ">=0.2.1" },
     { name = "mkdocs-material", specifier = ">=9.6.14,<10.0.0" },
     { name = "mypy", specifier = ">=1.16.1" },
-    { name = "nuitka", specifier = ">=2.7.7" },
+    { name = "nuitka", specifier = ">=2.7.9" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "pyinstaller", specifier = ">=6.14.1" },
@@ -1689,7 +1689,7 @@ linting = [
 ]
 packaging = [
     { name = "cx-freeze", specifier = ">=8.3.0" },
-    { name = "nuitka", specifier = ">=2.7.7" },
+    { name = "nuitka", specifier = ">=2.7.9" },
     { name = "pyinstaller", specifier = ">=6.14.1" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
 ]
@@ -2469,13 +2469,13 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "2.7.7"
+version = "2.7.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ordered-set" },
     { name = "zstandard" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0a/3f/3294699ad8ebca820127b5606c77e52bb1bd5d7eea97e9dd5a6228884e80/Nuitka-2.7.7.tar.gz", hash = "sha256:327e697e1a3eea2608ca7dce228c2d7686d65e38af9907c98646695ba5df9edf", size = 3886105, upload-time = "2025-06-10T08:03:01.489Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/13/a8/31b9b1ee9fa7d62c736f6c5d5aac1bcc908dbb5e7f2ea05a04c3c3fb917e/Nuitka-2.7.9.tar.gz", hash = "sha256:26feb16dc860fe913430bcd349815bac8df432a44f6b215bdd3dd775bd887762", size = 3886410, upload-time = "2025-06-18T13:16:54.749Z" }
 
 [[package]]
 name = "oauthlib"
