@@ -110,6 +110,8 @@ class SVBaseAttributes(BaseModel):
     improvise_attack_release: bool | None = Field(None, alias="improviseAttackRelease")
     language_override: str | None = Field(None, alias="languageOverride")
     phoneset_override: str | None = Field(None, alias="phonesetOverride")
+    transpose_cents: float | None = Field(None, alias="transposeCents")
+    transpose_semitones: float | None = Field(None, alias="transposeSemitones")
 
 
 class SVMeter(BaseModel):
@@ -126,6 +128,7 @@ class SVTempo(BaseModel):
 class SVTime(BaseModel):
     meter: list[SVMeter] = Field(default_factory=list)
     tempo: list[SVTempo] = Field(default_factory=list)
+    start_time_seconds: float | None = Field(None, alias="startTimeSeconds")
 
 
 class SVBasePoints(BaseModel):
@@ -256,6 +259,7 @@ class SVNoteAttributes(SVBaseAttributes):
     r_intonation: float | None = Field(None, alias="rIntonation")
     even_syllable_duration: float | None = Field(None, alias="evenSyllableDuration")
     phonemes: list[SVPhonemeAttribute] | None = None
+    muted: bool | None = None
 
     def _get_transition_offset(self) -> float:
         return constants.DEFAULT_PITCH_TRANSITION if self.t_f0_offset is None else self.t_f0_offset
@@ -554,6 +558,9 @@ class SVVoice(SVBaseAttributes):
 class SVAudio(BaseModel):
     filename: str = ""
     duration: float
+    bpm: float | None = None
+    alternative_bpms: list[float] | None = Field(None, alias="alternativeBPMs")
+    beat_locations: list[float] | None = Field(None, alias="beatLocations")
 
     validate_filename = field_validator("filename", mode="before")(audio_path_validator)
 
