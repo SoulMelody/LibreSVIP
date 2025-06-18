@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:32\n"
+"PO-Revision-Date: 2025-06-18 12:21\n"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr ""
@@ -48,6 +48,7 @@ msgstr ""
 msgid "Oxygen Dioxide"
 msgstr ""
 
-msgid "Notes Overlapped"
+#, python-brace-format
+msgid "Notes overlapped near bar {}"
 msgstr ""
 
