@@ -62,4 +62,4 @@ extra:
     - icon: material/language-python
       link: https://pypi.org/project/libresvip/
     - icon: material/translate
-      link: https://crowdin.com/project/libresvip
+      link: https://zh.crowdin.com/project/libresvip
