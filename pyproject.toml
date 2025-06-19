@@ -240,6 +240,7 @@ ignore = [
   "E501",   # Line too long
   "RUF001", # String contains ambiguous symbol
   "RUF009", # Do not perform function call in dataclass defaults
+  "PLC0415",# `import` should be at the top-level of a file
 ]
 
 [tool.ruff.lint.isort]

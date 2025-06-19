@@ -328,7 +328,7 @@ def generate_for_cevio(
     are_events_connected_to_next = [
         this_event.idx + this_event.repeat >= next_event.idx if next_event else False
         for this_event, next_event in zip(
-            events_with_full_params, events_with_full_params[1:] + [None]
+            events_with_full_params, [*events_with_full_params[1:], None]
         )
     ]
     events = denormalize_from_tick(events_with_full_params, tempos, tick_prefix)
