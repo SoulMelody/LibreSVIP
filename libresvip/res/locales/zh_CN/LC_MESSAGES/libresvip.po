@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-06-18 12:21\n"
+"PO-Revision-Date: 2025-06-19 02:47\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 #, python-brace-format
@@ -540,7 +540,7 @@ msgstr "若音频文件路径不存在，则从工程文件中解压以供后续
 #: ../libresvip/model/pitch_simulator.py:54
 #, python-brace-format
 msgid "Notes overlapped near bar {}"
-msgstr ""
+msgstr "在第{}小节处存在重叠音符"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:33
 msgctxt "actions"
