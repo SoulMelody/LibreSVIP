@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-12-25 22:51\n"
+"PO-Revision-Date: 2025-06-18 12:21\n"
 
 msgid "日本語"
 msgstr ""
@@ -63,7 +63,7 @@ msgstr ""
 msgid "SoulMelody"
 msgstr ""
 
-msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert Phonemes to Match Languages in the menu of VOCALOID to reset them."
+msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert Phonemes to Match Languages\" in the menu of VOCALOID to reset them."
 msgstr ""
 
 msgid "Note overlap detected, cutting note "

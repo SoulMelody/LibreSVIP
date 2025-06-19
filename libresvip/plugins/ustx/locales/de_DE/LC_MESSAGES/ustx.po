@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-19 01:03\n"
+"PO-Revision-Date: 2025-06-19 02:50\n"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr "Inkompatibel mit Phonemizern der ARPAsing-Serie"
@@ -48,6 +48,7 @@ msgstr "Konvertierungs-Plugin für das Ustx-Dateiformat"
 msgid "Oxygen Dioxide"
 msgstr ""
 
-msgid "Notes Overlapped"
-msgstr "Noten überlappen sich"
+#, python-brace-format
+msgid "Notes overlapped near bar {}"
+msgstr "Überlappende Noten gibt es bei Takt {}"
 

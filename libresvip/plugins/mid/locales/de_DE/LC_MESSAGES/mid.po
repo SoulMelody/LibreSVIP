@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2025-03-26 07:55\n"
+"PO-Revision-Date: 2025-06-19 02:47\n"
 
 msgid "MIDI"
 msgstr ""
@@ -28,8 +28,8 @@ msgid "No tempo labels found in the imported project."
 msgstr "Keine Tempobezeichnungen im importierten Projekt gefunden."
 
 #, python-brace-format
-msgid "Overlapping notes in track {}"
-msgstr "Überlappende Noten im Track {}"
+msgid "Notes overlapped near bar {}"
+msgstr ""
 
 msgid "Import first channel only"
 msgstr "Nur den ersten Kanal importieren"
