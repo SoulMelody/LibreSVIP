@@ -1,5 +1,5 @@
 /// marimo-embed
-height: 600px
+height: 600
 mode: read
 app_width: wide
 
@@ -20,12 +20,12 @@ async def _():
         await micropip.install("zstandard")
         micropip.add_mock_package('zstandard', '0.23.0')
 
-        micropip.add_mock_package('pydantic', '2.11.4')
+        micropip.add_mock_package('pydantic', '2.11.7')
         micropip.add_mock_package('pydantic-core', '2.33.2')
-        micropip.add_mock_package('typing-extensions', '4.13.2')
+        micropip.add_mock_package('typing-extensions', '4.14.0')
 
         await micropip.install("pycryptodome")
-        micropip.add_mock_package('pycryptodomex', "3.22.0")
+        micropip.add_mock_package('pycryptodomex', "3.23.0")
         await micropip.install("pyzipper")
 
         await micropip.install("libresvip")
