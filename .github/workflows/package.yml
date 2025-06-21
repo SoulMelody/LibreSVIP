@@ -338,7 +338,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python cpython-3.13.3-windows-x86-none
+          uv venv --python cpython-3.13.5-windows-x86-none
           uv sync --extra mobile --extra crypto --extra ujson --extra ruamel_yaml --extra lxml --extra zstd
           cd packaging
           uv pip install -r requirements-pyinstaller.in
