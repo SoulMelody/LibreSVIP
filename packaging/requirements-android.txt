@@ -37,12 +37,12 @@ pycryptodomex==3.23.0
 pydantic==2.9.1
 pydantic-core==2.23.3
 pydantic-extra-types==2.10.5
-pydantic-settings==2.10.0
+pydantic-settings==2.10.1
 pygments==2.19.2
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.54.0
 pysubs2==1.8.0
-python-dotenv==1.1.0
+python-dotenv==1.1.1
 pyyaml==6.0.2 ; python_full_version < '3.13'
 pyyaml-ft==8.0.0 ; python_full_version >= '3.13'
 pyzipper==0.3.6

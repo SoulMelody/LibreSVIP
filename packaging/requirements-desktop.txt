@@ -45,7 +45,7 @@ pycryptodomex==3.23.0
 pydantic==2.11.7
 pydantic-core==2.33.2
 pydantic-extra-types==2.10.5
-pydantic-settings==2.10.0
+pydantic-settings==2.10.1
 pygments==2.19.2
 pyinstaller==6.14.1 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.14.1-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
@@ -56,7 +56,7 @@ pyside6==6.9.1
 pyside6-addons==6.9.1
 pyside6-essentials==6.9.1
 pysubs2==1.8.0
-python-dotenv==1.1.0
+python-dotenv==1.1.1
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2 ; python_full_version < '3.13'
 pyyaml-ft==8.0.0 ; python_full_version >= '3.13'
