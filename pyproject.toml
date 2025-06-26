@@ -84,7 +84,7 @@ upath = [
 ruamel_yaml = [
   "ruamel.yaml>=0.18.14",
 ]
-lxml = ["lxml>=5.4.0"]
+lxml = ["lxml>=6.0.0"]
 tui = [
   "textual-fspicker>=0.4.1",
   "libresvip[upath]",
