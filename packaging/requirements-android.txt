@@ -46,7 +46,7 @@ python-dotenv==1.1.1
 pyyaml==6.0.2 ; python_full_version < '3.13'
 pyyaml-ft==8.0.0 ; python_full_version >= '3.13'
 pyzipper==0.3.6
-pyzstd==0.17.0 ; platform_python_implementation == 'PyPy'
+pyzstd==0.17.0 ; python_full_version < '3.14' and platform_python_implementation == 'PyPy'
 repath==0.9.0
 retrie==0.3.1
 rich==14.0.0
@@ -65,4 +65,4 @@ win32-setctime==1.2.0 ; sys_platform == 'win32'
 xsdata==25.4
 xsdata-pydantic==24.5
 zhon==2.1.1
-zstandard==0.23.0 ; platform_python_implementation == 'CPython'
+zstandard==0.23.0 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
