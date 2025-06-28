@@ -70,8 +70,8 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 zstd = [
-  "pyzstd<1.0.0,>=0.17.0; platform_python_implementation == \"PyPy\"",
-  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
+  "pyzstd<1.0.0,>=0.17.0; platform_python_implementation == \"PyPy\" and python_version < \"3.14\"",
+  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
 ]
 crypto = [
   "cffi>=1.17.1; sys_platform != \"win32\" or python_version <= \"3.11\"",
@@ -127,6 +127,7 @@ linting = [
 packaging = [
   "cx-Freeze>=8.3.0",
   "nuitka>=2.7.11",
+  "pyfuze>=2.2.0",
   "pyinstaller>=6.14.1",
   "shellingham<2.0.0,>=1.5.4",
 ]
