@@ -256,9 +256,9 @@ async def main(page: ft.Page) -> None:
                 banner: ft.Banner = ft.Banner(
                     ft.Text(_("Copied")),
                     leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINE),
-                    actions=[ft.TextButton(_("OK"), on_click=lambda _: page.close(banner))],
+                    actions=[ft.TextButton(_("OK"), on_click=page.pop_dialog)],
                 )
-                page.open(banner)
+                page.show_dialog(banner)
 
             page.views.append(
                 ft.View(
@@ -455,7 +455,7 @@ async def main(page: ft.Page) -> None:
             e.control.data
         )
         banner_ref = ft.Ref[ft.Banner]()
-        dismiss_btn = ft.TextButton(_("OK"), on_click=lambda _: page.close(banner_ref.current))
+        dismiss_btn = ft.TextButton(_("OK"), on_click=page.pop_dialog)
         if result != fph.PermissionStatus.GRANTED:
             result = await permission_handler.request_async(e.control.data)
             if result == fph.PermissionStatus.GRANTED:
@@ -485,7 +485,7 @@ async def main(page: ft.Page) -> None:
                 leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINED),
                 actions=[dismiss_btn],
             )
-        page.open(banner)
+        page.show_dialog(banner)
 
     def open_rename_dialog(e: ft.ControlEvent) -> None:
         list_tile = e.control.parent.parent
@@ -493,7 +493,7 @@ async def main(page: ft.Page) -> None:
         def close_rename_dialog() -> None:
             list_tile.subtitle.value = rename_dialog.content.value
             list_tile.subtitle.update()
-            page.close(rename_dialog)
+            page.pop_dialog()
 
         rename_dialog: ft.AlertDialog = ft.AlertDialog(
             title=ft.Text(_("Rename")),
@@ -503,7 +503,7 @@ async def main(page: ft.Page) -> None:
             ],
             actions_alignment=ft.MainAxisAlignment.END,
         )
-        page.open(rename_dialog)
+        page.show_dialog(rename_dialog)
 
     def remove_task(e: ft.ControlEvent) -> None:
         task_list_view.current.controls.remove(e.control.parent.parent)
