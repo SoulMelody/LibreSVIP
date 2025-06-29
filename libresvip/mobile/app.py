@@ -62,7 +62,10 @@ async def main(page: ft.Page) -> None:
         page.go(f"/?lang={lang}")
 
     if not await page.shared_preferences.contains_key_async("save_folder"):
-        await page.shared_preferences.set_async("save_folder", ".")
+        await page.shared_preferences.set_async(
+            "save_folder",
+            "." if page.web else (await page.storage_paths.get_downloads_directory_async()) or ".",
+        )
     save_folder_text_field = ft.Ref[ft.TextField]()
     temp_path = UPath("memory:/")
 
@@ -366,7 +369,10 @@ async def main(page: ft.Page) -> None:
             page.update()
 
     async def select_save_folder() -> None:
-        if path := await file_picker.get_directory_path_async(_("Change Output Directory")):
+        if path := await file_picker.get_directory_path_async(
+            _("Change Output Directory"),
+            await page.shared_preferences.get_async("save_folder"),
+        ):
             await page.shared_preferences.set_async("save_folder", path)
             if save_folder_text_field.current is not None:
                 save_folder_text_field.current.value = path
