@@ -230,13 +230,11 @@ async def main(page: ft.Page) -> None:
         last_input_format = await page.shared_preferences.get_async("last_input_format")
         if last_input_format != value:
             input_options.current.controls = build_input_options(value)
-            input_options.current.update()
             reset_tasks_on_input_change = await page.shared_preferences.get_async(
                 "reset_tasks_on_input_change"
             )
             if reset_tasks_on_input_change:
                 task_list_view.current.controls.clear()
-                task_list_view.current.update()
             await page.shared_preferences.set_async("last_input_format", value)
 
     async def set_last_output_format(value: str | ft.Event[ft.BaseControl] | None) -> None:
@@ -247,7 +245,6 @@ async def main(page: ft.Page) -> None:
         last_output_format = await page.shared_preferences.get_async("last_output_format")
         if last_output_format != value:
             output_options.current.controls = build_output_options(value)
-            output_options.current.update()
             await page.shared_preferences.set_async("last_output_format", value)
 
     def show_task_log(e: ft.ControlEvent) -> None:
@@ -376,7 +373,6 @@ async def main(page: ft.Page) -> None:
             await page.shared_preferences.set_async("save_folder", path)
             if save_folder_text_field.current is not None:
                 save_folder_text_field.current.value = path
-                save_folder_text_field.current.update()
 
     if not await page.shared_preferences.contains_key_async("auto_detect_input_format"):
         await page.shared_preferences.set_async("auto_detect_input_format", "true")
@@ -451,7 +447,6 @@ async def main(page: ft.Page) -> None:
                     data={"path": file_path, "log_text": ""},
                 )
             )
-            task_list_view.current.update()
 
     file_picker = ft.FilePicker(on_upload=on_upload_progress)
     permission_handler = fph.PermissionHandler()
@@ -499,7 +494,6 @@ async def main(page: ft.Page) -> None:
 
         def close_rename_dialog() -> None:
             list_tile.subtitle.value = rename_dialog.content.value
-            list_tile.subtitle.update()
             page.pop_dialog()
 
         rename_dialog: ft.AlertDialog = ft.AlertDialog(
@@ -514,7 +508,6 @@ async def main(page: ft.Page) -> None:
 
     def remove_task(e: ft.ControlEvent) -> None:
         task_list_view.current.controls.remove(e.control.parent.parent)
-        task_list_view.current.update()
 
     def convert_one(
         input_format: str,
@@ -537,7 +530,6 @@ async def main(page: ft.Page) -> None:
         list_tile.leading.controls[0].visible = False
         list_tile.leading.controls[1].visible = True
         list_tile.trailing.items[-1].disabled = True
-        list_tile.update()
         try:
             with CatchWarnings() as w:
                 output_path = temp_path / list_tile.subtitle.value
@@ -674,7 +666,6 @@ async def main(page: ft.Page) -> None:
         list_tile.leading.controls[0].visible = True
         list_tile.leading.controls[1].visible = False
         list_tile.trailing.items[-1].disabled = False
-        list_tile.update()
 
     async def on_route_change(event: ft.RouteChangeEvent) -> None:
         page.views.clear()
@@ -786,7 +777,6 @@ async def main(page: ft.Page) -> None:
             else:
                 maximize_button.current.icon = ft.Icons.OPEN_IN_FULL_OUTLINED
                 maximize_button.current.tooltip = _("Maximize")
-            maximize_button.current.update()
 
         if page.platform not in [ft.PagePlatform.IOS, ft.PagePlatform.ANDROID] and not page.web:
             maximize_button = ft.Ref[ft.IconButton]()
