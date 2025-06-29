@@ -515,7 +515,7 @@ class SynthVParser:
                     note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
                 ]
             note_list = [self.parse_note(note, database) for note in sv_note_list]
-        if len(sv_note_list):
+        if sv_note_list:
             lyrics, languages = zip(
                 *(
                     (
@@ -528,7 +528,7 @@ class SynthVParser:
         else:
             lyrics, languages = (), ()
         lyrics_phoneme = sv_g2p(lyrics, languages)
-        if not len(note_list):
+        if not note_list:
             return note_list
         for prev_note, note in more_itertools.pairwise(note_list):
             if prev_note.end_pos > note.start_pos:
