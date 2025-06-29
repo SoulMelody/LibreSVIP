@@ -8,7 +8,7 @@ from typing import get_args, get_type_hints
 import flet as ft
 import flet_permission_handler as fph
 import more_itertools
-from flet.core import padding
+from flet.controls import padding
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
@@ -32,31 +32,31 @@ def main(page: ft.Page) -> None:
     page.window.height = 720
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
-    page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.alignment.center)
+    page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.alignment.Alignment.center())
 
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
 
-    if not page.client_storage.contains_key("dark_mode"):
-        page.client_storage.set("dark_mode", "System")
-    page.theme_mode = ft.ThemeMode((page.client_storage.get("dark_mode") or "System").lower())
+    if not page.session.contains_key("dark_mode"):
+        page.session.set("dark_mode", "System")
+    page.theme_mode = ft.ThemeMode((page.session.get("dark_mode") or "System").lower())
 
     def change_theme(dark_mode: str) -> None:
         page.theme_mode = ft.ThemeMode(dark_mode.lower())
-        page.client_storage.set("dark_mode", dark_mode)
+        page.session.set("dark_mode", dark_mode)
         page.update()
 
-    if not (page.client_storage.contains_key("language")):
-        page.client_storage.set("language", "en_US")
-    translation.singleton_translation = get_translation(page.client_storage.get("language"))
+    if not (page.session.contains_key("language")):
+        page.session.set("language", "en_US")
+    translation.singleton_translation = get_translation(page.session.get("language"))
 
     def change_language(lang: str) -> None:
-        page.client_storage.set("language", lang)
+        page.session.set("language", lang)
         translation.singleton_translation = get_translation(lang)
         page.go(f"/?lang={lang}")
 
-    if not (page.client_storage.contains_key("save_folder")):
-        page.client_storage.set("save_folder", ".")
+    if not (page.session.contains_key("save_folder")):
+        page.session.set("save_folder", ".")
     save_folder_text_field = ft.Ref[ft.TextField]()
     temp_path = UPath("memory:/")
 
@@ -216,31 +216,31 @@ def main(page: ft.Page) -> None:
     def set_last_input_format(value: str | None) -> None:
         if input_select.current.value != value:
             input_select.current.value = value
-        last_input_format = page.client_storage.get("last_input_format")
+        last_input_format = page.session.get("last_input_format")
         if last_input_format != value:
             input_options.current.controls = build_input_options(value)
             input_options.current.update()
-            reset_tasks_on_input_change = page.client_storage.get("reset_tasks_on_input_change")
+            reset_tasks_on_input_change = page.session.get("reset_tasks_on_input_change")
             if reset_tasks_on_input_change:
                 task_list_view.current.controls.clear()
                 task_list_view.current.update()
-            page.client_storage.set("last_input_format", value)
+            page.session.set("last_input_format", value)
 
     def set_last_output_format(value: str | None) -> None:
         if output_select.current.value != value:
             output_select.current.value = value
-        last_output_format = page.client_storage.get("last_output_format")
+        last_output_format = page.session.get("last_output_format")
         if last_output_format != value:
             output_options.current.controls = build_output_options(value)
             output_options.current.update()
-            page.client_storage.set("last_output_format", value)
+            page.session.set("last_output_format", value)
 
     def show_task_log(e: ft.ControlEvent) -> None:
         list_tile = e.control.parent.parent
         if list_tile.data.get("log_text"):
 
             def copy_log_text(e: ft.ControlEvent) -> None:
-                page.set_clipboard(list_tile.data["log_text"])
+                page.clipboard.set(list_tile.data["log_text"])
                 banner: ft.Banner = ft.Banner(
                     ft.Text(_("Copied")),
                     leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINE),
@@ -285,21 +285,23 @@ def main(page: ft.Page) -> None:
             )
             page.update()
 
-    def on_files_selected(e: ft.FilePickerResultEvent) -> None:
-        if e.files:
-            auto_detect_input_format = page.client_storage.get("auto_detect_input_format")
+    async def select_files() -> None:
+        if files := await file_picker.pick_files_async(
+            _("Select files to convert"), allow_multiple=True
+        ):
+            auto_detect_input_format = page.session.get("auto_detect_input_format")
             if page.web:
                 uf = [
                     ft.FilePickerUploadFile(
                         f.name,
                         upload_url=page.get_upload_url(f.name, 600),
                     )
-                    for f in e.files
+                    for f in files
                 ]
                 file_picker.upload(uf)
                 return
-            for file in e.files:
-                last_input_format = page.client_storage.get("last_input_format")
+            for file in files:
+                last_input_format = page.session.get("last_input_format")
                 file_path = pathlib.Path(file.path)
                 suffix = file_path.suffix.lower().removeprefix(".")
                 if (
@@ -347,34 +349,36 @@ def main(page: ft.Page) -> None:
                     )
                 )
             page.update()
-        if e.path:
-            page.client_storage.set("save_folder", e.path)
+
+    async def select_save_folder() -> None:
+        if path := await file_picker.get_directory_path_async(_("Change Output Directory")):
+            page.session.set("save_folder", path)
             if save_folder_text_field.current is not None:
-                save_folder_text_field.current.value = e.path
+                save_folder_text_field.current.value = path
                 save_folder_text_field.current.update()
 
-    if not (page.client_storage.contains_key("auto_detect_input_format")):
-        page.client_storage.set("auto_detect_input_format", True)
+    if not (page.session.contains_key("auto_detect_input_format")):
+        page.session.set("auto_detect_input_format", True)
 
     def change_auto_detect_input_format(e: ft.ControlEvent) -> None:
-        page.client_storage.set("auto_detect_input_format", e.control.value)
+        page.session.set("auto_detect_input_format", e.control.value)
 
-    if not (page.client_storage.contains_key("reset_tasks_on_input_change")):
-        page.client_storage.set("reset_tasks_on_input_change", True)
+    if not (page.session.contains_key("reset_tasks_on_input_change")):
+        page.session.set("reset_tasks_on_input_change", True)
 
     def change_reset_tasks_on_input_change(e: ft.ControlEvent) -> None:
-        page.client_storage.set("reset_tasks_on_input_change", e.control.value)
+        page.session.set("reset_tasks_on_input_change", e.control.value)
 
-    if not (page.client_storage.contains_key("max_track_count")):
-        page.client_storage.set("max_track_count", 1)
+    if not (page.session.contains_key("max_track_count")):
+        page.session.set("max_track_count", 1)
 
     def change_max_track_count(e: ft.ControlEvent) -> None:
-        page.client_storage.set("max_track_count", e.control.value)
+        page.session.set("max_track_count", e.control.value)
 
     def on_upload_progress(e: ft.FilePickerUploadEvent) -> None:
         if e.progress == 1.0:
-            auto_detect_input_format = page.client_storage.get("auto_detect_input_format")
-            last_input_format = page.client_storage.get("last_input_format")
+            auto_detect_input_format = page.session.get("auto_detect_input_format")
+            last_input_format = page.session.get("last_input_format")
             file_path = settings.save_folder / e.file_name
             suffix = file_path.suffix.lower().removeprefix(".")
             if (
@@ -422,16 +426,18 @@ def main(page: ft.Page) -> None:
             )
             task_list_view.current.update()
 
-    file_picker = ft.FilePicker(on_result=on_files_selected, on_upload=on_upload_progress)
+    file_picker = ft.FilePicker(on_upload=on_upload_progress)
     permission_handler = fph.PermissionHandler()
     page.overlay.extend([file_picker, permission_handler])
 
-    def check_permission(e: ft.ControlEvent) -> None:
-        result: fph.PermissionStatus | None = permission_handler.check_permission(e.control.data)
+    async def check_permission(e: ft.ControlEvent) -> None:
+        result: fph.PermissionStatus | None = await permission_handler.get_status_async(
+            e.control.data
+        )
         banner_ref = ft.Ref[ft.Banner]()
         dismiss_btn = ft.TextButton(text=_("OK"), on_click=lambda _: page.close(banner_ref.current))
         if result != fph.PermissionStatus.GRANTED:
-            result = permission_handler.request_permission(e.control.data)
+            result = await permission_handler.request_async(e.control.data)
             if result == fph.PermissionStatus.GRANTED:
                 banner = ft.Banner(
                     ft.Text(_("Permission granted, you can now select files from your device.")),
@@ -486,12 +492,12 @@ def main(page: ft.Page) -> None:
     def convert_one(list_tile: ft.ListTile, *sub_tasks: list[ft.ListTile]) -> None:
         conversion_mode = conversion_mode_select.current.value
         if (
-            (input_format := page.client_storage.get("last_input_format")) is None
-            or (output_format := page.client_storage.get("last_output_format")) is None
-            or (max_track_count := page.client_storage.get("max_track_count")) is None
+            (input_format := page.session.get("last_input_format")) is None
+            or (output_format := page.session.get("last_output_format")) is None
+            or (max_track_count := page.session.get("max_track_count")) is None
             or (
                 save_folder_str := (
-                    settings.save_folder if page.web else page.client_storage.get("save_folder")
+                    settings.save_folder if page.web else page.session.get("save_folder")
                 )
             )
             is None
@@ -687,17 +693,17 @@ def main(page: ft.Page) -> None:
             menu_position=ft.PopupMenuPosition.UNDER,
             items=[
                 ft.PopupMenuItem(
-                    text=_("System"),
+                    content=_("System"),
                     icon=ft.Icons.BRIGHTNESS_AUTO_OUTLINED,
                     on_click=lambda _: change_theme("System"),
                 ),
                 ft.PopupMenuItem(
-                    text=_("Light"),
+                    content=_("Light"),
                     icon=ft.Icons.LIGHT_MODE_OUTLINED,
                     on_click=lambda _: change_theme("Light"),
                 ),
                 ft.PopupMenuItem(
-                    text=_("Dark"),
+                    content=_("Dark"),
                     icon=ft.Icons.DARK_MODE_OUTLINED,
                     on_click=lambda _: change_theme("Dark"),
                 ),
@@ -708,9 +714,9 @@ def main(page: ft.Page) -> None:
             tooltip=_("Switch Language"),
             menu_position=ft.PopupMenuPosition.UNDER,
             items=[
-                ft.PopupMenuItem(text="简体中文", on_click=lambda _: change_language("zh_CN")),
-                ft.PopupMenuItem(text="English", on_click=lambda _: change_language("en_US")),
-                ft.PopupMenuItem(text="Deutsch", on_click=lambda _: change_language("de_DE")),
+                ft.PopupMenuItem(content="简体中文", on_click=lambda _: change_language("zh_CN")),
+                ft.PopupMenuItem(content="English", on_click=lambda _: change_language("en_US")),
+                ft.PopupMenuItem(content="Deutsch", on_click=lambda _: change_language("de_DE")),
             ],
         )
         window_buttons = []
@@ -850,7 +856,7 @@ def main(page: ft.Page) -> None:
                             [
                                 ft.Dropdown(
                                     ref=input_select,
-                                    value=page.client_storage.get("last_input_format"),
+                                    value=page.session.get("last_input_format"),
                                     label=_("Import format"),
                                     text_size=14,
                                     options=[
@@ -879,7 +885,7 @@ def main(page: ft.Page) -> None:
                                 ),
                                 ft.Dropdown(
                                     ref=output_select,
-                                    value=page.client_storage.get("last_output_format"),
+                                    value=page.session.get("last_output_format"),
                                     label=_("Export format"),
                                     text_size=14,
                                     options=[
@@ -899,35 +905,33 @@ def main(page: ft.Page) -> None:
                                     col=2,
                                     on_click=lambda _: show_plugin_info(output_select),
                                 ),
-                                ft.Switch(
+                                ft.Checkbox(
                                     _("Auto detect import format"),
-                                    value=page.client_storage.get("auto_detect_input_format"),
+                                    value=page.session.get("auto_detect_input_format"),
                                     col=12,
                                     on_change=change_auto_detect_input_format,
                                 ),
-                                ft.Switch(
+                                ft.Checkbox(
                                     _("Reset list when import format changed"),
-                                    value=page.client_storage.get("reset_tasks_on_input_change"),
+                                    value=page.session.get("reset_tasks_on_input_change"),
                                     col=12,
                                     on_change=change_reset_tasks_on_input_change,
                                 ),
                                 ft.TextField(
                                     ref=save_folder_text_field,
                                     label=_("Output Folder"),
-                                    value=page.client_storage.get("save_folder"),
+                                    value=page.session.get("save_folder"),
                                     col=10,
                                 ),
                                 ft.IconButton(
                                     ft.Icons.FOLDER_OPEN_OUTLINED,
                                     tooltip=_("Change Output Directory"),
                                     col=2,
-                                    on_click=lambda e: file_picker.get_directory_path(
-                                        _("Change Output Directory")
-                                    ),
+                                    on_click=select_save_folder,
                                 ),
                                 ft.ElevatedButton(
                                     _("Request permission to access files"),
-                                    data=fph.PermissionType.MANAGE_EXTERNAL_STORAGE,
+                                    data=fph.Permission.MANAGE_EXTERNAL_STORAGE,
                                     on_click=check_permission,
                                     col=12,
                                 ),
@@ -953,7 +957,7 @@ def main(page: ft.Page) -> None:
                             [
                                 ft.Text(_("Max track count"), col=4),
                                 ft.Slider(
-                                    value=page.client_storage.get("max_track_count"),
+                                    value=page.session.get("max_track_count"),
                                     min=1,
                                     max=100,
                                     divisions=100,
@@ -988,7 +992,7 @@ def main(page: ft.Page) -> None:
                                             ft.Container(height=2),
                                             ft.ResponsiveRow(
                                                 controls=build_input_options(
-                                                    page.client_storage.get("last_input_format")
+                                                    page.session.get("last_input_format")
                                                 ),
                                                 ref=input_options,
                                                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
@@ -1033,7 +1037,7 @@ def main(page: ft.Page) -> None:
                                             ft.Container(height=2),
                                             ft.ResponsiveRow(
                                                 controls=build_output_options(
-                                                    page.client_storage.get("last_output_format")
+                                                    page.session.get("last_output_format")
                                                 ),
                                                 ref=output_options,
                                                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
@@ -1114,9 +1118,7 @@ def main(page: ft.Page) -> None:
                         ft.IconButton(
                             ft.Icons.ADD_OUTLINED,
                             tooltip=_("Continue Adding files"),
-                            on_click=lambda e: file_picker.pick_files(
-                                _("Select files to convert"), allow_multiple=True
-                            ),
+                            on_click=select_files,
                         ),
                         switch_theme_btn,
                         switch_language_btn,
