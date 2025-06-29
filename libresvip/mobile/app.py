@@ -220,7 +220,7 @@ async def main(page: ft.Page) -> None:
         return []
 
     async def set_last_input_format(value: str | ft.Event[ft.BaseControl] | None) -> None:
-        if control := getattr(value, "control"):
+        if control := getattr(value, "control", None):
             value = control.value
         if input_select.current.value != value:
             input_select.current.value = value
@@ -237,7 +237,7 @@ async def main(page: ft.Page) -> None:
             await page.shared_preferences.set_async("last_input_format", value)
 
     async def set_last_output_format(value: str | ft.Event[ft.BaseControl] | None) -> None:
-        if control := getattr(value, "control"):
+        if control := getattr(value, "control", None):
             value = control.value
         if output_select.current.value != value:
             output_select.current.value = value
@@ -287,6 +287,7 @@ async def main(page: ft.Page) -> None:
                                 ft.TextField(
                                     value=list_tile.data["log_text"],
                                     multiline=True,
+                                    expand=True,
                                     max_lines=24,
                                     autofocus=True,
                                 ),
@@ -509,23 +510,17 @@ async def main(page: ft.Page) -> None:
         task_list_view.current.controls.remove(e.control.parent.parent)
         task_list_view.current.update()
 
-    async def convert_one(list_tile: ft.ListTile, *sub_tasks: list[ft.ListTile]) -> None:
+    def convert_one(
+        input_format: str,
+        output_format: str,
+        max_track_count: int,
+        save_folder_str: str,
+        list_tile: ft.ListTile,
+        *sub_tasks: list[ft.ListTile],
+    ) -> None:
         conversion_mode = conversion_mode_select.current.value
         if (
-            (input_format := await page.shared_preferences.get_async("last_input_format")) is None
-            or (output_format := await page.shared_preferences.get_async("last_output_format"))
-            is None
-            or (max_track_count := await page.shared_preferences.get_async("max_track_count"))
-            is None
-            or (
-                save_folder_str := (
-                    settings.save_folder
-                    if page.web
-                    else await page.shared_preferences.get_async("save_folder")
-                )
-            )
-            is None
-            or list_tile.leading is None
+            list_tile.leading is None
             or list_tile.subtitle is None
             or list_tile.data is None
             or list_tile.trailing is None
@@ -683,15 +678,43 @@ async def main(page: ft.Page) -> None:
                 p.visible = index == bottom_nav_bar.selected_index
             page.update()
 
-        def convert_all(e: ft.ControlEvent) -> None:
+        async def convert_all(e: ft.ControlEvent) -> None:
+            if (
+                (input_format := await page.shared_preferences.get_async("last_input_format"))
+                is None
+                or (output_format := await page.shared_preferences.get_async("last_output_format"))
+                is None
+                or (max_track_count := await page.shared_preferences.get_async("max_track_count"))
+                is None
+                or (
+                    save_folder_str := (
+                        settings.save_folder
+                        if page.web
+                        else await page.shared_preferences.get_async("save_folder")
+                    )
+                )
+                is None
+            ):
+                return
             bottom_nav_bar.selected_index = 1
             click_navigation_bar(None)
             if conversion_mode_select.current.value != "merge":
                 for list_tile in task_list_view.current.controls:
-                    page.run_thread(convert_one, list_tile)
+                    page.run_thread(
+                        convert_one,
+                        input_format,
+                        output_format,
+                        max_track_count,
+                        save_folder_str,
+                        list_tile,
+                    )
             elif len(task_list_view.current.controls) > 0:
                 page.run_thread(
                     convert_one,
+                    input_format,
+                    output_format,
+                    max_track_count,
+                    save_folder_str,
                     task_list_view.current.controls[0],
                     *task_list_view.current.controls[1:],
                 )
