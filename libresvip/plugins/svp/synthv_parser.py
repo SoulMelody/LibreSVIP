@@ -5,8 +5,11 @@ from collections.abc import Callable
 from functools import partial, reduce
 from typing import cast
 
+import more_itertools
+
 from libresvip.core.constants import DEFAULT_BPM
-from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
+from libresvip.core.exceptions import NotesOverlappedError
+from libresvip.core.tick_counter import find_bar_index, shift_beat_list, shift_tempo_list
 from libresvip.core.time_interval import RangeInterval
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -31,6 +34,7 @@ from libresvip.utils.music_math import (
     ratio_to_db,
 )
 from libresvip.utils.search import find_index
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import TICK_RATE
 from .interval_utils import position_to_ticks
@@ -66,6 +70,7 @@ class SynthVParser:
     group_library: dict[str, SVGroup] = dataclasses.field(default_factory=dict)
     group_split_counts: dict[str, int] = dataclasses.field(default_factory=dict)
     tracks_from_groups: list[Track] = dataclasses.field(default_factory=list)
+    time_signatures: list[TimeSignature] = dataclasses.field(default_factory=list)
 
     def actual_value_at(
         self,
@@ -510,7 +515,7 @@ class SynthVParser:
                     note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
                 ]
             note_list = [self.parse_note(note, database) for note in sv_note_list]
-        if len(sv_note_list):
+        if sv_note_list:
             lyrics, languages = zip(
                 *(
                     (
@@ -523,8 +528,14 @@ class SynthVParser:
         else:
             lyrics, languages = (), ()
         lyrics_phoneme = sv_g2p(lyrics, languages)
-        if not len(note_list):
+        if not note_list:
             return note_list
+        for prev_note, note in more_itertools.pairwise(note_list):
+            if prev_note.end_pos > note.start_pos:
+                msg = _("Notes overlapped near bar {}").format(
+                    find_bar_index(self.time_signatures, note.start_pos)
+                )
+                raise NotesOverlappedError(msg)
         current_sv_note = sv_note_list[0]
         current_duration = current_sv_note.attributes.dur
         current_phonemes = current_sv_note.attributes.phonemes
@@ -734,7 +745,7 @@ class SynthVParser:
         time_sig = sv_project.time_sig
         self.first_bpm = time_sig.tempo[0].bpm
 
-        project.time_signature_list = shift_beat_list(
+        self.time_signatures = project.time_signature_list = shift_beat_list(
             [self.parse_meter(meter) for meter in time_sig.meter], 1
         )
         self.first_bar_tick = round(project.time_signature_list[0].bar_length())

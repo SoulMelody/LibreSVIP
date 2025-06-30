@@ -33,6 +33,7 @@ jobs:
             docs:
               - "docs/**"
               - "mkdocs.yml"
+              - "scripts/generate_playground_html.py"
 
       - name: Set up uv
         if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.qml_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true' || steps.changed-files.outputs.docs_any_changed == 'true'
@@ -66,7 +67,8 @@ jobs:
         if: steps.changed-files.outputs.docs_any_changed == 'true'
         run: |
           uv venv
-          uv pip install mkdocs-material mkdocs-marimo
+          uv pip install jinja2 mkdocs-material
+          uv run python scripts/generate_playground_html.py
           uv run mkdocs build
 
       - uses: peaceiris/actions-gh-pages@v4
@@ -76,6 +78,6 @@ jobs:
           publish_dir: site
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: compile files

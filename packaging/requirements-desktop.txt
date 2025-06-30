@@ -2,7 +2,7 @@ altgraph==0.17.4
 annotated-types==0.7.0
 anyio==4.9.0
 bidict==0.23.1
-certifi==2025.4.26
+certifi==2025.6.15
 cffi==1.17.1 ; python_full_version < '3.12' or sys_platform != 'win32'
 charset-normalizer==3.4.2
 click==8.1.8 ; python_full_version < '3.10'
@@ -26,7 +26,7 @@ jinja2==3.1.6
 jyutping @ https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl
 ko-pron==1.3
 loguru==0.7.3
-lxml==5.4.0
+lxml==6.0.0
 macholib==1.16.3 ; sys_platform == 'darwin'
 markdown-it-py==3.0.0
 markupsafe==3.0.2
@@ -42,11 +42,11 @@ proto-plus==1.26.1
 protobuf==6.31.1
 pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
 pycryptodomex==3.23.0
-pydantic==2.11.5
+pydantic==2.11.7
 pydantic-core==2.33.2
 pydantic-extra-types==2.10.5
-pydantic-settings==2.9.1
-pygments==2.19.1
+pydantic-settings==2.10.1
+pygments==2.19.2
 pyinstaller==6.14.1 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.14.1-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
 pyinstaller-hooks-contrib==2025.5
@@ -56,12 +56,12 @@ pyside6==6.9.1
 pyside6-addons==6.9.1
 pyside6-essentials==6.9.1
 pysubs2==1.8.0
-python-dotenv==1.1.0
+python-dotenv==1.1.1
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2 ; python_full_version < '3.13'
-pyyaml-ft==7.0.1 ; python_full_version >= '3.13'
+pyyaml-ft==8.0.0 ; python_full_version >= '3.13'
 pyzipper==0.3.6
-pyzstd==0.17.0 ; platform_python_implementation == 'PyPy'
+pyzstd==0.17.0 ; python_full_version < '3.14' and platform_python_implementation == 'PyPy'
 repro-zipfile==0.4.0 ; python_full_version < '3.11'
 retrie==0.3.1
 rich==14.0.0
@@ -91,4 +91,4 @@ xsdata==25.4
 xsdata-pydantic==24.5
 zhon==2.1.1
 zipp==3.23.0 ; python_full_version < '3.10'
-zstandard==0.23.0 ; platform_python_implementation == 'CPython'
+zstandard==0.23.0 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'

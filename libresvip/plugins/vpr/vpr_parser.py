@@ -45,6 +45,7 @@ class VocaloidParser:
     options: InputOptions
     path: pathlib.Path
     first_bar_length: int = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     comp_id2name: dict[str, str] = dataclasses.field(init=False)
 
@@ -56,10 +57,9 @@ class VocaloidParser:
         }
         song_tempo_list = self.parse_tempos(vpr_project.master_track.tempo.events)
         self.synchronizer = TimeSynchronizer(song_tempo_list)
+        self.time_signatures = self.parse_time_signatures(vpr_project.master_track.time_sig.events)
         return Project(
-            time_signature_list=self.parse_time_signatures(
-                vpr_project.master_track.time_sig.events
-            ),
+            time_signature_list=self.time_signatures,
             song_tempo_list=song_tempo_list,
             track_list=self.parse_tracks(vpr_project.tracks),
         )
@@ -154,6 +154,7 @@ class VocaloidParser:
                                 [part_data],
                                 self.synchronizer,
                                 singing_track.note_list,
+                                self.time_signatures,
                                 self.first_bar_length,
                             )
                         ) is not None:

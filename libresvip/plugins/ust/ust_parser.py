@@ -56,15 +56,13 @@ class USTParser:
                     if ust_project.pitch_mode2:
                         track.edited_params.pitch.points.root.extend(
                             pitch_from_utau_mode2_track(
-                                mode2_track_pitch_data, synchronizer, notes
+                                mode2_track_pitch_data, synchronizer, notes, time_signatures
                             ).points.root
                         )
                     else:
                         track.edited_params.pitch.points.root.extend(
                             pitch_from_utau_mode1_track(
-                                mode1_track_pitch_data,
-                                synchronizer,
-                                notes,
+                                mode1_track_pitch_data, synchronizer, notes, time_signatures
                             ).points.root
                         )
             tracks.append(track)

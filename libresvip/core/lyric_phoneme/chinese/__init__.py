@@ -32,7 +32,7 @@ def get_pinyin_series(
                     count += 1
                     non_chinese = ""
             elif CHINESE_RE.match(char) is not None:
-                if len(non_chinese):
+                if non_chinese:
                     result_items.append(non_chinese)
                     count += 1
                     non_chinese = ""
@@ -44,7 +44,7 @@ def get_pinyin_series(
                     chinese = ""
                 if LATIN_ALPHABET.match(char) is not None:
                     if reverse_letters:
-                        if len(non_chinese) and not is_letter:
+                        if non_chinese and not is_letter:
                             result_items.append(non_chinese)
                             count += 1
                             non_chinese = ""
@@ -61,7 +61,7 @@ def get_pinyin_series(
             result_items.append(non_chinese)
             count += 1
         item_counts[i] = count
-    if len(chinese):
+    if chinese:
         result_items.extend(pypinyin.lazy_pinyin(chinese, errors=lambda x: " "))
     pinyin = ""
     index = 0

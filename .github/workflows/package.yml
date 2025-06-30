@@ -292,12 +292,11 @@ jobs:
           uv venv --python 3.12
           uv sync --extra mobile
           uv run python -m ensurepip --upgrade
-
-      - name: Setup Java JDK
-        uses: actions/setup-java@v4
+      - name: Setup Android SDK
+        # https://github.com/android-actions/setup-android
+        uses: android-actions/setup-android@v3
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          packages: "build-tools;29.0.3"
 
       - name: Flet Build APK
         run: |
@@ -309,11 +308,20 @@ jobs:
           mv build/apk/app-release.apk build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
           cd ..
 
+      - uses: r0adkll/sign-android-release@v1
+        name: Sign app APK
+        id: sign_app
+        with:
+          releaseDirectory: ./packaging/build/apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-android.zip
-          path: ./packaging/build/apk
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -321,7 +329,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
+            ${{steps.sign_app.outputs.signedReleaseFile}}
 
   release_mobile_win32:
     runs-on: windows-latest
@@ -335,7 +343,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python cpython-3.13.3-windows-x86-none
+          uv venv --python cpython-3.13.5-windows-x86-none
           uv sync --extra mobile --extra crypto --extra ujson --extra ruamel_yaml --extra lxml --extra zstd
           cd packaging
           uv pip install -r requirements-pyinstaller.in

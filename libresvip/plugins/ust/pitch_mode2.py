@@ -4,7 +4,7 @@ import operator
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import Note, ParamCurve, SongTempo
+from libresvip.model.base import Note, ParamCurve, SongTempo, TimeSignature
 from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
@@ -125,6 +125,7 @@ def pitch_from_utau_mode2_track(
     pitch_data: UtauMode2TrackPitchData,
     tick_time_transformer: TimeSynchronizer,
     notes: list[Note],
+    time_signatures: list[TimeSignature],
 ) -> ParamCurve:
     if pitch_data is None:
         return ParamCurve()
@@ -205,6 +206,7 @@ def pitch_from_utau_mode2_track(
         synchronizer=tick_time_transformer,
         portamento=PortamentoPitch.no_portamento(),
         note_list=notes,
+        time_signature_list=time_signatures,
     )
     return RelativePitchCurve(
         lower_bound=notes[0].start_pos,

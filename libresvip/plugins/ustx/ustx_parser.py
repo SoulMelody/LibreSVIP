@@ -7,6 +7,7 @@ from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.lyric_phoneme.japanese import is_kana, to_romaji
+from libresvip.core.tick_counter import find_bar_index
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -38,6 +39,7 @@ PHONETIC_HINT_RE = re.compile(r"\[(.*?)\]")
 @dataclasses.dataclass
 class UstxParser:
     options: InputOptions
+    time_signatures: list[TimeSignature] = dataclasses.field(default_factory=list)
     base_pitch_generator: BasePitchGenerator = dataclasses.field(init=False)
 
     def parse_project(self, ustx_project: USTXProject) -> Project:
@@ -45,14 +47,14 @@ class UstxParser:
         self.silence_lyrics = self.options.silence_lyrics.strip().split()
         self.base_pitch_generator = BasePitchGenerator(ustx_project)
         tempos = self.parse_tempos(ustx_project.tempos)
-        time_signatures = self.parse_time_signatures(ustx_project.time_signatures)
+        self.time_signatures = self.parse_time_signatures(ustx_project.time_signatures)
         tracks = self.parse_tracks(ustx_project.tracks, ustx_project.voice_parts)
         for track in tracks:
             track.edited_params.pitch.points.append(Point.end_point())
         tracks.extend(self.parse_wave_parts(ustx_project.tracks, ustx_project.wave_parts))
         return Project(
             song_tempo_list=tempos,
-            time_signature_list=time_signatures,
+            time_signature_list=self.time_signatures,
             track_list=tracks,
         )
 
@@ -172,7 +174,9 @@ class UstxParser:
                     note.pronunciation = ustx_note.lyric.removeprefix("?")
             if prev_ustx_note is not None:
                 if prev_ustx_note.end > ustx_note.position:
-                    msg = _("Notes Overlapped")
+                    msg = _("Notes overlapped near bar {}").format(
+                        find_bar_index(self.time_signatures, note.start_pos)
+                    )
                     raise NotesOverlappedError(msg)
                 elif (
                     prev_ustx_note.end == ustx_note.position

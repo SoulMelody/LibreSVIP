@@ -13,6 +13,8 @@ from libresvip.core.constants import (
     PITCH_MAX_VALUE,
     TICKS_IN_BEAT,
 )
+from libresvip.core.exceptions import NotesOverlappedError
+from libresvip.core.tick_counter import find_bar_index
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -37,7 +39,7 @@ from .constants import (
     VELOCITY_CONSTANT,
     ControlChange,
 )
-from .note_overlap import has_overlap
+from .note_overlap import overlapped_pos
 from .options import InputOptions, MultiChannelOption
 
 
@@ -56,6 +58,7 @@ class MidiParser:
     first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     selected_channels: list[int] = dataclasses.field(default_factory=list)
+    time_signatures: list[TimeSignature] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
         if self.options.multi_channel == MultiChannelOption.FIRST:
@@ -77,15 +80,14 @@ class MidiParser:
     def parse_project(self, mido_obj: mido.MidiFile) -> Project:
         self.ticks_per_beat = mido_obj.ticks_per_beat
         self._convert_delta_to_cumulative(mido_obj.tracks)
-        time_signature_list = []
         if len(mido_obj.tracks):
             master_track = mido_obj.tracks[0]
-            time_signature_list.extend(self.parse_time_signatures(master_track))
+            self.time_signatures.extend(self.parse_time_signatures(master_track))
         song_tempo_list = self.parse_tempo(mido_obj.tracks)
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
             song_tempo_list=song_tempo_list,
-            time_signature_list=time_signature_list,
+            time_signature_list=self.time_signatures,
             track_list=self.parse_tracks(mido_obj.tracks),
         )
 
@@ -251,15 +253,18 @@ class MidiParser:
                             )
                         elif event.is_cc(ControlChange.VOLUME) and event.value:
                             volume_base = velocity_to_db_change(event.value)
-            if has_overlap(notes):
-                msg = _("Overlapping notes in track {}").format(track_idx)
-                show_warning(msg)
+            if (pos := overlapped_pos(notes)) is not None:
+                msg = _("Notes overlapped near bar {}").format(
+                    find_bar_index(self.time_signatures, pos)
+                )
+                raise NotesOverlappedError(msg)
             edited_params = Params(volume=expression)
             if self.options.import_pitch:
                 pitch_simulator = PitchSimulator(
                     synchronizer=self.synchronizer,
                     portamento=PortamentoPitch.no_portamento(),
                     note_list=notes,
+                    time_signature_list=self.time_signatures,
                 )
                 rel_pitch_points.sort(key=operator.attrgetter("x"))
                 edited_params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(

@@ -10,10 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-03-26 08:59\n"
-
-msgid "Notes Overlapped"
-msgstr "音符重叠"
+"PO-Revision-Date: 2025-06-19 02:47\n"
 
 msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
 msgstr "与 SynthesizerV Studio 1.9.0 及以下版本兼容"
@@ -148,4 +145,8 @@ msgstr "Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌
 
 msgid "yqzhishen"
 msgstr "YQ之神"
+
+#, python-brace-format
+msgid "Notes overlapped near bar {}"
+msgstr "在第{}小节处存在重叠音符"
 

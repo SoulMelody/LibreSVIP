@@ -10,10 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2025-03-26 07:56\n"
-
-msgid "Notes Overlapped"
-msgstr "Noten überlappen sich"
+"PO-Revision-Date: 2025-06-18 12:21\n"
 
 msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
 msgstr ""
@@ -147,5 +144,9 @@ msgstr "Konvertierungs-Plugin für Synthesizer V Studio Projektdateien, es unter
 "Hinweis: Das Importieren einer Projektdatei mit überlappenden Noten ist ein undefiniertes Verhalten, das zu unvorhergesehenen Ausnahmen führen kann."
 
 msgid "yqzhishen"
+msgstr ""
+
+#, python-brace-format
+msgid "Notes overlapped near bar {}"
 msgstr ""
 

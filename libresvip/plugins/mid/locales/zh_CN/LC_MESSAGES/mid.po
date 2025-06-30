@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-03-26 07:55\n"
+"PO-Revision-Date: 2025-06-19 02:47\n"
 
 msgid "MIDI"
 msgstr ""
@@ -28,8 +28,8 @@ msgid "No tempo labels found in the imported project."
 msgstr "在导入的工程中未找到速度记号。"
 
 #, python-brace-format
-msgid "Overlapping notes in track {}"
-msgstr "轨道{}中存在重叠音符"
+msgid "Notes overlapped near bar {}"
+msgstr "在第{}小节处存在重叠音符"
 
 msgid "Import first channel only"
 msgstr "仅导入首条通道"

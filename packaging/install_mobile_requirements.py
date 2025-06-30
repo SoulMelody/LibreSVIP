@@ -100,10 +100,7 @@ def install_mobile_requirements(platform: str, arch: str) -> None:
                     ]
                 )
             else:
-                if requirement.url:
-                    requirement_str = requirement.url
-                else:
-                    requirement_str = f"{requirement.name}{requirement.specifier}"
+                requirement_str = requirement.url or f"{requirement.name}{requirement.specifier}"
                 try:
                     subprocess.check_call(
                         [

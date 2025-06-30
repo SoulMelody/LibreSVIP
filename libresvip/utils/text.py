@@ -96,7 +96,7 @@ def shorten_error_message(message: str | None) -> str:
         return ""
     error_lines = textwrap.wrap(message, 70)
     if len(error_lines) > 30:
-        message = "\n".join(error_lines[:15] + ["..."] + error_lines[-15:])
+        message = "\n".join([*error_lines[:15], "...", *error_lines[-15:]])
     else:
         message = "\n".join(error_lines)
     return message

@@ -52,6 +52,7 @@ class VsqxParser:
     src_path: pathlib.Path
     param_names: type[VsqxParameterNames] = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pc2voice: dict[int, VsqxVVoice] = dataclasses.field(default_factory=dict)
 
@@ -61,7 +62,7 @@ class VsqxParser:
         elif vsqx_project.Meta.name == "vsq4":
             self.param_names = Vsq4ParameterNames
         master_track: VsqxMasterTrack = vsqx_project.master_track
-        tick_prefix, time_signatures = self.parse_time_signatures(
+        tick_prefix, self.time_signatures = self.parse_time_signatures(
             master_track.time_sig, master_track.pre_measure
         )
         tempos = self.parse_tempos(master_track.tempo, tick_prefix)
@@ -83,7 +84,7 @@ class VsqxParser:
         instrumental_tracks = self.parse_instrumental_tracks(wav_parts, wav_units, tick_prefix)
         return Project(
             song_tempo_list=tempos,
-            time_signature_list=time_signatures,
+            time_signature_list=self.time_signatures,
             track_list=singing_tracks + instrumental_tracks,
         )
 
@@ -298,6 +299,7 @@ class VsqxParser:
             [pitch_data],
             self.synchronizer,
             note_list,
+            self.time_signatures,
             vibrato_rate_interval_dict,
             vibrato_depth_interval_dict,
             self.first_bar_length,

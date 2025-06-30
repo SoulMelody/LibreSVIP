@@ -10,6 +10,7 @@ import more_itertools
 from pydantic import BaseModel
 from pydantic_core import PydanticCustomError, PydanticUndefined
 from pydantic_extra_types.color import Color, parse_str
+from rich.syntax import Syntax
 from textual import on, work
 from textual.app import App, ComposeResult
 from textual.command import Hit, Hits, Provider
@@ -34,10 +35,10 @@ from textual.widgets import (
     Link,
     ListItem,
     ListView,
-    Log,
     Markdown,
     MaskedInput,
     ProgressBar,
+    RichLog,
     Select,
     SelectionList,
     Static,
@@ -108,8 +109,9 @@ class TaskLogScreen(Screen[None]):
         super().__init__()
 
     def on_mount(self) -> None:
-        log = self.query_one(Log)
-        log.write_line(self.log_text)
+        log = self.query_one(RichLog)
+        log.clear()
+        log.write(Syntax(self.log_text, "python"))
 
     @on(Button.Pressed, "#close")
     def on_close(self, event: Button.Pressed) -> None:
@@ -124,7 +126,7 @@ class TaskLogScreen(Screen[None]):
         yield Header(icon="☰")
         yield Footer()
         with Vertical():
-            yield Log()
+            yield RichLog(wrap=True)
             with Horizontal():
                 yield Label("", classes="fill-width")
                 yield Button(_("Copy to clipboard"), id="copy", variant="primary")

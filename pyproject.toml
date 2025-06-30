@@ -43,14 +43,14 @@ dependencies = [
   "platformdirs<5.0.0,>=4.3.8",
   "portion<3.0.0,>=2.6.1",
   "proto-plus<2.0.0,>=1.26.1",
-  "pydantic<3.0.0,>=2.11.5",
+  "pydantic<3.0.0,>=2.11.7",
   "pydantic-extra-types<3.0.0,>=2.10.5",
-  "pydantic-settings<3.0.0,>=2.9.1",
+  "pydantic-settings<3.0.0,>=2.10.1",
   "pymediainfo<7.0.2,>=7.0.1; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.54.0",
   "pysubs2<2.0.0,>=1.8.0",
   "PyYAML>=6.0.2,<7.0.0; python_version<'3.13'",
-  "PyYAML-ft>=7.0.1,<8.0.0; python_version>='3.13'",
+  "PyYAML-ft>=8.0.0,<8.0.1; python_version>='3.13'",
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.1,>=14.0.0",
@@ -70,8 +70,8 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 zstd = [
-  "pyzstd<1.0.0,>=0.17.0; platform_python_implementation == \"PyPy\"",
-  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
+  "pyzstd<1.0.0,>=0.17.0; platform_python_implementation == \"PyPy\" and python_version < \"3.14\"",
+  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
 ]
 crypto = [
   "cffi>=1.17.1; sys_platform != \"win32\" or python_version <= \"3.11\"",
@@ -84,13 +84,13 @@ upath = [
 ruamel_yaml = [
   "ruamel.yaml>=0.18.14",
 ]
-lxml = ["lxml>=5.4.0"]
+lxml = ["lxml>=6.0.0"]
 tui = [
   "textual-fspicker>=0.4.1",
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.19.0",
+  "nicegui>=2.20.0",
   "libresvip[upath]",
 ]
 mobile = [
@@ -108,16 +108,16 @@ desktop = [
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.30.2",
+  "datamodel-code-generator>=0.31.2",
   "gapic-generator>=1.26.0",
   "xsdata[cli]>=25.4",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
-  "basedpyright>=1.29.2",
+  "basedpyright>=1.29.4",
   "pre-commit>=4.2.0",
-  "ruff>=0.11.13",
-  "mypy>=1.16.0",
+  "ruff>=0.12.1",
+  "mypy>=1.16.1",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2025.3.30",
@@ -126,15 +126,15 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=8.3.0",
-  "nuitka>=2.7.6",
+  "nuitka>=2.7.11",
+  "pyfuze>=2.2.0",
   "pyinstaller>=6.14.1",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-    "mkdocs-marimo>=0.2.1",
-    "mkdocs-material<10.0.0,>=9.6.14",
+  "mkdocs-material<10.0.0,>=9.6.14",
 ]
-test = ["pytest>=8.4.0", "pytest-datadir>=1.7.2", "textual-dev>=1.7.0"]
+test = ["pytest>=8.4.1", "pytest-datadir>=1.7.2", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
@@ -240,6 +240,7 @@ ignore = [
   "E501",   # Line too long
   "RUF001", # String contains ambiguous symbol
   "RUF009", # Do not perform function call in dataclass defaults
+  "PLC0415",# `import` should be at the top-level of a file
 ]
 
 [tool.ruff.lint.isort]

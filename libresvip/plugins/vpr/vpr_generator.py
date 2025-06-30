@@ -59,6 +59,7 @@ class VocaloidGenerator:
     options: OutputOptions
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
     end_tick: int = 0
     wav_paths: dict[str, pathlib.Path] = dataclasses.field(default_factory=dict)
 
@@ -72,6 +73,7 @@ class VocaloidGenerator:
             ]
         )
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
+        self.time_signatures = project.time_signature_list
         vpr.master_track.time_sig.events = self.generate_time_signatures(
             project.time_signature_list
         )
@@ -223,7 +225,7 @@ class VocaloidGenerator:
         ]:
             show_warning(
                 _(
-                    'Phonemes of all notes were set to "la". Please use "Job" -> "Convert Phonemes to Match Languages in the menu of VOCALOID to reset them.'
+                    'Phonemes of all notes were set to "la". Please use "Job" -> "Convert Phonemes to Match Languages" in the menu of VOCALOID to reset them.'
                 )
             )
         return tracks
@@ -232,6 +234,7 @@ class VocaloidGenerator:
         raw_pitch_data = generate_for_vocaloid(
             track.edited_params.pitch,
             track.note_list,
+            self.time_signatures,
             self.first_bar_length,
             self.time_synchronizer,
         )

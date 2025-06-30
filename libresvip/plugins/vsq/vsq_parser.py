@@ -32,6 +32,7 @@ class VsqParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
     ticks_per_beat: int = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
 
     @property
     def tick_rate(self) -> float:
@@ -43,14 +44,14 @@ class VsqParser:
         tracks_as_text = self.extract_vsq_text_from_meta_events(vsq_project.tracks)
         measure_prefix = self.get_measure_prefix(tracks_as_text[0])
         master_track = vsq_project.tracks[0]
-        time_signature_list = self.parse_time_signatures(master_track)
-        self.first_bar_length = round(time_signature_list[0].bar_length(self.ticks_per_beat))
+        self.time_signatures = self.parse_time_signatures(master_track)
+        self.first_bar_length = round(self.time_signatures[0].bar_length(self.ticks_per_beat))
         tick_prefix = self.first_bar_length * measure_prefix
         song_tempo_list = self.parse_tempo(master_track, tick_prefix)
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
             song_tempo_list=song_tempo_list,
-            time_signature_list=time_signature_list,
+            time_signature_list=self.time_signatures,
             track_list=[
                 self.parse_track(text, i, tick_prefix)
                 for i, text in enumerate(tracks_as_text, start=1)
@@ -200,6 +201,7 @@ class VsqParser:
             ],
             self.synchronizer,
             note_list,
+            self.time_signatures,
             self.first_bar_length,
         )
 

@@ -90,7 +90,7 @@ class SynthVGenerator:
             for meter in new_meters:
                 sv_project.time_sig.meter.append(self.generate_meter(meter))
         for track_id, track in enumerate(project.track_list):
-            if (sv_track := self.generate_track(track)) is not None:
+            if (sv_track := self.generate_track(track, project.time_signature_list)) is not None:
                 sv_track.disp_order = track_id
                 sv_project.tracks.append(sv_track)
         return sv_project
@@ -107,7 +107,9 @@ class SynthVGenerator:
             denominator=signature.denominator,
         )
 
-    def generate_track(self, track: Track) -> SVTrack | None:
+    def generate_track(
+        self, track: Track, time_signature_list: list[TimeSignature]
+    ) -> SVTrack | None:
         sv_track = SVTrack(
             name=track.title,
             mixer=SVMixer(
@@ -129,6 +131,7 @@ class SynthVGenerator:
             self.pitch_simulator = PitchSimulator(
                 synchronizer=self.synchronizer,
                 note_list=track.note_list,
+                time_signature_list=time_signature_list,
                 portamento=PortamentoPitch.sigmoid_portamento(),
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)

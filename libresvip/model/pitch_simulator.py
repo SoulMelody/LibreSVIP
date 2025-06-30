@@ -5,9 +5,10 @@ import portion
 
 from libresvip.core.constants import MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS
 from libresvip.core.exceptions import NotesOverlappedError
+from libresvip.core.tick_counter import find_bar_index
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import Note
+from libresvip.model.base import Note, TimeSignature
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -17,9 +18,12 @@ class PitchSimulator:
     synchronizer: TimeSynchronizer
     portamento: PortamentoPitch
     note_list: dataclasses.InitVar[list[Note]]
+    time_signature_list: dataclasses.InitVar[list[TimeSignature]]
     interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
 
-    def __post_init__(self, note_list: list[Note]) -> None:
+    def __post_init__(
+        self, note_list: list[Note], time_signature_list: list[TimeSignature]
+    ) -> None:
         if not note_list:
             return
         current_note = note_list[0]
@@ -47,7 +51,9 @@ class PitchSimulator:
         prev_portamento_end = current_head
         for next_note in note_list[1:]:
             if current_note.end_pos > next_note.start_pos:
-                msg = _("Notes Overlapped")
+                msg = _("Notes overlapped near bar {}").format(
+                    find_bar_index(time_signature_list, next_note.start_pos)
+                )
                 raise NotesOverlappedError(msg)
             elif (
                 self.portamento.vocaloid_mode
