@@ -132,7 +132,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "mkdocs-material<10.0.0,>=9.6.14",
+  "mkdocs-material<10.0.0,>=9.6.15",
 ]
 test = ["pytest>=8.4.1", "pytest-datadir>=1.7.2", "textual-dev>=1.7.0"]
 all = [
