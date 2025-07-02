@@ -1656,7 +1656,7 @@ all = [
     { name = "nuitka", specifier = ">=2.7.11" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
-    { name = "pyfuze", specifier = ">=2.2.0" },
+    { name = "pyfuze", specifier = ">=2.3.1" },
     { name = "pyinstaller", specifier = ">=6.14.1" },
     { name = "pytest", specifier = ">=8.4.1" },
     { name = "pytest-datadir", specifier = ">=1.7.2" },
@@ -1690,7 +1690,7 @@ linting = [
 packaging = [
     { name = "cx-freeze", specifier = ">=8.3.0" },
     { name = "nuitka", specifier = ">=2.7.11" },
-    { name = "pyfuze", specifier = ">=2.2.0" },
+    { name = "pyfuze", specifier = ">=2.3.1" },
     { name = "pyinstaller", specifier = ">=6.14.1" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
 ]
@@ -2836,13 +2836,13 @@ wheels = [
 
 [[package]]
 name = "pyfuze"
-version = "2.2.0"
+version = "2.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5b/24/b905a7aa82897d431e82463633866c1e572e9db74fa3ca4a3dce04a012de/pyfuze-2.2.0-py3-none-any.whl", hash = "sha256:977d5cef63ae6730724edbd5402e0bcdc00a4bda45ea7e9538b5f8192f1f8a50", size = 19563692, upload-time = "2025-06-21T10:58:56.553Z" },
+    { url = "https://files.pythonhosted.org/packages/75/2d/892060d32f6eca4cc95871e7700f5ce3dce365bab54d8734252c6423cd6e/pyfuze-2.3.1-py3-none-any.whl", hash = "sha256:8ad3cd862d9756d57e07832604fbae8d2e02cea611c07d1d066bcecc8204f976", size = 19563850, upload-time = "2025-07-02T09:38:43.904Z" },
 ]
 
 [[package]]
