@@ -62,7 +62,7 @@ typing-inspection==0.4.1
 universal-pathlib==0.2.6
 wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
-xsdata==25.4
+xsdata==25.7
 xsdata-pydantic==24.5
 zhon==2.1.1
 zstandard==0.23.0 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'

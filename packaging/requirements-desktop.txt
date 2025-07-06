@@ -87,7 +87,7 @@ winrt-windows-data-xml-dom==3.2.1 ; platform_python_implementation == 'CPython' 
 winrt-windows-foundation==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-foundation-collections==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-ui-notifications==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-xsdata==25.4
+xsdata==25.7
 xsdata-pydantic==24.5
 zhon==2.1.1
 zipp==3.23.0 ; python_full_version < '3.10'
