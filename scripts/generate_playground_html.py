@@ -41,8 +41,11 @@ async def _():
         await micropip.install("pyzipper")
 
         await micropip.install("libresvip")
+        micropip.remove_mock_package('packaging')
         micropip.remove_mock_package('pycryptodomex')
         micropip.remove_mock_package('pydantic')
+        micropip.remove_mock_package('pydantic-core')
+        micropip.remove_mock_package('typing-extensions')
         micropip.remove_mock_package('zstandard')
     except ImportError:
         pass
