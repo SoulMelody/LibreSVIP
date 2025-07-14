@@ -1,4 +1,4 @@
-pydantic==2.9.2; sys_platform == "emscripten" and python_version == "3.12"
-pydantic-core==2.25.2; sys_platform == "emscripten" and python_version == "3.12"
+pydantic==2.7.0; sys_platform == "emscripten" and python_version == "3.12"
+pydantic-core==2.18.1; sys_platform == "emscripten" and python_version == "3.12"
 zstandard<0.23.0; sys_platform == "emscripten" and python_version == "3.12"
 ruamel.yaml.clib; sys_platform != "emscripten"
