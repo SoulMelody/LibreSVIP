@@ -21,8 +21,8 @@ platformdirs==4.3.8
 portion==2.6.1
 proto-plus==1.26.1
 protobuf==6.31.1
-pydantic==2.9.2
-pydantic-core==2.23.4
+pydantic==2.7.0
+pydantic-core==2.18.1
 pydantic-extra-types==2.10.5
 pydantic-settings==2.10.1
 pygments==2.19.2
@@ -33,7 +33,6 @@ pyyaml==6.0.2
 retrie==0.3.1
 rich==14.0.0
 ruamel-yaml==0.18.14
-ruamel-yaml-clib==0.2.12
 sortedcontainers==2.4.0
 tatsu-lts==5.13.1
 typer-slim==0.16.0
