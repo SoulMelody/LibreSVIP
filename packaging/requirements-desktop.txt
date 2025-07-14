@@ -2,7 +2,7 @@ altgraph==0.17.4
 annotated-types==0.7.0
 anyio==4.9.0
 bidict==0.23.1
-certifi==2025.7.9
+certifi==2025.7.14
 cffi==1.17.1 ; python_full_version < '3.12' or sys_platform != 'win32'
 charset-normalizer==3.4.2
 click==8.1.8 ; python_full_version < '3.10'
@@ -49,7 +49,7 @@ pydantic-settings==2.10.1
 pygments==2.19.2
 pyinstaller==6.14.2 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.14.2-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
-pyinstaller-hooks-contrib==2025.5
+pyinstaller-hooks-contrib==2025.6
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.54.0
 pyside6==6.9.1
@@ -58,8 +58,8 @@ pyside6-essentials==6.9.1
 pysubs2==1.8.0
 python-dotenv==1.1.1
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
-pyyaml==6.0.2 ; python_full_version < '3.13'
-pyyaml-ft==8.0.0 ; python_full_version >= '3.13'
+pyyaml==6.0.2 ; python_full_version < '3.13' or sys_platform == 'emscripten'
+pyyaml-ft==8.0.0 ; python_full_version >= '3.13' and sys_platform != 'emscripten'
 pyzipper==0.3.6
 pyzstd==0.17.0 ; python_full_version < '3.14' and platform_python_implementation == 'PyPy'
 repro-zipfile==0.4.0 ; python_full_version < '3.11'

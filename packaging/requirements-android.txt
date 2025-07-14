@@ -1,7 +1,7 @@
 annotated-types==0.7.0
 anyio==4.9.0 ; platform_system != 'Pyodide'
 bidict==0.23.1
-certifi==2025.7.9 ; platform_system != 'Pyodide'
+certifi==2025.7.14 ; platform_system != 'Pyodide'
 cffi==1.17.1 ; sys_platform != 'win32'
 charset-normalizer==3.4.2
 click==8.2.1
@@ -43,8 +43,8 @@ pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.54.0
 pysubs2==1.8.0
 python-dotenv==1.1.1
-pyyaml==6.0.2 ; python_full_version < '3.13'
-pyyaml-ft==8.0.0 ; python_full_version >= '3.13'
+pyyaml==6.0.2 ; python_full_version < '3.13' or sys_platform == 'emscripten'
+pyyaml-ft==8.0.0 ; python_full_version >= '3.13' and sys_platform != 'emscripten'
 pyzipper==0.3.6
 pyzstd==0.17.0 ; python_full_version < '3.14' and platform_python_implementation == 'PyPy'
 repath==0.9.0
