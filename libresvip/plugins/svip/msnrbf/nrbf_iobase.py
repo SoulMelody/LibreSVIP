@@ -1,6 +1,4 @@
 # Ported from QNrbf by SineStriker
-import dataclasses
-import threading
 from collections import ChainMap
 from collections.abc import MutableMapping
 from functools import cached_property
@@ -9,29 +7,22 @@ from types import TracebackType
 from construct import Container
 from typing_extensions import Self
 
-from .binary_models import (
-    classes_by_id,
-    libraries_by_id,
-    objects_by_id,
-    references_by_id,
-)
+from .binary_models import local_store
 
 
-@dataclasses.dataclass
 class NrbfIOBase:
-    cur_thread_id: int = dataclasses.field(init=False)
-
-    def __post_init__(self) -> None:
-        self.cur_thread_id = threading.get_ident()
-
     @cached_property
     def ref_map(self) -> MutableMapping[int, MutableMapping[int, Container]]:
         return ChainMap(
-            classes_by_id[self.cur_thread_id],
-            objects_by_id[self.cur_thread_id],
+            local_store.classes,
+            local_store.objects,
         )
 
     def __enter__(self) -> Self:
+        local_store.classes = {}
+        local_store.libraries = {}
+        local_store.objects = {}
+        local_store.references = {}
         return self
 
     def __exit__(
@@ -40,7 +31,7 @@ class NrbfIOBase:
         exc_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
-        classes_by_id.pop(self.cur_thread_id, None)
-        objects_by_id.pop(self.cur_thread_id, None)
-        libraries_by_id.pop(self.cur_thread_id, None)
-        references_by_id.pop(self.cur_thread_id, None)
+        local_store.classes.clear()
+        local_store.libraries.clear()
+        local_store.objects.clear()
+        local_store.references.clear()

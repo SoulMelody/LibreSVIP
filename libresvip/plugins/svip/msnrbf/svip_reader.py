@@ -13,7 +13,7 @@ from .binary_models import (
     RecordTypeEnum,
     SerializedStreamHeader,
     SVIPFile,
-    references_by_id,
+    local_store,
 )
 from .nrbf_iobase import NrbfIOBase
 from .xstudio_models import XSAppModel, fullname2classes
@@ -104,8 +104,8 @@ class SvipReader(NrbfIOBase):
         return False
 
     def resolve_references(self) -> None:
-        for ref_id in references_by_id[self.cur_thread_id]:
-            ref = references_by_id[self.cur_thread_id][ref_id]
+        for ref_id in local_store.references:
+            ref = local_store.references[ref_id]
             ref["real_obj"] = self.ref_map[ref["id_ref"]]
 
     def read(self, path: pathlib.Path) -> tuple[str, XSAppModel]:

@@ -18,9 +18,7 @@ from .binary_models import (
     PrimitiveTypeEnum,
     RecordTypeEnum,
     SVIPFile,
-    classes_by_id,
-    libraries_by_id,
-    references_by_id,
+    local_store,
 )
 from .constants import (
     LIBRARY_NAME_SINGING_TOOL_LIBRARY,
@@ -81,7 +79,7 @@ class SvipWriter(NrbfIOBase):
         self.svip_file["record_stream"].append(self.write_dataclass(model, app_model_id))
         while not self.ids.empty():
             not_written = self.deq()
-            ref = references_by_id[self.cur_thread_id][not_written]
+            ref = local_store.references[not_written]
             if dataclasses.is_dataclass(ref["real_obj"]):
                 self.svip_file["record_stream"].append(
                     self.write_dataclass(ref["real_obj"], not_written, ref["subcon_class_name"])
@@ -101,7 +99,7 @@ class SvipWriter(NrbfIOBase):
         self.id_max += 1
         result = self.id_max
         model_library = {"library_id": result, "library_name": library_name}
-        libraries_by_id[self.cur_thread_id][
+        local_store.libraries[
             model_library["library_id"]  # type: ignore[index]
         ] = model_library["library_name"]  # type: ignore[assignment]
         self.svip_file["record_stream"].append(
@@ -136,8 +134,8 @@ class SvipWriter(NrbfIOBase):
         }
         if subcon_class_name is not None and "`1" in subcon_class_name:
             subcon_class_name = subcon_class_name.split("[[", 1)[-1].split(", ", 1)[0]
-        if object_id not in references_by_id[self.cur_thread_id]:
-            references_by_id[self.cur_thread_id][object_id] = {
+        if object_id not in local_store.references:
+            local_store.references[object_id] = {
                 "id_ref": object_id,
                 "subcon_class_name": subcon_class_name,
                 "real_obj": value,
@@ -201,7 +199,7 @@ class SvipWriter(NrbfIOBase):
                     "real_obj": self.write_null_array(padded_length - len(values)),
                 }
             )
-        references_by_id[self.cur_thread_id][object_id] = {
+        local_store.references[object_id] = {
             "id_ref": object_id,
             "real_obj": result,
         }
@@ -220,7 +218,7 @@ class SvipWriter(NrbfIOBase):
                 "member_values": values,
             },
         }
-        references_by_id[self.cur_thread_id][object_id] = {
+        local_store.references[object_id] = {
             "id_ref": object_id,
             "real_obj": result,
         }
@@ -428,7 +426,7 @@ class SvipWriter(NrbfIOBase):
                     )
                     result["obj"]["class_info"]["member_count"] += 1  # type: ignore[index]
             self.class_defs[class_name] = result
-            classes_by_id[self.cur_thread_id][object_id] = result["obj"]
+            local_store.classes[object_id] = result["obj"]
         else:
             result = {
                 "record_type_enum": RecordTypeEnum.ClassWithId,
