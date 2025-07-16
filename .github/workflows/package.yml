@@ -204,10 +204,14 @@ jobs:
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz
 
   release_macos_x86_64:
-    runs-on: macos-13
+    runs-on: macos-latest
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
+      - name: Install Rosetta
+        shell: bash
+        run: |
+          softwareupdate --install-rosetta --agree-to-license
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
         with:
@@ -215,7 +219,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.13
+          uv venv --python cpython-3.13.5-macos-x86_64-none
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps

@@ -46,11 +46,11 @@ dependencies = [
   "pydantic<3.0.0,>=2.11.7",
   "pydantic-extra-types<3.0.0,>=2.10.5",
   "pydantic-settings<3.0.0,>=2.10.1",
-  "pymediainfo<7.0.2,>=7.0.1; sys_platform != \"emscripten\"",
+  "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.54.0",
   "pysubs2<2.0.0,>=1.8.0",
-  "PyYAML>=6.0.2,<7.0.0; python_version<'3.13'",
-  "PyYAML-ft>=8.0.0,<8.0.1; python_version>='3.13'",
+  "PyYAML>=6.0.2,<7.0.0; python_version<'3.13' or sys_platform == \"emscripten\"",
+  "PyYAML-ft>=8.0.0,<8.0.1; python_version>='3.13' and sys_platform != \"emscripten\"",
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.1,>=14.0.0",
@@ -90,11 +90,11 @@ tui = [
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.20.0",
+  "nicegui>=2.21.1",
   "libresvip[upath]",
 ]
 mobile = [
-  "flet[cli,desktop]>=0.28.3",
+  "flet[cli,desktop]>=0.28.3,<0.29.0",
   "flet-permission-handler>=0.1.0",
   "libresvip[upath]",
 ]
@@ -110,14 +110,14 @@ desktop = [
 code_gen = [
   "datamodel-code-generator>=0.31.2",
   "gapic-generator>=1.26.0",
-  "xsdata[cli]>=25.4",
+  "xsdata[cli]>=25.7",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
-  "basedpyright>=1.29.4",
+  "basedpyright>=1.30.1",
   "pre-commit>=4.2.0",
-  "ruff>=0.12.1",
-  "mypy>=1.16.1",
+  "ruff>=0.12.3",
+  "mypy>=1.17.0",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2025.3.30",
@@ -126,13 +126,13 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=8.3.0",
-  "nuitka>=2.7.11",
-  "pyfuze>=2.2.0",
-  "pyinstaller>=6.14.1",
+  "nuitka>=2.7.12",
+  "pyfuze>=2.7.1",
+  "pyinstaller>=6.14.2",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "mkdocs-material<10.0.0,>=9.6.14",
+  "mkdocs-material<10.0.0,>=9.6.15",
 ]
 test = ["pytest>=8.4.1", "pytest-datadir>=1.7.2", "textual-dev>=1.7.0"]
 all = [
