@@ -253,14 +253,14 @@ wheels = [
 
 [[package]]
 name = "basedpyright"
-version = "1.30.1"
+version = "1.31.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "nodejs-wheel-binaries" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/15/aa/7b15082f749a13e6c8494bab9413d589b849d52957da1e898409b5259712/basedpyright-1.30.1.tar.gz", hash = "sha256:fe33afd16200202fff4aa3f91ac2c2958af35461c801cb8bbff60ca29093a2cb", size = 22059762, upload-time = "2025-07-10T08:47:16.787Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/20/23/6dc0df43c62fdec401b1ec3aea698ba50c5abfca25259e9f0208b34d7abe/basedpyright-1.31.0.tar.gz", hash = "sha256:900a573a525a0f66f884075c2a98711bb9478e44dc60ffdf182ef681bf8e2c76", size = 22062384, upload-time = "2025-07-16T11:37:29.189Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2c/90/95b04aee796f471ac8cb5f8794936065490e3c04944423db2f9ec0a973b8/basedpyright-1.30.1-py3-none-any.whl", hash = "sha256:5afdf6e2ab94f098cd0004a4e3b198a5e176b8eb8e08049542729a7f5beb0dcd", size = 11537793, upload-time = "2025-07-10T08:47:13.767Z" },
+    { url = "https://files.pythonhosted.org/packages/5a/85/cb46707458c514ae959fe139135d8f7231d95faf1c383a56979a3436b965/basedpyright-1.31.0-py3-none-any.whl", hash = "sha256:d7460ddcd3a2332b1c3fd738735d18bf2966d49aed67237efa1f19635199d414", size = 11538999, upload-time = "2025-07-16T11:37:26.446Z" },
 ]
 
 [[package]]
@@ -1649,7 +1649,7 @@ provides-extras = ["crypto", "desktop", "lxml", "mobile", "ruamel-yaml", "tui", 
 [package.metadata.requires-dev]
 all = [
     { name = "babel", specifier = ">=2.17.0" },
-    { name = "basedpyright", specifier = ">=1.30.1" },
+    { name = "basedpyright", specifier = ">=1.31.0" },
     { name = "cx-freeze", specifier = ">=8.3.0" },
     { name = "datamodel-code-generator", specifier = ">=0.31.2" },
     { name = "gapic-generator", specifier = ">=1.26.0" },
@@ -1679,7 +1679,7 @@ code-gen = [
 docs = [{ name = "mkdocs-material", specifier = ">=9.6.15,<10.0.0" }]
 i18n = [{ name = "babel", specifier = ">=2.17.0" }]
 linting = [
-    { name = "basedpyright", specifier = ">=1.30.1" },
+    { name = "basedpyright", specifier = ">=1.31.0" },
     { name = "mypy", specifier = ">=1.17.0" },
     { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
