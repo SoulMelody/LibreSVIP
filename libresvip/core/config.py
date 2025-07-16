@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import contextvars
 import enum
 import locale
 import os
@@ -398,11 +397,6 @@ class LibreSvipBaseUISettings(YamlSettings):
             del self.lyric_replace_rules[group_name][index]
 
 
-ui_settings_ctx: contextvars.ContextVar[LibreSvipBaseUISettings | None] = contextvars.ContextVar(
-    "ui_settings_ctx"
-)
-
-
 class LibreSvipSettings(LibreSvipBaseUISettings):
     disabled_plugins: list[str] = Field(default_factory=list)
     # GUI Only
@@ -430,10 +424,11 @@ settings.lyric_replace_rules.setdefault("default", [])
 
 
 class LibreSVIPSettingsContainer(BaseContainer):
+    state: providers.State[LibreSvipBaseUISettings] = providers.State()
     settings = providers.Selector(
         lambda: os.getenv("LIBRESVIP_SETTINGS_BACKEND", "local"),
         local=providers.Factory(lambda: settings),
-        remote=providers.Factory(ui_settings_ctx.get, None),
+        remote=providers.Factory(lambda x: x, state.cast),
     )
 
 

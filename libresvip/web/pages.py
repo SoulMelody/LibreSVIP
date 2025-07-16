@@ -58,9 +58,9 @@ from libresvip.core.config import (
     DarkMode,
     Language,
     LibreSvipBaseUISettings,
+    LibreSVIPSettingsContainer,
     LyricsReplacement,
     LyricsReplaceMode,
-    ui_settings_ctx,
 )
 from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
@@ -254,7 +254,6 @@ def page_layout(
                         storage[key] = default_value
 
         context.client.on_disconnect(save_settings)
-    ui_settings_ctx.set(settings)
 
     if lang is not None:
         settings.language = Language.from_locale(lang)
@@ -263,19 +262,20 @@ def page_layout(
 
     def set_context_vars() -> None:
         nonlocal translation
-        ui_settings_ctx.set(settings)
         translation = get_translation()
         lazy_translation.set(translation)
 
     def context_vars_wrapper(func: Callable[P, R]) -> Callable[P, R]:
         @functools.wraps(func)
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-            set_context_vars()
-            return func(*args, **kwargs)
+            with LibreSVIPSettingsContainer.state.init(settings):
+                set_context_vars()
+                return func(*args, **kwargs)
 
         return wrapper
 
-    set_context_vars()
+    with LibreSVIPSettingsContainer.state.init(settings):
+        set_context_vars()
 
     @context_vars_wrapper
     def plugin_info(attr_name: str) -> None:
