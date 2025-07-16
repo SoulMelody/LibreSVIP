@@ -5,7 +5,7 @@ click==8.2.1
 construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
 construct-typing==0.6.2
 drawsvg==2.4.0
-fsspec==2025.5.1
+fsspec==2025.7.0
 jinja2==3.1.6
 jyutping @ https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl
 ko-pron==1.3
