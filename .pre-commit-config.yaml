@@ -23,7 +23,7 @@ repos:
           - mdformat-tables
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.3
+    rev: v0.12.4
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
@@ -47,7 +47,7 @@ repos:
           - types-ujson
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.7.21
+    rev: 0.8.0
     hooks:
       - id: uv-lock
         args: ["--frozen"]
