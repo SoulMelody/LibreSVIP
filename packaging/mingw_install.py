@@ -28,6 +28,7 @@ def install_mingw_deps() -> None:
     mingw_native_packages = {
         "annotated-types": "python-annotated-types",
         "anyio": "python-anyio",
+        "backports-zstd": "python-zstandard",
         "cffi": "python-cffi",
         "charset-normalizer": "python-charset-normalizer",
         "cx-freeze": None,
@@ -54,7 +55,6 @@ def install_mingw_deps() -> None:
         "shellingham": "python-shellingham",
         "setuptools": "python-setuptools",
         "ujson": "python-ujson",
-        "backports.zstd": "python-zstandard",
     }
     cwd = pathlib.Path()
     install_msys2_requirements(
