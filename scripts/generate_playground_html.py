@@ -22,10 +22,10 @@ async def _():
         import micropip
         micropip.add_mock_package('packaging', '25.0')
 
-        await micropip.install("https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl")
-        await micropip.install("https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl")
-        await micropip.install("https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl")
-        await micropip.install("https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl")
+        await micropip.install("https://archive1.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl")
+        await micropip.install("https://archive1.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl")
+        await micropip.install("https://archive1.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl")
+        await micropip.install("https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl")
         await micropip.install("ruamel-yaml")
         await micropip.install("lxml")
 

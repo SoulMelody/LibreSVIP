@@ -107,6 +107,7 @@ build_exe_options = {
     ],
     "packages": [
         "anyio",
+        "Cryptodome.Util.Padding",
         "construct_typed",
         "drawsvg",
         "google.protobuf",
@@ -133,7 +134,7 @@ build_exe_options = {
         "uvicorn.protocols.websockets.auto",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
-        "zstandard",
+        "backports.zstd",
     ],
 }
 

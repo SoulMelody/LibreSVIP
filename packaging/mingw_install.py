@@ -54,7 +54,7 @@ def install_mingw_deps() -> None:
         "shellingham": "python-shellingham",
         "setuptools": "python-setuptools",
         "ujson": "python-ujson",
-        "zstandard": "python-zstandard",
+        "backports.zstd": "python-zstandard",
     }
     cwd = pathlib.Path()
     install_msys2_requirements(
