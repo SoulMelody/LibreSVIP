@@ -1,5 +1,6 @@
 import contextlib
 import hashlib
+import importlib
 import pathlib
 import sys
 from typing import Any
@@ -26,7 +27,7 @@ for zstd_backend in (
     "numcodecs.zstd",
 ):
     with contextlib.suppress(ImportError):
-        zstd = __import__(zstd_backend)
+        zstd = importlib.import_module(zstd_backend)
         break
 else:
     import ctypes.util
