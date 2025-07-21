@@ -158,7 +158,7 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv.sources]
-construct = { url = "https://archive1.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl" }
+construct = { url = "https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl" }
 jyutping = { url = "https://archive1.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl" }
 mido-fix = { url = "https://archive1.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" }
 wanakana-python = { url = "https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" }
