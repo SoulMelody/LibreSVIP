@@ -31,6 +31,7 @@ a = Analysis(
     binaries=[],
     datas=collect_data_files("nicegui") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
     hiddenimports=[
+        "backports.zstd",
         "bidict",
         "construct_typed",
         "Cryptodome.Util.Padding",
@@ -54,7 +55,6 @@ a = Analysis(
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
         "yaml_ft",
-        "zstandard",
     ],
     hookspath=[],
     hooksconfig={},
