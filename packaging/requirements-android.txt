@@ -7,7 +7,7 @@ cffi==1.17.1 ; sys_platform != 'win32'
 charset-normalizer==3.4.2
 click==8.2.1
 colorama==0.4.6 ; sys_platform == 'win32'
-construct @ https://archive1.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
+construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
 construct-typing==0.6.2
 drawsvg==2.4.0
 flet==0.28.3
