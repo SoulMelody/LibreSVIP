@@ -48,7 +48,6 @@ nav:
     - 代码规范: coding_style.md
     - 歌声合成工程格式一览: project_formats.md
   - 常见问题: faq.md
-  - 实验场: playground.md
 
 extra:
   social:
