@@ -31,7 +31,7 @@ pysubs2==1.8.0
 python-dotenv==1.1.1
 pyyaml==6.0.2
 retrie==0.3.1
-rich==14.0.0
+rich==14.1.0
 ruamel-yaml==0.18.14
 sortedcontainers==2.4.0
 tatsu-lts==5.13.1
