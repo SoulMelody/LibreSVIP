@@ -53,7 +53,7 @@ dependencies = [
   "PyYAML-ft>=8.0.0,<8.0.1; python_version>='3.13' and sys_platform != \"emscripten\"",
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
-  "rich<14.0.1,>=14.0.0",
+  "rich<14.1.1,>=14.1.0",
   "tatsu-lts>=5.13.1",
   "typer-slim<1.0.0,>=0.16.0",
   "wanakana-python",
