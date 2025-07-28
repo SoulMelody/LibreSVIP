@@ -32,7 +32,7 @@ if platform.system() != "Darwin":
             os.path.join(os.__file__, os.pardir)
         ],
         binaries=[],
-        datas=collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+        datas=collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
         hiddenimports=[
             "backports.zstd",
             "bidict",
