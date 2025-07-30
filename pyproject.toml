@@ -135,7 +135,7 @@ packaging = [
 docs = [
   "mkdocs-material<10.0.0,>=9.6.16",
 ]
-test = ["pytest>=8.4.1", "pytest-datadir>=1.7.2", "textual-dev>=1.7.0"]
+test = ["pytest>=8.4.1", "pytest-datadir>=1.8.0", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
