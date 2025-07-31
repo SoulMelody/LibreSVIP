@@ -73,7 +73,6 @@ from libresvip.utils.search import find_index
 from libresvip.utils.text import shorten_error_message, supported_charset_names, uuid_str
 from libresvip.utils.translation import gettext_lazy as _
 from libresvip.utils.translation import lazy_translation
-from libresvip.web.elements import QFab, QFabAction
 
 if TYPE_CHECKING:
     from nicegui.elements.select import Select
@@ -1997,7 +1996,7 @@ def page_layout(
                 event.preventDefault()
             }}""",
             )
-            with QFab(
+            with ui.fab(
                 icon="construction",
             ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
                 with fab.add_slot("active-icon"):
@@ -2006,11 +2005,11 @@ def page_layout(
                     "mouseenter",
                     functools.partial(fab.run_method, "show"),
                 )
-                QFabAction(
+                ui.fab_action(
                     icon="refresh",
                     on_click=selected_formats.reset,
                 ).tooltip(_("Clear Task List"))
-                QFabAction(
+                ui.fab_action(
                     icon="filter_alt_off",
                     on_click=selected_formats.filter_input_ext,
                 ).tooltip(_("Remove Tasks With Other Extensions"))
