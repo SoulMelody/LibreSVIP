@@ -30,7 +30,7 @@ from urllib.parse import quote, unquote
 
 import anyio
 import more_itertools
-from nicegui import app, binding, ui
+from nicegui import APIRouter, app, binding, ui
 from nicegui.context import context
 from nicegui.elements.switch import Switch
 from nicegui.events import (
@@ -165,6 +165,10 @@ class ConversionTask:
                 self.output_path.unlink()
 
 
+export_router = APIRouter(prefix="/export", tags=["Export"])
+
+
+@export_router.get("/{client_id}/")
 def export_all(request: Request) -> Response:
     if selected_formats := getattr(
         app.state, f"{request.path_params['client_id']}_selected_formats"
@@ -177,9 +181,7 @@ def export_all(request: Request) -> Response:
         )
 
 
-app.add_route("/export/{client_id}/", export_all, methods=["GET"])
-
-
+@export_router.get("/{client_id}/{filename}")
 def export_one(request: Request) -> Response:
     if selected_formats := getattr(
         app.state, f"{request.path_params['client_id']}_selected_formats"
@@ -192,7 +194,7 @@ def export_one(request: Request) -> Response:
         )
 
 
-app.add_route("/export/{client_id}/{filename}", export_one, methods=["GET"])
+app.include_router(export_router)
 
 plugin_details = {
     identifier: {
