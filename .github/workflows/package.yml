@@ -89,7 +89,7 @@ jobs:
     runs-on: windows-11-arm
     needs: [make-outputs]
     env:
-      UV_SYSTEM_PYTHON: true
+      MEDIAINFO_VERSION: 25.07
     steps:
       - uses: actions/checkout@v4
 
@@ -111,8 +111,8 @@ jobs:
           uv run pyinstaller libresvip.spec
           mkdir archive
           cd dist
-          curl -O https://mediaarea.net/download/binary/mediainfo-gui/25.03/MediaInfo_GUI_25.03_Windows_ARM64_WithoutInstaller.7z
-          7z x MediaInfo_GUI_25.03_Windows_ARM64_WithoutInstaller.7z
+          curl -O https://mediaarea.net/download/binary/mediainfo-gui/${MEDIAINFO_VERSION}/MediaInfo_GUI_${MEDIAINFO_VERSION}_Windows_ARM64_WithoutInstaller.7z
+          7z x MediaInfo_GUI_${MEDIAINFO_VERSION}_Windows_ARM64_WithoutInstaller.7z
           mkdir -p libresvip/_internal/pymediainfo
           cp MediaInfo.dll libresvip/_internal/pymediainfo
           7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip

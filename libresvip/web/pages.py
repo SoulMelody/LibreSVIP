@@ -31,7 +31,7 @@ from urllib.parse import quote, unquote
 
 import anyio
 import more_itertools
-from nicegui import app, binding, ui
+from nicegui import APIRouter, app, binding, ui
 from nicegui.context import context
 from nicegui.elements.switch import Switch
 from nicegui.events import (
@@ -74,7 +74,6 @@ from libresvip.utils.search import find_index
 from libresvip.utils.text import shorten_error_message, supported_charset_names, uuid_str
 from libresvip.utils.translation import gettext_lazy as _
 from libresvip.utils.translation import lazy_translation
-from libresvip.web.elements import QFab, QFabAction
 
 if TYPE_CHECKING:
     from nicegui.elements.select import Select
@@ -166,6 +165,10 @@ class ConversionTask:
                 self.output_path.unlink()
 
 
+export_router = APIRouter(prefix="/export", tags=["Export"])
+
+
+@export_router.get("/{client_id}/")
 def export_all(request: Request) -> Response:
     if selected_formats := getattr(
         app.state, f"{request.path_params['client_id']}_selected_formats"
@@ -178,9 +181,7 @@ def export_all(request: Request) -> Response:
         )
 
 
-app.add_route("/export/{client_id}/", export_all, methods=["GET"])
-
-
+@export_router.get("/{client_id}/{filename}")
 def export_one(request: Request) -> Response:
     if selected_formats := getattr(
         app.state, f"{request.path_params['client_id']}_selected_formats"
@@ -193,7 +194,7 @@ def export_one(request: Request) -> Response:
         )
 
 
-app.add_route("/export/{client_id}/{filename}", export_one, methods=["GET"])
+app.include_router(export_router)
 
 plugin_details = {
     identifier: {
@@ -1997,7 +1998,7 @@ def page_layout(
                 event.preventDefault()
             }}""",
             )
-            with QFab(
+            with ui.fab(
                 icon="construction",
             ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
                 with fab.add_slot("active-icon"):
@@ -2006,11 +2007,11 @@ def page_layout(
                     "mouseenter",
                     functools.partial(fab.run_method, "show"),
                 )
-                QFabAction(
+                ui.fab_action(
                     icon="refresh",
                     on_click=selected_formats.reset,
                 ).tooltip(_("Clear Task List"))
-                QFabAction(
+                ui.fab_action(
                     icon="filter_alt_off",
                     on_click=selected_formats.filter_input_ext,
                 ).tooltip(_("Remove Tasks With Other Extensions"))

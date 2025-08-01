@@ -24,10 +24,13 @@ for zstd_backend in (
     "zstd",
     "pyzstd",
     "zstandard",
+    "cramjam",
     "numcodecs.zstd",
 ):
     with contextlib.suppress(ImportError):
         zstd = importlib.import_module(zstd_backend)
+        if zstd_backend == "cramjam":
+            zstd = zstd.zstd
         break
 else:
     import ctypes.util
