@@ -221,10 +221,50 @@ def index() -> None:
     )
     with ui.footer().classes("bg-transparent"):
         ajax_bar = ui.element("q-ajax-bar").props("position=bottom")
-    ui.sub_pages({"/": main_wrapper(header, ajax_bar)}).classes("w-full")
+        ui.add_body_html(
+            textwrap.dedent(
+                f"""
+            <script>
+                function get_element(element_id) {{
+                    let element = getElement(element_id)
+                    if (element.$refs.qRef !== undefined)
+                        return element.$refs.qRef
+                    return element
+                }}
+                function post_form(url, data) {{
+                    let ajax_bar = get_element({ajax_bar.id})
+                    let form_data = new FormData()
+                    for (let key in data) {{
+                        form_data.append(key, data[key])
+                    }}
+                    var xhr = new XMLHttpRequest();
+                    var progress = 0
+                    xhr.onreadystatechange = function() {{
+                        if (xhr.readyState === 4) {{
+                            ajax_bar.stop()
+                        }}
+                    }}
+                    xhr.upload.onprogress = function(event) {{
+                        if (event.lengthComputable) {{
+                            let next = event.loaded / event.total * 100
+                            if (next - progress > 0.5) {{
+                                ajax_bar.increment(next - progress)
+                                progress = next
+                            }}
+                        }}
+                    }}
+                    xhr.open('POST', url, true);
+                    ajax_bar.start()
+                    xhr.send(form_data);
+                }}
+            </script>
+            """,
+            ).strip(),
+        )
+    ui.sub_pages({"/": main_wrapper(header)}).classes("w-full")
 
 
-def main_wrapper(header: ui.header, ajax_bar: ui.element) -> Callable[[PageArguments], None]:
+def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
     def main_page(args: PageArguments) -> None:
         lang: str | None = args.query_parameters.get("lang")
         dark_mode: Literal["dark", "light", "system"] = args.query_parameters.get(
@@ -606,6 +646,11 @@ def main_wrapper(header: ui.header, ajax_bar: ui.element) -> Callable[[PageArgum
                     "",
                 )
             )
+
+        uploader = ui.upload(
+            multiple=True,
+            auto_upload=True,
+        ).props("hidden")
 
         @dataclasses.dataclass
         class SelectedFormats:
@@ -1057,7 +1102,40 @@ def main_wrapper(header: ui.header, ajax_bar: ui.element) -> Callable[[PageArgum
                         path = pathlib.Path(file_path)
                         await self._add_task(path.name, path)
                 else:
-                    ui.run_javascript("add_upload()")
+                    await ui.run_javascript(
+                        textwrap.dedent(f"""
+                    (function() {{
+                        if (window.showOpenFilePicker) {{
+                            let format_desc = get_element({select_input.id}).modelValue.label
+                            let suffix = format_desc.match(/\\((?:\\*)(\\..*?)\\)/)[1]
+                            let bracket_index = format_desc.lastIndexOf('(')
+                            let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
+                            window.showOpenFilePicker(
+                                {{
+                                    types: [
+                                        {{
+                                            description: file_format,
+                                            accept: {{
+                                                '*/*': [suffix],
+                                            }}
+                                        }}
+                                    ],
+                                    multiple: true
+                                }}
+                            ).then(async function (fileHandles) {{
+                                for (const fileHandle of fileHandles) {{
+                                    const file = await fileHandle.getFile();
+                                    let file_name = file.name
+                                    post_form('{uploader.props["url"]}', {{
+                                        file_name: file
+                                    }})
+                                }}
+                            }});
+                        }} else {{
+                            get_element({uploader.id}).pickFiles()
+                        }}
+                    }})();""")
+                    )
 
             @context_vars_wrapper
             async def save_file(self, file_name: str = "") -> None:
@@ -1102,6 +1180,7 @@ def main_wrapper(header: ui.header, ajax_bar: ui.element) -> Callable[[PageArgum
             lambda: ui.navigate.to(f"/?lang={lang}&dark_mode={dark_value2str(dark_toggler.value)}")
         )
         selected_formats = SelectedFormats()
+        uploader.on_upload(selected_formats.add_task)
         if app.native.main_window is None:
             setattr(
                 app.state,
@@ -1881,11 +1960,6 @@ def main_wrapper(header: ui.header, ajax_bar: ui.element) -> Callable[[PageArgum
                                 format_item.value = format_item._values[key]
 
             ui.keyboard(on_key=handle_key, active=True)
-        uploader = ui.upload(
-            multiple=True,
-            on_upload=selected_formats.add_task,
-            auto_upload=True,
-        ).props("hidden")
 
         def file_format_area() -> None:
             nonlocal select_input, select_output
@@ -2202,82 +2276,6 @@ def main_wrapper(header: ui.header, ajax_bar: ui.element) -> Callable[[PageArgum
                         options_area()
                     with options_splitter.after:
                         tasks_area()
-
-        def add_javascript() -> None:
-            nonlocal select_input
-            ui.add_body_html(
-                textwrap.dedent(
-                    f"""
-                <script>
-                    function get_element(element_id) {{
-                        let element = getElement(element_id)
-                        if (element.$refs.qRef !== undefined)
-                            return element.$refs.qRef
-                        return element
-                    }}
-                    function post_form(url, data) {{
-                        let ajax_bar = get_element({ajax_bar.id})
-                        let form_data = new FormData()
-                        for (let key in data) {{
-                            form_data.append(key, data[key])
-                        }}
-                        var xhr = new XMLHttpRequest();
-                        var progress = 0
-                        xhr.onreadystatechange = function() {{
-                            if (xhr.readyState === 4) {{
-                                ajax_bar.stop()
-                            }}
-                        }}
-                        xhr.upload.onprogress = function(event) {{
-                            if (event.lengthComputable) {{
-                                let next = event.loaded / event.total * 100
-                                if (next - progress > 0.5) {{
-                                    ajax_bar.increment(next - progress)
-                                    progress = next
-                                }}
-                            }}
-                        }}
-                        xhr.open('POST', url, true);
-                        ajax_bar.start()
-                        xhr.send(form_data);
-                    }}
-                    function add_upload() {{
-                        if (window.showOpenFilePicker) {{
-                            let format_desc = get_element({select_input.id}).modelValue.label
-                            let suffix = format_desc.match(/\\((?:\\*)(\\..*?)\\)/)[1]
-                            let bracket_index = format_desc.lastIndexOf('(')
-                            let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
-                            window.showOpenFilePicker(
-                                {{
-                                    types: [
-                                        {{
-                                            description: file_format,
-                                            accept: {{
-                                                '*/*': [suffix],
-                                            }}
-                                        }}
-                                    ],
-                                    multiple: true
-                                }}
-                            ).then(async function (fileHandles) {{
-                                for (const fileHandle of fileHandles) {{
-                                    const file = await fileHandle.getFile();
-                                    let file_name = file.name
-                                    post_form('{uploader.props["url"]}', {{
-                                        file_name: file
-                                    }})
-                                }}
-                            }});
-                        }} else {{
-                            get_element({uploader.id}).pickFiles()
-                        }}
-                    }}
-                </script>
-                """,
-                ).strip(),
-            )
-
-        add_javascript()
 
     return main_page
 
