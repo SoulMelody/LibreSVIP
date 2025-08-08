@@ -1716,7 +1716,7 @@ requires-dist = [
     { name = "rich", specifier = ">=14.1.0,<14.1.1" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.14" },
     { name = "tatsu-lts", specifier = ">=5.13.1" },
-    { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.4.2" },
+    { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.4.3" },
     { name = "typer-slim", specifier = ">=0.16.0,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.6,<1.0.0" },
@@ -3718,14 +3718,14 @@ wheels = [
 
 [[package]]
 name = "textual-fspicker"
-version = "0.4.2"
+version = "0.4.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "textual" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/15/19/ff2c2d8b9d5d61e2ccd4a54f045d474ea4451b737caf7f83c5f39c875dc2/textual_fspicker-0.4.2.tar.gz", hash = "sha256:39253fac33b47844d9ae1bca9a1ad4725da4343b5cf8b9c3ff440a282cc9a746", size = 356881, upload-time = "2025-08-07T08:06:55.897Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6f/1d/b4fdb9ac3e34681788443ffddc5ad048b298af37c3d893c7815a6a59a98c/textual_fspicker-0.4.3.tar.gz", hash = "sha256:bbf010b79173403224264d4ffaa06eff79443c2788b567380393e2007eeb18a0", size = 356926, upload-time = "2025-08-08T08:27:12.327Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2e/21/f66594fced43f457dae1053f20980507a8e20eda4e00ba0388036fada8b4/textual_fspicker-0.4.2-py3-none-any.whl", hash = "sha256:f848cb2a29fb974e913a78b1a6792cf77ebd15b38c90700741934c1403cf5c7c", size = 21292, upload-time = "2025-08-07T08:06:53.939Z" },
+    { url = "https://files.pythonhosted.org/packages/44/a7/a2fbde3a903ef83998dc5a34f90825a616bc12af7e4879ee06b6b2397847/textual_fspicker-0.4.3-py3-none-any.whl", hash = "sha256:faf531617b57ee55ce77660c60d577599545d5fba80c1957a94fa3f9c38bb0b7", size = 21297, upload-time = "2025-08-08T08:27:10.637Z" },
 ]
 
 [[package]]
