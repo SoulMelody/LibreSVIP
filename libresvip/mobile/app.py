@@ -10,7 +10,6 @@ from typing import get_args, get_type_hints
 import flet as ft
 import flet_permission_handler as fph
 import more_itertools
-from flet.controls import padding
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
@@ -34,7 +33,7 @@ async def main(page: ft.Page) -> None:
     page.window.height = 720
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
-    page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.alignment.Alignment.CENTER)
+    page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.Alignment.CENTER)
 
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
@@ -360,7 +359,7 @@ async def main(page: ft.Page) -> None:
                             tooltip=_("Actions"),
                         ),
                         data={"path": file_path, "log_text": ""},
-                        content_padding=padding.Padding(0, 0, 30, 0),
+                        content_padding=ft.Padding(0, 0, 30, 0),
                     )
                 )
             page.update()
@@ -1035,7 +1034,7 @@ async def main(page: ft.Page) -> None:
                             ref=task_list_view,
                             expand=1,
                             auto_scroll=True,
-                            padding=padding.symmetric(vertical=10),
+                            padding=ft.Padding.symmetric(vertical=10),
                         ),
                     ],
                     visible=False,
