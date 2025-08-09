@@ -26,8 +26,9 @@ a = Analysis(
         os.path.join(os.__file__, os.pardir),
     ],
     binaries=[],
-    datas=collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+    datas=collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
     hiddenimports=[
+        "backports.zstd",
         "bidict",
         "construct_typed",
         "Cryptodome.Util.Padding",
@@ -50,7 +51,6 @@ a = Analysis(
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
         "yaml_ft",
-        "zstandard",
     ] + collect_submodules("textual.widgets"),
     hookspath=[],
     hooksconfig={},

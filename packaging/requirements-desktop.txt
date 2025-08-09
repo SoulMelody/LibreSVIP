@@ -1,8 +1,9 @@
 altgraph==0.17.4
 annotated-types==0.7.0
-anyio==4.9.0
+anyio==4.10.0
+backports-zstd==0.4.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
 bidict==0.23.1
-certifi==2025.6.15
+certifi==2025.8.3
 cffi==1.17.1 ; python_full_version < '3.12' or sys_platform != 'win32'
 charset-normalizer==3.4.2
 click==8.1.8 ; python_full_version < '3.10'
@@ -10,12 +11,12 @@ click==8.2.1 ; python_full_version >= '3.10'
 colorama==0.4.6 ; sys_platform == 'win32'
 construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
 construct-typing==0.6.2
-dbus-fast==2.44.1 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
-desktop-notifier==6.1.1 ; platform_python_implementation == 'CPython'
+dbus-fast==2.44.3 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
+desktop-notifier==6.2.0 ; platform_python_implementation == 'CPython'
 drawsvg==2.4.0
 exceptiongroup==1.3.0 ; python_full_version < '3.11'
 fonticon-materialdesignicons7==7.2.96
-fsspec==2025.5.1
+fsspec==2025.7.0
 h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
@@ -23,7 +24,7 @@ idna==3.10
 importlib-metadata==8.7.0 ; python_full_version < '3.10'
 importlib-resources==6.5.2 ; python_full_version < '3.11'
 jinja2==3.1.6
-jyutping @ https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl
+jyutping @ https://archive1.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl
 ko-pron==1.3
 loguru==0.7.3
 lxml==6.0.0
@@ -31,11 +32,11 @@ macholib==1.16.3 ; sys_platform == 'darwin'
 markdown-it-py==3.0.0
 markupsafe==3.0.2
 mdurl==0.1.2
-mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
+mido-fix @ https://archive1.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.7.0
 packaging==25.0
 pefile==2023.2.7 ; sys_platform == 'win32'
-pillow==11.2.1 ; sys_platform == 'darwin'
+pillow==11.3.0 ; sys_platform == 'darwin'
 platformdirs==4.3.8
 portion==2.6.1
 proto-plus==1.26.1
@@ -47,27 +48,27 @@ pydantic-core==2.33.2
 pydantic-extra-types==2.10.5
 pydantic-settings==2.10.1
 pygments==2.19.2
-pyinstaller==6.14.1 ; platform_machine == 'arm64' or sys_platform != 'win32'
-pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.14.1-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
-pyinstaller-hooks-contrib==2025.5
+pyinstaller==6.15.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
+pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.15.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
+pyinstaller-hooks-contrib==2025.8
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
-pypinyin==0.54.0
+pypinyin==0.55.0
 pyside6==6.9.1
 pyside6-addons==6.9.1
 pyside6-essentials==6.9.1
 pysubs2==1.8.0
 python-dotenv==1.1.1
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
-pyyaml==6.0.2 ; python_full_version < '3.13'
-pyyaml-ft==8.0.0 ; python_full_version >= '3.13'
+pyyaml==6.0.2 ; python_full_version < '3.13' or sys_platform == 'emscripten'
+pyyaml-ft==8.0.0 ; python_full_version >= '3.13' and sys_platform != 'emscripten'
 pyzipper==0.3.6
 pyzstd==0.17.0 ; python_full_version < '3.14' and platform_python_implementation == 'PyPy'
 repro-zipfile==0.4.0 ; python_full_version < '3.11'
 retrie==0.3.1
-rich==14.0.0
+rich==14.1.0
 ruamel-yaml==0.18.14
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
-rubicon-objc==0.5.1 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
+rubicon-objc==0.5.2 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
 setuptools==80.9.0
 shellingham==1.5.4
 shiboken6==6.9.1
@@ -75,11 +76,11 @@ sniffio==1.3.1
 sortedcontainers==2.4.0
 tatsu-lts==5.13.1
 typer-slim==0.16.0
-typing-extensions==4.14.0
+typing-extensions==4.14.1
 typing-inspection==0.4.1
 ujson==5.10.0
 universal-pathlib==0.2.6
-wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
+wanakana-python @ https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 winrt-runtime==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-applicationmodel-core==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
@@ -87,8 +88,8 @@ winrt-windows-data-xml-dom==3.2.1 ; platform_python_implementation == 'CPython' 
 winrt-windows-foundation==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-foundation-collections==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-ui-notifications==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-xsdata==25.4
+xsdata==25.7
 xsdata-pydantic==24.5
 zhon==2.1.1
 zipp==3.23.0 ; python_full_version < '3.10'
-zstandard==0.23.0 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
+zstandard==0.23.0 ; python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'

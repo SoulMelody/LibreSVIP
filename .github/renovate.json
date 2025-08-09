@@ -10,8 +10,11 @@
     "enabled": true
   },
   "rangeStrategy": "bump",
-  "enabledManagers": ["pep621"],
+  "enabledManagers": ["github-actions", "pep621", "pre-commit"],
   "labels": ["dependencies"],
+  "pre-commit": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchManagers": ["pep621"],
@@ -27,6 +30,16 @@
       "automerge": true,
       "groupName": "Project dependencies",
       "groupSlug": "proj"
+    },
+    {
+      "groupName": "GitHub runners",
+      "matchManagers": ["github-actions"],
+      "matchDatasources": ["github-runners"],
+      "enabled": false
+    },
+    {
+      "groupName": "pre-commit dependencies",
+      "matchManagers": ["pre-commit"]
     }
   ]
 }

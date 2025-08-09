@@ -3,7 +3,6 @@
 import abc
 import decimal
 import threading
-from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from functools import partial
 from typing import Any, BinaryIO
@@ -182,11 +181,7 @@ Decimal = ExprAdapter(
     lambda obj, ctx: str(obj),
 )
 
-
-classes_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
-objects_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
-libraries_by_id: dict[int, dict[int, str]] = defaultdict(dict)
-references_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
+local_store = threading.local()
 
 
 class RegistryAdapter(Adapter, abc.ABC):
@@ -196,28 +191,28 @@ class RegistryAdapter(Adapter, abc.ABC):
 
 class ClassRegistryAdapter(RegistryAdapter):
     def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
-        classes_by_id[threading.get_ident()][obj.class_info.object_id] = obj
+        local_store.classes[obj.class_info.object_id] = obj
         return obj
 
 
 class ObjectRegistryAdapter(RegistryAdapter):
     def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         if obj.get("array_info", None):
-            objects_by_id[threading.get_ident()][obj.array_info.object_id] = obj
+            local_store.objects[obj.array_info.object_id] = obj
         else:
-            objects_by_id[threading.get_ident()][obj.object_id] = obj
+            local_store.objects[obj.object_id] = obj
         return obj
 
 
 class LibraryRegistryAdapter(RegistryAdapter):
     def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
-        libraries_by_id[threading.get_ident()][obj.library_id] = obj.library_name
+        local_store.libraries[obj.library_id] = obj.library_name
         return obj
 
 
 class MemberReferenceAdapter(RegistryAdapter):
     def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
-        ref_cache = references_by_id[threading.get_ident()]
+        ref_cache = local_store.references
         if obj.id_ref not in ref_cache:
             result = {"id_ref": obj.id_ref, "real_obj": None}
             ref_cache[obj.id_ref] = result
@@ -445,15 +440,10 @@ ClassWithId = ObjectRegistryAdapter(
         "record_type_enum" / Computed(RecordTypeEnum.ClassWithId),
         "object_id" / Int32sl,
         "metadata_id" / Int32sl,
-        "class_info"
-        / Computed(
-            lambda this: (classes_by_id[threading.get_ident()][this.metadata_id]["class_info"])
-        ),
+        "class_info" / Computed(lambda this: (local_store.classes[this.metadata_id]["class_info"])),
         "member_type_info"
         / Computed(
-            lambda this: (
-                classes_by_id[threading.get_ident()][this.metadata_id].get("member_type_info", None)
-            )
+            lambda this: (local_store.classes[this.metadata_id].get("member_type_info", None))
         ),
         "member_values"
         / IfThenElse(

@@ -46,14 +46,14 @@ dependencies = [
   "pydantic<3.0.0,>=2.11.7",
   "pydantic-extra-types<3.0.0,>=2.10.5",
   "pydantic-settings<3.0.0,>=2.10.1",
-  "pymediainfo<7.0.2,>=7.0.1; sys_platform != \"emscripten\"",
-  "pypinyin<1.0.0,>=0.54.0",
+  "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
+  "pypinyin<1.0.0,>=0.55.0",
   "pysubs2<2.0.0,>=1.8.0",
-  "PyYAML>=6.0.2,<7.0.0; python_version<'3.13'",
-  "PyYAML-ft>=8.0.0,<8.0.1; python_version>='3.13'",
+  "PyYAML>=6.0.2,<7.0.0; python_version<'3.13' or sys_platform == \"emscripten\"",
+  "PyYAML-ft>=8.0.0,<8.0.1; python_version>='3.13' and sys_platform != \"emscripten\"",
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
-  "rich<14.0.1,>=14.0.0",
+  "rich<14.1.1,>=14.1.0",
   "tatsu-lts>=5.13.1",
   "typer-slim<1.0.0,>=0.16.0",
   "wanakana-python",
@@ -70,8 +70,9 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 zstd = [
+  "backports.zstd<0.4.1,>=0.4.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
   "pyzstd<1.0.0,>=0.17.0; platform_python_implementation == \"PyPy\" and python_version < \"3.14\"",
-  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
+  "zstandard<0.23.1,>=0.23.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
 ]
 crypto = [
   "cffi>=1.17.1; sys_platform != \"win32\" or python_version <= \"3.11\"",
@@ -86,15 +87,15 @@ ruamel_yaml = [
 ]
 lxml = ["lxml>=6.0.0"]
 tui = [
-  "textual-fspicker>=0.4.1",
+  "textual-fspicker>=0.4.3",
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.20.0",
+  "nicegui>=2.22.1",
   "libresvip[upath]",
 ]
 mobile = [
-  "flet[cli,desktop]>=0.28.3",
+  "flet[cli,desktop]>=0.28.3,<0.29.0",
   "flet-permission-handler>=0.1.0",
   "libresvip[upath]",
 ]
@@ -102,39 +103,42 @@ desktop = [
   "pyside6<6.9.2,>=6.9.1",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.28.1",
-  "desktop-notifier>=6.1.1; platform_python_implementation == \"CPython\"",
+  "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
   "libresvip[upath]",
 ]
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.31.2",
+  "datamodel-code-generator>=0.32.0",
   "gapic-generator>=1.26.0",
-  "xsdata[cli]>=25.4",
+  "protoc-wheel-0>=30.2",
+  "xsdata[cli]>=25.7",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
-  "basedpyright>=1.29.4",
+  "basedpyright>=1.31.1",
   "pre-commit>=4.2.0",
-  "ruff>=0.12.1",
-  "mypy>=1.16.1",
+  "ruff>=0.12.8",
+  "mypy>=1.17.1",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2025.3.30",
-  "types-pyyaml>=6.0.12.20250516",
+  "types-pyyaml>=6.0.12.20250809",
   "types-ujson>=5.10.0.20250326",
+  "types-pyinstaller>=6.15.0.20250809",
+  "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
   "cx-Freeze>=8.3.0",
-  "nuitka>=2.7.11",
-  "pyfuze>=2.2.0",
-  "pyinstaller>=6.14.1",
+  "nuitka>=2.7.12",
+  "pyfuze>=2.7.1",
+  "pyinstaller>=6.15.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "mkdocs-material<10.0.0,>=9.6.14",
+  "mkdocs-material<10.0.0,>=9.6.16",
 ]
-test = ["pytest>=8.4.1", "pytest-datadir>=1.7.2", "textual-dev>=1.7.0"]
+test = ["pytest>=8.4.1", "pytest-datadir>=1.8.0", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
@@ -158,9 +162,9 @@ hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv.sources]
 construct = { url = "https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl" }
-jyutping = { url = "https://www.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl" }
-mido-fix = { url = "https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" }
-wanakana-python = { url = "https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" }
+jyutping = { url = "https://archive1.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl" }
+mido-fix = { url = "https://archive1.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" }
+wanakana-python = { url = "https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" }
 
 [tool.hatch.version]
 path = "libresvip/__init__.py"

@@ -13,6 +13,7 @@ import libresvip
 import PySide6
 import shellingham
 from PyInstaller.utils.hooks import collect_data_files, collect_entry_point
+from PyInstaller.utils.misc import is_win
 
 with contextlib.suppress(Exception):
     if (
@@ -24,6 +25,11 @@ with contextlib.suppress(Exception):
 
 here = pathlib.Path(".")
 
+if is_win and platform.python_compiler().startswith("GCC"):
+    zstd_backend = "zstandard"
+else:
+    zstd_backend = "backports.zstd"
+
 cli_collections = []
 if platform.system() != "Darwin":
     cli_a = Analysis(
@@ -32,8 +38,9 @@ if platform.system() != "Darwin":
             os.path.join(os.__file__, os.pardir)
         ],
         binaries=[],
-        datas=collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+        datas=collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
         hiddenimports=[
+            zstd_backend,
             "bidict",
             "construct_typed",
             "Cryptodome.Util.Padding",
@@ -56,7 +63,6 @@ if platform.system() != "Darwin":
             "xsdata_pydantic.fields",
             "xsdata_pydantic.hooks.class_type",
             "yaml_ft",
-            "zstandard",
         ],
         hookspath=[],
         hooksconfig={},
@@ -123,8 +129,9 @@ gui_a = Analysis(
         os.path.join(PySide6.__path__[0], os.pardir)
     ],
     binaries=[],
-    datas=collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+    datas=collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
     hiddenimports=[
+        zstd_backend,
         "bidict",
         "construct_typed",
         "Cryptodome.Util.Padding",
@@ -147,7 +154,6 @@ gui_a = Analysis(
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
         "yaml_ft",
-        "zstandard",
     ],
     hookspath=[],
     hooksconfig={},

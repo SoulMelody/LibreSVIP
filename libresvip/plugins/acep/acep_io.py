@@ -1,5 +1,6 @@
 import contextlib
 import hashlib
+import importlib
 import pathlib
 import sys
 from typing import Any
@@ -23,10 +24,13 @@ for zstd_backend in (
     "zstd",
     "pyzstd",
     "zstandard",
+    "cramjam",
     "numcodecs.zstd",
 ):
     with contextlib.suppress(ImportError):
-        zstd = __import__(zstd_backend)
+        zstd = importlib.import_module(zstd_backend)
+        if zstd_backend == "cramjam":
+            zstd = zstd.zstd
         break
 else:
     import ctypes.util
