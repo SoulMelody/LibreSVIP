@@ -34,7 +34,7 @@ async def main(page: ft.Page) -> None:
     page.window.height = 720
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
-    page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.alignment.Alignment.center())
+    page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.alignment.Alignment.CENTER)
 
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
