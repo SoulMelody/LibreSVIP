@@ -28,7 +28,7 @@ classifiers = [
 ]
 dependencies = [
   "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.4.2",
+  "charset-normalizer<4.0.0,>=3.4.3",
   "construct",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.4.0",
