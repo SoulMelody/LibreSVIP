@@ -123,7 +123,7 @@ linting = [
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2025.3.30",
-  "types-pyyaml>=6.0.12.20250516",
+  "types-pyyaml>=6.0.12.20250809",
   "types-ujson>=5.10.0.20250326",
 ]
 packaging = [
