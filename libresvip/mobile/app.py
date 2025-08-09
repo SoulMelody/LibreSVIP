@@ -530,6 +530,7 @@ async def main(page: ft.Page) -> None:
         list_tile.leading.controls[0].visible = False
         list_tile.leading.controls[1].visible = True
         list_tile.trailing.items[-1].disabled = True
+        list_tile.update()
         try:
             with CatchWarnings() as w:
                 output_path = temp_path / list_tile.subtitle.value
@@ -666,6 +667,7 @@ async def main(page: ft.Page) -> None:
         list_tile.leading.controls[0].visible = True
         list_tile.leading.controls[1].visible = False
         list_tile.trailing.items[-1].disabled = False
+        list_tile.update()
 
     async def on_route_change(event: ft.RouteChangeEvent) -> None:
         page.views.clear()
