@@ -91,7 +91,7 @@ tui = [
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.22.1",
+  "nicegui>=2.22.2",
   "libresvip[upath]",
 ]
 mobile = [
