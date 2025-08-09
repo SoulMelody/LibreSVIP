@@ -4,7 +4,7 @@ backports-zstd==0.4.0 ; (python_full_version < '3.14' and platform_python_implem
 bidict==0.23.1
 certifi==2025.8.3 ; platform_system != 'Pyodide'
 cffi==1.17.1 ; sys_platform != 'win32'
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
 click==8.2.1
 colorama==0.4.6 ; sys_platform == 'win32'
 construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl

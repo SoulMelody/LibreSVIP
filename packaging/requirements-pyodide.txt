@@ -1,6 +1,6 @@
 annotated-types==0.7.0
 bidict==0.23.1
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
 click==8.2.1
 construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
 construct-typing==0.6.2
