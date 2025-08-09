@@ -125,6 +125,8 @@ linting = [
   "types-lxml>=2025.3.30",
   "types-pyyaml>=6.0.12.20250809",
   "types-ujson>=5.10.0.20250326",
+  "types-pyinstaller>=6.15.0.20250809",
+  "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
   "cx-Freeze>=8.3.0",
