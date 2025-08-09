@@ -838,7 +838,7 @@ async def main(page: ft.Page) -> None:
                                 [
                                     ft.Image(
                                         src_base64=plugin_obj.icon_base64,
-                                        fit=ft.ImageFit.FILL,
+                                        fit=ft.BoxFit.FILL,
                                         col=3,
                                     ),
                                     ft.ResponsiveRow(
