@@ -87,7 +87,7 @@ ruamel_yaml = [
 ]
 lxml = ["lxml>=6.0.0"]
 tui = [
-  "textual-fspicker>=0.4.3",
+  "textual-fspicker>=0.5.0",
   "libresvip[upath]",
 ]
 webui = [
