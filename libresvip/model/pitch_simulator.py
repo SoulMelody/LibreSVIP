@@ -71,9 +71,9 @@ class PitchSimulator:
                     current_note.end_pos
                     if next_note.lyric == "-"
                     else (next_note.start_pos + current_note.end_pos) / 2
-                ) - max_portamento_ticks * 0.4  # pyright: ignore[reportPossiblyUnboundVariable]
+                ) - max_portamento_ticks * 0.4
                 interval = self.synchronizer.get_duration_secs_from_ticks(
-                    int(middle_pos - max_portamento_ticks),  # pyright: ignore[reportPossiblyUnboundVariable]
+                    int(middle_pos - max_portamento_ticks),
                     int(middle_pos),
                 )
                 middle_time = self.synchronizer.get_actual_secs_from_ticks(int(middle_pos))
@@ -113,8 +113,8 @@ class PitchSimulator:
                 elif current_note.length <= 120:
                     max_portamento_ticks = current_note.length / 2
                 max_portamento_time = self.synchronizer.get_duration_secs_from_ticks(
-                    int(middle_pos - max_portamento_ticks * 1.4),  # pyright: ignore[reportPossiblyUnboundVariable]
-                    int(middle_pos - max_portamento_ticks * 0.4),  # pyright: ignore[reportPossiblyUnboundVariable]
+                    int(middle_pos - max_portamento_ticks * 1.4),
+                    int(middle_pos - max_portamento_ticks * 0.4),
                 )
         self.interval_dict[portion.closedopen(prev_portamento_end, portion.inf)] = (
             current_note.key_number
