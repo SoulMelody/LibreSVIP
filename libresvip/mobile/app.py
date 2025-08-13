@@ -38,32 +38,32 @@ async def main(page: ft.Page) -> None:
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
 
-    if not await page.shared_preferences.contains_key_async("dark_mode"):
-        await page.shared_preferences.set_async("dark_mode", "System")
+    if not await page.shared_preferences.contains_key("dark_mode"):
+        await page.shared_preferences.set("dark_mode", "System")
     page.theme_mode = ft.ThemeMode(
-        ((await page.shared_preferences.get_async("dark_mode") or "System").lower()).strip('"')
+        ((await page.shared_preferences.get("dark_mode") or "System").lower()).strip('"')
     )
 
     async def change_theme(dark_mode: str) -> None:
         page.theme_mode = ft.ThemeMode(dark_mode.lower())
-        await page.shared_preferences.set_async("dark_mode", dark_mode)
+        await page.shared_preferences.set("dark_mode", dark_mode)
         page.update()
 
-    if not await page.shared_preferences.contains_key_async("language"):
-        await page.shared_preferences.set_async("language", "en_US")
+    if not await page.shared_preferences.contains_key("language"):
+        await page.shared_preferences.set("language", "en_US")
     translation.singleton_translation = get_translation(
-        await page.shared_preferences.get_async("language")
+        await page.shared_preferences.get("language")
     )
 
     async def change_language(lang: str) -> None:
-        await page.shared_preferences.set_async("language", lang)
+        await page.shared_preferences.set("language", lang)
         translation.singleton_translation = get_translation(lang)
         page.go(f"/?lang={lang}")
 
-    if not await page.shared_preferences.contains_key_async("save_folder"):
-        await page.shared_preferences.set_async(
+    if not await page.shared_preferences.contains_key("save_folder"):
+        await page.shared_preferences.set(
             "save_folder",
-            "." if page.web else (await page.storage_paths.get_downloads_directory_async()) or ".",
+            "." if page.web else (await page.storage_paths.get_downloads_directory()) or ".",
         )
     save_folder_text_field = ft.Ref[ft.TextField]()
     temp_path = UPath("memory:/")
@@ -226,32 +226,32 @@ async def main(page: ft.Page) -> None:
             value = control.value
         if input_select.current.value != value:
             input_select.current.value = value
-        last_input_format = await page.shared_preferences.get_async("last_input_format")
+        last_input_format = await page.shared_preferences.get("last_input_format")
         if last_input_format != value:
             input_options.current.controls = build_input_options(value)
-            reset_tasks_on_input_change = await page.shared_preferences.get_async(
+            reset_tasks_on_input_change = await page.shared_preferences.get(
                 "reset_tasks_on_input_change"
             )
             if reset_tasks_on_input_change:
                 task_list_view.current.controls.clear()
-            await page.shared_preferences.set_async("last_input_format", value)
+            await page.shared_preferences.set("last_input_format", value)
 
     async def set_last_output_format(value: str | ft.Event[ft.BaseControl] | None) -> None:
         if control := getattr(value, "control", None):
             value = control.value
         if output_select.current.value != value:
             output_select.current.value = value
-        last_output_format = await page.shared_preferences.get_async("last_output_format")
+        last_output_format = await page.shared_preferences.get("last_output_format")
         if last_output_format != value:
             output_options.current.controls = build_output_options(value)
-            await page.shared_preferences.set_async("last_output_format", value)
+            await page.shared_preferences.set("last_output_format", value)
 
     def show_task_log(e: ft.ControlEvent) -> None:
         list_tile = e.control.parent.parent
         if list_tile.data.get("log_text"):
 
             async def copy_log_text(e: ft.ControlEvent) -> None:
-                await page.clipboard.set_async(list_tile.data["log_text"])
+                await page.clipboard.set(list_tile.data["log_text"])
                 banner: ft.Banner = ft.Banner(
                     ft.Text(_("Copied")),
                     leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINE),
@@ -298,12 +298,8 @@ async def main(page: ft.Page) -> None:
             page.update()
 
     async def select_files() -> None:
-        if files := await file_picker.pick_files_async(
-            _("Select files to convert"), allow_multiple=True
-        ):
-            auto_detect_input_format = await page.shared_preferences.get_async(
-                "auto_detect_input_format"
-            )
+        if files := await file_picker.pick_files(_("Select files to convert"), allow_multiple=True):
+            auto_detect_input_format = await page.shared_preferences.get("auto_detect_input_format")
             if page.web:
                 uf = [
                     ft.FilePickerUploadFile(
@@ -315,7 +311,7 @@ async def main(page: ft.Page) -> None:
                 file_picker.upload(uf)
                 return
             for file in files:
-                last_input_format = await page.shared_preferences.get_async("last_input_format")
+                last_input_format = await page.shared_preferences.get("last_input_format")
                 file_path = pathlib.Path(file.path)
                 suffix = file_path.suffix.lower().removeprefix(".")
                 if (
@@ -365,42 +361,38 @@ async def main(page: ft.Page) -> None:
             page.update()
 
     async def select_save_folder() -> None:
-        if path := await file_picker.get_directory_path_async(
+        if path := await file_picker.get_directory_path(
             _("Change Output Directory"),
-            await page.shared_preferences.get_async("save_folder"),
+            await page.shared_preferences.get("save_folder"),
         ):
-            await page.shared_preferences.set_async("save_folder", path)
+            await page.shared_preferences.set("save_folder", path)
             if save_folder_text_field.current is not None:
                 save_folder_text_field.current.value = path
 
-    if not await page.shared_preferences.contains_key_async("auto_detect_input_format"):
-        await page.shared_preferences.set_async("auto_detect_input_format", "true")
+    if not await page.shared_preferences.contains_key("auto_detect_input_format"):
+        await page.shared_preferences.set("auto_detect_input_format", "true")
 
     async def change_auto_detect_input_format(e: ft.ControlEvent) -> None:
-        await page.shared_preferences.set_async(
-            "auto_detect_input_format", json.dumps(e.control.value)
-        )
+        await page.shared_preferences.set("auto_detect_input_format", json.dumps(e.control.value))
 
-    if not await page.shared_preferences.contains_key_async("reset_tasks_on_input_change"):
-        await page.shared_preferences.set_async("reset_tasks_on_input_change", "true")
+    if not await page.shared_preferences.contains_key("reset_tasks_on_input_change"):
+        await page.shared_preferences.set("reset_tasks_on_input_change", "true")
 
     async def change_reset_tasks_on_input_change(e: ft.ControlEvent) -> None:
-        await page.shared_preferences.set_async(
+        await page.shared_preferences.set(
             "reset_tasks_on_input_change", json.dumps(e.control.value)
         )
 
-    if not await page.shared_preferences.contains_key_async("max_track_count"):
-        await page.shared_preferences.set_async("max_track_count", "1")
+    if not await page.shared_preferences.contains_key("max_track_count"):
+        await page.shared_preferences.set("max_track_count", "1")
 
     async def change_max_track_count(e: ft.ControlEvent) -> None:
-        await page.shared_preferences.set_async("max_track_count", str(int(e.control.value)))
+        await page.shared_preferences.set("max_track_count", str(int(e.control.value)))
 
     async def on_upload_progress(e: ft.FilePickerUploadEvent) -> None:
         if e.progress == 1.0:
-            auto_detect_input_format = await page.shared_preferences.get_async(
-                "auto_detect_input_format"
-            )
-            last_input_format = await page.shared_preferences.get_async("last_input_format")
+            auto_detect_input_format = await page.shared_preferences.get("auto_detect_input_format")
+            last_input_format = await page.shared_preferences.get("last_input_format")
             file_path = settings.save_folder / e.file_name
             suffix = file_path.suffix.lower().removeprefix(".")
             if (
@@ -678,17 +670,15 @@ async def main(page: ft.Page) -> None:
 
         async def convert_all(e: ft.ControlEvent) -> None:
             if (
-                (input_format := await page.shared_preferences.get_async("last_input_format"))
+                (input_format := await page.shared_preferences.get("last_input_format")) is None
+                or (output_format := await page.shared_preferences.get("last_output_format"))
                 is None
-                or (output_format := await page.shared_preferences.get_async("last_output_format"))
-                is None
-                or (max_track_count := await page.shared_preferences.get_async("max_track_count"))
-                is None
+                or (max_track_count := await page.shared_preferences.get("max_track_count")) is None
                 or (
                     save_folder_str := (
                         settings.save_folder
                         if page.web
-                        else await page.shared_preferences.get_async("save_folder")
+                        else await page.shared_preferences.get("save_folder")
                     )
                 )
                 is None
@@ -786,6 +776,9 @@ async def main(page: ft.Page) -> None:
                 page.window.minimized = True
                 page.update()
 
+            async def on_close(e: ft.ControlEvent) -> None:
+                await page.window.close()
+
             window_buttons.extend(
                 [
                     ft.IconButton(
@@ -803,7 +796,7 @@ async def main(page: ft.Page) -> None:
                         icon=ft.Icons.CLOSE_OUTLINED,
                         hover_color=ft.Colors.RED_400,
                         tooltip=_("Close"),
-                        on_click=lambda _: page.window.close(),
+                        on_click=on_close,
                     ),
                 ]
             )
@@ -900,9 +893,7 @@ async def main(page: ft.Page) -> None:
                             [
                                 ft.Dropdown(
                                     ref=input_select,
-                                    value=await page.shared_preferences.get_async(
-                                        "last_input_format"
-                                    ),
+                                    value=await page.shared_preferences.get("last_input_format"),
                                     label=_("Import format"),
                                     text_size=14,
                                     options=[
@@ -931,9 +922,7 @@ async def main(page: ft.Page) -> None:
                                 ),
                                 ft.Dropdown(
                                     ref=output_select,
-                                    value=await page.shared_preferences.get_async(
-                                        "last_output_format"
-                                    ),
+                                    value=await page.shared_preferences.get("last_output_format"),
                                     label=_("Export format"),
                                     text_size=14,
                                     options=[
@@ -956,7 +945,7 @@ async def main(page: ft.Page) -> None:
                                 ft.Switch(
                                     label=_("Auto detect import format"),
                                     value=json.loads(
-                                        await page.shared_preferences.get_async(
+                                        await page.shared_preferences.get(
                                             "auto_detect_input_format"
                                         )
                                     ),
@@ -966,7 +955,7 @@ async def main(page: ft.Page) -> None:
                                 ft.Switch(
                                     label=_("Reset list when import format changed"),
                                     value=json.loads(
-                                        await page.shared_preferences.get_async(
+                                        await page.shared_preferences.get(
                                             "reset_tasks_on_input_change"
                                         )
                                     ),
@@ -976,7 +965,7 @@ async def main(page: ft.Page) -> None:
                                 ft.TextField(
                                     ref=save_folder_text_field,
                                     label=_("Output Folder"),
-                                    value=await page.shared_preferences.get_async("save_folder"),
+                                    value=await page.shared_preferences.get("save_folder"),
                                     col=10,
                                 ),
                                 ft.IconButton(
@@ -1014,11 +1003,7 @@ async def main(page: ft.Page) -> None:
                                 ft.Text(_("Max track count"), col=4),
                                 ft.Slider(
                                     value=int(
-                                        float(
-                                            await page.shared_preferences.get_async(
-                                                "max_track_count"
-                                            )
-                                        )
+                                        float(await page.shared_preferences.get("max_track_count"))
                                     ),
                                     min=1,
                                     max=100,
@@ -1054,7 +1039,7 @@ async def main(page: ft.Page) -> None:
                                             ft.Container(height=2),
                                             ft.ResponsiveRow(
                                                 controls=build_input_options(
-                                                    await page.shared_preferences.get_async(
+                                                    await page.shared_preferences.get(
                                                         "last_input_format"
                                                     )
                                                 ),
@@ -1101,7 +1086,7 @@ async def main(page: ft.Page) -> None:
                                             ft.Container(height=2),
                                             ft.ResponsiveRow(
                                                 controls=build_output_options(
-                                                    await page.shared_preferences.get_async(
+                                                    await page.shared_preferences.get(
                                                         "last_output_format"
                                                     )
                                                 ),
