@@ -8,9 +8,9 @@
 		"vscode": {
 			"extensions": [
 				"charliermarsh.ruff",
-				"detachhead.basedpyright",
 				"hbenl.vscode-test-explorer",
 				"littlefoxteam.vscode-python-test-adapter",
+				"meta.pyrefly",
 				"mrorz.language-gettext",
 				"ms-python.mypy-type-checker",
 				"ms-python.python",

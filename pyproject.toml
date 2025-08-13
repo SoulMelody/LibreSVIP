@@ -28,7 +28,7 @@ classifiers = [
 ]
 dependencies = [
   "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.4.2",
+  "charset-normalizer<4.0.0,>=3.4.3",
   "construct",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.4.0",
@@ -87,11 +87,11 @@ ruamel_yaml = [
 ]
 lxml = ["lxml>=6.0.0"]
 tui = [
-  "textual-fspicker>=0.4.3",
+  "textual-fspicker>=0.5.0",
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.22.1",
+  "nicegui>=2.22.2",
   "libresvip[upath]",
 ]
 mobile = [
@@ -116,12 +116,12 @@ code_gen = [
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
-  "basedpyright>=1.31.1",
-  "pre-commit>=4.2.0",
+  "pre-commit>=4.3.0",
   "ruff>=0.12.8",
   "mypy>=1.17.1",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
+  "pyrefly>=0.28.1",
   "types-lxml>=2025.3.30",
   "types-pyyaml>=6.0.12.20250809",
   "types-ujson>=5.10.0.20250326",
@@ -129,7 +129,7 @@ linting = [
   "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
-  "cx-Freeze>=8.3.0",
+  "cx-Freeze>=8.4.0",
   "nuitka>=2.7.12",
   "pyfuze>=2.7.1",
   "pyinstaller>=6.15.0",
@@ -266,50 +266,31 @@ plugins = [
   "pydantic.mypy"
 ]
 
-[tool.pyright]
-pythonVersion = "3.10"
-typeCheckingMode = "strict"
-reportAttributeAccessIssue = "none"
-reportAssignmentType = "none"
-reportCallIssue = "none"
-reportIncompleteStub = "warning"
-reportMissingImports = "warning"
-reportMissingParameterType = "none"
-reportMissingTypeStubs = "warning"
-reportUnknownMemberType = "none"
-reportUnknownParameterType = "none"
-reportUnknownVariableType = "none"
-reportUnusedFunction = "none"
-reportUninitializedInstanceVariable = "none"
-reportMissingModuleSource = "none"
-reportIncompatibleMethodOverride = "none"
-reportIncompatibleVariableOverride = "none"
-reportUnknownArgumentType = "none"
-reportUnusedVariable = "none"
-reportUnusedImport = "none"
-reportUnnecessaryContains = "none"
-reportRedeclaration = "none"
-reportUntypedFunctionDecorator = "none"
-reportUntypedClassDecorator = "none"
-reportFunctionMemberAccess = "none"
-reportUntypedBaseClass = "warning"
-reportAbstractUsage = "warning"
-reportMissingTypeArgument = "warning"
-reportUnknownLambdaType = "warning"
-reportPrivateUsage = "warning"
-reportOptionalOperand = "warning"
-reportInvalidTypeForm = "warning"
-reportUnnecessaryComparison = "warning"
-reportReturnType = "warning"
-reportGeneralTypeIssues = "warning"
-reportOptionalMemberAccess = "warning"
-reportUnnecessaryTypeIgnoreComment = "warning"
-reportUnnecessaryIsInstance = "warning"
-reportOperatorIssue = "warning"
-reportArgumentType = "warning"
-reportIndexIssue = "warning"
-reportMatchNotExhaustive = "warning"
-reportCallInDefaultInitializer = "error"
+[tool.pyrefly]
+python-version = "3.10"
+
+[tool.pyrefly.errors]
+bad-argument-type = "ignore"
+bad-assignment = "ignore"
+bad-override = "warn"
+bad-return = "ignore"
+bad-specialization = "ignore"
+implicitly-defined-attribute = "ignore"
+import-error = "warn"
+index-error = "ignore"
+invalid-annotation = "ignore"
+invalid-inheritance = "ignore"
+invalid-type-var = "ignore"
+missing-argument = "ignore"
+missing-attribute = "ignore"
+not-callable = "ignore"
+not-a-type = "ignore"
+not-iterable = "ignore"
+no-matching-overload = "warn"
+unbound-name = "warn"
+unexpected-keyword = "ignore"
+unknown-name = "warn"
+unsupported-operation = "ignore"
 
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
