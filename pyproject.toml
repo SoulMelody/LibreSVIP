@@ -109,7 +109,7 @@ desktop = [
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.32.0",
+  "datamodel-code-generator>=0.33.0",
   "gapic-generator>=1.26.0",
   "protoc-wheel-0>=30.2",
   "xsdata[cli]>=25.7",
@@ -117,7 +117,7 @@ code_gen = [
 i18n = ["babel>=2.17.0"]
 linting = [
   "pre-commit>=4.3.0",
-  "ruff>=0.12.8",
+  "ruff>=0.12.9",
   "mypy>=1.17.1",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
