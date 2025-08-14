@@ -1,28 +1,22 @@
-# mypy: disable-error-code="misc"
 from enum import Enum
 from typing import Annotated
 
-from pydantic import Field
+from pydantic import Field, create_model
 
 from libresvip.utils.translation import gettext_lazy as _
 
 
 class PocketSingerLyricsLanguage(Enum):
-    CHINESE: Annotated[
+    _value_: Annotated[
         str,
-        Field(
-            title=_("Chinese"),
+        create_model(
+            "PocketSingerLyricsLanguage",
+            __module__="libresvip.plugins.ps_project.enums",
+            CHINESE=(str, Field(title=_("Chinese"))),
+            JAPANESE=(str, Field(title=_("Japanese"))),
+            ENGLISH=(str, Field(title=_("English"))),
         ),
-    ] = "ch"
-    JAPANESE: Annotated[
-        str,
-        Field(
-            title=_("Japanese"),
-        ),
-    ] = "jp"
-    ENGLISH: Annotated[
-        str,
-        Field(
-            title=_("English"),
-        ),
-    ] = "en"
+    ]
+    CHINESE = "ch"
+    JAPANESE = "jp"
+    ENGLISH = "en"

@@ -1,8 +1,7 @@
-# mypy: disable-error-code="misc"
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 from pydantic_extra_types.color import Color
 
 from libresvip.model.option_mixins import SelectSingleTrackMixin
@@ -10,16 +9,37 @@ from libresvip.utils.translation import gettext_lazy as _
 
 
 class TextAlignOption(Enum):
-    START: Annotated[str, Field(title=_("Align to left"))] = "start"
-    MIDDLE: Annotated[str, Field(title=_("Align to middle"))] = "middle"
-    END: Annotated[str, Field(title=_("Align to right"))] = "end"
+    _value_: Annotated[
+        str,
+        create_model(
+            "TextAlignOption",
+            __module__="libresvip.plugins.svg.options",
+            START=(str, Field(title=_("Align to left"))),
+            MIDDLE=(str, Field(title=_("Align to middle"))),
+            END=(str, Field(title=_("Align to right"))),
+        ),
+    ]
+    START = "start"
+    MIDDLE = "middle"
+    END = "end"
 
 
 class TextPositionOption(Enum):
-    UPPER: Annotated[str, Field(title=_("Above the note"))] = "upper"
-    INNER: Annotated[str, Field(title=_("Inside the note"))] = "inner"
-    LOWER: Annotated[str, Field(title=_("Below the note"))] = "lower"
-    NONE: Annotated[str, Field(title=_("Don't show"))] = "none"
+    _value_: Annotated[
+        str,
+        create_model(
+            "TextPositionOption",
+            __module__="libresvip.plugins.svg.options",
+            UPPER=(str, Field(title=_("Above the note"))),
+            INNER=(str, Field(title=_("Inside the note"))),
+            LOWER=(str, Field(title=_("Below the note"))),
+            NONE=(str, Field(title=_("Don't show"))),
+        ),
+    ]
+    UPPER = "upper"
+    INNER = "inner"
+    LOWER = "lower"
+    NONE = "none"
 
 
 class OutputOptions(SelectSingleTrackMixin, BaseModel):

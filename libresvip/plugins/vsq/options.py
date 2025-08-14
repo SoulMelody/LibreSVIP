@@ -1,8 +1,7 @@
-# mypy: disable-error-code="misc"
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.option_mixins import EnablePitchImportationMixin
@@ -11,8 +10,17 @@ from libresvip.utils.translation import gettext_lazy as _
 
 
 class BreathOption(Enum):
-    IGNORE: Annotated[str, Field(title=_("Ignore all breath notes"))] = "ignore"
-    KEEP: Annotated[str, Field(title=_("Keep as normal notes"))] = "keep"
+    _value_: Annotated[
+        str,
+        create_model(
+            "BreathOption",
+            __module__="libresvip.plugins.vsq.options",
+            IGNORE=(str, Field(title=_("Ignore all breath notes"))),
+            KEEP=(str, Field(title=_("Keep as normal notes"))),
+        ),
+    ]
+    IGNORE = "ignore"
+    KEEP = "keep"
 
 
 class InputOptions(EnablePitchImportationMixin, BaseModel):

@@ -1,8 +1,7 @@
-# mypy: disable-error-code="misc"
 from enum import Enum, IntEnum
 from typing import Annotated, NamedTuple
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 
 from libresvip.model.option_mixins import (
     EnableBreathImportationMixin,
@@ -31,104 +30,167 @@ synthv_language_presets = {
 
 
 class SVProjectVersionCompatibility(IntEnum):
-    BELOW_1_9_0: Annotated[
+    _value_: Annotated[
         int,
-        Field(title=_("Compatible with Synthesizer V Studio 1.9.0 and below")),
-    ] = 100
-    BETWEEN_1_10_0_AND_1_11_2: Annotated[
-        int,
-        Field(title=_("Compatible with Synthesizer V Studio 1.10.0 to 1.11.2")),
-    ] = 135
-    ABOVE_2_0_0: Annotated[
-        int,
-        Field(title=_("Compatible with Synthesizer V Studio 2.0 and up")),
-    ] = 182
+        create_model(
+            "SVProjectVersionCompatibility",
+            __module__="libresvip.plugins.svp.options",
+            BELOW_1_9_0=(
+                int,
+                Field(title=_("Compatible with Synthesizer V Studio 1.9.0 and below")),
+            ),
+            BETWEEN_1_10_0_AND_1_11_2=(
+                int,
+                Field(title=_("Compatible with Synthesizer V Studio 1.10.0 to 1.11.2")),
+            ),
+            ABOVE_2_0_0=(int, Field(title=_("Compatible with Synthesizer V Studio 2.0 and up"))),
+        ),
+    ]
+    BELOW_1_9_0 = 100
+    BETWEEN_1_10_0_AND_1_11_2 = 135
+    ABOVE_2_0_0 = 182
 
 
 class LanguageOption(Enum):
-    MANDARIN: Annotated[str, Field(title=_("Mandarin"))] = "mandarin"
-    CANTONESE: Annotated[str, Field(title=_("Cantonese"))] = "cantonese"
-    JAPANESE: Annotated[str, Field(title=_("Japanese"))] = "japanese"
-    ENGLISH: Annotated[str, Field(title=_("English"))] = "english"
-    SPANISH: Annotated[str, Field(title=_("Spanish"))] = "spanish"
-    KOREAN: Annotated[str, Field(title=_("Korean"))] = "korean"
+    _value_: Annotated[
+        str,
+        create_model(
+            "LanguageOption",
+            __module__="libresvip.plugins.svp.options",
+            MANDARIN=(str, Field(title=_("Mandarin"))),
+            CANTONESE=(str, Field(title=_("Cantonese"))),
+            JAPANESE=(str, Field(title=_("Japanese"))),
+            ENGLISH=(str, Field(title=_("English"))),
+            SPANISH=(str, Field(title=_("Spanish"))),
+            KOREAN=(str, Field(title=_("Korean"))),
+        ),
+    ]
+    MANDARIN = "mandarin"
+    CANTONESE = "cantonese"
+    JAPANESE = "japanese"
+    ENGLISH = "english"
+    SPANISH = "spanish"
+    KOREAN = "korean"
 
 
 class BreathOption(Enum):
-    IGNORE: Annotated[str, Field(title=_("Ignore all breath notes"))] = "ignore"
-    KEEP: Annotated[str, Field(title=_("Keep as normal notes"))] = "keep"
-    CONVERT: Annotated[str, Field(title=_("Convert to breath mark"))] = "convert"
+    _value_: Annotated[
+        str,
+        create_model(
+            "BreathOption",
+            __module__="libresvip.plugins.svp.options",
+            IGNORE=(str, Field(title=_("Ignore all breath notes"))),
+            KEEP=(str, Field(title=_("Keep as normal notes"))),
+            CONVERT=(str, Field(title=_("Convert to breath mark"))),
+        ),
+    ]
+    IGNORE = "ignore"
+    KEEP = "keep"
+    CONVERT = "convert"
 
 
 class GroupOption(Enum):
-    SPLIT: Annotated[
+    _value_: Annotated[
         str,
-        Field(
-            title=_("Split all to tracks"),
-            description=_("Generate a track for each note group reference"),
+        create_model(
+            "GroupOption",
+            __module__="libresvip.plugins.svp.options",
+            SPLIT=(
+                str,
+                Field(
+                    title=_("Split all to tracks"),
+                    description=_("Generate a track for each note group reference"),
+                ),
+            ),
+            MERGE=(
+                str,
+                Field(
+                    title=_("Keep original position"),
+                    description=_("Split note groups to separate tracks only when notes overlap"),
+                ),
+            ),
         ),
-    ] = "split"
-    MERGE: Annotated[
-        str,
-        Field(
-            title=_("Keep original position"),
-            description=_("Split note groups to separate tracks only when notes overlap"),
-        ),
-    ] = "merge"
+    ]
+    SPLIT = "split"
+    MERGE = "merge"
 
 
 class PitchOption(Enum):
-    FULL: Annotated[
+    _value_: Annotated[
         str,
-        Field(
-            title=_("Full pitch curve"),
-            description=_("Input the full pitch curve regardless of editing"),
-        ),
-    ] = "full"
-    VIBRATO: Annotated[
-        str,
-        Field(
-            title=_("Edited part only (vibrato mode)"),
-            description=_(
-                "Input the edited part of pitch curve; default vibrato will be imported if not edited"
+        create_model(
+            "PitchOption",
+            __module__="libresvip.plugins.svp.options",
+            FULL=(
+                str,
+                Field(
+                    title=_("Full pitch curve"),
+                    description=_("Input the full pitch curve regardless of editing"),
+                ),
+            ),
+            VIBRATO=(
+                str,
+                Field(
+                    title=_("Edited part only (vibrato mode)"),
+                    description=_(
+                        "Input the edited part of pitch curve; default vibrato will be imported if not edited"
+                    ),
+                ),
+            ),
+            PLAIN=(
+                str,
+                Field(
+                    title=_("Edited part only (plain mode)"),
+                    description=_(
+                        "Input the edited part of pitch curve; default vibrato will be ignored"
+                    ),
+                ),
             ),
         ),
-    ] = "vibrato"
-    PLAIN: Annotated[
-        str,
-        Field(
-            title=_("Edited part only (plain mode)"),
-            description=_("Input the edited part of pitch curve; default vibrato will be ignored"),
-        ),
-    ] = "plain"
+    ]
+    FULL = "full"
+    VIBRATO = "vibrato"
+    PLAIN = "plain"
 
 
 class VibratoOption(Enum):
-    NONE: Annotated[
+    _value_: Annotated[
         str,
-        Field(
-            title=_("All removed"),
-            description=_(
-                "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
+        create_model(
+            "VibratoOption",
+            __module__="libresvip.plugins.svp.options",
+            NONE=(
+                str,
+                Field(
+                    title=_("All removed"),
+                    description=_(
+                        "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
+                    ),
+                ),
+            ),
+            ALWAYS=(
+                str,
+                Field(
+                    title=_("All kept"),
+                    description=_(
+                        "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
+                    ),
+                ),
+            ),
+            HYBRID=(
+                str,
+                Field(
+                    title=_("Hybrid mode"),
+                    description=_(
+                        "Remove vibrato in edited part, keep default vibrato in other parts"
+                    ),
+                ),
             ),
         ),
-    ] = "none"
-    ALWAYS: Annotated[
-        str,
-        Field(
-            title=_("All kept"),
-            description=_(
-                "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
-            ),
-        ),
-    ] = "always"
-    HYBRID: Annotated[
-        str,
-        Field(
-            title=_("Hybrid mode"),
-            description=_("Remove vibrato in edited part, keep default vibrato in other parts"),
-        ),
-    ] = "hybrid"
+    ]
+    NONE = "none"
+    ALWAYS = "always"
+    HYBRID = "hybrid"
 
 
 class InputOptions(

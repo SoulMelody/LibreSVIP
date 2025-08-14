@@ -666,15 +666,20 @@ class TaskManager(QObject):
             elif issubclass(field_info.annotation, enum.Enum):
                 if default_value is not None:
                     default_value = default_value.value
-                annotations = get_type_hints(field_info.annotation, include_extras=True)
+                type_hints = get_type_hints(field_info.annotation, include_extras=True)
+                annotations = None
+                if "_value_" in type_hints:
+                    value_args = get_args(type_hints["_value_"])
+                    if len(value_args) >= 2:
+                        model = value_args[1]
+                        if hasattr(model, "model_fields"):
+                            annotations = model.model_fields
+                if annotations is None:
+                    continue
                 choices = []
                 for enum_item in field_info.annotation:
                     if enum_item.name in annotations:
-                        annotated_args = list(get_args(annotations[enum_item.name]))
-                        if len(annotated_args) >= 2:
-                            _, enum_field = annotated_args[:2]
-                        else:
-                            continue
+                        enum_field = annotations[enum_item.name]
                         choices.append(
                             {
                                 "value": enum_item.value,

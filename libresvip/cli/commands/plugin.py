@@ -119,14 +119,21 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
                 if field_info.default is not None:
                     typer.echo(f"\t{{}}{field_info.default}".format(_("Default: ")))
                 if issubclass(field_info.annotation, enum.Enum):
+                    type_hints = get_type_hints(field_info.annotation, include_extras=True)
+                    annotations = None
+                    if "_value_" in type_hints:
+                        value_args = get_args(type_hints["_value_"])
+                        if len(value_args) >= 2:
+                            model = value_args[1]
+                            if hasattr(model, "model_fields"):
+                                annotations = model.model_fields
+                    if annotations is None:
+                        continue
                     typer.echo("  " + _("Available values:"))
-                    annotations = get_type_hints(field_info.annotation, include_extras=True)
                     for enum_item in field_info.annotation:
                         if enum_item.name in annotations:
-                            annotated_args = get_args(annotations[enum_item.name])
-                            if len(annotated_args) == 2:
-                                enum_type, enum_field = annotated_args
-                                typer.echo(f"\t{enum_item.value}\t=>\t{_(enum_field.title)}")
+                            enum_field = annotations[enum_item.name]
+                            typer.echo(f"\t{enum_item.value}\t=>\t{_(enum_field.title)}")
             elif issubclass(field_info.annotation, BaseComplexModel):
                 typer.echo(
                     f"\n  {_(field_info.title)} = {field_info.annotation.__name__}    {_(field_info.description)}"

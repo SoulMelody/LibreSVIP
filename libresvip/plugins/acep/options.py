@@ -1,11 +1,17 @@
-# mypy: disable-error-code="misc"
 from __future__ import annotations
 
 from enum import Enum
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Annotated, Literal
 
-from pydantic import Field, SerializationInfo, ValidationInfo, field_serializer, field_validator
+from pydantic import (
+    Field,
+    SerializationInfo,
+    ValidationInfo,
+    create_model,
+    field_serializer,
+    field_validator,
+)
 
 from libresvip.model.base import BaseModel
 from libresvip.model.option_mixins import (
@@ -24,33 +30,43 @@ if TYPE_CHECKING:
 
 
 class StrengthMappingOption(Enum):
-    BOTH: Annotated[
+    _value_: Annotated[
         str,
-        Field(
-            title=_("Both strength and tension"),
-            description=_(
-                "Map both strength and tension parameters to strength and tension parameters, each with a weight of 50%."
+        create_model(
+            "StrengthMappingOption",
+            __module__="libresvip.plugins.acep.options",
+            BOTH=(
+                str,
+                Field(
+                    title=_("Both strength and tension"),
+                    description=_(
+                        "Map both strength and tension parameters to strength and tension parameters, each with a weight of 50%."
+                    ),
+                ),
+            ),
+            ENERGY=(
+                str,
+                Field(
+                    title=_("Only strength"),
+                    description=_(
+                        "Map only strength parameters to strength parameters. Tension parameters will remain unparameterized."
+                    ),
+                ),
+            ),
+            TENSION=(
+                str,
+                Field(
+                    title=_("Only tension"),
+                    description=_(
+                        "Map only tension parameters to tension parameters. Strength parameters will remain unparameterized."
+                    ),
+                ),
             ),
         ),
-    ] = "both"
-    ENERGY: Annotated[
-        str,
-        Field(
-            title=_("Only strength"),
-            description=_(
-                "Map only strength parameters to strength parameters. Tension parameters will remain unparameterized."
-            ),
-        ),
-    ] = "energy"
-    TENSION: Annotated[
-        str,
-        Field(
-            title=_("Only tension"),
-            description=_(
-                "Map only tension parameters to tension parameters. Strength parameters will remain unparameterized."
-            ),
-        ),
-    ] = "tension"
+    ]
+    BOTH = "both"
+    ENERGY = "energy"
+    TENSION = "tension"
 
 
 NormalizationMethod = SimpleNamespace(
