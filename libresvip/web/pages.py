@@ -2066,7 +2066,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         selected_formats,
                         "conversion_mode",
                     )
-                selected_formats.tasks_container()
+                selected_formats.tasks_container()  # pyrefly: ignore[missing-argument]
                 tasks_card.bind_visibility_from(
                     selected_formats,
                     "task_count",

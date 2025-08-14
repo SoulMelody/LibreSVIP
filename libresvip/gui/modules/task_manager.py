@@ -60,9 +60,8 @@ class ConversionWorker(QRunnable):
         input_options: dict[str, Any],
         output_options: dict[str, Any],
         middleware_options: dict[str, dict[str, Any]],
-        parent: QObject | None = None,
     ) -> None:
-        super().__init__(parent=parent)
+        super().__init__()
         self.index = index
         self.input_path = input_path
         self.output_path = output_path
@@ -157,9 +156,8 @@ class SplitWorker(QRunnable):
         input_options: dict[str, Any],
         output_options: dict[str, Any],
         middleware_options: dict[str, dict[str, Any]],
-        parent: QObject | None = None,
     ) -> None:
-        super().__init__(parent=parent)
+        super().__init__()
         self.index = index
         self.input_path = input_path
         self.output_dir = output_dir
@@ -257,9 +255,8 @@ class MergeWorker(QRunnable):
         input_options: dict[str, Any],
         output_options: dict[str, Any],
         middleware_options: dict[str, dict[str, Any]],
-        parent: QObject | None = None,
     ) -> None:
-        super().__init__(parent=parent)
+        super().__init__()
         self.index = index
         self.input_paths = input_paths
         self.output_path = output_path
