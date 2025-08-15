@@ -20,7 +20,7 @@ packaging==25.0
 platformdirs==4.3.8
 portion==2.6.1
 proto-plus==1.26.1
-protobuf==6.31.1
+protobuf==6.32.0
 pydantic==2.7.0
 pydantic-core==2.18.1
 pydantic-extra-types==2.10.5
