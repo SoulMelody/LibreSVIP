@@ -1,6 +1,6 @@
 annotated-types==0.7.0
 anyio==4.10.0 ; platform_system != 'Pyodide'
-backports-zstd==0.4.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
+backports-zstd==0.5.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
 bidict==0.23.1
 certifi==2025.8.3 ; platform_system != 'Pyodide'
 cffi==1.17.1 ; sys_platform != 'win32'
