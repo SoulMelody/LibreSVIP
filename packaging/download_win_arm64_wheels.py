@@ -26,7 +26,6 @@ def download_win_arm64_wheels() -> None:
         "protobuf": None,
         "pyyaml_ft": "pyyaml-ft",
         "ruamel_yaml_clib": "ruamel-yaml-clib",
-        "ujson": None,
     }
 
     def collect_wheels(bundle_url: str) -> None:
