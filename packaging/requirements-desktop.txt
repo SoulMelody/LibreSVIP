@@ -78,7 +78,7 @@ tatsu-lts==5.13.1
 typer-slim==0.16.1
 typing-extensions==4.14.1
 typing-inspection==0.4.1
-ujson==5.10.0
+ujson==5.11.0
 universal-pathlib==0.2.6
 wanakana-python @ https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
