@@ -1,6 +1,7 @@
 import contextlib
 import pathlib
 import platform
+from typing import NewType
 
 from pydantic import ValidationInfo
 
@@ -49,6 +50,7 @@ if platform.system() != "Emscripten":
                 show_warning(_("Audio file not found: ") + f"{file_path}")
         return None
 else:
+    MediaInfoTrack = NewType("MediaInfoTrack", object)  # type: ignore[no-redef, misc]
 
     def audio_track_info(
         file_path: str | pathlib.Path, only_wav: bool = False
