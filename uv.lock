@@ -1744,9 +1744,9 @@ all = [
     { name = "sourcery", specifier = ">=1.37.0" },
     { name = "textual-dev", specifier = ">=1.7.0" },
     { name = "types-lxml", specifier = ">=2025.3.30" },
-    { name = "types-pyinstaller", specifier = ">=6.15.0.20250809" },
-    { name = "types-pyyaml", specifier = ">=6.0.12.20250809" },
-    { name = "types-ujson", specifier = ">=5.10.0.20250326" },
+    { name = "types-pyinstaller", specifier = ">=6.15.0.20250822" },
+    { name = "types-pyyaml", specifier = ">=6.0.12.20250822" },
+    { name = "types-ujson", specifier = ">=5.10.0.20250822" },
     { name = "xsdata", extras = ["cli"], specifier = ">=25.7" },
 ]
 code-gen = [
@@ -1766,9 +1766,9 @@ linting = [
     { name = "sortedcontainers-stubs", specifier = ">=2.4.3" },
     { name = "sourcery", specifier = ">=1.37.0" },
     { name = "types-lxml", specifier = ">=2025.3.30" },
-    { name = "types-pyinstaller", specifier = ">=6.15.0.20250809" },
-    { name = "types-pyyaml", specifier = ">=6.0.12.20250809" },
-    { name = "types-ujson", specifier = ">=5.10.0.20250326" },
+    { name = "types-pyinstaller", specifier = ">=6.15.0.20250822" },
+    { name = "types-pyyaml", specifier = ">=6.0.12.20250822" },
+    { name = "types-ujson", specifier = ">=5.10.0.20250822" },
 ]
 packaging = [
     { name = "cx-freeze", specifier = ">=8.4.0" },
@@ -3804,11 +3804,11 @@ wheels = [
 
 [[package]]
 name = "types-pyinstaller"
-version = "6.15.0.20250809"
+version = "6.15.0.20250822"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/d6/81/3fab7db4e0f6b0a04afe826beda27963e4655f3574e553dcf60dbb4e2453/types_pyinstaller-6.15.0.20250809.tar.gz", hash = "sha256:757b87cac0c6eb32ed2cdf3ea12b67bf08d458843d4b67434ad7789d482ff77f", size = 19414, upload-time = "2025-08-09T03:15:18.884Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/62/ca/1f9e11608a252634ec1c259ce30bb3d8a4e7c6f87783171dfabec8ceb5a7/types_pyinstaller-6.15.0.20250822.tar.gz", hash = "sha256:f566a179c0db6b048298d6a2589ee3412be272aa10cd724fd44b5cdebd1b4e46", size = 19533, upload-time = "2025-08-22T03:02:37.645Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6a/33/c89bb91ba4bf7a37a282a0c981c83d088d2605fa64e89557c8621e604dfb/types_pyinstaller-6.15.0.20250809-py3-none-any.whl", hash = "sha256:6c2051e66ba1f88dae523a2e0bbf5fdfb6bebbc557d73450057214c338ecd114", size = 21991, upload-time = "2025-08-09T03:15:17.654Z" },
+    { url = "https://files.pythonhosted.org/packages/78/92/1d37ba9d941b4c3424bfec0cd52d064fee331f5fd29ad5802c2c684dda93/types_pyinstaller-6.15.0.20250822-py3-none-any.whl", hash = "sha256:74cd149dbfe59c524331523f2dda77dad4e4ce8bc97cb6bdbad8781c90adc9a4", size = 22085, upload-time = "2025-08-22T03:02:36.723Z" },
 ]
 
 [[package]]
@@ -3822,20 +3822,20 @@ wheels = [
 
 [[package]]
 name = "types-pyyaml"
-version = "6.0.12.20250809"
+version = "6.0.12.20250822"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/36/21/52ffdbddea3c826bc2758d811ccd7f766912de009c5cf096bd5ebba44680/types_pyyaml-6.0.12.20250809.tar.gz", hash = "sha256:af4a1aca028f18e75297da2ee0da465f799627370d74073e96fee876524f61b5", size = 17385, upload-time = "2025-08-09T03:14:34.867Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/49/85/90a442e538359ab5c9e30de415006fb22567aa4301c908c09f19e42975c2/types_pyyaml-6.0.12.20250822.tar.gz", hash = "sha256:259f1d93079d335730a9db7cff2bcaf65d7e04b4a56b5927d49a612199b59413", size = 17481, upload-time = "2025-08-22T03:02:16.209Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/35/3e/0346d09d6e338401ebf406f12eaf9d0b54b315b86f1ec29e34f1a0aedae9/types_pyyaml-6.0.12.20250809-py3-none-any.whl", hash = "sha256:032b6003b798e7de1a1ddfeefee32fac6486bdfe4845e0ae0e7fb3ee4512b52f", size = 20277, upload-time = "2025-08-09T03:14:34.055Z" },
+    { url = "https://files.pythonhosted.org/packages/32/8e/8f0aca667c97c0d76024b37cffa39e76e2ce39ca54a38f285a64e6ae33ba/types_pyyaml-6.0.12.20250822-py3-none-any.whl", hash = "sha256:1fe1a5e146aa315483592d292b72a172b65b946a6d98aa6ddd8e4aa838ab7098", size = 20314, upload-time = "2025-08-22T03:02:15.002Z" },
 ]
 
 [[package]]
 name = "types-ujson"
-version = "5.10.0.20250326"
+version = "5.10.0.20250822"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/cc/5c/c974451c4babdb4ae3588925487edde492d59a8403010b4642a554d09954/types_ujson-5.10.0.20250326.tar.gz", hash = "sha256:5469e05f2c31ecb3c4c0267cc8fe41bcd116826fbb4ded69801a645c687dd014", size = 8340, upload-time = "2025-03-26T02:53:39.197Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5c/bd/d372d44534f84864a96c19a7059d9b4d29db8541828b8b9dc3040f7a46d0/types_ujson-5.10.0.20250822.tar.gz", hash = "sha256:0a795558e1f78532373cf3f03f35b1f08bc60d52d924187b97995ee3597ba006", size = 8437, upload-time = "2025-08-22T03:02:19.433Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3e/c9/8a73a5f8fa6e70fc02eed506d5ac0ae9ceafbd2b8c9ad34a7de0f29900d6/types_ujson-5.10.0.20250326-py3-none-any.whl", hash = "sha256:acc0913f569def62ef6a892c8a47703f65d05669a3252391a97765cf207dca5b", size = 7644, upload-time = "2025-03-26T02:53:38.2Z" },
+    { url = "https://files.pythonhosted.org/packages/d7/f2/d812543c350674d8b3f6e17c8922248ee3bb752c2a76f64beb8c538b40cf/types_ujson-5.10.0.20250822-py3-none-any.whl", hash = "sha256:3e9e73a6dc62ccc03449d9ac2c580cd1b7a8e4873220db498f7dd056754be080", size = 7657, upload-time = "2025-08-22T03:02:18.699Z" },
 ]
 
 [[package]]
