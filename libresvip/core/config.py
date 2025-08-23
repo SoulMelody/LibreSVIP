@@ -71,7 +71,7 @@ def pydantic_enum(enum_cls: type[E]) -> type[E]:
         return core_schema.no_info_wrap_validator_function(
             get_enum,
             name_schema,
-            ref=cls.__name__,
+            ref=getattr(cls, "__name__"),
             serialization=core_schema.plain_serializer_function_ser_schema(serialize),
         )
 
