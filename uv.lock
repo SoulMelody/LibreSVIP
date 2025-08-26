@@ -1729,7 +1729,7 @@ all = [
     { name = "gapic-generator", specifier = ">=1.26.0" },
     { name = "mkdocs-material", specifier = ">=9.6.18,<10.0.0" },
     { name = "mypy", specifier = ">=1.17.1" },
-    { name = "nuitka", specifier = ">=2.7.12" },
+    { name = "nuitka", specifier = ">=2.7.13" },
     { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "protoc-wheel-0", specifier = ">=30.2" },
@@ -1743,7 +1743,7 @@ all = [
     { name = "sortedcontainers-stubs", specifier = ">=2.4.3" },
     { name = "sourcery", specifier = ">=1.37.0" },
     { name = "textual-dev", specifier = ">=1.7.0" },
-    { name = "types-lxml", specifier = ">=2025.3.30" },
+    { name = "types-lxml", specifier = ">=2025.8.25" },
     { name = "types-pyinstaller", specifier = ">=6.15.0.20250822" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20250822" },
     { name = "types-ujson", specifier = ">=5.10.0.20250822" },
@@ -1765,14 +1765,14 @@ linting = [
     { name = "ruff", specifier = ">=0.12.10" },
     { name = "sortedcontainers-stubs", specifier = ">=2.4.3" },
     { name = "sourcery", specifier = ">=1.37.0" },
-    { name = "types-lxml", specifier = ">=2025.3.30" },
+    { name = "types-lxml", specifier = ">=2025.8.25" },
     { name = "types-pyinstaller", specifier = ">=6.15.0.20250822" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20250822" },
     { name = "types-ujson", specifier = ">=5.10.0.20250822" },
 ]
 packaging = [
     { name = "cx-freeze", specifier = ">=8.4.0" },
-    { name = "nuitka", specifier = ">=2.7.12" },
+    { name = "nuitka", specifier = ">=2.7.13" },
     { name = "pyfuze", specifier = ">=2.7.1" },
     { name = "pyinstaller", specifier = ">=6.15.0" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
@@ -2395,13 +2395,13 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "2.7.12"
+version = "2.7.13"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ordered-set" },
     { name = "zstandard" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9b/9c/f51b7c7dae304f2381b5af20a5ac6ccb56f0a773d16470b269146f5909db/Nuitka-2.7.12.tar.gz", hash = "sha256:ee28e5699005904e83250ad1b3192cf2c5b46bebbf4ae12f6fc5efa4a0368c16", size = 3887702, upload-time = "2025-07-08T16:04:10.371Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c0/73/8735d3464a0bf5cc074772514205e741dfa8d3f1f5fd765a3686ce7c8caa/Nuitka-2.7.13.tar.gz", hash = "sha256:941c6ee2321fea1d297b29669228939200640110be2a8b0bdedfcf6c3bc816b9", size = 3888165, upload-time = "2025-08-26T12:51:52.245Z" }
 
 [[package]]
 name = "oauthlib"
@@ -3790,7 +3790,7 @@ wheels = [
 
 [[package]]
 name = "types-lxml"
-version = "2025.3.30"
+version = "2025.8.25"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4" },
@@ -3798,9 +3798,9 @@ dependencies = [
     { name = "types-html5lib" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/84/01/9e45ccd26ca36982ef505174a6e5f661abb68565fa27c77d2e56a3f0e9f5/types_lxml-2025.3.30.tar.gz", hash = "sha256:ea4da0d2b61a73e114e14e2dcca1f62671182d80016a483369c553a24ba8f163", size = 152963, upload-time = "2025-03-29T22:29:04.497Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e0/3e/a545ece610c1bd9699addd887edfe9477a8f647c4336ba75cfb0561d197c/types_lxml-2025.8.25.tar.gz", hash = "sha256:79b9f5b1f236f937f14fe3add9dc687bd8d4111ca5df58eb9f1bde1a3b032fd5", size = 156126, upload-time = "2025-08-26T06:28:56.793Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0d/a4/97b5427717f6499bdc093228b695e7ff8a2972c9e47e2492c30a21cc85e0/types_lxml-2025.3.30-py3-none-any.whl", hash = "sha256:310b0ddf9e2104c8684362445808adf8a2cf41cf102d4ea0d16ced413cc46f66", size = 93216, upload-time = "2025-03-29T22:29:02.091Z" },
+    { url = "https://files.pythonhosted.org/packages/b5/29/c45f567b4142288b8184f073af8f659abd134c21de055f971c65f2d755bd/types_lxml-2025.8.25-py3-none-any.whl", hash = "sha256:d61340e5329e102d3f8d64124e90d50c12c0bfeaa9088d65558279ef4e7138ac", size = 95318, upload-time = "2025-08-26T06:28:54.066Z" },
 ]
 
 [[package]]
