@@ -2,6 +2,9 @@ import dataclasses
 import math
 import pathlib
 from collections.abc import Callable
+from typing import Any
+
+from construct_typed.generic_wrapper import ParsedType
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.time_sync import TimeSynchronizer
@@ -39,7 +42,7 @@ class VocalShifterParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     tick_rate: float = dataclasses.field(init=False)
 
-    def parse_project(self, vshp_proj: VocalShifterProjectData) -> Project:
+    def parse_project(self, vshp_proj: ParsedType[VocalShifterProjectData, Any]) -> Project:
         project = Project(
             song_tempo_list=self.parse_tempo(vshp_proj.project_metadata),
             time_signature_list=self.parse_time_signature(vshp_proj.project_metadata),
@@ -47,7 +50,9 @@ class VocalShifterParser:
         project.track_list = self.parse_track_list(vshp_proj)
         return project
 
-    def parse_tempo(self, vshp_metadata: VocalShifterProjectMetadata) -> list[SongTempo]:
+    def parse_tempo(
+        self, vshp_metadata: ParsedType[VocalShifterProjectMetadata, Any]
+    ) -> list[SongTempo]:
         tempo_list = [
             SongTempo(
                 position=0,
@@ -59,7 +64,7 @@ class VocalShifterParser:
         return tempo_list
 
     def parse_time_signature(
-        self, vshp_metadata: VocalShifterProjectMetadata
+        self, vshp_metadata: ParsedType[VocalShifterProjectMetadata, Any]
     ) -> list[TimeSignature]:
         return [
             TimeSignature(
@@ -69,7 +74,7 @@ class VocalShifterParser:
             )
         ]
 
-    def parse_track_list(self, vshp_proj: VocalShifterProjectData) -> list[Track]:
+    def parse_track_list(self, vshp_proj: ParsedType[VocalShifterProjectData, Any]) -> list[Track]:
         track_list = []
         for pattern_metadata, pattern_data in zip(
             vshp_proj.pattern_metadatas, vshp_proj.pattern_datas
@@ -94,9 +99,9 @@ class VocalShifterParser:
 
     def parse_instrumental_track(
         self,
-        pattern_metadata: VocalShifterPatternMetadata,
-        pattern_data: VocalShifterPatternData,
-        track_metadata: VocalShifterTrackMetadata,
+        pattern_metadata: ParsedType[VocalShifterPatternMetadata, Any],
+        pattern_data: ParsedType[VocalShifterPatternData, Any],
+        track_metadata: ParsedType[VocalShifterTrackMetadata, Any],
     ) -> InstrumentalTrack:
         sample_rate = pattern_data.header.sample_rate
         sample_offset = pattern_metadata.offset_samples + pattern_metadata.offset_correction
@@ -113,9 +118,9 @@ class VocalShifterParser:
 
     def parse_singing_track(
         self,
-        pattern_metadata: VocalShifterPatternMetadata,
-        pattern_data: VocalShifterPatternData,
-        track_metadata: VocalShifterTrackMetadata,
+        pattern_metadata: ParsedType[VocalShifterPatternMetadata, Any],
+        pattern_data: ParsedType[VocalShifterPatternData, Any],
+        track_metadata: ParsedType[VocalShifterTrackMetadata, Any],
     ) -> SingingTrack:
         file_path = pathlib.Path(ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0]))
         track = SingingTrack(
@@ -139,8 +144,8 @@ class VocalShifterParser:
     def parse_note_list(
         self,
         offset: int,
-        notes: list[VocalShifterNote],
-        labels: list[VocalShifterLabel],
+        notes: list[ParsedType[VocalShifterNote, Any]],
+        labels: list[ParsedType[VocalShifterLabel, Any]],
     ) -> list[Note]:
         note_list = []
         if labels:
@@ -182,7 +187,7 @@ class VocalShifterParser:
     def parse_params(
         self,
         offset: float,
-        pattern_data: VocalShifterPatternData,
+        pattern_data: ParsedType[VocalShifterPatternData, Any],
     ) -> Params:
         params = Params(
             pitch=self.parse_pitch_curve(offset, pattern_data),
@@ -213,7 +218,7 @@ class VocalShifterParser:
     def parse_pitch_curve(
         self,
         offset: float,
-        pattern_data: VocalShifterPatternData,
+        pattern_data: ParsedType[VocalShifterPatternData, Any],
     ) -> ParamCurve:
         pitch_curve = ParamCurve()
         pitch_curve.points.append(Point.start_point())
@@ -251,7 +256,7 @@ class VocalShifterParser:
     def parse_param_curve(
         self,
         offset: float,
-        pattern_data: VocalShifterPatternData,
+        pattern_data: ParsedType[VocalShifterPatternData, Any],
         attr_name: str,
         mapping_func: Callable[[int], float],
     ) -> ParamCurve:

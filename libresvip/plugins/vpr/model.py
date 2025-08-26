@@ -1,9 +1,8 @@
-# mypy: disable-error-code="misc"
 import enum
 from dataclasses import dataclass
 from typing import Annotated, Literal
 
-from pydantic import ConfigDict, Field, ValidationInfo, model_validator
+from pydantic import ConfigDict, Field, ValidationInfo, create_model, model_validator
 from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
@@ -11,11 +10,23 @@ from libresvip.utils.translation import gettext_lazy as _
 
 
 class VocaloidLanguage(enum.IntEnum):
-    JAPANESE: Annotated[int, Field(title=_("日本語"))] = 0
-    ENGLISH: Annotated[int, Field(title=_("English"))] = 1
-    KOREAN: Annotated[int, Field(title=_("한국어"))] = 2
-    SPANISH: Annotated[int, Field(title=_("Español"))] = 3
-    SIMPLIFIED_CHINESE: Annotated[int, Field(title=_("简体中文"))] = 4
+    _value_: Annotated[
+        int,
+        create_model(
+            "VocaloidLanguage",
+            __module__="libresvip.plugins.vpr.model",
+            JAPANESE=(int, Field(title=_("日本語"))),
+            ENGLISH=(int, Field(title=_("English"))),
+            KOREAN=(int, Field(title=_("한국어"))),
+            SPANISH=(int, Field(title=_("Español"))),
+            SIMPLIFIED_CHINESE=(int, Field(title=_("简体中文"))),
+        ),
+    ]
+    JAPANESE = 0
+    ENGLISH = 1
+    KOREAN = 2
+    SPANISH = 3
+    SIMPLIFIED_CHINESE = 4
 
 
 class VocaloidTrackType(enum.IntEnum):

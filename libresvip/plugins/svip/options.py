@@ -1,8 +1,7 @@
-# mypy: disable-error-code="misc"
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 
 from libresvip.model.option_mixins import (
     EnableBreathImportationMixin,
@@ -16,38 +15,51 @@ from libresvip.utils.translation import gettext_lazy as _
 
 
 class BinarySvipVersion(Enum):
-    AUTO: Annotated[
+    _value_: Annotated[
         str,
-        Field(
-            title=_("Auto detect"),
-            description=_(
-                "Use the version of the project file corresponding to the X Studio installed on your current system."
+        create_model(
+            "BinarySvipVersion",
+            __module__="libresvip.plugins.svip.options",
+            AUTO=(
+                str,
+                Field(
+                    title=_("Auto detect"),
+                    description=_(
+                        "Use the version of the project file corresponding to the X Studio installed on your current system."
+                    ),
+                ),
             ),
-        ),
-    ] = "auto"
-    SVIP7_0_0: Annotated[
-        str,
-        Field(
-            title="SVIP 7.0.0",
-            description=_("Use the project file version of X Studio 2.0."),
-        ),
-    ] = "7.0.0"
-    SVIP6_0_0: Annotated[
-        str,
-        Field(
-            title="SVIP 6.0.0",
-            description=_("Use the project file version which is compatible with X Studio 1.8."),
-        ),
-    ] = "6.0.0"
-    COMPAT: Annotated[
-        str,
-        Field(
-            title=_("Max compatibility (read only)"),
-            description=_("""Export project files that can be opened using any version of X Studio.
+            SVIP7_0_0=(
+                str,
+                Field(
+                    title="SVIP 7.0.0",
+                    description=_("Use the project file version of X Studio 2.0."),
+                ),
+            ),
+            SVIP6_0_0=(
+                str,
+                Field(
+                    title="SVIP 6.0.0",
+                    description=_(
+                        "Use the project file version which is compatible with X Studio 1.8."
+                    ),
+                ),
+            ),
+            COMPAT=(
+                str,
+                Field(
+                    title=_("Max compatibility (read only)"),
+                    description=_("""Export project files that can be opened using any version of X Studio.
 Warning: After saving with this option, the volume, breath, gender, and power parameters will not be recognized by X Studio (no data is lost).
 To avoid irretrievable data loss, it is strongly recommended not to use X Studio to modify and save project files exported with this option. To restore the project file back to a safe editable state, select Save as SVIP 6.0.0 or later."""),
+                ),
+            ),
         ),
-    ] = "0.0.0"
+    ]
+    AUTO = "auto"
+    SVIP7_0_0 = "7.0.0"
+    SVIP6_0_0 = "6.0.0"
+    COMPAT = "0.0.0"
 
 
 class InputOptions(

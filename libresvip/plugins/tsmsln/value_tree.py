@@ -1,6 +1,6 @@
 import math
 import struct
-from typing import Any, BinaryIO, TypeVar
+from typing import Any, BinaryIO, TypeAlias, TypeVar
 
 import more_itertools
 from construct import (
@@ -28,7 +28,8 @@ from construct_typed import Context
 from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
-Variant = bool | int | float | str | bytes | list["Variant"]
+VariantList: TypeAlias = list["Variant"]
+Variant = bool | int | float | str | bytes | VariantList
 NodeType = TypeVar("NodeType", bound="Node[Any]")
 Node = dict[str, Variant | NodeType | list[NodeType]]
 

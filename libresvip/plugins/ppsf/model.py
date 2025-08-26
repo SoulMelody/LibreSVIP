@@ -1,22 +1,40 @@
-# mypy: disable-error-code="misc"
 import enum
 from typing import Annotated, Any
 
-from pydantic import Field
+from pydantic import Field, create_model
 
 from libresvip.model.base import BaseModel
 from libresvip.utils.text import uuid_str
 
 
 class PpsfLanguage(enum.IntEnum):
-    JAPANESE: Annotated[int, Field(title="日本語")] = 0
-    ENGLISH: Annotated[int, Field(title="English")] = 1
-    SIMPLIFIED_CHINESE: Annotated[int, Field(title="简体中文")] = 4
+    _value_: Annotated[
+        int,
+        create_model(
+            "PpsfLanguage",
+            __module__="libresvip.plugins.ppsf.model",
+            JAPANESE=(int, Field(title="日本語")),
+            ENGLISH=(int, Field(title="English")),
+            SIMPLIFIED_CHINESE=(int, Field(title="简体中文")),
+        ),
+    ]
+    JAPANESE = 0
+    ENGLISH = 1
+    SIMPLIFIED_CHINESE = 4
 
 
 class PpsfCurveType(enum.IntEnum):
-    BORDER: Annotated[int, Field(title="Border")] = 0
-    NORMAL: Annotated[int, Field(title="Normal")] = 1
+    _value_: Annotated[
+        int,
+        create_model(
+            "PpsfCurveType",
+            __module__="libresvip.plugins.ppsf.model",
+            BORDER=(int, Field(title="Border")),
+            NORMAL=(int, Field(title="Normal")),
+        ),
+    ]
+    BORDER = 0
+    NORMAL = 1
 
 
 class PpsfCurvePointSeq(BaseModel):

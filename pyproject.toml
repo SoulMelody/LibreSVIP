@@ -55,7 +55,7 @@ dependencies = [
   "retrie<1.0.0,>=0.3.1",
   "rich<14.1.1,>=14.1.0",
   "tatsu-lts>=5.13.1",
-  "typer-slim<1.0.0,>=0.16.0",
+  "typer-slim<1.0.0,>=0.16.1",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
@@ -70,28 +70,27 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 zstd = [
-  "backports.zstd<0.4.1,>=0.4.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
-  "pyzstd<1.0.0,>=0.17.0; platform_python_implementation == \"PyPy\" and python_version < \"3.14\"",
-  "zstandard<0.23.1,>=0.23.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
+  "backports.zstd<0.5.1,>=0.5.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
+  "zstandard<0.24.1,>=0.24.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
 ]
 crypto = [
   "cffi>=1.17.1; sys_platform != \"win32\" or python_version <= \"3.11\"",
   "pyzipper>=0.3.6",
 ]
-ujson = ["ujson>=5.10.0"]
+ujson = ["ujson>=5.11.0"]
 upath = [
   "universal-pathlib<1.0.0,>=0.2.6",
 ]
 ruamel_yaml = [
-  "ruamel.yaml>=0.18.14",
+  "ruamel.yaml>=0.18.15",
 ]
-lxml = ["lxml>=6.0.0"]
+lxml = ["lxml>=6.0.1"]
 tui = [
   "textual-fspicker>=0.5.0",
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.22.2",
+  "nicegui>=2.23.2",
   "libresvip[upath]",
 ]
 mobile = [
@@ -109,7 +108,7 @@ desktop = [
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.32.0",
+  "datamodel-code-generator>=0.33.0",
   "gapic-generator>=1.26.0",
   "protoc-wheel-0>=30.2",
   "xsdata[cli]>=25.7",
@@ -117,15 +116,15 @@ code_gen = [
 i18n = ["babel>=2.17.0"]
 linting = [
   "pre-commit>=4.3.0",
-  "ruff>=0.12.8",
+  "ruff>=0.12.10",
   "mypy>=1.17.1",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
-  "pyrefly>=0.28.1",
+  "pyrefly>=0.30.0",
   "types-lxml>=2025.3.30",
-  "types-pyyaml>=6.0.12.20250809",
-  "types-ujson>=5.10.0.20250326",
-  "types-pyinstaller>=6.15.0.20250809",
+  "types-pyyaml>=6.0.12.20250822",
+  "types-ujson>=5.10.0.20250822",
+  "types-pyinstaller>=6.15.0.20250822",
   "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
@@ -136,7 +135,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "mkdocs-material<10.0.0,>=9.6.16",
+  "mkdocs-material<10.0.0,>=9.6.18",
 ]
 test = ["pytest>=8.4.1", "pytest-datadir>=1.8.0", "textual-dev>=1.7.0"]
 all = [
@@ -274,22 +273,13 @@ bad-argument-type = "ignore"
 bad-assignment = "ignore"
 bad-override = "warn"
 bad-return = "ignore"
-bad-specialization = "ignore"
 implicitly-defined-attribute = "ignore"
 import-error = "warn"
-index-error = "ignore"
-invalid-annotation = "ignore"
+index-error = "warn"
 invalid-inheritance = "ignore"
-invalid-type-var = "ignore"
-missing-argument = "ignore"
 missing-attribute = "ignore"
-not-callable = "ignore"
-not-a-type = "ignore"
 not-iterable = "ignore"
 no-matching-overload = "warn"
-unbound-name = "warn"
-unexpected-keyword = "ignore"
-unknown-name = "warn"
 unsupported-operation = "ignore"
 
 [build-system]

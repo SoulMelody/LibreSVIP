@@ -1,8 +1,7 @@
-# mypy: disable-error-code="misc"
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.option_mixins import (
@@ -14,9 +13,19 @@ from libresvip.utils.translation import gettext_lazy as _
 
 
 class MultiChannelOption(Enum):
-    FIRST: Annotated[str, Field(title=_("Import first channel only"))] = "first"
-    SPLIT: Annotated[str, Field(title=_("Split into tracks"))] = "split"
-    CUSTOM: Annotated[str, Field(title=_("Custom import range"))] = "custom"
+    _value_: Annotated[
+        str,
+        create_model(
+            "MultiChannelOption",
+            __module__="libresvip.plugins.mid.options",
+            FIRST=(str, Field(title=_("Import first channel only"))),
+            SPLIT=(str, Field(title=_("Split into tracks"))),
+            CUSTOM=(str, Field(title=_("Custom import range"))),
+        ),
+    ]
+    FIRST = "first"
+    SPLIT = "split"
+    CUSTOM = "custom"
 
 
 class InputOptions(EnablePitchImportationMixin, EnableVolumeImportationMixin, BaseModel):
