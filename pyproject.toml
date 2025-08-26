@@ -121,7 +121,7 @@ linting = [
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
   "pyrefly>=0.30.0",
-  "types-lxml>=2025.3.30",
+  "types-lxml>=2025.8.25",
   "types-pyyaml>=6.0.12.20250822",
   "types-ujson>=5.10.0.20250822",
   "types-pyinstaller>=6.15.0.20250822",
@@ -129,7 +129,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=8.4.0",
-  "nuitka>=2.7.12",
+  "nuitka>=2.7.13",
   "pyfuze>=2.7.1",
   "pyinstaller>=6.15.0",
   "shellingham<2.0.0,>=1.5.4",
