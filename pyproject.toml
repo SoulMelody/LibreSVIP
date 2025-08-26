@@ -40,7 +40,7 @@ dependencies = [
   "mido-fix",
   "more-itertools<11.0.0,>=10.7.0",
   "packaging<25.1,>=25.0",
-  "platformdirs<5.0.0,>=4.3.8",
+  "platformdirs<5.0.0,>=4.4.0",
   "portion<3.0.0,>=2.6.1",
   "proto-plus<2.0.0,>=1.26.1",
   "pydantic<3.0.0,>=2.11.7",
@@ -86,7 +86,7 @@ ruamel_yaml = [
 ]
 lxml = ["lxml>=6.0.1"]
 tui = [
-  "textual-fspicker>=0.5.0",
+  "textual-fspicker>=0.6.0",
   "libresvip[upath]",
 ]
 webui = [
@@ -99,7 +99,7 @@ mobile = [
   "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.9.2,>=6.9.1",
+  "pyside6<6.9.3,>=6.9.2",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
