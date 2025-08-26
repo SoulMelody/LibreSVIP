@@ -38,7 +38,7 @@ more-itertools==10.7.0
 packaging==25.0
 pefile==2023.2.7 ; sys_platform == 'win32'
 pillow==11.3.0 ; sys_platform == 'darwin'
-platformdirs==4.3.8
+platformdirs==4.4.0
 portion==2.6.1
 proto-plus==1.26.1
 protobuf==6.32.0

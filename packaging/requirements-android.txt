@@ -29,7 +29,7 @@ mido-fix @ https://archive1.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3
 more-itertools==10.7.0
 oauthlib==3.3.1 ; platform_system != 'Pyodide'
 packaging==25.0
-platformdirs==4.3.8
+platformdirs==4.4.0
 portion==2.6.1
 proto-plus==1.26.1
 protobuf==6.32.0
