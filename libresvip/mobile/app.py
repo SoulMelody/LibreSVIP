@@ -276,7 +276,7 @@ async def main(page: ft.Page) -> None:
                             [
                                 ft.Row(
                                     [
-                                        ft.ElevatedButton(
+                                        ft.Button(
                                             _("Copy to clipboard"),
                                             on_click=copy_log_text,
                                         )
@@ -444,13 +444,11 @@ async def main(page: ft.Page) -> None:
     page.services.extend([file_picker, permission_handler])
 
     async def check_permission(e: ft.ControlEvent) -> None:
-        result: fph.PermissionStatus | None = await permission_handler.get_status_async(
-            e.control.data
-        )
+        result: fph.PermissionStatus | None = await permission_handler.get_status(e.control.data)
         banner_ref = ft.Ref[ft.Banner]()
         dismiss_btn = ft.TextButton(_("OK"), on_click=page.pop_dialog)
         if result != fph.PermissionStatus.GRANTED:
-            result = await permission_handler.request_async(e.control.data)
+            result = await permission_handler.request(e.control.data)
             if result == fph.PermissionStatus.GRANTED:
                 banner = ft.Banner(
                     ft.Text(_("Permission granted, you can now select files from your device.")),
@@ -974,7 +972,7 @@ async def main(page: ft.Page) -> None:
                                     col=2,
                                     on_click=select_save_folder,
                                 ),
-                                ft.ElevatedButton(
+                                ft.Button(
                                     _("Request permission to access files"),
                                     data=fph.Permission.MANAGE_EXTERNAL_STORAGE,
                                     on_click=check_permission,
