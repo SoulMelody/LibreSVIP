@@ -13,7 +13,6 @@ construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none
 construct-typing==0.6.2
 dbus-fast==2.44.3 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
 desktop-notifier==6.2.0 ; platform_python_implementation == 'CPython'
-drawsvg==2.4.0
 exceptiongroup==1.3.0 ; python_full_version < '3.11'
 fonticon-materialdesignicons7==7.2.96
 fsspec==2025.7.0
@@ -74,6 +73,7 @@ shellingham==1.5.4
 shiboken6==6.9.2
 sniffio==1.3.1
 sortedcontainers==2.4.0
+svg-py==1.8.0
 tatsu-lts==5.13.1
 typer-slim==0.16.1
 typing-extensions==4.15.0
