@@ -1,6 +1,6 @@
 import dataclasses
 
-from drawsvg import Drawing
+from svg import SVG
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, Project, SingingTrack
@@ -16,7 +16,7 @@ class SvgGenerator:
     coordinate_helper: CoordinateHelper = dataclasses.field(init=False)
     svg_factory: SvgFactory = dataclasses.field(init=False)
 
-    def generate_project(self, project: Project) -> Drawing:
+    def generate_project(self, project: Project) -> SVG:
         self.coordinate_helper = CoordinateHelper(
             options=self.options,
             pitch_position_offset=int(project.time_signature_list[0].bar_length()),
@@ -40,17 +40,19 @@ class SvgGenerator:
             self.generate_notes(first_singing_track.note_list)
             self.generate_pitch(first_singing_track.edited_params.pitch)
 
-        drawing = self.generate_svg()
-        return drawing
+        return self.generate_svg()
 
-    def generate_svg(self) -> Drawing:
-        drawing = Drawing(*self.coordinate_helper.size)
-        drawing.append_css(self.svg_factory.style)
-        drawing.extend(self.svg_factory.line_elements)
-        drawing.extend(self.svg_factory.rect_elements)
-        drawing.extend(self.svg_factory.polyline_elements)
-        drawing.extend(self.svg_factory.text_elements)
-        return drawing
+    def generate_svg(self) -> SVG:
+        return SVG(
+            elements=[
+                self.svg_factory.style,
+                *self.svg_factory.line_elements,
+                *self.svg_factory.rect_elements,
+                *self.svg_factory.polyline_elements,
+                *self.svg_factory.text_elements,
+            ],
+            **self.coordinate_helper.size,
+        )
 
     def generate_notes(self, note_list: list[Note]) -> None:
         for note in note_list:

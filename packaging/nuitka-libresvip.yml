@@ -13,7 +13,7 @@
     - depends:
       - .bidict
       - .construct_typed
-      - .drawsvg
+      - .svg
       - .jinja2
       - .mido_fix
       - .proto

@@ -36,7 +36,7 @@ a = Analysis(
         "construct_typed",
         "Cryptodome.Util.Padding",
         "docutils",
-        "drawsvg",
+        "svg",
         "google.protobuf.any_pb2",
         "jinja2",
         "jyutping",

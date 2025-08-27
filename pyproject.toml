@@ -31,7 +31,6 @@ dependencies = [
   "charset-normalizer<4.0.0,>=3.4.3",
   "construct",
   "construct-typing<1.0.0,>=0.6.2",
-  "drawsvg<3.0.0,>=2.4.0",
   "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
   "jyutping",
@@ -54,7 +53,8 @@ dependencies = [
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.1.1,>=14.1.0",
-  "tatsu-lts>=5.13.1",
+  "svg-py<2.0.0,>=1.8.0",
+  "tatsu-lts<6.0.0,>=5.13.1",
   "typer-slim<1.0.0,>=0.16.1",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
@@ -248,6 +248,7 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = ['libresvip', 'tests']
+known-third-party = ['svg']
 
 [tool.mypy]
 python_version = "3.10"

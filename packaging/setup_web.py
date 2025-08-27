@@ -109,7 +109,7 @@ build_exe_options = {
         "anyio",
         "Cryptodome.Util.Padding",
         "construct_typed",
-        "drawsvg",
+        "svg",
         "google.protobuf",
         "jinja2",
         "libresvip.cli",

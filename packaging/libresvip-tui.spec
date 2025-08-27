@@ -32,7 +32,7 @@ a = Analysis(
         "bidict",
         "construct_typed",
         "Cryptodome.Util.Padding",
-        "drawsvg",
+        "svg",
         "google.protobuf.any_pb2",
         "jinja2",
         "jyutping",
