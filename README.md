@@ -7,7 +7,7 @@
 [![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 [![License](https://img.shields.io/pypi/l/libresvip?color=blue)](https://opensource.org/licenses/MIT)
 [![GitHub Build](https://img.shields.io/github/actions/workflow/status/SoulMelody/LibreSVIP/package.yml?label=packaging)](https://github.com/SoulMelody/LibreSVIP/actions/workflows/package.yml?query=workflow%3APackaging)
-[![lite-badge](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://soulmelody.github.io/libresvip-pwa/)
+[![lite-badge](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://soulmelody.github.io/libresvip-pwa/)
 
 LibreSVIP is a cross-platform and universal converter for many Singing Voice Synthesis (aka SVS) project formats.
 
