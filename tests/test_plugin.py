@@ -90,7 +90,7 @@ def test_ustx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[s
 
 
 def test_ds_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
-    from libresvip.plugins.ds.model import DsProject
+    from libresvip.plugins.ds.utils.models.ds_file import DsProject
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.ds"

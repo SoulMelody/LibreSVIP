@@ -1,10 +1,9 @@
 # Ported from QNrbf by SineStriker
 import dataclasses
 import pathlib
-from typing import Any
+from typing import Annotated, Any
 
 from construct import Container
-from construct_typed.generic_wrapper import ParsedType
 from loguru import logger
 
 from libresvip.utils.translation import gettext_lazy as _
@@ -22,9 +21,9 @@ from .xstudio_models import XSAppModel, fullname2classes
 
 @dataclasses.dataclass
 class SvipReader(NrbfIOBase):
-    svip_file: ParsedType[SVIPFile, Any] = dataclasses.field(init=False)
+    svip_file: Annotated[Container, SVIPFile] = dataclasses.field(init=False)
     xstudio_model: XSAppModel = dataclasses.field(init=False)
-    header: ParsedType[SerializedStreamHeader, Any] = dataclasses.field(init=False)
+    header: Annotated[Container, SerializedStreamHeader] = dataclasses.field(init=False)
 
     def build_binary_array(self, obj: Container) -> list[Any | None]:
         results: list[Any | None] = []
