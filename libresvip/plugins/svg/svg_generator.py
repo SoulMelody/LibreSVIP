@@ -2,8 +2,10 @@ import dataclasses
 
 from svg import SVG
 
+from libresvip.core.exceptions import NoTrackError
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, Project, SingingTrack
+from libresvip.utils.translation import gettext_lazy as _
 
 from .coordinate_helper import CoordinateHelper
 from .options import OutputOptions
@@ -40,7 +42,9 @@ class SvgGenerator:
             self.generate_notes(first_singing_track.note_list)
             self.generate_pitch(first_singing_track.edited_params.pitch)
 
-        return self.generate_svg()
+            return self.generate_svg()
+        msg = _("Project has no tracks")
+        raise NoTrackError(msg)
 
     def generate_svg(self) -> SVG:
         return SVG(
