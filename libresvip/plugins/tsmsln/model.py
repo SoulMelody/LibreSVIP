@@ -8,8 +8,7 @@ from typing import Any, Literal, get_args
 from pydantic import AliasChoices, Field
 
 from libresvip.model.base import BaseModel
-
-from .value_tree import JUCENode, JUCEVarTypes
+from libresvip.utils.binary.value_tree import JUCENode, JUCEVarTypes
 
 
 class VoiSonaMobilePlayControlItem(BaseModel):

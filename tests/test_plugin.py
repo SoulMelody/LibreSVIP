@@ -71,7 +71,7 @@ def test_tssln_write(shared_datadir: pathlib.Path) -> None:
         VoiSonaProject,
         model_to_value_tree,
     )
-    from libresvip.plugins.tssln.value_tree import JUCENode, build_tree_dict
+    from libresvip.utils.binary.value_tree import JUCENode, build_tree_dict
 
     value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
     tree_dict = build_tree_dict(value_tree)
