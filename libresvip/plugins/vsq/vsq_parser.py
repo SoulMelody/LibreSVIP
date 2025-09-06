@@ -2,8 +2,9 @@ import configparser
 import dataclasses
 import math
 import re
+from typing import Annotated
 
-import mido_fix as mido
+from construct import Container
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
@@ -15,6 +16,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.utils.binary.midi import MIDIFile, MIDITrack, tempo2bpm
 
 from .options import BreathOption, InputOptions
 from .vocaloid_pitch import (
@@ -38,7 +40,7 @@ class VsqParser:
     def tick_rate(self) -> float:
         return TICKS_IN_BEAT / self.ticks_per_beat
 
-    def parse_project(self, vsq_project: mido.MidiFile) -> Project:
+    def parse_project(self, vsq_project: Annotated[Container, MIDIFile]) -> Project:
         self.ticks_per_beat = vsq_project.ticks_per_beat
         self._convert_delta_to_cumulative(vsq_project.tracks)
         tracks_as_text = self.extract_vsq_text_from_meta_events(vsq_project.tracks)
@@ -67,38 +69,42 @@ class VsqParser:
             master_parser.read_string(text.rsplit("\n", 1)[0])
         return master_parser.getint("Master", "PreMeasure", fallback=1)
 
-    @staticmethod
     def extract_vsq_text_from_meta_events(
-        tracks: list[mido.MidiTrack],
+        self,
+        tracks: list[Annotated[Container, MIDITrack]],
     ) -> list[str]:
         return [
             text
             for track in tracks
             if (
                 text := "".join(
-                    event.text.removeprefix("DM:").partition(":")[-1]
+                    event.detail.data.text.decode(self.options.lyric_encoding, "replace")
+                    .removeprefix("DM:")
+                    .partition(":")[-1]
                     for event in track
-                    if isinstance(event, mido.MetaMessage) and event.type == "text"
+                    if event.detail.type == "meta" and event.detail.data.type == "text"
                 )
             )
         ]
 
     @staticmethod
-    def _convert_delta_to_cumulative(tracks: list[mido.MidiTrack]) -> None:
+    def _convert_delta_to_cumulative(tracks: list[Annotated[Container, MIDITrack]]) -> None:
         for track in tracks:
             tick = 0
             for event in track:
                 event.time += tick
                 tick = event.time
 
-    def parse_time_signatures(self, master_track: mido.MidiTrack) -> list[TimeSignature]:
+    def parse_time_signatures(
+        self, master_track: Annotated[Container, MIDITrack]
+    ) -> list[TimeSignature]:
         time_signature_changes: list[TimeSignature] = []
 
         # traversing
         prev_ticks = 0
         measure = 0
         for event in master_track:
-            if event.type == "time_signature":
+            if event.detail.type == "meta" and event.detail.data.type == "time_signature":
                 tick_in_full_note = (
                     time_signature_changes[-1].bar_length(self.ticks_per_beat)
                     if time_signature_changes
@@ -108,8 +114,8 @@ class VsqParser:
                 measure += (tick - prev_ticks) / tick_in_full_note
                 ts_obj = TimeSignature(
                     bar_index=max(math.floor(measure), 0),
-                    numerator=event.numerator,
-                    denominator=event.denominator,
+                    numerator=event.detail.data.numerator,
+                    denominator=event.detail.data.denominator,
                 )
                 time_signature_changes.append(ts_obj)
                 prev_ticks = tick
@@ -117,14 +123,16 @@ class VsqParser:
             time_signature_changes.append(TimeSignature(bar_index=0, numerator=4, denominator=4))
         return time_signature_changes
 
-    def parse_tempo(self, master_track: mido.MidiTrack, tick_prefix: int) -> list[SongTempo]:
+    def parse_tempo(
+        self, master_track: Annotated[Container, MIDITrack], tick_prefix: int
+    ) -> list[SongTempo]:
         tempos = []
 
         # traversing
         for event in master_track:
-            if event.type == "set_tempo":
+            if event.detail.type == "meta" and event.detail.data.type == "set_tempo":
                 # convert tempo to BPM
-                tempo = round(mido.tempo2bpm(event.tempo), 3)
+                tempo = round(tempo2bpm(event.detail.data.tempo), 3)
                 tick = round(event.time * self.tick_rate)
                 if tick == 0:
                     tempos = [SongTempo(position=0, bpm=tempo)]

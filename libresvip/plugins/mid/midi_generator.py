@@ -267,4 +267,16 @@ class MidiGenerator:
             )
         mido_track.sort(key=operator.itemgetter("time"))
         if mido_track:
+            mido_track.append(
+                {
+                    "time": mido_track[-1]["time"],
+                    "__next": 0xFF,
+                    "status": 0xFF,
+                    "detail": {
+                        "type": "meta",
+                        "event_type": 0x2F,
+                        "data": {"type": "end_of_track"},
+                    },
+                }
+            )
             return mido_track
