@@ -297,14 +297,14 @@ def test_svip_write(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[
 
 
 def test_vsq_read(shared_datadir: pathlib.Path) -> None:
-    import mido_fix as mido
+    from libresvip.utils.binary.midi import MIDIFile
 
-    vsq_file = mido.MidiFile(shared_datadir / "test.vsq", charset="SHIFT-JIS", clip=True)
+    vsq_file = MIDIFile.parse((shared_datadir / "test.vsq").read_bytes())
 
     for track in vsq_file.tracks:
         for msg in track:
-            if isinstance(msg, mido.MetaMessage) and msg.type == "text":
-                rich.print(msg)
+            if msg.detail.type == "meta" and msg.detail.data.type == "text":
+                rich.print(msg.detail.data.text.decode("SHIFT-JIS"))
 
 
 def test_ps_project_read(shared_datadir: pathlib.Path) -> None:
