@@ -17,7 +17,6 @@
 | Jinja2                        | A very fast and expressive template engine.                                                                                  | BSD License                                         |
 | ko-pron                       | Korean pronunciation and romanisation based on Wiktionary ko-pron lua module                                                 | MIT License                                         |
 | loguru                        | Python logging made (stupidly) simple                                                                                        | MIT License                                         |
-| mido_fix                      | MIDI Objects for Python                                                                                                      | MIT License                                         |
 | more-itertools                | More routines for operating on iterables, beyond itertools                                                                   | MIT License                                         |
 | packaging                     | Core utilities for Python packages                                                                                           | Apache Software License; BSD License                |
 | TatSu-LTS                     | TatSu takes a grammar in a variation of EBNF as input, and outputs a memoizing PEG/Packrat parser in Python.                 | BSD License                                         |

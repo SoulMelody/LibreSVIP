@@ -15,7 +15,6 @@
       - .construct_typed
       - .svg
       - .jinja2
-      - .mido_fix
       - .proto
       - .pysubs2
       - .pyzipper

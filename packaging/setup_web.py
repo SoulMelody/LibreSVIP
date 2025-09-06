@@ -118,7 +118,6 @@ build_exe_options = {
         "libresvip.model",
         "libresvip.plugins",
         "libresvip.web",
-        "mido_fix",
         "proto",
         "pymediainfo",
         "pysubs2",

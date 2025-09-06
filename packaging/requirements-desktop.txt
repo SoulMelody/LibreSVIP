@@ -32,7 +32,6 @@ markdown-it-py==3.0.0 ; python_full_version < '3.10'
 markdown-it-py==4.0.0 ; python_full_version >= '3.10'
 markupsafe==3.0.2
 mdurl==0.1.2
-mido-fix @ https://archive1.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.8.0
 packaging==25.0
 pefile==2023.2.7 ; sys_platform == 'win32'

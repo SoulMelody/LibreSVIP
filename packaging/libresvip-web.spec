@@ -41,7 +41,6 @@ a = Analysis(
         "jinja2",
         "jyutping",
         "ko_pron",
-        "mido_fix",
         "tatsu",
         "portion",
         "proto",
