@@ -21,8 +21,10 @@ from construct import (
     IntegerError,
     Peek,
     Prefixed,
+    Rebuild,
     Struct,
     Switch,
+    len_,
     stream_read,
     stream_write,
     this,
@@ -60,13 +62,14 @@ class VarIntBE(Construct):
         if obj < 0:
             msg = f"VarIntBE cannot build from negative number {obj}"
             raise IntegerError(msg, path=path)
+        # from https://github.com/musx-admin/musx/blob/main/musx/midi/midimsg.py
         x = obj
         b = bytearray()
-        while x > 0b01111111:
-            b.append(0b10000000 | (x & 0b01111111))
-            x >>= 7
-        b.append(x)
-        stream_write(stream, bytes(b[::-1]), len(b), path)
+        for i in range(21, 0, -7):
+            if x >= (1 << i):
+                b.append(((x >> i) & 0x7F) | 0x80)
+        b.append(x & 0x7F)
+        stream_write(stream, bytes(b), len(b), path)
         return obj
 
     def _emitprimitivetype(self, ksy: object, bitwise: bool) -> str:
@@ -244,9 +247,9 @@ MIDIMessage = Struct(
                         velocity=Int8ub,
                     ),
                     0xA0: Struct(
-                        type=Computed("pressure"),
+                        type=Computed("polytouch"),
                         note=Int8ub,
-                        pressure=Int8ub,
+                        value=Int8ub,
                     ),
                     0xB0: Struct(
                         type=Computed("control_change"),
@@ -254,16 +257,16 @@ MIDIMessage = Struct(
                         value=Int8ub,
                     ),
                     0xC0: Struct(
-                        type=Computed("program"),
+                        type=Computed("program_change"),
                         program=Int8ub,
                     ),
                     0xD0: Struct(
-                        type=Computed("channel_pressure"),
-                        pressure=Int8ub,
+                        type=Computed("aftertouch"),
+                        value=Int8ub,
                     ),
                     0xE0: Struct(
-                        type=Computed("pitch_bend"),
-                        value=Int16ub,
+                        type=Computed("pitchwheel"),
+                        pitch=Int16ub,
                     ),
                 },
             ),
@@ -279,7 +282,7 @@ MIDIFile = Struct(
     magic=Const(b"MThd"),
     header_length=Const(6, Int32ub),
     type=MIDITypeEnum,
-    track_count=Int16ub,
+    track_count=Rebuild(Int16ub, len_(this.tracks)),
     ticks_per_beat=Int16sb,
     tracks=Array(this.track_count, MIDITrack),
 )

@@ -1,4 +1,3 @@
-import io
 import pathlib
 
 from libresvip.extension import base as plugin_base
@@ -21,6 +20,4 @@ class MidiConverter(plugin_base.SVSConverterBase):
         midi_file = MidiGenerator(
             options=options,
         ).generate_project(project)
-        buffer = io.BytesIO()
-        midi_file.save(file=buffer)
-        path.write_bytes(buffer.getvalue())
+        path.write_bytes(MIDIFile.build(midi_file))
