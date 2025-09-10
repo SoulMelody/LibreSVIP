@@ -150,7 +150,7 @@ class CurveGenerator(ParamExpression):
         index_item = binary_find_last(self.pos_indexes, lambda item: item[0] <= ticks)
         if index_item is None:
             return self.point_list[0].y
-        pos, index = index_item
+        _, index = index_item
         if index == len(self.point_list) - 1:
             return self.point_list[-1].y
         return self.interpolation(ticks, self.point_list[index], self.point_list[index + 1])
