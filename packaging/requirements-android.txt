@@ -22,7 +22,7 @@ packaging==25.0
 platformdirs==4.4.0
 portion==2.6.1
 proto-plus==1.26.1
-protobuf==5.28.3
+protobuf==5.29.5
 pycparser==2.23
 pycryptodomex==3.21.0
 pydantic==2.11.7
