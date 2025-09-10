@@ -9,4 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
+      - name: Install Pyrefly
+        run: pip install pyrefly
       - uses: pre-commit/action@v3.0.1
