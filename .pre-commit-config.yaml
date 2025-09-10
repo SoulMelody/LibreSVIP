@@ -47,7 +47,7 @@ repos:
           - types-ujson
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.8.15
+    rev: 0.8.16
     hooks:
       - id: uv-lock
         args: ["--frozen"]
