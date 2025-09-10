@@ -2286,7 +2286,7 @@ def main() -> None:
     arg_parser.add_argument("--port", type=int, default=8080)
     arg_parser.add_argument("--server", action="store_true")
     arg_parser.add_argument("--daemon", action="store_true")
-    args, argv = arg_parser.parse_known_args()
+    args, _argv = arg_parser.parse_known_args()
 
     if shutil.which("termux-open-url") is not None:
         # a workaround for termux platform, from https://github.com/python/cpython/issues/90371#issuecomment-1460738762

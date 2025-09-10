@@ -156,9 +156,7 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
                 continue
 
             try:
-                plugin_cls_name, plugin_cls = inspect.getmembers(candidate_module, self.is_plugin)[
-                    0
-                ]
+                _, plugin_cls = inspect.getmembers(candidate_module, self.is_plugin)[0]
                 plugin_info.plugin_object = plugin_cls()
                 self.plugin_registry[plugin_info.identifier] = plugin_info
             except Exception:

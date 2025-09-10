@@ -68,7 +68,7 @@ class MidiParser:
         elif self.options.multi_channel == MultiChannelOption.CUSTOM:
             for exp in self.options.channels.split(","):
                 if exp:
-                    start, sep, end = exp.partition("-")
+                    start, _sep, end = exp.partition("-")
                     if start.isdigit() and not start.startswith("0"):
                         if not len(end):
                             self.selected_channels.append(int(start) - 1)
