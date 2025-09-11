@@ -1678,7 +1678,7 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=6.0.1" },
     { name = "more-itertools", specifier = ">=10.8.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.24.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.24.1" },
     { name = "packaging", specifier = ">=25.0,<25.1" },
     { name = "platformdirs", specifier = ">=4.4.0,<5.0.0" },
     { name = "portion", specifier = ">=2.6.1,<3.0.0" },
@@ -2329,7 +2329,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.24.0"
+version = "2.24.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2354,9 +2354,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/21/bf/25553371d0cfeef03bb4ef43ea07db0c8f6e7f3b812aea40f11ad3ba7722/nicegui-2.24.0.tar.gz", hash = "sha256:139314d786344965ec2b24691f74055292f5dc458b575d12c4607b7c3ebda8cf", size = 13108968, upload-time = "2025-09-05T12:40:44.549Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/04/68/a4d4db67c6485cc3d46edd6f71a8cf6296583491552829946e9e8cd4710e/nicegui-2.24.1.tar.gz", hash = "sha256:e35221034077ac796cf05ade2d9e7aeaa7e421bbb87798fc8538a29979897ad1", size = 13108990, upload-time = "2025-09-11T03:20:51.594Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0d/40/189cc8ac422f44eddd8b0c46314f95a81e6f39e334902cd89e7830efbc76/nicegui-2.24.0-py3-none-any.whl", hash = "sha256:76cd72f87b2775537fbc96d97925a8b41a09c166bf67ba9f1999c16f73e0698e", size = 13496415, upload-time = "2025-09-05T12:40:41.569Z" },
+    { url = "https://files.pythonhosted.org/packages/43/8f/d123b74c6e760e941ccbdaf25b61c309d8bb16177802c801aa3f14543386/nicegui-2.24.1-py3-none-any.whl", hash = "sha256:a1bfc566cd2c9d290925f4df8b8023e63edaab6590e19160de97d9f84b8d6d8c", size = 13496427, upload-time = "2025-09-11T03:20:47.828Z" },
 ]
 
 [[package]]
