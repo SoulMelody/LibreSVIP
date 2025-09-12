@@ -39,7 +39,7 @@ pillow==11.3.0 ; sys_platform == 'darwin'
 platformdirs==4.4.0
 portion==2.6.1
 proto-plus==1.26.1
-protobuf==6.32.0
+protobuf==6.32.1
 pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy') or (implementation_name != 'PyPy' and sys_platform != 'win32')
 pycryptodomex==3.23.0
 pydantic==2.11.7
