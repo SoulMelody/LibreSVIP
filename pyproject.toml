@@ -130,7 +130,7 @@ packaging = [
   "cx-Freeze>=8.4.0",
   "nuitka>=2.7.14",
   "pyfuze>=2.7.1",
-  "pyinstaller>=6.15.0",
+  "pyinstaller>=6.16.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
