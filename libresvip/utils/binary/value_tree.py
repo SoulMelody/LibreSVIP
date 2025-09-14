@@ -29,6 +29,8 @@ from construct import Path as CSPath
 from construct_typed import Context
 from typing_extensions import Never
 
+from . import singleton
+
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 VariantList: TypeAlias = list["Variant"]
 Variant = bool | int | float | str | bytes | VariantList
@@ -49,7 +51,8 @@ JUCEVarTypes = CSEnum(
 )
 
 
-class JUCECompressedIntStruct(Construct):
+@singleton
+class JUCECompressedInt(Construct):
     def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "JUCECompressedInt has no static size"
         raise SizeofError(msg)
@@ -75,9 +78,6 @@ class JUCECompressedIntStruct(Construct):
             raise ValueError(msg) from e
         else:
             return obj
-
-
-JUCECompressedInt = JUCECompressedIntStruct()
 
 
 JUCEVariant: Container = Prefixed(

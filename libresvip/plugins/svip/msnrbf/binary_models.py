@@ -9,6 +9,7 @@ from typing import Any, BinaryIO
 
 from construct import (
     Adapter,
+    Array,
     BitsInteger,
     BitStruct,
     Byte,
@@ -42,6 +43,8 @@ from construct import Enum as CSEnum
 from construct import Path as CSPath
 from construct_typed import Context
 from typing_extensions import Never
+
+from libresvip.utils.binary import singleton
 
 Int32ul = BytesInteger(4, swapped=True)
 Int32sl = BytesInteger(4, swapped=True, signed=True)
@@ -87,6 +90,7 @@ class DateTimeAdapter(Adapter):
 DateTime = DateTimeAdapter(DateTimeBitStruct)
 
 
+@singleton
 class Null(Construct):
     def _sizeof(self, context: Context, path: CSPath) -> int:
         return 0
@@ -98,6 +102,7 @@ class Null(Construct):
         pass
 
 
+@singleton
 class Utf8CodePoint(Construct):
     def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "Utf8CodePoint has no static size"
@@ -134,6 +139,7 @@ class Utf8CodePoint(Construct):
         return obj
 
 
+@singleton
 class LengthPrefixedString(Construct):
     def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "LengthPrefixedString has no static size"
@@ -176,7 +182,7 @@ class LengthPrefixedString(Construct):
 
 
 Decimal = ExprAdapter(
-    LengthPrefixedString(),
+    LengthPrefixedString,
     lambda obj, ctx: decimal.Decimal(obj),
     lambda obj, ctx: str(obj),
 )
@@ -323,8 +329,8 @@ PrimitiveType = partial(
         "UInt16": Int16ul,
         "UInt32": Int32ul,
         "UInt64": Int64ul,
-        "Null": Null(),
-        "String": LengthPrefixedString(),
+        "Null": Null,
+        "String": LengthPrefixedString,
     },
 )
 
@@ -334,15 +340,15 @@ ArrayInfo = Struct(
 )
 
 ClassTypeInfo = Struct(
-    "type_name" / LengthPrefixedString(),
+    "type_name" / LengthPrefixedString,
     "library_id" / Int32sl,
 )
 
 ClassInfo = Struct(
     "object_id" / Int32sl,
-    "name" / LengthPrefixedString(),
+    "name" / LengthPrefixedString,
     "member_count" / Int32sl,
-    "member_names" / LengthPrefixedString()[this.member_count],
+    "member_names" / Array(this.member_count, LengthPrefixedString),
 )
 
 SerializedStreamHeader = Struct(
@@ -377,12 +383,12 @@ BinaryType = partial(
     Switch,
     cases={
         "Primitive": PrimitiveTypeEnum,
-        "String": Null(),
-        "Object": Null(),
-        "SystemClass": LengthPrefixedString(),
+        "String": Null,
+        "Object": Null,
+        "SystemClass": LengthPrefixedString,
         "Class": ClassTypeInfo,
-        "ObjectArray": Null(),
-        "StringArray": Null(),
+        "ObjectArray": Null,
+        "StringArray": Null,
         "PrimitiveArray": PrimitiveTypeEnum,
     },
 )
@@ -458,7 +464,7 @@ BinaryObjectString = ObjectRegistryAdapter(
     Struct(
         "record_type_enum" / Computed(RecordTypeEnum.BinaryObjectString),
         "object_id" / Int32sl,
-        "value" / LengthPrefixedString(),
+        "value" / LengthPrefixedString,
     )
 )
 
@@ -478,7 +484,7 @@ BinaryArray = ObjectRegistryAdapter(
                 "RectangularOffset",
             ],
             Int32sl[this.rank],
-            Null(),
+            Null,
         ),
         "binary_type_enum" / BinaryTypeEnum,
         "info" / BinaryType(lambda this: (this.binary_type_enum)),
@@ -516,7 +522,7 @@ BinaryArray = ObjectRegistryAdapter(
                                     this._._._index
                                 ].info
                             ),
-                            "String": LengthPrefixedString(),
+                            "String": LengthPrefixedString,
                         },
                         default=LazyBound(lambda: Record),
                     ),
@@ -534,7 +540,7 @@ ValueWithCode = Struct(
 
 StringValueWithCode = Struct(
     "primitive_type_enum" / Const(PrimitiveTypeEnum.String, Byte),
-    "value" / LengthPrefixedString(),
+    "value" / LengthPrefixedString,
 )
 
 ArrayOfValueWithCode = PrefixedArray(Int32sl, ValueWithCode)
@@ -555,7 +561,7 @@ BinaryLibrary = LibraryRegistryAdapter(
     Struct(
         "record_type_enum" / Computed(RecordTypeEnum.BinaryLibrary),
         "library_id" / Int32sl,
-        "library_name" / LengthPrefixedString(),
+        "library_name" / LengthPrefixedString,
     )
 )
 

@@ -33,12 +33,10 @@ from construct import Enum as CSEnum
 from construct import Path as CSPath
 from construct.lib import byte2int, integertypes
 
+from . import singleton
+
 if TYPE_CHECKING:
     from construct_typed import Context
-
-
-def singleton(arg: type[Construct]) -> Construct:
-    return arg()
 
 
 @singleton
