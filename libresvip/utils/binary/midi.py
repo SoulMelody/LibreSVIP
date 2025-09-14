@@ -264,7 +264,7 @@ MIDIMessage = Struct(
                     ),
                     0xE0: Struct(
                         type=Computed("pitchwheel"),
-                        pitch=Int16ub,
+                        pitch=Int16sb,
                     ),
                 },
             ),
