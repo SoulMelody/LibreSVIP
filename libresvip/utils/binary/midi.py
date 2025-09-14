@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, BinaryIO
+from typing import TYPE_CHECKING, BinaryIO, Final
 
 from construct import (
     Array,
@@ -37,6 +37,11 @@ from . import singleton
 
 if TYPE_CHECKING:
     from construct_typed import Context
+
+PITCH_MIN_VALUE: Final[int] = -8192
+PITCH_MAX_VALUE: Final[int] = 8191
+DEFAULT_PITCH_BEND_SENSITIVITY: Final[int] = 2
+MAX_PITCH_BEND_SENSITIVITY: Final[int] = 24
 
 
 @singleton
@@ -264,7 +269,11 @@ MIDIMessage = Struct(
                     ),
                     0xE0: Struct(
                         type=Computed("pitchwheel"),
-                        pitch=Int16sb,
+                        pitch=ExprAdapter(
+                            Int16ub,
+                            encoder=lambda obj, context: obj - PITCH_MIN_VALUE,
+                            decoder=lambda obj, context: obj + PITCH_MIN_VALUE,
+                        ),
                     ),
                 },
             ),

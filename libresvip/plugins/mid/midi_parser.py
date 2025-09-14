@@ -10,8 +10,6 @@ from construct import Container
 
 from libresvip.core.constants import (
     DEFAULT_PHONEME,
-    DEFAULT_PITCH_BEND_SENSITIVITY,
-    PITCH_MAX_VALUE,
     TICKS_IN_BEAT,
 )
 from libresvip.core.exceptions import NotesOverlappedError
@@ -31,7 +29,13 @@ from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils.binary.midi import MIDIFile, MIDITrack, tempo2bpm
+from libresvip.utils.binary.midi import (
+    DEFAULT_PITCH_BEND_SENSITIVITY,
+    PITCH_MAX_VALUE,
+    MIDIFile,
+    MIDITrack,
+    tempo2bpm,
+)
 from libresvip.utils.music_math import ratio_to_db
 from libresvip.utils.text import LATIN_ALPHABET
 from libresvip.utils.translation import gettext_lazy as _
