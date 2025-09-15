@@ -61,8 +61,8 @@ class TimeSpanAdapter(Adapter):
 TimeSpan = TimeSpanAdapter(Int64ul)
 
 DateTimeBitStruct = BitStruct(
-    "ticks" / BitsInteger(62),
-    "kind" / BitsInteger(2),
+    ticks=BitsInteger(62),
+    kind=BitsInteger(2),
 )
 
 
@@ -335,46 +335,46 @@ PrimitiveType = partial(
 )
 
 ArrayInfo = Struct(
-    "object_id" / Int32sl,
-    "length" / Int32sl,
+    object_id=Int32sl,
+    length=Int32sl,
 )
 
 ClassTypeInfo = Struct(
-    "type_name" / LengthPrefixedString,
-    "library_id" / Int32sl,
+    type_name=LengthPrefixedString,
+    library_id=Int32sl,
 )
 
 ClassInfo = Struct(
-    "object_id" / Int32sl,
-    "name" / LengthPrefixedString,
-    "member_count" / Int32sl,
-    "member_names" / Array(this.member_count, LengthPrefixedString),
+    object_id=Int32sl,
+    name=LengthPrefixedString,
+    member_count=Int32sl,
+    member_names=Array(this.member_count, LengthPrefixedString),
 )
 
 SerializedStreamHeader = Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.SerializedStreamHeader),
-    "root_id" / Int32sl,
-    "header_id" / Int32sl,
-    "major_version" / Int32sl,
-    "minor_version" / Int32sl,
+    record_type_enum=Computed(RecordTypeEnum.SerializedStreamHeader),
+    root_id=Int32sl,
+    header_id=Int32sl,
+    major_version=Int32sl,
+    minor_version=Int32sl,
 )
 
 MemberValue = Struct(
-    "value" / LazyBound(lambda: Record),
+    value=LazyBound(lambda: Record),
 )
 
 SystemClassWithMembers = Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.SystemClassWithMembers),
-    "class_info" / ClassInfo,
-    "member_values" / MemberValue[this.class_info.member_count],
+    record_type_enum=Computed(RecordTypeEnum.SystemClassWithMembers),
+    class_info=ClassInfo,
+    member_values=MemberValue[this.class_info.member_count],
 )
 
 ClassWithMembers = ClassRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.ClassWithMembers),
-        "class_info" / ClassInfo,
-        "library_id" / Int32sl,
-        "member_values" / MemberValue[this.class_info.member_count],
+        record_type_enum=Computed(RecordTypeEnum.ClassWithMembers),
+        class_info=ClassInfo,
+        library_id=Int32sl,
+        member_values=MemberValue[this.class_info.member_count],
     )
 )
 
@@ -395,22 +395,22 @@ BinaryType = partial(
 
 
 MemberTypeAddtionalInfo = Struct(
-    "binary_type_enum" / Computed(lambda this: this._.binary_type_enums[this._index]),
-    "info" / BinaryType(lambda this: this.binary_type_enum),
+    binary_type_enum=Computed(lambda this: this._.binary_type_enums[this._index]),
+    info=BinaryType(lambda this: this.binary_type_enum),
 )
 
 
 MemberTypeInfo = Struct(
-    "binary_type_enums" / BinaryTypeEnum[this._.class_info.member_count],
-    "additional_infos" / MemberTypeAddtionalInfo[this._.class_info.member_count],
+    binary_type_enums=BinaryTypeEnum[this._.class_info.member_count],
+    additional_infos=MemberTypeAddtionalInfo[this._.class_info.member_count],
 )
 
 
 MemberValueWithType = Struct(
-    "binary_type_enum"
-    / Computed(lambda this: (this._.member_type_info["binary_type_enums"][this._._index])),
-    "value"
-    / Switch(
+    binary_type_enum=Computed(
+        lambda this: (this._.member_type_info["binary_type_enums"][this._._index])
+    ),
+    value=Switch(
         lambda this: this.binary_type_enum,
         {
             "Primitive": PrimitiveType(
@@ -424,35 +424,33 @@ MemberValueWithType = Struct(
 
 SystemClassWithMembersAndTypes = ClassRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.SystemClassWithMembersAndTypes),
-        "class_info" / ClassInfo,
-        "member_type_info" / MemberTypeInfo,
-        "member_values" / MemberValueWithType[this.class_info.member_count],
+        record_type_enum=Computed(RecordTypeEnum.SystemClassWithMembersAndTypes),
+        class_info=ClassInfo,
+        member_type_info=MemberTypeInfo,
+        member_values=MemberValueWithType[this.class_info.member_count],
     )
 )
 
 ClassWithMembersAndTypes = ClassRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.ClassWithMembersAndTypes),
-        "class_info" / ClassInfo,
-        "member_type_info" / MemberTypeInfo,
-        "library_id" / Int32sl,
-        "member_values" / MemberValueWithType[this.class_info.member_count],
+        record_type_enum=Computed(RecordTypeEnum.ClassWithMembersAndTypes),
+        class_info=ClassInfo,
+        member_type_info=MemberTypeInfo,
+        library_id=Int32sl,
+        member_values=MemberValueWithType[this.class_info.member_count],
     )
 )
 
 ClassWithId = ObjectRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.ClassWithId),
-        "object_id" / Int32sl,
-        "metadata_id" / Int32sl,
-        "class_info" / Computed(lambda this: (local_store.classes[this.metadata_id]["class_info"])),
-        "member_type_info"
-        / Computed(
+        record_type_enum=Computed(RecordTypeEnum.ClassWithId),
+        object_id=Int32sl,
+        metadata_id=Int32sl,
+        class_info=Computed(lambda this: (local_store.classes[this.metadata_id]["class_info"])),
+        member_type_info=Computed(
             lambda this: (local_store.classes[this.metadata_id].get("member_type_info", None))
         ),
-        "member_values"
-        / IfThenElse(
+        member_values=IfThenElse(
             lambda this: this.member_type_info,
             MemberValueWithType[this.class_info.member_count],
             MemberValue[this.class_info.member_count],
@@ -462,21 +460,20 @@ ClassWithId = ObjectRegistryAdapter(
 
 BinaryObjectString = ObjectRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.BinaryObjectString),
-        "object_id" / Int32sl,
-        "value" / LengthPrefixedString,
+        record_type_enum=Computed(RecordTypeEnum.BinaryObjectString),
+        object_id=Int32sl,
+        value=LengthPrefixedString,
     )
 )
 
 BinaryArray = ObjectRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.BinaryArray),
-        "object_id" / Int32sl,
-        "binary_array_type_enum" / BinaryArrayTypeEnum,
-        "rank" / Int32sl,
-        "lengths" / Int32sl[this.rank],
-        "lower_bounds"
-        / IfThenElse(
+        record_type_enum=Computed(RecordTypeEnum.BinaryArray),
+        object_id=Int32sl,
+        binary_array_type_enum=BinaryArrayTypeEnum,
+        rank=Int32sl,
+        lengths=Int32sl[this.rank],
+        lower_bounds=IfThenElse(
             lambda this: str(this.binary_array_type_enum)
             in [
                 "SingleOffset",
@@ -486,10 +483,9 @@ BinaryArray = ObjectRegistryAdapter(
             Int32sl[this.rank],
             Null,
         ),
-        "binary_type_enum" / BinaryTypeEnum,
-        "info" / BinaryType(lambda this: (this.binary_type_enum)),
-        "member_values"
-        / If(
+        binary_type_enum=BinaryTypeEnum,
+        info=BinaryType(lambda this: (this.binary_type_enum)),
+        member_values=If(
             lambda this: (
                 str(this.binary_array_type_enum)
                 not in [
@@ -512,9 +508,8 @@ BinaryArray = ObjectRegistryAdapter(
                     >= obj["total"]
                 ),
                 Struct(
-                    "total" / Computed(lambda this: (this._.lengths[0])),
-                    "real_obj"
-                    / Switch(
+                    total=Computed(lambda this: (this._.lengths[0])),
+                    real_obj=Switch(
                         lambda this: this._.binary_type_enum,
                         {
                             "Primitive": PrimitiveType(
@@ -534,104 +529,99 @@ BinaryArray = ObjectRegistryAdapter(
 )
 
 ValueWithCode = Struct(
-    "primitive_type_enum" / PrimitiveTypeEnum,
-    "value" / PrimitiveType(this.primitive_type_enum),
+    primitive_type_enum=PrimitiveTypeEnum,
+    value=PrimitiveType(this.primitive_type_enum),
 )
 
 StringValueWithCode = Struct(
-    "primitive_type_enum" / Const(PrimitiveTypeEnum.String, Byte),
-    "value" / LengthPrefixedString,
+    primitive_type_enum=Const(PrimitiveTypeEnum.String, Byte),
+    value=LengthPrefixedString,
 )
 
 ArrayOfValueWithCode = PrefixedArray(Int32sl, ValueWithCode)
 
-MemberPrimitiveTyped = (
-    "record_type_enum" / Computed(RecordTypeEnum.MemberPrimitiveTyped),
-    "value" / ValueWithCode,
+MemberPrimitiveTyped = Struct(
+    record_type_enum=Computed(RecordTypeEnum.MemberPrimitiveTyped),
+    value=ValueWithCode,
 )
 
 MemberReference = MemberReferenceAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.MemberReference),
-        "id_ref" / Int32sl,
+        record_type_enum=Computed(RecordTypeEnum.MemberReference),
+        id_ref=Int32sl,
     )
 )
 
 BinaryLibrary = LibraryRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.BinaryLibrary),
-        "library_id" / Int32sl,
-        "library_name" / LengthPrefixedString,
+        record_type_enum=Computed(RecordTypeEnum.BinaryLibrary),
+        library_id=Int32sl,
+        library_name=LengthPrefixedString,
     )
 )
 
 ObjectNullMultiple256 = Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.ObjectNullMultiple256),
-    "null_count" / Int8ul,
+    record_type_enum=Computed(RecordTypeEnum.ObjectNullMultiple256),
+    null_count=Int8ul,
 )
 
 ObjectNullMultiple = Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.ObjectNullMultiple),
-    "null_count" / Int32sl,
+    record_type_enum=Computed(RecordTypeEnum.ObjectNullMultiple),
+    null_count=Int32sl,
 )
 
 ArraySinglePrimitive = ObjectRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.ArraySinglePrimitive),
-        "array_info" / ArrayInfo,
-        "primitive_type_enum" / PrimitiveTypeEnum,
-        "member_values" / PrimitiveType(this.primitive_type_enum)[this.array_info.length],
+        record_type_enum=Computed(RecordTypeEnum.ArraySinglePrimitive),
+        array_info=ArrayInfo,
+        primitive_type_enum=PrimitiveTypeEnum,
+        member_values=PrimitiveType(this.primitive_type_enum)[this.array_info.length],
     )
 )
 
 ArraySingleObject = ObjectRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.ArraySingleObject),
-        "array_info" / ArrayInfo,
-        "member_values" / LazyBound(lambda: Record[this.array_info.length]),
+        record_type_enum=Computed(RecordTypeEnum.ArraySingleObject),
+        array_info=ArrayInfo,
+        member_values=LazyBound(lambda: Record[this.array_info.length]),
     )
 )
 
 ArraySingleString = ObjectRegistryAdapter(
     Struct(
-        "record_type_enum" / Computed(RecordTypeEnum.ArraySingleString),
-        "array_info" / ArrayInfo,
-        "member_values" / LazyBound(lambda: Record[this.array_info.length]),
+        record_type_enum=Computed(RecordTypeEnum.ArraySingleString),
+        array_info=ArrayInfo,
+        member_values=LazyBound(lambda: Record[this.array_info.length]),
     )
 )
 
 MethodCall = Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.MethodCall),
-    "flags" / MessageFlagsEnum,
-    "method_name" / StringValueWithCode,
-    "type_name" / StringValueWithCode,
-    "call_context"
-    / If(
+    record_type_enum=Computed(RecordTypeEnum.MethodCall),
+    flags=MessageFlagsEnum,
+    method_name=StringValueWithCode,
+    type_name=StringValueWithCode,
+    call_context=If(
         this.flags & MessageFlagsEnum.ContextInline,
         StringValueWithCode,
     ),
-    "args"
-    / If(
+    args=If(
         this.flags & MessageFlagsEnum.ArgsInline,
         ArrayOfValueWithCode,
     ),
 )
 
 MethodReturn = Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.MethodReturn),
-    "flags" / MessageFlagsEnum,
-    "return_value"
-    / If(
+    record_type_enum=Computed(RecordTypeEnum.MethodReturn),
+    flags=MessageFlagsEnum,
+    return_value=If(
         this.flags & MessageFlagsEnum.ReturnValueInline,
         ValueWithCode,
     ),
-    "call_context"
-    / If(
+    call_context=If(
         this.flags & MessageFlagsEnum.ContextInline,
         StringValueWithCode,
     ),
-    "args"
-    / If(
+    args=If(
         this.flags & MessageFlagsEnum.ArgsInline,
         ArrayOfValueWithCode,
     ),
@@ -639,18 +629,17 @@ MethodReturn = Struct(
 
 
 ObjectNull = Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.ObjectNull),
+    record_type_enum=Computed(RecordTypeEnum.ObjectNull),
 )
 
 MessageEnd = Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.MessageEnd),
+    record_type_enum=Computed(RecordTypeEnum.MessageEnd),
 )
 
 
 Record: Container = Struct(
-    "record_type_enum" / RecordTypeEnum,
-    "obj"
-    / Switch(
+    record_type_enum=RecordTypeEnum,
+    obj=Switch(
         this.record_type_enum,
         {
             "SerializedStreamHeader": SerializedStreamHeader,
@@ -684,7 +673,7 @@ RecordStream = RepeatUntil(
 
 
 SVIPFile = Struct(
-    "magic" / PascalString(Byte, "utf-8"),
-    "version" / PascalString(Byte, "utf-8"),
-    "record_stream" / RecordStream,
+    magic=PascalString(Byte, "utf-8"),
+    version=PascalString(Byte, "utf-8"),
+    record_stream=RecordStream,
 )
