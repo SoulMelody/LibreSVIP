@@ -43,7 +43,7 @@ ruamel-yaml-clib==0.2.12
 sortedcontainers==2.4.0
 svg-py==1.8.0
 tatsu-lts==5.13.1
-typer-slim==0.17.4
+typer-slim==0.18.0
 typing-extensions==4.15.0
 typing-inspection==0.4.1
 universal-pathlib==0.2.6
