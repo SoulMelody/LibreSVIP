@@ -127,7 +127,7 @@ linting = [
   "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
-  "cx-Freeze>=8.4.0",
+  "cx-Freeze>=8.4.1",
   "nuitka>=2.7.16",
   "pyfuze>=2.7.2",
   "pyinstaller>=6.16.0",
