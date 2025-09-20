@@ -1700,7 +1700,7 @@ requires-dist = [
     { name = "svg-py", specifier = ">=1.8.0,<2.0.0" },
     { name = "tatsu-lts", specifier = ">=5.13.1,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
-    { name = "typer-slim", specifier = ">=0.19.0,<1.0.0" },
+    { name = "typer-slim", specifier = ">=0.19.1,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.11.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.6,<1.0.0" },
     { name = "universal-pathlib", marker = "extra == 'mobile'", specifier = ">=0.2.6,<1.0.0" },
@@ -3752,15 +3752,15 @@ wheels = [
 
 [[package]]
 name = "typer-slim"
-version = "0.19.0"
+version = "0.19.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e2/3b/0babb723f8b9926e8356e8d276c14c16d100c882bfa887d259977941ac0c/typer_slim-0.19.0.tar.gz", hash = "sha256:d5835584216f59ccd759d237ed82e9a3928cc47527b4ee489a3c43cccbad2319", size = 104716, upload-time = "2025-09-20T08:07:40.607Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/26/55/a57eb00dd34592281750830e1e5f05ad90cd7fc1829a292e411d8cf3d80c/typer_slim-0.19.1.tar.gz", hash = "sha256:4fb75d0688419f130ff8962e679aa2341ff258b8fa36c41e35d994aa7f1cf8fd", size = 104885, upload-time = "2025-09-20T08:59:29.284Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c4/6b/666bc12d9e84e38642663124b8ae8854b7aef50497eb7b1def13d78bc9c5/typer_slim-0.19.0-py3-none-any.whl", hash = "sha256:c2afee34a91f45b389cbffbfd25da10d0ad9a0d02e63de709bc36a5a4d512ef1", size = 46935, upload-time = "2025-09-20T08:07:39.313Z" },
+    { url = "https://files.pythonhosted.org/packages/21/7f/c34fc71d08f2037276f6c3d1a2299d96bd12702c4d9cc298da6c1160a2de/typer_slim-0.19.1-py3-none-any.whl", hash = "sha256:e050c351613b4855844ef116244b66fb71c3864ae23c997c1c2c7f890fd89f90", size = 46935, upload-time = "2025-09-20T08:59:27.452Z" },
 ]
 
 [[package]]
