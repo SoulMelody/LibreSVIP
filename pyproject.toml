@@ -281,6 +281,7 @@ missing-attribute = "ignore"
 missing-module-attribute = "ignore"
 not-iterable = "ignore"
 no-matching-overload = "ignore"
+unbound-name = "ignore"
 unknown-name = "ignore"
 unsupported-operation = "ignore"
 
