@@ -65,7 +65,7 @@ repro-zipfile==0.4.0 ; python_full_version < '3.11'
 retrie==0.3.1
 rich==14.1.0
 ruamel-yaml==0.18.15
-ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
+ruamel-yaml-clib==0.2.14 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 rubicon-objc==0.5.2 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
 setuptools==80.9.0
 shellingham==1.5.4
