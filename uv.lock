@@ -1678,7 +1678,7 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=6.0.2" },
     { name = "more-itertools", specifier = ">=10.8.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.24.1" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.24.2" },
     { name = "packaging", specifier = ">=25.0,<25.1" },
     { name = "platformdirs", specifier = ">=4.4.0,<5.0.0" },
     { name = "portion", specifier = ">=2.6.1,<3.0.0" },
@@ -1700,7 +1700,7 @@ requires-dist = [
     { name = "svg-py", specifier = ">=1.8.0,<2.0.0" },
     { name = "tatsu-lts", specifier = ">=5.13.1,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
-    { name = "typer-slim", specifier = ">=0.19.1,<1.0.0" },
+    { name = "typer-slim", specifier = ">=0.19.2,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.11.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.6,<1.0.0" },
     { name = "universal-pathlib", marker = "extra == 'mobile'", specifier = ">=0.2.6,<1.0.0" },
@@ -2333,7 +2333,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.24.1"
+version = "2.24.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2358,9 +2358,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/04/68/a4d4db67c6485cc3d46edd6f71a8cf6296583491552829946e9e8cd4710e/nicegui-2.24.1.tar.gz", hash = "sha256:e35221034077ac796cf05ade2d9e7aeaa7e421bbb87798fc8538a29979897ad1", size = 13108990, upload-time = "2025-09-11T03:20:51.594Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e9/fc/ddb6265ae6979a4a0b251dcea5d2a5f582883cb63a3f81cafb8c04c9a090/nicegui-2.24.2.tar.gz", hash = "sha256:21e7620c99aeeb535665e81e45ef2f9eeda95f6a9e35cee542414a10bbe61b77", size = 13109064, upload-time = "2025-09-23T13:45:58.243Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/8f/d123b74c6e760e941ccbdaf25b61c309d8bb16177802c801aa3f14543386/nicegui-2.24.1-py3-none-any.whl", hash = "sha256:a1bfc566cd2c9d290925f4df8b8023e63edaab6590e19160de97d9f84b8d6d8c", size = 13496427, upload-time = "2025-09-11T03:20:47.828Z" },
+    { url = "https://files.pythonhosted.org/packages/52/c1/6a49602d7c33ab8286654a3d64c83d5d2534d4b90d256eaed92c3fefc7f4/nicegui-2.24.2-py3-none-any.whl", hash = "sha256:9b810fe75f3dd1ff926e3d96d71e25031387fe5b7a21d32159a32611b8023423", size = 13496524, upload-time = "2025-09-23T13:45:55.437Z" },
 ]
 
 [[package]]
@@ -3756,15 +3756,15 @@ wheels = [
 
 [[package]]
 name = "typer-slim"
-version = "0.19.1"
+version = "0.19.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/26/55/a57eb00dd34592281750830e1e5f05ad90cd7fc1829a292e411d8cf3d80c/typer_slim-0.19.1.tar.gz", hash = "sha256:4fb75d0688419f130ff8962e679aa2341ff258b8fa36c41e35d994aa7f1cf8fd", size = 104885, upload-time = "2025-09-20T08:59:29.284Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/75/d6/489402eda270c00555213bdd53061b23a0ae2b5dccbfe428ebcc9562d883/typer_slim-0.19.2.tar.gz", hash = "sha256:6f601e28fb8249a7507f253e35fb22ccc701403ce99bea6a9923909ddbfcd133", size = 104788, upload-time = "2025-09-23T09:47:42.917Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/21/7f/c34fc71d08f2037276f6c3d1a2299d96bd12702c4d9cc298da6c1160a2de/typer_slim-0.19.1-py3-none-any.whl", hash = "sha256:e050c351613b4855844ef116244b66fb71c3864ae23c997c1c2c7f890fd89f90", size = 46935, upload-time = "2025-09-20T08:59:27.452Z" },
+    { url = "https://files.pythonhosted.org/packages/a5/19/7aef771b3293e1b7c749eebb2948bb7ccd0e9b56aa222eb4d5e015087730/typer_slim-0.19.2-py3-none-any.whl", hash = "sha256:1c9cdbbcd5b8d30f4118d3cb7c52dc63438b751903fbd980a35df1dfe10c6c91", size = 46806, upload-time = "2025-09-23T09:47:41.385Z" },
 ]
 
 [[package]]
