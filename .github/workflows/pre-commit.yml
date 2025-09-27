@@ -1,0 +1,16 @@
+name: pre-commit
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+      - name: Install Pyrefly
+        run: |
+          pip install pyrefly uv
+          uv sync --all-extras --group linting
+      - uses: pre-commit/action@v3.0.1

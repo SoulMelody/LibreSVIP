@@ -196,7 +196,7 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
             ms = 0
 
             with QtCore.QMutexLocker(self._lock):
-                err, transferred, key, address = status
+                _, transferred, key, address = status
                 try:
                     f, ov, obj, callback = self._cache.pop(address)
                 except KeyError:

@@ -41,7 +41,8 @@ class USTParser:
 
     def parse_project(self, ust_project: UTAUProject) -> Project:
         if not len(ust_project.track):
-            raise NoTrackError(_("UST project has no track"))
+            msg = _("Project has no tracks")
+            raise NoTrackError(msg)
         tracks = []
         time_signatures = self.parse_time_signatures(ust_project.time_signatures)
         for ust_track in ust_project.track:

@@ -2,8 +2,6 @@ import contextlib
 import dataclasses
 import math
 
-import mido_fix as mido
-
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -18,6 +16,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
+from libresvip.utils.binary.midi import tempo2bpm
 from libresvip.utils.search import find_index
 
 from .model import (
@@ -57,7 +56,7 @@ class GjgjParser:
         tempos = [
             SongTempo(
                 position=tempo.time,
-                bpm=mido.tempo2bpm(tempo.microseconds_per_quarter_note),
+                bpm=tempo2bpm(tempo.microseconds_per_quarter_note),
             )
             for tempo in tempo_map.tempos
         ]

@@ -2,7 +2,7 @@ import dataclasses
 import itertools
 
 import more_itertools
-from drawsvg import Line, Lines, Rectangle, Text
+from svg import Line, Polyline, Rect, Style, Text
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
@@ -20,14 +20,15 @@ class SvgFactory:
     time_synchronizer: TimeSynchronizer
     options: OutputOptions
     line_elements: list[Line] = dataclasses.field(default_factory=list)
-    polyline_elements: list[Lines] = dataclasses.field(default_factory=list)
-    rect_elements: list[Rectangle] = dataclasses.field(default_factory=list)
+    polyline_elements: list[Polyline] = dataclasses.field(default_factory=list)
+    rect_elements: list[Rect] = dataclasses.field(default_factory=list)
     text_elements: list[Text] = dataclasses.field(default_factory=list)
     pitch_points_buf: list[Point] = dataclasses.field(default_factory=list)
     style: str = dataclasses.field(init=False)
 
     def __post_init__(self) -> None:
-        self.style = f"""\
+        self.style = Style(
+            text=f"""\
 .note {{
     fill: {self.options.note_fill_color.as_hex()};
     stroke: {self.options.note_stroke_color.as_hex()};
@@ -54,6 +55,7 @@ text {{
     stroke: {self.options.grid_color.as_hex()};
     stroke-width: {self.options.grid_stroke_width}px;
 }}"""
+        )
 
     def draw_grid(self, time_signature_list: list[TimeSignature]) -> None:
         prev_pos = 0
@@ -72,11 +74,11 @@ text {{
                         / TICKS_IN_BEAT
                     )
                     line_element = Line(
-                        sx=x,
-                        sy=0,
-                        ex=x,
-                        ey=self.coordinate_helper.size[1],
-                        class_="line",
+                        x1=x,
+                        y1=0,
+                        x2=x,
+                        y2=self.coordinate_helper.size["height"],
+                        class_=["line"],
                     )
                     self.line_elements.append(line_element)
             prev_pos += beat_length * TICKS_IN_BEAT
@@ -87,11 +89,11 @@ text {{
                 if pos >= beat_start:
                     x = int((pos - beat_start) * self.options.pixel_per_beat / TICKS_IN_BEAT)
                     line_element = Line(
-                        sx=x,
-                        sy=0,
-                        ex=x,
-                        ey=self.coordinate_helper.size[1],
-                        class_="line",
+                        x1=x,
+                        y1=0,
+                        x2=x,
+                        y2=self.coordinate_helper.size["height"],
+                        class_=["line"],
                     )
                     self.line_elements.append(line_element)
         for key in range(
@@ -100,11 +102,11 @@ text {{
         ):
             y = (self.coordinate_helper.key_range_end - key) * self.options.note_height
             line_element = Line(
-                sx=0,
-                sy=y,
-                ex=self.coordinate_helper.size[0],
-                ey=y,
-                class_="line",
+                x1=0,
+                y1=y,
+                x2=self.coordinate_helper.size["width"],
+                y2=y,
+                class_=["line"],
             )
             self.line_elements.append(line_element)
 
@@ -126,27 +128,27 @@ text {{
         else:
             return
         text_element = Text(
-            text,
-            self.coordinate_helper.font_size,
+            text=text,
+            font_size=self.coordinate_helper.font_size,
             x=insert_pos[0],
             y=insert_pos[1],
         )
         class_name = "inner" if position == TextPositionOption.INNER else "side"
         if is_phoneme:
             class_name += " pinyin"
-        text_element.args["class"] = class_name
+        text_element.class_ = class_name
         self.text_elements.append(text_element)
 
     def draw_note(self, note: Note) -> None:
         parameters = self.coordinate_helper.get_note_position_parameters(note)
-        rect_element = Rectangle(
+        rect_element = Rect(
             x=parameters.point_1[0],
             y=parameters.point_1[1],
             width=parameters.point_2[0] - parameters.point_1[0],
             height=parameters.point_2[1] - parameters.point_1[1],
             rx=self.options.note_round,
             ry=self.options.note_round,
-            class_="note",
+            class_=["note"],
         )
         self.rect_elements.append(rect_element)
         self.draw_text(self.options.lyric_position, note.lyric, parameters, False)
@@ -160,14 +162,13 @@ text {{
     def draw_pitch(self, point: Point) -> None:
         if point.y == -100:
             if len(self.pitch_points_buf):
-                start_point = self.coordinate_helper.get_pitch_point(self.pitch_points_buf[0])
-                polyline_element = Lines(
-                    start_point[0],
-                    start_point[1],
-                    *itertools.chain.from_iterable(
-                        self.coordinate_helper.get_pitch_point(p) for p in self.pitch_points_buf[1:]
+                polyline_element = Polyline(
+                    points=list(
+                        itertools.chain.from_iterable(
+                            self.coordinate_helper.get_pitch_point(p) for p in self.pitch_points_buf
+                        )
                     ),
-                    class_="pitch",
+                    class_=["pitch"],
                 )
                 self.polyline_elements.append(polyline_element)
                 self.pitch_points_buf.clear()

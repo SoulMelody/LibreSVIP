@@ -10,9 +10,8 @@ from pydantic import AliasChoices, Field, ValidationInfo, field_validator
 
 from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
+from libresvip.utils.binary.value_tree import JUCENode, JUCEVarTypes
 from libresvip.utils.translation import gettext_lazy as _
-
-from .value_tree import JUCENode, JUCEVarTypes
 
 
 class VoiSonaPlayControlItem(BaseModel):

@@ -5,8 +5,10 @@ from typing import Any, BinaryIO, TypeAlias, TypeVar
 import more_itertools
 from construct import (
     Byte,
+    Bytes,
     BytesInteger,
     Computed,
+    Const,
     Construct,
     Container,
     CString,
@@ -26,6 +28,8 @@ from construct import Optional as CSOptional
 from construct import Path as CSPath
 from construct_typed import Context
 from typing_extensions import Never
+
+from . import singleton
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 VariantList: TypeAlias = list["Variant"]
@@ -47,7 +51,8 @@ JUCEVarTypes = CSEnum(
 )
 
 
-class JUCECompressedIntStruct(Construct):
+@singleton
+class JUCECompressedInt(Construct):
     def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "JUCECompressedInt has no static size"
         raise SizeofError(msg)
@@ -73,9 +78,6 @@ class JUCECompressedIntStruct(Construct):
             raise ValueError(msg) from e
         else:
             return obj
-
-
-JUCECompressedInt = JUCECompressedIntStruct()
 
 
 JUCEVariant: Container = Prefixed(
@@ -113,6 +115,16 @@ JUCENode: Container = Struct(
     "name" / CString("utf-8"),
     "attrs" / PrefixedArray(JUCECompressedInt, JUCENamedVariant),
     "children" / PrefixedArray(JUCECompressedInt, LazyBound(lambda: JUCENode)),
+)
+
+
+JUCEPluginData = Prefixed(
+    Int64sl,
+    Struct(
+        "data" / JUCENode,
+        "padding" / Const(b"\x00" * 8),
+        "private_data" / Bytes(100),
+    ),
 )
 
 

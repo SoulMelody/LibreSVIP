@@ -1,6 +1,6 @@
 import abc
 import pathlib
-from typing import TypeVar
+from typing import TypeVar, final
 
 from libresvip.model.base import BaseModel, Project
 
@@ -25,10 +25,12 @@ class MiddlewareBase(BasePlugin):
 
 
 class WriteOnlyConverterBase(SVSConverterBase, abc.ABC):
+    @final
     def load(self, path: pathlib.Path, options: BaseModel) -> Project:
         raise NotImplementedError
 
 
 class ReadOnlyConverterBase(SVSConverterBase, abc.ABC):
+    @final
     def dump(self, path: pathlib.Path, project: Project, options: BaseModel) -> None:
         raise NotImplementedError
