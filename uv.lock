@@ -1698,7 +1698,7 @@ requires-dist = [
     { name = "rich", specifier = ">=14.1.0,<14.1.1" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.15" },
     { name = "svg-py", specifier = ">=1.8.0,<2.0.0" },
-    { name = "tatsu-lts", specifier = ">=5.13.1,<6.0.0" },
+    { name = "tatsu-lts", specifier = ">=5.13.2,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
     { name = "typer-slim", specifier = ">=0.19.2,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.11.0" },
@@ -3610,11 +3610,11 @@ wheels = [
 
 [[package]]
 name = "tatsu-lts"
-version = "5.13.1"
+version = "5.13.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/4a/40/4bbdba35865ebaf33a192cea87bfafb4f4ca6b4bf45c18b89c6eed086b98/tatsu_lts-5.13.1.tar.gz", hash = "sha256:b9f0d38bf820d92077b5722bad26f68020c8e4ee663f7e35d4a0d95e4ebc5623", size = 126048, upload-time = "2025-01-10T22:44:58.715Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/62/55/8123c70881c58d0f01f48d869378717a101149491dd8e13cd908eb06a5a4/tatsu_lts-5.13.2.tar.gz", hash = "sha256:7204dbc3075fabecedd1ec1cbe04c5f20b159d7344f63280e580a21f3c14bf9f", size = 126316, upload-time = "2025-09-27T16:34:21.5Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/57/e5/db39275af7c98a28b00e1b81f4b17db25067a5aeafd72074da857bee63b5/TatSu_LTS-5.13.1-py3-none-any.whl", hash = "sha256:f8fae46923e07de2984d0700a14858b06870b33490732a02e848bb0af38c0731", size = 79702, upload-time = "2025-01-10T22:44:55.242Z" },
+    { url = "https://files.pythonhosted.org/packages/c9/be/35d92814305e8a641341a519423b7f8da1075eeb7a2e492554a07619e819/tatsu_lts-5.13.2-py3-none-any.whl", hash = "sha256:6bf313f507a8f300340f09ff011f796399c46471031c657b5a90cc8e637dedf3", size = 79841, upload-time = "2025-09-27T16:34:20.026Z" },
 ]
 
 [[package]]
