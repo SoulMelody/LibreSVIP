@@ -78,7 +78,7 @@ crypto = [
 ]
 ujson = ["ujson>=5.11.0"]
 upath = [
-  "universal-pathlib<1.0.0,>=0.2.6",
+  "universal-pathlib<1.0.0,>=0.3.0",
 ]
 ruamel_yaml = [
   "ruamel.yaml>=0.18.15",
