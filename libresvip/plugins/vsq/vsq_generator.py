@@ -68,6 +68,18 @@ class VsqGenerator:
         ]
         self.generate_tempos(master_track, project.song_tempo_list)
         self.generate_time_signatures(master_track, project.time_signature_list)
+        master_track.append(
+            {
+                "time": master_track[-1]["time"] if master_track else 0,
+                "__next": 0xFF,
+                "status": 0xFF,
+                "detail": {
+                    "type": "meta",
+                    "event_type": 0x2F,
+                    "data": {"type": "end_of_track"},
+                },
+            }
+        )
         master_track.sort(key=operator.itemgetter("time"))
         tracks.append(master_track)
         tracks.extend(self.generate_tracks(project.track_list))

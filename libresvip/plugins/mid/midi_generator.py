@@ -45,6 +45,18 @@ class MidiGenerator:
         master_track: list[MidiMessage] = []
         self.generate_tempos(master_track, project.song_tempo_list)
         self.generate_time_signatures(master_track, project.time_signature_list)
+        master_track.append(
+            {
+                "time": master_track[-1]["time"] if master_track else 0,
+                "__next": 0xFF,
+                "status": 0xFF,
+                "detail": {
+                    "type": "meta",
+                    "event_type": 0x2F,
+                    "data": {"type": "end_of_track"},
+                },
+            }
+        )
         master_track.sort(key=operator.itemgetter("time"))
         tracks.append(master_track)
         tracks.extend(self.generate_tracks(project.track_list, project.time_signature_list))
@@ -168,35 +180,35 @@ class MidiGenerator:
                         },
                     }
                 )
-            mido_track.append(
-                {
-                    "time": round(note.start_pos / self.tick_rate),
-                    "__next": 0x90,
-                    "status": 0x90,
-                    "detail": {
-                        "type": "channel",
-                        "data": {
-                            "type": "note_on",
-                            "note": note.key_number,
-                            "velocity": 127,
+            mido_track.extend(
+                (
+                    {
+                        "time": round(note.start_pos / self.tick_rate),
+                        "__next": 0x90,
+                        "status": 0x90,
+                        "detail": {
+                            "type": "channel",
+                            "data": {
+                                "type": "note_on",
+                                "note": note.key_number,
+                                "velocity": 127,
+                            },
                         },
                     },
-                }
-            )
-            mido_track.append(
-                {
-                    "time": round(note.end_pos / self.tick_rate),
-                    "__next": 0x80,
-                    "status": 0x80,
-                    "detail": {
-                        "type": "channel",
-                        "data": {
-                            "type": "note_off",
-                            "note": note.key_number,
-                            "velocity": 0,
+                    {
+                        "time": round(note.end_pos / self.tick_rate),
+                        "__next": 0x80,
+                        "status": 0x80,
+                        "detail": {
+                            "type": "channel",
+                            "data": {
+                                "type": "note_off",
+                                "note": note.key_number,
+                                "velocity": 0,
+                            },
                         },
                     },
-                }
+                )
             )
         if pitch_data := generate_for_midi(
             self.first_bar_length,
