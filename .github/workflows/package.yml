@@ -89,9 +89,11 @@ jobs:
   release_windows_arm64:
     runs-on: windows-11-arm
     needs: [make-outputs]
-    env:
-      MEDIAINFO_VERSION: 25.07
     steps:
+      - id: mediainfo_version
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: MediaArea/MediaInfo
       - uses: actions/checkout@v5
 
       - name: Set up uv
@@ -111,8 +113,8 @@ jobs:
           uv run pyinstaller libresvip.spec
           mkdir archive
           cd dist
-          curl -O https://mediaarea.net/download/binary/mediainfo-gui/${MEDIAINFO_VERSION}/MediaInfo_GUI_${MEDIAINFO_VERSION}_Windows_ARM64_WithoutInstaller.7z
-          7z x MediaInfo_GUI_${MEDIAINFO_VERSION}_Windows_ARM64_WithoutInstaller.7z
+          curl -O https://mediaarea.net/download/binary/mediainfo-gui/${{ steps.mediainfo_version.outputs.release }}/MediaInfo_GUI_${{ steps.mediainfo_version.outputs.release }}_Windows_ARM64_WithoutInstaller.7z
+          7z x MediaInfo_GUI_${{ steps.mediainfo_version.outputs.release }}_Windows_ARM64_WithoutInstaller.7z
           mkdir -p libresvip/_internal/pymediainfo
           cp MediaInfo.dll libresvip/_internal/pymediainfo
           7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
