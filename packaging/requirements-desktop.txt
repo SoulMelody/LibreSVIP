@@ -77,7 +77,7 @@ svg-py==1.9.0
 tatsu-lts==5.13.2
 typer-slim==0.19.2
 typing-extensions==4.15.0
-typing-inspection==0.4.1
+typing-inspection==0.4.2
 ujson==5.11.0
 universal-pathlib==0.3.0
 wanakana-python @ https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
