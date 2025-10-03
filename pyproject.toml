@@ -52,7 +52,7 @@ dependencies = [
   "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.1.1,>=14.1.0",
-  "svg-py<2.0.0,>=1.9.0",
+  "svg-py<2.0.0,>=1.9.1",
   "tatsu-lts<6.0.0,>=5.13.2",
   "typer-slim<1.0.0,>=0.19.2",
   "wanakana-python",

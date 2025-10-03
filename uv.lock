@@ -1691,7 +1691,7 @@ requires-dist = [
     { name = "retrie", specifier = ">=0.3.1,<1.0.0" },
     { name = "rich", specifier = ">=14.1.0,<14.1.1" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.15" },
-    { name = "svg-py", specifier = ">=1.9.0,<2.0.0" },
+    { name = "svg-py", specifier = ">=1.9.1,<2.0.0" },
     { name = "tatsu-lts", specifier = ">=5.13.2,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
     { name = "typer-slim", specifier = ">=0.19.2,<1.0.0" },
@@ -3621,11 +3621,11 @@ wheels = [
 
 [[package]]
 name = "svg-py"
-version = "1.9.0"
+version = "1.9.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/fd/89/b45918f8c5edac543c58ee06175ea95d3be393f56c2820cc11156144623e/svg_py-1.9.0.tar.gz", hash = "sha256:b70a3fd52bfcb8d15ab8efe53a469f00e22d07702d80cc4101e7f1fed6584222", size = 43717, upload-time = "2025-09-30T15:36:50.291Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e3/99/ec05caaac1f5b9b5172dc379ab2824ed6f289153fc26cbc46900eba8b18d/svg_py-1.9.1.tar.gz", hash = "sha256:8702c5b952d58edccff0df9aa28e29bdc521cd8b1c175aaceeb1a3d10817b77c", size = 43717, upload-time = "2025-10-03T06:49:29.535Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/de/4a/fa9233b58f820f587321a276968f4cca23a5280aaa0b5670caf5b6bfdc77/svg_py-1.9.0-py3-none-any.whl", hash = "sha256:8cd81273b161ebba9c86db74deda1c9713770701b5c21a851789b5ae45b0a610", size = 15158, upload-time = "2025-09-30T15:36:48.745Z" },
+    { url = "https://files.pythonhosted.org/packages/2b/59/221806e7be32efba4a1d4f8c37053bd242884aeef1f33307947554c88712/svg_py-1.9.1-py3-none-any.whl", hash = "sha256:58ae244680bd92c1e26aacaaca73b086b0f4b2ac67ee3d7770f2d7878ca344f4", size = 15152, upload-time = "2025-10-03T06:49:27.492Z" },
 ]
 
 [[package]]
