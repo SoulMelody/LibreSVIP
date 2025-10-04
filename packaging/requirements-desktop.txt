@@ -11,7 +11,7 @@ click==8.3.0 ; python_full_version >= '3.10'
 colorama==0.4.6 ; sys_platform == 'win32'
 construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
 construct-typing==0.6.2
-dbus-fast==2.44.3 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
+dbus-fast==2.44.5 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
 desktop-notifier==6.2.0 ; platform_python_implementation == 'CPython'
 exceptiongroup==1.3.0 ; python_full_version < '3.11'
 fonticon-materialdesignicons7==7.2.96
@@ -43,7 +43,7 @@ proto-plus==1.26.1
 protobuf==6.32.1
 pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy') or (implementation_name != 'PyPy' and sys_platform != 'win32')
 pycryptodomex==3.23.0
-pydantic==2.11.9
+pydantic==2.11.10
 pydantic-core==2.33.2
 pydantic-extra-types==2.10.5
 pydantic-settings==2.11.0
