@@ -41,7 +41,7 @@ dependencies = [
   "platformdirs<5.0.0,>=4.4.0",
   "portion<3.0.0,>=2.6.1",
   "proto-plus<2.0.0,>=1.26.1",
-  "pydantic<3.0.0,>=2.11.9",
+  "pydantic<3.0.0,>=2.11.10",
   "pydantic-extra-types<3.0.0,>=2.10.5",
   "pydantic-settings<3.0.0,>=2.11.0",
   "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
@@ -89,7 +89,7 @@ tui = [
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=3.0.0",
+  "nicegui>=3.0.2",
   "libresvip[upath]",
 ]
 mobile = [

@@ -1672,12 +1672,12 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=6.0.2" },
     { name = "more-itertools", specifier = ">=10.8.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.0.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.0.2" },
     { name = "packaging", specifier = ">=25.0,<25.1" },
     { name = "platformdirs", specifier = ">=4.4.0,<5.0.0" },
     { name = "portion", specifier = ">=2.6.1,<3.0.0" },
     { name = "proto-plus", specifier = ">=1.26.1,<2.0.0" },
-    { name = "pydantic", specifier = ">=2.11.9,<3.0.0" },
+    { name = "pydantic", specifier = ">=2.11.10,<3.0.0" },
     { name = "pydantic-extra-types", specifier = ">=2.10.5,<3.0.0" },
     { name = "pydantic-settings", specifier = ">=2.11.0,<3.0.0" },
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = "<=7.0.1" },
@@ -2331,7 +2331,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "3.0.0"
+version = "3.0.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2356,9 +2356,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8d/10/314741df6607122a5c860c211a741e4ae6ce708573a258d1fd3079aa5e06/nicegui-3.0.0.tar.gz", hash = "sha256:081248bc61f874ef0d40ffe8d0dc79da7b853bb2b8b2c2bfc7a52202760c7c1d", size = 20100518, upload-time = "2025-10-03T15:45:54.596Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6d/19/41ebaa1f2c06a589559fe6d3a054f3fb43b0f85b4f348b546ec1a49bba53/nicegui-3.0.2.tar.gz", hash = "sha256:9bdd7f200d4f6f37f51da2b955dae936405cfd5c866a9eb99fbe26b5ab552c75", size = 20101181, upload-time = "2025-10-04T16:36:39.052Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4e/5f/24e3ca338723c8e7f6be6889613dad6e577df00437c104762b5db6ab1cf2/nicegui-3.0.0-py3-none-any.whl", hash = "sha256:abe958c99d75a2e9ab19de75f60130e70a098046b6cde5520c518a697b6167bc", size = 20748597, upload-time = "2025-10-03T15:45:51.208Z" },
+    { url = "https://files.pythonhosted.org/packages/41/e8/1319bb56a63ba52a5a980a5c0b01f2b9db5a4a03b64b1a9648d1f25846c7/nicegui-3.0.2-py3-none-any.whl", hash = "sha256:bc2978775d9ee60d44d841c1332cf9f90bb8eef90ce6a62442cb64d417f0cc99", size = 20749114, upload-time = "2025-10-04T16:36:36.173Z" },
 ]
 
 [[package]]
@@ -2789,7 +2789,7 @@ wheels = [
 
 [[package]]
 name = "pydantic"
-version = "2.11.9"
+version = "2.11.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-types" },
@@ -2797,9 +2797,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "typing-inspection" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ff/5d/09a551ba512d7ca404d785072700d3f6727a02f6f3c24ecfd081c7cf0aa8/pydantic-2.11.9.tar.gz", hash = "sha256:6b8ffda597a14812a7975c90b82a8a2e777d9257aba3453f973acd3c032a18e2", size = 788495, upload-time = "2025-09-13T11:26:39.325Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ae/54/ecab642b3bed45f7d5f59b38443dcb36ef50f85af192e6ece103dbfe9587/pydantic-2.11.10.tar.gz", hash = "sha256:dc280f0982fbda6c38fada4e476dc0a4f3aeaf9c6ad4c28df68a666ec3c61423", size = 788494, upload-time = "2025-10-04T10:40:41.338Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3e/d3/108f2006987c58e76691d5ae5d200dd3e0f532cb4e5fa3560751c3a1feba/pydantic-2.11.9-py3-none-any.whl", hash = "sha256:c42dd626f5cfc1c6950ce6205ea58c93efa406da65f479dcb4029d5934857da2", size = 444855, upload-time = "2025-09-13T11:26:36.909Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/1f/73c53fcbfb0b5a78f91176df41945ca466e71e9d9d836e5c522abda39ee7/pydantic-2.11.10-py3-none-any.whl", hash = "sha256:802a655709d49bd004c31e865ef37da30b540786a46bfce02333e0e24b5fe29a", size = 444823, upload-time = "2025-10-04T10:40:39.055Z" },
 ]
 
 [[package]]
