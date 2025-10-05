@@ -3,7 +3,7 @@ annotated-types==0.7.0
 anyio==4.11.0
 backports-zstd==0.5.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
 bidict==0.23.1
-certifi==2025.8.3
+certifi==2025.10.5
 cffi==2.0.0 ; python_full_version < '3.12' or sys_platform != 'win32'
 charset-normalizer==3.4.3
 click==8.1.8 ; python_full_version < '3.10'
@@ -79,7 +79,7 @@ typer-slim==0.19.2
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 ujson==5.11.0
-universal-pathlib==0.3.1
+universal-pathlib==0.3.2
 wanakana-python @ https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 winrt-runtime==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
