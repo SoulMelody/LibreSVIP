@@ -1696,11 +1696,11 @@ requires-dist = [
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
     { name = "typer-slim", specifier = ">=0.19.2,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.11.0" },
-    { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.3.1,<1.0.0" },
-    { name = "universal-pathlib", marker = "extra == 'mobile'", specifier = ">=0.3.1,<1.0.0" },
-    { name = "universal-pathlib", marker = "extra == 'tui'", specifier = ">=0.3.1,<1.0.0" },
-    { name = "universal-pathlib", marker = "extra == 'upath'", specifier = ">=0.3.1,<1.0.0" },
-    { name = "universal-pathlib", marker = "extra == 'webui'", specifier = ">=0.3.1,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.3.2,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'mobile'", specifier = ">=0.3.2,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'tui'", specifier = ">=0.3.2,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'upath'", specifier = ">=0.3.2,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'webui'", specifier = ">=0.3.2,<1.0.0" },
     { name = "wanakana-python", url = "https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" },
     { name = "xsdata-pydantic", specifier = ">=24.5,<24.6" },
     { name = "zhon", specifier = ">=2.1.1,<3.0.0" },
@@ -3948,15 +3948,15 @@ wheels = [
 
 [[package]]
 name = "universal-pathlib"
-version = "0.3.1"
+version = "0.3.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fsspec" },
     { name = "pathlib-abc" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d5/4c/bd1b8b91a78f786a8e8b5acc3b2fceb5766770234aea0f51468a1af9c1ed/universal_pathlib-0.3.1.tar.gz", hash = "sha256:b5db6ad8f23549b1071d58e87319d77c1a1ce592d46cefcb7ee49baa138ca9dc", size = 188920, upload-time = "2025-10-03T18:23:09.318Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5e/3a/705d760866fc9e0616bc0fcc3747f3c0719b77b87fcccb6908be080dc3a0/universal_pathlib-0.3.2.tar.gz", hash = "sha256:cfec30ad6094236bb1bc55715bea7664b4591eaf4ea92ad4011a0228fd20bbe5", size = 196005, upload-time = "2025-10-05T14:51:25.868Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/29/24/3ea90d322d3316d843c368ca1834d8c4953188faca2d7012583dd19633e7/universal_pathlib-0.3.1-py3-none-any.whl", hash = "sha256:9c83f84bd8e81f738500bfa298b874ec5c0936ba2c3d563c39a1fdb1a3d860d4", size = 60578, upload-time = "2025-10-03T18:23:07.322Z" },
+    { url = "https://files.pythonhosted.org/packages/79/bc/3d995b13a6cf4e060db085b405b4c16b91e57ca35877083a7f51b74e34d4/universal_pathlib-0.3.2-py3-none-any.whl", hash = "sha256:50e97ed757600da310b77ba6274f3f0738fca514d29dfb1e57cfcc2925b665d3", size = 67742, upload-time = "2025-10-05T14:51:24.287Z" },
 ]
 
 [[package]]
