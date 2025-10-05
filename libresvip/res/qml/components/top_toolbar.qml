@@ -50,7 +50,7 @@ ToolBar {
         DragHandler {
             grabPermissions: TapHandler.CanTakeOverFromAnything
             onActiveChanged: if (active) {
-                window.startSystemMove();
+                window.start_system_move();
             }
         }
     }
@@ -79,7 +79,6 @@ ToolBar {
                 implicitHeight: 24
                 spacing: 0
                 Button {
-                    id: minimizeButton
                     Material.roundedScale: Material.NotRounded
                     Layout.fillHeight: true
                     leftPadding: 0
@@ -94,7 +93,7 @@ ToolBar {
                     text: iconicFontLoader.icon("mdi7.window-minimize")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.3
-                    onClicked: window.showMinimized()
+                    onClicked: window.click_minimize_btn()
                 }
 
                 Button {
