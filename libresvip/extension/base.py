@@ -27,6 +27,22 @@ class SVSConverter:
     def dump(cls, path: pathlib.Path, project: Project, options: OptionsDict) -> None: ...
 
 
+class WriteOnlyConverterMixin:
+    input_option_cls: ClassVar[type[BaseModel]] = BaseModel
+
+    @classmethod
+    def load(cls, path: pathlib.Path, options: OptionsDict) -> Project:
+        raise NotImplementedError
+
+
+class ReadOnlyConverterMixin:
+    output_option_cls: ClassVar[type[BaseModel]] = BaseModel
+
+    @classmethod
+    def dump(cls, path: pathlib.Path, project: Project, options: OptionsDict) -> None:
+        raise NotImplementedError
+
+
 @pluginlib.Parent("middleware")
 class Middleware:
     process_option_cls: ClassVar[type[BaseModel]]
@@ -67,7 +83,9 @@ __all__ = [
     "Middleware",
     "MiddlewarePluginInfo",
     "ReadOnlyConverterBase",
+    "ReadOnlyConverterMixin",
     "SVSConverter",
     "SVSConverterBase",
     "WriteOnlyConverterBase",
+    "WriteOnlyConverterMixin",
 ]
