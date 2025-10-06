@@ -589,17 +589,12 @@ class TUIApp(App[None]):
                     for (
                         middleware_id,
                         middleware,
-                    ) in middleware_manager.plugin_registry.items():
-                        enabled = self.query_one(f"#{middleware_id}_switch").value
-                        if (
-                            enabled
-                            and middleware.plugin_object is not None
-                            and hasattr(middleware.plugin_object, "process")
-                        ):
+                    ) in middleware_manager.plugins["middleware"].items():
+                        if self.query_one(f"#{middleware_id}_switch").value:
                             option_form = self.query_one(f"#{middleware_id}_options")
-                            project = middleware.plugin_object.process(
+                            project = middleware.process(
                                 project,
-                                option_form.option_class.model_validate(option_form.option_dict),
+                                option_form.option_dict,
                             )
                     output_options = self.query_one("#output_options")
                     output_option = output_option_class.model_validate(output_options.option_dict)
@@ -747,20 +742,17 @@ class TUIApp(App[None]):
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
                         yield OptionsForm(None, id="input_options")
-                    for middleware_id, middleware in middleware_manager.plugin_registry.items():
-                        if middleware.plugin_object is not None and (
-                            middleware_option := get_type_hints(
-                                middleware.plugin_object.process
-                            ).get("options")
-                        ):
-                            with Collapsible(title=_(middleware.name)), VerticalGroup():
-                                with Horizontal(classes="row"):
-                                    yield Label(_("Enable"), classes="text-middle fill-width")
-                                    yield Switch(id=f"{middleware_id}_switch")
-                                with Vertical():
-                                    yield OptionsForm(
-                                        middleware_option, id=f"{middleware_id}_options"
-                                    )
+                    for middleware_id, middleware in middleware_manager.plugins[
+                        "middleware"
+                    ].items():
+                        with Collapsible(title=_(middleware.info.name)), VerticalGroup():
+                            with Horizontal(classes="row"):
+                                yield Label(_("Enable"), classes="text-middle fill-width")
+                                yield Switch(id=f"{middleware_id}_switch")
+                            with Vertical():
+                                yield OptionsForm(
+                                    middleware.process_option_cls, id=f"{middleware_id}_options"
+                                )
                     with Collapsible(title=_("Output Options")):
                         yield OptionsForm(None, id="output_options")
                 with Horizontal(classes="bottom-pane card row"):

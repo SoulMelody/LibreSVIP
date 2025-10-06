@@ -55,30 +55,20 @@ def convert(
             typer.echo(option_type)
             option_kwargs = prompt_fields(option_class)
         project = input_plugin.plugin_object.load(in_path, option_class(**option_kwargs))
-        for middleware in middleware_manager.plugin_registry.values():
-            if (
-                (
-                    Confirm.ask(
-                        _("Enable {} middleware?").format(_(middleware.name)),
-                        default=False,
-                    )
-                )
-                and (middleware.plugin_object is not None)
-                and (
-                    middleware_option := get_type_hints(middleware.plugin_object.process).get(
-                        "options"
-                    )
-                )
+        for middleware in middleware_manager.plugins["middleware"].values():
+            if Confirm.ask(
+                _("Enable {} middleware?").format(_(middleware.info.name)),
+                default=False,
             ):
                 option_type, option_class = (
                     _("Process Options: "),
-                    middleware_option,
+                    middleware.process_option_cls,
                 )
                 option_kwargs = {}
                 if len(option_class.model_fields):
                     typer.echo(option_type)
                     option_kwargs = prompt_fields(option_class)
-                project = middleware.plugin_object.process(project, option_class(**option_kwargs))
+                project = middleware.plugin_object.process(project, option_kwargs)
         option_type, option_class = _("Output Options: "), output_option
         option_kwargs = {}
         if len(option_class.model_fields):
@@ -115,24 +105,14 @@ def split_project(
         root_project = input_plugin.plugin_object.load(in_path, option_class(**option_kwargs))
         sub_projects = root_project.split_tracks(max_track_count)
         middleware_with_options = []
-        for middleware in middleware_manager.plugin_registry.values():
-            if (
-                (
-                    Confirm.ask(
-                        _("Enable {} middleware?").format(_(middleware.name)),
-                        default=False,
-                    )
-                )
-                and (middleware.plugin_object is not None)
-                and (
-                    middleware_option := get_type_hints(middleware.plugin_object.process).get(
-                        "options"
-                    )
-                )
+        for middleware in middleware_manager.plugins["middleware"].values():
+            if Confirm.ask(
+                _("Enable {} middleware?").format(_(middleware.info.name)),
+                default=False,
             ):
                 option_type, option_class = (
                     _("Process Options: "),
-                    middleware_option,
+                    middleware.process_option_cls,
                 )
                 option_kwargs = {}
                 if len(option_class.model_fields):
@@ -141,7 +121,6 @@ def split_project(
                 middleware_with_options.append(
                     (
                         middleware.plugin_object.process,
-                        option_class,
                         option_kwargs,
                     )
                 )
@@ -157,10 +136,9 @@ def split_project(
         ):
             for (
                 middleware_func,
-                option_class,
                 option_kwargs,
             ) in middleware_with_options:
-                project = middleware_func(project, option_class(**option_kwargs))
+                project = middleware_func(project, option_kwargs)
             output_plugin.plugin_object.dump(
                 out_dir / f"{in_path.stem}_{i:02d}.{output_ext}",
                 project,
@@ -179,30 +157,20 @@ def merge_projects(
 ) -> None:
     projects = []
     middleware_with_options = []
-    for middleware in middleware_manager.plugin_registry.values():
-        if (
-            (
-                Confirm.ask(
-                    _("Enable {} middleware?").format(_(middleware.name)),
-                    default=False,
-                )
-            )
-            and (middleware.plugin_object is not None)
-            and (
-                middleware_option := get_type_hints(middleware.plugin_object.process).get("options")
-            )
+    for middleware in middleware_manager.plugins["middleware"].values():
+        if Confirm.ask(
+            _("Enable {} middleware?").format(_(middleware.info.name)),
+            default=False,
         ):
             option_type, option_class = (
                 _("Process Options: "),
-                middleware_option,
+                middleware.process_option_cls,
             )
             option_kwargs = {}
             if len(option_class.model_fields):
                 typer.echo(option_type)
                 option_kwargs = prompt_fields(option_class)
-            middleware_with_options.append(
-                (middleware.plugin_object.process, option_class, option_kwargs)
-            )
+            middleware_with_options.append((middleware.plugin_object.process, option_kwargs))
     for in_path in in_paths:
         typer.echo(in_path)
         input_ext = in_path.suffix.lstrip(".").lower()
@@ -218,10 +186,9 @@ def merge_projects(
             project = input_plugin.plugin_object.load(in_path, option_class(**option_kwargs))
             for (
                 middleware_func,
-                option_class,
                 option_kwargs,
             ) in middleware_with_options:
-                project = middleware_func(project, option_class(**option_kwargs))
+                project = middleware_func(project, option_kwargs)
             projects.append(project)
         else:
             typer.secho("Invalid options", err=True, color=True, fg="red")

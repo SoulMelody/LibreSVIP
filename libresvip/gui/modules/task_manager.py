@@ -108,22 +108,11 @@ class ConversionWorker(QRunnable):
                         middleware_abbr,
                         middleware_option,
                     ) in self.middleware_options.items():
-                        middleware = middleware_manager.plugin_registry[middleware_abbr]
-                        if (
-                            middleware.plugin_object is not None
-                            and hasattr(middleware.plugin_object, "process")
-                            and (
-                                middleware_option_class := get_type_hints(
-                                    middleware.plugin_object.process
-                                ).get(
-                                    "options",
-                                )
-                            )
-                        ):
-                            project = middleware.plugin_object.process(
-                                project,
-                                middleware_option_class.model_validate(middleware_option),
-                            )
+                        middleware = middleware_manager.plugins["middleware"][middleware_abbr]
+                        project = middleware.process(
+                            project,
+                            middleware_option,
+                        )
                     output_plugin.plugin_object.dump(
                         UPath(self.output_path),
                         project,
@@ -461,42 +450,38 @@ class TaskManager(QObject):
         return len(self.tasks)
 
     def init_middleware_options(self) -> None:
-        for middleware in middleware_manager.plugin_registry.values():
-            if middleware.plugin_object is not None and hasattr(
-                middleware.plugin_object, "process"
-            ):
-                self.middleware_states.append(
-                    {
-                        "index": len(self.middleware_states),
-                        "identifier": middleware.identifier,
-                        "name": middleware.name,
-                        "description": middleware.description,
-                        "value": False,
-                    }
-                )
-                self.middleware_fields[middleware.identifier] = ModelProxy(
-                    {
-                        "name": "",
-                        "title": "",
-                        "description": "",
-                        "default": "",
-                        "type": "",
-                        "value": "",
-                        "choices": [],
-                    }
-                )
+        for middleware_cls in middleware_manager.plugins["middleware"].values():
+            middleware = middleware_cls.info
+            self.middleware_states.append(
+                {
+                    "index": len(self.middleware_states),
+                    "identifier": middleware.identifier,
+                    "name": middleware.name,
+                    "description": middleware.description,
+                    "value": False,
+                }
+            )
+            self.middleware_fields[middleware.identifier] = ModelProxy(
+                {
+                    "name": "",
+                    "title": "",
+                    "description": "",
+                    "default": "",
+                    "type": "",
+                    "value": "",
+                    "choices": [],
+                }
+            )
         self.reload_middleware_options()
         self.middleware_options_updated.connect(self.reload_middleware_options)
 
     def reload_middleware_options(self) -> None:
-        for middleware in middleware_manager.plugin_registry.values():
-            if middleware.plugin_object is not None and hasattr(
-                middleware.plugin_object, "process"
-            ):
-                option_class = get_type_hints(middleware.plugin_object.process)["options"]
-                self.middleware_fields[middleware.identifier].clear()
-                middleware_fields = self.inspect_fields(option_class)
-                self.middleware_fields[middleware.identifier].append_many(middleware_fields)
+        for middleware_cls in middleware_manager.plugins["middleware"].values():
+            middleware = middleware_cls.info
+            option_class = middleware_cls.process_option_cls
+            self.middleware_fields[middleware.identifier].clear()
+            middleware_fields = self.inspect_fields(option_class)
+            self.middleware_fields[middleware.identifier].append_many(middleware_fields)
 
     @Slot(result=None)
     def reload_formats(self) -> None:

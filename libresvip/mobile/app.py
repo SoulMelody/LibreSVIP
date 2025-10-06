@@ -68,7 +68,7 @@ def main(page: ft.Page) -> None:
     output_options = ft.Ref[ft.ResponsiveRow]()
     middleware_options = {
         middleware_id: ft.Ref[ft.ExpansionPanel]()
-        for middleware_id in middleware_manager.plugin_registry
+        for middleware_id in middleware_manager.plugins["middleware"]
     }
 
     def build_options(option_class: type[BaseModel]) -> list[ft.Control]:
@@ -184,18 +184,9 @@ def main(page: ft.Page) -> None:
         return []
 
     def build_middleware_options(value: str) -> list[ft.Control]:
-        if value in middleware_manager.plugin_registry:
-            middleware = middleware_manager.plugin_registry[value]
-            if (
-                middleware.plugin_object is not None
-                and (
-                    middleware_option_cls := get_type_hints(middleware.plugin_object.process).get(
-                        "options"
-                    )
-                )
-                is not None
-            ):
-                return build_options(middleware_option_cls)
+        if value in middleware_manager.plugins["middleware"]:
+            middleware = middleware_manager.plugins["middleware"][value]
+            return build_options(middleware.process_option_cls)
         return []
 
     def build_output_options(value: str | None) -> list[ft.Control]:
@@ -559,31 +550,17 @@ def main(page: ft.Page) -> None:
                             middleware_ref.current.header is not None
                             and middleware_ref.current.header.leading.value
                         ):
-                            middleware = middleware_manager.plugin_registry[middleware_id]
-                            if (
-                                middleware_ref.current.content is not None
-                                and middleware.plugin_object is not None
-                                and hasattr(middleware.plugin_object, "process")
-                                and (
-                                    middleware_option_cls := get_type_hints(
-                                        middleware.plugin_object.process
-                                    ).get(
-                                        "options",
-                                    )
-                                )
-                            ):
-                                project = middleware.plugin_object.process(
+                            middleware = middleware_manager.plugins["middleware"][middleware_id]
+                            if middleware_ref.current.content is not None:
+                                project = middleware.process(
                                     project,
-                                    middleware_option_cls.model_validate(
-                                        {
-                                            control.data: control.value
-                                            for control in middleware_ref.current.content.controls[
-                                                -1
-                                            ].controls
-                                            if control.data is not None
-                                            and hasattr(control, "value")
-                                        }
-                                    ),
+                                    {
+                                        control.data: control.value
+                                        for control in middleware_ref.current.content.controls[
+                                            -1
+                                        ].controls
+                                        if control.data is not None and hasattr(control, "value")
+                                    },
                                 )
                     output_option = output_option_class.model_validate(
                         {
@@ -1003,9 +980,9 @@ def main(page: ft.Page) -> None:
                                             leading=ft.Switch(value=False),
                                             title=ft.Text(
                                                 _(
-                                                    middleware_manager.plugin_registry[
+                                                    middleware_manager.plugins["middleware"][
                                                         middleware_id
-                                                    ].name
+                                                    ].info.name
                                                 )
                                             ),
                                         ),

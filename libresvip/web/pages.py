@@ -511,29 +511,20 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @context_vars_wrapper
         def middleware_options_form(attr: str, toggler: Switch) -> None:
-            conversion_plugin = middleware_manager.plugin_registry[attr]
+            middleware = middleware_manager.plugins["middleware"][attr]
             field_types = {}
-            option_class = None
-            if (
-                hasattr(conversion_plugin.plugin_object, "process")
-                and (
-                    option_class := get_type_hints(
-                        getattr(conversion_plugin.plugin_object, "process"),
-                    ).get("options")
-                )
-                and hasattr(option_class, "model_fields")
-            ):
-                for option_key, field_info in option_class.model_fields.items():
-                    if issubclass(
-                        field_info.annotation,
-                        str | Color | enum.Enum | BaseComplexModel,
-                    ):
-                        field_types[option_key] = str
-                    else:
-                        field_types[option_key] = field_info.annotation
-            if not option_class or not field_types:
+            option_class = middleware.process_option_cls
+            for option_key, field_info in option_class.model_fields.items():
+                if issubclass(
+                    field_info.annotation,
+                    str | Color | enum.Enum | BaseComplexModel,
+                ):
+                    field_types[option_key] = str
+                else:
+                    field_types[option_key] = field_info.annotation
+            option_dict = selected_formats.middleware_options.get(attr)
+            if not field_types or option_dict is None:
                 return
-            option_dict = getattr(selected_formats.middleware_options, attr)
             with ui.column().classes("w-full").bind_visibility_from(toggler, "value"):
                 for i, (option_key, field_info) in enumerate(
                     option_class.model_fields.items(),
@@ -666,24 +657,12 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             def __post_init__(self) -> None:
                 self.middleware_enabled_states = create_model(
                     "middleware_enabled_states",
-                    **dict.fromkeys(middleware_manager.plugin_registry, (bool, False)),
+                    **dict.fromkeys(middleware_manager.plugins["middleware"], (bool, False)),
                 )()
-                self.middleware_options = create_model(
-                    "middleware_options",
-                    **{
-                        abbr: (options, options())
-                        for abbr, middleware in middleware_manager.plugin_registry.items()
-                        if (
-                            middleware.plugin_object is not None
-                            and hasattr(middleware.plugin_object, "process")
-                            and (
-                                options := get_type_hints(middleware.plugin_object.process).get(
-                                    "options",
-                                )
-                            )
-                        )
-                    },
-                )()
+                self.middleware_options = {
+                    abbr: middleware.process_option_cls()
+                    for abbr, middleware in middleware_manager.plugins["middleware"].items()
+                }
 
             @functools.cached_property
             def temp_path(self) -> UPath:
@@ -925,29 +904,16 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                 enabled,
                             ) in self.middleware_enabled_states.model_dump().items():
                                 if enabled:
-                                    middleware = middleware_manager.plugin_registry[middleware_abbr]
-                                    if (
-                                        middleware.plugin_object is not None
-                                        and hasattr(middleware.plugin_object, "process")
-                                        and (
-                                            middleware_option_class := get_type_hints(
-                                                middleware.plugin_object.process
-                                            ).get(
-                                                "options",
-                                            )
-                                        )
-                                    ):
-                                        middleware_option = getattr(
-                                            self.middleware_options,
-                                            middleware_abbr,
-                                        )
-                                        project = middleware.plugin_object.process(
-                                            project,
-                                            middleware_option_class.model_validate(
-                                                middleware_option,
-                                                from_attributes=True,
-                                            ),
-                                        )
+                                    middleware = middleware_manager.plugins["middleware"][
+                                        middleware_abbr
+                                    ]
+                                    middleware_option = self.middleware_options.get(
+                                        middleware_abbr,
+                                    )
+                                    project = middleware.plugin_object.process(
+                                        project,
+                                        middleware_option.model_dump(),
+                                    )
                             output_option = output_option_class(**self.output_options)
                             if self._conversion_mode == ConversionMode.SPLIT:
                                 task.output_path.mkdir(parents=True, exist_ok=True)
@@ -2179,22 +2145,22 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @ui.refreshable
         def middleware_options() -> None:
-            for middleware in middleware_manager.plugin_registry.values():
+            for middleware in middleware_manager.plugins["middleware"].values():
                 with ui.row().classes("items-center w-full"):
                     middleware_toggler = (
-                        ui.switch(_(middleware.name))
+                        ui.switch(_(middleware.info.name))
                         .props("color=green")
                         .bind_value(
                             selected_formats.middleware_enabled_states,
-                            middleware.identifier,
+                            middleware.info.identifier,
                         )
                     )
-                    if middleware.description:
+                    if middleware.info.description:
                         ui.space()
                         ui.icon("help_outline").classes("text-3xl").style(
                             "cursor: help",
-                        ).tooltip(_(middleware.description))
-                middleware_options_form(middleware.identifier, middleware_toggler)
+                        ).tooltip(_(middleware.info.description))
+                middleware_options_form(middleware.info.identifier, middleware_toggler)
 
         def options_area() -> None:
             with ui.scroll_area().classes("w-full h-full"):
