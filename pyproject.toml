@@ -270,6 +270,7 @@ python-version = "3.10"
 [tool.pyrefly.errors]
 bad-argument-type = "ignore"
 bad-assignment = "ignore"
+bad-instantiation = "ignore"
 bad-override = "ignore"
 bad-return = "ignore"
 bad-specialization = "ignore"
