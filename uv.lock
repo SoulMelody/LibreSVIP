@@ -1687,7 +1687,7 @@ requires-dist = [
     { name = "pyyaml", marker = "python_full_version < '3.13' or sys_platform == 'emscripten'", specifier = ">=6.0.3,<7.0.0" },
     { name = "pyyaml-ft", marker = "python_full_version >= '3.13' and sys_platform != 'emscripten'", specifier = ">=8.0.0,<8.0.1" },
     { name = "pyzipper", marker = "extra == 'crypto'", specifier = ">=0.3.6" },
-    { name = "repro-zipfile", marker = "python_full_version < '3.11'", specifier = ">=0.4.0,<1.0.0" },
+    { name = "repro-zipfile", marker = "python_full_version < '3.11'", specifier = ">=0.4.1,<1.0.0" },
     { name = "retrie", specifier = ">=0.3.1,<1.0.0" },
     { name = "rich", specifier = ">=14.1.0,<14.1.1" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.15" },
@@ -3345,11 +3345,11 @@ wheels = [
 
 [[package]]
 name = "repro-zipfile"
-version = "0.4.0"
+version = "0.4.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ed/86/a680b85796b667a060bc673294e8adc3201a28381b23a61702ac0f51f732/repro_zipfile-0.4.0.tar.gz", hash = "sha256:fde4cf1300e740f2fd1745708ba8f1366a70853a39af6266e1e04ae81c1231c1", size = 21777, upload-time = "2025-03-21T03:53:45.9Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/68/d4/514da0758e1ba5723ad45ff9981c8e3b30f5114516f9ba3968ccae3c0043/repro_zipfile-0.4.1.tar.gz", hash = "sha256:0d5995b4311ed4871cbf6b3210e6a340b0f35f6e4ce2ba27676470bf6987c1db", size = 59691, upload-time = "2025-10-05T23:00:35.721Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/48/6e/d956269ebfb35f11bd05ef67a29ee49fc361ca22eac303b0e84d0bd9990c/repro_zipfile-0.4.0-py3-none-any.whl", hash = "sha256:557ef51e17d583e2bdcaf152517843f176604f1fa9d43cf6d08b0ab152dcb719", size = 11670, upload-time = "2025-03-21T03:53:44.563Z" },
+    { url = "https://files.pythonhosted.org/packages/00/e8/1f11d8061c433c5205f1caaa06221fb033beb2d8dd5f8d5aaf21b41742e5/repro_zipfile-0.4.1-py3-none-any.whl", hash = "sha256:3061d5ab47064ce17255e0e7baa3f2f9128873e1ff49946ce13b73f405167763", size = 11649, upload-time = "2025-10-05T23:00:34.595Z" },
 ]
 
 [[package]]
