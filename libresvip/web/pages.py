@@ -903,13 +903,14 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                 middleware_abbr,
                                 enabled,
                             ) in self.middleware_enabled_states.model_dump().items():
-                                if enabled:
+                                if enabled and (
+                                    middleware_option := self.middleware_options.get(
+                                        middleware_abbr
+                                    )
+                                ):
                                     middleware = middleware_manager.plugins["middleware"][
                                         middleware_abbr
                                     ]
-                                    middleware_option = self.middleware_options.get(
-                                        middleware_abbr,
-                                    )
                                     project = middleware.plugin_object.process(
                                         project,
                                         middleware_option.model_dump(),
