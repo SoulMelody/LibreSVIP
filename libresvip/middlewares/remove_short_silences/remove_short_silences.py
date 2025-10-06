@@ -16,8 +16,9 @@ class RemoveShortSilencesMiddleware(plugin_base.Middleware):
     )
     _alias_ = "remove_short_silences"
 
-    def process(self, project: Project, options: plugin_base.OptionsDict) -> Project:
-        options_obj = self.process_option_cls.model_validate(options)
+    @classmethod
+    def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.process_option_cls.model_validate(options)
         first_bar_tick = round(project.time_signature_list[0].bar_length())
         if min_silence_length := fractions.Fraction(options_obj.fill_threshold.value):
             silence_threshold = first_bar_tick * min_silence_length

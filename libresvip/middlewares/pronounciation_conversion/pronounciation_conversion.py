@@ -25,8 +25,9 @@ class PronounciationMiddleware(plugin_base.Middleware):
     )
     _alias_ = "pronounciation_conversion"
 
-    def process(self, project: Project, options: plugin_base.OptionsDict) -> Project:
-        options_obj = self.process_option_cls.model_validate(options)
+    @classmethod
+    def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.process_option_cls.model_validate(options)
         if options_obj.mode != PronounciationConversionOptions.NONE:
             if options_obj.mode == PronounciationConversionOptions.KANA2ROMAJI:
                 lyric_transformer = to_romaji

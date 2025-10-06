@@ -13,8 +13,9 @@ class PitchShiftMiddleware(plugin_base.Middleware):
     )
     _alias_ = "pitch_shift"
 
-    def process(self, project: Project, options: plugin_base.OptionsDict) -> Project:
-        options_obj = self.process_option_cls.model_validate(options)
+    @classmethod
+    def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.process_option_cls.model_validate(options)
         if options_obj.key:
             return project.model_copy(
                 update={

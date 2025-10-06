@@ -18,11 +18,13 @@ class SVSConverter:
     output_option_cls: ClassVar[type[BaseModel]]
     info: ClassVar[FormatProviderPluginInfo | None]
 
+    @classmethod
     @pluginlib.abstractmethod
-    def load(self, path: pathlib.Path, options: OptionsDict) -> Project: ...  # type: ignore[empty-body]
+    def load(cls, path: pathlib.Path, options: OptionsDict) -> Project: ...  # type: ignore[empty-body]
 
+    @classmethod
     @pluginlib.abstractmethod
-    def dump(self, path: pathlib.Path, project: Project, options: OptionsDict) -> None: ...
+    def dump(cls, path: pathlib.Path, project: Project, options: OptionsDict) -> None: ...
 
 
 @pluginlib.Parent("middleware")
@@ -30,8 +32,9 @@ class Middleware:
     process_option_cls: ClassVar[type[BaseModel]]
     info: ClassVar[MiddlewarePluginInfo | None]
 
+    @classmethod
     @pluginlib.abstractmethod
-    def process(self, project: Project, options: OptionsDict) -> Project: ...  # type: ignore[empty-body]
+    def process(cls, project: Project, options: OptionsDict) -> Project: ...  # type: ignore[empty-body]
 
 
 class BasePlugin(abc.ABC):

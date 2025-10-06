@@ -23,8 +23,9 @@ class RemoveShortSilencesMiddleware(plugin_base.Middleware):
     )
     _alias_ = "replace_lyric"
 
-    def process(self, project: Project, options: plugin_base.OptionsDict) -> Project:
-        options_obj = self.process_option_cls.model_validate(options)
+    @classmethod
+    def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.process_option_cls.model_validate(options)
         settings = get_ui_settings()
         if options_obj.lyric_replacement_preset_name in settings.lyric_replace_rules:
             for track in project.track_list:

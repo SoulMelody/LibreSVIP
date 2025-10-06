@@ -15,8 +15,9 @@ class ProjectZoomMiddleware(plugin_base.Middleware):
     )
     _alias_ = "project_zoom"
 
-    def process(self, project: Project, options: plugin_base.OptionsDict) -> Project:
-        options_obj = self.process_option_cls.model_validate(options)
+    @classmethod
+    def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.process_option_cls.model_validate(options)
         if (zoom_factor := float(fractions.Fraction(options_obj.factor.value))) != 1.0:
             return zoom_project(project, zoom_factor)
         return project
