@@ -22,6 +22,7 @@ class RemoveShortSilencesMiddleware(plugin_base.Middleware):
         (files(__package__) / "replace_lyric.yapsy-plugin").read_text(encoding="utf-8")
     )
     _alias_ = "replace_lyric"
+    _version_ = "1.0.0"
 
     @classmethod
     def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:

@@ -14,6 +14,7 @@ class ProjectZoomMiddleware(plugin_base.Middleware):
         (files(__package__) / "project_zoom.yapsy-plugin").read_text(encoding="utf-8")
     )
     _alias_ = "project_zoom"
+    _version_ = "1.0.0"
 
     @classmethod
     def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:

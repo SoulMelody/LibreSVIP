@@ -450,18 +450,17 @@ class TaskManager(QObject):
         return len(self.tasks)
 
     def init_middleware_options(self) -> None:
-        for middleware_cls in middleware_manager.plugins["middleware"].values():
-            middleware = middleware_cls.info
+        for middleware_id, middleware in middleware_manager.plugins["middleware"].items():
             self.middleware_states.append(
                 {
                     "index": len(self.middleware_states),
-                    "identifier": middleware.identifier,
-                    "name": middleware.name,
-                    "description": middleware.description,
+                    "identifier": middleware_id,
+                    "name": middleware.info.name,
+                    "description": middleware.info.description,
                     "value": False,
                 }
             )
-            self.middleware_fields[middleware.identifier] = ModelProxy(
+            self.middleware_fields[middleware_id] = ModelProxy(
                 {
                     "name": "",
                     "title": "",
@@ -476,12 +475,11 @@ class TaskManager(QObject):
         self.middleware_options_updated.connect(self.reload_middleware_options)
 
     def reload_middleware_options(self) -> None:
-        for middleware_cls in middleware_manager.plugins["middleware"].values():
-            middleware = middleware_cls.info
+        for middleware_id, middleware_cls in middleware_manager.plugins["middleware"].items():
             option_class = middleware_cls.process_option_cls
-            self.middleware_fields[middleware.identifier].clear()
+            self.middleware_fields[middleware_id].clear()
             middleware_fields = self.inspect_fields(option_class)
-            self.middleware_fields[middleware.identifier].append_many(middleware_fields)
+            self.middleware_fields[middleware_id].append_many(middleware_fields)
 
     @Slot(result=None)
     def reload_formats(self) -> None:

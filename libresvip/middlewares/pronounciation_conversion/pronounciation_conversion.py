@@ -24,6 +24,7 @@ class PronounciationMiddleware(plugin_base.Middleware):
         (files(__package__) / "pronounciation_conversion.yapsy-plugin").read_text(encoding="utf-8")
     )
     _alias_ = "pronounciation_conversion"
+    _version_ = "1.0.0"
 
     @classmethod
     def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:

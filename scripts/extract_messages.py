@@ -53,14 +53,14 @@ def extract_plugin_msgs() -> None:
         cmdinst.mapping_file = "babel.cfg"
         cmdinst.finalize_options()
         cmdinst.run()
-    for plugin_cls in middleware_manager.plugins["middleware"].values():
-        plugin_dir = cast("pathlib.Path", files(plugin_cls.__module__)).parent
+    for middleware_id, middleware in middleware_manager.plugins["middleware"].items():
+        plugin_dir = cast("pathlib.Path", files(middleware.__module__)).parent
         cmdinst = setuptools_frontend.extract_messages()
         cmdinst.initialize_options()
         cmdinst.omit_header = True
         cmdinst.no_location = True
         cmdinst.input_dirs = [str(plugin_dir)]
-        cmdinst.output_file = str(plugin_dir / f"{plugin_info.identifier}.po")
+        cmdinst.output_file = str(plugin_dir / f"{middleware_id}.po")
         cmdinst.mapping_file = "babel.cfg"
         cmdinst.finalize_options()
         cmdinst.run()

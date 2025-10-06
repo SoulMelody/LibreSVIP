@@ -12,6 +12,7 @@ class PitchShiftMiddleware(plugin_base.Middleware):
         (files(__package__) / "pitch_shift.yapsy-plugin").read_text(encoding="utf-8")
     )
     _alias_ = "pitch_shift"
+    _version_ = "1.0.0"
 
     @classmethod
     def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:

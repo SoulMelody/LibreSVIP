@@ -2145,14 +2145,14 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @ui.refreshable
         def middleware_options() -> None:
-            for middleware in middleware_manager.plugins["middleware"].values():
+            for middleware_id, middleware in middleware_manager.plugins["middleware"].items():
                 with ui.row().classes("items-center w-full"):
                     middleware_toggler = (
                         ui.switch(_(middleware.info.name))
                         .props("color=green")
                         .bind_value(
                             selected_formats.middleware_enabled_states,
-                            middleware.info.identifier,
+                            middleware_id,
                         )
                     )
                     if middleware.info.description:
@@ -2160,7 +2160,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         ui.icon("help_outline").classes("text-3xl").style(
                             "cursor: help",
                         ).tooltip(_(middleware.info.description))
-                middleware_options_form(middleware.info.identifier, middleware_toggler)
+                middleware_options_form(middleware_id, middleware_toggler)
 
         def options_area() -> None:
             with ui.scroll_area().classes("w-full h-full"):

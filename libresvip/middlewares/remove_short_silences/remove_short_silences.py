@@ -15,6 +15,7 @@ class RemoveShortSilencesMiddleware(plugin_base.Middleware):
         (files(__package__) / "remove_short_silences.yapsy-plugin").read_text(encoding="utf-8")
     )
     _alias_ = "remove_short_silences"
+    _version_ = "1.0.0"
 
     @classmethod
     def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:
