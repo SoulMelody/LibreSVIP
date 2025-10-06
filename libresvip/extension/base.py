@@ -46,11 +46,6 @@ class SVSConverterBase(BasePlugin):
     def dump(self, path: pathlib.Path, project: Project, options: BaseModel) -> None: ...
 
 
-class MiddlewareBase(BasePlugin):
-    @abc.abstractmethod
-    def process(self, project: Project, options: BaseModel) -> Project: ...
-
-
 class WriteOnlyConverterBase(SVSConverterBase, abc.ABC):
     @final
     def load(self, path: pathlib.Path, options: BaseModel) -> Project:
@@ -67,7 +62,6 @@ __all__ = [
     "BasePlugin",
     "FormatProviderPluginInfo",
     "Middleware",
-    "MiddlewareBase",
     "MiddlewarePluginInfo",
     "ReadOnlyConverterBase",
     "SVSConverter",

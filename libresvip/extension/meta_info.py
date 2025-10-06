@@ -14,7 +14,7 @@ from typing_extensions import Self
 if TYPE_CHECKING:
     from libresvip.core.compat import Traversable
 
-    from .base import BasePlugin, MiddlewareBase, SVSConverterBase
+    from .base import BasePlugin, SVSConverterBase
 
 
 @dataclasses.dataclass
@@ -87,8 +87,7 @@ class FormatProviderPluginInfo(BasePluginInfo):  # type: ignore[override]
 
 
 @dataclasses.dataclass
-class MiddlewarePluginInfo(BasePluginInfo):  # type: ignore[override]
-    plugin_object: MiddlewareBase | None = None
+class MiddlewarePluginInfo(BasePluginInfo):
     abbreviation: str = dataclasses.field(init=False)
 
     def __post_init__(self, _config: RawConfigParser) -> None:
