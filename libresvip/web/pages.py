@@ -19,7 +19,6 @@ from importlib.resources import as_file
 from operator import not_
 from typing import (
     TYPE_CHECKING,
-    BinaryIO,
     Literal,
     SupportsFloat,
     TypeVar,
@@ -825,10 +824,10 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     output_options.refresh()
 
             @context_vars_wrapper
-            async def _add_task(
+            def _add_task(
                 self,
                 name: str,
-                content: BinaryIO | pathlib.Path,
+                content: bytes | pathlib.Path,
             ) -> None:
                 if settings.auto_detect_input_format:
                     cur_suffix = name.rpartition(".")[-1].lower()
@@ -841,8 +840,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     upload_path = content
                 else:
                     upload_path = self.temp_path / name
-                    content.seek(0)
-                    upload_path.write_bytes(content.read())
+                    upload_path.write_bytes(content)
                 output_path = self.temp_path / uuid_str()
                 conversion_task = ConversionTask(
                     name=name,
@@ -857,7 +855,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 self.tasks_container.refresh()
 
             async def add_task(self, args: UploadEventArguments) -> None:
-                await self._add_task(args.name, args.content)
+                self._add_task(args.file.name, await args.file.read())
 
             @property
             def conversion_mode(self) -> str:
@@ -1100,7 +1098,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         return
                     for file_path in file_paths:
                         path = pathlib.Path(file_path)
-                        await self._add_task(path.name, path)
+                        self._add_task(path.name, path)
                 else:
                     await ui.run_javascript(
                         textwrap.dedent(f"""
@@ -1365,7 +1363,6 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         )
                                     ]
 
-                                rows = refresh_rules(selected_formats.current_preset)
                                 replace_mode_options = [
                                     {"label": _("Full match"), "value": "full"},
                                     {
@@ -1388,9 +1385,11 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         "value": re.UNICODE.value,
                                     },
                                 ]
-                                table = ui.table(columns=columns, rows=rows, pagination=5).classes(
-                                    "w-full"
-                                )
+                                table = ui.table(
+                                    columns=columns,
+                                    rows=refresh_rules(selected_formats.current_preset),
+                                    pagination=5,
+                                ).classes("w-full")
                                 table.add_slot(
                                     "body-cell-mode",
                                     r'''
@@ -1499,10 +1498,11 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                 def modify_field(
                                     event: GenericEventArguments,
                                 ) -> None:
+                                    rows = table.rows
                                     if (
                                         row_idx := find_index(
                                             rows,
-                                            lambda row: row["id"] == event.args["id"],
+                                            lambda row: row["id"] == event.args[0],
                                         )
                                     ) != -1:
                                         rows[row_idx][event.args[1]] = event.args[2]
@@ -1512,6 +1512,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                 def move_up_rule(
                                     event: GenericEventArguments,
                                 ) -> None:
+                                    rows = table.rows
                                     if (
                                         row_idx := find_index(
                                             rows,
@@ -1522,13 +1523,13 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                             rows[row_idx],
                                             rows[row_idx - 1],
                                         )
-                                        table.update_rows(rows)
 
                                 table.on("move_up", move_up_rule)
 
                                 def move_down_rule(
                                     event: GenericEventArguments,
                                 ) -> None:
+                                    rows = table.rows
                                     if (
                                         -1
                                         < (
@@ -1543,13 +1544,13 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                             rows[row_idx],
                                             rows[row_idx + 1],
                                         )
-                                        table.update_rows(rows)
 
                                 table.on("move_down", move_down_rule)
 
                                 def delete_rule(
                                     event: GenericEventArguments,
                                 ) -> None:
+                                    rows = table.rows
                                     if (
                                         row_idx := find_index(
                                             rows,
@@ -1617,7 +1618,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                                 if row["flags"] == re.UNICODE.value
                                                 else re.IGNORECASE,
                                             )
-                                            for row in rows
+                                            for row in table.rows
                                         ]
                                         middleware_options.refresh()
 
@@ -1635,7 +1636,9 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                             pattern_suffix = r"(?=$|\b)"
                                         table.add_row(
                                             {
-                                                "id": rows[-1]["id"] + 1 if len(rows) else 1,
+                                                "id": table.rows[-1]["id"] + 1
+                                                if len(table.rows)
+                                                else 1,
                                                 "mode": mode_value,
                                                 "pattern_main": "",
                                                 "pattern_prefix": pattern_prefix,

@@ -1,6 +1,6 @@
 # mypy: disable-error-code="attr-defined"
 import ctypes
-from ctypes.wintypes import MSG
+from ctypes.wintypes import HWND, LPARAM, MSG, POINT, RECT, UINT
 from typing import SupportsInt
 
 from PySide6.QtCore import QByteArray, QPoint, QRect, Qt, Slot
@@ -26,6 +26,51 @@ class MARGINS(ctypes.Structure):
     )
 
 
+class PWINDOWPOS(ctypes.Structure):
+    _fields_ = (
+        ("hWnd", HWND),
+        ("hwndInsertAfter", HWND),
+        ("x", ctypes.c_int),
+        ("y", ctypes.c_int),
+        ("cx", ctypes.c_int),
+        ("cy", ctypes.c_int),
+        ("flags", UINT),
+    )
+
+
+class NCCALCSIZEPARAMS(ctypes.Structure):
+    _fields_ = (("rgrc", RECT * 3), ("lppos", ctypes.POINTER(PWINDOWPOS)))
+
+
+class WINDOWPLACEMENT(ctypes.Structure):
+    _fields_ = (
+        ("length", UINT),
+        ("flags", UINT),
+        ("showCmd", UINT),
+        ("ptMinPosition", POINT),
+        ("ptMaxPosition", POINT),
+        ("rcNormalPosition", RECT),
+    )
+
+
+class APPBARDATA(ctypes.Structure):
+    _fields_ = (
+        ("cbSize", UINT),
+        ("hWnd", HWND),
+        ("uCallbackMessage", UINT),
+        ("uEdge", UINT),
+        ("rc", RECT),
+        ("lParam", LPARAM),
+    )
+
+
+def is_maximized(hwnd: int) -> bool:
+    wp = WINDOWPLACEMENT()
+    wp.length = ctypes.sizeof(WINDOWPLACEMENT)
+    ctypes.windll.user32.GetWindowPlacement(hwnd, ctypes.byref(wp))
+    return wp.showCmd == win32con.SIZE_MAXIMIZED
+
+
 @QmlElement
 class FramelessWindow(QQuickWindow):
     def __init__(self, parent: QWindow | None = None, border_width: int = 5) -> None:
@@ -45,7 +90,13 @@ class FramelessWindow(QQuickWindow):
             (screen_geometry.width() - 1200) // 2,
             (screen_geometry.height() - 800) // 2,
         )
-        self.prev_visibility = None
+
+    @Slot()
+    def start_system_move(self) -> None:
+        ctypes.windll.user32.ReleaseCapture()
+        ctypes.windll.user32.SendMessageW(
+            self.hwnd, win32con.WM_SYSCOMMAND, win32con.SC_MOVE + win32con.HTCAPTION, 0
+        )
 
     @Slot()
     def click_maximize_btn(self) -> None:
@@ -57,6 +108,12 @@ class FramelessWindow(QQuickWindow):
             ctypes.windll.user32.SendMessageW(
                 self.hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0
             )
+
+    @Slot()
+    def click_minimize_btn(self) -> None:
+        ctypes.windll.user32.SendMessageW(
+            self.hwnd, win32con.WM_SYSCOMMAND, win32con.SC_MINIMIZE, 0
+        )
 
     def get_point_from_lparam(self, l_param: int) -> tuple[int, int]:
         pixel_ratio = self.screen().device_pixel_ratio
@@ -75,13 +132,26 @@ class FramelessWindow(QQuickWindow):
         ctypes.windll.dwmapi.DwmIsCompositionEnabled(ctypes.byref(b_result))
         return bool(b_result.value)
 
+    def get_resize_border_thickness(self, hwnd: int, horizontal: bool) -> int:
+        device_pixel_ratio = self.screen().device_pixel_ratio
+        frame = win32con.SM_CXSIZEFRAME if horizontal else win32con.SM_CYSIZEFRAME
+        result = ctypes.windll.user32.GetSystemMetricsForDpi(
+            hwnd, frame, horizontal
+        ) + ctypes.windll.user32.GetSystemMetricsForDpi(
+            hwnd, win32con.SM_CXPADDEDBORDER, horizontal
+        )
+        if result > 0:
+            return result
+        thickness = 8 if self.is_composition_enabled else 4
+        return round(thickness * device_pixel_ratio)
+
     def set_borderless(self) -> None:
         hwnd = self.hwnd
         user32 = ctypes.windll.user32
 
-        style = user32.GetWindowLongW(hwnd, win32con.GWL_STYLE)
+        style = user32.GetWindowLongPtrW(hwnd, win32con.GWL_STYLE)
 
-        user32.SetWindowLongW(
+        user32.SetWindowLongPtrW(
             hwnd,
             win32con.GWL_STYLE,
             style
@@ -90,10 +160,6 @@ class FramelessWindow(QQuickWindow):
             | win32con.CS_DBLCLKS
             | win32con.WS_THICKFRAME,
         )
-
-        style = user32.GetWindowLongW(hwnd, win32con.GWL_EXSTYLE)
-        style &= ~win32con.WS_EX_LAYERED
-        user32.SetWindowLongW(hwnd, win32con.GWL_EXSTYLE, style)
 
     def add_dwm_effect(self) -> SupportsInt | None:
         if not self.is_composition_enabled:
@@ -111,6 +177,8 @@ class FramelessWindow(QQuickWindow):
             self.maximize_btn = self.find_child(QQuickItem, "maximizeButton")
         if event_type == b"windows_generic_MSG":
             msg = MSG.from_address(int(message))
+            if msg.hWnd is None:
+                return False
 
             if msg.message == win32con.WM_NCHITTEST and self.border_width is not None:
                 if msg.hWnd == self.hwnd:
@@ -124,29 +192,23 @@ class FramelessWindow(QQuickWindow):
                     rx = x_pos > self.width - bw
                     ty = y_pos < bw
                     by = y_pos > self.height - bw
-                    if lx and ty:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
+                    if self.visibility != QQuickWindow.Visibility.Maximized:
+                        if lx and ty:
                             return True, win32con.HTTOPLEFT
-                    elif rx and by:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
+                        elif rx and by:
                             return True, win32con.HTBOTTOMRIGHT
-                    elif rx and ty:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
+                        elif rx and ty:
                             return True, win32con.HTTOPRIGHT
-                    elif lx and by:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
+                        elif lx and by:
                             return True, win32con.HTBOTTOMLEFT
-                    elif ty:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
+                        elif ty:
                             return True, win32con.HTTOP
-                    elif by:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
+                        elif by:
                             return True, win32con.HTBOTTOM
-                    elif lx:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
+                        elif lx:
                             return True, win32con.HTLEFT
-                    elif rx and self.visibility != QQuickWindow.Visibility.Maximized:
-                        return True, win32con.HTRIGHT
+                        elif rx:
+                            return True, win32con.HTRIGHT
                     if self.maximize_btn is not None:
                         top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
                         rect = QRect(
@@ -167,22 +229,58 @@ class FramelessWindow(QQuickWindow):
                 if self.maximize_btn is not None:
                     self.handle_mouse_event(msg)
             elif msg.message == win32con.WM_NCCALCSIZE:
+                client_rect = ctypes.cast(
+                    msg.lParam, ctypes.POINTER(NCCALCSIZEPARAMS)
+                ).contents.rgrc[0]
+                if is_maximized(msg.hWnd) and msg.wParam:
+                    ty = self.get_resize_border_thickness(msg.hWnd, False) - 3  # type: ignore[assignment]
+                    client_rect.top += ty
+                    client_rect.bottom -= ty
+                    tx = self.get_resize_border_thickness(msg.hWnd, True) - 3
+                    client_rect.left += tx
+                    client_rect.right -= tx
+                    abd = APPBARDATA()
+                    ctypes.memset(ctypes.byref(abd), 0, ctypes.sizeof(abd))
+                    abd.cbSize = ctypes.sizeof(APPBARDATA)
+                    taskbar_state = ctypes.windll.shell32.SHAppBarMessage(
+                        win32con.ABM_GETSTATE, ctypes.byref(abd)
+                    )
+                    if taskbar_state & win32con.ABS_AUTOHIDE:
+                        edge = -1
+                        abd2 = APPBARDATA()
+                        ctypes.memset(ctypes.byref(abd2), 0, ctypes.sizeof(abd2))
+                        abd2.cbSize = ctypes.sizeof(APPBARDATA)
+                        abd2.hWnd = ctypes.windll.user32.FindWindowW("Shell_TrayWnd", None)
+                        if abd2.hWnd:
+                            window_monitor = ctypes.windll.user32.MonitorFromWindow(
+                                msg.hWnd, win32con.MONITOR_DEFAULTTONEAREST
+                            )
+                            if window_monitor:
+                                taskbar_monitor = ctypes.windll.user32.MonitorFromWindow(
+                                    abd2.hWnd, win32con.MONITOR_DEFAULTTONEAREST
+                                )
+                                if taskbar_monitor and taskbar_monitor == window_monitor:
+                                    ctypes.windll.shell32.SHAppBarMessage(
+                                        win32con.ABM_GETTASKBARPOS, ctypes.byref(abd2)
+                                    )
+                                    edge = abd2.uEdge
+                        top = edge == 1
+                        bottom = edge == 3
+                        left = edge == 0
+                        right = edge == 2
+                        if top:
+                            client_rect.top += 1
+                        elif bottom:
+                            client_rect.bottom -= 1
+                        elif left:
+                            client_rect.left += 1
+                        elif right:
+                            client_rect.right -= 1
+                        else:
+                            client_rect.bottom -= 1
                 return True, win32con.WVR_REDRAW if msg.wParam else 0
-            elif msg.message == win32con.WM_ACTIVATE:
-                if (hr := self.add_dwm_effect()) is not None:
-                    return True, hr
-            elif msg.message == win32con.WM_SYSCOMMAND:
-                if (
-                    msg.wParam == win32con.SC_RESTORE
-                    and self.visibility == QQuickWindow.Visibility.Minimized
-                ):
-                    if self.prev_visibility == QQuickWindow.Visibility.Maximized:
-                        self.show_maximized()
-                    else:
-                        self.show_normal()
-                    return True, 0
-            elif msg.message == win32con.WM_SIZE and msg.wParam == win32con.SIZE_MINIMIZED:
-                self.prev_visibility = self.visibility
+            elif msg.message == win32con.WM_ACTIVATE and (hr := self.add_dwm_effect()) is not None:
+                return True, hr
         return super().native_event(event_type, message)
 
     def handle_mouse_event(self, msg: MSG) -> None:

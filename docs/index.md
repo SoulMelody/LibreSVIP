@@ -4,7 +4,7 @@
 [![Python 版本](https://img.shields.io/pypi/pyversions/libresvip.svg)](https://pypi.org/project/libresvip/)
 [![PyPI - 下载量](https://static.pepy.tech/badge/libresvip/month)](https://pypi.org/project/libresvip/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
+[![使用 pyrefly 进行静态类型检查](https://img.shields.io/endpoint?url=https://pyrefly.org/badge.json)](https://github.com/facebook/pyrefly/)
 [![许可证](https://img.shields.io/pypi/l/libresvip?color=blue)](https://opensource.org/licenses/MIT)
 [![GitHub Build](https://img.shields.io/github/actions/workflow/status/SoulMelody/LibreSVIP/package.yml?label=packaging)](https://github.com/SoulMelody/LibreSVIP/actions/workflows/package.yml?query=workflow%3APackaging)
 [![lite-badge](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://soulmelody.github.io/libresvip-pwa/)

@@ -22,9 +22,7 @@ def download_win_arm64_wheels() -> None:
 
     native_packages = {}
     third_party_arm64_packages = {
-        "markupsafe": None,
         "protobuf": None,
-        "pyyaml_ft": "pyyaml-ft",
         "ruamel_yaml_clib": "ruamel-yaml-clib",
     }
 
@@ -45,7 +43,6 @@ def download_win_arm64_wheels() -> None:
                     native_packages[third_party_arm64_packages[pkg_name] or pkg_name] = wheel_path
 
     for bundle_url in [
-        "https://github.com/cgohlke/win_arm64-wheels/releases/download/v2025.3.31/2025.3.31-experimental-cp313-win_arm64.whl.zip",
         "https://github.com/cgohlke/win_arm64-wheels/releases/download/v2025.7.7/2025.7.7-experimental-cp313-win_arm64.whl.zip",
     ]:
         collect_wheels(bundle_url)

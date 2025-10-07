@@ -41,19 +41,19 @@ dependencies = [
   "platformdirs<5.0.0,>=4.4.0",
   "portion<3.0.0,>=2.6.1",
   "proto-plus<2.0.0,>=1.26.1",
-  "pydantic<3.0.0,>=2.11.9",
+  "pydantic<3.0.0,>=2.12.0",
   "pydantic-extra-types<3.0.0,>=2.10.5",
   "pydantic-settings<3.0.0,>=2.11.0",
   "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.55.0",
   "pysubs2<2.0.0,>=1.8.0",
-  "PyYAML>=6.0.3,<7.0.0; python_version<'3.13' or sys_platform == \"emscripten\"",
-  "PyYAML-ft>=8.0.0,<8.0.1; python_version>='3.13' and sys_platform != \"emscripten\"",
-  "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
+  "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
+  "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
+  "repro-zipfile<1.0.0,>=0.4.1; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.1.1,>=14.1.0",
-  "svg-py<2.0.0,>=1.8.0",
-  "tatsu-lts<6.0.0,>=5.13.1",
+  "svg-py<2.0.0,>=1.9.1",
+  "tatsu-lts<6.0.0,>=5.13.2",
   "typer-slim<1.0.0,>=0.19.2",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
@@ -78,7 +78,7 @@ crypto = [
 ]
 ujson = ["ujson>=5.11.0"]
 upath = [
-  "universal-pathlib<1.0.0,>=0.2.6",
+  "universal-pathlib<1.0.0,>=0.3.2",
 ]
 ruamel_yaml = [
   "ruamel.yaml>=0.18.15",
@@ -89,7 +89,7 @@ tui = [
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.24.2",
+  "nicegui>=3.0.3",
   "libresvip[upath]",
 ]
 mobile = [
@@ -98,7 +98,7 @@ mobile = [
   "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.9.3,>=6.9.2",
+  "pyside6<6.9.4,>=6.9.3",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
@@ -107,19 +107,19 @@ desktop = [
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.33.0",
-  "gapic-generator>=1.27.0",
+  "datamodel-code-generator>=0.34.0",
+  "gapic-generator>=1.27.2",
   "protoc-wheel-0>=30.2",
   "xsdata[cli]>=25.7",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
   "pre-commit>=4.3.0",
-  "ruff>=0.13.2",
+  "ruff>=0.14.0",
   "mypy>=1.18.2",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
-  "pyrefly>=0.34.0",
+  "pyrefly>=0.36.1",
   "types-lxml>=2025.8.25",
   "types-pyyaml>=6.0.12.20250915",
   "types-ujson>=5.10.0.20250822",
@@ -134,7 +134,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "mkdocs-material<10.0.0,>=9.6.20",
+  "mkdocs-material<10.0.0,>=9.6.21",
 ]
 test = ["pytest>=8.4.2", "pytest-datadir>=1.8.0", "textual-dev>=1.7.0"]
 all = [
@@ -271,6 +271,7 @@ python-version = "3.10"
 async-error = "ignore"
 bad-argument-type = "ignore"
 bad-assignment = "ignore"
+bad-instantiation = "ignore"
 bad-override = "ignore"
 bad-return = "ignore"
 bad-specialization = "ignore"

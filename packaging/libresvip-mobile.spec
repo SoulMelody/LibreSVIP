@@ -50,6 +50,7 @@ a = Analysis(
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
         "yaml_ft",
+        "yaml",
     ],
     hookspath=[],
     hooksconfig={},
