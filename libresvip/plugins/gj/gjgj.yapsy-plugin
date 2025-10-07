@@ -1,10 +1,8 @@
 [Core]
 name = gjgj
-module = gjgj_converter
 
 [Documentation]
 Author = FlutyDeer
-Version = 1.7.3
 Website = https://space.bilibili.com/386270936
 Format = Gejigeji project file
 Description = Conversion plugin for Gejigeji project file.\nOnly Gejigeji v2.0 spec is supported.

@@ -1,10 +1,8 @@
 [Core]
 name = TSSln
-module = voisona_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 1.12.1
 Website = https://space.bilibili.com/175862486
 Format = Techno-Speech Solution file
 Description = Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)

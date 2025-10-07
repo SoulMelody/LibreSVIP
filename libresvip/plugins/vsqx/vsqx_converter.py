@@ -64,8 +64,8 @@ class VocaloidXMLWriter(DefaultXmlWriter):
 
 
 class VsqxConverter(plugin_base.SVSConverter):
-    input_options_class = InputOptions
-    output_options_class = OutputOptions
+    input_option_cls = InputOptions
+    output_option_cls = OutputOptions
     info = plugin_base.FormatProviderPluginInfo.load_from_string(
         (files(__package__) / "vsqx.yapsy-plugin").read_text(encoding="utf-8"),
     )
@@ -74,14 +74,14 @@ class VsqxConverter(plugin_base.SVSConverter):
 
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
-        options_obj = cls.input_options_class(**options)
+        options_obj = cls.input_option_cls.model_validate(options)
         xml_parser = XmlParser()
         vsqx_proj: Vsqx = xml_parser.from_bytes(path.read_bytes())
         return VsqxParser(options_obj, path).parse_project(vsqx_proj)
 
     @classmethod
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
-        options_obj = cls.output_options_class(**options)
+        options_obj = cls.output_option_cls.model_validate(options)
         vsqx_generator_class: type[Vsq3Generator | Vsq4Generator]
         if options_obj.vsqx_version == VsqxVersion.VSQ3:
             vsqx_generator_class = Vsq3Generator

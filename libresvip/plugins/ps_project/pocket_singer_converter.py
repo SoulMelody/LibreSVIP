@@ -34,6 +34,7 @@ class PocketSingerConverter(plugin_base.SVSConverter):
     )
     _alias_ = "ps_project"
     _skipload_ = not PYZIPPER_AVAILABLE
+    _version_ = "1.0.0"
 
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:

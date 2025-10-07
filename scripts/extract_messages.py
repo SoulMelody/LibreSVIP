@@ -1,3 +1,4 @@
+import itertools
 import pathlib
 import subprocess
 from collections.abc import Iterator
@@ -42,25 +43,16 @@ def extract_from_plugin_metadata(
 
 
 def extract_plugin_msgs() -> None:
-    for entry_path, plugin_info in plugin_manager._candidates:
-        plugin_dir = cast("pathlib.Path", entry_path).parent
+    for plugin_id, plugin in itertools.chain(
+        plugin_manager.plugins["svs"].items(), middleware_manager.plugins["middleware"].items()
+    ):
+        plugin_dir = cast("pathlib.Path", files(plugin.__module__)).parent
         cmdinst = setuptools_frontend.extract_messages()
         cmdinst.initialize_options()
         cmdinst.omit_header = True
         cmdinst.no_location = True
         cmdinst.input_dirs = [str(plugin_dir)]
-        cmdinst.output_file = str(plugin_dir / f"{plugin_info.identifier}.po")
-        cmdinst.mapping_file = "babel.cfg"
-        cmdinst.finalize_options()
-        cmdinst.run()
-    for middleware_id, middleware in middleware_manager.plugins["middleware"].items():
-        plugin_dir = cast("pathlib.Path", files(middleware.__module__)).parent
-        cmdinst = setuptools_frontend.extract_messages()
-        cmdinst.initialize_options()
-        cmdinst.omit_header = True
-        cmdinst.no_location = True
-        cmdinst.input_dirs = [str(plugin_dir)]
-        cmdinst.output_file = str(plugin_dir / f"{middleware_id}.po")
+        cmdinst.output_file = str(plugin_dir / f"{plugin_id}.po")
         cmdinst.mapping_file = "babel.cfg"
         cmdinst.finalize_options()
         cmdinst.run()

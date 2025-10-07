@@ -8,19 +8,15 @@ from typing import TYPE_CHECKING
 
 from loguru import logger
 from packaging.specifiers import SpecifierSet
-from packaging.version import Version
 from typing_extensions import Self
 
 if TYPE_CHECKING:
     from libresvip.core.compat import Traversable
 
-    from .base import BasePlugin, SVSConverterBase
-
 
 @dataclasses.dataclass
 class BasePluginInfo(abc.ABC):
     _config: dataclasses.InitVar[RawConfigParser]
-    plugin_object: BasePlugin | None = None
     name: str = dataclasses.field(init=False)
     author: str = dataclasses.field(init=False)
     description: str = dataclasses.field(init=False)
@@ -61,25 +57,16 @@ class BasePluginInfo(abc.ABC):
 
 
 @dataclasses.dataclass
-class FormatProviderPluginInfo(BasePluginInfo):  # type: ignore[override]
-    plugin_object: SVSConverterBase | None = None
+class FormatProviderPluginInfo(BasePluginInfo):
     file_format: str = dataclasses.field(init=False)
     suffix: str = dataclasses.field(init=False)
     icon_base64: str | None = dataclasses.field(init=False)
-    version: Version = dataclasses.field(init=False)
-    module: str = dataclasses.field(init=False)
 
     def __post_init__(self, _config: RawConfigParser) -> None:
         super().__post_init__(_config)
         self.file_format = _config.get("Documentation", "Format")
         self.suffix = _config.get("Documentation", "Suffix")
         self.icon_base64 = _config.get("Documentation", "IconBase64", fallback=None)
-        self.version = Version(_config.get("Documentation", "Version", fallback="0.0.0"))
-        self.module = _config.get("Core", "Module")
-
-    @property
-    def identifier(self) -> str:
-        return self.suffix
 
 
 @dataclasses.dataclass

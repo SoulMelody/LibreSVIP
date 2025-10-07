@@ -1,10 +1,8 @@
 [Core]
 name = ASS
-module = ass_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 0.0.1
 Website = https://space.bilibili.com/175862486
 Format = Advanced SubStation Alpha subtitle file
 Description = Generator plugin for ASS subtitle file

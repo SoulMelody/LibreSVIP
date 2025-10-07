@@ -1,10 +1,8 @@
 [Core]
 name = SynthV Studio
-module = synthv_studio_converter
 
 [Documentation]
 Author = yqzhishen
-Version = 1.11.2
 Website = https://space.bilibili.com/102844209
 Format = Synthesizer V Studio project file
 Description = Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\nNotes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions.

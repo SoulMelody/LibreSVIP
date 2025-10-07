@@ -1,6 +1,5 @@
-import abc
 import pathlib
-from typing import Any, ClassVar, TypeAlias, TypeVar, final
+from typing import Any, ClassVar, TypeAlias
 
 import pluginlib
 from pydantic import BaseModel
@@ -9,7 +8,6 @@ from libresvip.model.base import Project
 
 from .meta_info import FormatProviderPluginInfo, MiddlewarePluginInfo
 
-BasePlugin_co = TypeVar("BasePlugin_co", bound="BasePlugin", covariant=True)
 OptionsDict: TypeAlias = dict[str, Any]
 
 
@@ -54,39 +52,11 @@ class Middleware:
     def process(cls, project: Project, options: OptionsDict) -> Project: ...  # type: ignore[empty-body]
 
 
-class BasePlugin(abc.ABC):
-    pass
-
-
-class SVSConverterBase(BasePlugin):
-    @abc.abstractmethod
-    def load(self, path: pathlib.Path, options: BaseModel) -> Project: ...
-
-    @abc.abstractmethod
-    def dump(self, path: pathlib.Path, project: Project, options: BaseModel) -> None: ...
-
-
-class WriteOnlyConverterBase(SVSConverterBase, abc.ABC):
-    @final
-    def load(self, path: pathlib.Path, options: BaseModel) -> Project:
-        raise NotImplementedError
-
-
-class ReadOnlyConverterBase(SVSConverterBase, abc.ABC):
-    @final
-    def dump(self, path: pathlib.Path, project: Project, options: BaseModel) -> None:
-        raise NotImplementedError
-
-
 __all__ = [
-    "BasePlugin",
     "FormatProviderPluginInfo",
     "Middleware",
     "MiddlewarePluginInfo",
-    "ReadOnlyConverterBase",
     "ReadOnlyConverterMixin",
     "SVSConverter",
-    "SVSConverterBase",
-    "WriteOnlyConverterBase",
     "WriteOnlyConverterMixin",
 ]

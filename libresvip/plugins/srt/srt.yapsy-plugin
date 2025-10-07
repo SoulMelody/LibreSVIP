@@ -1,10 +1,8 @@
 [Core]
 name = SRT
-module = srt_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 0.0.1
 Website = https://space.bilibili.com/175862486
 Format = SubRip subtitle file
 Description = Generator plugin for SRT subtitle file

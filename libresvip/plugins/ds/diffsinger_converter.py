@@ -49,9 +49,9 @@ class DiffSingerConverter(plugin_base.SVSConverter):
             ds_project = DsProject(root=series)
         else:
             project = reset_time_axis(project)
-            diff_singer_params = DiffSingerGenerator(options=options, trailing_space=0.5).generate(
-                project
-            )
+            diff_singer_params = DiffSingerGenerator(
+                options=options_obj, trailing_space=0.5
+            ).generate(project)
             if options_obj.seed >= 0:
                 diff_singer_params.seed = options_obj.seed
             ds_project = DsProject(root=[diff_singer_params])

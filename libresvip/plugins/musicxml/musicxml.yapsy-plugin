@@ -1,10 +1,8 @@
 [Core]
 name = MusicXML
-module = musicxml_converter
 
 [Documentation]
 Author = Sder Colin
-Version = 1.0.0
 Website = https://sdercolin.github.io/utaformatix3/
 Format = MusicXML file
 Description = Conversion plugin for MusicXML Score file

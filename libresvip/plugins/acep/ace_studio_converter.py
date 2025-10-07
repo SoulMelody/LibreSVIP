@@ -6,7 +6,7 @@ from libresvip.model.base import Project
 
 from .ace_studio_generator import AceGenerator
 from .ace_studio_parser import AceParser
-from .acep_io import compress_ace_studio_project, decompress_ace_studio_project
+from .acep_io import ZSTD_AVAILABLE, compress_ace_studio_project, decompress_ace_studio_project
 from .model import AcepProject
 from .options import InputOptions, OutputOptions
 
@@ -18,6 +18,7 @@ class ACEStudioConverter(plugin_base.SVSConverter):
         content=(files(__package__) / "ace-studio.yapsy-plugin").read_text(encoding="utf-8"),
     )
     _alias_ = "acep"
+    _skipload_ = not ZSTD_AVAILABLE
     _version_ = "1.9.12"
 
     @classmethod

@@ -5,10 +5,10 @@ import dataclasses
 import enum
 import pathlib
 import traceback
-import zipfile
 from typing import Any, get_args, get_type_hints
 
 import more_itertools
+import pluginlib
 from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
@@ -77,51 +77,30 @@ class ConversionWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = plugin_manager.plugin_registry[self.input_format]
-                output_plugin = plugin_manager.plugin_registry[self.output_format]
-                if (
-                    input_plugin.plugin_object is None
-                    or (
-                        input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
-                            "options",
-                        )
-                    )
-                    is None
-                    or output_plugin.plugin_object is None
-                    or (
-                        output_option_cls := get_type_hints(
-                            output_plugin.plugin_object.dump,
-                        ).get("options")
-                    )
-                    is None
-                ):
-                    result_kwargs |= {
-                        "success": False,
-                        "error": "Invalid options",
-                    }
-                else:
-                    project = input_plugin.plugin_object.load(
-                        pathlib.Path(self.input_path),
-                        input_option_cls(**self.input_options),
-                    )
-                    for (
-                        middleware_abbr,
-                        middleware_option,
-                    ) in self.middleware_options.items():
-                        middleware = middleware_manager.plugins["middleware"][middleware_abbr]
-                        project = middleware.process(
-                            project,
-                            middleware_option,
-                        )
-                    output_plugin.plugin_object.dump(
-                        UPath(self.output_path),
+                input_plugin = plugin_manager.plugins["svs"][self.input_format]
+                output_plugin = plugin_manager.plugins["svs"][self.output_format]
+                project = input_plugin.load(
+                    pathlib.Path(self.input_path),
+                    self.input_options,
+                )
+                for (
+                    middleware_abbr,
+                    middleware_option,
+                ) in self.middleware_options.items():
+                    middleware = middleware_manager.plugins["middleware"][middleware_abbr]
+                    project = middleware.process(
                         project,
-                        output_option_cls(**self.output_options),
+                        middleware_option,
                     )
-                    result_kwargs |= {
-                        "success": True,
-                        "tmp_path": self.output_path,
-                    }
+                output_plugin.dump(
+                    UPath(self.output_path),
+                    project,
+                    self.output_options,
+                )
+                result_kwargs |= {
+                    "success": True,
+                    "tmp_path": self.output_path,
+                }
             if w.output:
                 result_kwargs["warning"] = w.output
             self.signals.result.emit(self.index, result_kwargs)
@@ -163,64 +142,31 @@ class SplitWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = plugin_manager.plugin_registry[self.input_format]
-                output_plugin = plugin_manager.plugin_registry[self.output_format]
-                if (
-                    input_plugin.plugin_object is None
-                    or (
-                        input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
-                            "options",
-                        )
-                    )
-                    is None
-                    or output_plugin.plugin_object is None
-                    or (
-                        output_option_cls := get_type_hints(
-                            output_plugin.plugin_object.dump,
-                        ).get("options")
-                    )
-                    is None
-                ):
-                    result_kwargs |= {
-                        "success": False,
-                        "error": "Invalid options",
-                    }
-                else:
-                    project = input_plugin.plugin_object.load(
-                        pathlib.Path(self.input_path),
-                        input_option_cls(**self.input_options),
-                    )
-                    for (
-                        middleware_abbr,
+                input_plugin = plugin_manager.plugins["svs"][self.input_format]
+                output_plugin = plugin_manager.plugins["svs"][self.output_format]
+                project = input_plugin.load(
+                    pathlib.Path(self.input_path),
+                    self.input_options,
+                )
+                for (
+                    middleware_abbr,
+                    middleware_option,
+                ) in self.middleware_options.items():
+                    middleware = middleware_manager.plugins["middleware"][middleware_abbr]
+                    project = middleware.process(
+                        project,
                         middleware_option,
-                    ) in self.middleware_options.items():
-                        middleware = middleware_manager.plugin_registry[middleware_abbr]
-                        if (
-                            middleware.plugin_object is not None
-                            and hasattr(middleware.plugin_object, "process")
-                            and (
-                                middleware_option_class := get_type_hints(
-                                    middleware.plugin_object.process
-                                ).get(
-                                    "options",
-                                )
-                            )
-                        ):
-                            project = middleware.plugin_object.process(
-                                project,
-                                middleware_option_class.model_validate(middleware_option),
-                            )
-                    output_option = output_option_cls(**self.output_options)
-                    for child_project in project.split_tracks(settings.max_track_count):
-                        output_plugin.plugin_object.dump(
-                            UPath(self.output_dir) / uuid_str(),
-                            child_project,
-                            output_option,
-                        )
-                    result_kwargs |= {
-                        "success": True,
-                        "tmp_path": self.output_dir,
-                    }
+                    )
+                for child_project in project.split_tracks(settings.max_track_count):
+                    output_plugin.dump(
+                        UPath(self.output_dir) / uuid_str(),
+                        child_project,
+                        self.output_options,
+                    )
+                result_kwargs |= {
+                    "success": True,
+                    "tmp_path": self.output_dir,
+                }
             if w.output:
                 result_kwargs["warning"] = w.output
             self.signals.result.emit(self.index, result_kwargs)
@@ -261,67 +207,34 @@ class MergeWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = plugin_manager.plugin_registry[self.input_format]
-                output_plugin = plugin_manager.plugin_registry[self.output_format]
-                if (
-                    input_plugin.plugin_object is None
-                    or (
-                        input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
-                            "options",
-                        )
+                input_plugin = plugin_manager.plugins["svs"][self.input_format]
+                output_plugin = plugin_manager.plugins["svs"][self.output_format]
+                child_projects = [
+                    input_plugin.load(
+                        pathlib.Path(input_path),
+                        self.input_options,
                     )
-                    is None
-                    or output_plugin.plugin_object is None
-                    or (
-                        output_option_cls := get_type_hints(
-                            output_plugin.plugin_object.dump,
-                        ).get("options")
-                    )
-                    is None
-                ):
-                    result_kwargs |= {
-                        "success": False,
-                        "error": "Invalid options",
-                    }
-                else:
-                    input_option = input_option_cls(**self.input_options)
-                    child_projects = [
-                        input_plugin.plugin_object.load(
-                            pathlib.Path(input_path),
-                            input_option,
-                        )
-                        for input_path in self.input_paths
-                    ]
-                    project = Project.merge_projects(child_projects)
-                    for (
-                        middleware_abbr,
-                        middleware_option,
-                    ) in self.middleware_options.items():
-                        middleware = middleware_manager.plugin_registry[middleware_abbr]
-                        if (
-                            middleware.plugin_object is not None
-                            and hasattr(middleware.plugin_object, "process")
-                            and (
-                                middleware_option_class := get_type_hints(
-                                    middleware.plugin_object.process
-                                ).get(
-                                    "options",
-                                )
-                            )
-                        ):
-                            project = middleware.plugin_object.process(
-                                project,
-                                middleware_option_class.model_validate(middleware_option),
-                            )
-                    output_plugin.plugin_object.dump(
-                        UPath(self.output_path),
+                    for input_path in self.input_paths
+                ]
+                project = Project.merge_projects(child_projects)
+                for (
+                    middleware_abbr,
+                    middleware_option,
+                ) in self.middleware_options.items():
+                    middleware = middleware_manager.plugins["middleware"][middleware_abbr]
+                    project = middleware.process(
                         project,
-                        output_option_cls(**self.output_options),
+                        middleware_option,
                     )
-                    result_kwargs |= {
-                        "success": True,
-                        "tmp_path": self.output_path,
-                    }
+                output_plugin.dump(
+                    UPath(self.output_path),
+                    project,
+                    self.output_options,
+                )
+                result_kwargs |= {
+                    "success": True,
+                    "tmp_path": self.output_path,
+                }
             if w.output:
                 result_kwargs["warning"] = w.output
             self.signals.result.emit(self.index, result_kwargs)
@@ -405,14 +318,16 @@ class TaskManager(QObject):
 
     @Slot(int)
     def toggle_plugin(self, index: int) -> None:
-        key = plugin_manager._candidates[index][1].suffix
-        if key in plugin_manager.plugin_registry and key not in settings.disabled_plugins:
+        key = list(plugin_manager.plugins["svs"])[index]
+        if key in plugin_manager.plugins["svs"] and key not in settings.disabled_plugins:
             settings.disabled_plugins.append(key)
         elif key in settings.disabled_plugins:
             settings.disabled_plugins.remove(key)
         else:
             return
-        plugin_manager.import_plugins(reload=True)
+        plugin_manager.blacklist = (
+            pluginlib.BlacklistEntry("svs", each) for each in settings.disabled_plugins
+        )
         self.plugin_candidates.reload_formats()
         self.reload_formats()
 
@@ -487,10 +402,10 @@ class TaskManager(QObject):
         self.input_formats.append_many(
             [
                 {
-                    "text": plugin.file_format,
-                    "value": plugin.suffix,
+                    "text": plugin.info.file_format,
+                    "value": plugin.info.suffix,
                 }
-                for plugin in plugin_manager.plugin_registry.values()
+                for plugin in plugin_manager.plugins["svs"].values()
             ],
         )
         self.input_format_changed.emit("")
@@ -498,10 +413,10 @@ class TaskManager(QObject):
         self.output_formats.append_many(
             [
                 {
-                    "text": plugin.file_format,
-                    "value": plugin.suffix,
+                    "text": plugin.info.file_format,
+                    "value": plugin.info.suffix,
                 }
-                for plugin in plugin_manager.plugin_registry.values()
+                for plugin in plugin_manager.plugins["svs"].values()
             ],
         )
         self.output_format_changed.emit("")
@@ -751,13 +666,9 @@ class TaskManager(QObject):
         if input_format:
             self.input_format = input_format
             self.input_fields.clear()
-            plugin_input = plugin_manager.plugin_registry[self.input_format]
-            if plugin_input.plugin_object is not None and hasattr(
-                plugin_input.plugin_object, "load"
-            ):
-                option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
-                input_fields = self.inspect_fields(option_class)
-                self.input_fields.append_many(input_fields)
+            plugin_input = plugin_manager.plugins["svs"][self.input_format]
+            input_fields = self.inspect_fields(plugin_input.input_option_cls)
+            self.input_fields.append_many(input_fields)
             if not self._input_fields_inited:
                 self._input_fields_inited = True
             self.input_fields_changed.emit()
@@ -769,13 +680,9 @@ class TaskManager(QObject):
         if output_format:
             self.output_format = output_format
             self.output_fields.clear()
-            plugin_output = plugin_manager.plugin_registry[self.output_format]
-            if plugin_output.plugin_object is not None and hasattr(
-                plugin_output.plugin_object, "dump"
-            ):
-                option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
-                output_fields = self.inspect_fields(option_class)
-                self.output_fields.append_many(output_fields)
+            plugin_output = plugin_manager.plugins["svs"][self.output_format]
+            output_fields = self.inspect_fields(plugin_output.output_option_cls)
+            self.output_fields.append_many(output_fields)
             if not self._output_fields_inited:
                 self._output_fields_inited = True
             self.output_fields_changed.emit()
@@ -783,17 +690,17 @@ class TaskManager(QObject):
     @Slot(str, result="QVariant")
     def plugin_info(self, name: str) -> dict[str, str]:
         assert name in {"input_format", "output_format"}
-        if (suffix := getattr(self, name)) in plugin_manager.plugin_registry:
-            plugin = plugin_manager.plugin_registry[suffix]
+        if (suffix := getattr(self, name)) in plugin_manager.plugins["svs"]:
+            plugin = plugin_manager.plugins["svs"][suffix]
             return {
-                "name": plugin.name,
-                "author": plugin.author,
-                "website": plugin.website,
-                "description": plugin.description,
-                "version": str(plugin.version),
-                "file_format": plugin.file_format,
-                "suffix": f"(*.{plugin.suffix})",
-                "icon_base64": f"data:image/png;base64,{plugin.icon_base64}",
+                "name": plugin.info.name,
+                "author": plugin.info.author,
+                "website": plugin.info.website,
+                "description": plugin.info.description,
+                "version": plugin.version,
+                "file_format": plugin.info.file_format,
+                "suffix": f"(*.{plugin.info.suffix})",
+                "icon_base64": f"data:image/png;base64,{plugin.info.icon_base64}",
             }
         return {
             "name": "",
@@ -830,7 +737,7 @@ class TaskManager(QObject):
         if (
             settings.auto_detect_input_format
             and path_obj is not None
-            and (suffix := path_obj.suffix[1:]) in plugin_manager.plugin_registry
+            and (suffix := path_obj.suffix[1:]) in plugin_manager.plugins["svs"]
         ):
             self.set_str("input_format", suffix)
 
@@ -865,36 +772,6 @@ class TaskManager(QObject):
         ):
             self.tasks.delete_many(0, delete_len)
         getattr(self, f"{name}_changed").emit(value)
-
-    def plugin_info_file(self, plugin_archive: zipfile.Path) -> zipfile.Path | None:
-        plugin_info_filename = None
-        for plugin_file in plugin_archive.iterdir():
-            if plugin_file.is_file() and plugin_file.name.endswith(
-                f".{plugin_manager.info_extension}"
-            ):
-                plugin_info_filename = plugin_file
-        return plugin_info_filename
-
-    @Slot(list, result="QVariant")
-    def extract_plugin_infos(self, paths: list[str]) -> list[dict[str, str]]:
-        infos: list[dict[str, str]] = []
-        for path in paths:
-            zip_file = zipfile.Path(path)
-            if (plugin_info_filename := self.plugin_info_file(zip_file)) is not None:
-                plugin_info = plugin_manager.plugin_info_class.load(plugin_info_filename)
-                if plugin_info is not None:
-                    infos.append(
-                        {
-                            "name": plugin_info.name,
-                            "author": plugin_info.author,
-                            "version": plugin_info.version,
-                            "file_format": plugin_info.file_format,
-                            "suffix": f"(*.{plugin_info.suffix})",
-                            "info_filename": str(plugin_info_filename),
-                        }
-                    )
-                    logger.debug(infos)
-        return infos
 
     @Slot()
     def check_busy(self) -> None:
