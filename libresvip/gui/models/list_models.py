@@ -243,13 +243,9 @@ class ModelProxy(QAbstractListModel):
         /,
         role: int = ...,  # type: ignore[assignment]
     ) -> bool:
-        # 获取指定角色的名称
         name = self._role_names[role]
-        # 将指定角色的值设置为传入的值
         self._items[index.row()][name] = value
-        # 发射数据改变信号
         self.dataChanged.emit(index, index)
-        # 返回True表示设置成功
         return True
 
     def row_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
