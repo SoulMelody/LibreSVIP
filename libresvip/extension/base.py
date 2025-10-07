@@ -3,8 +3,9 @@ import pathlib
 from typing import Any, ClassVar, TypeAlias, TypeVar, final
 
 import pluginlib
+from pydantic import BaseModel
 
-from libresvip.model.base import BaseModel, Project
+from libresvip.model.base import Project
 
 from .meta_info import FormatProviderPluginInfo, MiddlewarePluginInfo
 

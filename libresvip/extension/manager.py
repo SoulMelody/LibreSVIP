@@ -176,11 +176,28 @@ plugin_manager = ConverterPluginManager(
     install_path=app_dir.user_config_path / "plugins",
 )
 plugin_manager.import_plugins()
+plugin_loader = pluginlib.PluginLoader(
+    modules=["libresvip.plugins"],
+    paths=[str(app_dir.user_config_path / "plugins")],
+    type_filter=["svs"],
+    prefix_package="libresvip",
+)
+try:
+    plugin_loader.load_modules()
+except pluginlib.PluginImportError as e:
+    logger.error(f"Unable to import plugin: {e}")
+    plugin_loader.loaded = True
 middleware_manager = pluginlib.PluginLoader(
     modules=["libresvip.middlewares"],
     paths=[str(app_dir.user_config_path / "middlewares")],
     type_filter=["middleware"],
+    prefix_package="libresvip",
 )
+try:
+    middleware_manager.load_modules()
+except pluginlib.PluginImportError as e:
+    logger.error(f"Unable to import middleware plugin: {e}")
+    middleware_manager.loaded = True
 
 
 def merge_translation(
