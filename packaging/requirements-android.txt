@@ -21,6 +21,7 @@ more-itertools==10.8.0
 packaging==25.0
 pathlib-abc==0.5.1
 platformdirs==4.4.0
+pluginlib==0.10.0
 portion==2.6.1
 proto-plus==1.26.1
 protobuf==5.28.3

@@ -38,6 +38,7 @@ pathlib-abc==0.5.1
 pefile==2023.2.7 ; sys_platform == 'win32'
 pillow==11.3.0 ; sys_platform == 'darwin'
 platformdirs==4.4.0
+pluginlib==0.10.0
 portion==2.6.1
 proto-plus==1.26.1
 protobuf==6.32.1
