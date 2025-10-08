@@ -294,7 +294,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          apt install libgtk-3-dev -y
+          sudo apt install libgtk-3-dev -y
           uv build --wheel
           uv venv --python 3.12
           uv sync --extra mobile
