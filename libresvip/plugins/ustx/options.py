@@ -1,8 +1,7 @@
-# mypy: disable-error-code="misc"
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 
 from libresvip.model.option_mixins import (
     EnableInstrumentalTrackImportationMixin,
@@ -12,18 +11,17 @@ from libresvip.utils.translation import gettext_lazy as _
 
 
 class OpenUtauEnglishPhonemizerCompatibility(Enum):
-    NON_ARPA: Annotated[
+    _value_: Annotated[
         str,
-        Field(
-            title=_("Incompatible with ARPAsing-series Phonemizers"),
+        create_model(
+            "OpenUtauEnglishPhonemizerCompatibility",
+            __module__="libresvip.plugins.ustx.options",
+            NON_ARPA=(str, Field(title=_("Incompatible with ARPAsing-series Phonemizers"))),
+            KEEP=(str, Field(title=_("Compatible with ARPAsing-series Phonemizers"))),
         ),
-    ] = "non-arpa"
-    ARPA: Annotated[
-        str,
-        Field(
-            title=_("Compatible with ARPAsing-series Phonemizers"),
-        ),
-    ] = "arpa"
+    ]
+    NON_ARPA = "non-arpa"
+    ARPA = "arpa"
 
 
 class InputOptions(

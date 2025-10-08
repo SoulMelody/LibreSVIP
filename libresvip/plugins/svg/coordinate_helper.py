@@ -1,5 +1,6 @@
 import dataclasses
 import math
+from typing import TypedDict
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import Note, SingingTrack
@@ -9,6 +10,11 @@ from .model import NotePositionParameters
 from .options import OutputOptions, TextAlignOption
 
 PADDING: int = 4
+
+
+class Size(TypedDict):
+    width: float
+    height: float
 
 
 @dataclasses.dataclass
@@ -103,12 +109,12 @@ class CoordinateHelper:
         )
 
     @property
-    def size(self) -> tuple[float, float]:
-        return (
-            (self.position_range_end - self.position_range_start)
+    def size(self) -> Size:
+        return Size(
+            width=(self.position_range_end - self.position_range_start)
             * self.options.pixel_per_beat
             / TICKS_IN_BEAT,
-            (self.key_range_end - self.key_range_start + 1) * self.options.note_height,
+            height=(self.key_range_end - self.key_range_start + 1) * self.options.note_height,
         )
 
     @property

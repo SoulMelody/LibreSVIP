@@ -1,7 +1,6 @@
 import dataclasses
 import operator
-
-import mido_fix as mido
+from typing import Any, TypeAlias
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.japanese import to_romaji
@@ -20,10 +19,13 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.reset_time_axis import limit_bars
+from libresvip.utils.binary.midi import bpm2tempo
 
 from .constants import DEFAULT_PHONEME
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid
+
+MidiMessage: TypeAlias = dict[str, Any]
 
 
 @dataclasses.dataclass
@@ -37,47 +39,84 @@ class VsqGenerator:
     def tick_rate(self) -> float:
         return TICKS_IN_BEAT / self.options.ticks_per_beat
 
-    def generate_project(self, project: Project) -> mido.MidiFile:
+    def generate_project(self, project: Project) -> dict[str, Any]:
         project = limit_bars(project, 4096)
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
-        mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
-        mido_obj.ticks_per_beat = self.options.ticks_per_beat
+        mido_obj: dict[str, Any] = {
+            "type": 1,
+            "ticks_per_beat": self.options.ticks_per_beat,
+        }
         self.first_bar_length = int(
             project.time_signature_list[0].bar_length(self.options.ticks_per_beat)
         )
         self.time_signatures = project.time_signature_list
-        master_track = mido.MidiTrack()
-        master_track.name = "Master Track"
+        tracks: list[list[MidiMessage]] = []
+        master_track: list[MidiMessage] = [
+            {
+                "time": 0,
+                "__next": 0xFF,
+                "status": 0xFF,
+                "detail": {
+                    "type": "meta",
+                    "event_type": 0x03,
+                    "data": {
+                        "type": "track_name",
+                        "name": "Master Track".encode(self.options.lyric_encoding, "replace"),
+                    },
+                },
+            }
+        ]
         self.generate_tempos(master_track, project.song_tempo_list)
         self.generate_time_signatures(master_track, project.time_signature_list)
-        master_track.sort(key=operator.attrgetter("time"))
-        mido_obj.tracks.append(master_track)
-        mido_obj.tracks.extend(self.generate_tracks(project.track_list))
-        self._convert_cumulative_to_delta(mido_obj.tracks)
+        master_track.append(
+            {
+                "time": master_track[-1]["time"] if master_track else 0,
+                "__next": 0xFF,
+                "status": 0xFF,
+                "detail": {
+                    "type": "meta",
+                    "event_type": 0x2F,
+                    "data": {"type": "end_of_track"},
+                },
+            }
+        )
+        master_track.sort(key=operator.itemgetter("time"))
+        tracks.append(master_track)
+        tracks.extend(self.generate_tracks(project.track_list))
+        self._convert_cumulative_to_delta(tracks)
+        mido_obj["tracks"] = tracks
         return mido_obj
 
     @staticmethod
-    def _convert_cumulative_to_delta(tracks: list[mido.MidiTrack]) -> None:
+    def _convert_cumulative_to_delta(tracks: list[list[MidiMessage]]) -> None:
         for track in tracks:
             tick = 0
             for event in track:
-                tick, event.time = event.time, event.time - tick
+                tick, event["time"] = event["time"], event["time"] - tick
 
     def generate_tempos(
-        self, master_track: mido.MidiTrack, song_tempo_list: list[SongTempo]
+        self, master_track: list[MidiMessage], song_tempo_list: list[SongTempo]
     ) -> None:
-        for tempo in song_tempo_list:
-            master_track.append(
-                mido.MetaMessage(
-                    "set_tempo",
-                    tempo=mido.bpm2tempo(tempo.bpm),
-                    time=round(tempo.position / self.tick_rate),
-                )
-            )
+        master_track.extend(
+            {
+                "time": round(tempo.position / self.tick_rate),
+                "__next": 0xFF,
+                "status": 0xFF,
+                "detail": {
+                    "type": "meta",
+                    "event_type": 0x51,
+                    "data": {
+                        "type": "set_tempo",
+                        "tempo": bpm2tempo(tempo.bpm),
+                    },
+                },
+            }
+            for tempo in song_tempo_list
+        )
 
     def generate_time_signatures(
         self,
-        master_track: mido.MidiTrack,
+        master_track: list[MidiMessage],
         time_signature_list: list[TimeSignature],
     ) -> None:
         ticks = 0
@@ -89,16 +128,26 @@ class VsqGenerator:
                     * (time_signature.bar_index - prev_time_signature.bar_index)
                 )
             master_track.append(
-                mido.MetaMessage(
-                    "time_signature",
-                    numerator=time_signature.numerator,
-                    denominator=time_signature.denominator,
-                    time=ticks,
-                )
+                {
+                    "time": ticks,
+                    "__next": 0xFF,
+                    "status": 0xFF,
+                    "detail": {
+                        "type": "meta",
+                        "event_type": 0x58,
+                        "data": {
+                            "type": "time_signature",
+                            "numerator": time_signature.numerator,
+                            "denominator": time_signature.denominator,
+                            "clocks_per_click": 24,
+                            "notated_32nd_notes_per_quarter": 8,
+                        },
+                    },
+                }
             )
             prev_time_signature = time_signature
 
-    def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
+    def generate_tracks(self, tracks: list[Track]) -> list[list[MidiMessage]]:
         mido_tracks = []
         singing_tracks = [
             track
@@ -112,23 +161,44 @@ class VsqGenerator:
 
     def generate_track(
         self, track: SingingTrack, track_index: int, tracks_count: int
-    ) -> mido.MidiTrack | None:
+    ) -> list[MidiMessage] | None:
         track_text = self.generate_track_text(track, track_index, tracks_count)
-        mido_track = mido.MidiTrack()
+        mido_track = list[MidiMessage]()
         while len(track_text) != 0:
             event_id = len(mido_track)
             event_id_str = str(event_id).zfill(4)
             header = f"DM:{event_id_str}:"
             available_length = 0x7F - len(header)
             mido_track.append(
-                mido.MetaMessage(
-                    "text",
-                    text=header + track_text[:available_length],
-                    time=0,
-                )
+                {
+                    "time": 0,
+                    "__next": 0xFF,
+                    "status": 0xFF,
+                    "detail": {
+                        "type": "meta",
+                        "event_type": 0x01,
+                        "data": {
+                            "type": "text",
+                            "text": (header + track_text[:available_length]).encode(
+                                self.options.lyric_encoding, "replace"
+                            ),
+                        },
+                    },
+                }
             )
             track_text = track_text[available_length:]
-        mido_track.append(mido.MetaMessage("end_of_track"))
+        mido_track.append(
+            {
+                "time": 0,
+                "__next": 0xFF,
+                "status": 0xFF,
+                "detail": {
+                    "type": "meta",
+                    "event_type": 0x2F,
+                    "data": {"type": "end_of_track"},
+                },
+            }
+        )
         return mido_track
 
     def generate_track_text(

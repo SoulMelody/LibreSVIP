@@ -18,9 +18,6 @@ DEFAULT_BPM: Final[float] = 120.0
 KEY_IN_OCTAVE: Final[int] = 12
 TICKS_IN_BEAT: Final[int] = 480
 MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS: Final[int] = TICKS_IN_BEAT
-DEFAULT_PITCH_BEND_SENSITIVITY: Final[int] = 2
-MAX_PITCH_BEND_SENSITIVITY: Final[int] = 24
-PITCH_MAX_VALUE: Final[int] = 8191
 
 app_dir = platformdirs.AppDirs(PACKAGE_NAME)
 

@@ -21,11 +21,19 @@ class FramelessWindow(QQuickWindow):
         QCoreApplication.instance().install_event_filter(self)
 
     @Slot()
+    def start_system_move(self) -> None:
+        self.start_system_move()
+
+    @Slot()
     def click_maximize_btn(self) -> None:
         if self.visibility != QQuickWindow.Visibility.Maximized:
             self.show_maximized()
         else:
             self.show_normal()
+
+    @Slot()
+    def click_minimize_btn(self) -> None:
+        self.show_minimized()
 
     def event_filter(self, obj: QObject, event: QEvent) -> bool:
         et = event.type()

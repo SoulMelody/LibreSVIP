@@ -13,6 +13,7 @@ import libresvip
 import PySide6
 import shellingham
 from PyInstaller.utils.hooks import collect_data_files, collect_entry_point
+from PyInstaller.utils.misc import is_win
 
 with contextlib.suppress(Exception):
     if (
@@ -24,6 +25,11 @@ with contextlib.suppress(Exception):
 
 here = pathlib.Path(".")
 
+if is_win and platform.python_compiler().startswith("GCC"):
+    zstd_backend = "zstandard"
+else:
+    zstd_backend = "backports.zstd"
+
 cli_collections = []
 if platform.system() != "Darwin":
     cli_a = Analysis(
@@ -34,16 +40,15 @@ if platform.system() != "Darwin":
         binaries=[],
         datas=collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
         hiddenimports=[
-            "backports.zstd",
+            zstd_backend,
             "bidict",
             "construct_typed",
             "Cryptodome.Util.Padding",
-            "drawsvg",
+            "svg",
             "google.protobuf.any_pb2",
             "jinja2",
             "jyutping",
             "ko_pron",
-            "mido_fix",
             "tatsu",
             "portion",
             "proto",
@@ -56,7 +61,7 @@ if platform.system() != "Darwin":
             "xsdata_pydantic.bindings",
             "xsdata_pydantic.fields",
             "xsdata_pydantic.hooks.class_type",
-            "yaml_ft",
+            "yaml",
         ],
         hookspath=[],
         hooksconfig={},
@@ -125,16 +130,15 @@ gui_a = Analysis(
     binaries=[],
     datas=collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
     hiddenimports=[
-        "backports.zstd",
+        zstd_backend,
         "bidict",
         "construct_typed",
         "Cryptodome.Util.Padding",
-        "drawsvg",
+        "svg",
         "google.protobuf.any_pb2",
         "jinja2",
         "jyutping",
         "ko_pron",
-        "mido_fix",
         "tatsu",
         "portion",
         "proto",
@@ -147,7 +151,7 @@ gui_a = Analysis(
         "xsdata_pydantic.bindings",
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
-        "yaml_ft",
+        "yaml",
     ],
     hookspath=[],
     hooksconfig={},

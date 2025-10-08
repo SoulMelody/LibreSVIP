@@ -1,7 +1,7 @@
 [project]
 authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
-license = { text = "MIT" }
-requires-python = ">=3.10,<3.14"
+license-files = ["LICENSE*"]
+requires-python = ">=3.10,<3.15"
 classifiers = [
   'Development Status :: 4 - Beta',
   'Programming Language :: Python',
@@ -12,14 +12,15 @@ classifiers = [
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
   'Programming Language :: Python :: 3.13',
+  'Programming Language :: Python :: 3.14',
   'Intended Audience :: Developers',
   'Intended Audience :: End Users/Desktop',
   'License :: OSI Approved :: MIT License',
   'Environment :: Console',
   'Operating System :: Unix',
   'Operating System :: POSIX :: Linux',
-  'Operating System :: Microsoft :: Windows :: Windows 10',
   'Operating System :: Microsoft :: Windows :: Windows 11',
+  'Operating System :: MacOS :: MacOS X',
   'Operating System :: Android',
   'Framework :: Pydantic :: 2',
   'Topic :: File Formats',
@@ -28,34 +29,33 @@ classifiers = [
 ]
 dependencies = [
   "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.4.2",
+  "charset-normalizer<4.0.0,>=3.4.3",
   "construct",
   "construct-typing<1.0.0,>=0.6.2",
-  "drawsvg<3.0.0,>=2.4.0",
   "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
   "jyutping",
   "ko-pron>=1.3",
   "loguru<1.0.0,>=0.7.3",
-  "mido-fix",
-  "more-itertools<11.0.0,>=10.7.0",
+  "more-itertools<11.0.0,>=10.8.0",
   "packaging<25.1,>=25.0",
-  "platformdirs<5.0.0,>=4.3.8",
+  "platformdirs<5.0.0,>=4.4.0",
   "portion<3.0.0,>=2.6.1",
   "proto-plus<2.0.0,>=1.26.1",
-  "pydantic<3.0.0,>=2.11.7",
+  "pydantic<3.0.0,>=2.12.0",
   "pydantic-extra-types<3.0.0,>=2.10.5",
-  "pydantic-settings<3.0.0,>=2.10.1",
+  "pydantic-settings<3.0.0,>=2.11.0",
   "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.55.0",
   "pysubs2<2.0.0,>=1.8.0",
-  "PyYAML>=6.0.2,<7.0.0; python_version<'3.13' or sys_platform == \"emscripten\"",
-  "PyYAML-ft>=8.0.0,<8.0.1; python_version>='3.13' and sys_platform != \"emscripten\"",
-  "repro-zipfile<1.0.0,>=0.4.0; python_version < \"3.11\"",
+  "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
+  "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
+  "repro-zipfile<1.0.0,>=0.4.1; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.1.1,>=14.1.0",
-  "tatsu-lts>=5.13.1",
-  "typer-slim<1.0.0,>=0.16.0",
+  "svg-py<2.0.0,>=1.9.1",
+  "tatsu-lts<6.0.0,>=5.13.2",
+  "typer-slim<1.0.0,>=0.19.2",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
@@ -70,28 +70,27 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 zstd = [
-  "backports.zstd<0.4.0,>=0.3.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
-  "pyzstd<1.0.0,>=0.17.0; platform_python_implementation == \"PyPy\" and python_version < \"3.14\"",
-  "zstandard<0.23.1,>=0.23.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
+  "backports.zstd<0.5.1,>=0.5.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
+  "zstandard<0.25.1,>=0.25.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
 ]
 crypto = [
-  "cffi>=1.17.1; sys_platform != \"win32\" or python_version <= \"3.11\"",
+  "cffi>=2.0.0; sys_platform != \"win32\" or python_version <= \"3.11\"",
   "pyzipper>=0.3.6",
 ]
-ujson = ["ujson>=5.10.0"]
+ujson = ["ujson>=5.11.0"]
 upath = [
-  "universal-pathlib<1.0.0,>=0.2.6",
+  "universal-pathlib<1.0.0,>=0.3.2",
 ]
 ruamel_yaml = [
-  "ruamel.yaml>=0.18.14",
+  "ruamel.yaml>=0.18.15",
 ]
-lxml = ["lxml>=6.0.0"]
+lxml = ["lxml>=6.0.2"]
 tui = [
-  "textual-fspicker>=0.4.1",
+  "textual-fspicker>=0.6.0",
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.22.0",
+  "nicegui>=3.0.3",
   "libresvip[upath]",
 ]
 mobile = [
@@ -100,42 +99,45 @@ mobile = [
   "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.9.2,>=6.9.1",
+  "pyside6<6.9.4,>=6.9.3",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.28.1",
-  "desktop-notifier>=6.1.1; platform_python_implementation == \"CPython\"",
+  "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
   "libresvip[upath]",
 ]
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.32.0",
-  "gapic-generator>=1.26.0",
+  "datamodel-code-generator>=0.34.0",
+  "gapic-generator>=1.28.0",
+  "protoc-wheel-0>=30.2",
   "xsdata[cli]>=25.7",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
-  "basedpyright>=1.31.0",
-  "pre-commit>=4.2.0",
-  "ruff>=0.12.7",
-  "mypy>=1.17.1",
+  "pre-commit>=4.3.0",
+  "ruff>=0.14.0",
+  "mypy>=1.18.2",
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
-  "types-lxml>=2025.3.30",
-  "types-pyyaml>=6.0.12.20250516",
-  "types-ujson>=5.10.0.20250326",
+  "pyrefly>=0.36.1",
+  "types-lxml>=2025.8.25",
+  "types-pyyaml>=6.0.12.20250915",
+  "types-ujson>=5.10.0.20250822",
+  "types-pyinstaller>=6.16.0.20250918",
+  "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
-  "cx-Freeze>=8.3.0",
-  "nuitka>=2.7.12",
-  "pyfuze>=2.7.1",
-  "pyinstaller>=6.14.2",
+  "cx-Freeze>=8.4.1",
+  "nuitka>=2.7.16",
+  "pyfuze>=2.7.2",
+  "pyinstaller>=6.16.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "mkdocs-material<10.0.0,>=9.6.16",
+  "mkdocs-material<10.0.0,>=9.6.21",
 ]
-test = ["pytest>=8.4.1", "pytest-datadir>=1.8.0", "textual-dev>=1.7.0"]
+test = ["pytest>=8.4.2", "pytest-datadir>=1.8.0", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
@@ -160,7 +162,6 @@ hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 [tool.uv.sources]
 construct = { url = "https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl" }
 jyutping = { url = "https://archive1.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl" }
-mido-fix = { url = "https://archive1.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" }
 wanakana-python = { url = "https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" }
 
 [tool.hatch.version]
@@ -246,6 +247,7 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = ['libresvip', 'tests']
+known-third-party = ['svg']
 
 [tool.mypy]
 python_version = "3.10"
@@ -263,50 +265,27 @@ plugins = [
   "pydantic.mypy"
 ]
 
-[tool.pyright]
-pythonVersion = "3.10"
-typeCheckingMode = "strict"
-reportAttributeAccessIssue = "none"
-reportAssignmentType = "none"
-reportCallIssue = "none"
-reportIncompleteStub = "warning"
-reportMissingImports = "warning"
-reportMissingParameterType = "none"
-reportMissingTypeStubs = "warning"
-reportUnknownMemberType = "none"
-reportUnknownParameterType = "none"
-reportUnknownVariableType = "none"
-reportUnusedFunction = "none"
-reportUninitializedInstanceVariable = "none"
-reportMissingModuleSource = "none"
-reportIncompatibleMethodOverride = "none"
-reportIncompatibleVariableOverride = "none"
-reportUnknownArgumentType = "none"
-reportUnusedVariable = "none"
-reportUnusedImport = "none"
-reportUnnecessaryContains = "none"
-reportRedeclaration = "none"
-reportUntypedFunctionDecorator = "none"
-reportUntypedClassDecorator = "none"
-reportFunctionMemberAccess = "none"
-reportUntypedBaseClass = "warning"
-reportAbstractUsage = "warning"
-reportMissingTypeArgument = "warning"
-reportUnknownLambdaType = "warning"
-reportPrivateUsage = "warning"
-reportOptionalOperand = "warning"
-reportInvalidTypeForm = "warning"
-reportUnnecessaryComparison = "warning"
-reportReturnType = "warning"
-reportGeneralTypeIssues = "warning"
-reportOptionalMemberAccess = "warning"
-reportUnnecessaryTypeIgnoreComment = "warning"
-reportUnnecessaryIsInstance = "warning"
-reportOperatorIssue = "warning"
-reportArgumentType = "warning"
-reportIndexIssue = "warning"
-reportMatchNotExhaustive = "warning"
-reportCallInDefaultInitializer = "error"
+[tool.pyrefly]
+python-version = "3.10"
+
+[tool.pyrefly.errors]
+bad-argument-type = "ignore"
+bad-assignment = "ignore"
+bad-instantiation = "ignore"
+bad-override = "ignore"
+bad-return = "ignore"
+bad-specialization = "ignore"
+implicitly-defined-attribute = "ignore"
+import-error = "ignore"
+index-error = "ignore"
+invalid-inheritance = "ignore"
+missing-attribute = "ignore"
+missing-module-attribute = "ignore"
+not-iterable = "ignore"
+no-matching-overload = "ignore"
+unbound-name = "ignore"
+unknown-name = "ignore"
+unsupported-operation = "ignore"
 
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]

@@ -1,6 +1,7 @@
 import dataclasses
 import struct
 from collections import defaultdict
+from typing import Annotated
 
 from construct import (
     Byte,
@@ -32,7 +33,7 @@ class PiaproStudioLegacyParser:
     clip_note_counts: list[int] = dataclasses.field(default_factory=list)
     clips2track_indexes: dict[int, int] = dataclasses.field(default_factory=dict)
 
-    def parse_project(self, ppsf_project: PpsfLegacyProject) -> Project:
+    def parse_project(self, ppsf_project: Annotated[Container, PpsfLegacyProject]) -> Project:
         events_chunk: PpsfChunk | None = None
         for chunk in ppsf_project.body.chunks:
             match chunk.magic:

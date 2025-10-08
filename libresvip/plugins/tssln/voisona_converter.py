@@ -2,10 +2,10 @@ import pathlib
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
+from libresvip.utils.binary.value_tree import JUCENode, build_tree_dict
 
 from .model import VoiSonaProject, model_to_value_tree
 from .options import InputOptions, OutputOptions
-from .value_tree import JUCENode, build_tree_dict
 from .voisona_generator import VoiSonaGenerator
 from .voisona_parser import VoiSonaParser
 

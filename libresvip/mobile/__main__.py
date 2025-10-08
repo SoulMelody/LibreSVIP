@@ -51,4 +51,6 @@ if __name__ == "__main__":
 
         uvicorn.run(app, host=args.host, port=args.port)
     else:
-        ft.app(main, name="LibreSVIP")
+        import asyncio
+
+        asyncio.run(ft.app_async(main, name="LibreSVIP"))

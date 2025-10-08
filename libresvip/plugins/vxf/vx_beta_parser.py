@@ -2,6 +2,9 @@ import collections
 import dataclasses
 import math
 import operator
+from typing import Annotated
+
+from construct import Container
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
@@ -26,7 +29,7 @@ class VxBetaParser:
             return TICKS_IN_BEAT / self.ticks_per_beat
         return 1
 
-    def parse_project(self, vx_project: VxFile) -> Project:
+    def parse_project(self, vx_project: Annotated[Container, VxFile]) -> Project:
         self.ticks_per_beat = vx_project.ticks_per_beat
         self._convert_delta_to_cumulative(vx_project.tracks)
         time_signature_list = []
@@ -42,14 +45,14 @@ class VxBetaParser:
         )
 
     @staticmethod
-    def _convert_delta_to_cumulative(tracks: list[VxTrack]) -> None:
+    def _convert_delta_to_cumulative(tracks: list[Annotated[Container, VxTrack]]) -> None:
         for track in tracks:
             tick = 0
             for event in track.events:
                 event.time += tick
                 tick = event.time
 
-    def parse_tempos(self, tracks: list[VxTrack]) -> list[SongTempo]:
+    def parse_tempos(self, tracks: list[Annotated[Container, VxTrack]]) -> list[SongTempo]:
         tempos: list[SongTempo] = []
 
         # traversing
@@ -70,7 +73,9 @@ class VxBetaParser:
             tempos.sort(key=operator.attrgetter("position"))
         return tempos
 
-    def parse_time_signatures(self, master_track: VxTrack) -> list[TimeSignature]:
+    def parse_time_signatures(
+        self, master_track: Annotated[Container, VxTrack]
+    ) -> list[TimeSignature]:
         # no default
         time_signature_changes: list[TimeSignature] = []
 
@@ -99,7 +104,7 @@ class VxBetaParser:
         self.first_bar_length = round(time_signature_changes[0].bar_length())
         return time_signature_changes
 
-    def parse_track(self, track: VxTrack) -> SingingTrack:
+    def parse_track(self, track: Annotated[Container, VxTrack]) -> SingingTrack:
         lyrics: dict[int, str] = collections.defaultdict(lambda: "l-aa")
         prev_index = None
         for event in track.events:
@@ -186,5 +191,5 @@ class VxBetaParser:
             singing_track.edited_params.pitch.points.root = pitch_points
         return singing_track
 
-    def parse_tracks(self, vx_tracks: list[VxTrack]) -> list[SingingTrack]:
+    def parse_tracks(self, vx_tracks: list[Annotated[Container, VxTrack]]) -> list[SingingTrack]:
         return [self.parse_track(track) for track in vx_tracks]

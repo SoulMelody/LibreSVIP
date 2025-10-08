@@ -71,7 +71,7 @@ def test_tssln_write(shared_datadir: pathlib.Path) -> None:
         VoiSonaProject,
         model_to_value_tree,
     )
-    from libresvip.plugins.tssln.value_tree import JUCENode, build_tree_dict
+    from libresvip.utils.binary.value_tree import JUCENode, build_tree_dict
 
     value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
     tree_dict = build_tree_dict(value_tree)
@@ -90,7 +90,7 @@ def test_ustx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[s
 
 
 def test_ds_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
-    from libresvip.plugins.ds.model import DsProject
+    from libresvip.plugins.ds.utils.models.ds_file import DsProject
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.ds"
@@ -297,14 +297,14 @@ def test_svip_write(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[
 
 
 def test_vsq_read(shared_datadir: pathlib.Path) -> None:
-    import mido_fix as mido
+    from libresvip.utils.binary.midi import MIDIFile
 
-    vsq_file = mido.MidiFile(shared_datadir / "test.vsq", charset="SHIFT-JIS", clip=True)
+    vsq_file = MIDIFile.parse((shared_datadir / "test.vsq").read_bytes())
 
     for track in vsq_file.tracks:
         for msg in track:
-            if isinstance(msg, mido.MetaMessage) and msg.type == "text":
-                rich.print(msg)
+            if msg.detail.type == "meta" and msg.detail.data.type == "text":
+                rich.print(msg.detail.data.text.decode("SHIFT-JIS"))
 
 
 def test_ps_project_read(shared_datadir: pathlib.Path) -> None:

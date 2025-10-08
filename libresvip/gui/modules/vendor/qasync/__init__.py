@@ -27,7 +27,7 @@ import sys
 import time
 from concurrent.futures import Future
 from queue import Queue
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Generic
 
 from loguru import logger
 from PySide6 import QtCore, QtWidgets
@@ -37,6 +37,7 @@ from ._common import _fileno, make_signaller
 
 from __feature__ import snake_case, true_property  # isort: skip  # noqa: F401
 
+_T = TypeVar("_T")
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
     from concurrent.futures import Executor
@@ -45,7 +46,6 @@ if TYPE_CHECKING:
 
     from _typeshed import FileDescriptor
 
-    _T = TypeVar("_T")
     _P = ParamSpec("_P")
     _Ts = TypeVarTuple("_Ts")
 
@@ -53,7 +53,7 @@ Slot = QtCore.Slot
 QApplication = QtWidgets.QApplication
 
 
-class _QThreadWorker(QtCore.QThread):
+class _QThreadWorker(QtCore.QThread, Generic[_T]):
     """
     Read jobs from the queue and then execute them.
 
@@ -62,7 +62,7 @@ class _QThreadWorker(QtCore.QThread):
 
     def __init__(
         self,
-        queue: Queue[tuple[Future[_T], Callable[_P, _T], Any, Any] | None],
+        queue: Queue[tuple[Future[_T], Callable[..., _T], tuple[Any], dict[str, Any]] | None],
         num: int,
         stack_size: int | None = None,
     ) -> None:

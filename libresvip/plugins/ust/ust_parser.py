@@ -8,6 +8,7 @@ from sortedcontainers import SortedKeyList
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NoTrackError
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     Note,
     Project,
@@ -34,13 +35,14 @@ from .pitch_mode2 import (
 @dataclasses.dataclass
 class USTParser:
     options: InputOptions
-    tempos: SortedKeyList = dataclasses.field(
+    tempos: SortedKeyList[SongTempo, float] = dataclasses.field(
         default_factory=functools.partial(SortedKeyList, key=operator.attrgetter("position"))
     )
 
     def parse_project(self, ust_project: UTAUProject) -> Project:
         if not len(ust_project.track):
-            raise NoTrackError(_("UST project has no track"))
+            msg = _("Project has no tracks")
+            raise NoTrackError(msg)
         tracks = []
         time_signatures = self.parse_time_signatures(ust_project.time_signatures)
         for ust_track in ust_project.track:
@@ -101,7 +103,7 @@ class USTParser:
                 )
             )
         if not len(self.tempos):
-            # TODO: add warning
+            show_warning(_("No tempo labels found in the imported project."))
             self.tempos.add(
                 SongTempo(
                     position=time,

@@ -16,7 +16,7 @@ class TranslationContainer(BaseContainer):
     translation = providers.Selector(
         lambda: os.getenv("LIBRESVIP_SETTINGS_BACKEND", "local"),
         local=providers.Factory(lambda: singleton_translation),
-        remote=providers.Factory(lazy_translation.get, None),
+        remote=providers.Factory(lazy_translation.get),
     )
 
 

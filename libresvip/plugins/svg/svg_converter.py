@@ -8,10 +8,10 @@ from .options import OutputOptions
 from .svg_generator import SvgGenerator
 
 if TYPE_CHECKING:
-    from drawsvg import Drawing
+    from svg import SVG
 
 
 class SvgConverter(plugin_base.WriteOnlyConverterBase):
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        drawing: Drawing = SvgGenerator(options).generate_project(project)
-        path.write_bytes(drawing.as_svg().encode("utf-8"))
+        drawing: SVG = SvgGenerator(options).generate_project(project)
+        path.write_bytes(drawing.as_str().encode("utf-8"))

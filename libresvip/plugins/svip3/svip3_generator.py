@@ -38,6 +38,7 @@ from .model import (
     Svip3BeatSize,
     Svip3LineParamNode,
     Svip3Note,
+    Svip3NoteLengthValidateTag,
     Svip3Project,
     Svip3SingingPattern,
     Svip3SingingTrack,
@@ -226,9 +227,13 @@ class Svip3Generator:
             if note_duration < MIN_NOTE_DURATION:
                 msg_prefix = _("Note duration is too short:")
                 show_warning(f"{msg_prefix} {note.lyric}")
+                length_valid_tag = Svip3NoteLengthValidateTag.TOO_SHORT
             elif note_duration > MAX_NOTE_DURATION:
                 msg_prefix = _("Note duration is too long:")
                 show_warning(f"{msg_prefix} {note.lyric}")
+                length_valid_tag = Svip3NoteLengthValidateTag.TOO_LONG
+            else:
+                length_valid_tag = Svip3NoteLengthValidateTag.NONE
             svip3_note = Svip3Note(
                 start_pos=note.start_pos,
                 width_pos=note.length,
@@ -239,6 +244,7 @@ class Svip3Generator:
                 has_consonant=has_consonant,
                 sp_len=400 if note.head_tag == "V" else 0,
                 sil_len=400 if note.head_tag == "0" else 0,
+                length_valid_tag=length_valid_tag,
             )
             svip3_note_list.append(svip3_note)
         return svip3_note_list

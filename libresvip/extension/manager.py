@@ -113,13 +113,7 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
                         (
                             suffix
                             for suffix in self.lib_suffixes
-                            if (
-                                (
-                                    candidate_filepath := (
-                                        child_path / f"{plugin_info.module}{suffix}"
-                                    )
-                                ).is_file()
-                            )
+                            if ((child_path / f"{plugin_info.module}{suffix}").is_file())
                         ),
                         None,
                     ):
@@ -133,7 +127,9 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
                             f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
                         )
                         break
-                    self._candidates.append((candidate_filepath, plugin_info))
+                    self._candidates.append(
+                        (child_path / f"{plugin_info.module}{entry_suffix}", plugin_info)
+                    )
                     # finally the candidate_infofile must not be discovered again
                     _discovered.add(candidate_infofile)
 
@@ -160,9 +156,7 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
                 continue
 
             try:
-                plugin_cls_name, plugin_cls = inspect.getmembers(candidate_module, self.is_plugin)[
-                    0
-                ]
+                _, plugin_cls = inspect.getmembers(candidate_module, self.is_plugin)[0]
                 plugin_info.plugin_object = plugin_cls()
                 self.plugin_registry[plugin_info.identifier] = plugin_info
             except Exception:

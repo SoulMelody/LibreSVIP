@@ -9,7 +9,13 @@ import sys
 from typing import Annotated, Any, TypeVar
 
 import pydantic_settings
-from pydantic import BaseModel, Field, GetCoreSchemaHandler, ValidationError
+from pydantic import (
+    BaseModel,
+    Field,
+    GetCoreSchemaHandler,
+    ValidationError,
+    model_validator,
+)
 from pydantic_core import core_schema
 from that_depends import BaseContainer, providers
 from typing_extensions import Self
@@ -72,7 +78,7 @@ def pydantic_enum(enum_cls: type[E]) -> type[E]:
         return core_schema.no_info_wrap_validator_function(
             get_enum,
             name_schema,
-            ref=cls.__name__,
+            ref=getattr(cls, "__name__"),
             serialization=core_schema.plain_serializer_function_ser_schema(serialize),
         )
 
@@ -409,6 +415,16 @@ class LibreSvipSettings(LibreSvipBaseUISettings):
     open_save_folder_on_completion: bool = Field(default=True)
     auto_set_output_extension: bool = Field(default=True)
     auto_check_for_updates: bool = Field(default=True)
+
+    @model_validator(mode="after")
+    def validate_last_formats(
+        self,
+    ) -> Self:
+        if self.last_input_format is not None and self.last_input_format in self.disabled_plugins:
+            self.last_input_format = None
+        if self.last_output_format is not None and self.last_output_format in self.disabled_plugins:
+            self.last_output_format = None
+        return self
 
 
 config_path = app_dir.user_config_path / "settings.yml"

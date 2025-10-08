@@ -1,8 +1,6 @@
 import contextlib
 import dataclasses
 
-import mido_fix as mido
-
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.time_sync import TimeSynchronizer
@@ -17,6 +15,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils.binary.midi import bpm2tempo
 from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import SUPPORTED_PINYIN
@@ -65,7 +64,7 @@ class GjgjGenerator:
         self.first_bar_bpm = song_tempo_list[0].bpm
         return [
             GjgjTempos(
-                microseconds_per_quarter_note=mido.bpm2tempo(tempo.bpm),
+                microseconds_per_quarter_note=bpm2tempo(tempo.bpm),
                 time=tempo.position,
             )
             for tempo in song_tempo_list

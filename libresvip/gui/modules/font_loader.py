@@ -22,4 +22,6 @@ class IconicFontLoader(QObject):
     def icon(self, icon_name: str) -> str:
         font_family, _, icon_name = icon_name.partition(".")
         icon_name = icon_name.replace("-", "_")
+        if font_family != "mdi7":
+            return ""
         return getattr(MDI7, icon_name, "").partition(".")[-1]

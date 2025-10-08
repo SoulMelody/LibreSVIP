@@ -64,8 +64,8 @@ class GjgjSingerInfo(BaseModel):
 
 
 class GjgjTempos(BaseModel):
-    time: int | None = Field(alias="Time")
-    microseconds_per_quarter_note: int | None = Field(alias="MicrosecondsPerQuarterNote")
+    time: int = Field(alias="Time")
+    microseconds_per_quarter_note: int = Field(alias="MicrosecondsPerQuarterNote")
 
 
 class GjgjTimeSignature(BaseModel):

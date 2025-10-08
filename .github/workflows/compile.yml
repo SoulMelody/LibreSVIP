@@ -10,13 +10,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@v47
         with:
           files_yaml: |
             po:
@@ -30,14 +30,13 @@ jobs:
               - "packaging/requirements-desktop.in"
               - "packaging/requirements-mobile.in"
               - "packaging/requirements-pyinstaller.in"
-              - "packaging/requirements-pyodide.in"
             docs:
               - "docs/**"
               - "mkdocs.yml"
 
       - name: Set up uv
         if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.qml_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true' || steps.changed-files.outputs.docs_any_changed == 'true'
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
 
@@ -61,8 +60,7 @@ jobs:
         if: steps.changed-files.outputs.requirements_any_changed == 'true'
         run: |
           uv pip compile --universal --extra desktop --extra crypto --extra ujson --extra lxml --extra ruamel_yaml --extra zstd -U --no-annotate --no-header pyproject.toml packaging/requirements-pyinstaller.in --overrides packaging/requirements-desktop.in -o packaging/requirements-desktop.txt
-          uv pip compile --universal --extra crypto --extra lxml --extra ruamel_yaml --extra zstd --extra upath -U --python-version 3.12 --no-annotate --no-header pyproject.toml packaging/requirements-flet.in --overrides packaging/requirements-mobile.in -o packaging/requirements-android.txt
-          uv pip compile --extra lxml --extra ruamel_yaml --extra zstd --extra upath -U --python-platform wasm32-pyodide2024 --python-version 3.12 --no-annotate --no-header pyproject.toml --overrides packaging/requirements-pyodide.in -o packaging/requirements-pyodide.txt --index-url https://pypi.anaconda.org/pyodide/simple --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match
+          uv pip compile --python-platform aarch64-linux-android --index https://pypi.flet.dev --extra crypto --extra lxml --extra ruamel_yaml --extra zstd --extra upath -U --python-version 3.12 --no-annotate --no-header pyproject.toml packaging/requirements-flet.in --overrides packaging/requirements-mobile.in -o packaging/requirements-android.txt
 
       - name: Build docs
         if: steps.changed-files.outputs.docs_any_changed == 'true'
