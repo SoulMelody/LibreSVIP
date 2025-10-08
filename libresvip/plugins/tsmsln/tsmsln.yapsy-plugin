@@ -1,10 +1,8 @@
 [Core]
 name = TSMSln
-module = voisona_mobile_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 1.12.1
 Website = https://space.bilibili.com/175862486
 Format = Techno-Speech Mobile Solution file
 Description = Conversion plugin for VoiSona Mobile project file

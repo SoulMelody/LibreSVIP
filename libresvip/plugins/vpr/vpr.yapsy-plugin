@@ -1,10 +1,8 @@
 [Core]
 name = Vpr
-module = vpr_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 1.0.0
 Website = https://space.bilibili.com/175862486
 Format = New Vocaloid Project file
 Description = Conversion plugin for New Vocaloid project file

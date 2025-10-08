@@ -68,7 +68,7 @@ def main(page: ft.Page) -> None:
     output_options = ft.Ref[ft.ResponsiveRow]()
     middleware_options = {
         middleware_id: ft.Ref[ft.ExpansionPanel]()
-        for middleware_id in middleware_manager.plugin_registry
+        for middleware_id in middleware_manager.plugins["middleware"]
     }
 
     def build_options(option_class: type[BaseModel]) -> list[ft.Control]:
@@ -169,48 +169,21 @@ def main(page: ft.Page) -> None:
         return fields
 
     def build_input_options(value: str | None) -> list[ft.Control]:
-        if value in plugin_manager.plugin_registry:
-            input_plugin = plugin_manager.plugin_registry[value]
-            if (
-                input_plugin.plugin_object is not None
-                and (
-                    input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
-                        "options",
-                    )
-                )
-                is not None
-            ):
-                return build_options(input_option_cls)
+        if value in plugin_manager.plugins["svs"]:
+            input_plugin = plugin_manager.plugins["svs"][value]
+            return build_options(input_plugin.input_option_cls)
         return []
 
     def build_middleware_options(value: str) -> list[ft.Control]:
-        if value in middleware_manager.plugin_registry:
-            middleware = middleware_manager.plugin_registry[value]
-            if (
-                middleware.plugin_object is not None
-                and (
-                    middleware_option_cls := get_type_hints(middleware.plugin_object.process).get(
-                        "options"
-                    )
-                )
-                is not None
-            ):
-                return build_options(middleware_option_cls)
+        if value in middleware_manager.plugins["middleware"]:
+            middleware = middleware_manager.plugins["middleware"][value]
+            return build_options(middleware.process_option_cls)
         return []
 
     def build_output_options(value: str | None) -> list[ft.Control]:
-        if value in plugin_manager.plugin_registry:
-            output_plugin = plugin_manager.plugin_registry[value]
-            if (
-                output_plugin.plugin_object is not None
-                and (
-                    output_option_cls := get_type_hints(output_plugin.plugin_object.dump).get(
-                        "options",
-                    )
-                )
-                is not None
-            ):
-                return build_options(output_option_cls)
+        if value in plugin_manager.plugins["svs"]:
+            output_plugin = plugin_manager.plugins["svs"][value]
+            return build_options(output_plugin.output_option_cls)
         return []
 
     def set_last_input_format(value: str | None) -> None:
@@ -305,7 +278,7 @@ def main(page: ft.Page) -> None:
                 if (
                     suffix != last_input_format
                     and auto_detect_input_format
-                    and suffix in plugin_manager.plugin_registry
+                    and suffix in plugin_manager.plugins["svs"]
                 ):
                     set_last_input_format(suffix)
                 task_list_view.current.controls.append(
@@ -380,7 +353,7 @@ def main(page: ft.Page) -> None:
             if (
                 suffix != last_input_format
                 and auto_detect_input_format
-                and suffix in plugin_manager.plugin_registry
+                and suffix in plugin_manager.plugins["svs"]
             ):
                 set_last_input_format(suffix)
             task_list_view.current.controls.append(
@@ -514,101 +487,66 @@ def main(page: ft.Page) -> None:
                     output_path = output_path.with_suffix(
                         f".{output_format}",
                     )
-                input_plugin = plugin_manager.plugin_registry[input_format]
-                output_plugin = plugin_manager.plugin_registry[output_format]
-                if (
-                    input_plugin.plugin_object is not None
-                    and (
-                        input_option_class := get_type_hints(input_plugin.plugin_object.load).get(
-                            "options",
-                        )
-                    )
-                    is not None
-                    and output_plugin.plugin_object is not None
-                    and (
-                        output_option_class := get_type_hints(
-                            output_plugin.plugin_object.dump,
-                        ).get("options")
-                    )
-                    is not None
-                ):
-                    input_option = input_option_class.model_validate(
-                        {
-                            control.data: control.value
-                            for control in input_options.current.controls
-                            if control.data is not None and hasattr(control, "value")
-                        }
-                    )
-                    if conversion_mode == "merge":
-                        child_projects = [
-                            input_plugin.plugin_object.load(
-                                sub_task.data["path"],
-                                input_option,
-                            )
-                            for sub_task in more_itertools.value_chain(list_tile, sub_tasks)
-                            if sub_task.data is not None
-                        ]
-                        project = Project.merge_projects(child_projects)
-                    else:
-                        project = input_plugin.plugin_object.load(
-                            list_tile.data["path"],
+                input_plugin = plugin_manager.plugins["svs"][input_format]
+                output_plugin = plugin_manager.plugins["svs"][output_format]
+                input_option = {
+                    control.data: control.value
+                    for control in input_options.current.controls
+                    if control.data is not None and hasattr(control, "value")
+                }
+                if conversion_mode == "merge":
+                    child_projects = [
+                        input_plugin.load(
+                            sub_task.data["path"],
                             input_option,
                         )
-                    for middleware_id, middleware_ref in middleware_options.items():
-                        if (
-                            middleware_ref.current.header is not None
-                            and middleware_ref.current.header.leading.value
-                        ):
-                            middleware = middleware_manager.plugin_registry[middleware_id]
-                            if (
-                                middleware_ref.current.content is not None
-                                and middleware.plugin_object is not None
-                                and hasattr(middleware.plugin_object, "process")
-                                and (
-                                    middleware_option_cls := get_type_hints(
-                                        middleware.plugin_object.process
-                                    ).get(
-                                        "options",
-                                    )
-                                )
-                            ):
-                                project = middleware.plugin_object.process(
-                                    project,
-                                    middleware_option_cls.model_validate(
-                                        {
-                                            control.data: control.value
-                                            for control in middleware_ref.current.content.controls[
-                                                -1
-                                            ].controls
-                                            if control.data is not None
-                                            and hasattr(control, "value")
-                                        }
-                                    ),
-                                )
-                    output_option = output_option_class.model_validate(
-                        {
-                            control.data: control.value
-                            for control in output_options.current.controls
-                            if control.data is not None and hasattr(control, "value")
-                        }
+                        for sub_task in more_itertools.value_chain(list_tile, sub_tasks)
+                        if sub_task.data is not None
+                    ]
+                    project = Project.merge_projects(child_projects)
+                else:
+                    project = input_plugin.load(
+                        list_tile.data["path"],
+                        input_option,
                     )
-                    if conversion_mode == "split":
-                        output_path.mkdir(parents=True, exist_ok=True)
-                        for i, child_project in enumerate(
-                            project.split_tracks(max_track_count), start=1
-                        ):
-                            output_plugin.plugin_object.dump(
-                                output_path
-                                / f"{list_tile.subtitle.value}_{i:0=2d}.{output_format}",
-                                child_project,
-                                output_option,
+                for middleware_id, middleware_ref in middleware_options.items():
+                    if (
+                        middleware_ref.current.header is not None
+                        and middleware_ref.current.header.leading.value
+                    ):
+                        middleware = middleware_manager.plugins["middleware"][middleware_id]
+                        if middleware_ref.current.content is not None:
+                            project = middleware.process(
+                                project,
+                                {
+                                    control.data: control.value
+                                    for control in middleware_ref.current.content.controls[
+                                        -1
+                                    ].controls
+                                    if control.data is not None and hasattr(control, "value")
+                                },
                             )
-                    else:
-                        output_plugin.plugin_object.dump(
-                            output_path,
-                            project,
+                output_option = {
+                    control.data: control.value
+                    for control in output_options.current.controls
+                    if control.data is not None and hasattr(control, "value")
+                }
+                if conversion_mode == "split":
+                    output_path.mkdir(parents=True, exist_ok=True)
+                    for i, child_project in enumerate(
+                        project.split_tracks(max_track_count), start=1
+                    ):
+                        output_plugin.dump(
+                            output_path / f"{list_tile.subtitle.value}_{i:0=2d}.{output_format}",
+                            child_project,
                             output_option,
                         )
+                else:
+                    output_plugin.dump(
+                        output_path,
+                        project,
+                        output_option,
+                    )
             if w.output:
                 list_tile.data["log_text"] = w.output
             buffer = io.BytesIO()
@@ -769,12 +707,12 @@ def main(page: ft.Page) -> None:
 
         def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
             if control.current.value:
-                plugin_obj = plugin_manager.plugin_registry[control.current.value]
+                plugin_obj = plugin_manager.plugins["svs"][control.current.value]
                 page.views.append(
                     ft.View(
                         "/plugin_info",
                         appbar=ft.AppBar(
-                            title=ft.Text(plugin_obj.name),
+                            title=ft.Text(plugin_obj.info.name),
                             center_title=True,
                             bgcolor=ft.Colors.SURFACE,
                             leading=ft.IconButton(
@@ -787,7 +725,7 @@ def main(page: ft.Page) -> None:
                             ft.ResponsiveRow(
                                 [
                                     ft.Image(
-                                        src_base64=plugin_obj.icon_base64,
+                                        src_base64=plugin_obj.info.icon_base64,
                                         fit=ft.ImageFit.FILL,
                                         col=3,
                                     ),
@@ -795,7 +733,7 @@ def main(page: ft.Page) -> None:
                                         [
                                             ft.Icon(ft.Icons.BOOKMARK_OUTLINE_OUTLINED, col=1),
                                             ft.Text(
-                                                str(plugin_obj.version), tooltip=_("Version"), col=3
+                                                plugin_obj.version, tooltip=_("Version"), col=3
                                             ),
                                             ft.Icon(ft.Icons.PERSON_OUTLINE_OUTLINED, col=1),
                                             ft.Row(
@@ -803,14 +741,14 @@ def main(page: ft.Page) -> None:
                                                     ft.Text(
                                                         spans=[
                                                             ft.TextSpan(
-                                                                _(plugin_obj.author),
+                                                                _(plugin_obj.info.author),
                                                                 ft.TextStyle(
                                                                     decoration=ft.TextDecoration.UNDERLINE
                                                                 ),
-                                                                url=plugin_obj.website,
+                                                                url=plugin_obj.info.website,
                                                             ),
                                                         ],
-                                                        tooltip=plugin_obj.website,
+                                                        tooltip=plugin_obj.info.website,
                                                     ),
                                                     ft.Icon(ft.Icons.OPEN_IN_NEW_OUTLINED),
                                                 ],
@@ -818,7 +756,7 @@ def main(page: ft.Page) -> None:
                                             ),
                                             ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
                                             ft.Text(
-                                                f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                                f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                                 col=11,
                                             ),
                                         ],
@@ -834,7 +772,7 @@ def main(page: ft.Page) -> None:
                                         ],
                                         col=12,
                                     ),
-                                    ft.Text(_(plugin_obj.description)),
+                                    ft.Text(_(plugin_obj.info.description)),
                                 ],
                             )
                         ],
@@ -856,9 +794,11 @@ def main(page: ft.Page) -> None:
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
-                                            f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                            f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                         )
-                                        for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
+                                        for plugin_id, plugin_obj in plugin_manager.plugins[
+                                            "svs"
+                                        ].items()
                                     ],
                                     col=10,
                                     dense=True,
@@ -885,9 +825,11 @@ def main(page: ft.Page) -> None:
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
-                                            f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                            f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                         )
-                                        for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
+                                        for plugin_id, plugin_obj in plugin_manager.plugins[
+                                            "svs"
+                                        ].items()
                                     ],
                                     col=10,
                                     dense=True,
@@ -1003,9 +945,9 @@ def main(page: ft.Page) -> None:
                                             leading=ft.Switch(value=False),
                                             title=ft.Text(
                                                 _(
-                                                    middleware_manager.plugin_registry[
+                                                    middleware_manager.plugins["middleware"][
                                                         middleware_id
-                                                    ].name
+                                                    ].info.name
                                                 )
                                             ),
                                         ),

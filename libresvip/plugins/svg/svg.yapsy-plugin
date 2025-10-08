@@ -1,10 +1,8 @@
 [Core]
 name = Svg
-module = svg_converter
 
 [Documentation]
 Author = CrSjimo
-Version = 1.0.0
 Website = https://sjimo.dev/
 Format = Scalable Vector Graphics
 Description = Generate graphics containing notes and pitch curve in SVG format. Only the first or specified singing track will be imported.

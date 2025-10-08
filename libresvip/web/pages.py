@@ -195,16 +195,16 @@ app.include_router(export_router)
 
 plugin_details = {
     identifier: {
-        "name": plugin.name,
-        "author": plugin.author,
-        "website": plugin.website,
-        "description": plugin.description,
-        "version": str(plugin.version),
-        "suffix": f"(*.{plugin.suffix})",
-        "file_format": plugin.file_format,
-        "icon_base64": plugin.icon_base64,
+        "name": plugin.info.name,
+        "author": plugin.info.author,
+        "website": plugin.info.website,
+        "description": plugin.info.description,
+        "version": plugin.version,
+        "suffix": f"(*.{plugin.info.suffix})",
+        "file_format": plugin.info.file_format,
+        "icon_base64": plugin.info.icon_base64,
     }
-    for identifier, plugin in plugin_manager.plugin_registry.items()
+    for identifier, plugin in plugin_manager.plugins["svs"].items()
 }
 
 
@@ -403,15 +403,12 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         @context_vars_wrapper
         def options_form(attr_prefix: str, method: str) -> None:
             attr = getattr(selected_formats, attr_prefix + "_format")
-            conversion_plugin = plugin_manager.plugin_registry[attr]
-            option_class = None
-            if hasattr(conversion_plugin.plugin_object, method) and (
-                _option_class := get_type_hints(
-                    getattr(conversion_plugin.plugin_object, method),
-                ).get("options")
-            ):
-                option_class = _option_class
-            if not option_class:
+            conversion_plugin = plugin_manager.plugins["svs"][attr]
+            if method == "load":
+                option_class = conversion_plugin.input_option_cls
+            elif method == "dump":
+                option_class = conversion_plugin.output_option_cls
+            else:
                 return
             option_dict = getattr(selected_formats, attr_prefix + "_options")
             option_dict.clear()
@@ -511,29 +508,20 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @context_vars_wrapper
         def middleware_options_form(attr: str, toggler: Switch) -> None:
-            conversion_plugin = middleware_manager.plugin_registry[attr]
+            middleware = middleware_manager.plugins["middleware"][attr]
             field_types = {}
-            option_class = None
-            if (
-                hasattr(conversion_plugin.plugin_object, "process")
-                and (
-                    option_class := get_type_hints(
-                        getattr(conversion_plugin.plugin_object, "process"),
-                    ).get("options")
-                )
-                and hasattr(option_class, "model_fields")
-            ):
-                for option_key, field_info in option_class.model_fields.items():
-                    if issubclass(
-                        field_info.annotation,
-                        str | Color | enum.Enum | BaseComplexModel,
-                    ):
-                        field_types[option_key] = str
-                    else:
-                        field_types[option_key] = field_info.annotation
-            if not option_class or not field_types:
+            option_class = middleware.process_option_cls
+            for option_key, field_info in option_class.model_fields.items():
+                if issubclass(
+                    field_info.annotation,
+                    str | Color | enum.Enum | BaseComplexModel,
+                ):
+                    field_types[option_key] = str
+                else:
+                    field_types[option_key] = field_info.annotation
+            option_dict = selected_formats.middleware_options.get(attr)
+            if not field_types or option_dict is None:
                 return
-            option_dict = getattr(selected_formats.middleware_options, attr)
             with ui.column().classes("w-full").bind_visibility_from(toggler, "value"):
                 for i, (option_key, field_info) in enumerate(
                     option_class.model_fields.items(),
@@ -631,7 +619,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 settings.last_input_format
                 if settings.last_input_format is not None
                 else next(
-                    iter(plugin_manager.plugin_registry),
+                    iter(plugin_manager.plugins["svs"]),
                     "",
                 )
             )
@@ -641,7 +629,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 settings.last_output_format
                 if settings.last_output_format is not None
                 else next(
-                    iter(plugin_manager.plugin_registry),
+                    iter(plugin_manager.plugins["svs"]),
                     "",
                 )
             )
@@ -666,24 +654,12 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             def __post_init__(self) -> None:
                 self.middleware_enabled_states = create_model(
                     "middleware_enabled_states",
-                    **dict.fromkeys(middleware_manager.plugin_registry, (bool, False)),
+                    **dict.fromkeys(middleware_manager.plugins["middleware"], (bool, False)),
                 )()
-                self.middleware_options = create_model(
-                    "middleware_options",
-                    **{
-                        abbr: (options, options())
-                        for abbr, middleware in middleware_manager.plugin_registry.items()
-                        if (
-                            middleware.plugin_object is not None
-                            and hasattr(middleware.plugin_object, "process")
-                            and (
-                                options := get_type_hints(middleware.plugin_object.process).get(
-                                    "options",
-                                )
-                            )
-                        )
-                    },
-                )()
+                self.middleware_options = {
+                    abbr: middleware.process_option_cls()
+                    for abbr, middleware in middleware_manager.plugins["middleware"].items()
+                }
 
             @functools.cached_property
             def temp_path(self) -> UPath:
@@ -832,7 +808,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 if settings.auto_detect_input_format:
                     cur_suffix = name.rpartition(".")[-1].lower()
                     if (
-                        cur_suffix in plugin_manager.plugin_registry
+                        cur_suffix in plugin_manager.plugins["svs"]
                         and cur_suffix != self.input_format
                     ):
                         self.input_format = cur_suffix
@@ -879,94 +855,58 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 task.running = True
                 try:
                     with CatchWarnings() as w:
-                        input_plugin = plugin_manager.plugin_registry[self.input_format]
-                        output_plugin = plugin_manager.plugin_registry[self.output_format]
-                        if (
-                            input_plugin.plugin_object is None
-                            or (
-                                input_option_class := get_type_hints(
-                                    input_plugin.plugin_object.load
-                                ).get(
-                                    "options",
+                        input_plugin = plugin_manager.plugins["svs"][self.input_format]
+                        output_plugin = plugin_manager.plugins["svs"][self.output_format]
+                        if self._conversion_mode == ConversionMode.MERGE:
+                            child_projects = [
+                                input_plugin.load(
+                                    sub_task.upload_path,
+                                    self.input_options,
                                 )
-                            )
-                            is None
-                            or output_plugin.plugin_object is None
-                            or (
-                                output_option_class := get_type_hints(
-                                    output_plugin.plugin_object.dump,
-                                ).get("options")
-                            )
-                            is None
-                        ):
-                            task.success = False
+                                for sub_task in more_itertools.value_chain(task, sub_tasks)
+                            ]
+                            project = Project.merge_projects(child_projects)
                         else:
-                            input_option = input_option_class(**self.input_options)
-                            if self._conversion_mode == ConversionMode.MERGE:
-                                child_projects = [
-                                    input_plugin.plugin_object.load(
-                                        sub_task.upload_path,
-                                        input_option,
-                                    )
-                                    for sub_task in more_itertools.value_chain(task, sub_tasks)
+                            project = input_plugin.load(
+                                task.upload_path,
+                                self.input_options,
+                            )
+                        if self._conversion_mode != ConversionMode.SPLIT:
+                            task.output_path = task.output_path.with_suffix(
+                                f".{self.output_format}",
+                            )
+                        for (
+                            middleware_abbr,
+                            enabled,
+                        ) in self.middleware_enabled_states.model_dump().items():
+                            if enabled and (
+                                middleware_option := self.middleware_options.get(middleware_abbr)
+                            ):
+                                middleware = middleware_manager.plugins["middleware"][
+                                    middleware_abbr
                                 ]
-                                project = Project.merge_projects(child_projects)
-                            else:
-                                project = input_plugin.plugin_object.load(
-                                    task.upload_path,
-                                    input_option,
-                                )
-                            if self._conversion_mode != ConversionMode.SPLIT:
-                                task.output_path = task.output_path.with_suffix(
-                                    f".{self.output_format}",
-                                )
-                            for (
-                                middleware_abbr,
-                                enabled,
-                            ) in self.middleware_enabled_states.model_dump().items():
-                                if enabled:
-                                    middleware = middleware_manager.plugin_registry[middleware_abbr]
-                                    if (
-                                        middleware.plugin_object is not None
-                                        and hasattr(middleware.plugin_object, "process")
-                                        and (
-                                            middleware_option_class := get_type_hints(
-                                                middleware.plugin_object.process
-                                            ).get(
-                                                "options",
-                                            )
-                                        )
-                                    ):
-                                        middleware_option = getattr(
-                                            self.middleware_options,
-                                            middleware_abbr,
-                                        )
-                                        project = middleware.plugin_object.process(
-                                            project,
-                                            middleware_option_class.model_validate(
-                                                middleware_option,
-                                                from_attributes=True,
-                                            ),
-                                        )
-                            output_option = output_option_class(**self.output_options)
-                            if self._conversion_mode == ConversionMode.SPLIT:
-                                task.output_path.mkdir(parents=True, exist_ok=True)
-                                for i, child_project in enumerate(
-                                    project.split_tracks(settings.max_track_count)
-                                ):
-                                    output_plugin.plugin_object.dump(
-                                        task.output_path
-                                        / f"{task.upload_path.stem}_{i + 1:0=2d}.{self.output_format}",
-                                        child_project,
-                                        output_option,
-                                    )
-                            else:
-                                output_plugin.plugin_object.dump(
-                                    task.output_path,
+                                project = middleware.process(
                                     project,
-                                    output_option,
+                                    middleware_option.model_dump(),
                                 )
-                            task.success = True
+                        if self._conversion_mode == ConversionMode.SPLIT:
+                            task.output_path.mkdir(parents=True, exist_ok=True)
+                            for i, child_project in enumerate(
+                                project.split_tracks(settings.max_track_count)
+                            ):
+                                output_plugin.dump(
+                                    task.output_path
+                                    / f"{task.upload_path.stem}_{i + 1:0=2d}.{self.output_format}",
+                                    child_project,
+                                    self.output_options,
+                                )
+                        else:
+                            output_plugin.dump(
+                                task.output_path,
+                                project,
+                                self.output_options,
+                            )
+                        task.success = True
                     if w.output:
                         task.warning = w.output
                 except Exception:
@@ -2179,22 +2119,22 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @ui.refreshable
         def middleware_options() -> None:
-            for middleware in middleware_manager.plugin_registry.values():
+            for middleware_id, middleware in middleware_manager.plugins["middleware"].items():
                 with ui.row().classes("items-center w-full"):
                     middleware_toggler = (
-                        ui.switch(_(middleware.name))
+                        ui.switch(_(middleware.info.name))
                         .props("color=green")
                         .bind_value(
                             selected_formats.middleware_enabled_states,
-                            middleware.identifier,
+                            middleware_id,
                         )
                     )
-                    if middleware.description:
+                    if middleware.info.description:
                         ui.space()
                         ui.icon("help_outline").classes("text-3xl").style(
                             "cursor: help",
-                        ).tooltip(_(middleware.description))
-                middleware_options_form(middleware.identifier, middleware_toggler)
+                        ).tooltip(_(middleware.info.description))
+                middleware_options_form(middleware_id, middleware_toggler)
 
         def options_area() -> None:
             with ui.scroll_area().classes("w-full h-full"):

@@ -1,10 +1,8 @@
 [Core]
 name = Vsq
-module = vsq_converter
 
 [Documentation]
 Author = Selio Jiang
-Version = 1.0.0
 Website = http://selio.me/
 Format = Vocaloid 2 Sequence file
 Description = Conversion plugin for Vocaloid 2 sequence file

@@ -1,10 +1,8 @@
 [Core]
 name = UFData
-module = ufdata_converter
 
 [Documentation]
 Author = Sder Colin
-Version = 1.0.0
 Website = https://sdercolin.github.io/utaformatix3/
 Format = UtaFormatix3 data format
 Description = Conversion plugin for UFData format

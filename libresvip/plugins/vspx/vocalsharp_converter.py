@@ -1,5 +1,6 @@
 import pathlib
 import re
+from importlib.resources import files
 from typing import Any
 
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
@@ -59,13 +60,25 @@ def replace_self_closed(matcher: re.Match[str]) -> str:
     return f"{indent}<{tag}>{indent}</{tag}>"
 
 
-class VocalSharpConverter(plugin_base.SVSConverterBase):
-    def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        vspx_project = XmlParser().from_bytes(path.read_bytes(), VocalSharpProject)
-        return VocalSharpParser(options).parse_project(vspx_project)
+class VocalSharpConverter(plugin_base.SVSConverter):
+    input_option_cls = InputOptions
+    output_option_cls = OutputOptions
+    info = plugin_base.FormatProviderPluginInfo.load_from_string(
+        (files(__package__) / "vspx.yapsy-plugin").read_text(encoding="utf-8"),
+    )
+    _alias_ = "vspx"
+    _version_ = "1.0.0"
 
-    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        vspx_project = VocalSharpGenerator(options).generate_project(project)
+    @classmethod
+    def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.input_option_cls(**options)
+        vspx_project = XmlParser().from_bytes(path.read_bytes(), VocalSharpProject)
+        return VocalSharpParser(options_obj).parse_project(vspx_project)
+
+    @classmethod
+    def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
+        options_obj = cls.output_option_cls(**options)
+        vspx_project = VocalSharpGenerator(options_obj).generate_project(project)
         serializer = XmlSerializer(
             config=SerializerConfig(pretty_print=True, pretty_print_indent="\t"),
             writer=VocalSharpXMLWriter,

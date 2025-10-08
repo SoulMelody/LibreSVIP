@@ -1,10 +1,7 @@
 [Core]
 name = Project Zoom
-module = project_zoom
 
 [Documentation]
 Author = Sder Colin
-Version = 1.0.0
 Website = https://sdercolin.github.io/utaformatix3/
 Description = Zoom in/out project
-abbreviation = project_zoom
