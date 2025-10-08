@@ -5,6 +5,8 @@ on:
       - "v*"
 env:
   PYTHON_VERSION: "3.13.7"
+  FLET_PYTHON_VERSION: "3.14.0"
+
 jobs:
   make-outputs:
     runs-on: ubuntu-latest
@@ -345,7 +347,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python cpython-${PYTHON_VERSION}-windows-x86-none
+          uv venv --python cpython-${FLET_PYTHON_VERSION}-windows-x86-none
           uv sync --extra mobile --extra crypto --extra ujson --extra ruamel_yaml --extra lxml --extra zstd
           cd packaging
           uv pip install -r requirements-pyinstaller.in
@@ -378,8 +380,8 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python cpython-${PYTHON_VERSION}+freethreaded-windows-x86_64-none
-          uv sync --extra mobile --extra crypto --extra zstd
+          uv venv --python cpython-${FLET_PYTHON_VERSION}+freethreaded-windows-x86_64-none
+          uv sync --extra mobile --extra crypto --extra ujson --extra lxml --extra zstd
           cd packaging
           uv pip install -r requirements-pyinstaller.in
           uv run pyinstaller libresvip-mobile.spec
