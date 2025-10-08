@@ -52,3 +52,4 @@
 | flet-permission-handler       | PermissionHandler control for Flet                                                                                           | Apache Software License                             |
 | repro-zipfile                 | A tiny, zero-dependency replacement for Python's zipfile.ZipFile for creating reproducible/deterministic ZIP archives.       | MIT License                                         |
 | jyutping                      | Python tool to convert Chinese characters to Jyutping.                                                                       | MIT License                                         |
+| pluginlib                     | A framework for creating and importing plugins                                                                               | Mozilla Public License 2.0 (MPL 2.0)                |
