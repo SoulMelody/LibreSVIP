@@ -132,14 +132,11 @@ class FramelessWindow(QQuickWindow):
         ctypes.windll.dwmapi.DwmIsCompositionEnabled(ctypes.byref(b_result))
         return bool(b_result.value)
 
-    def get_resize_border_thickness(self, hwnd: int, horizontal: bool) -> int:
+    def get_resize_border_thickness(self, frame: int) -> int:
         device_pixel_ratio = self.screen().device_pixel_ratio
-        frame = win32con.SM_CXSIZEFRAME if horizontal else win32con.SM_CYSIZEFRAME
-        result = ctypes.windll.user32.GetSystemMetricsForDpi(
-            hwnd, frame, horizontal
-        ) + ctypes.windll.user32.GetSystemMetricsForDpi(
-            hwnd, win32con.SM_CXPADDEDBORDER, horizontal
-        )
+        result = ctypes.windll.user32.GetSystemMetrics(
+            frame
+        ) + ctypes.windll.user32.GetSystemMetrics(win32con.SM_CXPADDEDBORDER)
         if result > 0:
             return result
         thickness = 8 if self.is_composition_enabled else 4
@@ -233,10 +230,10 @@ class FramelessWindow(QQuickWindow):
                     msg.lParam, ctypes.POINTER(NCCALCSIZEPARAMS)
                 ).contents.rgrc[0]
                 if is_maximized(msg.hWnd) and msg.wParam:
-                    ty = self.get_resize_border_thickness(msg.hWnd, False) - 3  # type: ignore[assignment]
+                    ty = self.get_resize_border_thickness(win32con.SM_CYSIZEFRAME)
                     client_rect.top += ty
                     client_rect.bottom -= ty
-                    tx = self.get_resize_border_thickness(msg.hWnd, True) - 3
+                    tx = self.get_resize_border_thickness(win32con.SM_CXSIZEFRAME)
                     client_rect.left += tx
                     client_rect.right -= tx
                     abd = APPBARDATA()
