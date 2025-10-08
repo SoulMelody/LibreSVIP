@@ -110,6 +110,7 @@ jobs:
           cd dist
           uv pip install *.whl --no-deps
           cd ../packaging
+          uv run python -m ensurepip
           uv run python download_win_arm64_wheels.py
           uv pip install *.whl --no-deps
           uv run pyinstaller libresvip.spec
