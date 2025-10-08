@@ -1,7 +1,7 @@
 [project]
 authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
 license-files = ["LICENSE*"]
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.10,<3.15"
 classifiers = [
   'Development Status :: 4 - Beta',
   'Programming Language :: Python',
@@ -12,14 +12,15 @@ classifiers = [
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
   'Programming Language :: Python :: 3.13',
+  'Programming Language :: Python :: 3.14',
   'Intended Audience :: Developers',
   'Intended Audience :: End Users/Desktop',
   'License :: OSI Approved :: MIT License',
   'Environment :: Console',
   'Operating System :: Unix',
   'Operating System :: POSIX :: Linux',
-  'Operating System :: Microsoft :: Windows :: Windows 10',
   'Operating System :: Microsoft :: Windows :: Windows 11',
+  'Operating System :: MacOS :: MacOS X',
   'Operating System :: Android',
   'Framework :: Pydantic :: 2',
   'Topic :: File Formats',
@@ -108,7 +109,7 @@ desktop = [
 [dependency-groups]
 code_gen = [
   "datamodel-code-generator>=0.34.0",
-  "gapic-generator>=1.27.2",
+  "gapic-generator>=1.28.0",
   "protoc-wheel-0>=30.2",
   "xsdata[cli]>=25.7",
 ]
