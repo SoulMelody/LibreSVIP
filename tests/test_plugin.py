@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 import rich
+from upath import UPath
 
-from libresvip.core.compat import ZipFile
 from libresvip.extension.manager import plugin_manager
 from libresvip.utils.text import to_unicode
 
@@ -128,7 +128,7 @@ def test_ppsf_read(
     with capsys.disabled():
         proj_path = shared_datadir / "test.ppsf"
         try:
-            proj_text = ZipFile(proj_path, "r").read("ppsf.json")
+            proj_text = (UPath("zip://", fo=proj_path, mode="r") / "ppsf.json").read_bytes()
             proj = PpsfProject.model_validate_json(proj_text)
             rich.print(proj)
         except zipfile.BadZipFile:
@@ -141,7 +141,7 @@ def test_vog_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.vog"
-        proj_text = ZipFile(proj_path, "r").read("chart.json")
+        proj_text = (UPath("zip://", fo=proj_path, mode="r") / "chart.json").read_bytes()
         proj = VogenProject.model_validate_json(proj_text)
         rich.print(proj)
 
@@ -151,7 +151,7 @@ def test_vpr_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.vpr"
-        proj_text = ZipFile(proj_path, "r").read("Project/sequence.json")
+        proj_text = (UPath("zip://", fo=proj_path, mode="r") / "Project/sequence.json").read_bytes()
         proj = VocaloidProject.model_validate_json(proj_text)
         rich.print(proj)
 

@@ -238,7 +238,7 @@ class VocaloidWav(BaseModel):
             if not (
                 wav_path := (info.context["path"].parent / (self.original_name or self.name))
             ).exists():
-                wav_path.write_bytes(info.context["archive_file"].read(archive_wav_path))
+                wav_path.write_bytes((info.context["archive_file"] / archive_wav_path).read_bytes())
         return self
 
 
