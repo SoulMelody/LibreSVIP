@@ -187,20 +187,20 @@ class FramelessWindow(QQuickWindow):
                     )
                     lx = x_pos < bw
                     rx = x_pos > self.width - bw
-                    ty = y_pos < bw
-                    by = y_pos > self.height - bw
+                    top_y = y_pos < bw
+                    bottom_y = y_pos > self.height - bw
                     if self.visibility != QQuickWindow.Visibility.Maximized:
-                        if lx and ty:
+                        if lx and top_y:
                             return True, win32con.HTTOPLEFT
-                        elif rx and by:
+                        elif rx and bottom_y:
                             return True, win32con.HTBOTTOMRIGHT
-                        elif rx and ty:
+                        elif rx and top_y:
                             return True, win32con.HTTOPRIGHT
-                        elif lx and by:
+                        elif lx and bottom_y:
                             return True, win32con.HTBOTTOMLEFT
-                        elif ty:
+                        elif top_y:
                             return True, win32con.HTTOP
-                        elif by:
+                        elif bottom_y:
                             return True, win32con.HTBOTTOM
                         elif lx:
                             return True, win32con.HTLEFT

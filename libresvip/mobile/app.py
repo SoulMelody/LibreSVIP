@@ -68,7 +68,7 @@ def main(page: ft.Page) -> None:
     output_options = ft.Ref[ft.ResponsiveRow]()
     middleware_options = {
         middleware_id: ft.Ref[ft.ExpansionPanel]()
-        for middleware_id in middleware_manager.plugins["middleware"]
+        for middleware_id in middleware_manager.plugins.get("middleware", {})
     }
 
     def build_options(option_class: type[BaseModel]) -> list[ft.Control]:
@@ -169,20 +169,20 @@ def main(page: ft.Page) -> None:
         return fields
 
     def build_input_options(value: str | None) -> list[ft.Control]:
-        if value in plugin_manager.plugins["svs"]:
-            input_plugin = plugin_manager.plugins["svs"][value]
+        if value in plugin_manager.plugins.get("svs", {}):
+            input_plugin = plugin_manager.plugins.get("svs", {})[value]
             return build_options(input_plugin.input_option_cls)
         return []
 
     def build_middleware_options(value: str) -> list[ft.Control]:
-        if value in middleware_manager.plugins["middleware"]:
-            middleware = middleware_manager.plugins["middleware"][value]
+        if value in middleware_manager.plugins.get("middleware", {}):
+            middleware = middleware_manager.plugins.get("middleware", {})[value]
             return build_options(middleware.process_option_cls)
         return []
 
     def build_output_options(value: str | None) -> list[ft.Control]:
-        if value in plugin_manager.plugins["svs"]:
-            output_plugin = plugin_manager.plugins["svs"][value]
+        if value in plugin_manager.plugins.get("svs", {}):
+            output_plugin = plugin_manager.plugins.get("svs", {})[value]
             return build_options(output_plugin.output_option_cls)
         return []
 
@@ -278,7 +278,7 @@ def main(page: ft.Page) -> None:
                 if (
                     suffix != last_input_format
                     and auto_detect_input_format
-                    and suffix in plugin_manager.plugins["svs"]
+                    and suffix in plugin_manager.plugins.get("svs", {})
                 ):
                     set_last_input_format(suffix)
                 task_list_view.current.controls.append(
@@ -353,7 +353,7 @@ def main(page: ft.Page) -> None:
             if (
                 suffix != last_input_format
                 and auto_detect_input_format
-                and suffix in plugin_manager.plugins["svs"]
+                and suffix in plugin_manager.plugins.get("svs", {})
             ):
                 set_last_input_format(suffix)
             task_list_view.current.controls.append(
@@ -487,8 +487,8 @@ def main(page: ft.Page) -> None:
                     output_path = output_path.with_suffix(
                         f".{output_format}",
                     )
-                input_plugin = plugin_manager.plugins["svs"][input_format]
-                output_plugin = plugin_manager.plugins["svs"][output_format]
+                input_plugin = plugin_manager.plugins.get("svs", {})[input_format]
+                output_plugin = plugin_manager.plugins.get("svs", {})[output_format]
                 input_option = {
                     control.data: control.value
                     for control in input_options.current.controls
@@ -514,7 +514,7 @@ def main(page: ft.Page) -> None:
                         middleware_ref.current.header is not None
                         and middleware_ref.current.header.leading.value
                     ):
-                        middleware = middleware_manager.plugins["middleware"][middleware_id]
+                        middleware = middleware_manager.plugins.get("middleware", {})[middleware_id]
                         if middleware_ref.current.content is not None:
                             project = middleware.process(
                                 project,
@@ -707,7 +707,7 @@ def main(page: ft.Page) -> None:
 
         def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
             if control.current.value:
-                plugin_obj = plugin_manager.plugins["svs"][control.current.value]
+                plugin_obj = plugin_manager.plugins.get("svs", {})[control.current.value]
                 page.views.append(
                     ft.View(
                         "/plugin_info",
@@ -796,9 +796,9 @@ def main(page: ft.Page) -> None:
                                             plugin_id,
                                             f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                         )
-                                        for plugin_id, plugin_obj in plugin_manager.plugins[
-                                            "svs"
-                                        ].items()
+                                        for plugin_id, plugin_obj in plugin_manager.plugins.get(
+                                            "svs", {}
+                                        ).items()
                                     ],
                                     col=10,
                                     dense=True,
@@ -827,9 +827,9 @@ def main(page: ft.Page) -> None:
                                             plugin_id,
                                             f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                         )
-                                        for plugin_id, plugin_obj in plugin_manager.plugins[
-                                            "svs"
-                                        ].items()
+                                        for plugin_id, plugin_obj in plugin_manager.plugins.get(
+                                            "svs", {}
+                                        ).items()
                                     ],
                                     col=10,
                                     dense=True,
@@ -945,9 +945,9 @@ def main(page: ft.Page) -> None:
                                             leading=ft.Switch(value=False),
                                             title=ft.Text(
                                                 _(
-                                                    middleware_manager.plugins["middleware"][
-                                                        middleware_id
-                                                    ].info.name
+                                                    middleware_manager.plugins.get(
+                                                        "middleware", {}
+                                                    )[middleware_id].info.name
                                                 )
                                             ),
                                         ),

@@ -40,7 +40,7 @@ class PluginCadidatesTableModel(QAbstractTableModel):
         self.begin_remove_rows(QModelIndex(), 0, len(self.plugin_candidates) - 1)
         self.plugin_candidates.clear()
         self.end_remove_rows()
-        self.begin_insert_rows(QModelIndex(), 0, len(plugin_manager.plugins["svs"]) - 1)
+        self.begin_insert_rows(QModelIndex(), 0, len(plugin_manager.plugins.get("svs", {})) - 1)
         self.plugin_candidates = [
             {
                 0: plugin.info.file_format,
@@ -50,7 +50,7 @@ class PluginCadidatesTableModel(QAbstractTableModel):
                 if plugin_id not in settings.disabled_plugins
                 else "checkbox-blank-outline",
             }
-            for plugin_id, plugin in plugin_manager.plugins["svs"].items()
+            for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
         ]
         self.end_insert_rows()
 

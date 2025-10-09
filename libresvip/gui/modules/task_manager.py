@@ -8,7 +8,6 @@ import traceback
 from typing import Any, get_args, get_type_hints
 
 import more_itertools
-import pluginlib
 from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
@@ -26,6 +25,8 @@ from PySide6.QtCore import (
 )
 from PySide6.QtQml import QmlElement
 from upath import UPath
+
+from libresvip.extension.vendor import pluginlib
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -77,8 +78,8 @@ class ConversionWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = plugin_manager.plugins["svs"][self.input_format]
-                output_plugin = plugin_manager.plugins["svs"][self.output_format]
+                input_plugin = plugin_manager.plugins.get("svs", {})[self.input_format]
+                output_plugin = plugin_manager.plugins.get("svs", {})[self.output_format]
                 project = input_plugin.load(
                     pathlib.Path(self.input_path),
                     self.input_options,
@@ -87,7 +88,7 @@ class ConversionWorker(QRunnable):
                     middleware_abbr,
                     middleware_option,
                 ) in self.middleware_options.items():
-                    middleware = middleware_manager.plugins["middleware"][middleware_abbr]
+                    middleware = middleware_manager.plugins.get("middleware", {})[middleware_abbr]
                     project = middleware.process(
                         project,
                         middleware_option,
@@ -142,8 +143,8 @@ class SplitWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = plugin_manager.plugins["svs"][self.input_format]
-                output_plugin = plugin_manager.plugins["svs"][self.output_format]
+                input_plugin = plugin_manager.plugins.get("svs", {})[self.input_format]
+                output_plugin = plugin_manager.plugins.get("svs", {})[self.output_format]
                 project = input_plugin.load(
                     pathlib.Path(self.input_path),
                     self.input_options,
@@ -152,7 +153,7 @@ class SplitWorker(QRunnable):
                     middleware_abbr,
                     middleware_option,
                 ) in self.middleware_options.items():
-                    middleware = middleware_manager.plugins["middleware"][middleware_abbr]
+                    middleware = middleware_manager.plugins.get("middleware", {})[middleware_abbr]
                     project = middleware.process(
                         project,
                         middleware_option,
@@ -207,8 +208,8 @@ class MergeWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = plugin_manager.plugins["svs"][self.input_format]
-                output_plugin = plugin_manager.plugins["svs"][self.output_format]
+                input_plugin = plugin_manager.plugins.get("svs", {})[self.input_format]
+                output_plugin = plugin_manager.plugins.get("svs", {})[self.output_format]
                 child_projects = [
                     input_plugin.load(
                         pathlib.Path(input_path),
@@ -221,7 +222,7 @@ class MergeWorker(QRunnable):
                     middleware_abbr,
                     middleware_option,
                 ) in self.middleware_options.items():
-                    middleware = middleware_manager.plugins["middleware"][middleware_abbr]
+                    middleware = middleware_manager.plugins.get("middleware", {})[middleware_abbr]
                     project = middleware.process(
                         project,
                         middleware_option,
@@ -318,16 +319,16 @@ class TaskManager(QObject):
 
     @Slot(int)
     def toggle_plugin(self, index: int) -> None:
-        key = list(plugin_manager.plugins["svs"])[index]
-        if key in plugin_manager.plugins["svs"] and key not in settings.disabled_plugins:
+        key = list(plugin_manager.plugins.get("svs", {}))[index]
+        if key in plugin_manager.plugins.get("svs", {}) and key not in settings.disabled_plugins:
             settings.disabled_plugins.append(key)
         elif key in settings.disabled_plugins:
             settings.disabled_plugins.remove(key)
         else:
             return
-        plugin_manager.blacklist = (
+        plugin_manager.blacklist = [
             pluginlib.BlacklistEntry("svs", each) for each in settings.disabled_plugins
-        )
+        ]
         self.plugin_candidates.reload_formats()
         self.reload_formats()
 
@@ -365,7 +366,7 @@ class TaskManager(QObject):
         return len(self.tasks)
 
     def init_middleware_options(self) -> None:
-        for middleware_id, middleware in middleware_manager.plugins["middleware"].items():
+        for middleware_id, middleware in middleware_manager.plugins.get("middleware", {}).items():
             self.middleware_states.append(
                 {
                     "index": len(self.middleware_states),
@@ -390,7 +391,9 @@ class TaskManager(QObject):
         self.middleware_options_updated.connect(self.reload_middleware_options)
 
     def reload_middleware_options(self) -> None:
-        for middleware_id, middleware_cls in middleware_manager.plugins["middleware"].items():
+        for middleware_id, middleware_cls in middleware_manager.plugins.get(
+            "middleware", {}
+        ).items():
             option_class = middleware_cls.process_option_cls
             self.middleware_fields[middleware_id].clear()
             middleware_fields = self.inspect_fields(option_class)
@@ -405,7 +408,7 @@ class TaskManager(QObject):
                     "text": plugin.info.file_format,
                     "value": plugin.info.suffix,
                 }
-                for plugin in plugin_manager.plugins["svs"].values()
+                for plugin in plugin_manager.plugins.get("svs", {}).values()
             ],
         )
         self.input_format_changed.emit("")
@@ -416,7 +419,7 @@ class TaskManager(QObject):
                     "text": plugin.info.file_format,
                     "value": plugin.info.suffix,
                 }
-                for plugin in plugin_manager.plugins["svs"].values()
+                for plugin in plugin_manager.plugins.get("svs", {}).values()
             ],
         )
         self.output_format_changed.emit("")
@@ -666,7 +669,7 @@ class TaskManager(QObject):
         if input_format:
             self.input_format = input_format
             self.input_fields.clear()
-            plugin_input = plugin_manager.plugins["svs"][self.input_format]
+            plugin_input = plugin_manager.plugins.get("svs", {})[self.input_format]
             input_fields = self.inspect_fields(plugin_input.input_option_cls)
             self.input_fields.append_many(input_fields)
             if not self._input_fields_inited:
@@ -680,7 +683,7 @@ class TaskManager(QObject):
         if output_format:
             self.output_format = output_format
             self.output_fields.clear()
-            plugin_output = plugin_manager.plugins["svs"][self.output_format]
+            plugin_output = plugin_manager.plugins.get("svs", {})[self.output_format]
             output_fields = self.inspect_fields(plugin_output.output_option_cls)
             self.output_fields.append_many(output_fields)
             if not self._output_fields_inited:
@@ -690,8 +693,8 @@ class TaskManager(QObject):
     @Slot(str, result="QVariant")
     def plugin_info(self, name: str) -> dict[str, str]:
         assert name in {"input_format", "output_format"}
-        if (suffix := getattr(self, name)) in plugin_manager.plugins["svs"]:
-            plugin = plugin_manager.plugins["svs"][suffix]
+        if (suffix := getattr(self, name)) in plugin_manager.plugins.get("svs", {}):
+            plugin = plugin_manager.plugins.get("svs", {})[suffix]
             return {
                 "name": plugin.info.name,
                 "author": plugin.info.author,
@@ -737,7 +740,7 @@ class TaskManager(QObject):
         if (
             settings.auto_detect_input_format
             and path_obj is not None
-            and (suffix := path_obj.suffix[1:]) in plugin_manager.plugins["svs"]
+            and (suffix := path_obj.suffix[1:]) in plugin_manager.plugins.get("svs", {})
         ):
             self.set_str("input_format", suffix)
 

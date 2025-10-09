@@ -91,7 +91,7 @@ class PluginInfoScreen(Screen[None]):
     def compose(self) -> ComposeResult:
         yield Header(icon="☰")
         yield Footer()
-        plugin = plugin_manager.plugins["svs"][self.plugin_id]
+        plugin = plugin_manager.plugins.get("svs", {})[self.plugin_id]
         with Vertical():
             yield Label(plugin.info.name, classes="title")
             yield Label(f"{_('Version: ')}{plugin.version}")
@@ -184,13 +184,13 @@ class SelectFormats(Vertical):
             yield Select(
                 [
                     (f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})", plugin_id)
-                    for plugin_id, plugin in plugin_manager.plugins["svs"].items()
+                    for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                 ],
                 value=(
                     settings.last_input_format
                     if settings.last_input_format is not None
                     else next(
-                        iter(plugin_manager.plugins["svs"]),
+                        iter(plugin_manager.plugins.get("svs", {})),
                         Select.BLANK,
                     )
                 ),
@@ -208,13 +208,13 @@ class SelectFormats(Vertical):
             yield Select(
                 [
                     (f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})", plugin_id)
-                    for plugin_id, plugin in plugin_manager.plugins["svs"].items()
+                    for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                 ],
                 value=(
                     settings.last_output_format
                     if settings.last_output_format is not None
                     else next(
-                        iter(plugin_manager.plugins["svs"]),
+                        iter(plugin_manager.plugins.get("svs", {})),
                         Select.BLANK,
                     )
                 ),
@@ -450,7 +450,7 @@ class TUIApp(App[None]):
             tab_id = self.query_one("#task_list").current
             self.query_one(f"ListView#{tab_id}").clear()
         if event.value:
-            plugin_object = plugin_manager.plugins["svs"][event.value]
+            plugin_object = plugin_manager.plugins.get("svs", {})[event.value]
             input_options = self.query_one("#input_options")
             input_options.option_class = plugin_object.input_option_cls
             input_options.option_dict = {}
@@ -465,7 +465,7 @@ class TUIApp(App[None]):
                 for node in task_list_view._nodes:
                     node.ext = event.value
                     node.query_one("#ext").update(f".{event.value}")
-            plugin_object = plugin_manager.plugins["svs"][event.value]
+            plugin_object = plugin_manager.plugins.get("svs", {})[event.value]
             output_options = self.query_one("#output_options")
             output_options.option_class = plugin_object.output_option_cls
             output_options.option_dict = {}
@@ -481,7 +481,7 @@ class TUIApp(App[None]):
         else:
             return
         ext = selected_path.suffix.removeprefix(".").lower()
-        if ext in plugin_manager.plugins["svs"] and settings.auto_detect_input_format:
+        if ext in plugin_manager.plugins.get("svs", {}) and settings.auto_detect_input_format:
             settings.last_input_format = ext
             self.query_one("#input_format")._watch_value(ext)
         tab_id = self.query_one("#task_list").current
@@ -546,8 +546,8 @@ class TUIApp(App[None]):
                     output_path = output_path.with_suffix(
                         f".{settings.last_output_format}",
                     )
-                input_plugin = plugin_manager.plugins["svs"][settings.last_input_format]
-                output_plugin = plugin_manager.plugins["svs"][settings.last_output_format]
+                input_plugin = plugin_manager.plugins.get("svs", {})[settings.last_input_format]
+                output_plugin = plugin_manager.plugins.get("svs", {})[settings.last_output_format]
                 input_options = self.query_one("#input_options")
                 input_option = input_options.option_dict
                 if tab_id == "merge":
@@ -567,7 +567,7 @@ class TUIApp(App[None]):
                 for (
                     middleware_id,
                     middleware,
-                ) in middleware_manager.plugins["middleware"].items():
+                ) in middleware_manager.plugins.get("middleware", {}).items():
                     if self.query_one(f"#{middleware_id}_switch").value:
                         option_form = self.query_one(f"#{middleware_id}_options")
                         project = middleware.process(
@@ -719,9 +719,9 @@ class TUIApp(App[None]):
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
                         yield OptionsForm(None, id="input_options")
-                    for middleware_id, middleware in middleware_manager.plugins[
-                        "middleware"
-                    ].items():
+                    for middleware_id, middleware in middleware_manager.plugins.get(
+                        "middleware", {}
+                    ).items():
                         with Collapsible(title=_(middleware.info.name)), VerticalGroup():
                             with Horizontal(classes="row"):
                                 yield Label(_("Enable"), classes="text-middle fill-width")
@@ -825,7 +825,7 @@ class TUIApp(App[None]):
                                 plugin_id,
                                 plugin_id not in settings.disabled_plugins,
                             )
-                            for plugin_id, plugin in plugin_manager.plugins["svs"].items()
+                            for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                         )
                     )
             with TabPane(_("About")), Vertical():

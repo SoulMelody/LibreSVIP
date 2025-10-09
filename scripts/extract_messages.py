@@ -44,7 +44,8 @@ def extract_from_plugin_metadata(
 
 def extract_plugin_msgs() -> None:
     for plugin_id, plugin in itertools.chain(
-        plugin_manager.plugins["svs"].items(), middleware_manager.plugins["middleware"].items()
+        plugin_manager.plugins.get("svs", {}).items(),
+        middleware_manager.plugins.get("middleware", {}).items(),
     ):
         plugin_dir = cast("pathlib.Path", files(plugin.__module__))
         cmdinst = setuptools_frontend.extract_messages()

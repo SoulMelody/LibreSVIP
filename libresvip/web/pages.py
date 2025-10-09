@@ -204,7 +204,7 @@ plugin_details = {
         "file_format": plugin.info.file_format,
         "icon_base64": plugin.info.icon_base64,
     }
-    for identifier, plugin in plugin_manager.plugins["svs"].items()
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
 }
 
 
@@ -403,7 +403,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         @context_vars_wrapper
         def options_form(attr_prefix: str, method: str) -> None:
             attr = getattr(selected_formats, attr_prefix + "_format")
-            conversion_plugin = plugin_manager.plugins["svs"][attr]
+            conversion_plugin = plugin_manager.plugins.get("svs", {})[attr]
             if method == "load":
                 option_class = conversion_plugin.input_option_cls
             elif method == "dump":
@@ -508,7 +508,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @context_vars_wrapper
         def middleware_options_form(attr: str, toggler: Switch) -> None:
-            middleware = middleware_manager.plugins["middleware"][attr]
+            middleware = middleware_manager.plugins.get("middleware", {})[attr]
             field_types = {}
             option_class = middleware.process_option_cls
             for option_key, field_info in option_class.model_fields.items():
@@ -619,7 +619,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 settings.last_input_format
                 if settings.last_input_format is not None
                 else next(
-                    iter(plugin_manager.plugins["svs"]),
+                    iter(plugin_manager.plugins.get("svs", {})),
                     "",
                 )
             )
@@ -629,7 +629,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 settings.last_output_format
                 if settings.last_output_format is not None
                 else next(
-                    iter(plugin_manager.plugins["svs"]),
+                    iter(plugin_manager.plugins.get("svs", {})),
                     "",
                 )
             )
@@ -654,11 +654,13 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             def __post_init__(self) -> None:
                 self.middleware_enabled_states = create_model(
                     "middleware_enabled_states",
-                    **dict.fromkeys(middleware_manager.plugins["middleware"], (bool, False)),
+                    **dict.fromkeys(
+                        middleware_manager.plugins.get("middleware", {}), (bool, False)
+                    ),
                 )()
                 self.middleware_options = {
                     abbr: middleware.process_option_cls()
-                    for abbr, middleware in middleware_manager.plugins["middleware"].items()
+                    for abbr, middleware in middleware_manager.plugins.get("middleware", {}).items()
                 }
 
             @functools.cached_property
@@ -808,7 +810,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 if settings.auto_detect_input_format:
                     cur_suffix = name.rpartition(".")[-1].lower()
                     if (
-                        cur_suffix in plugin_manager.plugins["svs"]
+                        cur_suffix in plugin_manager.plugins.get("svs", {})
                         and cur_suffix != self.input_format
                     ):
                         self.input_format = cur_suffix
@@ -855,8 +857,8 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 task.running = True
                 try:
                     with CatchWarnings() as w:
-                        input_plugin = plugin_manager.plugins["svs"][self.input_format]
-                        output_plugin = plugin_manager.plugins["svs"][self.output_format]
+                        input_plugin = plugin_manager.plugins.get("svs", {})[self.input_format]
+                        output_plugin = plugin_manager.plugins.get("svs", {})[self.output_format]
                         if self._conversion_mode == ConversionMode.MERGE:
                             child_projects = [
                                 input_plugin.load(
@@ -882,7 +884,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                             if enabled and (
                                 middleware_option := self.middleware_options.get(middleware_abbr)
                             ):
-                                middleware = middleware_manager.plugins["middleware"][
+                                middleware = middleware_manager.plugins.get("middleware", {})[
                                     middleware_abbr
                                 ]
                                 project = middleware.process(
@@ -2119,7 +2121,9 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @ui.refreshable
         def middleware_options() -> None:
-            for middleware_id, middleware in middleware_manager.plugins["middleware"].items():
+            for middleware_id, middleware in middleware_manager.plugins.get(
+                "middleware", {}
+            ).items():
                 with ui.row().classes("items-center w-full"):
                     middleware_toggler = (
                         ui.switch(_(middleware.info.name))

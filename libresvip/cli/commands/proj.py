@@ -18,10 +18,10 @@ def option_callback(ctx: typer.Context, value: pathlib.Path) -> pathlib.Path | N
     if ctx.resilient_parsing:
         return None
     ext = value.suffix.lstrip(".").lower()
-    if ext not in plugin_manager.plugins["svs"]:
+    if ext not in plugin_manager.plugins.get("svs", {}):
         raise typer.BadParameter(
             _("Extension {} is not supported. Supported extensions are: {}").format(
-                ext, list(plugin_manager.plugins["svs"].keys())
+                ext, list(plugin_manager.plugins.get("svs", {}).keys())
             )
         )
     return value
@@ -40,9 +40,9 @@ def convert(
     Convert a file from one format to another.
     """
     input_ext = in_path.suffix.lstrip(".").lower()
-    input_plugin = plugin_manager.plugins["svs"][input_ext]
+    input_plugin = plugin_manager.plugins.get("svs", {})[input_ext]
     output_ext = out_path.suffix.lstrip(".").lower()
-    output_plugin = plugin_manager.plugins["svs"][output_ext]
+    output_plugin = plugin_manager.plugins.get("svs", {})[output_ext]
     input_option = input_plugin.input_option_cls
     output_option = output_plugin.output_option_cls
     option_type, option_class = _("Input Options: "), input_option
@@ -51,7 +51,7 @@ def convert(
         typer.echo(option_type)
         option_kwargs = prompt_fields(option_class)
     project = input_plugin.load(in_path, option_kwargs)
-    for middleware in middleware_manager.plugins["middleware"].values():
+    for middleware in middleware_manager.plugins.get("middleware", {}).values():
         if Confirm.ask(
             _("Enable {} middleware?").format(_(middleware.info.name)),
             default=False,
@@ -83,8 +83,8 @@ def split_project(
     max_track_count: Annotated[int, typer.Option(help=_("Maximum track count per file"))] = 1,
 ) -> None:
     input_ext = in_path.suffix.lstrip(".").lower()
-    input_plugin = plugin_manager.plugins["svs"][input_ext]
-    output_plugin = plugin_manager.plugins["svs"][output_ext]
+    input_plugin = plugin_manager.plugins.get("svs", {})[input_ext]
+    output_plugin = plugin_manager.plugins.get("svs", {})[output_ext]
     input_option = input_plugin.input_option_cls
     output_option = output_plugin.output_option_cls
     option_type, option_class = _("Input Options: "), input_option
@@ -95,7 +95,7 @@ def split_project(
     root_project = input_plugin.load(in_path, option_kwargs)
     sub_projects = root_project.split_tracks(max_track_count)
     middleware_with_options = []
-    for middleware in middleware_manager.plugins["middleware"].values():
+    for middleware in middleware_manager.plugins.get("middleware", {}).values():
         if Confirm.ask(
             _("Enable {} middleware?").format(_(middleware.info.name)),
             default=False,
@@ -145,7 +145,7 @@ def merge_projects(
 ) -> None:
     projects = []
     middleware_with_options = []
-    for middleware in middleware_manager.plugins["middleware"].values():
+    for middleware in middleware_manager.plugins.get("middleware", {}).values():
         if Confirm.ask(
             _("Enable {} middleware?").format(_(middleware.info.name)),
             default=False,
@@ -162,7 +162,7 @@ def merge_projects(
     for in_path in in_paths:
         typer.echo(in_path)
         input_ext = in_path.suffix.lstrip(".").lower()
-        input_plugin = plugin_manager.plugins["svs"][input_ext]
+        input_plugin = plugin_manager.plugins.get("svs", {})[input_ext]
         input_option = input_plugin.input_option_cls
         option_type, option_class = _("Input Options: "), input_option
         option_kwargs = {}
@@ -178,7 +178,7 @@ def merge_projects(
         projects.append(project)
     output_ext = out_path.suffix.lstrip(".").lower()
     if projects:
-        output_plugin = plugin_manager.plugins["svs"][output_ext]
+        output_plugin = plugin_manager.plugins.get("svs", {})[output_ext]
         output_option = output_plugin.output_option_cls
         project = Project.merge_projects(projects)
         option_type, option_class = _("Output Options: "), output_option
