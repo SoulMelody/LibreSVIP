@@ -50,11 +50,3 @@ class PluginImportError(PluginlibError):
             or, failing that, the loader module.
 
     """
-
-
-class PluginWarning(UserWarning):
-    """
-    Warning for errors with imported plugins
-
-    Subclass of :py:exc:`UserWarning`
-    """

@@ -22,9 +22,11 @@ from collections.abc import Iterable
 from types import ModuleType
 from typing import NoReturn
 
+from loguru import logger
+
 from libresvip.extension.vendor.pluginlib._objects import BlacklistEntry
 from libresvip.extension.vendor.pluginlib._parent import Plugin, get_plugins
-from libresvip.extension.vendor.pluginlib._util import LOGGER, DictWithDotNotation, NoneType
+from libresvip.extension.vendor.pluginlib._util import DictWithDotNotation, NoneType
 from libresvip.extension.vendor.pluginlib.exceptions import PluginImportError
 
 
@@ -93,7 +95,7 @@ def _import_module(name: str, path: str | None = None) -> ModuleType:
                     if getattr(spec, "origin", None)
                     else next(iter(spec.submodule_search_locations))
                 )
-    LOGGER.debug("Attempting to load module %s from %s", name, path)
+    logger.debug("Attempting to load module %s from %s", name, path)
     try:
         mod = importlib.import_module(name)
 
@@ -154,7 +156,7 @@ def _recursive_path_import(path: pathlib.Path, prefix_package: str | None = None
         # Walk root and import modules
         # pylint: disable=unused-variable
         for finder, name, is_pkg in pkgutil.walk_packages([root_path], prefix=prefix):
-            LOGGER.debug(
+            logger.debug(
                 "Attempting to load module %s from %s", name, getattr(finder, "path", None)
             )
             try:
@@ -302,21 +304,18 @@ class PluginLoader:
             - Program's standard library (``library``)
             - Specified modules (``modules``)
             - Specified paths (``paths``)
-
-        If a malformed child plugin class is imported, a :py:exc:`PluginWarning` will be issued,
-        the class is skipped, and loading operations continue.
         """
 
         # Start with standard library
         if self.library:
-            LOGGER.info("Loading plugins from standard library")
+            logger.info("Loading plugins from standard library")
             libmod = _import_module(self.library)
             _recursive_import(libmod)
 
         # Load auxiliary modules
         if self.modules:
             for mod in self.modules:
-                LOGGER.info("Loading plugins from %s", mod)
+                logger.info("Loading plugins from %s", mod)
                 _recursive_import(_import_module(mod))
 
         # Load auxiliary paths
@@ -325,10 +324,10 @@ class PluginLoader:
             for path in self.paths:
                 modpath = pathlib.Path(path)
                 if modpath.is_dir():
-                    LOGGER.info("Recursively importing plugins from path `%s`", modpath)
+                    logger.info("Recursively importing plugins from path `%s`", modpath)
                     _recursive_path_import(modpath, self.prefix_package)
                 else:
-                    LOGGER.info("Configured plugin path '%s' is not a valid directory", path)
+                    logger.info("Configured plugin path '%s' is not a valid directory", path)
 
         self.loaded = True
 

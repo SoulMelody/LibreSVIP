@@ -12,15 +12,10 @@
 This module contains generic functions for use in other modules
 """
 
-import logging
 import operator
 from collections.abc import Callable
 from functools import update_wrapper, wraps
 from inspect import isclass
-
-# Setup logger
-LOGGER = logging.getLogger("pluginlib")
-LOGGER.addHandler(logging.NullHandler())
 
 OPERATORS = {
     "=": operator.eq,

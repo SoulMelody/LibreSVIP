@@ -12,19 +12,18 @@ Provides plugin bases class and Parent decorator
 """
 
 import sys
-import warnings
 from collections.abc import Callable
 from inspect import FullArgSpec, getfullargspec, iscoroutinefunction, isfunction
 
+from loguru import logger
+
 from libresvip.extension.vendor.pluginlib._objects import GroupDict, PluginDict, TypeDict
 from libresvip.extension.vendor.pluginlib._util import (
-    LOGGER,
     ClassProperty,
     DictWithDotNotation,
     Undefined,
     allow_bare_decorator,
 )
-from libresvip.extension.vendor.pluginlib.exceptions import PluginWarning
 
 DEFAULT = "_default"
 UNDEFINED = Undefined()
@@ -301,11 +300,9 @@ class PluginType(type):
             # Check for duplicates. Warn and ignore
             if plugindict and version in plugindict:
                 existing = plugindict[version]
-                warnings.warn(
+                logger.warning(
                     f"Duplicate plugins found for {new}: {new.__module__}.{new.__name__} and "
                     f"{existing.__module__}.{existing.__name__}",
-                    PluginWarning,
-                    stacklevel=2,
                 )
 
             else:
@@ -319,11 +316,11 @@ class PluginType(type):
                     args = (new, new.__module__, new.__name__, result.message)
 
                     if result.errorcode < 100:
-                        LOGGER.debug(skipmsg, *args)
+                        logger.debug(skipmsg, *args)
                     elif result.errorcode < 200:
-                        LOGGER.info(skipmsg, *args)
+                        logger.info(skipmsg, *args)
                     else:
-                        warnings.warn(skipmsg % args, PluginWarning, stacklevel=2)
+                        logger.warning(skipmsg % args)
 
         elif new._parent_:
             group[new._type_] = TypeDict(new)
