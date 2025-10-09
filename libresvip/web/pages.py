@@ -330,20 +330,18 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         @context_vars_wrapper
         def plugin_info(attr_name: str) -> None:
             attr = getattr(selected_formats, attr_name)
-            with ui.row().classes("w-full h-full"):
+            with ui.grid(columns=5).classes("w-full h-full"):
                 with ui.element("div").classes("w-100 h-100") as icon:
                     icon.props["style"] = (
                         f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
                     )
-                ui.separator().props("vertical")
-                with ui.column().classes("justify-center flex-grow"):
+                with ui.column().classes("justify-center flex-grow col-span-4"):
                     ui.label(_(plugin_details[attr]["name"] or "")).classes(
                         "text-h5 w-full font-bold text-center",
                     )
-                    with ui.row().classes("w-full"):
+                    with ui.grid(columns=2).classes("w-full"):
                         with ui.element("q-chip").props("icon=bookmark").tooltip(_("Version")):
                             ui.label(plugin_details[attr]["version"] or "")
-                        ui.separator().props("vertical")
                         with (
                             ui.element("q-chip")
                             .props("icon=person")
