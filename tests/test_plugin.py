@@ -10,7 +10,7 @@ from libresvip.core.compat import ZipFile
 from libresvip.extension.manager import plugin_manager
 from libresvip.utils.text import to_unicode
 
-plugin_registry = plugin_manager.plugins["svs"]
+plugin_registry = plugin_manager.plugins.get("svs", {})
 
 
 def test_ust_write(shared_datadir: pathlib.Path) -> None:

@@ -17,7 +17,7 @@ app = typer.Typer()
 
 @app.command()
 def toggle(identifier: str) -> None:
-    if identifier in plugin_manager.plugins["svs"]:
+    if identifier in plugin_manager.plugins.get("svs", {}):
         settings.disabled_plugins.append(identifier)
         save_settings()
         typer.secho(_("The plugin is successfully disabled."), fg="green")
@@ -31,13 +31,13 @@ def toggle(identifier: str) -> None:
 
 @app.command("list")
 def list_plugins() -> None:
-    print_plugin_summary(plugin_manager.plugins["svs"].values())
+    print_plugin_summary(plugin_manager.plugins.get("svs", {}).values())
 
 
 @app.command()
 def detail(plugin_name: str) -> None:
-    if plugin_name in plugin_manager.plugins["svs"]:
-        print_plugin_details(plugin_manager.plugins["svs"][plugin_name])
+    if plugin_name in plugin_manager.plugins.get("svs", {}):
+        print_plugin_details(plugin_manager.plugins.get("svs", {})[plugin_name])
     else:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!", err=True)
 

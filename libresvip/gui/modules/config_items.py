@@ -128,7 +128,7 @@ class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
 
     @Slot(str, result=bool)
     def enabled(self, key: str) -> bool:
-        return key in plugin_manager.plugins["svs"]
+        return key in plugin_manager.plugins.get("svs", {})
 
     @staticmethod
     def posix_path(path: pathlib.Path) -> str:
