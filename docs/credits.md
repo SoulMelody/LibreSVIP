@@ -50,5 +50,4 @@
 | textual-fspicker              | A simple Textual filesystem picker dialog library.                                                                           | MIT License                                         |
 | flet                          | Flet for Python - easily build interactive multi-platform apps in Python                                                     | Apache Software License                             |
 | flet-permission-handler       | PermissionHandler control for Flet                                                                                           | Apache Software License                             |
-| repro-zipfile                 | A tiny, zero-dependency replacement for Python's zipfile.ZipFile for creating reproducible/deterministic ZIP archives.       | MIT License                                         |
 | jyutping                      | Python tool to convert Chinese characters to Jyutping.                                                                       | MIT License                                         |

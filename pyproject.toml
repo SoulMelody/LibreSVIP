@@ -50,12 +50,12 @@ dependencies = [
   "pysubs2<2.0.0,>=1.8.0",
   "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
-  "repro-zipfile<1.0.0,>=0.4.1; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.1.1,>=14.1.0",
   "svg-py<2.0.0,>=1.9.1",
   "tatsu-lts<6.0.0,>=5.13.2",
   "typer-slim<1.0.0,>=0.19.2",
+  "universal-pathlib<1.0.0,>=0.3.3",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
@@ -78,32 +78,25 @@ crypto = [
   "pyzipper>=0.3.6",
 ]
 ujson = ["ujson>=5.11.0"]
-upath = [
-  "universal-pathlib<1.0.0,>=0.3.3",
-]
 ruamel_yaml = [
   "ruamel.yaml>=0.18.15",
 ]
 lxml = ["lxml>=6.0.2"]
 tui = [
   "textual-fspicker>=0.6.0",
-  "libresvip[upath]",
 ]
 webui = [
   "nicegui>=3.0.3",
-  "libresvip[upath]",
 ]
 mobile = [
   "flet[cli,desktop]>=0.28.3,<0.29.0",
   "flet-permission-handler>=0.1.0",
-  "libresvip[upath]",
 ]
 desktop = [
   "pyside6<6.11.0,>=6.10.0",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
-  "libresvip[upath]",
 ]
 
 [dependency-groups]
