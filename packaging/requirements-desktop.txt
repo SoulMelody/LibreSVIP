@@ -37,7 +37,9 @@ packaging==25.0
 pathlib-abc==0.5.1
 pefile==2023.2.7 ; sys_platform == 'win32'
 pillow==11.3.0 ; sys_platform == 'darwin'
-platformdirs==4.4.0
+platformdirs==4.4.0 ; python_full_version < '3.10'
+platformdirs==4.5.0 ; python_full_version >= '3.10'
+pluginlib==0.10.0
 portion==2.6.1
 proto-plus==1.26.1
 protobuf==6.32.1
@@ -45,7 +47,7 @@ pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy
 pycryptodomex==3.23.0
 pydantic==2.12.0
 pydantic-core==2.41.1
-pydantic-extra-types==2.10.5
+pydantic-extra-types==2.10.6
 pydantic-settings==2.11.0
 pygments==2.19.2
 pyinstaller==6.16.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
@@ -79,7 +81,7 @@ typer-slim==0.19.2
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 ujson==5.11.0
-universal-pathlib==0.3.2
+universal-pathlib==0.3.3
 wanakana-python @ https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 winrt-runtime==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
