@@ -796,9 +796,9 @@ def main(page: ft.Page) -> None:
                                             plugin_id,
                                             f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                         )
-                                        for plugin_id, plugin_obj in plugin_manager.plugins[
-                                            "svs"
-                                        ].items()
+                                        for plugin_id, plugin_obj in plugin_manager.plugins.get(
+                                            "svs", {}
+                                        ).items()
                                     ],
                                     col=10,
                                     dense=True,
@@ -827,9 +827,9 @@ def main(page: ft.Page) -> None:
                                             plugin_id,
                                             f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                         )
-                                        for plugin_id, plugin_obj in plugin_manager.plugins[
-                                            "svs"
-                                        ].items()
+                                        for plugin_id, plugin_obj in plugin_manager.plugins.get(
+                                            "svs", {}
+                                        ).items()
                                     ],
                                     col=10,
                                     dense=True,

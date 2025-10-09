@@ -7,11 +7,11 @@ import traceback
 from importlib.resources import files
 from typing import TYPE_CHECKING
 
-import pluginlib
 from loguru import logger
 
 from libresvip.core.config import get_ui_settings, settings
 from libresvip.core.constants import app_dir, pkg_dir, res_dir
+from libresvip.extension.vendor import pluginlib
 
 if TYPE_CHECKING:
     from libresvip.core.compat import Traversable

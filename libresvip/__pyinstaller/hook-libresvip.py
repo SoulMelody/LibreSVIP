@@ -5,6 +5,7 @@ from PyInstaller.utils.hooks import (  # noqa: N999
 
 hiddenimports = (
     collect_submodules("libresvip.core")
+    + collect_submodules("libresvip.extension")
     + collect_submodules("libresvip.model")
     + collect_submodules("libresvip.utils")
 )

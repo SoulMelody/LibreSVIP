@@ -8,7 +8,6 @@ import traceback
 from typing import Any, get_args, get_type_hints
 
 import more_itertools
-import pluginlib
 from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
@@ -26,6 +25,8 @@ from PySide6.QtCore import (
 )
 from PySide6.QtQml import QmlElement
 from upath import UPath
+
+from libresvip.extension.vendor import pluginlib
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -325,9 +326,9 @@ class TaskManager(QObject):
             settings.disabled_plugins.remove(key)
         else:
             return
-        plugin_manager.blacklist = (
+        plugin_manager.blacklist = [
             pluginlib.BlacklistEntry("svs", each) for each in settings.disabled_plugins
-        )
+        ]
         self.plugin_candidates.reload_formats()
         self.reload_formats()
 

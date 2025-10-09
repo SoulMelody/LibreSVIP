@@ -270,6 +270,7 @@ plugins = [
 python-version = "3.10"
 
 [tool.pyrefly.errors]
+bad-argument-count = "ignore"
 bad-argument-type = "ignore"
 bad-assignment = "ignore"
 bad-instantiation = "ignore"

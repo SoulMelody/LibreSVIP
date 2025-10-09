@@ -719,9 +719,9 @@ class TUIApp(App[None]):
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
                         yield OptionsForm(None, id="input_options")
-                    for middleware_id, middleware in middleware_manager.plugins[
-                        "middleware"
-                    ].items():
+                    for middleware_id, middleware in middleware_manager.plugins.get(
+                        "middleware", {}
+                    ).items():
                         with Collapsible(title=_(middleware.info.name)), VerticalGroup():
                             with Horizontal(classes="row"):
                                 yield Label(_("Enable"), classes="text-middle fill-width")
