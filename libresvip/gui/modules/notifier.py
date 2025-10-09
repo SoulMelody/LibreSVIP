@@ -256,7 +256,3 @@ class Notifier(QObject):
             await self.notifier.clear(identifier)
         except Exception as e:
             logger.exception(e)
-
-    @Slot(str)
-    def open_link(self, url: str) -> None:
-        open_url(url)

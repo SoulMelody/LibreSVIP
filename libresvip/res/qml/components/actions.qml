@@ -88,7 +88,7 @@ Item {
     }
     property QtObject openDocumentation: Action {
         shortcut: "F1"
-        onTriggered: notifier.open_link("https://soulmelody.github.io/LibreSVIP")
+        onTriggered: Qt.openUrlExternally("https://soulmelody.github.io/LibreSVIP")
     }
     property QtObject quit: Action {
         shortcut: "Ctrl+Q"
