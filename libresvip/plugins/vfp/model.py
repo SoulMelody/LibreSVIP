@@ -72,7 +72,9 @@ class VOXFactoryAudioClip(VOXFactoryClipBase):
                     pathlib.Path(archive_audio_path).suffix
                 )
             ).exists():
-                audio_path.write_bytes(info.context["archive_file"].read(archive_audio_path))
+                audio_path.write_bytes(
+                    (info.context["archive_file"] / archive_audio_path).read_bytes()
+                )
         return self
 
 

@@ -15,7 +15,6 @@ from pydantic_extra_types.color import Color
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile
 from libresvip.core.config import settings
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
@@ -553,14 +552,13 @@ def main(page: ft.Page) -> None:
             if output_path.is_file():
                 buffer.write(output_path.read_bytes())
             else:
-                with ZipFile(buffer, "w") as zip_file:
-                    for child_file in output_path.iterdir():
-                        if not child_file.is_file():
-                            continue
-                        zip_file.writestr(
-                            child_file.name,
-                            child_file.read_bytes(),
-                        )
+                zip_file = UPath("zip://", fo=buffer, mode="a")
+                for child_file in output_path.iterdir():
+                    if not child_file.is_file():
+                        continue
+                    (zip_file / child_file.name).write_bytes(
+                        child_file.read_bytes(),
+                    )
             if conversion_mode != "split":
                 save_path = save_folder / output_path.name
             else:

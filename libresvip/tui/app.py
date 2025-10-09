@@ -53,7 +53,6 @@ from textual_fspicker import FileOpen, SelectDirectory
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile
 from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
@@ -598,14 +597,13 @@ class TUIApp(App[None]):
             if output_path.is_file():
                 buffer.write(output_path.read_bytes())
             else:
-                with ZipFile(buffer, "w") as zip_file:
-                    for child_file in output_path.iterdir():
-                        if not child_file.is_file():
-                            continue
-                        zip_file.writestr(
-                            child_file.name,
-                            child_file.read_bytes(),
-                        )
+                zip_path = UPath("zip://", fo=buffer, mode="a")
+                for child_file in output_path.iterdir():
+                    if not child_file.is_file():
+                        continue
+                    (zip_path / child_file.name).write_bytes(
+                        child_file.read_bytes(),
+                    )
             self.call_from_thread(
                 self.deliver_text,
                 io.StringIO(buffer.getvalue().decode("latin-1")),
