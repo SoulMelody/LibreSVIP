@@ -64,7 +64,6 @@ pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.3 ; python_full_version != '3.13.*' or sys_platform == 'emscripten'
 pyyaml-ft==8.0.0 ; python_full_version == '3.13.*' and sys_platform != 'emscripten'
 pyzipper==0.3.6
-repro-zipfile==0.4.1 ; python_full_version < '3.11'
 retrie==0.3.1
 rich==14.1.0
 ruamel-yaml==0.18.15
