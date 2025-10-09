@@ -18,7 +18,6 @@ __all__ = [
     "Plugin",
     "PluginImportError",
     "PluginLoader",
-    "PluginWarning",
     "PluginlibError",
     "abstractattribute",
     "abstractmethod",
@@ -35,5 +34,4 @@ from libresvip.extension.vendor.pluginlib._util import (
 from libresvip.extension.vendor.pluginlib.exceptions import (
     PluginImportError,
     PluginlibError,
-    PluginWarning,
 )
