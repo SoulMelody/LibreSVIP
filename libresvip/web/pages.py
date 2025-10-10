@@ -721,10 +721,17 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         backward=shorten_error_message,
                                     )
                                 with error_banner.add_slot("action"):
+
+                                    @context_vars_wrapper
+                                    def copy_error_message() -> None:
+                                        ui.clipboard.write(info.error or "")
+                                        ui.notification(
+                                            _("Copied"), type="info", close_button=_("Close")
+                                        )
+
                                     ui.button(
                                         _("Copy to clipboard"),
-                                        on_click=lambda: ui.clipboard.write(info.error or "")
-                                        and ui.notify(_("Copied"), type="info"),
+                                        on_click=copy_error_message,
                                     )
                                     ui.button(_("Close"), on_click=error_dialog.close)
                             ui.button(
@@ -749,10 +756,17 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         "word-break: break-all; white-space: pre-wrap",
                                     ).bind_text_from(info, "warning", backward=str)
                                 with warn_banner.add_slot("action"):
+
+                                    @context_vars_wrapper
+                                    def copy_warning_message() -> None:
+                                        ui.clipboard.write(info.warning or "")
+                                        ui.notification(
+                                            _("Copied"), type="info", close_button=_("Close")
+                                        )
+
                                     ui.button(
                                         _("Copy to clipboard"),
-                                        on_click=lambda: ui.clipboard.write(info.warning or "")
-                                        and ui.notify(_("Copied"), type="info"),
+                                        on_click=copy_warning_message,
                                     )
                                     ui.button(_("Close"), on_click=warn_dialog.close)
                             ui.button(
@@ -945,9 +959,13 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     for future in asyncio.as_completed(futures):
                         await future
                 if any(not task.success for task in running_tasks):
-                    ui.notification(_("Conversion Failed"), type="negative")
+                    ui.notification(
+                        _("Conversion Failed"), type="negative", close_button=_("Close")
+                    )
                 else:
-                    ui.notification(_("Conversion Successful"), type="positive")
+                    ui.notification(
+                        _("Conversion Successful"), type="positive", close_button=_("Close")
+                    )
 
             def export_all(self, request: Request) -> Response:
                 if result := self._export_all():
@@ -1085,7 +1103,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     result = None
                     result = self._export_one(file_name) if file_name else self._export_all()
                     if result is None:
-                        ui.notify(_("Save failed!"), type="negative")
+                        ui.notification(_("Save failed!"), type="negative", close_button=_("Close"))
                         return
 
                     save_filename = unquote(
@@ -1108,7 +1126,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         save_path = save_path[0]
                     async with await anyio.open_file(save_path, "wb") as content:
                         await content.write(result[0])
-                    ui.notify(_("Saved"), type="positive")
+                    ui.notification(_("Saved"), type="positive", close_button=_("Close"))
                 else:
                     ui.download(f"/export/{context.client.id}/{file_name}")
 
