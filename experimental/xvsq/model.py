@@ -15,7 +15,7 @@ class XvsqDataBase(abc.ABC, BaseModel):
     )
 
 
-class XvsqParamBase(abc.ABC, XvsqDataBase):
+class XvsqParamBase(XvsqDataBase):
     default: int = field(
         metadata={
             "name": "Default",
