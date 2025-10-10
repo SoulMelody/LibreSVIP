@@ -1,89 +1,164 @@
+import abc
 from typing import Optional
 
 from pydantic import BaseModel
 from xsdata_pydantic.fields import field
 
 
-class Bre(BaseModel):
+class XvsqDataBase(abc.ABC, BaseModel):
+    data: str = field(
+        metadata={
+            "name": "Data",
+            "type": "Element",
+            "required": True,
+        }
+    )
+
+
+class XvsqParamBase(abc.ABC, XvsqDataBase):
+    default: int = field(
+        metadata={
+            "name": "Default",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    name: str = field(
+        metadata={
+            "name": "Name",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    maximum: int = field(
+        metadata={
+            "name": "Maximum",
+            "type": "Element",
+            "required": True,
+        }
+    )
+    minimum: int = field(
+        metadata={
+            "name": "Minimum",
+            "type": "Element",
+            "required": True,
+        }
+    )
+
+
+class Bre(XvsqParamBase):
     class Meta:
         name = "BRE"
 
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
 
-
-class Bri(BaseModel):
+class Bri(XvsqParamBase):
     class Meta:
         name = "BRI"
 
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
+
+class Cle(XvsqParamBase):
+    class Meta:
+        name = "CLE"
+
+
+class Dyn(XvsqParamBase):
+    class Meta:
+        name = "DYN"
+
+
+class Gen(XvsqParamBase):
+    class Meta:
+        name = "GEN"
+
+
+class Ope(XvsqParamBase):
+    class Meta:
+        name = "OPE"
+
+
+class Pbs(XvsqParamBase):
+    class Meta:
+        name = "PBS"
+
+
+class Pit(XvsqParamBase):
+    class Meta:
+        name = "PIT"
+
+
+class Por(XvsqParamBase):
+    class Meta:
+        name = "POR"
+
+
+class Fx2Depth(XvsqParamBase):
+    class Meta:
+        name = "fx2depth"
+
+
+class Harmonics(XvsqParamBase):
+    class Meta:
+        name = "harmonics"
+
+
+class Reso1AmpBplist(XvsqParamBase):
+    class Meta:
+        name = "reso1AmpBPList"
+
+
+class Reso1Bwbplist(XvsqParamBase):
+    class Meta:
+        name = "reso1BWBPList"
+
+
+class Reso1FreqBplist(XvsqParamBase):
+    class Meta:
+        name = "reso1FreqBPList"
+
+
+class Reso2AmpBplist(XvsqParamBase):
+    class Meta:
+        name = "reso2AmpBPList"
+
+
+class Reso2Bwbplist(XvsqParamBase):
+    class Meta:
+        name = "reso2BWBPList"
+
+
+class Reso2FreqBplist(XvsqParamBase):
+    class Meta:
+        name = "reso2FreqBPList"
+
+
+class Reso3AmpBplist(XvsqParamBase):
+    class Meta:
+        name = "reso3AmpBPList"
+
+
+class Reso3Bwbplist(XvsqParamBase):
+    class Meta:
+        name = "reso3BWBPList"
+
+
+class Reso3FreqBplist(XvsqParamBase):
+    class Meta:
+        name = "reso3FreqBPList"
+
+
+class Reso4AmpBplist(XvsqParamBase):
+    class Meta:
+        name = "reso4AmpBPList"
+
+
+class Reso4Bwbplist(XvsqParamBase):
+    class Meta:
+        name = "reso4BWBPList"
+
+
+class Reso4FreqBplist(XvsqParamBase):
+    class Meta:
+        name = "reso4FreqBPList"
 
 
 class Base(BaseModel):
@@ -138,47 +213,6 @@ class BgmFile(BaseModel):
     read_offset_seconds: int = field(
         metadata={
             "name": "readOffsetSeconds",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Cle(BaseModel):
-    class Meta:
-        name = "CLE"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
             "type": "Element",
             "required": True,
         }
@@ -264,112 +298,14 @@ class ControlRight(BaseModel):
     )
 
 
-class Dyn(BaseModel):
-    class Meta:
-        name = "DYN"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class DepthBp(BaseModel):
+class DepthBp(XvsqDataBase):
     class Meta:
         name = "DepthBP"
 
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
 
-
-class DynBp(BaseModel):
+class DynBp(XvsqDataBase):
     class Meta:
         name = "DynBP"
-
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Gen(BaseModel):
-    class Meta:
-        name = "GEN"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
 
 
 class IconHandle(BaseModel):
@@ -576,181 +512,9 @@ class NoteHeadHandle(BaseModel):
     )
 
 
-class Ope(BaseModel):
-    class Meta:
-        name = "OPE"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Pbs(BaseModel):
-    class Meta:
-        name = "PBS"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Pit(BaseModel):
-    class Meta:
-        name = "PIT"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Por(BaseModel):
-    class Meta:
-        name = "POR"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class RateBp(BaseModel):
+class RateBp(XvsqDataBase):
     class Meta:
         name = "RateBP"
-
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
 
 
 class TempoTableEntry(BaseModel):
@@ -982,580 +746,6 @@ class Config(BaseModel):
     end_marker_enabled: bool = field(
         metadata={
             "name": "EndMarkerEnabled",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Fx2Depth(BaseModel):
-    class Meta:
-        name = "fx2depth"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Harmonics(BaseModel):
-    class Meta:
-        name = "harmonics"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso1AmpBplist(BaseModel):
-    class Meta:
-        name = "reso1AmpBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso1Bwbplist(BaseModel):
-    class Meta:
-        name = "reso1BWBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso1FreqBplist(BaseModel):
-    class Meta:
-        name = "reso1FreqBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso2AmpBplist(BaseModel):
-    class Meta:
-        name = "reso2AmpBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso2Bwbplist(BaseModel):
-    class Meta:
-        name = "reso2BWBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso2FreqBplist(BaseModel):
-    class Meta:
-        name = "reso2FreqBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso3AmpBplist(BaseModel):
-    class Meta:
-        name = "reso3AmpBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso3Bwbplist(BaseModel):
-    class Meta:
-        name = "reso3BWBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso3FreqBplist(BaseModel):
-    class Meta:
-        name = "reso3FreqBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso4AmpBplist(BaseModel):
-    class Meta:
-        name = "reso4AmpBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso4Bwbplist(BaseModel):
-    class Meta:
-        name = "reso4BWBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class Reso4FreqBplist(BaseModel):
-    class Meta:
-        name = "reso4FreqBPList"
-
-    default: int = field(
-        metadata={
-            "name": "Default",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    name: str = field(
-        metadata={
-            "name": "Name",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    data: str = field(
-        metadata={
-            "name": "Data",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    maximum: int = field(
-        metadata={
-            "name": "Maximum",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    minimum: int = field(
-        metadata={
-            "name": "Minimum",
             "type": "Element",
             "required": True,
         }
@@ -1883,6 +1073,16 @@ class BezierChain(BaseModel):
     )
 
 
+class BezierChainListBase(abc.ABC, BaseModel):
+    bezier_chain: BezierChain = field(
+        metadata={
+            "name": "BezierChain",
+            "type": "Element",
+            "required": True,
+        }
+    )
+
+
 class Id(BaseModel):
     class Meta:
         name = "ID"
@@ -2021,96 +1221,48 @@ class Id(BaseModel):
     )
 
 
-class Brethiness(BaseModel):
-    bezier_chain: list[BezierChain] = field(
-        default_factory=list,
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "min_occurs": 1,
-        },
-    )
+class Brethiness(BezierChainListBase):
+    pass
 
 
-class Brightness(BaseModel):
-    bezier_chain: BezierChain = field(
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "required": True,
-        }
-    )
+class Brightness(BezierChainListBase):
+    pass
 
 
-class Clearness(BaseModel):
-    bezier_chain: BezierChain = field(
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "required": True,
-        }
-    )
+class Clearness(BezierChainListBase):
+    pass
 
 
-class Dynamics(BaseModel):
-    bezier_chain: BezierChain = field(
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "required": True,
-        }
-    )
+class Dynamics(BezierChainListBase):
+    pass
 
 
-class GenderFactor(BaseModel):
-    bezier_chain: BezierChain = field(
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "required": True,
-        }
-    )
+class GenderFactor(BezierChainListBase):
+    pass
 
 
-class Opening(BaseModel):
-    bezier_chain: BezierChain = field(
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "required": True,
-        }
-    )
+class Opening(BezierChainListBase):
+    pass
 
 
-class PitchBend(BaseModel):
-    bezier_chain: BezierChain = field(
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "required": True,
-        }
-    )
+class PitchBend(BezierChainListBase):
+    pass
 
 
-class PitchBendSensitivity(BaseModel):
-    bezier_chain: BezierChain = field(
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "required": True,
-        }
-    )
+class PitchBendSensitivity(BezierChainListBase):
+    pass
 
 
-class PortamentoTiming(BaseModel):
-    bezier_chain: list[BezierChain] = field(
-        default_factory=list,
-        metadata={
-            "name": "BezierChain",
-            "type": "Element",
-            "min_occurs": 1,
-        },
-    )
+class PortamentoTiming(BezierChainListBase):
+    pass
+
+
+class VibratoDepth(BezierChainListBase):
+    pass
+
+
+class VibratoRate(BezierChainListBase):
+    pass
 
 
 class VsqEvent(BaseModel):
@@ -2194,14 +1346,14 @@ class BezierCurves(BaseModel):
             "required": True,
         }
     )
-    vibrato_rate: object | None = field(
+    vibrato_rate: VibratoRate | None = field(
         default=None,
         metadata={
             "name": "VibratoRate",
             "type": "Element",
         },
     )
-    vibrato_depth: object | None = field(
+    vibrato_depth: VibratoDepth | None = field(
         default=None,
         metadata={
             "name": "VibratoDepth",
