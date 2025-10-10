@@ -29,7 +29,7 @@ from urllib.parse import quote, unquote
 
 import anyio
 import more_itertools
-from nicegui import APIRouter, PageArguments, app, ui
+from nicegui import PageArguments, app, ui
 from nicegui.context import context
 from nicegui.elements.switch import Switch
 from nicegui.events import (
@@ -43,9 +43,6 @@ from pydantic import RootModel, create_model
 from pydantic.config import JsonValue
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
-from starlette.exceptions import HTTPException
-from starlette.requests import Request
-from starlette.responses import Response
 from typing_extensions import ParamSpec
 from upath import UPath
 
@@ -160,37 +157,6 @@ class ConversionTask:
             else:
                 self.output_path.unlink()
 
-
-export_router = APIRouter(prefix="/export", tags=["Export"])
-
-
-@export_router.get("/{client_id}/")
-def export_all(request: Request) -> Response:
-    if selected_formats := getattr(
-        app.state, f"{request.path_params['client_id']}_selected_formats"
-    ):
-        return selected_formats.export_all(request)
-    else:
-        return Response(
-            "No selected formats",
-            status_code=400,
-        )
-
-
-@export_router.get("/{client_id}/{filename}")
-def export_one(request: Request) -> Response:
-    if selected_formats := getattr(
-        app.state, f"{request.path_params['client_id']}_selected_formats"
-    ):
-        return selected_formats.export_one(request)
-    else:
-        return Response(
-            "No selected formats",
-            status_code=400,
-        )
-
-
-app.include_router(export_router)
 
 plugin_details = {
     identifier: {
@@ -967,16 +933,6 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         _("Conversion Successful"), type="positive", close_button=_("Close")
                     )
 
-            def export_all(self, request: Request) -> Response:
-                if result := self._export_all():
-                    return Response(*result)
-                raise HTTPException(400, "No files to export")
-
-            def export_one(self, request: Request) -> Response:
-                if result := self._export_one(request.path_params["filename"]):
-                    return Response(*result)
-                raise HTTPException(404, "File not found")
-
             def _export_one(self, filename: str) -> tuple[bytes, int, dict[str, str], str] | None:
                 if not (task := self.files_to_convert.get(filename)) or not task.success:
                     return None
@@ -1095,20 +1051,18 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             @context_vars_wrapper
             async def save_file(self, file_name: str = "") -> None:
                 nonlocal select_output
+                result = self._export_one(file_name) if file_name else self._export_all()
+                if result is None:
+                    ui.notification(_("Save failed!"), type="negative", close_button=_("Close"))
+                    return
+                save_filename = unquote(
+                    result[2]["Content-Disposition"].removeprefix("attachment; filename=")
+                )
                 if app.native.main_window is not None and hasattr(
                     app.native.main_window, "create_file_dialog"
                 ):
                     import webview
 
-                    result = None
-                    result = self._export_one(file_name) if file_name else self._export_all()
-                    if result is None:
-                        ui.notification(_("Save failed!"), type="negative", close_button=_("Close"))
-                        return
-
-                    save_filename = unquote(
-                        result[2]["Content-Disposition"].removeprefix("attachment; filename=")
-                    )
                     save_path = await app.native.main_window.create_file_dialog(
                         webview.SAVE_DIALOG,
                         save_filename=save_filename,
@@ -1128,7 +1082,9 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         await content.write(result[0])
                     ui.notification(_("Saved"), type="positive", close_button=_("Close"))
                 else:
-                    ui.download(f"/export/{context.client.id}/{file_name}")
+                    ui.download.content(
+                        content=result[0], filename=save_filename, media_type=result[3]
+                    )
 
         dark_toggler = ui.dark_mode(dark_mode2bool(getattr(DarkMode, dark_mode.upper())))
         dark_toggler.on_value_change(
