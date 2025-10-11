@@ -122,7 +122,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=8.4.1",
-  "nuitka>=2.7.16",
+  "nuitka>=2.8",
   "pyfuze>=2.7.2",
   "pyinstaller>=6.16.0",
   "shellingham<2.0.0,>=1.5.4",
@@ -130,7 +130,7 @@ packaging = [
 docs = [
   "mkdocs-material<10.0.0,>=9.6.21",
 ]
-test = ["pytest>=8.4.2", "pytest-datadir>=1.8.0", "textual-dev>=1.7.0"]
+test = ["pytest>=8.4.2", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
