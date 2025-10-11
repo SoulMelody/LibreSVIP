@@ -2,7 +2,6 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 WORKDIR /app
 COPY ./ /app
 
-RUN uv venv --python 3.13
 RUN uv sync --extra webui --extra ujson --extra ruamel_yaml --extra lxml --extra crypto --extra zstd --frozen --no-cache
 
 EXPOSE 8080
