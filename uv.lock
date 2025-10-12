@@ -1836,7 +1836,7 @@ all = [
     { name = "gapic-generator", specifier = ">=1.28.0" },
     { name = "mkdocs-material", specifier = ">=9.6.21,<10.0.0" },
     { name = "mypy", specifier = ">=1.18.2" },
-    { name = "nuitka", specifier = ">=2.8" },
+    { name = "nuitka", specifier = ">=2.8.1" },
     { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "protoc-wheel-0", specifier = ">=30.2" },
@@ -1879,7 +1879,7 @@ linting = [
 ]
 packaging = [
     { name = "cx-freeze", specifier = ">=8.4.1" },
-    { name = "nuitka", specifier = ">=2.8" },
+    { name = "nuitka", specifier = ">=2.8.1" },
     { name = "pyfuze", specifier = ">=2.7.2" },
     { name = "pyinstaller", specifier = ">=6.16.0" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
@@ -2606,13 +2606,13 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "2.8"
+version = "2.8.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ordered-set" },
     { name = "zstandard" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4e/9e/cd802e8d4091b7d623268c7c0ab18f5be26db1333707b0b322fd2cc2c57e/Nuitka-2.8.tar.gz", hash = "sha256:46ad9e1be81fa54b0c0f0698aa560db99666ea128b3c72ede88a15c46bcf27f0", size = 3883900, upload-time = "2025-10-11T11:14:23.351Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/94/c0/96857354765e9024825b7ac29b8c81b12e9dfe310f9ddc3786cd0f0d07b5/Nuitka-2.8.1.tar.gz", hash = "sha256:456fd55c25292252f2dfb26da2c1ee0c0dbeb00106669979b8a2a1f3ae653cb0", size = 3884450, upload-time = "2025-10-12T17:54:49.872Z" }
 
 [[package]]
 name = "oauthlib"
