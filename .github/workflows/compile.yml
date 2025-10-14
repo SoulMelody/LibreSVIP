@@ -52,7 +52,7 @@ jobs:
         if: steps.changed-files.outputs.qml_any_changed == 'true'
         run: |
           uv venv
-          uv pip install pyside6
+          uv pip install pyside6-addons
           cd scripts
           uv run python patch_qt_resource.py
 

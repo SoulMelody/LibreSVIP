@@ -93,7 +93,7 @@ mobile = [
   "flet-permission-handler>=0.1.0",
 ]
 desktop = [
-  "pyside6<6.11.0,>=6.10.0",
+  "pyside6-essentials<6.11.0,>=6.10.0",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
@@ -104,6 +104,7 @@ code_gen = [
   "datamodel-code-generator>=0.35.0",
   "gapic-generator>=1.28.0",
   "protoc-wheel-0>=30.2",
+  "pyside6-addons<6.11.0,>=6.10.0",
   "xsdata[cli]>=25.7",
 ]
 i18n = ["babel>=2.17.0"]
