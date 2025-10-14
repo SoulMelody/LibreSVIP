@@ -40,8 +40,8 @@ proto-plus==1.26.1
 protobuf==6.32.1
 pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32')
 pycryptodomex==3.23.0
-pydantic==2.12.1
-pydantic-core==2.41.3
+pydantic==2.12.2
+pydantic-core==2.41.4
 pydantic-extra-types==2.10.6
 pydantic-settings==2.11.0
 pygments==2.19.2
