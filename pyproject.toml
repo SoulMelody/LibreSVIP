@@ -29,7 +29,7 @@ classifiers = [
 ]
 dependencies = [
   "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.4.3",
+  "charset-normalizer<4.0.0,>=3.4.4",
   "construct",
   "construct-typing<1.0.0,>=0.6.2",
   "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
