@@ -50,8 +50,6 @@ pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download
 pyinstaller-hooks-contrib==2025.9
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.55.0
-pyside6==6.10.0
-pyside6-addons==6.10.0
 pyside6-essentials==6.10.0
 pysubs2==1.8.0
 python-dotenv==1.1.1
