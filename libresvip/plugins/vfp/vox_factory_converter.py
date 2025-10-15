@@ -52,6 +52,7 @@ class VOXFactoryConverter(plugin_base.SVSConverter):
                 vox_factory_project.model_dump(mode="json", by_alias=True),
                 ensure_ascii=False,
             ),
+            encoding="utf-8",
         )
         (zip_path / "resources").mkdir()
         for audio_name, audio_path in generator.audio_paths.items():

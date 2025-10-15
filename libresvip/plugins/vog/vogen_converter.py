@@ -28,7 +28,7 @@ class VogenConverter(plugin_base.SVSConverter):
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.input_option_cls(**options)
         zip_path = UPath("zip://", fo=io.BytesIO(path.read_bytes()), mode="r")
-        proj_text = (zip_path / "chart.json").read_bytes().decode("utf-8")
+        proj_text = (zip_path / "chart.json").read_bytes()
         vogen_project = VogenProject.model_validate_json(proj_text)
         return VogenParser(options_obj).parse_project(vogen_project)
 
@@ -41,5 +41,5 @@ class VogenConverter(plugin_base.SVSConverter):
         proj_text = json.dumps(vogen_project.model_dump(by_alias=True), separators=(",", ":"))
         buffer = io.BytesIO()
         zip_path = UPath("zip://", fo=buffer, mode="w")
-        (zip_path / "chart.json").write_bytes(proj_text)
+        (zip_path / "chart.json").write_text(proj_text, encoding="utf-8")
         path.write_bytes(buffer.getvalue())

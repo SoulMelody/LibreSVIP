@@ -28,7 +28,7 @@ class VocaloidConverter(plugin_base.SVSConverter):
         options_obj = cls.input_option_cls(**options)
         zip_path = UPath("zip://", fo=io.BytesIO(path.read_bytes()), mode="r")
         proj = VocaloidProject.model_validate_json(
-            (zip_path / "Project/sequence.json").read_bytes().decode("utf-8"),
+            (zip_path / "Project/sequence.json").read_bytes(),
             context={
                 "extract_audio": options_obj.extract_audio,
                 "path": path,
@@ -44,11 +44,12 @@ class VocaloidConverter(plugin_base.SVSConverter):
         generator = VocaloidGenerator(options_obj)
         vocaloid_project = generator.generate_project(project)
         zip_path = UPath("zip://", fo=buffer, mode="a")
-        (zip_path / "Project/sequence.json").write_bytes(
+        (zip_path / "Project/sequence.json").write_text(
             json.dumps(
                 vocaloid_project.model_dump(mode="json", exclude_none=True, by_alias=True),
                 ensure_ascii=False,
-            ).encode("utf-8"),
+            ),
+            encoding="utf-8",
         )
         for wav_name, wav_path in generator.wav_paths.items():
             (zip_path / f"Project/Audio/{wav_name}").write_bytes(wav_path.read_bytes())
