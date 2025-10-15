@@ -115,6 +115,7 @@ linting = [
   "sourcery>=1.37.0",
   "proto-plus-stubs>=0.7.0",
   "pyrefly>=0.37.0",
+  "pyside6<6.11.0,>=6.10.0",
   "types-lxml>=2025.8.25",
   "types-pyyaml>=6.0.12.20250915",
   "types-ujson>=5.10.0.20250822",

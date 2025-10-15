@@ -577,6 +577,7 @@ class SVDatabase(BaseModel):
 
 class SVRef(BaseModel):
     audio: SVAudio | None = None
+    mute: bool | None = False
     blick_absolute_begin: int | None = Field(0, alias="blickAbsoluteBegin")
     blick_absolute_end: int | None = Field(-1, alias="blickAbsoluteEnd")
     blick_offset: int = Field(default=0, alias="blickOffset")
