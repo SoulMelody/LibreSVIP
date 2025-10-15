@@ -1,11 +1,10 @@
 import abc
-from typing import Optional
 
 from pydantic import BaseModel
 from xsdata_pydantic.fields import field
 
 
-class XvsqDataBase(abc.ABC, BaseModel):
+class VibratoBPList(abc.ABC, BaseModel):
     data: str = field(
         metadata={
             "name": "Data",
@@ -15,7 +14,7 @@ class XvsqDataBase(abc.ABC, BaseModel):
     )
 
 
-class XvsqParamBase(XvsqDataBase):
+class VsqBPList(VibratoBPList):
     default: int = field(
         metadata={
             "name": "Default",
@@ -46,130 +45,15 @@ class XvsqParamBase(XvsqDataBase):
     )
 
 
-class Bre(XvsqParamBase):
-    class Meta:
-        name = "BRE"
-
-
-class Bri(XvsqParamBase):
-    class Meta:
-        name = "BRI"
-
-
-class Cle(XvsqParamBase):
-    class Meta:
-        name = "CLE"
-
-
-class Dyn(XvsqParamBase):
-    class Meta:
-        name = "DYN"
-
-
-class Gen(XvsqParamBase):
-    class Meta:
-        name = "GEN"
-
-
-class Ope(XvsqParamBase):
-    class Meta:
-        name = "OPE"
-
-
-class Pbs(XvsqParamBase):
-    class Meta:
-        name = "PBS"
-
-
-class Pit(XvsqParamBase):
-    class Meta:
-        name = "PIT"
-
-
-class Por(XvsqParamBase):
-    class Meta:
-        name = "POR"
-
-
-class Fx2Depth(XvsqParamBase):
-    class Meta:
-        name = "fx2depth"
-
-
-class Harmonics(XvsqParamBase):
-    class Meta:
-        name = "harmonics"
-
-
-class Reso1AmpBplist(XvsqParamBase):
-    class Meta:
-        name = "reso1AmpBPList"
-
-
-class Reso1Bwbplist(XvsqParamBase):
-    class Meta:
-        name = "reso1BWBPList"
-
-
-class Reso1FreqBplist(XvsqParamBase):
-    class Meta:
-        name = "reso1FreqBPList"
-
-
-class Reso2AmpBplist(XvsqParamBase):
-    class Meta:
-        name = "reso2AmpBPList"
-
-
-class Reso2Bwbplist(XvsqParamBase):
-    class Meta:
-        name = "reso2BWBPList"
-
-
-class Reso2FreqBplist(XvsqParamBase):
-    class Meta:
-        name = "reso2FreqBPList"
-
-
-class Reso3AmpBplist(XvsqParamBase):
-    class Meta:
-        name = "reso3AmpBPList"
-
-
-class Reso3Bwbplist(XvsqParamBase):
-    class Meta:
-        name = "reso3BWBPList"
-
-
-class Reso3FreqBplist(XvsqParamBase):
-    class Meta:
-        name = "reso3FreqBPList"
-
-
-class Reso4AmpBplist(XvsqParamBase):
-    class Meta:
-        name = "reso4AmpBPList"
-
-
-class Reso4Bwbplist(XvsqParamBase):
-    class Meta:
-        name = "reso4BWBPList"
-
-
-class Reso4FreqBplist(XvsqParamBase):
-    class Meta:
-        name = "reso4FreqBPList"
-
-
-class Base(BaseModel):
-    x: int = field(
+class PointD(BaseModel):
+    x: float = field(
         metadata={
             "name": "X",
             "type": "Element",
             "required": True,
         }
     )
-    y: int = field(
+    y: float = field(
         metadata={
             "name": "Y",
             "type": "Element",
@@ -219,7 +103,7 @@ class BgmFile(BaseModel):
     )
 
 
-class Common(BaseModel):
+class VsqCommon(BaseModel):
     version: str = field(
         metadata={
             "name": "Version",
@@ -262,50 +146,6 @@ class Common(BaseModel):
             "required": True,
         }
     )
-
-
-class ControlLeft(BaseModel):
-    x: int = field(
-        metadata={
-            "name": "X",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    y: int = field(
-        metadata={
-            "name": "Y",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class ControlRight(BaseModel):
-    x: float | int = field(
-        metadata={
-            "name": "X",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    y: float | int = field(
-        metadata={
-            "name": "Y",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
-class DepthBp(XvsqDataBase):
-    class Meta:
-        name = "DepthBP"
-
-
-class DynBp(XvsqDataBase):
-    class Meta:
-        name = "DynBP"
 
 
 class IconHandle(BaseModel):
@@ -367,83 +207,45 @@ class IconHandle(BaseModel):
     )
 
 
-class L0(BaseModel):
-    phrase: str = field(
-        metadata={
-            "name": "Phrase",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    unknown_float: int | float = field(
-        metadata={
-            "name": "UnknownFloat",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    phonetic_symbol_protected: bool = field(
-        metadata={
-            "name": "PhoneticSymbolProtected",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    consonant_adjustment: int | str = field(
-        metadata={
-            "name": "ConsonantAdjustment",
-            "type": "Element",
-            "required": True,
-        }
-    )
-    phonetic_symbol: str = field(
-        metadata={
-            "name": "PhoneticSymbol",
-            "type": "Element",
-            "required": True,
-        }
-    )
-
-
 class Lyric(BaseModel):
-    phrase: str = field(
+    phrase: str | None = field(
+        default=None,
         metadata={
             "name": "Phrase",
             "type": "Element",
-            "required": True,
-        }
+        },
     )
-    unknown_float: float = field(
+    unknown_float: float | None = field(
+        default=None,
         metadata={
             "name": "UnknownFloat",
             "type": "Element",
-            "required": True,
-        }
+        },
     )
-    phonetic_symbol_protected: bool = field(
+    phonetic_symbol_protected: bool | None = field(
+        default=None,
         metadata={
             "name": "PhoneticSymbolProtected",
             "type": "Element",
-            "required": True,
-        }
+        },
     )
-    consonant_adjustment: str = field(
+    consonant_adjustment: int | str | None = field(
+        default=None,
         metadata={
             "name": "ConsonantAdjustment",
             "type": "Element",
-            "required": True,
-        }
+        },
     )
-    phonetic_symbol: str = field(
+    phonetic_symbol: str | None = field(
+        default=None,
         metadata={
             "name": "PhoneticSymbol",
             "type": "Element",
-            "required": True,
-        }
+        },
     )
 
 
-class Master(BaseModel):
+class VsqMaster(BaseModel):
     pre_measure: int = field(
         metadata={
             "name": "PreMeasure",
@@ -512,11 +314,6 @@ class NoteHeadHandle(BaseModel):
     )
 
 
-class RateBp(XvsqDataBase):
-    class Meta:
-        name = "RateBP"
-
-
 class TempoTableEntry(BaseModel):
     clock: int = field(
         metadata={
@@ -572,8 +369,25 @@ class TimeSigTableEntry(BaseModel):
     )
 
 
+class UstEventProperty(BaseModel):
+    name: str | None = field(
+        default=None,
+        metadata={
+            "name": "Name",
+            "type": "Element",
+        },
+    )
+    value: str | None = field(
+        default=None,
+        metadata={
+            "name": "Value",
+            "type": "Element",
+        },
+    )
+
+
 class UstEvent(BaseModel):
-    flags: object | None = field(
+    flags: str | None = field(
         default=None,
         metadata={
             "name": "Flags",
@@ -587,14 +401,14 @@ class UstEvent(BaseModel):
             "required": True,
         }
     )
-    properties: object | None = field(
-        default=None,
+    properties: list[UstEventProperty] = field(
+        default_factory=list,
         metadata={
             "name": "Properties",
             "type": "Element",
         },
     )
-    lyric: object | None = field(
+    lyric: str | None = field(
         default=None,
         metadata={
             "name": "Lyric",
@@ -697,7 +511,7 @@ class VsqMixerEntry(BaseModel):
     )
 
 
-class Config(BaseModel):
+class SequenceConfig(BaseModel):
     class Meta:
         name = "config"
 
@@ -753,21 +567,21 @@ class Config(BaseModel):
 
 
 class BezierPoint(BaseModel):
-    base: Base = field(
+    base: PointD = field(
         metadata={
             "name": "Base",
             "type": "Element",
             "required": True,
         }
     )
-    control_left: ControlLeft = field(
+    control_left: PointD = field(
         metadata={
             "name": "ControlLeft",
             "type": "Element",
             "required": True,
         }
     )
-    control_right: ControlRight = field(
+    control_right: PointD = field(
         metadata={
             "name": "ControlRight",
             "type": "Element",
@@ -850,7 +664,7 @@ class IconDynamicsHandle(BaseModel):
             "required": True,
         }
     )
-    dyn_bp: DynBp = field(
+    dyn_bp: VibratoBPList = field(
         metadata={
             "name": "DynBP",
             "type": "Element",
@@ -893,12 +707,12 @@ class TimesigTable(BaseModel):
 
 
 class Trailing(BaseModel):
-    lyric: Lyric = field(
+    lyric: Lyric | None = field(
+        default=None,
         metadata={
             "name": "Lyric",
             "type": "Element",
-            "required": True,
-        }
+        },
     )
 
 
@@ -938,7 +752,7 @@ class VibratoHandle(BaseModel):
             "required": True,
         }
     )
-    rate_bp: RateBp = field(
+    rate_bp: VibratoBPList = field(
         metadata={
             "name": "RateBP",
             "type": "Element",
@@ -952,7 +766,7 @@ class VibratoHandle(BaseModel):
             "required": True,
         }
     )
-    depth_bp: DepthBp = field(
+    depth_bp: VibratoBPList = field(
         metadata={
             "name": "DepthBP",
             "type": "Element",
@@ -976,7 +790,7 @@ class VibratoHandle(BaseModel):
 
 
 class LyricHandle(BaseModel):
-    l0: L0 = field(
+    l0: Lyric = field(
         metadata={
             "name": "L0",
             "type": "Element",
@@ -999,7 +813,7 @@ class LyricHandle(BaseModel):
     )
 
 
-class Mixer(BaseModel):
+class VsqMixer(BaseModel):
     master_feder: int = field(
         metadata={
             "name": "MasterFeder",
@@ -1073,17 +887,17 @@ class BezierChain(BaseModel):
     )
 
 
-class BezierChainListBase(abc.ABC, BaseModel):
-    bezier_chain: BezierChain = field(
+class BezierChainList(BaseModel):
+    bezier_chain: BezierChain | None = field(
+        default=None,
         metadata={
             "name": "BezierChain",
             "type": "Element",
-            "required": True,
-        }
+        },
     )
 
 
-class Id(BaseModel):
+class VsqID(BaseModel):
     class Meta:
         name = "ID"
 
@@ -1221,50 +1035,6 @@ class Id(BaseModel):
     )
 
 
-class Brethiness(BezierChainListBase):
-    pass
-
-
-class Brightness(BezierChainListBase):
-    pass
-
-
-class Clearness(BezierChainListBase):
-    pass
-
-
-class Dynamics(BezierChainListBase):
-    pass
-
-
-class GenderFactor(BezierChainListBase):
-    pass
-
-
-class Opening(BezierChainListBase):
-    pass
-
-
-class PitchBend(BezierChainListBase):
-    pass
-
-
-class PitchBendSensitivity(BezierChainListBase):
-    pass
-
-
-class PortamentoTiming(BezierChainListBase):
-    pass
-
-
-class VibratoDepth(BezierChainListBase):
-    pass
-
-
-class VibratoRate(BezierChainListBase):
-    pass
-
-
 class VsqEvent(BaseModel):
     internal_id: int = field(
         metadata={
@@ -1280,7 +1050,7 @@ class VsqEvent(BaseModel):
             "required": True,
         }
     )
-    id: Id = field(
+    id: VsqID = field(
         metadata={
             "name": "ID",
             "type": "Element",
@@ -1297,175 +1067,175 @@ class VsqEvent(BaseModel):
 
 
 class BezierCurves(BaseModel):
-    dynamics: Dynamics = field(
+    dynamics: BezierChainList = field(
         metadata={
             "name": "Dynamics",
             "type": "Element",
             "required": True,
         }
     )
-    brethiness: Brethiness = field(
+    brethiness: BezierChainList = field(
         metadata={
             "name": "Brethiness",
             "type": "Element",
             "required": True,
         }
     )
-    brightness: Brightness = field(
+    brightness: BezierChainList = field(
         metadata={
             "name": "Brightness",
             "type": "Element",
             "required": True,
         }
     )
-    clearness: Clearness = field(
+    clearness: BezierChainList = field(
         metadata={
             "name": "Clearness",
             "type": "Element",
             "required": True,
         }
     )
-    opening: Opening = field(
+    opening: BezierChainList = field(
         metadata={
             "name": "Opening",
             "type": "Element",
             "required": True,
         }
     )
-    gender_factor: GenderFactor = field(
+    gender_factor: BezierChainList = field(
         metadata={
             "name": "GenderFactor",
             "type": "Element",
             "required": True,
         }
     )
-    portamento_timing: PortamentoTiming = field(
+    portamento_timing: BezierChainList = field(
         metadata={
             "name": "PortamentoTiming",
             "type": "Element",
             "required": True,
         }
     )
-    vibrato_rate: VibratoRate | None = field(
+    vibrato_rate: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "VibratoRate",
             "type": "Element",
         },
     )
-    vibrato_depth: VibratoDepth | None = field(
+    vibrato_depth: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "VibratoDepth",
             "type": "Element",
         },
     )
-    harmonics: object | None = field(
+    harmonics: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Harmonics",
             "type": "Element",
         },
     )
-    fx2_depth: object | None = field(
+    fx2_depth: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "FX2Depth",
             "type": "Element",
         },
     )
-    reso1_freq: object | None = field(
+    reso1_freq: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso1Freq",
             "type": "Element",
         },
     )
-    reso1_bw: object | None = field(
+    reso1_bw: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso1BW",
             "type": "Element",
         },
     )
-    reso1_amp: object | None = field(
+    reso1_amp: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso1Amp",
             "type": "Element",
         },
     )
-    reso2_freq: object | None = field(
+    reso2_freq: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso2Freq",
             "type": "Element",
         },
     )
-    reso2_bw: object | None = field(
+    reso2_bw: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso2BW",
             "type": "Element",
         },
     )
-    reso2_amp: object | None = field(
+    reso2_amp: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso2Amp",
             "type": "Element",
         },
     )
-    reso3_freq: object | None = field(
+    reso3_freq: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso3Freq",
             "type": "Element",
         },
     )
-    reso3_bw: object | None = field(
+    reso3_bw: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso3BW",
             "type": "Element",
         },
     )
-    reso3_amp: object | None = field(
+    reso3_amp: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso3Amp",
             "type": "Element",
         },
     )
-    reso4_freq: object | None = field(
+    reso4_freq: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso4Freq",
             "type": "Element",
         },
     )
-    reso4_bw: object | None = field(
+    reso4_bw: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso4BW",
             "type": "Element",
         },
     )
-    reso4_amp: object | None = field(
+    reso4_amp: BezierChainList | None = field(
         default=None,
         metadata={
             "name": "Reso4Amp",
             "type": "Element",
         },
     )
-    pitch_bend: PitchBend = field(
+    pitch_bend: BezierChainList = field(
         metadata={
             "name": "PitchBend",
             "type": "Element",
             "required": True,
         }
     )
-    pitch_bend_sensitivity: PitchBendSensitivity = field(
+    pitch_bend_sensitivity: BezierChainList = field(
         metadata={
             "name": "PitchBendSensitivity",
             "type": "Element",
@@ -1474,7 +1244,7 @@ class BezierCurves(BaseModel):
     )
 
 
-class Events(BaseModel):
+class VsqEvents(BaseModel):
     vsq_event: list[VsqEvent] = field(
         default_factory=list,
         metadata={
@@ -1482,7 +1252,10 @@ class Events(BaseModel):
             "type": "Element",
         },
     )
-    events: Optional["Events"] = field(
+
+
+class VsqEventList(BaseModel):
+    events: VsqEvents | None = field(
         default=None,
         metadata={
             "name": "Events",
@@ -1502,174 +1275,176 @@ class Curves(BaseModel):
     )
 
 
-class MetaText(BaseModel):
-    common: Common = field(
+class VsqMetaText(BaseModel):
+    common: VsqCommon = field(
         metadata={
             "name": "Common",
             "type": "Element",
             "required": True,
         }
     )
-    events: Events = field(
+    events: VsqEventList = field(
         metadata={
             "name": "Events",
             "type": "Element",
             "required": True,
         }
     )
-    pit: Pit = field(
+    pit: VsqBPList = field(
         metadata={
             "name": "PIT",
             "type": "Element",
             "required": True,
         }
     )
-    pbs: Pbs = field(
+    pbs: VsqBPList = field(
         metadata={
             "name": "PBS",
             "type": "Element",
             "required": True,
         }
     )
-    dyn: Dyn = field(
+    dyn: VsqBPList = field(
         metadata={
             "name": "DYN",
             "type": "Element",
             "required": True,
         }
     )
-    bre: Bre = field(
+    bre: VsqBPList = field(
         metadata={
             "name": "BRE",
             "type": "Element",
             "required": True,
         }
     )
-    bri: Bri = field(
+    bri: VsqBPList = field(
         metadata={
             "name": "BRI",
             "type": "Element",
             "required": True,
         }
     )
-    cle: Cle = field(
+    cle: VsqBPList = field(
         metadata={
             "name": "CLE",
             "type": "Element",
             "required": True,
         }
     )
-    reso1_freq_bplist: Reso1FreqBplist = field(
+    reso1_freq_bplist: VsqBPList = field(
         metadata={
             "name": "reso1FreqBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso2_freq_bplist: Reso2FreqBplist = field(
+    reso2_freq_bplist: VsqBPList = field(
         metadata={
             "name": "reso2FreqBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso3_freq_bplist: Reso3FreqBplist = field(
+    reso3_freq_bplist: VsqBPList = field(
         metadata={
             "name": "reso3FreqBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso4_freq_bplist: Reso4FreqBplist = field(
+    reso4_freq_bplist: VsqBPList = field(
         metadata={
             "name": "reso4FreqBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso1_bwbplist: Reso1Bwbplist = field(
+    reso1_bwbplist: VsqBPList = field(
         metadata={
             "name": "reso1BWBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso2_bwbplist: Reso2Bwbplist = field(
+    reso2_bwbplist: VsqBPList = field(
         metadata={
             "name": "reso2BWBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso3_bwbplist: Reso3Bwbplist = field(
+    reso3_bwbplist: VsqBPList = field(
         metadata={
             "name": "reso3BWBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso4_bwbplist: Reso4Bwbplist = field(
+    reso4_bwbplist: VsqBPList = field(
         metadata={
             "name": "reso4BWBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso1_amp_bplist: Reso1AmpBplist = field(
+    reso1_amp_bplist: VsqBPList = field(
         metadata={
             "name": "reso1AmpBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso2_amp_bplist: Reso2AmpBplist = field(
+    reso2_amp_bplist: VsqBPList = field(
         metadata={
             "name": "reso2AmpBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso3_amp_bplist: Reso3AmpBplist = field(
+    reso3_amp_bplist: VsqBPList = field(
         metadata={
             "name": "reso3AmpBPList",
             "type": "Element",
             "required": True,
         }
     )
-    reso4_amp_bplist: Reso4AmpBplist = field(
+    reso4_amp_bplist: VsqBPList = field(
         metadata={
             "name": "reso4AmpBPList",
             "type": "Element",
             "required": True,
         }
     )
-    harmonics: Harmonics = field(
+    harmonics: VsqBPList = field(
         metadata={
+            "name": "Harmonics",
             "type": "Element",
             "required": True,
         }
     )
-    fx2depth: Fx2Depth = field(
+    fx2depth: VsqBPList = field(
         metadata={
+            "name": "FX2Depth",
             "type": "Element",
             "required": True,
         }
     )
-    gen: Gen = field(
+    gen: VsqBPList = field(
         metadata={
             "name": "GEN",
             "type": "Element",
             "required": True,
         }
     )
-    por: Por = field(
+    por: VsqBPList = field(
         metadata={
             "name": "POR",
             "type": "Element",
             "required": True,
         }
     )
-    ope: Ope = field(
+    ope: VsqBPList = field(
         metadata={
             "name": "OPE",
             "type": "Element",
@@ -1689,7 +1464,7 @@ class AttachedCurves(BaseModel):
 
 
 class VsqTrack(BaseModel):
-    meta_text: MetaText = field(
+    meta_text: VsqMetaText = field(
         metadata={
             "name": "MetaText",
             "type": "Element",
@@ -1698,7 +1473,7 @@ class VsqTrack(BaseModel):
     )
 
 
-class Track(BaseModel):
+class VsqTrackList(BaseModel):
     vsq_track: list[VsqTrack] = field(
         default_factory=list,
         metadata={
@@ -1710,7 +1485,7 @@ class Track(BaseModel):
 
 
 class VsqFileEx(BaseModel):
-    track: Track = field(
+    track: VsqTrackList = field(
         metadata={
             "name": "Track",
             "type": "Element",
@@ -1738,14 +1513,14 @@ class VsqFileEx(BaseModel):
             "required": True,
         }
     )
-    master: Master = field(
+    master: VsqMaster = field(
         metadata={
             "name": "Master",
             "type": "Element",
             "required": True,
         }
     )
-    mixer: Mixer = field(
+    mixer: VsqMixer = field(
         metadata={
             "name": "Mixer",
             "type": "Element",
@@ -1773,7 +1548,7 @@ class VsqFileEx(BaseModel):
             "required": True,
         }
     )
-    config: Config = field(
+    config: SequenceConfig = field(
         metadata={
             "type": "Element",
             "required": True,
