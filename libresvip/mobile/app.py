@@ -74,7 +74,7 @@ def get_default_font_win32() -> str:
     ctypes.windll.user32.SystemParametersInfoW(
         SPI_GETNONCLIENTMETRICS, metrics.cbSize, ctypes.byref(metrics), 0
     )
-    return metrics.lfCaptionFont.lfFaceName
+    return metrics.lfMessageFont.lfFaceName
 
 
 def main(page: ft.Page) -> None:
