@@ -27,7 +27,7 @@ mdurl==0.1.2
 more-itertools==10.8.0
 oauthlib==3.3.1
 packaging==25.0
-pathlib-abc==0.5.1
+pathlib-abc==0.5.2
 platformdirs==4.5.0
 portion==2.6.1
 proto-plus==1.26.1
@@ -58,7 +58,7 @@ tatsu-lts==5.13.2
 typer-slim==0.19.2
 typing-extensions==4.15.0
 typing-inspection==0.4.2
-universal-pathlib==0.3.3
+universal-pathlib==0.3.4
 wanakana-python @ https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 xsdata==25.7
 xsdata-pydantic==24.5
