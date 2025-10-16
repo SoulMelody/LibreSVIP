@@ -91,6 +91,7 @@ webui = [
 mobile = [
   "flet[cli,desktop]>=0.28.3,<0.29.0",
   "flet-permission-handler>=0.1.0",
+  "fontconfig-py>=0.1.3; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 desktop = [
   "pyside6-essentials<6.11.0,>=6.10.0",

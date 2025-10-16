@@ -77,6 +77,13 @@ def get_default_font_win32() -> str:
     return metrics.lfMessageFont.lfFaceName
 
 
+def get_default_font_unix() -> str | None:
+    import fontconfig
+
+    for font in fontconfig.query(where="", select=("family",)):
+        return font["family"]
+
+
 def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
     page.scroll = ft.ScrollMode.ADAPTIVE
@@ -91,6 +98,10 @@ def main(page: ft.Page) -> None:
 
     if page.platform == ft.PagePlatform.WINDOWS:
         page.theme = ft.Theme(font_family=get_default_font_win32())
+    elif page.platform in [ft.PagePlatform.LINUX, ft.PagePlatform.MACOS] and (
+        default_font_family := get_default_font_unix()
+    ):
+        page.theme = ft.Theme(font_family=default_font_family)
     if not page.client_storage.contains_key("dark_mode"):
         page.client_storage.set("dark_mode", "System")
     page.theme_mode = ft.ThemeMode((page.client_storage.get("dark_mode") or "System").lower())
