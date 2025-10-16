@@ -1,3 +1,4 @@
+import ctypes
 import enum
 import io
 import pathlib
@@ -24,6 +25,58 @@ from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
 
 
+class LOGFONT(ctypes.Structure):
+    _fields_ = (
+        ("lfHeight", ctypes.c_long),
+        ("lfWidth", ctypes.c_long),
+        ("lfEscapement", ctypes.c_long),
+        ("lfOrientation", ctypes.c_long),
+        ("lfWeight", ctypes.c_long),
+        ("lfItalic", ctypes.c_byte),
+        ("lfUnderline", ctypes.c_byte),
+        ("lfStrikeOut", ctypes.c_byte),
+        ("lfCharSet", ctypes.c_byte),
+        ("lfOutPrecision", ctypes.c_byte),
+        ("lfClipPrecision", ctypes.c_byte),
+        ("lfQuality", ctypes.c_byte),
+        ("lfPitchAndFamily", ctypes.c_byte),
+        ("lfFaceName", ctypes.c_wchar * 32),
+    )
+
+
+class NONCLIENTMETRICS(ctypes.Structure):
+    _fields_ = (
+        ("cbSize", ctypes.c_ulong),
+        ("iBorderWidth", ctypes.c_long),
+        ("iScrollWidth", ctypes.c_long),
+        ("iScrollHeight", ctypes.c_long),
+        ("iCaptionWidth", ctypes.c_long),
+        ("iCaptionHeight", ctypes.c_long),
+        ("lfCaptionFont", LOGFONT),
+        ("iSmCaptionWidth", ctypes.c_long),
+        ("iSmCaptionHeight", ctypes.c_long),
+        ("lfSmCaptionFont", LOGFONT),
+        ("iMenuWidth", ctypes.c_long),
+        ("iMenuHeight", ctypes.c_long),
+        ("lfMenuFont", LOGFONT),
+        ("lfStatusFont", LOGFONT),
+        ("lfMessageFont", LOGFONT),
+        ("iPaddedBorderWidth", ctypes.c_long),
+    )
+
+
+SPI_GETNONCLIENTMETRICS = 0x29
+
+
+def get_default_font_win32() -> str:
+    metrics = NONCLIENTMETRICS()
+    metrics.cbSize = ctypes.sizeof(NONCLIENTMETRICS)
+    ctypes.windll.user32.SystemParametersInfoW(
+        SPI_GETNONCLIENTMETRICS, metrics.cbSize, ctypes.byref(metrics), 0
+    )
+    return metrics.lfCaptionFont.lfFaceName
+
+
 def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
     page.scroll = ft.ScrollMode.ADAPTIVE
@@ -36,6 +89,8 @@ def main(page: ft.Page) -> None:
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
 
+    if page.platform == ft.PagePlatform.WINDOWS:
+        page.theme = ft.Theme(font_family=get_default_font_win32())
     if not page.client_storage.contains_key("dark_mode"):
         page.client_storage.set("dark_mode", "System")
     page.theme_mode = ft.ThemeMode((page.client_storage.get("dark_mode") or "System").lower())
