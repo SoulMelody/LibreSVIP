@@ -15,12 +15,11 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.22
+    rev: 1.0.0
     hooks:
       - id: mdformat
         additional_dependencies:
-          - mdformat-mkdocs
-          - mdformat-tables
+          - mdformat-gfm
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.0
