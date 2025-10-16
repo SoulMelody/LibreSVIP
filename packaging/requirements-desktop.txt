@@ -33,11 +33,11 @@ more-itertools==10.8.0
 packaging==25.0
 pathlib-abc==0.5.1
 pefile==2023.2.7 ; sys_platform == 'win32'
-pillow==11.3.0 ; sys_platform == 'darwin'
+pillow==12.0.0 ; sys_platform == 'darwin'
 platformdirs==4.5.0
 portion==2.6.1
 proto-plus==1.26.1
-protobuf==6.32.1
+protobuf==6.33.0
 pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32')
 pycryptodomex==3.23.0
 pydantic==2.12.2
