@@ -23,10 +23,6 @@ ToolBar {
         window.click_maximize_btn();
     }
 
-    LocaleSwitcher {
-        id: localeSwitcher
-    }
-
     background: Rectangle {
         implicitHeight: 32
         color: window.Material.background

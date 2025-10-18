@@ -15,6 +15,9 @@ FramelessWindow {
     height: 800
     property bool yesToAll: false
     property bool noToAll: false
+    property var clipboard
+    property var localeSwitcher
+    property var notifier
     color: "transparent"
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
@@ -29,20 +32,12 @@ FramelessWindow {
         }
     }
 
-    Clipboard {
-        id: clipboard
-    }
-
     IconicFontLoader {
         id: iconicFontLoader
     }
 
     ConfigItems {
         id: configItems
-    }
-
-    Notifier {
-        id: notifier
     }
 
     TaskManager {
