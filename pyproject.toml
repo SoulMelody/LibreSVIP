@@ -52,7 +52,7 @@ dependencies = [
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.2.1,>=14.2.0",
-  "svg-py<2.0.0,>=1.9.1",
+  "svg-py<2.0.0,>=1.9.2",
   "tatsu-lts<6.0.0,>=5.13.2",
   "typer-slim<1.0.0,>=0.19.2",
   "universal-pathlib<1.0.0,>=0.3.4",
