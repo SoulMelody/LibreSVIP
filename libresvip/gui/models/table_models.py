@@ -19,12 +19,14 @@ from libresvip.core.config import (
 )
 from libresvip.extension.manager import plugin_manager
 
+from . import AutoCaseObject
+
 
 def _(text: str) -> str:
     return text
 
 
-class PluginCadidatesTableModel(QAbstractTableModel):
+class PluginCadidatesTableModel(QAbstractTableModel, metaclass=AutoCaseObject):
     def __init__(self) -> None:
         super().__init__()
         self.column_names = [
@@ -99,7 +101,7 @@ class PluginCadidatesTableModel(QAbstractTableModel):
         }
 
 
-class LyricReplacementRulesTableModel(QAbstractTableModel):
+class LyricReplacementRulesTableModel(QAbstractTableModel, metaclass=AutoCaseObject):
     def __init__(self, preset: str) -> None:
         super().__init__()
         self.preset = preset

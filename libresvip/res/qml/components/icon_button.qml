@@ -3,7 +3,6 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
-import LibreSVIP
 
 RoundButton {
     id: iconButton

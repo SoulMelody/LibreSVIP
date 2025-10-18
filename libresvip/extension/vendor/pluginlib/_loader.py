@@ -95,7 +95,7 @@ def _import_module(name: str, path: str | None = None) -> ModuleType:
                     if getattr(spec, "origin", None)
                     else next(iter(spec.submodule_search_locations))
                 )
-    logger.debug("Attempting to load module %s from %s", name, path)
+    logger.debug(f"Attempting to load module {name} from {path}")
     try:
         mod = importlib.import_module(name)
 
@@ -156,9 +156,7 @@ def _recursive_path_import(path: pathlib.Path, prefix_package: str | None = None
         # Walk root and import modules
         # pylint: disable=unused-variable
         for finder, name, is_pkg in pkgutil.walk_packages([root_path], prefix=prefix):
-            logger.debug(
-                "Attempting to load module %s from %s", name, getattr(finder, "path", None)
-            )
+            logger.debug(f"Attempting to load module {name} from {getattr(finder, 'path', None)}")
             try:
                 spec = finder.find_spec(name)
                 module = importlib.util.module_from_spec(spec)
@@ -315,7 +313,7 @@ class PluginLoader:
         # Load auxiliary modules
         if self.modules:
             for mod in self.modules:
-                logger.info("Loading plugins from %s", mod)
+                logger.info(f"Loading plugins from {mod}")
                 _recursive_import(_import_module(mod))
 
         # Load auxiliary paths
@@ -324,10 +322,10 @@ class PluginLoader:
             for path in self.paths:
                 modpath = pathlib.Path(path)
                 if modpath.is_dir():
-                    logger.info("Recursively importing plugins from path `%s`", modpath)
+                    logger.info(f"Recursively importing plugins from path `{modpath}`")
                     _recursive_path_import(modpath, self.prefix_package)
                 else:
-                    logger.info("Configured plugin path '%s' is not a valid directory", path)
+                    logger.info(f"Configured plugin path `{path}` is not a valid directory")
 
         self.loaded = True
 

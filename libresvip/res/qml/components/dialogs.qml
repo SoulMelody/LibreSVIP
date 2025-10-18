@@ -4,7 +4,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material as QQC2
 import QtQuick.Dialogs
 import QtQuick.Layouts
-import LibreSVIP
 
 Item {
     property alias folderPresetsList: folderPresetsListView

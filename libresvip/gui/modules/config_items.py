@@ -5,7 +5,6 @@ import pathlib
 from typing import Any
 
 from PySide6.QtCore import Property, QObject, Signal, Slot
-from PySide6.QtQml import QmlElement
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -26,10 +25,6 @@ from libresvip.gui.models.list_models import (
 from libresvip.gui.models.table_models import LyricReplacementRulesTableModel
 
 from .application import app
-
-QML_IMPORT_NAME = "LibreSVIP"
-QML_IMPORT_MAJOR_VERSION = 1
-QML_IMPORT_MINOR_VERSION = 0
 
 
 def base_prop_factory(attrs: dict[str, Any], field_name: str, field_type: type) -> None:
@@ -56,7 +51,6 @@ class AutoBindBaseConfigMetaObject(type(QObject)):  # type: ignore[misc]
         return super().__new__(cls, name, bases, attrs)
 
 
-@QmlElement
 class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
     save_folder_changed = Signal(str)
     conflict_policy_changed = Signal(str)

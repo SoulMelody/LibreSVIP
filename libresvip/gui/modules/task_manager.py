@@ -23,7 +23,6 @@ from PySide6.QtCore import (
     Signal,
     Slot,
 )
-from PySide6.QtQml import QmlElement
 from upath import UPath
 
 from libresvip.extension.vendor import pluginlib
@@ -40,10 +39,6 @@ from libresvip.model.base import BaseComplexModel, BaseModel, Project
 from libresvip.utils.text import supported_charset_names, uuid_str
 
 from .url_opener import open_path
-
-QML_IMPORT_NAME = "LibreSVIP"
-QML_IMPORT_MAJOR_VERSION = 1
-QML_IMPORT_MINOR_VERSION = 0
 
 
 class ConversionWorkerSignals(QObject):
@@ -248,7 +243,6 @@ class MergeWorker(QRunnable):
                 self.signals.result.emit(self.index, result_kwargs)
 
 
-@QmlElement
 class TaskManager(QObject):
     conversion_mode_changed = Signal(str)
     input_format_changed = Signal(str)
@@ -306,7 +300,6 @@ class TaskManager(QObject):
         self.middleware_fields: dict[str, ModelProxy] = {}
         self.init_middleware_options()
         self.reload_formats()
-        self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
         self.output_format_changed.connect(self.reset_output_ext)
@@ -316,6 +309,10 @@ class TaskManager(QObject):
         self.timer.timeout.connect(self.check_busy)
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
         self.plugin_candidates = PluginCadidatesTableModel()
+
+    @property
+    def thread_pool(self) -> QThreadPool:
+        return QThreadPool.global_instance()
 
     @Slot(int)
     def toggle_plugin(self, index: int) -> None:

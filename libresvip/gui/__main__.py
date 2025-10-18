@@ -7,7 +7,10 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 from libresvip.core.constants import res_dir
 from libresvip.gui.modules import (
     Clipboard,
+    ConfigItems,
+    IconicFontLoader,
     LocaleSwitcher,
+    TaskManager,
     app,
     app_close_event,
     event_loop,
@@ -24,9 +27,13 @@ def startup() -> None:
 
 
 def run() -> None:
+    locale_switcher = LocaleSwitcher()
     initial_properties = {
         "clipboard": Clipboard(),
-        "localeSwitcher": LocaleSwitcher(),
+        "configItems": ConfigItems(),
+        "iconicFontLoader": IconicFontLoader(),
+        "localeSwitcher": locale_switcher,
+        "taskManager": TaskManager(),
     }
     try:
         from libresvip.gui.modules import Notifier
@@ -40,10 +47,8 @@ def run() -> None:
     app.organization_name = "org.soulmelody.libresvip"
     app.window_icon = QIcon(icon_pixmap)
     qml_engine.set_initial_properties(initial_properties)
-    initial_properties["localeSwitcher"].translator_initialized.connect(startup)
-    initial_properties["localeSwitcher"].switch_language(
-        initial_properties["localeSwitcher"].get_language()
-    )
+    locale_switcher.translator_initialized.connect(startup)
+    locale_switcher.switch_language(locale_switcher.get_language())
 
 
 if __name__ == "__main__":

@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls.Material
 import FramelessWindow
-import LibreSVIP
 import "qrc:/qml/components/" as Components
 
 FramelessWindow {
@@ -15,9 +14,12 @@ FramelessWindow {
     height: 800
     property bool yesToAll: false
     property bool noToAll: false
+    property var configItems
     property var clipboard
+    property var iconicFontLoader
     property var localeSwitcher
     property var notifier
+    property var taskManager
     color: "transparent"
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
@@ -30,18 +32,6 @@ FramelessWindow {
         default:
             return Material.System;
         }
-    }
-
-    IconicFontLoader {
-        id: iconicFontLoader
-    }
-
-    ConfigItems {
-        id: configItems
-    }
-
-    TaskManager {
-        id: taskManager
     }
 
     FontLoader {

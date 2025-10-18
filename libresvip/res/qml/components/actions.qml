@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import LibreSVIP
 
 Item {
     property QtObject openFile: Action {
