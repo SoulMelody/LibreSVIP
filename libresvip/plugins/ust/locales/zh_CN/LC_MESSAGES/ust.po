@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 06:39\n"
+"PO-Revision-Date: 2025-10-19 13:42\n"
 
 msgid "Text encoding"
 msgstr "文本编码"
@@ -36,6 +36,9 @@ msgstr "科林"
 msgid "No singing track found"
 msgstr "未找到演唱轨"
 
-msgid "UST project has no track"
-msgstr "UST工程中没有找到任何音轨"
+msgid "Project has no tracks"
+msgstr ""
+
+msgid "No tempo labels found in the imported project."
+msgstr "在导入的工程中未找到速度记号。"
 
