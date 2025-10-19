@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-10-19 13:42\n"
+"PO-Revision-Date: 2025-10-19 13:49\n"
 
 msgid "Pretty XML"
 msgstr "美化XML"
@@ -22,10 +22,10 @@ msgid "Cadencii"
 msgstr ""
 
 msgid "Cadencii project file"
-msgstr ""
+msgstr "Cadencii 工程文件"
 
 msgid "Conversion plugin for Cadencii project file"
-msgstr ""
+msgstr "Cadencii 工程格式转换插件"
 
 msgid "SoulMelody"
 msgstr "岁月静好_初心不忘"
