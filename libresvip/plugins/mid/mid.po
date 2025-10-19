@@ -10,6 +10,9 @@ msgstr ""
 msgid "SoulMelody"
 msgstr ""
 
+msgid "MIDI file with SMPTE time division is not supported."
+msgstr ""
+
 msgid "No tempo labels found in the imported project."
 msgstr ""
 

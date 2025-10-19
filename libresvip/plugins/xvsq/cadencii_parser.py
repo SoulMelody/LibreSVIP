@@ -6,6 +6,7 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    ParamCurve,
     Project,
     SingingTrack,
     SongTempo,
@@ -24,6 +25,11 @@ from .model import (
     VsqTrack,
 )
 from .options import InputOptions
+from .vocaloid_pitch import (
+    ControllerEvent,
+    VocaloidPartPitchData,
+    pitch_from_vocaloid_parts,
+)
 
 
 @dataclasses.dataclass
@@ -131,8 +137,49 @@ class CadenciiParser:
             )
             singing_track.ai_singer_name = singer_name
             singing_track.note_list = notes
+            if self.options.import_pitch and (
+                pitch := self.parse_pitch(vsq_track, singing_track.note_list, tick_prefix)
+            ):
+                singing_track.edited_params.pitch = pitch
             singing_tracks.append(singing_track)
         return singing_tracks
+
+    def parse_pitch(
+        self,
+        vsq_track: VsqTrack,
+        note_list: list[Note],
+        tick_prefix: int,
+    ) -> ParamCurve | None:
+        pit: list[ControllerEvent] = []
+        pbs: list[ControllerEvent] = []
+        if vsq_track.meta_text is not None:
+            pit.extend(
+                ControllerEvent(
+                    pos=int(point.x) - tick_prefix,
+                    value=point.y,
+                )
+                for point in vsq_track.meta_text.pit.points
+            )
+            pbs.extend(
+                ControllerEvent(
+                    pos=int(point.x) - tick_prefix,
+                    value=point.y,
+                )
+                for point in vsq_track.meta_text.pbs.points
+            )
+        return pitch_from_vocaloid_parts(
+            [
+                VocaloidPartPitchData(
+                    start_pos=0,
+                    pit=pit,
+                    pbs=pbs,
+                )
+            ],
+            self.time_synchronizer,
+            note_list,
+            self.time_signatures,
+            self.first_bar_length,
+        )
 
     def parse_instrumental_tracks(
         self, bgm_files: list[BgmFile], tick_prefix: int

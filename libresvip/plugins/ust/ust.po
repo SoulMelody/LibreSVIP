@@ -22,6 +22,9 @@ msgstr ""
 msgid "No singing track found"
 msgstr ""
 
-msgid "UST project has no track"
+msgid "Project has no tracks"
+msgstr ""
+
+msgid "No tempo labels found in the imported project."
 msgstr ""
 

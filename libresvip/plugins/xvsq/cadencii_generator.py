@@ -5,6 +5,7 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    ParamCurve,
     Project,
     SingingTrack,
     SongTempo,
@@ -19,6 +20,7 @@ from .model import (
     LyricHandle,
     TempoTableEntry,
     TimeSigTableEntry,
+    VibratoBPPair,
     VsqEvent,
     VsqEvents,
     VsqFileEx,
@@ -29,6 +31,7 @@ from .model import (
     VsqTrack,
 )
 from .options import OutputOptions
+from .vocaloid_pitch import generate_for_vocaloid
 
 
 @dataclasses.dataclass
@@ -36,9 +39,11 @@ class CadenciiGenerator:
     options: OutputOptions
     first_bar_length: int = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> VsqFileEx:
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
+        self.time_signatures = project.time_signature_list
         self.first_bar_length = tick_prefix = round(project.time_signature_list[0].bar_length())
         vsq_file = VsqFileEx()
         vsq_file.timesig_table.time_sig_table_entry.extend(
@@ -111,7 +116,7 @@ class CadenciiGenerator:
         for internal_id, note in enumerate(notes, start=1):
             vsq_event = VsqEvent(
                 internal_id=internal_id,
-                clock=note.start_pos,
+                clock=note.start_pos + tick_prefix,
                 id=VsqID(
                     type_value=VsqIDType.ANOTE,
                     note=note.key_number,
@@ -164,6 +169,7 @@ class CadenciiGenerator:
             meta_text.events.events.vsq_event.extend(
                 self.generate_notes(track.note_list, tick_prefix)
             )
+            self.generate_pitch(track.edited_params.pitch, track.note_list, meta_text, tick_prefix)
             vsq_track = VsqTrack(meta_text=meta_text)
             mixer_entry = VsqMixerEntry(
                 solo=1 if track.solo else 0,
@@ -172,3 +178,24 @@ class CadenciiGenerator:
             vsq_tracks.append(vsq_track)
             vsq_mixer_entries.append(mixer_entry)
         return vsq_tracks, vsq_mixer_entries
+
+    def generate_pitch(
+        self, pitch: ParamCurve, notes: list[Note], meta_text: VsqMetaText, tick_prefix: int
+    ) -> None:
+        if pitch_raw_data := generate_for_vocaloid(
+            pitch, notes, self.time_signatures, self.first_bar_length, self.time_synchronizer
+        ):
+            meta_text.pbs.points = [
+                VibratoBPPair(
+                    x=pbs_event.pos + tick_prefix,
+                    y=pbs_event.value,
+                )
+                for pbs_event in pitch_raw_data.pbs
+            ]
+            meta_text.pit.points = [
+                VibratoBPPair(
+                    x=pit_event.pos + tick_prefix,
+                    y=pit_event.value,
+                )
+                for pit_event in pitch_raw_data.pit
+            ]
