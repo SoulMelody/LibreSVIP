@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2025-06-19 02:47\n"
+"PO-Revision-Date: 2025-10-19 13:42\n"
 
 msgid "MIDI"
 msgstr ""
@@ -22,6 +22,9 @@ msgid "Conversion plugin for midi file"
 msgstr "Konvertierungs-Plugin für MIDI-Dateien"
 
 msgid "SoulMelody"
+msgstr ""
+
+msgid "MIDI file with SMPTE time division is not supported."
 msgstr ""
 
 msgid "No tempo labels found in the imported project."
