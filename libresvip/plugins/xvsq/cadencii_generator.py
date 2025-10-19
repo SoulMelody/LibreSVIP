@@ -87,7 +87,7 @@ class CadenciiGenerator:
     ) -> list[TimeSigTableEntry]:
         time_signatures = shift_beat_list(time_signature_list, measure_prefix)
         time_sig_table_entry = []
-        ticks = 0
+        ticks = 0.0
         prev_time_signature = None
         for time_signature in time_signatures:
             if prev_time_signature is not None:
