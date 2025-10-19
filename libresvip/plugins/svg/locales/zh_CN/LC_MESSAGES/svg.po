@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-10-19 13:42\n"
+"PO-Revision-Date: 2025-10-19 13:49\n"
 
 msgid "Align to left"
 msgstr "左对齐"
@@ -100,5 +100,5 @@ msgid "CrSjimo"
 msgstr ""
 
 msgid "Project has no tracks"
-msgstr ""
+msgstr "工程中不包含有效音轨"
 
