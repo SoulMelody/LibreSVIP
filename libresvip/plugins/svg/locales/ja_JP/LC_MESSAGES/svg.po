@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2025-10-19 13:42\n"
 
 msgid "Align to left"
 msgstr ""
@@ -97,5 +97,8 @@ msgid "Generate graphics containing notes and pitch curve in SVG format. Only th
 msgstr ""
 
 msgid "CrSjimo"
+msgstr ""
+
+msgid "Project has no tracks"
 msgstr ""
 
