@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-06-19 02:47\n"
+"PO-Revision-Date: 2025-10-19 13:42\n"
 
 msgid "MIDI"
 msgstr ""
@@ -23,6 +23,9 @@ msgstr "MIDI文件转换插件"
 
 msgid "SoulMelody"
 msgstr "岁月静好_初心不忘"
+
+msgid "MIDI file with SMPTE time division is not supported."
+msgstr ""
 
 msgid "No tempo labels found in the imported project."
 msgstr "在导入的工程中未找到速度记号。"
