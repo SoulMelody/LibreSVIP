@@ -1,6 +1,7 @@
 import abc
 import enum
 from functools import partial
+from typing import NamedTuple
 
 from pydantic import BaseModel
 from xsdata_pydantic.fields import field
@@ -20,6 +21,11 @@ class VsqIDType(enum.Enum):
     UNKNOWN = "Unknown"
 
 
+class VibratoBPPair(NamedTuple):
+    x: float
+    y: int
+
+
 class VibratoBPList(abc.ABC, BaseModel):
     data: str = field(
         default="",
@@ -29,6 +35,19 @@ class VibratoBPList(abc.ABC, BaseModel):
             "required": True,
         },
     )
+
+    def _get_points(self) -> list[VibratoBPPair]:
+        pairs = []
+        for item in self.data.split(","):
+            x, _, y = item.partition("=")
+            if x and y:
+                pairs.append(VibratoBPPair(float(x), int(y)))
+        return pairs
+
+    def _set_points(self, value: list[VibratoBPPair]) -> None:
+        self.data = ",".join(f"{x}={y}" for x, y in value)
+
+    points = property(_get_points, _set_points)
 
 
 class VsqBPList(VibratoBPList):
