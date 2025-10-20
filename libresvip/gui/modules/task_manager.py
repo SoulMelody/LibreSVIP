@@ -465,8 +465,8 @@ class TaskManager(QObject):
             return f".{self.output_format}"
         return ""
 
-    @Slot(bool)
-    def reset_output_ext(self, value: bool) -> None:
+    @Slot(str)
+    def reset_output_ext(self, value: str) -> None:
         self.tasks.update_many(0, [{"ext": self.output_ext}] * len(self.tasks))
 
     @staticmethod
