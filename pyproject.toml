@@ -54,7 +54,7 @@ dependencies = [
   "rich<14.2.1,>=14.2.0",
   "svg-py<2.0.0,>=1.9.2",
   "tatsu-lts<6.0.0,>=5.13.2",
-  "typer-slim<1.0.0,>=0.19.2",
+  "typer-slim<1.0.0,>=0.20.0",
   "universal-pathlib<1.0.0,>=0.3.4",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
