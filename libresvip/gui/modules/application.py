@@ -30,5 +30,12 @@ else:
 event_loop = QEventLoop(app)
 asyncio.set_event_loop(event_loop)
 app_close_event: asyncio.Event = asyncio.Event()
-app.aboutToQuit.connect(app_close_event.set)
-qml_engine.quit.connect(app_close_event.set)
+
+
+def set_close_event() -> None:
+    if not app_close_event.is_set():
+        app_close_event.set()
+
+
+app.aboutToQuit.connect(set_close_event)
+qml_engine.quit.connect(set_close_event)
