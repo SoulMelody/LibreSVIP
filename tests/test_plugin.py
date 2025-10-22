@@ -170,11 +170,11 @@ def test_aisp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[s
 
 
 def test_dspx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
-    from experimental.dspx.model import DspxModel
+    from experimental.dspx.model import DiffscopeProjectExchangeFormat
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.dspx"
-        proj = DspxModel.model_validate_json(proj_path.read_text(encoding="utf-8"))
+        proj = DiffscopeProjectExchangeFormat.model_validate_json(proj_path.read_text(encoding="utf-8"))
         rich.print(proj)
 
 
