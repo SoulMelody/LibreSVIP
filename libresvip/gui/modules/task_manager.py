@@ -316,7 +316,11 @@ class TaskManager(QObject):
 
     @Slot(int)
     def toggle_plugin(self, index: int) -> None:
-        key = list(plugin_manager.plugins.get("svs", {}))[index]
+        plugin_ids = list(plugin_manager.plugins.get("svs", {}))
+        if index < len(plugin_ids):
+            key = plugin_ids[index]
+        else:
+            key = self.plugin_candidates.plugin_candidates[index][0]
         if key in plugin_manager.plugins.get("svs", {}) and key not in settings.disabled_plugins:
             settings.disabled_plugins.append(key)
         elif key in settings.disabled_plugins:

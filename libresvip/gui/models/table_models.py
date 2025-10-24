@@ -44,15 +44,26 @@ class PluginCadidatesTableModel(QAbstractTableModel, metaclass=AutoCaseObject):
         self.end_remove_rows()
         self.begin_insert_rows(QModelIndex(), 0, len(plugin_manager.plugins.get("svs", {})) - 1)
         self.plugin_candidates = [
-            {
-                0: plugin.info.file_format,
-                1: plugin.info.author,
-                2: plugin.version,
-                3: "checkbox-marked"
-                if plugin_id not in settings.disabled_plugins
-                else "checkbox-blank-outline",
-            }
-            for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+            *(
+                {
+                    0: plugin.info.file_format,
+                    1: plugin.info.author,
+                    2: plugin.version,
+                    3: "checkbox-marked"
+                    if plugin_id not in settings.disabled_plugins
+                    else "checkbox-blank-outline",
+                }
+                for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+            ),
+            *(
+                {
+                    0: plugin_id,
+                    1: "?",
+                    2: "?",
+                    3: "checkbox-blank-outline",
+                }
+                for plugin_id in settings.disabled_plugins
+            ),
         ]
         self.end_insert_rows()
 
