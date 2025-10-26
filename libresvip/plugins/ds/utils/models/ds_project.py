@@ -54,6 +54,8 @@ class DsProjectModel:
                 phoneme_seq += " "
                 phoneme_dur_seq += " "
 
+        if len(phoneme_counts) > 0:
+            phoneme_counts = [*phoneme_counts[1:], phoneme_counts[0]]
         pitch_points = self.pitch_param_curve.point_list
         f0_sequence = None
         if pitch_points and len(pitch_points) > 0:
