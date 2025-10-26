@@ -38,8 +38,9 @@ class DsProjectModel:
                     phoneme_dur_enabled = False
                 is_slur_seq += "0 "
                 phoneme_counts[-1] += 1
-            phoneme_seq += vowel.phoneme
-            phoneme_dur_seq += str(vowel.duration)
+            if not cur_note.is_slur:
+                phoneme_seq += vowel.phoneme
+                phoneme_dur_seq += str(vowel.duration)
             input_note_seq += vowel.note_name
             input_duration += str(cur_note.duration)
             is_slur_seq += "1" if cur_note.is_slur else "0"
