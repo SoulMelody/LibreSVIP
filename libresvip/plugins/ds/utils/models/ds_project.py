@@ -28,7 +28,8 @@ class DsProjectModel:
             consonant = ds_phoneme.consonant
             vowel = ds_phoneme.vowel
             input_text += cur_note.lyric.replace("-", "")
-            phoneme_counts.append(1)
+            if not cur_note.is_slur:
+                phoneme_counts.append(1)
             if consonant is not None:
                 phoneme_seq += f"{consonant.phoneme} "
                 if consonant.duration is not None:
