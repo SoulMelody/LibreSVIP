@@ -13,10 +13,20 @@ from libresvip.model.reset_time_axis import reset_time_axis
 
 
 def split_into_segments(
-    project: Project, min_interval: int = 400, min_length: int = 5000
+    project: Project, min_interval: int = 400, min_length: int = 5000, track_index: int = -1
 ) -> Iterable[tuple[float, Project, float]]:
-    track = next((t for t in project.track_list if isinstance(t, SingingTrack)), None)
-    if not track or not track.note_list:
+    if track_index < 0:
+        track = next(
+            (
+                each
+                for each in project.track_list
+                if isinstance(each, SingingTrack) and each.note_list
+            ),
+            None,
+        )
+    else:
+        track = project.track_list[track_index]
+    if not isinstance(track, SingingTrack) or not track.note_list:
         return
 
     project = reset_time_axis(project)

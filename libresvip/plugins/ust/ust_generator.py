@@ -22,7 +22,11 @@ class USTGenerator:
         if self.options.version < 2.0:
             if self.options.track_index < 0:
                 first_singing_track = next(
-                    (track for track in project.track_list if isinstance(track, SingingTrack)),
+                    (
+                        track
+                        for track in project.track_list
+                        if isinstance(track, SingingTrack) and track.note_list
+                    ),
                     None,
                 )
             else:

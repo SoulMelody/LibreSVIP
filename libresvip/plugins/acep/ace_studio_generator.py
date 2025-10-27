@@ -203,7 +203,7 @@ class AceGenerator:
         )
 
         if all(symbol not in note.lyric for symbol in ["-", "+"]):
-            if self.options.lyric_language == AcepLyricsLanguage.CHINESE:
+            if self.options.lyric_language.value == AcepLyricsLanguage.CHINESE.value:
                 pronunciation = next(iter(get_pinyin_series(note.lyric)), None)
             else:
                 pronunciation = None
@@ -262,7 +262,7 @@ class AceGenerator:
             gender=self.generate_param_curves(parameters.gender, self.linear_transform(-1, 0, 1)),
         )
         result.pitch_delta = self.generate_pitch_curves(parameters.pitch)
-        if self.options.map_strength_info == StrengthMappingOption.BOTH:
+        if self.options.map_strength_info.value == StrengthMappingOption.BOTH.value:
             result.energy = self.generate_param_curves(
                 parameters.strength,
                 lambda x: self.linear_transform(0, 1, 2)(x / 2),
@@ -271,11 +271,11 @@ class AceGenerator:
                 parameters.strength,
                 lambda x: self.linear_transform(0.7, 1, 1.5)(x / 2),
             )
-        elif self.options.map_strength_info == StrengthMappingOption.ENERGY:
+        elif self.options.map_strength_info.value == StrengthMappingOption.ENERGY.value:
             result.energy = self.generate_param_curves(
                 parameters.strength, self.linear_transform(0, 1, 2)
             )
-        elif self.options.map_strength_info == StrengthMappingOption.TENSION:
+        elif self.options.map_strength_info.value == StrengthMappingOption.TENSION.value:
             result.tension = self.generate_param_curves(
                 parameters.strength, self.linear_transform(0.7, 1, 1.5)
             )

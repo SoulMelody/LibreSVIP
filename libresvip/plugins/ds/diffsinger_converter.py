@@ -36,6 +36,7 @@ class DiffSingerConverter(plugin_base.SVSConverter):
                 project,
                 options_obj.min_interval,
                 int(options_obj.split_threshold * 1000),
+                options_obj.track_index,
             )
             series = []
             for segment in segments:

@@ -65,11 +65,14 @@ class SynthVGenerator:
 
     def generate_project(self, project: Project) -> SVProject:
         sv_project = SVProject()
-        if self.options.version_compatibility == SVProjectVersionCompatibility.BELOW_1_9_0:
+        if (
+            self.options.version_compatibility.value
+            == SVProjectVersionCompatibility.BELOW_1_9_0.value
+        ):
             sv_project.instant_mode_enabled = False
         elif (
-            self.options.version_compatibility
-            == SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2
+            self.options.version_compatibility.value
+            == SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2.value
         ):
             sv_project.version = SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2.value
         else:
@@ -135,7 +138,10 @@ class SynthVGenerator:
                 portamento=PortamentoPitch.sigmoid_portamento(),
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
-            if self.options.version_compatibility == SVProjectVersionCompatibility.ABOVE_2_0_0:
+            if (
+                self.options.version_compatibility.value
+                == SVProjectVersionCompatibility.ABOVE_2_0_0.value
+            ):
                 sv_track.main_group.pitch_controls = self.generate_pitch_controls(
                     track.edited_params.pitch.reduce_sample_rate(
                         self.options.down_sample, interrupt_value=-100
@@ -216,7 +222,10 @@ class SynthVGenerator:
                 (1000.0).__rtruediv__,
             ),
         )
-        if self.options.version_compatibility != SVProjectVersionCompatibility.ABOVE_2_0_0:
+        if (
+            self.options.version_compatibility.value
+            != SVProjectVersionCompatibility.ABOVE_2_0_0.value
+        ):
             sv_params.pitch_delta = self.generate_pitch_curve(
                 parameters.pitch.reduce_sample_rate(self.options.down_sample, -100)
             )
@@ -481,7 +490,10 @@ class SynthVGenerator:
             current_note.edited_phones is not None
             and current_note.edited_phones.head_length_in_secs > 0
         ):
-            if self.options.version_compatibility == SVProjectVersionCompatibility.ABOVE_2_0_0:
+            if (
+                self.options.version_compatibility.value
+                == SVProjectVersionCompatibility.ABOVE_2_0_0.value
+            ):
                 current_sv_note.attributes.phonemes = [
                     SVPhonemeAttribute(left_offset=-current_note.edited_phones.head_length_in_secs)
                 ]

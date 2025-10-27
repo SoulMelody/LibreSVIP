@@ -484,7 +484,7 @@ class SynthVParser:
     def parse_note_list(self, sv_note_list: list[SVNote], database: SVDatabase) -> list[Note]:
         note_list = []
         breath_pattern = re.compile(r"^\s*\.?\s*br(l?[1-9])?\s*$")
-        if self.options.breath == BreathOption.CONVERT:
+        if self.options.breath.value == BreathOption.CONVERT.value:
             if len(sv_note_list) > 1:
                 prev_index = -1
                 while (
@@ -510,7 +510,7 @@ class SynthVParser:
                 note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
             ]
         else:
-            if self.options.breath == BreathOption.IGNORE:
+            if self.options.breath.value == BreathOption.IGNORE.value:
                 sv_note_list = [
                     note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
                 ]
@@ -664,7 +664,7 @@ class SynthVParser:
                     sv_track.main_group.parameters, sv_track.main_group.notes
                 ),
             )
-            if self.options.group == GroupOption.SPLIT:
+            if self.options.group.value == GroupOption.SPLIT.value:
                 for sv_ref in sv_track.groups:
                     group = (
                         self.group_library[sv_ref.group_id] + sv_ref.blick_offset
@@ -690,7 +690,7 @@ class SynthVParser:
                             ),
                         )
                     )
-            elif self.options.group == GroupOption.MERGE:
+            elif self.options.group.value == GroupOption.MERGE.value:
                 merged_group = sv_track.main_group
                 for sv_ref in sv_track.groups:
                     group = (

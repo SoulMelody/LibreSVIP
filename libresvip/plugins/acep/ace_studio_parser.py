@@ -243,12 +243,18 @@ class AceParser:
                     or x - 1e-3 > self.options.breath_normalization.upper_threshold
                 )
             )
-            if self.options.breath_normalization.normalize_method == NormalizationMethod.ZSCORE:
+            if (
+                self.options.breath_normalization.normalize_method.value
+                == NormalizationMethod.ZSCORE.value
+            ):
                 normalized = normalized.z_score_normalize(
                     self.options.breath_normalization.scale,
                     self.options.breath_normalization.bias,
                 )
-            elif self.options.breath_normalization.normalize_method == NormalizationMethod.MINMAX:
+            elif (
+                self.options.breath_normalization.normalize_method.value
+                == NormalizationMethod.MINMAX.value
+            ):
                 normalized = normalized.minmax_normalize(
                     self.options.breath_normalization.scale,
                     self.options.breath_normalization.bias,
@@ -268,12 +274,18 @@ class AceParser:
                     or x - 1e-3 > self.options.tension_normalization.upper_threshold
                 )
             )
-            if self.options.tension_normalization.normalize_method == NormalizationMethod.ZSCORE:
+            if (
+                self.options.tension_normalization.normalize_method.value
+                == NormalizationMethod.ZSCORE.value
+            ):
                 normalized = normalized.z_score_normalize(
                     self.options.tension_normalization.scale,
                     self.options.tension_normalization.bias,
                 )
-            elif self.options.tension_normalization.normalize_method == NormalizationMethod.MINMAX:
+            elif (
+                self.options.tension_normalization.normalize_method.value
+                == NormalizationMethod.MINMAX.value
+            ):
                 normalized = normalized.minmax_normalize(
                     self.options.tension_normalization.scale,
                     self.options.tension_normalization.bias,
@@ -293,12 +305,18 @@ class AceParser:
                     or x - 1e-3 > self.options.energy_normalization.upper_threshold
                 )
             )
-            if self.options.energy_normalization.normalize_method == NormalizationMethod.ZSCORE:
+            if (
+                self.options.energy_normalization.normalize_method.value
+                == NormalizationMethod.ZSCORE.value
+            ):
                 normalized = normalized.z_score_normalize(
                     self.options.energy_normalization.scale,
                     self.options.energy_normalization.bias,
                 )
-            elif self.options.energy_normalization.normalize_method == NormalizationMethod.MINMAX:
+            elif (
+                self.options.energy_normalization.normalize_method.value
+                == NormalizationMethod.MINMAX.value
+            ):
                 normalized = normalized.minmax_normalize(
                     self.options.energy_normalization.scale,
                     self.options.energy_normalization.bias,

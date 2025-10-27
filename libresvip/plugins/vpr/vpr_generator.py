@@ -119,12 +119,12 @@ class VocaloidGenerator:
     def generate_phoneme(self, lyric: str) -> str:
         if lyric in legato_chars:
             return "-"
-        if self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
+        if self.options.default_lang_id.value == VocaloidLanguage.SIMPLIFIED_CHINESE.value:
             pinyin = " ".join(get_pinyin_series([lyric], filter_non_chinese=False))
             return pinyin2xsampa.get(pinyin, DEFAULT_CHINESE_PHONEME)
-        elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
+        elif self.options.default_lang_id.value == VocaloidLanguage.JAPANESE.value:
             return romaji2xsampa.get(to_romaji(lyric), DEFAULT_JAPANESE_PHONEME)
-        elif self.options.default_lang_id == VocaloidLanguage.KOREAN:
+        elif self.options.default_lang_id.value == VocaloidLanguage.KOREAN.value:
             return hangul2xsampa(lyric)
         return DEFAULT_CHINESE_PHONEME
 
