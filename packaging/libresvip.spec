@@ -12,14 +12,14 @@ sys.modules['FixTk'] = None
 import libresvip
 import PySide6
 import shellingham
+from PyInstaller.compat import is_conda, is_win
 from PyInstaller.utils.hooks import collect_data_files, collect_entry_point
-from PyInstaller.utils.misc import is_win
 
 with contextlib.suppress(Exception):
     if (
-        ("conda" in sys.version or "Continuum" in sys.version)
+        is_conda
+        and is_win
         and shellingham.detect_shell()[0] == "bash"
-        and os.name == "nt"
     ):
         os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
 
@@ -129,7 +129,7 @@ gui_a = Analysis(
         os.path.join(PySide6.__path__[0], os.pardir)
     ],
     binaries=[],
-    datas=collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+    datas=collect_data_files("desktop_notifier") + collect_data_files("ttkbootstrap_icons_mat") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0] + collect_entry_point("ttkbootstrap_icons_mat")[0],
     hiddenimports=[
         zstd_backend,
         "bidict",

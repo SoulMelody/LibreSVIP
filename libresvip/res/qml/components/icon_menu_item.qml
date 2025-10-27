@@ -10,7 +10,7 @@ MenuItem {
         Label {
             text: iconicFontLoader.icon(icon_name)
             font.family: "Material Design Icons"
-            font.pixelSize: Qt.application.font.pixelSize * 1.2
+            font.pixelSize: Qt.application.font.pixelSize
             width: 35
             anchors.verticalCenter: parent.verticalCenter
         }

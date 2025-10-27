@@ -87,7 +87,7 @@ ToolBar {
                     background.implicitHeight: implicitHeight
                     text: iconicFontLoader.icon("mdi7.window-minimize")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.3
+                    font.pixelSize: Qt.application.font.pixelSize
                     onClicked: window.click_minimize_btn()
                 }
 
@@ -108,7 +108,7 @@ ToolBar {
                     background.implicitHeight: implicitHeight
                     text: window.visibility == Window.Maximized ? iconicFontLoader.icon("mdi7.window-restore") : iconicFontLoader.icon("mdi7.window-maximize")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.3
+                    font.pixelSize: Qt.application.font.pixelSize
                     onClicked: toggleMaximized()
                 }
 
@@ -127,7 +127,7 @@ ToolBar {
                     background.implicitHeight: implicitHeight
                     text: hovered ? "<font color='white'>" + iconicFontLoader.icon("mdi7.close") + "</font>" : iconicFontLoader.icon("mdi7.close")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.3
+                    font.pixelSize: Qt.application.font.pixelSize
                     onClicked: actions.quit.trigger()
                     onHoveredChanged: {
                         if (hovered) {

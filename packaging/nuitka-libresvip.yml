@@ -32,7 +32,7 @@
     dirs:
       - 'resources'
 
-- module-name: fonticon_mdi7
+- module-name: ttkbootstrap_icons_mat
   data-files:
     dirs:
       - 'fonts'

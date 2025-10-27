@@ -67,10 +67,10 @@ ComboBox {
     indicator: Label {
         anchors.right: parent.right
         anchors.rightMargin: 20
-        y: parent.height / 2 - 5
+        y: parent.height / 2 - 8
         text: iconicFontLoader.icon("mdi7.menu-down")
         font.family: "Material Design Icons"
-        font.pixelSize: (parent.height - 10) / 2
+        font.pixelSize: (parent.height - 16) / 2
     }
 
     popup: Popup {

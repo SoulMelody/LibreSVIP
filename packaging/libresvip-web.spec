@@ -10,14 +10,14 @@ sys.modules['FixTk'] = None
 
 import nicegui
 import shellingham
+from PyInstaller.compat import is_conda, is_win
 from PyInstaller.utils.hooks import collect_data_files, collect_entry_point
-from PyInstaller.utils.misc import is_win
 
 with contextlib.suppress(Exception):
     if (
-        ("conda" in sys.version or "Continuum" in sys.version)
+        is_conda
+        and is_win
         and shellingham.detect_shell()[0] == "bash"
-        and os.name == "nt"
     ):
         os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
 
