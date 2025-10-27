@@ -13,7 +13,6 @@ construct-typing==0.6.2
 dbus-fast==2.44.5 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
 desktop-notifier==6.2.0 ; platform_python_implementation == 'CPython'
 exceptiongroup==1.3.0 ; python_full_version < '3.11'
-fonticon-materialdesignicons7==7.2.96
 fsspec==2025.9.0
 h11==0.16.0
 httpcore==1.0.9
@@ -33,7 +32,7 @@ more-itertools==10.8.0
 packaging==25.0
 pathlib-abc==0.5.2
 pefile==2023.2.7 ; sys_platform == 'win32'
-pillow==12.0.0 ; sys_platform == 'darwin'
+pillow==12.0.0
 platformdirs==4.5.0
 portion==2.6.1
 proto-plus==1.26.1
@@ -69,6 +68,8 @@ sniffio==1.3.1
 sortedcontainers==2.4.0
 svg-py==1.9.2
 tatsu-lts==5.13.2
+ttkbootstrap-icons==2.0.0
+ttkbootstrap-icons-mat==0.1.0
 typer-slim==0.20.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
