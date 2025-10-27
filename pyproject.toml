@@ -95,7 +95,7 @@ mobile = [
 ]
 desktop = [
   "pyside6-essentials<6.11.0,>=6.10.0",
-  "fonticon-materialdesignicons7>=7.2.96",
+  "ttkbootstrap-icons-mat>=0.1.0",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
 ]
