@@ -42,7 +42,7 @@ pygments==2.19.2
 pymediainfo==7.0.1
 pypinyin==0.55.0
 pysubs2==1.8.0
-python-dotenv==1.1.1
+python-dotenv==1.2.1
 pyyaml==6.0.2
 pyzipper==0.3.6
 repath==0.9.0

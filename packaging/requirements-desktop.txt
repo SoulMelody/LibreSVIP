@@ -52,7 +52,7 @@ pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.55.0
 pyside6-essentials==6.10.0
 pysubs2==1.8.0
-python-dotenv==1.1.1
+python-dotenv==1.2.1
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.3 ; python_full_version != '3.13.*' or sys_platform == 'emscripten'
 pyyaml-ft==8.0.0 ; python_full_version == '3.13.*' and sys_platform != 'emscripten'
