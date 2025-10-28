@@ -7,6 +7,25 @@ from typing_extensions import Self
 from libresvip.model.base import BaseModel
 
 
+class VoxFactoryVibratoParam(BaseModel):
+    start: float = 0
+    phase: float = 0
+    frequency: float = 5
+    amplitude: float = Field(0, alias="amplitude")
+    fade_in: float = Field(0, alias="fadeIn")
+    fade_out: float = Field(0, alias="fadeOut")
+
+
+class VoxFactoryGrowlParam(BaseModel):
+    start: float = Field(0, alias="start")
+    duration: float = Field(0, alias="duration")
+
+
+class VoxFactoryCorrectionParam(BaseModel):
+    modulation: float = Field(0, alias="modulation")
+    center: float = Field(0, alias="center")
+
+
 class VOXFactoryNote(BaseModel):
     time: float
     midi: int
@@ -22,6 +41,9 @@ class VOXFactoryNote(BaseModel):
     post_bend: float | None = Field(None, alias="postBend")
     harmonic_ratio: float | None = Field(None, alias="harmonicRatio")
     pitch_bends: list[float] = Field(default_factory=list, alias="pitchBends")
+    vibrato_param: VoxFactoryVibratoParam | None = Field(None, alias="vibratoParam")
+    growl_param: VoxFactoryGrowlParam | None = Field(None, alias="growlParam")
+    correction_param: VoxFactoryCorrectionParam | None = Field(None, alias="correctionParam")
 
 
 class VOXFactoryMetadata(BaseModel):
@@ -44,9 +66,13 @@ class VOXFactoryClipBase(BaseModel):
     audio_data_quarter: float = Field(0, alias="audioDataQuarter")
     note_bank: dict[str, VOXFactoryNote] = Field(default_factory=dict, alias="noteBank")
     note_order: list[str] = Field(default_factory=list, alias="noteOrder")
+    pitch_point_bank: dict[str, Any] = Field(default_factory=dict, alias="pitchPointBank")
+    pitch_point_order: list[str] = Field(default_factory=list, alias="pitchPointOrder")
     next_note_index: int = Field(0, alias="nextNoteIndex")
     pinned_audio_data_order: list[str] = Field(default_factory=list, alias="pinnedAudioDataOrder")
     metadata: VOXFactoryMetadata | None = None
+    source_audio_data_key: str | None = Field(None, alias="sourceAudioDataKey")
+    process_key: str | None = Field(None, alias="processKey")
 
 
 class VOXFactoryVocalClip(VOXFactoryClipBase):
@@ -57,7 +83,6 @@ class VOXFactoryVocalClip(VOXFactoryClipBase):
 class VOXFactoryAudioClip(VOXFactoryClipBase):
     type: Literal["audio"] = "audio"
     length_type: Literal["time"] = Field("time", alias="lengthType")
-    source_audio_data_key: str = Field(alias="sourceAudioDataKey")
 
     @model_validator(mode="after")
     def extract_audio(self, info: ValidationInfo) -> Self:
@@ -95,10 +120,12 @@ class VOXFactoryAudioViewProperty(BaseModel):
 
 class VOXFactoryDevice(BaseModel):
     type: str
-    track_type: str = Field(alias="trackType")
+    track_type: str | None = Field(None, alias="trackType")
     name: str
-    data: dict[str, Any]
-    on: bool
+    data: dict[str, Any] | None = None
+    on: bool | None = None
+    state: dict[str, Any] | None = None
+    params: dict[str, Any] | None = None
 
 
 class VOXFactoryTrackBase(BaseModel):
@@ -114,6 +141,7 @@ class VOXFactoryTrackBase(BaseModel):
     clip_order: list[str] = Field(alias="clipOrder")
     device_bank: dict[str, VOXFactoryDevice] = Field(default_factory=dict, alias="deviceBank")
     device_order: list[str] = Field(default_factory=list, alias="deviceOrder")
+    device_preset: str | None = Field(None, alias="devicePreset")
     audio_view_property: VOXFactoryAudioViewProperty = Field(
         default_factory=VOXFactoryAudioViewProperty, alias="audioViewProperty"
     )
@@ -151,12 +179,14 @@ class VOXFactoryAudioData(BaseModel):
     number_of_channels: int = Field(alias="numberOfChannels")
     sample_length: int = Field(alias="sampleLength")
     metadata: VOXFactoryMetadata | None = None
+    pitch_data: list[float] = Field(default_factory=list, alias="pitchData")
 
 
 class VOXFactoryProject(BaseModel):
     version: str = "0.12.0"
     tempo: float
     time_signature: list[int] = Field(alias="timeSignature")
+    loop: list[float] | None = None
     project_name: str = Field("Untitled Project", alias="projectName")
     track_bank: dict[str, VOXFactoryTrack] = Field(alias="trackBank")
     track_order: list[str] = Field(default_factory=list, alias="trackOrder")
