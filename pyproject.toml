@@ -30,8 +30,7 @@ classifiers = [
 dependencies = [
   "bidict<0.23.2,>=0.23.1",
   "charset-normalizer<4.0.0,>=3.4.4",
-  "construct",
-  "construct-typing<1.0.0,>=0.6.2",
+  "construct-typing<1.0.0,>=0.7.0",
   "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
   "jyutping",
@@ -156,7 +155,6 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv.sources]
-construct = { url = "https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl" }
 jyutping = { url = "https://archive1.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl" }
 wanakana-python = { url = "https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" }
 
