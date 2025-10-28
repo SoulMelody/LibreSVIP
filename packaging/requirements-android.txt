@@ -5,8 +5,8 @@ certifi==2025.10.5
 cffi==1.17.1
 charset-normalizer==3.4.4
 click==8.3.0
-construct @ https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl
-construct-typing==0.6.2
+construct==2.10.70
+construct-typing==0.7.0
 flet==0.28.3
 flet-libxml2==2.9.8
 flet-libxslt==1.1.32
