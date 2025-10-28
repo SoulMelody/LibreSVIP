@@ -85,7 +85,7 @@ tui = [
   "textual-fspicker>=0.6.0",
 ]
 webui = [
-  "nicegui>=3.1.0",
+  "nicegui>=3.2.0",
 ]
 mobile = [
   "flet[cli,desktop]>=0.28.3,<0.29.0",
@@ -94,7 +94,7 @@ mobile = [
 ]
 desktop = [
   "pyside6-essentials<6.11.0,>=6.10.0",
-  "ttkbootstrap-icons-mat>=0.1.0",
+  "ttkbootstrap-icons-mat>=0.2.0",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
 ]
