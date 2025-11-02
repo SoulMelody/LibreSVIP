@@ -1872,7 +1872,7 @@ requires-dist = [
     { name = "svg-py", specifier = ">=1.9.2,<2.0.0" },
     { name = "tatsu-lts", specifier = ">=5.13.2,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
-    { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=0.2.0" },
+    { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.0" },
     { name = "typer-slim", specifier = ">=0.20.0,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.11.0" },
     { name = "universal-pathlib", specifier = ">=0.3.4,<1.0.0" },
@@ -4225,27 +4225,27 @@ wheels = [
 
 [[package]]
 name = "ttkbootstrap-icons"
-version = "2.1.0"
+version = "3.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c3/3f/644c1f045817091689ca071c3676d3d7daedfd7352edcbee55f5534a61c8/ttkbootstrap_icons-2.1.0.tar.gz", hash = "sha256:6a7f77a0b2e709cecca539b022920f42db143d1cca957d3d82788a88dcd415e7", size = 563090, upload-time = "2025-10-28T07:11:33.518Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f9/dd/e750f72bbbf8a217b45761a280ff2683ec899ea852a079ffa66a9fe92c03/ttkbootstrap_icons-3.0.0.tar.gz", hash = "sha256:e263e271c33c43958f0977436317137d83e15eba93768f0b7a0b3b6c8685934e", size = 269876, upload-time = "2025-11-02T05:56:13.164Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/57/7f/b1efac8532580ae0d3ff72a45829532c00fcdf366cda87038de348994287/ttkbootstrap_icons-2.1.0-py3-none-any.whl", hash = "sha256:089f5ee8c37e01635823e234b45f6f1c362e87da98b279c134b5c9a921bac4e2", size = 563758, upload-time = "2025-10-28T07:11:31.972Z" },
+    { url = "https://files.pythonhosted.org/packages/f8/c4/5cdbee17ec242f3e52e4878d34e8c06c34576cddd6ce8837848e4dac4d0c/ttkbootstrap_icons-3.0.0-py3-none-any.whl", hash = "sha256:4d4807506646dfcd5a6a4fab5c10840c34e27af3e89905b9adb48418ab45be92", size = 214220, upload-time = "2025-11-02T05:56:11.689Z" },
 ]
 
 [[package]]
 name = "ttkbootstrap-icons-mat"
-version = "0.2.0"
+version = "1.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
     { name = "ttkbootstrap-icons" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/48/80/1d27f0f6c9acd361526d0df1fe7ab6ed92e840789dcf5f1b8ddc4d828360/ttkbootstrap_icons_mat-0.2.0.tar.gz", hash = "sha256:690d46865248673ae1288c95c6073f79e2a52b6ff3c1bcb44d2303faf5b9017d", size = 693685, upload-time = "2025-10-28T05:55:14.322Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/0a/cf2c24a632c56684628adb58da8dfbf630f5488b99fad465da300be60cc0/ttkbootstrap_icons_mat-1.0.0.tar.gz", hash = "sha256:4963cee4bd67af06116e3a9f21dbcafc6bb45adc1b02341e5d79c3a9b519f118", size = 694497, upload-time = "2025-11-02T06:03:04.671Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a4/24/80c8a9763646617d627e59a1a2f7cfaab829efa622c55d70db0cbabd80b4/ttkbootstrap_icons_mat-0.2.0-py3-none-any.whl", hash = "sha256:1a7fcc0d49c6a57af4079195b8e4e3a7c892265b94af5d2e2876bda5f9af11f9", size = 697307, upload-time = "2025-10-28T05:55:13.195Z" },
+    { url = "https://files.pythonhosted.org/packages/e2/0a/ebfcf0087be8d0d2eba6c68999c06c36be6566d7d5089189374de3d73f51/ttkbootstrap_icons_mat-1.0.0-py3-none-any.whl", hash = "sha256:09c79a3d79738569fda9ee71fe8ea65bd53e72ec2480fb0fc367c0391fcdd813", size = 698216, upload-time = "2025-11-02T06:03:03.118Z" },
 ]
 
 [[package]]
