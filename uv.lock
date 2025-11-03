@@ -919,8 +919,8 @@ name = "dmgbuild"
 version = "1.6.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ds-store", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
-    { name = "mac-alias", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "ds-store", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or sys_platform != 'linux'" },
+    { name = "mac-alias", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or sys_platform != 'linux'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/16/93/b9702c68d5dedfd6b91c76268a89091ff681b8e3b9a026e7919b6ab730a4/dmgbuild-1.6.5.tar.gz", hash = "sha256:c5cbeec574bad84a324348aa7c36d4aada04568c99fb104dec18d22ba3259f45", size = 36848, upload-time = "2025-03-21T01:04:10.093Z" }
 wheels = [
@@ -954,7 +954,7 @@ name = "ds-store"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "mac-alias", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "mac-alias", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or sys_platform != 'linux'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7c/36/902259bf7ddb142dd91cf7a9794aa15e1a8ab985974f90375e5d3463b441/ds_store-1.3.1.tar.gz", hash = "sha256:c27d413caf13c19acb85d75da4752673f1f38267f9eb6ba81b3b5aa99c2d207c", size = 27052, upload-time = "2022-11-24T06:13:34.376Z" }
 wheels = [
@@ -966,7 +966,7 @@ name = "exceptiongroup"
 version = "1.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/0b/9f/a65090624ecf468cdca03533906e7c69ed7588582240cfe7cc9e770b50eb/exceptiongroup-1.3.0.tar.gz", hash = "sha256:b241f5885f560bc56a59ee63ca4c6a8bfa46ae4ad651af316d4e81817bb9fd88", size = 29749, upload-time = "2025-05-10T17:42:51.123Z" }
 wheels = [
@@ -975,7 +975,7 @@ wheels = [
 
 [[package]]
 name = "fastapi"
-version = "0.120.3"
+version = "0.120.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -983,9 +983,9 @@ dependencies = [
     { name = "starlette" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/85/c6/f324c07f5ebe34237b56b6396a94568d2d4a705df8a2ff82fa45029e7252/fastapi-0.120.3.tar.gz", hash = "sha256:17db50718ee86c9e01e54f9d8600abf130f6f762711cd0d8f02eb392668271ba", size = 339363, upload-time = "2025-10-30T20:41:33.072Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3f/3a/0bf90d5189d7f62dc2bd0523899629ca59b58ff4290d631cd3bb5c8889d4/fastapi-0.120.4.tar.gz", hash = "sha256:2d856bc847893ca4d77896d4504ffdec0fb04312b705065fca9104428eca3868", size = 339716, upload-time = "2025-10-31T18:37:28.81Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/37/3a/1eef3ab55ede5af09186723898545a94d0a32b7ac9ea4e7af7bcb95f132a/fastapi-0.120.3-py3-none-any.whl", hash = "sha256:bfee21c98db9128dc425a686eafd14899e26e4471aab33076bff2427fd6dcd22", size = 108255, upload-time = "2025-10-30T20:41:31.247Z" },
+    { url = "https://files.pythonhosted.org/packages/ed/47/14a76b926edc3957c8a8258423db789d3fa925d2fed800102fce58959413/fastapi-0.120.4-py3-none-any.whl", hash = "sha256:9bdf192308676480d3593e10fd05094e56d6fdc7d9283db26053d8104d5f82a0", size = 108235, upload-time = "2025-10-31T18:37:27.038Z" },
 ]
 
 [[package]]
@@ -1040,7 +1040,7 @@ name = "flet-desktop"
 version = "0.28.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "flet", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "flet" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a3/0e/f797d3052de953fa42b804b6ff170ad5c7708fc2959ffcce9d2a49a4b56c/flet_desktop-0.28.3.tar.gz", hash = "sha256:3e5db7b152de8cd3935e98eb39c162bf5c66f595d30c006f28d48d60e77a463d", size = 39876159, upload-time = "2025-05-20T19:39:28.548Z" }
 wheels = [
@@ -1055,7 +1055,7 @@ name = "flet-desktop-light"
 version = "0.28.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "flet", marker = "python_full_version != '3.13.*' or sys_platform != 'emscripten'" },
+    { name = "flet" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f1/a9/3eb542246b49c40d39ba667c53f1f1f0c40f87b6b96d5542f29e2ae98eb3/flet_desktop_light-0.28.3-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:af6e53224bedd5c287c54ec3021ef3879abbba1265261a01e80badc3fbaddb86", size = 14978766, upload-time = "2025-05-20T19:31:54.681Z" },
@@ -2130,7 +2130,7 @@ name = "macholib"
 version = "1.16.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "altgraph", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "altgraph", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or sys_platform != 'linux'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/95/ee/af1a3842bdd5902ce133bd246eb7ffd4375c38642aeb5dc0ae3a0329dfa2/macholib-1.16.3.tar.gz", hash = "sha256:07ae9e15e8e4cd9a788013d81f5908b3609aa76f9b1421bae9c4d7606ec86a30", size = 59309, upload-time = "2023-09-25T09:10:16.155Z" }
 wheels = [
@@ -4047,15 +4047,15 @@ wheels = [
 
 [[package]]
 name = "starlette"
-version = "0.49.1"
+version = "0.49.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1b/3f/507c21db33b66fb027a332f2cb3abbbe924cc3a79ced12f01ed8645955c9/starlette-0.49.1.tar.gz", hash = "sha256:481a43b71e24ed8c43b11ea02f5353d77840e01480881b8cb5a26b8cae64a8cb", size = 2654703, upload-time = "2025-10-28T17:34:10.928Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/de/1a/608df0b10b53b0beb96a37854ee05864d182ddd4b1156a22f1ad3860425a/starlette-0.49.3.tar.gz", hash = "sha256:1c14546f299b5901a1ea0e34410575bc33bbd741377a10484a54445588d00284", size = 2655031, upload-time = "2025-11-01T15:12:26.13Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/51/da/545b75d420bb23b5d494b0517757b351963e974e79933f01e05c929f20a6/starlette-0.49.1-py3-none-any.whl", hash = "sha256:d92ce9f07e4a3caa3ac13a79523bd18e3bc0042bb8ff2d759a8e7dd0e1859875", size = 74175, upload-time = "2025-10-28T17:34:09.13Z" },
+    { url = "https://files.pythonhosted.org/packages/a3/e0/021c772d6a662f43b63044ab481dc6ac7592447605b5b35a957785363122/starlette-0.49.3-py3-none-any.whl", hash = "sha256:b579b99715fdc2980cf88c8ec96d3bf1ce16f5a8051a7c2b84ef9b1cdecaea2f", size = 74340, upload-time = "2025-11-01T15:12:24.387Z" },
 ]
 
 [[package]]
@@ -4096,7 +4096,7 @@ wheels = [
 
 [[package]]
 name = "textual"
-version = "6.4.0"
+version = "6.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markdown-it-py", extra = ["linkify"] },
@@ -4106,9 +4106,9 @@ dependencies = [
     { name = "rich" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/23/6c/565521dc6dd00fa857845483ae0c070575fda1f9a56d92d732554fecfea4/textual-6.4.0.tar.gz", hash = "sha256:f40df9165a001c10249698d532f2f5a71708b70f0e4ef3fce081a9dd93ffeaaa", size = 1573599, upload-time = "2025-10-22T17:29:51.357Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/af/90/59757aa887ddcea61428820274f1a2d1f986feb7880374a5420ab5d37132/textual-6.5.0.tar.gz", hash = "sha256:e5f152cdd47db48a635d23b839721bae4d0e8b6d855e3fede7285218289294e3", size = 1574116, upload-time = "2025-10-31T17:21:53.4Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/37/20/6eed0e55bdd2576475e9cea49cc71c47f8e56ab54f04cbe04b2fb56440de/textual-6.4.0-py3-none-any.whl", hash = "sha256:b346dbb8e12f17cefb33ddfdf7f19bdc9e66c29daf82fc981a8db6b7d985e115", size = 711663, upload-time = "2025-10-22T17:29:49.346Z" },
+    { url = "https://files.pythonhosted.org/packages/42/37/1deba011782a49ea249c73adcf703a39b0249ac9b0e17d1a2e4074df8d57/textual-6.5.0-py3-none-any.whl", hash = "sha256:c5505be7fe606b8054fb88431279885f88352bddca64832f6acd293ef7d9b54f", size = 711848, upload-time = "2025-10-31T17:21:51.134Z" },
 ]
 
 [[package]]
@@ -4142,7 +4142,7 @@ wheels = [
 
 [[package]]
 name = "textual-serve"
-version = "1.1.2"
+version = "1.1.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -4151,9 +4151,9 @@ dependencies = [
     { name = "rich" },
     { name = "textual" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/27/41/09d5695b050d592ff58422be2ca5c9915787f59ff576ca91d9541d315406/textual_serve-1.1.2.tar.gz", hash = "sha256:0ccaf9b9df9c08d4b2d7a0887cad3272243ba87f68192c364f4bed5b683e4bd4", size = 892959, upload-time = "2025-04-16T12:11:41.746Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c2/7e/62fecc552853ec6a178cb1faa2d6f73b34d5512924770e7b08b58ff14148/textual_serve-1.1.3.tar.gz", hash = "sha256:f8f636ae2f5fd651b79d965473c3e9383d3521cdf896f9bc289709185da3f683", size = 448340, upload-time = "2025-11-01T16:22:36.723Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7c/fb/0006f86960ab8a2f69c9f496db657992000547f94f53a2f483fd611b4bd2/textual_serve-1.1.2-py3-none-any.whl", hash = "sha256:147d56b165dccf2f387203fe58d43ce98ccad34003fe3d38e6d2bc8903861865", size = 447326, upload-time = "2025-04-16T12:11:43.176Z" },
+    { url = "https://files.pythonhosted.org/packages/b5/fe/108e7773349d500cf363328c3d0b7123e03feda51e310a3a5b136ac8ca71/textual_serve-1.1.3-py3-none-any.whl", hash = "sha256:207a472bc6604e725b1adab4ab8bf12f4c4dc25b04eea31e4d04731d8bf30f18", size = 447339, upload-time = "2025-11-01T16:22:35.209Z" },
 ]
 
 [[package]]
@@ -4225,14 +4225,14 @@ wheels = [
 
 [[package]]
 name = "ttkbootstrap-icons"
-version = "3.0.0"
+version = "3.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f9/dd/e750f72bbbf8a217b45761a280ff2683ec899ea852a079ffa66a9fe92c03/ttkbootstrap_icons-3.0.0.tar.gz", hash = "sha256:e263e271c33c43958f0977436317137d83e15eba93768f0b7a0b3b6c8685934e", size = 269876, upload-time = "2025-11-02T05:56:13.164Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c7/4d/fb4c9c9d21b1249a18ce624f7fa6784a5c4ac4dd2462d46d870fdc60f5ce/ttkbootstrap_icons-3.1.0.tar.gz", hash = "sha256:435418f05b8b8ab78783859b19d580bd8e36910b3b6b9176c6aca92bfa6d4bfc", size = 274557, upload-time = "2025-11-02T22:51:02.97Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f8/c4/5cdbee17ec242f3e52e4878d34e8c06c34576cddd6ce8837848e4dac4d0c/ttkbootstrap_icons-3.0.0-py3-none-any.whl", hash = "sha256:4d4807506646dfcd5a6a4fab5c10840c34e27af3e89905b9adb48418ab45be92", size = 214220, upload-time = "2025-11-02T05:56:11.689Z" },
+    { url = "https://files.pythonhosted.org/packages/b0/74/274af0ce603c8f44c74db3174c05a892bdf865e246a8d3c32daafd699bb8/ttkbootstrap_icons-3.1.0-py3-none-any.whl", hash = "sha256:4f6fb538a0da6918a3f8bcfef72a8802e343cf15b131c80c9d5f01ef682952b4", size = 219090, upload-time = "2025-11-02T22:51:01.836Z" },
 ]
 
 [[package]]
@@ -4780,7 +4780,7 @@ name = "winrt-runtime"
 version = "3.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "typing-extensions" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/16/dd/acdd527c1d890c8f852cc2af644aa6c160974e66631289420aa871b05e65/winrt_runtime-3.2.1.tar.gz", hash = "sha256:c8dca19e12b234ae6c3dadf1a4d0761b51e708457492c13beb666556958801ea", size = 21721, upload-time = "2025-06-06T14:40:27.593Z" }
 wheels = [
@@ -4806,7 +4806,7 @@ name = "winrt-windows-applicationmodel-core"
 version = "3.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "winrt-runtime" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/24/0d/3ae880680ba3da0fe062f7a4785b955bab331ae45fd8941c7be55e12e005/winrt_windows_applicationmodel_core-3.2.1.tar.gz", hash = "sha256:7cd21a4a7e25b099703a607f17ce804b5166cdf6444437440590fafea990fb46", size = 13656, upload-time = "2025-06-06T14:40:46.98Z" }
 wheels = [
@@ -4832,7 +4832,7 @@ name = "winrt-windows-data-xml-dom"
 version = "3.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "winrt-runtime" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/cc/11/6b1e59abf5f8f0cba1fee13447c9d077d144332b9b664bb236fdfa878558/winrt_windows_data_xml_dom-3.2.1.tar.gz", hash = "sha256:db81f5956bf63ce8c9d8bfb6d0794ab2849f26e62a6256b833af8de3d6451399", size = 50032, upload-time = "2025-06-06T14:41:15.877Z" }
 wheels = [
@@ -4858,7 +4858,7 @@ name = "winrt-windows-foundation"
 version = "3.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "winrt-runtime" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/0c/55/098ce7ea0679efcc1298b269c48768f010b6c68f90c588f654ec874c8a74/winrt_windows_foundation-3.2.1.tar.gz", hash = "sha256:ad2f1fcaa6c34672df45527d7c533731fdf65b67c4638c2b4aca949f6eec0656", size = 30485, upload-time = "2025-06-06T14:41:53.344Z" }
 wheels = [
@@ -4884,7 +4884,7 @@ name = "winrt-windows-foundation-collections"
 version = "3.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "winrt-runtime" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/ef/62/d21e3f1eeb8d47077887bbf0c3882c49277a84d8f98f7c12bda64d498a07/winrt_windows_foundation_collections-3.2.1.tar.gz", hash = "sha256:0eff1ad0d8d763ad17e9e7bbd0c26a62b27215016393c05b09b046d6503ae6d5", size = 16043, upload-time = "2025-06-06T14:41:53.983Z" }
 wheels = [
@@ -4910,7 +4910,7 @@ name = "winrt-windows-ui-notifications"
 version = "3.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(python_full_version != '3.13.*' and sys_platform == 'emscripten') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and sys_platform == 'linux') or (sys_platform != 'emscripten' and sys_platform != 'linux')" },
+    { name = "winrt-runtime" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/fc/f9/4798657fd6999e6dae2c84876b40e91873ccd5f056b27c40ebd7f4ff11d8/winrt_windows_ui_notifications-3.2.1.tar.gz", hash = "sha256:eb29bf1c3306f3ceabd71d092b5505d5fe73fbc0660347dcc63ebc4204d34d21", size = 28942, upload-time = "2025-06-06T14:43:54.629Z" }
 wheels = [
