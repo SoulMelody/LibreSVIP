@@ -109,7 +109,7 @@ code_gen = [
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
-  "pre-commit>=4.3.0",
+  "pre-commit>=4.4.0",
   "ruff>=0.14.4",
   "mypy>=1.18.2",
   "proto-plus-stubs>=0.7.0",
@@ -131,7 +131,7 @@ packaging = [
 docs = [
   "zensical>=0.0.5",
 ]
-test = ["pytest>=8.4.2", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
+test = ["pytest>=9.0.0", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
