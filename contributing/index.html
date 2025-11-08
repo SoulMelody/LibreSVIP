@@ -15,29 +15,66 @@
         <link rel="canonical" href="https://soulmelody.github.io/LibreSVIP/contributing/">
       
       
-        <link rel="prev" href="../setup/">
+        <link rel="prev" href="..\setup\">
       
       
-        <link rel="next" href="../coding_style/">
+        <link rel="next" href="..\coding_style\">
       
-      
-      <link rel="icon" href="../libresvip.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
-    
-    
-      
-        <title>贡献代码 - LibreSVIP</title>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
+      <link rel="icon" href="..\images\libresvip.svg">
+      <meta name="generator" content="zensical-0.0.5">
+    
+    
+      
+        <title>Contributing - LibreSVIP</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="..\assets\stylesheets\modern\main.1357c24d.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="..\assets\stylesheets\modern\palette.dfe2e883.min.css">
+      
+      
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+  <style>:root{}</style>
 
 
+
     
     
       
@@ -45,12 +82,13 @@
     
       
     
+    
+      <link rel="stylesheet" href="..\extra.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
-    
     
     
   </head>
@@ -89,7 +127,7 @@
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -101,7 +139,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              贡献代码
+              Contributing
             
           </span>
         </div>
@@ -143,44 +181,17 @@
       
         <label class="md-header__button md-icon" for="__search">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
         </label>
-        <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="查找">
-        
-        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            正在初始化搜索引擎
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="查找">
+  <button type="button" class="md-search__button">
+    查找
+  </button>
 </div>
       
     
-    
-      <div class="md-header__source">
+    <div class="md-header__source">
+      
         <a href="https://github.com/SoulMelody/LibreSVIP" title="前往仓库" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
@@ -190,8 +201,8 @@
     SoulMelody/LibreSVIP
   </div>
 </a>
-      </div>
-    
+      
+    </div>
   </nav>
   
 </header>
@@ -217,7 +228,6 @@
         <a href=".." class="md-tabs__link">
           
   
-  
   快速开始
 
         </a>
@@ -236,9 +246,8 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../setup/" class="md-tabs__link">
+        <a href="..\setup\" class="md-tabs__link">
           
-  
   
   开发者文档
 
@@ -254,11 +263,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../faq/" class="md-tabs__link">
+      <a href="..\faq\" class="md-tabs__link">
         
-  
-  
-    
   
   常见问题
 
@@ -338,9 +344,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     快速开始
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -349,7 +360,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            快速开始
+            
+  
+    快速开始
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -365,9 +380,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     简介
+  
+
     
   </span>
+  
   
 
       </a>
@@ -383,14 +403,19 @@
   
   
     <li class="md-nav__item">
-      <a href="../credits/" class="md-nav__link">
+      <a href="..\credits\" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
+    
+  
     鸣谢
+  
+
     
   </span>
+  
   
 
       </a>
@@ -406,14 +431,19 @@
   
   
     <li class="md-nav__item">
-      <a href="../license/" class="md-nav__link">
+      <a href="..\license\" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
+    
+  
     开源协议
+  
+
     
   </span>
+  
   
 
       </a>
@@ -460,9 +490,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     开发者文档
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -471,7 +506,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            开发者文档
+            
+  
+    开发者文档
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -482,14 +521,19 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup/" class="md-nav__link">
+      <a href="..\setup\" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
+    
+  
     环境搭建
+  
+
     
   </span>
+  
   
 
       </a>
@@ -512,14 +556,19 @@
       
       
       
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href=".\" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
+    
+  
     贡献代码
+  
+
     
   </span>
+  
   
 
       </a>
@@ -536,14 +585,19 @@
   
   
     <li class="md-nav__item">
-      <a href="../coding_style/" class="md-nav__link">
+      <a href="..\coding_style\" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
+    
+  
     代码规范
+  
+
     
   </span>
+  
   
 
       </a>
@@ -559,14 +613,19 @@
   
   
     <li class="md-nav__item">
-      <a href="../project_formats/" class="md-nav__link">
+      <a href="..\project_formats\" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
+    
+  
     歌声合成工程格式一览
+  
+
     
   </span>
+  
   
 
       </a>
@@ -589,14 +648,19 @@
   
   
     <li class="md-nav__item">
-      <a href="../faq/" class="md-nav__link">
+      <a href="..\faq\" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
+    
+  
     常见问题
+  
+
     
   </span>
+  
   
 
       </a>
@@ -617,6 +681,7 @@
                   <div class="md-sidebar__inner">
                     
 
+
 <nav class="md-nav md-nav--secondary" aria-label="目录">
   
   
@@ -630,16 +695,14 @@
           
           
             <div class="md-content" data-md-component="content">
+              
               <article class="md-content__inner md-typeset">
                 
                   
 
-
-  
-  
+  <h1>Contributing</h1>
 
 
-  <h1>贡献代码</h1>
 
 
 
@@ -671,10 +734,10 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../setup/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 环境搭建">
+          <a href="..\setup\" class="md-footer__link md-footer__link--prev" aria-label="上一页: 环境搭建">
             <div class="md-footer__button md-icon">
               
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
             </div>
             <div class="md-footer__title">
               <span class="md-footer__direction">
@@ -688,7 +751,7 @@
         
         
           
-          <a href="../coding_style/" class="md-footer__link md-footer__link--next" aria-label="下一页: 代码规范">
+          <a href="..\coding_style\" class="md-footer__link md-footer__link--next" aria-label="下一页: 代码规范">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
@@ -699,7 +762,7 @@
             </div>
             <div class="md-footer__button md-icon">
               
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
           </a>
         
@@ -709,20 +772,17 @@
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
-    
-      <div class="md-copyright__highlight">
-        Copyright &copy; 2023 - 2025 SoulMelody
-      </div>
-    
-    
-      <p>
-        使用
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        制作
-      </p>
-    
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2025 SoulMelody
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
 </div>
       
         
@@ -775,10 +835,12 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.footer", "navigation.tabs"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"search":"..\\assets\\javascripts\\workers\\search.5e1f2129.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="..\assets\javascripts\bundle.1193bd74.min.js"></script>
       
     
   </body>
