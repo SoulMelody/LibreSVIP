@@ -147,7 +147,7 @@ class FramelessWindow(QQuickWindow):
         user32 = ctypes.windll.user32
 
         style = user32.GetWindowLongPtrW(hwnd, win32con.GWL_STYLE)
-
+        style &= ~win32con.WS_SYSMENU
         user32.SetWindowLongPtrW(
             hwnd,
             win32con.GWL_STYLE,
@@ -157,9 +157,6 @@ class FramelessWindow(QQuickWindow):
             | win32con.CS_DBLCLKS
             | win32con.WS_THICKFRAME,
         )
-        if menu := ctypes.windll.user32.GetSystemMenu(hwnd, 0):
-            ctypes.windll.user32.DeleteMenu(menu, win32con.SC_MOVE, win32con.MF_BYCOMMAND)
-            ctypes.windll.user32.DeleteMenu(menu, win32con.SC_SIZE, win32con.MF_BYCOMMAND)
 
     def add_dwm_effect(self) -> SupportsInt | None:
         if not self.is_composition_enabled:
