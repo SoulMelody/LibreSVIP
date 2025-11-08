@@ -34,10 +34,6 @@ FramelessWindow {
         }
     }
 
-    FontLoader {
-        source: iconicFontLoader.font_path("mdi7")
-    }
-
     Components.Dialogs {
         id: dialogs
     }

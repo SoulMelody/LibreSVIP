@@ -1,7 +1,8 @@
 import json
 from importlib.metadata import files
 
-from PySide6.QtCore import QObject, QUrl, Slot
+from PySide6.QtCore import QObject, Slot
+from PySide6.QtGui import QFontDatabase
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -19,13 +20,10 @@ class IconicFontLoader(QObject):
             .decode("unicode-escape")
             for k, v in json.loads(glyphmap_file.read_binary()).items()
         }
-
-    @Slot(str, result=str)
-    def font_path(self, font_family: str) -> str:
         material_icons_font_file = next(
             each for each in PACKAGE_FILES if each.name == "materialdesignicons-webfont.ttf"
         )
-        return QUrl.from_local_file(material_icons_font_file).to_string()
+        QFontDatabase.addApplicationFontFromData(material_icons_font_file.read_binary())
 
     @Slot(str, result=str)
     def icon(self, icon_name: str) -> str:
