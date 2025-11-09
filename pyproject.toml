@@ -54,7 +54,7 @@ dependencies = [
   "svg-py<2.0.0,>=1.9.2",
   "tatsu-lts<6.0.0,>=5.13.2",
   "typer-slim<1.0.0,>=0.20.0",
-  "universal-pathlib<1.0.0,>=0.3.4",
+  "universal-pathlib<1.0.0,>=0.3.5",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
