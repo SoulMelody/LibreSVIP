@@ -74,7 +74,7 @@ typer-slim==0.20.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 ujson==5.11.0
-universal-pathlib==0.3.4
+universal-pathlib==0.3.5
 wanakana-python @ https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 winrt-runtime==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
