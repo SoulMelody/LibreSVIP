@@ -131,7 +131,7 @@ packaging = [
 docs = [
   "zensical>=0.0.6",
 ]
-test = ["pytest>=9.0.0", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
+test = ["pytest>=9.0.1", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
