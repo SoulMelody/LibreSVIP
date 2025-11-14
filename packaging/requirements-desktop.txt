@@ -36,7 +36,7 @@ pillow==12.0.0
 platformdirs==4.5.0
 portion==2.6.1
 proto-plus==1.26.1
-protobuf==6.33.0
+protobuf==6.33.1
 pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32')
 pycryptodomex==3.23.0
 pydantic==2.12.4
@@ -74,7 +74,7 @@ typer-slim==0.20.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 ujson==5.11.0
-universal-pathlib==0.3.5
+universal-pathlib==0.3.6
 wanakana-python==1.2.2
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 winrt-runtime==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
