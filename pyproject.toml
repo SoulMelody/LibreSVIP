@@ -54,7 +54,7 @@ dependencies = [
   "svg-py<2.0.0,>=1.9.2",
   "tatsu-lts<6.0.0,>=5.13.2",
   "typer-slim<1.0.0,>=0.20.0",
-  "universal-pathlib<1.0.0,>=0.3.5",
+  "universal-pathlib<1.0.0,>=0.3.6",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
@@ -85,7 +85,7 @@ tui = [
   "textual-fspicker>=0.6.0",
 ]
 webui = [
-  "nicegui>=3.2.0",
+  "nicegui>=3.3.0",
 ]
 mobile = [
   "flet[cli,desktop]>=0.28.3,<0.29.0",
