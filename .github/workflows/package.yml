@@ -20,7 +20,7 @@ jobs:
     runs-on: windows-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -54,7 +54,7 @@ jobs:
     runs-on: windows-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
@@ -95,7 +95,7 @@ jobs:
         uses: pozetroninc/github-action-get-latest-release@master
         with:
           repository: MediaArea/MediaInfo
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
@@ -138,7 +138,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -175,7 +175,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -212,7 +212,7 @@ jobs:
     runs-on: macos-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install Rosetta
         shell: bash
         run: |
@@ -250,7 +250,7 @@ jobs:
     runs-on: macos-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -285,7 +285,7 @@ jobs:
     needs: [make-outputs]
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -341,7 +341,7 @@ jobs:
     runs-on: windows-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -374,7 +374,7 @@ jobs:
     runs-on: windows-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
