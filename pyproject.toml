@@ -104,7 +104,7 @@ code_gen = [
   "datamodel-code-generator>=0.35.0",
   "gapic-generator>=1.30.0",
   "protoc-wheel-0>=30.2",
-  "pyside6-addons<6.11.0,>=6.10.0",
+  "pyside6-addons<6.11.0,>=6.10.1",
   "xsdata[cli]>=25.7",
 ]
 i18n = ["babel>=2.17.0"]
@@ -114,7 +114,7 @@ linting = [
   "mypy>=1.18.2",
   "proto-plus-stubs>=0.7.0",
   "pyrefly>=0.42.2",
-  "pyside6<6.11.0,>=6.10.0",
+  "pyside6<6.11.0,>=6.10.1",
   "types-lxml>=2025.8.25",
   "types-pyyaml>=6.0.12.20250915",
   "types-ujson>=5.10.0.20250822",
@@ -129,7 +129,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "zensical>=0.0.8",
+  "zensical>=0.0.9",
 ]
 test = ["pytest>=9.0.1", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
 all = [
