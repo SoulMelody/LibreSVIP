@@ -4,7 +4,6 @@ on:
     tags:
       - "v*"
 env:
-  PYTHON_VERSION: "3.13.9"
   FLET_PYTHON_VERSION: "3.14.0"
 
 jobs:
@@ -29,7 +28,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python 3.13
+          uv venv --python 3.14
           uv build --wheel
           cd packaging
           uv pip install -r requirements-desktop.txt
@@ -106,7 +105,7 @@ jobs:
         shell: bash -el {0}
         run: |
           uv build --wheel
-          uv venv --python cpython-${PYTHON_VERSION}-windows-aarch64-none
+          uv venv --python cpython-3.13.9-windows-aarch64-none
           cd dist
           uv pip install *.whl --no-deps
           cd ../packaging
@@ -151,7 +150,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.13
+          uv venv --python 3.14
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
@@ -188,7 +187,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.13
+          uv venv --python 3.14
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
@@ -225,7 +224,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python cpython-${PYTHON_VERSION}-macos-x86_64-none
+          uv venv --python cpython-3.14.0-macos-x86_64-none
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
@@ -259,7 +258,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.13
+          uv venv --python 3.14
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
