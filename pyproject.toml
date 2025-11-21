@@ -93,7 +93,7 @@ mobile = [
   "fontconfig-py>=0.2.0; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 desktop = [
-  "pyside6-essentials<6.11.0,>=6.10.0",
+  "pyside6-essentials<6.11.0,>=6.10.1",
   "ttkbootstrap-icons-mat>=1.0.0",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
