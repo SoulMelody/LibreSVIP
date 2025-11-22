@@ -16,9 +16,11 @@ class AcepLyricsLanguage(Enum):
             JAPANESE=(str, Field(title=_("Japanese"))),
             ENGLISH=(str, Field(title=_("English"))),
             SPANISH=(str, Field(title=_("Spanish"))),
+            KOREAN=(str, Field(title=_("Korean"))),
         ),
     ]
     CHINESE = "CHN"
     JAPANESE = "JPN"
     ENGLISH = "ENG"
     SPANISH = "SPA"
+    KOREAN = "KOR"
