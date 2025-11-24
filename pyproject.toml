@@ -113,7 +113,7 @@ linting = [
   "ruff>=0.14.6",
   "mypy>=1.18.2",
   "proto-plus-stubs>=0.7.0",
-  "pyrefly>=0.42.3",
+  "pyrefly>=0.43.1",
   "pyside6<6.11.0,>=6.10.1",
   "types-lxml>=2025.8.25",
   "types-pyyaml>=6.0.12.20250915",
@@ -125,7 +125,7 @@ packaging = [
   "cx-Freeze>=8.5.0",
   "nuitka>=2.8.6",
   "pyfuze>=2.7.2",
-  "pyinstaller>=6.16.0",
+  "pyinstaller>=6.17.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
