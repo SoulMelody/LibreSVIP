@@ -115,7 +115,7 @@ linting = [
   "proto-plus-stubs>=0.7.0",
   "pyrefly>=0.43.1",
   "pyside6<6.11.0,>=6.10.1",
-  "types-lxml>=2025.8.25",
+  "types-lxml>=2025.11.25",
   "types-pyyaml>=6.0.12.20250915",
   "types-ujson>=5.10.0.20250822",
   "types-pyinstaller>=6.16.0.20250918",
@@ -129,7 +129,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "zensical>=0.0.9",
+  "zensical>=0.0.10",
 ]
 test = ["pytest>=9.0.1", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
 all = [
