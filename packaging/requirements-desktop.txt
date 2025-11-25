@@ -31,7 +31,7 @@ mdurl==0.1.2
 more-itertools==10.8.0
 packaging==25.0
 pathlib-abc==0.5.2
-pefile==2023.2.7 ; sys_platform == 'win32'
+pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.0.0
 platformdirs==4.5.0
 portion==2.6.1
@@ -44,8 +44,8 @@ pydantic-core==2.41.5
 pydantic-extra-types==2.10.6
 pydantic-settings==2.12.0
 pygments==2.19.2
-pyinstaller==6.16.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
-pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.16.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
+pyinstaller==6.17.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
+pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.17.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
 pyinstaller-hooks-contrib==2025.10
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.55.0
