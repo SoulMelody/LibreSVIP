@@ -13,7 +13,7 @@ PACKAGE_FILES = files("ttkbootstrap_icons_mat")
 class IconicFontLoader(QObject):
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
-        glyphmap_file = next(each for each in PACKAGE_FILES if each.name == "glyphmap.json")
+        glyphmap_file = next(each for each in PACKAGE_FILES if each.name == "glyphmap.json")  # type: ignore[union-attr]
         self.material_icons_glyphmap = {
             k: (("\\U" + v.zfill(8)) if len(v) > 4 else ("\\u" + v.zfill(4)))
             .encode("utf-8")
@@ -21,7 +21,9 @@ class IconicFontLoader(QObject):
             for k, v in json.loads(glyphmap_file.read_binary()).items()
         }
         material_icons_font_file = next(
-            each for each in PACKAGE_FILES if each.name == "materialdesignicons-webfont.ttf"
+            each
+            for each in PACKAGE_FILES  # type: ignore[union-attr]
+            if each.name == "materialdesignicons-webfont.ttf"
         )
         QFontDatabase.addApplicationFontFromData(material_icons_font_file.read_binary())
 
