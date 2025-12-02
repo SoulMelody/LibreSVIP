@@ -784,7 +784,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.37.0"
+version = "0.39.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -798,9 +798,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tomli", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f1/55/13b420b719ce13d630805dc599834fb1b729a843d97775506d4685080a4b/datamodel_code_generator-0.37.0.tar.gz", hash = "sha256:7206e25f08ee2d7942a559cb8d256f51d75bbb2647d02593208350449461346a", size = 433099, upload-time = "2025-12-01T13:41:51.294Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/86/d8/9c633eafb1cb7f9ccb607bdbda0601d65fe3441954f2998e4222338a0a17/datamodel_code_generator-0.39.0.tar.gz", hash = "sha256:d08b5f9cce8fff2b57784c8f1d737fa91ad22ac621a6a732946307730f24f887", size = 447299, upload-time = "2025-12-02T19:29:58.164Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/32/d8/41df8f9efa7cb84699c1d622df187d8cdf181600cfe8a1302a8b0778c259/datamodel_code_generator-0.37.0-py3-none-any.whl", hash = "sha256:483d8592224b21f3282541baaac3dd3f33d15c218a391d135531c9ea13557294", size = 146424, upload-time = "2025-12-01T13:41:48.766Z" },
+    { url = "https://files.pythonhosted.org/packages/57/74/aef4da1b08d5c3a70eb25a1fc2c6499cc8588c803c2ebe770f2e5fb77dce/datamodel_code_generator-0.39.0-py3-none-any.whl", hash = "sha256:f08cd8cf826d3556f638989af4851037026a93cfb846aa6429b13cd622714775", size = 151348, upload-time = "2025-12-02T19:29:56.632Z" },
 ]
 
 [[package]]
@@ -1903,7 +1903,7 @@ provides-extras = ["crypto", "desktop", "lxml", "mobile", "ruamel-yaml", "tui", 
 all = [
     { name = "babel", specifier = ">=2.17.0" },
     { name = "cx-freeze", specifier = ">=8.5.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.37.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.39.0" },
     { name = "gapic-generator", specifier = ">=1.30.0" },
     { name = "mypy", specifier = ">=1.19.0" },
     { name = "nuitka", specifier = ">=2.8.9" },
@@ -1929,7 +1929,7 @@ all = [
     { name = "zensical", specifier = ">=0.0.10" },
 ]
 code-gen = [
-    { name = "datamodel-code-generator", specifier = ">=0.37.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.39.0" },
     { name = "gapic-generator", specifier = ">=1.30.0" },
     { name = "protoc-wheel-0", specifier = ">=30.2" },
     { name = "pyside6-addons", specifier = ">=6.10.1,<6.11.0" },
