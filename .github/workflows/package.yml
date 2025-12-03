@@ -4,7 +4,7 @@ on:
     tags:
       - "v*"
 env:
-  FLET_PYTHON_VERSION: "3.14.0"
+  FLET_PYTHON_VERSION: "3.14.1"
 
 jobs:
   make-outputs:
@@ -224,7 +224,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python cpython-3.14.0-macos-x86_64-none
+          uv venv --python cpython-3.14.1-macos-x86_64-none
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
