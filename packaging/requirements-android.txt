@@ -11,7 +11,7 @@ flet==0.28.3
 flet-libxml2==2.9.8
 flet-libxslt==1.1.32
 flet-permission-handler==0.1.0
-fsspec==2025.10.0
+fsspec==2025.12.0
 h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
