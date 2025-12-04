@@ -151,7 +151,7 @@ jobs:
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i libresvip.png -y -f LibreSVIP
+          uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i libresvip.png --no-clean -y -f LibreSVIP
       - name: Upload build artifact
         uses: actions/upload-artifact@v5
         with:
@@ -185,7 +185,7 @@ jobs:
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i libresvip.png -y -f LibreSVIP
+          uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i libresvip.png --no-clean -y -f LibreSVIP
       - name: Upload build artifact
         uses: actions/upload-artifact@v5
         with:
