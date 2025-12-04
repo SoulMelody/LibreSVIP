@@ -33,10 +33,7 @@ jobs:
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pyinstaller libresvip.spec
-          cd dist
-          7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z libresvip
-          rm -rf libresvip
+          uv run pydeploy libresvip.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico --nsis libresvip-desktop.nsi -y -f LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.exe
       - name: Upload build artifact
         uses: actions/upload-artifact@v5
         with:
@@ -48,7 +45,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.exe
 
   release_windows_msys2_ucrt64:
     runs-on: windows-latest
@@ -154,10 +151,7 @@ jobs:
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pyinstaller libresvip.spec
-          cd dist
-          tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz libresvip
-          rm -rf libresvip
+          uv run pydeploy libresvip.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico -y -f LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.appimage
       - name: Upload build artifact
         uses: actions/upload-artifact@v5
         with:
@@ -169,7 +163,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.appimage
 
   release_linux_aarch64:
     runs-on: ubuntu-24.04-arm
@@ -191,10 +185,7 @@ jobs:
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pyinstaller libresvip.spec
-          cd dist
-          tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz libresvip
-          rm -rf libresvip
+          uv run pydeploy libresvip.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico -y -f LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.appimage
       - name: Upload build artifact
         uses: actions/upload-artifact@v5
         with:
@@ -206,7 +197,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.appimage
 
   release_macos_x86_64:
     runs-on: macos-latest

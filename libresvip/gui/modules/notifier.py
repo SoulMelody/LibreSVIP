@@ -150,7 +150,7 @@ class Notifier(QObject):
                                         for asset in data["assets"]
                                         if fnmatch.fnmatch(
                                             asset["name"],
-                                            f"LibreSVIP-*.linux-{arch}.tar.gz",
+                                            f"LibreSVIP-*.linux-{arch}.*",
                                         )
                                     ),
                                     None,
