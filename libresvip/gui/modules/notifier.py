@@ -140,6 +140,10 @@ class Notifier(QObject):
                                                 asset["name"],
                                                 f"LibreSVIP-*.win-{arch}.*",
                                             )
+                                            or fnmatch.fnmatch(
+                                                asset["name"],
+                                                f"LibreSVIP-*-{arch}.exe",
+                                            )
                                         ),
                                         None,
                                     )
@@ -150,7 +154,11 @@ class Notifier(QObject):
                                         for asset in data["assets"]
                                         if fnmatch.fnmatch(
                                             asset["name"],
-                                            f"LibreSVIP-*.linux-{arch}.*",
+                                            f"LibreSVIP-*.linux-{arch}.tar.gz",
+                                        )
+                                        or fnmatch.fnmatch(
+                                            asset["name"],
+                                            f"LibreSVIP-*-{arch}.appimage",
                                         )
                                     ),
                                     None,

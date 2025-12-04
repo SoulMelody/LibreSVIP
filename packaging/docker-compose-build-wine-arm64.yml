@@ -5,4 +5,4 @@ services:
     volumes:
       - ./clangarm64:/clangarm64
       - ../:/src
-    command: wine-arm64 cmd /c "cd /src/packaging && set PATH=/clangarm64/bin;%PATH% && pyinstaller libresvip.spec"
+    command: wine-arm64 cmd /c "cd /src/packaging && set PATH=/clangarm64/bin;%PATH% && pyinstaller libresvip-gui.spec"
