@@ -295,7 +295,7 @@ coll = COLLECT(
     strip=False,
     upx=False,
     upx_exclude=[],
-    name='libresvip',
+    name='libresvip-gui',
 )
 
 
