@@ -158,7 +158,7 @@ class Notifier(QObject):
                                         )
                                         or fnmatch.fnmatch(
                                             asset["name"],
-                                            f"LibreSVIP-*-{arch}.appimage",
+                                            f"LibreSVIP-*-{arch}.AppImage",
                                         )
                                     ),
                                     None,

@@ -163,7 +163,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/*.appimage
+            ./packaging/dist/*.AppImage
 
   release_linux_aarch64:
     runs-on: ubuntu-24.04-arm
@@ -197,7 +197,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/*.appimage
+            ./packaging/dist/*.AppImage
 
   release_macos_x86_64:
     runs-on: macos-latest
