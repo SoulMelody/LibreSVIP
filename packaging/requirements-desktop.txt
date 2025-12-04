@@ -43,6 +43,7 @@ pydantic==2.12.5
 pydantic-core==2.41.5
 pydantic-extra-types==2.10.6
 pydantic-settings==2.12.0
+pydeployment==1.3.11 ; sys_platform != 'darwin'
 pygments==2.19.2
 pyinstaller==6.17.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.17.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
