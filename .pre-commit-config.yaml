@@ -31,7 +31,7 @@ repos:
         args: ["--config", "pyproject.toml", "--exclude", "tests/"]
 
   - repo: https://github.com/facebook/pyrefly-pre-commit
-    rev: 0.44.0
+    rev: 0.44.1
     hooks:
       - id: pyrefly-check
         name: Pyrefly (type checking)
