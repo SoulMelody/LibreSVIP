@@ -17,6 +17,9 @@ class AcepLyricsLanguage(Enum):
             ENGLISH=(str, Field(title=_("English"))),
             SPANISH=(str, Field(title=_("Spanish"))),
             KOREAN=(str, Field(title=_("Korean"))),
+            PORTUGUESE=(str, Field(title=_("Portuguese"))),
+            FRENCH=(str, Field(title=_("French"))),
+            ITALIAN=(str, Field(title=_("Italian"))),
         ),
     ]
     CHINESE = "CHN"
@@ -24,3 +27,6 @@ class AcepLyricsLanguage(Enum):
     ENGLISH = "ENG"
     SPANISH = "SPA"
     KOREAN = "KOR"
+    PORTUGUESE = "POR"
+    FRENCH = "FRA"
+    ITALIAN = "ITA"
