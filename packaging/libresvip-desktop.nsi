@@ -92,38 +92,6 @@ SetCompressor lzma
 !insertmacro MUI_LANGUAGE "Tatar"
 !insertmacro MUI_LANGUAGE "Hindi"
 
-; UI languages without lang strings
-; !insertmacro MUI_LANGUAGE "Korean"
-; !insertmacro MUI_LANGUAGE "Finnish"
-; !insertmacro MUI_LANGUAGE "Greek"
-; !insertmacro MUI_LANGUAGE "Croatian"
-; !insertmacro MUI_LANGUAGE "Bulgarian"
-; !insertmacro MUI_LANGUAGE "Hungarian"
-; !insertmacro MUI_LANGUAGE "Thai"
-; !insertmacro MUI_LANGUAGE "Romanian"
-; !insertmacro MUI_LANGUAGE "Latvian"
-; !insertmacro MUI_LANGUAGE "Macedonian"
-; !insertmacro MUI_LANGUAGE "Estonian"
-; !insertmacro MUI_LANGUAGE "Turkish"
-; !insertmacro MUI_LANGUAGE "Lithuanian"
-; !insertmacro MUI_LANGUAGE "Serbian"
-; !insertmacro MUI_LANGUAGE "SerbianLatin"
-; !insertmacro MUI_LANGUAGE "Farsi"
-; !insertmacro MUI_LANGUAGE "Luxembourgish"
-; !insertmacro MUI_LANGUAGE "Breton"
-; !insertmacro MUI_LANGUAGE "Icelandic"
-; !insertmacro MUI_LANGUAGE "Malay"
-; !insertmacro MUI_LANGUAGE "Bosnian"
-; !insertmacro MUI_LANGUAGE "Kurdish"
-; !insertmacro MUI_LANGUAGE "Irish"
-; !insertmacro MUI_LANGUAGE "Uzbek"
-; !insertmacro MUI_LANGUAGE "Galician"
-; !insertmacro MUI_LANGUAGE "Afrikaans"
-; !insertmacro MUI_LANGUAGE "Catalan"
-; !insertmacro MUI_LANGUAGE "Pashto"
-; !insertmacro MUI_LANGUAGE "Georgian"
-; !insertmacro MUI_LANGUAGE "Welsh"
-
 Name "${APPNAME} ${VERSION}"
 !if ${VERSION} != "None"
     OutFile "${FILENAME}-${VERSION}-${ARCH}.exe"
@@ -165,7 +133,7 @@ Section "!${APPNAME}" sec_app
     WriteUninstaller $INSTDIR\uninstall.exe
 
     CreateDirectory "$SMPROGRAMS\${APPNAME}"
-    CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\${FILENAME}.exe" "" "$INSTDIR\${ICON}"
+    CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\libresvip-gui.exe" "" "$INSTDIR\${ICON}"
 
     ; Add ourselves to Add/Remove Programs
     WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" \
