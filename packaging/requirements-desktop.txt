@@ -33,7 +33,7 @@ packaging==25.0
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.0.0
-platformdirs==4.5.0
+platformdirs==4.5.1
 portion==2.6.1
 proto-plus==1.26.1
 protobuf==6.33.1
@@ -68,7 +68,7 @@ shiboken6==6.10.1
 sortedcontainers==2.4.0
 svg-py==1.9.2
 tatsu-lts==5.13.2
-ttkbootstrap-icons==3.3.0
+ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0
 typer-slim==0.20.0
 typing-extensions==4.15.0
