@@ -243,7 +243,7 @@ class PluginDict(CachingDict):
 
             if blackkey in blacklist_cache_old:
                 blacklist_cache[blackkey] = blacklist_cache_old[blackkey]
-            else:
+            elif entry.operator is not None:
                 entry_cache = blacklist_cache[blackkey] = set()
                 blackversion = parse_version(entry.version or "0")
                 blackop = OPERATORS[entry.operator]
