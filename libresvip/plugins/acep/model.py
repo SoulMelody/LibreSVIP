@@ -182,6 +182,7 @@ class AcepTempo(BaseModel):
     bpm: float = 0.0
     position: int = 0
     is_lerp: bool | None = Field(False, alias="isLerp")
+    bend: float | None = None
 
 
 class AcepParams(BaseModel):
@@ -223,6 +224,7 @@ class AcepNote(BaseModel):
     pos: int = 0
     dur: int = 0
     pitch: int = 0
+    uuid: str | None = None
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     lyric: str = ""
     pronunciation: str | None = None
@@ -241,6 +243,7 @@ class AcepPattern(BaseModel):
     name: str = ""
     pos: float = 0.0
     dur: float = 0.0
+    uuid: str | None = None
     clip_pos: float = Field(0.0, alias="clipPos")
     clip_dur: float = Field(0.0, alias="clipDur")
     enabled: bool | None = True
@@ -269,7 +272,7 @@ class AcepAudioFadeEffect(BaseModel):
 class AcepAudioPattern(AcepPattern):
     path: str = ""
     gain: float | None = None
-    analysed_beat: AcepAnalysedBeat | None = Field(None, alias="analysedBeat")
+    analyzed_beat: AcepAnalysedBeat | None = Field(None, alias="analyzedBeat")
     time_unit: str | None = Field("sec", alias="timeUnit")
     fade_in: AcepAudioFadeEffect | None = Field(None, alias="fadeIn")
     fade_out: AcepAudioFadeEffect | None = Field(None, alias="fadeOut")
@@ -302,6 +305,7 @@ class AcepTrackProperties(BaseModel):
     record: bool = False
     channel: int | None = 0
     listen: bool | None = False
+    uuid: str | None = None
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
     built_in_fx: dict[str, Any] = Field(default_factory=dict, alias="builtInFx")
     input_source: dict[str, Any] | None = Field(None, alias="inputSource")
@@ -429,6 +433,8 @@ class AcepProject(BaseModel):
     piano_cells: int = Field(2147483646, alias="pianoCells")
     tempo_brush_on: bool | None = Field(False, alias="tempoBrushOn")
     tempos: list[AcepTempo] = Field(default_factory=list)
+    max_bpm: float | None = Field(None, alias="maxBpm")
+    min_bpm: float | None = Field(None, alias="minBpm")
     track_cells: int = Field(2147483646, alias="trackCells")
     tracks: list[AcepTrack] = Field(default_factory=list)
     loop: bool | AcepLoop | None = False
