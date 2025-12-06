@@ -3,8 +3,11 @@ import math
 import random
 from collections.abc import Callable
 
+from ko_pron.ko_pron import romanise
+
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -205,6 +208,10 @@ class AceGenerator:
         if all(symbol not in note.lyric for symbol in ["-", "+"]):
             if self.options.lyric_language.value == AcepLyricsLanguage.CHINESE.value:
                 pronunciation = next(iter(get_pinyin_series(note.lyric)), None)
+            elif self.options.lyric_language.value == AcepLyricsLanguage.JAPANESE.value:
+                pronunciation = to_romaji(note.lyric) or None
+            elif self.options.lyric_language.value == AcepLyricsLanguage.KOREAN.value:
+                pronunciation = romanise(note.lyric, "rr") or None
             else:
                 pronunciation = None
             if note.pronunciation is not None and note.pronunciation != pronunciation:
@@ -214,7 +221,14 @@ class AceGenerator:
             elif self.options.default_consonant_length:
                 ace_note.head_consonants = [self.options.default_consonant_length]
         elif (
-            self.options.lyric_language in [AcepLyricsLanguage.ENGLISH, AcepLyricsLanguage.SPANISH]
+            self.options.lyric_language
+            in [
+                AcepLyricsLanguage.ENGLISH,
+                AcepLyricsLanguage.SPANISH,
+                AcepLyricsLanguage.PORTUGUESE,
+                AcepLyricsLanguage.FRENCH,
+                AcepLyricsLanguage.ITALIAN,
+            ]
             and ace_note.lyric == "+"
             and self.ace_note_list
         ):
