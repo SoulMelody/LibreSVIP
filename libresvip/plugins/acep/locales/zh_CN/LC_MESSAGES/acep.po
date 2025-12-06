@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-12-06 13:46\n"
+"PO-Revision-Date: 2025-12-06 13:59\n"
 
 msgid "ACE Studio"
 msgstr ""
@@ -43,13 +43,13 @@ msgid "Korean"
 msgstr "韩语"
 
 msgid "Portuguese"
-msgstr ""
+msgstr "葡萄牙语"
 
 msgid "French"
-msgstr ""
+msgstr "法语"
 
 msgid "Italian"
-msgstr ""
+msgstr "意大利语"
 
 msgid "Both strength and tension"
 msgstr "力度与张力"
@@ -175,7 +175,7 @@ msgid "Lyrics language"
 msgstr "歌词语言"
 
 msgid "ACE Studio supports eight languages of lyrics. This option is used to set the language of lyrics."
-msgstr ""
+msgstr "ACE Studio 支持八大语种的歌词，本选项用于设定歌词的语言。"
 
 msgid "Default consonant length (secs)"
 msgstr "默认辅音长度 (单位为秒)"
