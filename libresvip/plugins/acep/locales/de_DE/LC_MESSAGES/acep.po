@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-29 18:12\n"
+"PO-Revision-Date: 2025-12-06 13:59\n"
 
 msgid "ACE Studio"
 msgstr ""
@@ -38,6 +38,18 @@ msgstr "Englisch"
 
 msgid "Spanish"
 msgstr "Spanisch"
+
+msgid "Korean"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
 
 msgid "Both strength and tension"
 msgstr "Sowohl Stärke als auch Spannung"
@@ -162,8 +174,8 @@ msgstr "Wenn der Abstand zwischen den Noten den eingestellten Wert überschreite
 msgid "Lyrics language"
 msgstr "Liedtextsprache"
 
-msgid "ACE Studio supports four languages of lyrics. This option is used to set the language of lyrics."
-msgstr "ACE Studio unterstützt vier Sprachen für Liedtexte. Diese Option wird verwendet, um die Sprache der Liedtexte festzulegen."
+msgid "ACE Studio supports eight languages of lyrics. This option is used to set the language of lyrics."
+msgstr "ACE Studio unterstützt acht Sprachen für Liedtexte. Diese Option wird verwendet, um die Sprache der Liedtexte festzulegen."
 
 msgid "Default consonant length (secs)"
 msgstr "Standard-Konsonantenlänge (Sekunden)"
