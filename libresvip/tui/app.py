@@ -55,6 +55,7 @@ from upath import UPath
 import libresvip
 from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.core.warning_types import CatchWarnings
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
@@ -62,6 +63,16 @@ from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 translation.singleton_translation = get_translation()
+readonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, ReadOnlyConverterMixin)
+]
+writeonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, WriteOnlyConverterMixin)
+]
 
 
 class LibreSVIPCommandProvider(Provider):
@@ -145,12 +156,16 @@ class SelectFormats(Vertical):
     def on_swap_input_output(self, pressed: Button.Pressed) -> None:
         input_format_select = self.query_one("#input_format")
         output_format_select = self.query_one("#output_format")
-        input_format_value, output_format_value = (
-            output_format_select._value,
-            input_format_select._value,
-        )
-        input_format_select._watch_value(input_format_value)
-        output_format_select._watch_value(output_format_value)
+        if (
+            input_format_select._value not in readonly_plugin_ids
+            and output_format_select._value not in writeonly_plugin_ids
+        ):
+            input_format_value, output_format_value = (
+                output_format_select._value,
+                input_format_select._value,
+            )
+            input_format_select._watch_value(input_format_value)
+            output_format_select._watch_value(output_format_value)
 
     @on(Button.Pressed, "#input_plugin_info")
     def on_input_plugin_info(self, pressed: Button.Pressed) -> None:
@@ -184,6 +199,7 @@ class SelectFormats(Vertical):
                 [
                     (f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})", plugin_id)
                     for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                    if plugin_id not in writeonly_plugin_ids
                 ],
                 value=(
                     settings.last_input_format
@@ -208,6 +224,7 @@ class SelectFormats(Vertical):
                 [
                     (f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})", plugin_id)
                     for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                    if plugin_id not in readonly_plugin_ids
                 ],
                 value=(
                     settings.last_output_format
