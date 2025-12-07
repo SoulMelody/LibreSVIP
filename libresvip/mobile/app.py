@@ -19,6 +19,7 @@ import libresvip
 from libresvip.core.config import settings
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
@@ -92,6 +93,17 @@ def main(page: ft.Page) -> None:
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
     page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.alignment.center)
+
+    readonly_plugin_ids = [
+        identifier
+        for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+        if issubclass(plugin, ReadOnlyConverterMixin)
+    ]
+    writeonly_plugin_ids = [
+        identifier
+        for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+        if issubclass(plugin, WriteOnlyConverterMixin)
+    ]
 
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
@@ -761,13 +773,17 @@ def main(page: ft.Page) -> None:
             )
 
         def swap_formats(e: ft.ControlEvent) -> None:
-            last_output_format, last_input_format = (
-                output_select.current.value,
-                input_select.current.value,
-            )
-            set_last_output_format(last_input_format)
-            set_last_input_format(last_output_format)
-            page.update()
+            if (
+                input_select.current.value not in readonly_plugin_ids
+                and output_select.current.value not in writeonly_plugin_ids
+            ):
+                last_output_format, last_input_format = (
+                    output_select.current.value,
+                    input_select.current.value,
+                )
+                set_last_output_format(last_input_format)
+                set_last_input_format(last_output_format)
+                page.update()
 
         def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
             if control.current.value:
@@ -863,6 +879,7 @@ def main(page: ft.Page) -> None:
                                         for plugin_id, plugin_obj in plugin_manager.plugins.get(
                                             "svs", {}
                                         ).items()
+                                        if plugin_id not in writeonly_plugin_ids
                                     ],
                                     col=10,
                                     dense=True,
@@ -894,6 +911,7 @@ def main(page: ft.Page) -> None:
                                         for plugin_id, plugin_obj in plugin_manager.plugins.get(
                                             "svs", {}
                                         ).items()
+                                        if plugin_id not in readonly_plugin_ids
                                     ],
                                     col=10,
                                     dense=True,
