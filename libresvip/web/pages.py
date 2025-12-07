@@ -58,6 +58,7 @@ from libresvip.core.config import (
 )
 from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import (
     get_translation,
     middleware_manager,
@@ -171,6 +172,16 @@ plugin_details = {
     }
     for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
 }
+readonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, ReadOnlyConverterMixin)
+]
+writeonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, WriteOnlyConverterMixin)
+]
 
 
 @ui.page("/")
@@ -298,35 +309,37 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             attr = getattr(selected_formats, attr_name)
             with ui.grid(columns=5).classes("w-full h-full"):
                 with ui.element("div").classes("w-100 h-100") as icon:
-                    icon.props["style"] = (
-                        f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
-                    )
+                    if plugin_details[attr]["icon_base64"]:
+                        icon.props["style"] = (
+                            f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
+                        )
                 with ui.column().classes("justify-center flex-grow col-span-4"):
                     ui.label(_(plugin_details[attr]["name"] or "")).classes(
                         "text-h5 w-full font-bold text-center",
                     )
                     with ui.grid(columns=2).classes("w-full"):
-                        with ui.element("q-chip").props("icon=bookmark").tooltip(_("Version")):
+                        with ui.chip(icon="bookmark", color="none").tooltip(_("Version")):
                             ui.label(plugin_details[attr]["version"] or "")
                         with (
-                            ui.element("q-chip")
-                            .props("icon=person")
-                            .tooltip(plugin_details[attr]["website"] or ""),
+                            ui.chip(_("Author") + ": ", icon="person", color="none")
+                            .tooltip(plugin_details[attr]["website"] or "")
+                            .props("icon-right=open_in_new"),
                             ui.row().classes("items-center"),
                         ):
-                            ui.label(_("Author") + ": ")
                             ui.link(
                                 _(plugin_details[attr]["author"] or ""),
                                 plugin_details[attr]["website"] or "",
                                 new_tab=True,
                             )
-                            ui.icon("open_in_new")
-                    with ui.element("q-chip").props("icon=outline_insert_drive_file"):
-                        ui.label(
+                    ui.chip(
+                        (
                             _(plugin_details[attr]["file_format"] or "")
                             + " "
                             + (plugin_details[attr]["suffix"] or ""),
-                        )
+                        ),
+                        icon="outline_insert_drive_file",
+                        color="none",
+                    )
             ui.separator()
             with ui.card_section().classes("w-full"):
                 ui.label(_("Introduction")).classes("text-subtitle1 font-bold")
@@ -1117,10 +1130,14 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         )  # fix icon position
 
         def swap_values() -> None:
-            selected_formats.input_format, selected_formats.output_format = (
-                selected_formats.output_format,
-                selected_formats.input_format,
-            )
+            if (
+                selected_formats.input_format not in readonly_plugin_ids
+                and selected_formats.output_format not in writeonly_plugin_ids
+            ):
+                selected_formats.input_format, selected_formats.output_format = (
+                    selected_formats.output_format,
+                    selected_formats.input_format,
+                )
 
         ui.colors(
             primary="#3F51B5",
@@ -1144,13 +1161,13 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         )
                         ui.label(_("Author: SoulMelody")).classes("text-md w-full")
                         with ui.row().classes("w-full justify-center"):
-                            with ui.element("q-chip").props("icon=live_tv"):
+                            with ui.chip(icon="live_tv", color="none"):
                                 ui.link(
                                     _("Author's Profile"),
                                     "https://space.bilibili.com/175862486",
                                     new_tab=True,
                                 )
-                            with ui.element("q-chip").props("icon=logo_dev"):
+                            with ui.chip(icon="logo_dev", color="none"):
                                 ui.link(
                                     _("Repo URL"),
                                     "https://github.com/SoulMelody/LibreSVIP",
@@ -1605,7 +1622,6 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     with ui.card_actions().props("align=right").classes("w-full"):
                         ui.button(_("Close"), on_click=settings_dialog.close)
                 ui.space()
-                ui.space()
                 if app.native.main_window is not None:
                     if platform.system() == "Windows":
                         import ctypes.wintypes
@@ -1891,6 +1907,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                             {
                                 k: _(v["file_format"] or "") + " " + (v["suffix"] or "")
                                 for k, v in plugin_details.items()
+                                if k not in writeonly_plugin_ids
                             },
                             label=_("Import format"),
                         )
@@ -1939,6 +1956,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                             {
                                 k: _(v["file_format"] or "") + " " + (v["suffix"] or "")
                                 for k, v in plugin_details.items()
+                                if k not in readonly_plugin_ids
                             },
                             label=_("Export format"),
                         )
