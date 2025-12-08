@@ -1,4 +1,4 @@
-#!/usr/bin/makensis
+﻿#!/usr/bin/makensis
 
 ; BEGIN NSIS TEMPLATE HEADER
 !define /file APPDIR "APPDIR"
