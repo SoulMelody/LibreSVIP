@@ -149,6 +149,9 @@ Section "Uninstall"
         SetShellVarContext current
         Delete "$INSTDIR\${USER_INSTALL_MARKER}"
 
+    IfFileExists "$DESKTOP\${APPNAME}.lnk" 0 +2
+        Delete "$DESKTOP\${APPNAME}.lnk"
+
     RMDir /r /REBOOTOK "$SMPROGRAMS\${APPNAME}"
     RMDir /r /REBOOTOK "$INSTDIR"
     DeleteRegKey SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
