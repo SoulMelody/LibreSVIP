@@ -39,7 +39,14 @@ SetCompressor lzma
 !include "MUI2.nsh"
 !define MUI_ABORTWARNING
 !define MUI_ICON "${ICON}"
-!define MUI_UNICON "${ICON}"
+
+Function finishpageaction
+    CreateShortcut "$DESKTOP\${APPNAME}.lnk" "$INSTDIR\libresvip-gui.exe" "" "$INSTDIR\${ICON}"
+FunctionEnd
+
+!define MUI_FINISHPAGE_SHOWREADME ""
+!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
 
 ; UI pages
 !insertmacro MUI_PAGE_WELCOME
@@ -55,42 +62,10 @@ SetCompressor lzma
 
 ; UI languages
 !insertmacro MUI_LANGUAGE "English"
-!insertmacro MUI_LANGUAGE "French"
-!insertmacro MUI_LANGUAGE "German"
-!insertmacro MUI_LANGUAGE "Spanish"
-!insertmacro MUI_LANGUAGE "SpanishInternational"
 !insertmacro MUI_LANGUAGE "SimpChinese"
-!insertmacro MUI_LANGUAGE "TradChinese"
-!insertmacro MUI_LANGUAGE "Japanese"
-!insertmacro MUI_LANGUAGE "Italian"
-!insertmacro MUI_LANGUAGE "Dutch"
-!insertmacro MUI_LANGUAGE "Danish"
-!insertmacro MUI_LANGUAGE "Swedish"
-!insertmacro MUI_LANGUAGE "Norwegian"
-!insertmacro MUI_LANGUAGE "NorwegianNynorsk"
-!insertmacro MUI_LANGUAGE "Russian"
-!insertmacro MUI_LANGUAGE "Portuguese"
-!insertmacro MUI_LANGUAGE "PortugueseBR"
-!insertmacro MUI_LANGUAGE "Polish"
-!insertmacro MUI_LANGUAGE "Ukrainian"
-!insertmacro MUI_LANGUAGE "Czech"
-!insertmacro MUI_LANGUAGE "Slovak"
-!insertmacro MUI_LANGUAGE "Slovenian"
-!insertmacro MUI_LANGUAGE "Arabic"
-!insertmacro MUI_LANGUAGE "Hebrew"
-!insertmacro MUI_LANGUAGE "Indonesian"
-!insertmacro MUI_LANGUAGE "Mongolian"
-!insertmacro MUI_LANGUAGE "Albanian"
-!insertmacro MUI_LANGUAGE "Belarusian"
-!insertmacro MUI_LANGUAGE "Esperanto"
-!insertmacro MUI_LANGUAGE "Asturian"
-!insertmacro MUI_LANGUAGE "Basque"
-!insertmacro MUI_LANGUAGE "ScotsGaelic"
-!insertmacro MUI_LANGUAGE "Vietnamese"
-!insertmacro MUI_LANGUAGE "Armenian"
-!insertmacro MUI_LANGUAGE "Corsican"
-!insertmacro MUI_LANGUAGE "Tatar"
-!insertmacro MUI_LANGUAGE "Hindi"
+
+LangString MUI_TEXT_FINISH_SHOWREADME ${LANG_ENGLISH} "Create a shortcut on the desktop"
+LangString MUI_TEXT_FINISH_SHOWREADME ${LANG_SIMPCHINESE} "在桌面创建快捷方式"
 
 Name "${APPNAME} ${VERSION}"
 !if ${VERSION} != "None"
