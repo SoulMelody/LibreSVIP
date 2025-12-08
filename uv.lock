@@ -733,7 +733,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.42.0"
+version = "0.42.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -747,9 +747,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tomli", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2e/b6/eb058d8866a0781eb3247c4ba89a27cff517fffb150769851ea3db5ce231/datamodel_code_generator-0.42.0.tar.gz", hash = "sha256:f369d0e72eefa7999464826e15cae7406813d9d3c5c7f62140808a21a28da441", size = 495980, upload-time = "2025-12-08T02:57:49.314Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/88/e0/372aed4838be433829b0309868f1cf8776475fc8f8f7f47d784ecb394ea7/datamodel_code_generator-0.42.2.tar.gz", hash = "sha256:f7ac71eab3aa4bb1da2ebe0aabd4b7fe8abd2a66dd03cc492d57807e90a3a54e", size = 511348, upload-time = "2025-12-08T21:04:54.865Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/11/3a/28063793f23fc3085134a4f085b1792c9792ff8ebb342edd516856287249/datamodel_code_generator-0.42.0-py3-none-any.whl", hash = "sha256:ce0ba9cc21ead530e54daa2f5b8ab7dbdc1531edfbf8fbd3ad1a4ab1815b2663", size = 166583, upload-time = "2025-12-08T02:57:47.713Z" },
+    { url = "https://files.pythonhosted.org/packages/3b/bd/fde595e1c48e100673fc6e1075b0a0e038b54f1c8f30770133d4e9f473aa/datamodel_code_generator-0.42.2-py3-none-any.whl", hash = "sha256:54430d6be3ea54ce5e70203d42e42881ef8156b6da395bca7355db5587653d91", size = 172014, upload-time = "2025-12-08T21:04:53.472Z" },
 ]
 
 [[package]]
@@ -1751,7 +1751,7 @@ provides-extras = ["crypto", "desktop", "lxml", "mobile", "ruamel-yaml", "tui", 
 [package.metadata.requires-dev]
 all = [
     { name = "babel", specifier = ">=2.17.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.42.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.42.2" },
     { name = "gapic-generator", specifier = ">=1.30.0" },
     { name = "mypy", specifier = ">=1.19.0" },
     { name = "pre-commit", specifier = ">=4.5.0" },
@@ -1776,7 +1776,7 @@ all = [
     { name = "zensical", specifier = ">=0.0.11" },
 ]
 code-gen = [
-    { name = "datamodel-code-generator", specifier = ">=0.42.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.42.2" },
     { name = "gapic-generator", specifier = ">=1.30.0" },
     { name = "protoc-wheel-0", specifier = ">=30.2" },
     { name = "pyside6-addons", specifier = ">=6.10.1,<6.11.0" },
