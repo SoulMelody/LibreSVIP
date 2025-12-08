@@ -7,6 +7,7 @@ from rich.progress import track
 from rich.prompt import Confirm
 
 from libresvip.cli.prompt import prompt_fields
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import Project
 from libresvip.utils.translation import gettext_lazy as _
@@ -41,8 +42,10 @@ def convert(
     """
     input_ext = in_path.suffix.lstrip(".").lower()
     input_plugin = plugin_manager.plugins.get("svs", {})[input_ext]
+    assert not issubclass(input_plugin, WriteOnlyConverterMixin)
     output_ext = out_path.suffix.lstrip(".").lower()
     output_plugin = plugin_manager.plugins.get("svs", {})[output_ext]
+    assert not issubclass(output_plugin, ReadOnlyConverterMixin)
     input_option = input_plugin.input_option_cls
     output_option = output_plugin.output_option_cls
     option_type, option_class = _("Input Options: "), input_option
