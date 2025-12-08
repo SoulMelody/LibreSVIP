@@ -31,6 +31,7 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import ConversionMode, get_ui_settings, settings
 from libresvip.core.warning_types import CatchWarnings
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
@@ -39,6 +40,17 @@ from libresvip.model.base import BaseComplexModel, BaseModel, Project
 from libresvip.utils.text import supported_charset_names, uuid_str
 
 from .url_opener import open_path
+
+readonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, ReadOnlyConverterMixin)
+]
+writeonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, WriteOnlyConverterMixin)
+]
 
 
 class ConversionWorkerSignals(QObject):
@@ -409,7 +421,8 @@ class TaskManager(QObject):
                     "text": plugin.info.file_format,
                     "value": plugin.info.suffix,
                 }
-                for plugin in plugin_manager.plugins.get("svs", {}).values()
+                for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                if plugin_id not in writeonly_plugin_ids
             ],
         )
         self.input_format_changed.emit("")
@@ -420,7 +433,8 @@ class TaskManager(QObject):
                     "text": plugin.info.file_format,
                     "value": plugin.info.suffix,
                 }
-                for plugin in plugin_manager.plugins.get("svs", {}).values()
+                for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                if plugin_id not in readonly_plugin_ids
             ],
         )
         self.output_format_changed.emit("")

@@ -425,9 +425,13 @@ Page {
                     ToolTip.text: qsTr("Swap Input and Output")
                     onClicked: {
                         if (inputFormat.enabled && outputFormat.enabled) {
-                            [inputFormat.currentIndex, outputFormat.currentIndex] = [outputFormat.currentIndex, inputFormat.currentIndex];
-                            taskManager.set_str("input_format", inputFormat.currentValue);
-                            taskManager.set_str("output_format", outputFormat.currentValue);
+                            let inputFormatChangedIndex = inputFormat.indexOfValue(outputFormat.currentValue);
+                            let outputFormatChangedIndex = outputFormat.indexOfValue(inputFormat.currentValue);
+                            if (inputFormatChangedIndex >= 0 && outputFormatChangedIndex >= 0) {
+                                [inputFormat.currentIndex, outputFormat.currentIndex] = [inputFormatChangedIndex, outputFormatChangedIndex];
+                                taskManager.set_str("input_format", inputFormat.currentValue);
+                                taskManager.set_str("output_format", outputFormat.currentValue);
+                            }
                         }
                     }
                 }
