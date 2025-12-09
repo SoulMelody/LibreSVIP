@@ -1767,6 +1767,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                             {
                                 k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
                                 for i, (k, v) in enumerate(plugin_details.items())
+                                if k not in writeonly_plugin_ids
                             },
                         )
                         .bind_value(selected_formats, "input_format")
@@ -1786,6 +1787,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         {
                             k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
                             for i, (k, v) in enumerate(plugin_details.items())
+                            if k not in readonly_plugin_ids
                         },
                     ).bind_value(selected_formats, "output_format")
                 with (
