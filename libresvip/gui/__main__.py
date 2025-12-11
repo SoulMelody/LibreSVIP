@@ -1,6 +1,6 @@
 import sys
 
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtGui import QIcon, QObject, QPixmap
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -28,7 +28,7 @@ def startup() -> None:
 
 def run() -> None:
     locale_switcher = LocaleSwitcher()
-    initial_properties = {
+    initial_properties: dict[str, QObject] = {
         "clipboard": Clipboard(),
         "configItems": ConfigItems(),
         "iconicFontLoader": IconicFontLoader(),

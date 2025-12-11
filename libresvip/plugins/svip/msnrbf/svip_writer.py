@@ -244,7 +244,7 @@ class SvipWriter(NrbfIOBase):
             class_name = f"{class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
 
         if class_name not in self.class_defs:
-            result = {
+            result: dict[str, Any] = {
                 "obj": {
                     "class_info": {
                         "object_id": object_id,
