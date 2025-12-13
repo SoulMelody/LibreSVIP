@@ -35,7 +35,7 @@ jobs:
           uv pip install ../dist/*.whl --no-deps
           uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico --nsis libresvip-desktop.nsi -y -f LibreSVIP
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-win-amd64.zip
           path: ./packaging/dist/
@@ -72,7 +72,7 @@ jobs:
           7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z libresvip-gui
           rm -rf libresvip-gui
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-msys2-ucrt64.zip
           path: ./packaging/dist/
@@ -119,7 +119,7 @@ jobs:
           cp MediaInfo.dll libresvip-gui/_internal/pymediainfo
           7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip-gui
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-win-arm64.zip
           path: ./packaging/archive/
@@ -153,7 +153,7 @@ jobs:
           uv pip install ../dist/*.whl --no-deps
           uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i libresvip.png --no-clean -y -f LibreSVIP
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-linux-x86_64.zip
           path: ./packaging/dist/
@@ -187,7 +187,7 @@ jobs:
           uv pip install ../dist/*.whl --no-deps
           uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i libresvip.png --no-clean -y -f LibreSVIP
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-linux-aarch64.zip
           path: ./packaging/dist/
@@ -225,7 +225,7 @@ jobs:
           rm -rf ./dist/LibreSVIP.app
           cd ..
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-macos-x86_64.zip
           path: ./packaging/dist/
@@ -259,7 +259,7 @@ jobs:
           rm -rf ./dist/LibreSVIP.app
           cd ..
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-macos-arm64.zip
           path: ./packaging/dist/
@@ -316,7 +316,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
@@ -349,7 +349,7 @@ jobs:
           7z a LibreSVIP-mobile-${{ needs.make-outputs.outputs.VERSION }}.win32.7z libresvip-mobile
           rm -rf libresvip-mobile
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-mobile-win32.zip
           path: ./packaging/dist/
@@ -382,7 +382,7 @@ jobs:
           7z a LibreSVIP-mobile-${{ needs.make-outputs.outputs.VERSION }}.win64-free_threaded.7z libresvip-mobile
           rm -rf libresvip-mobile
       - name: Upload build artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-mobile-win64-free_threaded.zip
           path: ./packaging/dist/
