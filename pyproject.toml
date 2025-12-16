@@ -40,7 +40,7 @@ dependencies = [
   "packaging<25.1,>=25.0",
   "platformdirs<5.0.0,>=4.5.1",
   "portion<3.0.0,>=2.6.1",
-  "proto-plus<2.0.0,>=1.26.1",
+  "proto-plus<2.0.0,>=1.27.0",
   "pydantic<3.0.0,>=2.12.5",
   "pydantic-extra-types<3.0.0,>=2.10.6",
   "pydantic-settings<3.0.0,>=2.12.0",
@@ -85,7 +85,7 @@ tui = [
   "textual-fspicker>=0.6.0",
 ]
 webui = [
-  "nicegui>=3.4.0",
+  "nicegui>=3.4.1",
 ]
 mobile = [
   "flet[cli,desktop]>=0.28.3,<0.29.0",

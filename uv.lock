@@ -1696,11 +1696,11 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=6.0.2" },
     { name = "more-itertools", specifier = ">=10.8.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.4.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.4.1" },
     { name = "packaging", specifier = ">=25.0,<25.1" },
     { name = "platformdirs", specifier = ">=4.5.1,<5.0.0" },
     { name = "portion", specifier = ">=2.6.1,<3.0.0" },
-    { name = "proto-plus", specifier = ">=1.26.1,<2.0.0" },
+    { name = "proto-plus", specifier = ">=1.27.0,<2.0.0" },
     { name = "pydantic", specifier = ">=2.12.5,<3.0.0" },
     { name = "pydantic-extra-types", specifier = ">=2.10.6,<3.0.0" },
     { name = "pydantic-settings", specifier = ">=2.12.0,<3.0.0" },
@@ -2428,7 +2428,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "3.4.0"
+version = "3.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2453,9 +2453,9 @@ dependencies = [
     { name = "uvicorn", extra = ["standard"] },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d3/7c/a62af72b921061323dee084b61d7a5892f1df5b8f58eaa97fa7a3f6626ad/nicegui-3.4.0.tar.gz", hash = "sha256:b63e8efdd73cb6e7354b390561b4dcb988394c756a67c7048f6bb560c18d23e4", size = 21016145, upload-time = "2025-12-08T16:39:35.009Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c1/aa/a0620c092154b5a7c0fd81f1092f867e99fd996f97bc2c94bd716a744f92/nicegui-3.4.1.tar.gz", hash = "sha256:7b4ab6f3ea8d0bb1608df8ff0274e8c2ee6813bd9ba85840f35e63a6bc6ce298", size = 21016103, upload-time = "2025-12-16T15:59:53.081Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/e9/9edacbc746cbb8a59fb475c8be86ca5cb254bb671c13621f0728f1f6ab7c/nicegui-3.4.0-py3-none-any.whl", hash = "sha256:8c4f3500fc716e24b2ae4fe9ef68b7748164aac606339907b9ec88d35c3c8ab5", size = 21677367, upload-time = "2025-12-08T16:39:38.705Z" },
+    { url = "https://files.pythonhosted.org/packages/71/f6/bb201939920e017949803b9e84b4876cc4ba9041d6264d9f6750e763f270/nicegui-3.4.1-py3-none-any.whl", hash = "sha256:4c8d4dd2d419f7e30c8358090546504a4897a31d237e4904c6f5c8d23134cbe9", size = 21677377, upload-time = "2025-12-16T15:59:49.896Z" },
 ]
 
 [[package]]
@@ -2853,14 +2853,14 @@ wheels = [
 
 [[package]]
 name = "proto-plus"
-version = "1.26.1"
+version = "1.27.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "protobuf" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f4/ac/87285f15f7cce6d4a008f33f1757fb5a13611ea8914eb58c3d0d26243468/proto_plus-1.26.1.tar.gz", hash = "sha256:21a515a4c4c0088a773899e23c7bbade3d18f9c66c73edd4c7ee3816bc96a012", size = 56142, upload-time = "2025-03-10T15:54:38.843Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/01/89/9cbe2f4bba860e149108b683bc2efec21f14d5f7ed6e25562ad86acbc373/proto_plus-1.27.0.tar.gz", hash = "sha256:873af56dd0d7e91836aee871e5799e1c6f1bda86ac9a983e0bb9f0c266a568c4", size = 56158, upload-time = "2025-12-16T13:46:25.729Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4e/6d/280c4c2ce28b1593a19ad5239c8b826871fc6ec275c21afc8e1820108039/proto_plus-1.26.1-py3-none-any.whl", hash = "sha256:13285478c2dcf2abb829db158e1047e2f1e8d63a077d94263c2b88b043c75a66", size = 50163, upload-time = "2025-03-10T15:54:37.335Z" },
+    { url = "https://files.pythonhosted.org/packages/cd/24/3b7a0818484df9c28172857af32c2397b6d8fcd99d9468bd4684f98ebf0a/proto_plus-1.27.0-py3-none-any.whl", hash = "sha256:1baa7f81cf0f8acb8bc1f6d085008ba4171eaf669629d1b6d1673b21ed1c0a82", size = 50205, upload-time = "2025-12-16T13:46:24.76Z" },
 ]
 
 [[package]]
