@@ -35,7 +35,7 @@ pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.0.0
 platformdirs==4.5.1
 portion==2.6.1
-proto-plus==1.26.1
+proto-plus==1.27.0
 protobuf==6.33.2
 pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32')
 pycryptodomex==3.23.0

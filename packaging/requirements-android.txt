@@ -30,7 +30,7 @@ packaging==25.0
 pathlib-abc==0.5.2
 platformdirs==4.5.1
 portion==2.6.1
-proto-plus==1.26.1
+proto-plus==1.27.0
 protobuf==5.28.3
 pycparser==2.23
 pycryptodomex==3.21.0
