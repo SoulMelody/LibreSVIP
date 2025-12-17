@@ -59,8 +59,8 @@ pyyaml-ft==8.0.0 ; python_full_version == '3.13.*' and sys_platform != 'emscript
 pyzipper==0.3.6
 retrie==0.3.1
 rich==14.2.0
-ruamel-yaml==0.18.16
-ruamel-yaml-clib==0.2.15 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
+ruamel-yaml==0.18.17
+ruamel-yaml-clib==0.2.15 ; python_full_version < '3.15' and platform_python_implementation == 'CPython'
 rubicon-objc==0.5.3 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
 setuptools==80.9.0
 shellingham==1.5.4

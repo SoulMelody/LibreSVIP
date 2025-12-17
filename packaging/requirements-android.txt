@@ -48,8 +48,8 @@ pyzipper==0.3.6
 repath==0.9.0
 retrie==0.3.1
 rich==14.2.0
-ruamel-yaml==0.18.16
-ruamel-yaml-clib==0.2.12
+ruamel-yaml==0.18.17
+ruamel-yaml-clib==0.2.15
 six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.9.2
