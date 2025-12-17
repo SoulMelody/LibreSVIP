@@ -78,7 +78,7 @@ crypto = [
 ]
 ujson = ["ujson>=5.11.0"]
 ruamel_yaml = [
-  "ruamel.yaml>=0.18.16",
+  "ruamel.yaml>=0.18.17",
 ]
 lxml = ["lxml>=6.0.2"]
 tui = [
