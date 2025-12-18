@@ -276,6 +276,27 @@ unbound-name = "ignore"
 unknown-name = "ignore"
 unsupported-operation = "ignore"
 
+[tool.ty.environment]
+python-version = "3.10"
+
+[tool.ty.rules]
+call-non-callable = "ignore"
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+invalid-method-override = "ignore"
+invalid-return-type = "ignore"
+missing-argument = "ignore"
+no-matching-overload = "ignore"
+non-subscriptable = "ignore"
+not-iterable = "ignore"
+possibly-missing-attribute = "ignore"
+possibly-missing-import = "warn"
+unknown-argument = "ignore"
+unresolved-attribute = "ignore"
+unresolved-import = "ignore"
+unsupported-base = "ignore"
+unsupported-operator = "ignore"
+
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
