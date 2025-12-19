@@ -54,7 +54,7 @@ six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.9.2
 tatsu-lts==5.13.2
-typer-slim==0.20.0
+typer-slim==0.20.1
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 universal-pathlib==0.3.7
