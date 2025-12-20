@@ -1,558 +1,221 @@
-from __future__ import annotations
+from typing import Any
 
-from typing import TYPE_CHECKING
-
-import proto
-from google.protobuf import any_pb2
-
-if TYPE_CHECKING:
-    from collections.abc import MutableSequence
-
-__protobuf__ = proto.module(
-    package="xstudio.proto",
-    manifest={
-        "Svip3TrackType",
-        "Svip3PatternType",
-        "Svip3NoteLengthValidateTag",
-        "Svip3Project",
-        "Svip3SongTempo",
-        "Svip3SongBeat",
-        "Svip3SongTone",
-        "Svip3BeatSize",
-        "Svip3Master",
-        "Svip3SingingTrack",
-        "Svip3AudioTrack",
-        "Svip3AudioPattern",
-        "Svip3SingingPattern",
-        "Svip3Vibrato",
-        "Svip3Note",
-        "Svip3VibratoStyle",
-        "Svip3LineParamNode",
-    },
-)
+import aristaproto
+import aristaproto.lib.pydantic.google.protobuf as aristaproto_lib_pydantic_google_protobuf
+from pydantic import GetCoreSchemaHandler
+from pydantic.dataclasses import dataclass
+from pydantic_core import core_schema
 
 
-class Svip3TrackType(proto.Enum):
+class TrackType(aristaproto.Enum):
     Track_None = 0
     Audio_Track = 1
     Singing_Track = 2
 
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, _source_type: Any, _handler: GetCoreSchemaHandler
+    ) -> core_schema.IntSchema:
+        return core_schema.int_schema(ge=0)
 
-class Svip3PatternType(proto.Enum):
+
+class PatternType(aristaproto.Enum):
     Pattern_None = 0
     Audio_Pattern = 1
     Singing_Pattern = 2
 
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, _source_type: Any, _handler: GetCoreSchemaHandler
+    ) -> core_schema.IntSchema:
+        return core_schema.int_schema(ge=0)
 
-class Svip3NoteLengthValidateTag(proto.Enum):
+
+class Svip3NoteLengthValidateTag(aristaproto.Enum):
     NONE = 0
     TOO_LONG = 1
     TOO_SHORT = 2
 
-
-class Svip3SongMark(proto.Message):
-    pos: int = proto.Field(
-        proto.INT32,
-        number=1,
-    )
-    mark: str = proto.Field(
-        proto.STRING,
-        number=2,
-    )
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, _source_type: Any, _handler: GetCoreSchemaHandler
+    ) -> core_schema.IntSchema:
+        return core_schema.int_schema(ge=0)
 
 
-class Svip3Project(proto.Message):
-    project_file_path: str = proto.Field(
-        proto.STRING,
-        number=1,
-    )
-    version: str = proto.Field(
-        proto.STRING,
-        number=2,
-    )
-    duration: int = proto.Field(
-        proto.INT32,
-        number=3,
-    )
-    tempo_list: MutableSequence[Svip3SongTempo] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=4,
-        message="Svip3SongTempo",
-    )
-    beat_list: MutableSequence[Svip3SongBeat] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=5,
-        message="Svip3SongBeat",
-    )
-    track_list: MutableSequence[any_pb2.Any] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=6,
-        message=any_pb2.Any,
-    )
-    master: Svip3Master = proto.Field(
-        proto.MESSAGE,
-        number=7,
-        message="Svip3Master",
-    )
-    current_tone: str = proto.Field(
-        proto.STRING,
-        number=8,
-    )
-    piano_cells: int = proto.Field(
-        proto.INT32,
-        number=9,
-    )
-    loop_start: int = proto.Field(
-        proto.INT32,
-        number=10,
-    )
-    loop_end: int = proto.Field(
-        proto.INT32,
-        number=11,
-    )
-    is_open_adsorb: bool = proto.Field(
-        proto.BOOL,
-        number=12,
-    )
-    params_version: int = proto.Field(
-        proto.INT32,
-        number=13,
-    )
-    tone_list: MutableSequence[Svip3SongTone] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=14,
-        message="Svip3SongTone",
-    )
-    is_triplets: bool = proto.Field(
-        proto.BOOL,
-        number=15,
-    )
-    is_loop: bool = proto.Field(
-        proto.BOOL,
-        number=16,
-    )
-    is_last_play: bool = proto.Field(
-        proto.BOOL,
-        number=17,
-    )
-    mark_list: MutableSequence[Svip3SongMark] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=18,
-        message="Svip3SongMark",
-    )
+@dataclass
+class Svip3SongTempo(aristaproto.Message):
+    pos: int = aristaproto.int32_field(1)
+    tempo: int = aristaproto.int32_field(2)
 
 
-class Svip3SongTempo(proto.Message):
-    pos: int = proto.Field(
-        proto.INT32,
-        number=1,
-    )
-    tempo: int = proto.Field(
-        proto.INT32,
-        number=2,
-    )
+@dataclass
+class Svip3SongBeat(aristaproto.Message):
+    pos: int = aristaproto.int32_field(1)
+    beat_size: "Svip3BeatSize" = aristaproto.message_field(2)
 
 
-class Svip3SongBeat(proto.Message):
-    pos: int = proto.Field(
-        proto.INT32,
-        number=1,
-    )
-    beat_size: Svip3BeatSize = proto.Field(
-        proto.MESSAGE,
-        number=2,
-        message="Svip3BeatSize",
-    )
+@dataclass
+class SongTone(aristaproto.Message):
+    pos: int = aristaproto.int32_field(1)
+    tone: str = aristaproto.string_field(2)
 
 
-class Svip3SongTone(proto.Message):
-    pos: int = proto.Field(
-        proto.INT32,
-        number=1,
-    )
-    tone: str = proto.Field(
-        proto.STRING,
-        number=2,
-    )
+@dataclass
+class Svip3BeatSize(aristaproto.Message):
+    numerator: int = aristaproto.int32_field(1)
+    denominator: int = aristaproto.int32_field(2)
 
 
-class Svip3BeatSize(proto.Message):
-    numerator: int = proto.Field(
-        proto.INT32,
-        number=1,
-    )
-    denominator: int = proto.Field(
-        proto.INT32,
-        number=2,
-    )
+@dataclass
+class Master(aristaproto.Message):
+    volume: float = aristaproto.float_field(1)
 
 
-class Svip3Master(proto.Message):
-    volume: float = proto.Field(
-        proto.FLOAT,
-        number=1,
-    )
+@dataclass
+class Svip3SingingTrack(aristaproto.Message):
+    volume: float = aristaproto.float_field(1)
+    pan: float = aristaproto.float_field(2)
+    mute: bool = aristaproto.bool_field(3)
+    name: str = aristaproto.string_field(4)
+    solo: bool = aristaproto.bool_field(5)
+    color: str = aristaproto.string_field(6)
+    type: "TrackType" = aristaproto.enum_field(7)
+    pattern_list: list["Svip3SingingPattern"] = aristaproto.message_field(8)
+    ai_singer_id: str = aristaproto.string_field(9)
+    is_reverb_open: bool = aristaproto.bool_field(10)
+    reverb_type: int = aristaproto.int32_field(11)
+    reverb_db: float = aristaproto.float_field(12)
+    is_rap_track: bool = aristaproto.bool_field(13)
 
 
-class Svip3SingingTrack(proto.Message):
-    volume: float = proto.Field(
-        proto.FLOAT,
-        number=1,
-    )
-    pan: float = proto.Field(
-        proto.FLOAT,
-        number=2,
-    )
-    mute: bool = proto.Field(
-        proto.BOOL,
-        number=3,
-    )
-    name: str = proto.Field(
-        proto.STRING,
-        number=4,
-    )
-    solo: bool = proto.Field(
-        proto.BOOL,
-        number=5,
-    )
-    color: str = proto.Field(
-        proto.STRING,
-        number=6,
-    )
-    type_: Svip3TrackType = proto.Field(
-        proto.ENUM,
-        number=7,
-        enum="Svip3TrackType",
-    )
-    pattern_list: MutableSequence[Svip3SingingPattern] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=8,
-        message="Svip3SingingPattern",
-    )
-    ai_singer_id: str = proto.Field(
-        proto.STRING,
-        number=9,
-    )
-    is_reverb_open: bool = proto.Field(
-        proto.BOOL,
-        number=10,
-    )
-    reverb_type: int = proto.Field(
-        proto.INT32,
-        number=11,
-    )
-    reverb_db: float = proto.Field(
-        proto.FLOAT,
-        number=12,
-    )
-    is_rap_track: bool = proto.Field(
-        proto.BOOL,
-        number=13,
-    )
+@dataclass
+class Svip3AudioTrack(aristaproto.Message):
+    volume: float = aristaproto.float_field(1)
+    pan: float = aristaproto.float_field(2)
+    mute: bool = aristaproto.bool_field(3)
+    name: str = aristaproto.string_field(4)
+    solo: bool = aristaproto.bool_field(5)
+    color: str = aristaproto.string_field(6)
+    type: "TrackType" = aristaproto.enum_field(7)
+    pattern_list: list["Svip3AudioPattern"] = aristaproto.message_field(8)
 
 
-class Svip3AudioTrack(proto.Message):
-    volume: float = proto.Field(
-        proto.FLOAT,
-        number=1,
-    )
-    pan: float = proto.Field(
-        proto.FLOAT,
-        number=2,
-    )
-    mute: bool = proto.Field(
-        proto.BOOL,
-        number=3,
-    )
-    name: str = proto.Field(
-        proto.STRING,
-        number=4,
-    )
-    solo: bool = proto.Field(
-        proto.BOOL,
-        number=5,
-    )
-    color: str = proto.Field(
-        proto.STRING,
-        number=6,
-    )
-    type_: Svip3TrackType = proto.Field(
-        proto.ENUM,
-        number=7,
-        enum="Svip3TrackType",
-    )
-    pattern_list: MutableSequence[Svip3AudioPattern] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=8,
-        message="Svip3AudioPattern",
-    )
+@dataclass
+class Svip3AudioPattern(aristaproto.Message):
+    name: str = aristaproto.string_field(1)
+    type: "PatternType" = aristaproto.enum_field(2)
+    real_pos: int = aristaproto.int32_field(3)
+    real_dur: int = aristaproto.int32_field(4)
+    play_pos: int = aristaproto.int32_field(5)
+    play_dur: int = aristaproto.int32_field(6)
+    is_mute: bool = aristaproto.bool_field(7)
+    audio_file_path: str = aristaproto.string_field(8)
+    rising_falling_tone: float = aristaproto.float_field(9)
 
 
-class Svip3AudioPattern(proto.Message):
-    name: str = proto.Field(
-        proto.STRING,
-        number=1,
-    )
-    type_: Svip3PatternType = proto.Field(
-        proto.ENUM,
-        number=2,
-        enum="Svip3PatternType",
-    )
-    real_pos: int = proto.Field(
-        proto.INT32,
-        number=3,
-    )
-    real_dur: int = proto.Field(
-        proto.INT32,
-        number=4,
-    )
-    play_pos: int = proto.Field(
-        proto.INT32,
-        number=5,
-    )
-    play_dur: int = proto.Field(
-        proto.INT32,
-        number=6,
-    )
-    is_mute: bool = proto.Field(
-        proto.BOOL,
-        number=7,
-    )
-    audio_file_path: str = proto.Field(
-        proto.STRING,
-        number=8,
-    )
-    rising_falling_tone: float = proto.Field(
-        proto.FLOAT,
-        number=9,
-    )
-
-
-class Svip3SingingPattern(proto.Message):
-    name: str = proto.Field(
-        proto.STRING,
-        number=1,
-    )
-    type_: Svip3PatternType = proto.Field(
-        proto.ENUM,
-        number=2,
-        enum="Svip3PatternType",
-    )
-    real_pos: int = proto.Field(
-        proto.INT32,
-        number=3,
-    )
-    real_dur: int = proto.Field(
-        proto.INT32,
-        number=4,
-    )
-    play_pos: int = proto.Field(
-        proto.INT32,
-        number=5,
-    )
-    play_dur: int = proto.Field(
-        proto.INT32,
-        number=6,
-    )
-    is_mute: bool = proto.Field(
-        proto.BOOL,
-        number=7,
-    )
-    note_list: MutableSequence[Svip3Note] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=8,
-        message="Svip3Note",
-    )
-    edited_pitch_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=9,
-        message="Svip3LineParamNode",
-    )
-    edited_volume_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=10,
-        message="Svip3LineParamNode",
-    )
-    edited_power_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=11,
-        message="Svip3LineParamNode",
-    )
-    merge_pitch_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=12,
-        message="Svip3LineParamNode",
-    )
-    merge_power_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=13,
-        message="Svip3LineParamNode",
-    )
-    edited_spec_trans_coef_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=14,
-        message="Svip3LineParamNode",
-    )
-    edited_ap_coef_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=15,
-        message="Svip3LineParamNode",
-    )
-    edited_energy_value_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=16,
-        message="Svip3LineParamNode",
-    )
-    merge_energy_value_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=17,
-        message="Svip3LineParamNode",
-    )
-    rap_type: int = proto.Field(
-        proto.INT32,
-        number=18,
-    )
-    singing_method_id: str = proto.Field(
-        proto.STRING,
-        number=19,
-    )
+@dataclass
+class Svip3SingingPattern(aristaproto.Message):
+    name: str = aristaproto.string_field(1)
+    type: "PatternType" = aristaproto.enum_field(2)
+    real_pos: int = aristaproto.int32_field(3)
+    real_dur: int = aristaproto.int32_field(4)
+    play_pos: int = aristaproto.int32_field(5)
+    play_dur: int = aristaproto.int32_field(6)
+    is_mute: bool = aristaproto.bool_field(7)
+    note_list: list["Svip3Note"] = aristaproto.message_field(8)
+    edited_pitch_line: list["Svip3LineParamNode"] = aristaproto.message_field(9)
+    edited_volume_line: list["Svip3LineParamNode"] = aristaproto.message_field(10)
+    edited_power_line: list["Svip3LineParamNode"] = aristaproto.message_field(11)
+    merge_pitch_line: list["Svip3LineParamNode"] = aristaproto.message_field(12)
+    merge_power_line: list["Svip3LineParamNode"] = aristaproto.message_field(13)
+    edited_spec_trans_coef_line: list["Svip3LineParamNode"] = aristaproto.message_field(14)
+    edited_ap_coef_line: list["Svip3LineParamNode"] = aristaproto.message_field(15)
+    edited_energy_value_line: list["Svip3LineParamNode"] = aristaproto.message_field(16)
+    merge_energy_value_line: list["Svip3LineParamNode"] = aristaproto.message_field(17)
+    rap_type: int = aristaproto.int32_field(18)
+    singing_method_id: str = aristaproto.string_field(19)
 
     @property
     def pos(self) -> int:
         return self.real_pos + self.play_pos
 
 
-class Svip3Vibrato(proto.Message):
-    frequency: float = proto.Field(
-        proto.FLOAT,
-        number=1,
-    )
-    amplitude: float = proto.Field(
-        proto.FLOAT,
-        number=2,
-    )
-    phase: float = proto.Field(
-        proto.FLOAT,
-        number=3,
-    )
-    start: float = proto.Field(
-        proto.FLOAT,
-        number=4,
-    )
-    end: float = proto.Field(
-        proto.FLOAT,
-        number=5,
-    )
-    attack_x: float = proto.Field(
-        proto.FLOAT,
-        number=6,
-    )
-    attack_y: float = proto.Field(
-        proto.FLOAT,
-        number=7,
-    )
-    release_x: float = proto.Field(
-        proto.FLOAT,
-        number=8,
-    )
-    release_y: float = proto.Field(
-        proto.FLOAT,
-        number=9,
-    )
+@dataclass
+class Svip3Vibrato(aristaproto.Message):
+    frequency: float = aristaproto.float_field(1)
+    amplitude: float = aristaproto.float_field(2)
+    phase: float = aristaproto.float_field(3)
+    start: float = aristaproto.float_field(4)
+    end: float = aristaproto.float_field(5)
+    attack_x: float = aristaproto.float_field(6)
+    attack_y: float = aristaproto.float_field(7)
+    release_x: float = aristaproto.float_field(8)
+    release_y: float = aristaproto.float_field(9)
 
 
-class Svip3Note(proto.Message):
-    start_pos: int = proto.Field(
-        proto.INT32,
-        number=1,
-    )
-    width_pos: int = proto.Field(
-        proto.INT32,
-        number=2,
-    )
-    key_index: int = proto.Field(
-        proto.INT32,
-        number=3,
-    )
-    lyric: str = proto.Field(
-        proto.STRING,
-        number=4,
-    )
-    pronouncing: str = proto.Field(
-        proto.STRING,
-        number=5,
-    )
-    consonant_len: int = proto.Field(
-        proto.INT32,
-        number=6,
-    )
-    has_consonant: bool = proto.Field(
-        proto.BOOL,
-        number=7,
-    )
-    user_consonant_len: int = proto.Field(
-        proto.INT32,
-        number=8,
-    )
-    sp_len: int = proto.Field(
-        proto.INT32,
-        number=9,
-    )
-    sil_len: int = proto.Field(
-        proto.INT32,
-        number=10,
-    )
-    length_validate_tag: Svip3NoteLengthValidateTag = proto.Field(
-        proto.ENUM,
-        number=11,
-        enum="Svip3NoteLengthValidateTag",
-    )
-    vibrato: Svip3Vibrato = proto.Field(
-        proto.MESSAGE,
-        number=12,
-        message="Svip3Vibrato",
-    )
-    user_sp_len: int = proto.Field(
-        proto.INT32,
-        number=13,
-    )
-    tone: int = proto.Field(
-        proto.INT32,
-        number=14,
-    )
-    left_pitch: float = proto.Field(
-        proto.FLOAT,
-        number=15,
-    )
-    right_pitch: float = proto.Field(
-        proto.FLOAT,
-        number=16,
-    )
+@dataclass
+class Svip3Note(aristaproto.Message):
+    start_pos: int = aristaproto.int32_field(1)
+    width_pos: int = aristaproto.int32_field(2)
+    key_index: int = aristaproto.int32_field(3)
+    lyric: str = aristaproto.string_field(4)
+    pronouncing: str = aristaproto.string_field(5)
+    consonant_len: int = aristaproto.int32_field(6)
+    has_consonant: bool = aristaproto.bool_field(7)
+    user_consonant_len: int = aristaproto.int32_field(8)
+    sp_len: int = aristaproto.int32_field(9)
+    sil_len: int = aristaproto.int32_field(10)
+    length_validate_tag: "Svip3NoteLengthValidateTag" = aristaproto.enum_field(11)
+    vibrato: "Svip3Vibrato" = aristaproto.message_field(12)
+    user_sp_len: int = aristaproto.int32_field(13)
+    tone: int = aristaproto.int32_field(14)
+    left_pitch: float = aristaproto.float_field(15)
+    right_pitch: float = aristaproto.float_field(16)
 
 
-class Svip3VibratoStyle(proto.Message):
-    is_anti_phase: bool = proto.Field(
-        proto.BOOL,
-        number=1,
-    )
-    amp_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=2,
-        message="Svip3LineParamNode",
-    )
-    freq_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
-        proto.MESSAGE,
-        number=3,
-        message="Svip3LineParamNode",
-    )
+@dataclass
+class Svip3VibratoStyle(aristaproto.Message):
+    is_anti_phase: bool = aristaproto.bool_field(1)
+    amp_line: list["Svip3LineParamNode"] = aristaproto.message_field(2)
+    freq_line: list["Svip3LineParamNode"] = aristaproto.message_field(3)
 
 
-class Svip3LineParamNode(proto.Message):
-    pos: int = proto.Field(
-        proto.SINT32,
-        number=1,
-    )
-    value: float = proto.Field(
-        proto.FLOAT,
-        number=2,
-    )
+@dataclass
+class Svip3VibratoPercentInfo(aristaproto.Message):
+    start_percent: float = aristaproto.float_field(1)
+    end_percent: float = aristaproto.float_field(2)
+
+
+@dataclass
+class Svip3LineParamNode(aristaproto.Message):
+    pos: int = aristaproto.sint32_field(1)
+    value: float = aristaproto.float_field(2)
+
+
+@dataclass
+class Svip3SongMark(aristaproto.Message):
+    pos: int = aristaproto.int32_field(1)
+    mark: str = aristaproto.string_field(2)
+
+
+@dataclass
+class Svip3Project(aristaproto.Message):
+    project_file_path: str = aristaproto.string_field(1)
+    version: str = aristaproto.string_field(2)
+    duration: int = aristaproto.int32_field(3)
+    tempo_list: list["Svip3SongTempo"] = aristaproto.message_field(4)
+    beat_list: list["Svip3SongBeat"] = aristaproto.message_field(5)
+    track_list: list["aristaproto_lib_pydantic_google_protobuf.Any"] = aristaproto.message_field(6)
+    master: "Master" = aristaproto.message_field(7)
+    current_tone: str = aristaproto.string_field(8)
+    piano_cells: int = aristaproto.int32_field(9)
+    loop_start: int = aristaproto.int32_field(10)
+    loop_end: int = aristaproto.int32_field(11)
+    is_open_adsorb: bool = aristaproto.bool_field(12)
+    params_version: int = aristaproto.int32_field(13)
+    tone_list: list["SongTone"] = aristaproto.message_field(14)
+    is_triplets: bool = aristaproto.bool_field(15)
+    is_loop: bool = aristaproto.bool_field(16)
+    is_last_play: bool = aristaproto.bool_field(17)
+    mark_list: list["Svip3SongMark"] = aristaproto.message_field(18)

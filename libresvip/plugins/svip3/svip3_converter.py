@@ -22,11 +22,11 @@ class Svip3Converter(plugin_base.SVSConverter):
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.input_option_cls(**options)
-        svip3_project = Svip3Project.deserialize(path.read_bytes())
+        svip3_project = Svip3Project().parse(path.read_bytes())
         return Svip3Parser(options_obj).parse_project(svip3_project)
 
     @classmethod
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
         options_obj = cls.output_option_cls(**options)
         svip3_project = Svip3Generator(options_obj).generate_project(project)
-        path.write_bytes(Svip3Project.serialize(svip3_project))
+        path.write_bytes(bytes(svip3_project))
