@@ -22,7 +22,7 @@
 | TatSu-LTS               | TatSu takes a grammar in a variation of EBNF as input, and outputs a memoizing PEG/Packrat parser in Python.                 | BSD License                                         |
 | platformdirs            | A small Python package for determining appropriate platform-specific dirs, e.g. a "user data dir".                           | MIT License                                         |
 | portion                 | Python data structure and operations for intervals                                                                           | GNU Lesser General Public License v3 (LGPLv3)       |
-| proto-plus              | Beautiful, Pythonic protocol buffers.                                                                                        | Apache Software License                             |
+| aristaproto             | Arista Protobuf / Python gRPC bindings generator & library                                                                   | MIT License                                         |
 | pydantic                | Data validation using Python type hints                                                                                      | MIT License                                         |
 | pydantic-extra-types    | Extra Pydantic types.                                                                                                        | MIT License                                         |
 | pydantic-settings       | Settings management using Pydantic                                                                                           | MIT License                                         |
