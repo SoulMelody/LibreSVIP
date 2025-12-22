@@ -275,6 +275,7 @@ missing-module-attribute = "ignore"
 not-iterable = "ignore"
 no-matching-overload = "ignore"
 unbound-name = "ignore"
+unexpected-keyword = "ignore"
 unknown-name = "ignore"
 unsupported-operation = "ignore"
 
