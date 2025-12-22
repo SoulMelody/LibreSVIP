@@ -50,10 +50,8 @@ dependencies = [
   "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
   "retrie<1.0.0,>=0.3.1",
-  "rich<14.2.1,>=14.2.0",
   "svg-py<2.0.0,>=1.9.2",
   "tatsu-lts<6.0.0,>=5.13.2",
-  "typer-slim<1.0.0,>=0.20.1",
   "universal-pathlib<1.0.0,>=0.3.7",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
@@ -81,6 +79,11 @@ ruamel_yaml = [
   "ruamel.yaml>=0.18.17",
 ]
 lxml = ["lxml>=6.0.2"]
+cli = [
+  "rich<14.2.1,>=14.2.0",
+  "typer-slim<1.0.0,>=0.20.1",
+  "winloop>=0.4.1; sys_platform == \"win32\"",
+]
 tui = [
   "textual-fspicker>=0.6.0",
 ]
@@ -103,7 +106,7 @@ desktop = [
 code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
   "datamodel-code-generator>=0.46.0",
-  "protoc-wheel-0>=30.2",
+  "protoc-wrapper>=33.0.0",
   "pyside6-addons<6.11.0,>=6.10.1",
   "xsdata[cli]>=25.7",
 ]
