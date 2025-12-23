@@ -67,11 +67,12 @@ class ConversionRequest(aristaproto.Message):
     input_format: str = aristaproto.string_field(1)
     output_format: str = aristaproto.string_field(2)
     mode: ConversionMode = aristaproto.enum_field(3)
-    groups: list[ConversionGroup] = aristaproto.message_field(4)
-    input_options: str = aristaproto.string_field(5)
-    output_options: str = aristaproto.string_field(6)
+    max_track_count: int = aristaproto.int32_field(4)
+    groups: list[ConversionGroup] = aristaproto.message_field(5)
+    input_options: str = aristaproto.string_field(6)
+    output_options: str = aristaproto.string_field(7)
     middleware_options: dict[str, str] = aristaproto.map_field(
-        7, aristaproto.TYPE_STRING, aristaproto.TYPE_STRING
+        8, aristaproto.TYPE_STRING, aristaproto.TYPE_STRING
     )
 
 
@@ -80,7 +81,7 @@ class SingleConversionResult(aristaproto.Message):
     success: bool = aristaproto.bool_field(1)
     file_contents: list[bytes] = aristaproto.bytes_field(2)
     error_message: str = aristaproto.string_field(3)
-    warning_message: str = aristaproto.string_field(4)
+    warning_messages: list[str] = aristaproto.string_field(4)
 
 
 @dataclass

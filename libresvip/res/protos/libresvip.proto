@@ -46,17 +46,18 @@ message ConversionRequest {
   string input_format = 1;
   string output_format = 2;
   ConversionMode mode = 3;
-  repeated ConversionGroup groups = 4;
-  string input_options = 5;
-  string output_options = 6;
-  map<string, string> middleware_options = 7;
+  int32 max_track_count = 4;
+  repeated ConversionGroup groups = 5;
+  string input_options = 6;
+  string output_options = 7;
+  map<string, string> middleware_options = 8;
 }
 
 message SingleConversionResult {
   bool success = 1;
   repeated bytes file_contents = 2;
   string error_message = 3;
-  string warning_message = 4;
+  repeated string warning_messages = 4;
 }
 
 message ConversionResponse {
