@@ -10,12 +10,12 @@ from .messages import ConversionRequest, ConversionResponse, PluginInfosRequest,
 class ConversionStub(aristaproto.ServiceStub):
     async def plugin_infos(
         self,
-        plugin_infos_request: "PluginInfosRequest",
+        plugin_infos_request: PluginInfosRequest,
         *,
         timeout: float | None = None,
         deadline: Deadline | None = None,
         metadata: MetadataLike | None = None,
-    ) -> "PluginInfosResponse":
+    ) -> PluginInfosResponse:
         return await self._unary_unary(
             "/LibreSVIP.Conversion/PluginInfos",
             plugin_infos_request,
@@ -27,12 +27,12 @@ class ConversionStub(aristaproto.ServiceStub):
 
     async def convert(
         self,
-        conversion_request: "ConversionRequest",
+        conversion_request: ConversionRequest,
         *,
         timeout: float | None = None,
         deadline: Deadline | None = None,
         metadata: MetadataLike | None = None,
-    ) -> "ConversionResponse":
+    ) -> ConversionResponse:
         return await self._unary_unary(
             "/LibreSVIP.Conversion/Convert",
             conversion_request,
@@ -44,12 +44,10 @@ class ConversionStub(aristaproto.ServiceStub):
 
 
 class ConversionBase(ServiceBase):
-    async def plugin_infos(
-        self, plugin_infos_request: "PluginInfosRequest"
-    ) -> "PluginInfosResponse":
+    async def plugin_infos(self, plugin_infos_request: PluginInfosRequest) -> PluginInfosResponse:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
-    async def convert(self, conversion_request: "ConversionRequest") -> "ConversionResponse":
+    async def convert(self, conversion_request: ConversionRequest) -> ConversionResponse:
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def __rpc_plugin_infos(
