@@ -977,14 +977,14 @@ wheels = [
 
 [[package]]
 name = "fontconfig-py"
-version = "1.0.0"
+version = "1.0.1"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b2/e9/939b1c822458b1f0f91be9c9a0974bb88f7316630696e221c2c03d3d45a8/fontconfig_py-1.0.0-cp310-abi3-macosx_10_9_universal2.whl", hash = "sha256:7ffe8e6231cabd547599bdcfc3a035ea3d85ab8db17a688a91f0319b7a39375e", size = 1398297, upload-time = "2025-12-10T09:53:55.997Z" },
-    { url = "https://files.pythonhosted.org/packages/b9/b4/18b8d743cc9cf121d089a88a4248d3e93ae08fb20aa99850572b22c589cc/fontconfig_py-1.0.0-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:030f7eef2d87eb41dcbb4324e08b04f0165e37694669ed2439165959a6838caa", size = 841162, upload-time = "2025-12-10T09:53:57.456Z" },
-    { url = "https://files.pythonhosted.org/packages/4d/c6/cc5f1593175855bd5c9bc77a75b493152133d96b8a46c9d3c5cc5d1b7b93/fontconfig_py-1.0.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:ba8f2dd25c9d62ac44f2f718e6493265a714423c9d6edfaad239ae2ddae08aca", size = 840796, upload-time = "2025-12-10T09:53:58.948Z" },
-    { url = "https://files.pythonhosted.org/packages/f8/74/c33c0b4af690c742d233ae1411554e1c4ac357bba2460baa8f0c96767d14/fontconfig_py-1.0.0-cp310-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:78b212e2fba652eebfeb6f4073e71010a366771ffdaeb7314e53303426239ea5", size = 903362, upload-time = "2025-12-10T09:54:00.521Z" },
-    { url = "https://files.pythonhosted.org/packages/e5/d9/cf2bad0e760f7a891219ea11842c97a39cb31099af64b4a58cefc60594f7/fontconfig_py-1.0.0-cp310-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:e1cedf2502ed8bf66708cc7c889d841c76e304d894e2626e64f6c083c785fc69", size = 912867, upload-time = "2025-12-10T09:54:02.539Z" },
+    { url = "https://files.pythonhosted.org/packages/6e/87/30fa0c484172f08187c0cca9125bf8733ca769c6f2bff4520deeda075dda/fontconfig_py-1.0.1-cp310-abi3-macosx_10_9_universal2.whl", hash = "sha256:b6f79ae351f38aade0883a01e739aaee328bf2943ab73ba17b403f9e5cd067d8", size = 1399288, upload-time = "2025-12-23T02:44:15.481Z" },
+    { url = "https://files.pythonhosted.org/packages/09/3c/272faeb1d59ba24bbaa2ee733b54dfb6941901026451d38d38ff7676496a/fontconfig_py-1.0.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:e5e4f23fdaed3d2bdc20a0b2f4402babe9ed37b949d3fdebe4c0387a4ea02359", size = 842156, upload-time = "2025-12-23T02:44:17.46Z" },
+    { url = "https://files.pythonhosted.org/packages/ab/cb/7eb9573fe8aa991ea3fce804c85f61cb57cc9be5a15979866dd8ac9e5011/fontconfig_py-1.0.1-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:4d405ed7ad3766a4a343d6667ceb499d903a5a63a633313fdf431311d819f3cd", size = 841790, upload-time = "2025-12-23T02:44:18.882Z" },
+    { url = "https://files.pythonhosted.org/packages/03/d3/70ce5ffbdaba3e53b33e27afa0be8df01e0ab92a89668e56491c75612bb7/fontconfig_py-1.0.1-cp310-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:79c7e9025fc8f2c4eb3369c64d177f612792ef06d0f9042b16d7bc459a1f5074", size = 904352, upload-time = "2025-12-23T02:44:20.138Z" },
+    { url = "https://files.pythonhosted.org/packages/8c/ee/955cdde98562159ad353a001251d92ae09e80401973cfca988b7a7fe7de9/fontconfig_py-1.0.1-cp310-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:25648e376da1bd503c1285feb406943b189cc2026a233bd8de2e5d34be61c520", size = 913862, upload-time = "2025-12-23T02:44:21.656Z" },
 ]
 
 [[package]]
@@ -1500,7 +1500,7 @@ requires-dist = [
     { name = "desktop-notifier", marker = "platform_python_implementation == 'CPython' and extra == 'desktop'", specifier = ">=6.2.0" },
     { name = "flet", extras = ["cli", "desktop"], marker = "extra == 'mobile'", specifier = ">=0.28.3,<0.29.0" },
     { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.1.0" },
-    { name = "fontconfig-py", marker = "(sys_platform == 'darwin' and extra == 'mobile') or (sys_platform == 'linux' and extra == 'mobile')", specifier = ">=1.0.0" },
+    { name = "fontconfig-py", marker = "(sys_platform == 'darwin' and extra == 'mobile') or (sys_platform == 'linux' and extra == 'mobile')", specifier = ">=1.0.1" },
     { name = "httpx", marker = "extra == 'desktop'", specifier = ">=0.28.1" },
     { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=6.5.2,<7.0.0" },
     { name = "jinja2", specifier = ">=3.1.6,<4.0.0" },
