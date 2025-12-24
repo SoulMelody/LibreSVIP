@@ -105,7 +105,7 @@ desktop = [
 [dependency-groups]
 code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
-  "datamodel-code-generator>=0.47.0",
+  "datamodel-code-generator>=0.48.0",
   "protoc-wrapper>=33.0.0",
   "pyside6-addons<6.11.0,>=6.10.1",
   "xsdata[cli]>=25.7",
@@ -115,7 +115,7 @@ linting = [
   "pre-commit>=4.5.1",
   "ruff>=0.14.10",
   "mypy>=1.19.1",
-  "pyrefly>=0.46.0",
+  "pyrefly>=0.46.1",
   "pyside6<6.11.0,>=6.10.1",
   "types-lxml>=2025.11.25",
   "types-pyyaml>=6.0.12.20250915",
