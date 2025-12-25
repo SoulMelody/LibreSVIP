@@ -88,6 +88,7 @@ def get_default_font_unix() -> str | None:
 
 
 async def main(page: ft.Page) -> None:
+    loop = asyncio.get_running_loop()
     shared_preferences = ft.SharedPreferences()
     storage_paths = ft.StoragePaths()
     page.title = "LibreSVIP"
@@ -414,9 +415,9 @@ async def main(page: ft.Page) -> None:
     async def select_save_folder() -> None:
         if path := await file_picker.get_directory_path(
             _("Change Output Directory"),
-            ## json.loads(await shared_preferences.get("save_folder")),
+            ## (await shared_preferences.get("save_folder")).strip('"'),
         ):
-            await shared_preferences.set("save_folder", json.dumps(path))
+            await shared_preferences.set("save_folder", path)
             if save_folder_text_field.current is not None:
                 save_folder_text_field.current.value = path
 
@@ -666,7 +667,7 @@ async def main(page: ft.Page) -> None:
                 save_path = save_folder / f"{list_tile.subtitle.value}.zip"
             save_path.write_bytes(buffer.getvalue())
             if page.web:
-                asyncio.create_task(url_launcher.launch_url(f"/download/{save_path.name}"))
+                loop.create_task(url_launcher.launch_url(f"/download/{save_path.name}"))
             if w.output:
                 list_tile.leading.controls[0].name = ft.Icons.WARNING_OUTLINED
                 list_tile.leading.controls[0].color = ft.Colors.YELLOW_400
@@ -699,7 +700,7 @@ async def main(page: ft.Page) -> None:
                     save_folder_str := (
                         settings.save_folder
                         if page.web
-                        else json.loads(await shared_preferences.get("save_folder"))
+                        else (await shared_preferences.get("save_folder")).strip('"')
                     )
                 )
                 is None
@@ -858,6 +859,9 @@ async def main(page: ft.Page) -> None:
                                         src=plugin_obj.info.icon_base64,
                                         fit=ft.BoxFit.FILL,
                                         col=3,
+                                        width=100,
+                                        height=100,
+                                        border_radius=50,
                                     ),
                                     ft.ResponsiveRow(
                                         [
@@ -992,20 +996,23 @@ async def main(page: ft.Page) -> None:
                                 ft.TextField(
                                     ref=save_folder_text_field,
                                     label=_("Output Folder"),
-                                    value=json.loads(await shared_preferences.get("save_folder")),
+                                    value=(await shared_preferences.get("save_folder")).strip('"'),
                                     col=10,
+                                    visible=not page.web,
                                 ),
                                 ft.IconButton(
                                     ft.Icons.FOLDER_OPEN_OUTLINED,
                                     tooltip=_("Change Output Directory"),
                                     col=2,
                                     on_click=select_save_folder,
+                                    visible=not page.web,
                                 ),
                                 ft.Button(
                                     _("Request permission to access files"),
                                     data=fph.Permission.MANAGE_EXTERNAL_STORAGE,
                                     on_click=check_permission,
                                     col=12,
+                                    visible=not page.web,
                                 ),
                             ],
                             vertical_alignment=ft.CrossAxisAlignment.CENTER,
