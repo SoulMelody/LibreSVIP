@@ -1,10 +1,8 @@
 [Core]
 name = Ppsf
-module = piapro_studio_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 1.0.0
 Website = https://space.bilibili.com/175862486
 Format = Piapro Studio Song file
 Description = Conversion plugin for Piapro Studio project file

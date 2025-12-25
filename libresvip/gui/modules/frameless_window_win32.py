@@ -4,7 +4,7 @@ from ctypes.wintypes import HWND, LPARAM, MSG, POINT, RECT, UINT
 from typing import SupportsInt
 
 from PySide6.QtCore import QByteArray, QPoint, QRect, Qt, Slot
-from PySide6.QtGui import QGuiApplication, QMouseEvent, QWindow
+from PySide6.QtGui import QCursor, QGuiApplication, QMouseEvent, QWindow
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickItem, QQuickWindow
 
@@ -115,13 +115,6 @@ class FramelessWindow(QQuickWindow):
             self.hwnd, win32con.WM_SYSCOMMAND, win32con.SC_MINIMIZE, 0
         )
 
-    def get_point_from_lparam(self, l_param: int) -> tuple[int, int]:
-        pixel_ratio = self.screen().device_pixel_ratio
-        return (
-            (ctypes.c_short(l_param & 0xFFFF).value) // pixel_ratio - self.x,
-            (ctypes.c_short((l_param >> 16) & 0xFFFF).value) // pixel_ratio - self.y,
-        )
-
     @property
     def hwnd(self) -> int:
         return self.win_id()
@@ -132,14 +125,11 @@ class FramelessWindow(QQuickWindow):
         ctypes.windll.dwmapi.DwmIsCompositionEnabled(ctypes.byref(b_result))
         return bool(b_result.value)
 
-    def get_resize_border_thickness(self, hwnd: int, horizontal: bool) -> int:
+    def get_resize_border_thickness(self, frame: int) -> int:
         device_pixel_ratio = self.screen().device_pixel_ratio
-        frame = win32con.SM_CXSIZEFRAME if horizontal else win32con.SM_CYSIZEFRAME
-        result = ctypes.windll.user32.GetSystemMetricsForDpi(
-            hwnd, frame, horizontal
-        ) + ctypes.windll.user32.GetSystemMetricsForDpi(
-            hwnd, win32con.SM_CXPADDEDBORDER, horizontal
-        )
+        result = ctypes.windll.user32.GetSystemMetrics(
+            frame
+        ) + ctypes.windll.user32.GetSystemMetrics(win32con.SM_CXPADDEDBORDER)
         if result > 0:
             return result
         thickness = 8 if self.is_composition_enabled else 4
@@ -150,7 +140,7 @@ class FramelessWindow(QQuickWindow):
         user32 = ctypes.windll.user32
 
         style = user32.GetWindowLongPtrW(hwnd, win32con.GWL_STYLE)
-
+        style &= ~win32con.WS_SYSMENU
         user32.SetWindowLongPtrW(
             hwnd,
             win32con.GWL_STYLE,
@@ -182,42 +172,43 @@ class FramelessWindow(QQuickWindow):
 
             if msg.message == win32con.WM_NCHITTEST and self.border_width is not None:
                 if msg.hWnd == self.hwnd:
-                    x_pos, y_pos = self.get_point_from_lparam(msg.lParam)
                     bw = (
                         0
                         if self.visibility == QQuickWindow.Visibility.Maximized
                         else self.border_width
                     )
-                    lx = x_pos < bw
-                    rx = x_pos > self.width - bw
-                    ty = y_pos < bw
-                    by = y_pos > self.height - bw
+                    cursor_pos = QCursor.pos()
+                    point = self.map_from_global(cursor_pos)
+                    lx = point.x() < bw
+                    rx = point.x() > self.width - bw
+                    top_y = point.y() < bw
+                    bottom_y = point.y() > self.height - bw
                     if self.visibility != QQuickWindow.Visibility.Maximized:
-                        if lx and ty:
+                        if lx and top_y:
                             return True, win32con.HTTOPLEFT
-                        elif rx and by:
+                        elif rx and bottom_y:
                             return True, win32con.HTBOTTOMRIGHT
-                        elif rx and ty:
+                        elif rx and top_y:
                             return True, win32con.HTTOPRIGHT
-                        elif lx and by:
+                        elif lx and bottom_y:
                             return True, win32con.HTBOTTOMLEFT
-                        elif ty:
+                        elif top_y:
                             return True, win32con.HTTOP
-                        elif by:
+                        elif bottom_y:
                             return True, win32con.HTBOTTOM
                         elif lx:
                             return True, win32con.HTLEFT
                         elif rx:
                             return True, win32con.HTRIGHT
                     if self.maximize_btn is not None:
-                        top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
+                        top_left = self.maximize_btn.map_from_global(cursor_pos)
                         rect = QRect(
-                            top_left.x() - self.x,
-                            top_left.y() - self.y,
+                            0,
+                            0,
                             self.maximize_btn.width,
                             self.maximize_btn.height,
                         )
-                        if rect.contains(x_pos, y_pos):
+                        if rect.contains(top_left.to_point()):
                             return True, win32con.HTMAXBUTTON
             elif msg.message in [
                 win32con.WM_NCMOUSEHOVER,
@@ -233,10 +224,10 @@ class FramelessWindow(QQuickWindow):
                     msg.lParam, ctypes.POINTER(NCCALCSIZEPARAMS)
                 ).contents.rgrc[0]
                 if is_maximized(msg.hWnd) and msg.wParam:
-                    ty = self.get_resize_border_thickness(msg.hWnd, False) - 3  # type: ignore[assignment]
+                    ty = self.get_resize_border_thickness(win32con.SM_CYSIZEFRAME)
                     client_rect.top += ty
                     client_rect.bottom -= ty
-                    tx = self.get_resize_border_thickness(msg.hWnd, True) - 3
+                    tx = self.get_resize_border_thickness(win32con.SM_CXSIZEFRAME)
                     client_rect.left += tx
                     client_rect.right -= tx
                     abd = APPBARDATA()
@@ -286,16 +277,16 @@ class FramelessWindow(QQuickWindow):
     def handle_mouse_event(self, msg: MSG) -> None:
         if self.maximize_btn is None:
             return
-        x_pos, y_pos = self.get_point_from_lparam(msg.lParam)
-        top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
+        cursor_pos = QCursor.pos()
+        top_left = self.maximize_btn.map_from_global(cursor_pos)
         rect = QRect(
-            top_left.x() - self.x,
-            top_left.y() - self.y,
+            0,
+            0,
             self.maximize_btn.width,
             self.maximize_btn.height,
         )
 
-        maximize_btn_hovered = rect.contains(x_pos, y_pos)
+        maximize_btn_hovered = rect.contains(top_left.to_point())
         if maximize_btn_hovered:
             if msg.message == win32con.WM_NCLBUTTONDOWN:
                 mouse_event_type = QMouseEvent.Type.MouseButtonPress

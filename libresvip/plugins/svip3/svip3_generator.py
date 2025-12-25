@@ -3,8 +3,8 @@ import re
 from typing import Any
 from urllib.parse import urljoin
 
+import aristaproto.lib.pydantic.google.protobuf as any_pb2
 import pypinyin
-from google.protobuf import any_pb2
 
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.tick_counter import skip_tempo_list
@@ -108,7 +108,7 @@ class Svip3Generator:
                 continue
             svip3_track_container = any_pb2.Any(
                 type_url=type_url,
-                value=type(svip3_track).serialize(svip3_track),
+                value=bytes(svip3_track),
             )
             svip3_track_list.append(svip3_track_container)
         return svip3_track_list
@@ -244,7 +244,7 @@ class Svip3Generator:
                 has_consonant=has_consonant,
                 sp_len=400 if note.head_tag == "V" else 0,
                 sil_len=400 if note.head_tag == "0" else 0,
-                length_valid_tag=length_valid_tag,
+                length_validate_tag=length_valid_tag,
             )
             svip3_note_list.append(svip3_note)
         return svip3_note_list

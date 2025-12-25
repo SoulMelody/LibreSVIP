@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -32,7 +32,7 @@ jobs:
               - "packaging/requirements-pyinstaller.in"
             docs:
               - "docs/**"
-              - "mkdocs.yml"
+              - "zensical.toml"
 
       - name: Set up uv
         if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.qml_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true' || steps.changed-files.outputs.docs_any_changed == 'true'
@@ -52,22 +52,22 @@ jobs:
         if: steps.changed-files.outputs.qml_any_changed == 'true'
         run: |
           uv venv
-          uv pip install pyside6
+          uv pip install pyside6-addons
           cd scripts
           uv run python patch_qt_resource.py
 
       - name: Compile requirements.txt
         if: steps.changed-files.outputs.requirements_any_changed == 'true'
         run: |
-          uv pip compile --universal --extra desktop --extra crypto --extra ujson --extra lxml --extra ruamel_yaml --extra zstd -U --no-annotate --no-header pyproject.toml packaging/requirements-pyinstaller.in --overrides packaging/requirements-desktop.in -o packaging/requirements-desktop.txt
-          uv pip compile --python-platform aarch64-linux-android --index https://pypi.flet.dev --extra crypto --extra lxml --extra ruamel_yaml --extra zstd --extra upath -U --python-version 3.12 --no-annotate --no-header pyproject.toml packaging/requirements-flet.in --overrides packaging/requirements-mobile.in -o packaging/requirements-android.txt
+          uv pip compile --universal --extra cli --extra desktop --extra crypto --extra ujson --extra lxml --extra ruamel_yaml --extra zstd -U --python 3.10 --no-annotate --no-header pyproject.toml packaging/requirements-pyinstaller.in packaging/requirements-desktop.in --overrides packaging/requirements-desktop.in -o packaging/requirements-desktop.txt
+          uv pip compile --python-platform aarch64-linux-android --index https://pypi.flet.dev --extra crypto --extra lxml --extra ruamel_yaml --extra zstd -U --python-version 3.12 --no-annotate --no-header --index-strategy unsafe-first-match pyproject.toml packaging/requirements-flet.in --overrides packaging/requirements-mobile.in -o packaging/requirements-android.txt
 
       - name: Build docs
         if: steps.changed-files.outputs.docs_any_changed == 'true'
         run: |
           uv venv
-          uv pip install mkdocs-material
-          uv run mkdocs build
+          uv pip install zensical
+          uv run zensical build
 
       - uses: peaceiris/actions-gh-pages@v4
         if: steps.changed-files.outputs.docs_any_changed == 'true'
@@ -76,6 +76,6 @@ jobs:
           publish_dir: site
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: compile files

@@ -1,10 +1,8 @@
 [Core]
 name = Y77
-module = y77_converter
 
 [Documentation]
 Author = FlutyDeer
-Version = 1.0.0
 Website = https://space.bilibili.com/386270936
 Format = Yuan77 project file
 Description = Conversion plugin for Yuan77 project file

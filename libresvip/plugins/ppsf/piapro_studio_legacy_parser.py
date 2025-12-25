@@ -34,7 +34,7 @@ class PiaproStudioLegacyParser:
     clips2track_indexes: dict[int, int] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, ppsf_project: Annotated[Container, PpsfLegacyProject]) -> Project:
-        events_chunk: PpsfChunk | None = None
+        events_chunk: Annotated[Container, PpsfChunk] | None = None
         for chunk in ppsf_project.body.chunks:
             match chunk.magic:
                 case "Clips":

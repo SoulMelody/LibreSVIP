@@ -1,8 +1,6 @@
 import gettext
-from typing import Any
 
 from PySide6.QtCore import QLocale, QObject, QTranslator, Signal, Slot
-from PySide6.QtQml import QmlElement
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -11,10 +9,6 @@ from libresvip.extension.manager import get_translation
 from libresvip.utils import translation
 
 from .application import app, qml_engine
-
-QML_IMPORT_NAME = "LibreSVIP"
-QML_IMPORT_MAJOR_VERSION = 1
-QML_IMPORT_MINOR_VERSION = 0
 
 
 class GettextTranslator(QTranslator):
@@ -40,17 +34,7 @@ class GettextTranslator(QTranslator):
         return source_text
 
 
-class SingletonMetaObject(type(QObject)):  # type: ignore[misc]
-    _instance = None
-
-    def __new__(cls, name: str, bases: tuple[type], attrs: dict[str, Any]) -> type[QObject]:
-        if not cls._instance:
-            cls._instance = super().__new__(cls, name, bases, attrs)
-        return cls._instance
-
-
-@QmlElement
-class LocaleSwitcher(QObject, metaclass=SingletonMetaObject):
+class LocaleSwitcher(QObject):
     translator_initialized = Signal()
 
     def __init__(self) -> None:

@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package LibreSVIP;
+
+enum PluginCategory {
+  INPUT = 0;
+  OUTPUT = 1;
+  MIDDLEWARE = 2;
+}
+
+enum ConversionMode {
+  DIRECT = 0;
+  SPLIT = 1;
+  MERGE = 2;
+}
+
+message PluginInfo {
+  string identifier = 1;
+  string name = 2;
+  string version = 3;
+  string description = 4;
+  string author = 5;
+  string website = 6;
+  string json_schema = 7;
+  // additional fields for io plugins
+  string file_format = 8;
+  repeated string suffixes = 9;
+  string icon_base64 = 10;
+}
+
+message PluginInfosRequest {
+    PluginCategory category = 1;
+    string language = 2;
+}
+
+message PluginInfosResponse {
+  repeated PluginInfo values = 1;
+}
+
+message ConversionGroup {
+  string group_id = 1;
+  repeated bytes file_contents = 2;
+}
+
+message ConversionRequest {
+  string input_format = 1;
+  string output_format = 2;
+  ConversionMode mode = 3;
+  int32 max_track_count = 4;
+  repeated ConversionGroup groups = 5;
+  string input_options = 6;
+  string output_options = 7;
+  map<string, string> middleware_options = 8;
+}
+
+message SingleConversionResult {
+  bool success = 1;
+  repeated bytes file_contents = 2;
+  string error_message = 3;
+  repeated string warning_messages = 4;
+}
+
+message ConversionResponse {
+  map<string, SingleConversionResult> group_results = 1;
+}
+
+//
+service Conversion {
+  //
+  rpc PluginInfos(PluginInfosRequest) returns (PluginInfosResponse);
+  //
+  rpc Convert(ConversionRequest) returns (ConversionResponse);
+}

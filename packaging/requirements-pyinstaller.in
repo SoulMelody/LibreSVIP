@@ -1,4 +1,4 @@
 shellingham
-pyinstaller==6.16.0 ; platform_system != "Windows" or platform_machine == "arm64"
-https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.16.0-py3-none-any.whl ; platform_system == "Windows" and platform_machine != "arm64"
+pyinstaller==6.17.0 ; platform_system != "Windows" or platform_machine == "arm64"
+https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.17.0-py3-none-any.whl ; platform_system == "Windows" and platform_machine != "arm64"
 pillow ; sys_platform == "darwin"

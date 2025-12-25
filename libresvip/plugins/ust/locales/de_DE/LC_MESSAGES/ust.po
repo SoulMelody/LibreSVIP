@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-29 18:18\n"
+"PO-Revision-Date: 2025-10-19 13:42\n"
 
 msgid "Text encoding"
 msgstr "Textkodierung"
@@ -36,6 +36,9 @@ msgstr ""
 msgid "No singing track found"
 msgstr "Keine Gesangsspur gefunden"
 
-msgid "UST project has no track"
-msgstr "UST-Projekt hat keine Spuren"
+msgid "Project has no tracks"
+msgstr ""
+
+msgid "No tempo labels found in the imported project."
+msgstr "Keine Tempobezeichnungen im importierten Projekt gefunden."
 

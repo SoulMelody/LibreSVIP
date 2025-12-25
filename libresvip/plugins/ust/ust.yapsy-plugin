@@ -1,10 +1,8 @@
 [Core]
 name = Ust
-module = ust_converter
 
 [Documentation]
 Author = Sder Colin
-Version = 1.0.0
 Website = https://sdercolin.github.io/utaformatix3/
 Format = UTAU Sequence Text
 Description = Conversion plugin for UST file format

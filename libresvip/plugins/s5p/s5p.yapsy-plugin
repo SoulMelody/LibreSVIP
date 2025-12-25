@@ -1,10 +1,8 @@
 [Core]
 name = SynthV Editor
-module = synthv_editor_converter
 
 [Documentation]
 Author = Sder Colin
-Version = 1.0.0
 Website = https://space.bilibili.com/395432/
 Format = Synthesizer V Editor project file
 Description = Conversion plugin for Synthesizer V Editor project file

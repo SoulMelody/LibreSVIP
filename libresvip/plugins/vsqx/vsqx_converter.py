@@ -1,4 +1,5 @@
 import pathlib
+from importlib.resources import files
 from typing import TYPE_CHECKING, Any
 
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
@@ -62,26 +63,38 @@ class VocaloidXMLWriter(DefaultXmlWriter):
             )
 
 
-class VsqxConverter(plugin_base.SVSConverterBase):
-    def load(self, path: pathlib.Path, options: InputOptions) -> Project:
+class VsqxConverter(plugin_base.SVSConverter):
+    input_option_cls = InputOptions
+    output_option_cls = OutputOptions
+    info = plugin_base.FormatProviderPluginInfo.load_from_string(
+        (files(__package__) / "vsqx.yapsy-plugin").read_text(encoding="utf-8"),
+    )
+    _alias_ = "vsqx"
+    _version_ = "1.0.0"
+
+    @classmethod
+    def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.input_option_cls.model_validate(options)
         xml_parser = XmlParser()
         vsqx_proj: Vsqx = xml_parser.from_bytes(path.read_bytes())
-        return VsqxParser(options, path).parse_project(vsqx_proj)
+        return VsqxParser(options_obj, path).parse_project(vsqx_proj)
 
-    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
+    @classmethod
+    def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
+        options_obj = cls.output_option_cls.model_validate(options)
         vsqx_generator_class: type[Vsq3Generator | Vsq4Generator]
-        if options.vsqx_version == VsqxVersion.VSQ3:
+        if options_obj.vsqx_version == VsqxVersion.VSQ3:
             vsqx_generator_class = Vsq3Generator
             vsqx_namespace = VSQ3_NS
         else:
             vsqx_generator_class = Vsq4Generator
             vsqx_namespace = VSQ4_NS
-        vsqx_proj = vsqx_generator_class(options).generate_project(project)
+        vsqx_proj = vsqx_generator_class(options_obj).generate_project(project)
         xml_serializer = XmlSerializer(
             config=SerializerConfig(
-                pretty_print=options.pretty_xml,
+                pretty_print=options_obj.pretty_xml,
                 pretty_print_indent="\t",
-                schema_location=f"{vsqx_namespace} vsq{options.vsqx_version.value}.xsd",
+                schema_location=f"{vsqx_namespace} vsq{options_obj.vsqx_version.value}.xsd",
             ),
             writer=VocaloidXMLWriter,
         )

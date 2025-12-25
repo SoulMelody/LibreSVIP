@@ -4,7 +4,8 @@ on:
     tags:
       - "v*"
 env:
-  PYTHON_VERSION: "3.13.7"
+  FLET_PYTHON_VERSION: "3.14.2"
+
 jobs:
   make-outputs:
     runs-on: ubuntu-latest
@@ -19,7 +20,7 @@ jobs:
     runs-on: windows-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -27,17 +28,14 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python 3.13
+          uv venv --python 3.14
           uv build --wheel
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pyinstaller libresvip.spec
-          cd dist
-          7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z libresvip
-          rm -rf libresvip
+          uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico --nsis libresvip-desktop.nsi -y -f LibreSVIP
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-win-amd64.zip
           path: ./packaging/dist/
@@ -47,13 +45,13 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z
+            ./packaging/dist/*.exe
 
   release_windows_msys2_ucrt64:
     runs-on: windows-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
@@ -69,12 +67,12 @@ jobs:
           cd packaging
           python mingw_install.py
           python -m pip install ../dist/*.whl --no-deps
-          pyinstaller libresvip.spec
+          pyinstaller libresvip-gui.spec
           cd dist
-          7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z libresvip
-          rm -rf libresvip
+          7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z libresvip-gui
+          rm -rf libresvip-gui
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-msys2-ucrt64.zip
           path: ./packaging/dist/
@@ -94,7 +92,7 @@ jobs:
         uses: pozetroninc/github-action-get-latest-release@master
         with:
           repository: MediaArea/MediaInfo
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
@@ -104,22 +102,24 @@ jobs:
         shell: bash -el {0}
         run: |
           uv build --wheel
-          uv venv --python cpython-${PYTHON_VERSION}-windows-aarch64-none
+          uv venv --python cpython-3.13.10-windows-aarch64-none
           cd dist
           uv pip install *.whl --no-deps
           cd ../packaging
+          uv run python -m ensurepip
           uv run python download_win_arm64_wheels.py
           uv pip install *.whl --no-deps
-          uv run pyinstaller libresvip.spec
+          uv run pyinstaller libresvip-gui.spec
           mkdir archive
           cd dist
-          curl -O https://mediaarea.net/download/binary/mediainfo-gui/${{ steps.mediainfo_version.outputs.release }}/MediaInfo_GUI_${{ steps.mediainfo_version.outputs.release }}_Windows_ARM64_WithoutInstaller.7z
-          7z x MediaInfo_GUI_${{ steps.mediainfo_version.outputs.release }}_Windows_ARM64_WithoutInstaller.7z
-          mkdir -p libresvip/_internal/pymediainfo
-          cp MediaInfo.dll libresvip/_internal/pymediainfo
-          7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
+          export MEDIAINFO_VERSION=${{ steps.mediainfo_version.outputs.release }}
+          curl -O https://mediaarea.net/download/binary/mediainfo-gui/${MEDIAINFO_VERSION#v}/MediaInfo_GUI_${MEDIAINFO_VERSION#v}_Windows_ARM64_WithoutInstaller.7z
+          7z x MediaInfo_GUI_${MEDIAINFO_VERSION#v}_Windows_ARM64_WithoutInstaller.7z
+          mkdir -p libresvip-gui/_internal/pymediainfo
+          cp MediaInfo.dll libresvip-gui/_internal/pymediainfo
+          7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip-gui
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-win-arm64.zip
           path: ./packaging/archive/
@@ -135,7 +135,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -147,16 +147,13 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.13
+          uv venv --python 3.14
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pyinstaller libresvip.spec
-          cd dist
-          tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz libresvip
-          rm -rf libresvip
+          uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i libresvip.png --no-clean -y -f LibreSVIP
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-linux-x86_64.zip
           path: ./packaging/dist/
@@ -166,13 +163,13 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz
+            ./packaging/dist/*.AppImage
 
   release_linux_aarch64:
     runs-on: ubuntu-24.04-arm
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -184,16 +181,13 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.13
+          uv venv --python 3.14
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pyinstaller libresvip.spec
-          cd dist
-          tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz libresvip
-          rm -rf libresvip
+          uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i libresvip.png --no-clean -y -f LibreSVIP
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-linux-aarch64.zip
           path: ./packaging/dist/
@@ -203,13 +197,13 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz
+            ./packaging/dist/*.AppImage
 
   release_macos_x86_64:
     runs-on: macos-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install Rosetta
         shell: bash
         run: |
@@ -221,17 +215,17 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python cpython-${PYTHON_VERSION}-macos-x86_64-none
+          uv venv --python cpython-3.14.2-macos-x86_64-none
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run python -m PyInstaller libresvip.spec
+          uv run python -m PyInstaller libresvip-gui.spec
           brew install create-dmg
           create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg ./dist/LibreSVIP.app
           rm -rf ./dist/LibreSVIP.app
           cd ..
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-macos-x86_64.zip
           path: ./packaging/dist/
@@ -247,7 +241,7 @@ jobs:
     runs-on: macos-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -255,17 +249,17 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.13
+          uv venv --python 3.14
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run python -m PyInstaller libresvip.spec
+          uv run python -m PyInstaller libresvip-gui.spec
           brew install create-dmg
           create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-arm64.dmg ./dist/LibreSVIP.app
           rm -rf ./dist/LibreSVIP.app
           cd ..
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-macos-arm64.zip
           path: ./packaging/dist/
@@ -282,14 +276,15 @@ jobs:
     needs: [make-outputs]
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
 
-      - name: Install Python Dependencies
+      - name: Install Dependencies
         run: |
+          sudo apt install libgtk-3-dev -y
           uv build --wheel
           uv venv --python 3.12
           uv sync --extra mobile
@@ -321,7 +316,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
@@ -337,7 +332,7 @@ jobs:
     runs-on: windows-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -345,7 +340,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python cpython-${PYTHON_VERSION}-windows-x86-none
+          uv venv --python cpython-${FLET_PYTHON_VERSION}-windows-x86-none
           uv sync --extra mobile --extra crypto --extra ujson --extra ruamel_yaml --extra lxml --extra zstd
           cd packaging
           uv pip install -r requirements-pyinstaller.in
@@ -354,7 +349,7 @@ jobs:
           7z a LibreSVIP-mobile-${{ needs.make-outputs.outputs.VERSION }}.win32.7z libresvip-mobile
           rm -rf libresvip-mobile
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-mobile-win32.zip
           path: ./packaging/dist/
@@ -370,7 +365,7 @@ jobs:
     runs-on: windows-latest
     needs: [make-outputs]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -378,8 +373,8 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python cpython-${PYTHON_VERSION}+freethreaded-windows-x86_64-none
-          uv sync --extra mobile --extra crypto --extra zstd
+          uv venv --python cpython-${FLET_PYTHON_VERSION}+freethreaded-windows-x86_64-none
+          uv sync --extra mobile --extra crypto --extra ujson --extra lxml --extra zstd
           cd packaging
           uv pip install -r requirements-pyinstaller.in
           uv run pyinstaller libresvip-mobile.spec
@@ -387,7 +382,7 @@ jobs:
           7z a LibreSVIP-mobile-${{ needs.make-outputs.outputs.VERSION }}.win64-free_threaded.7z libresvip-mobile
           rm -rf libresvip-mobile
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: libresvip-mobile-win64-free_threaded.zip
           path: ./packaging/dist/

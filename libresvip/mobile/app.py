@@ -1,3 +1,4 @@
+import ctypes
 import enum
 import io
 import json
@@ -16,14 +17,73 @@ from pydantic_extra_types.color import Color
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile
 from libresvip.core.config import settings
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
+
+
+class LOGFONT(ctypes.Structure):
+    _fields_ = (
+        ("lfHeight", ctypes.c_long),
+        ("lfWidth", ctypes.c_long),
+        ("lfEscapement", ctypes.c_long),
+        ("lfOrientation", ctypes.c_long),
+        ("lfWeight", ctypes.c_long),
+        ("lfItalic", ctypes.c_byte),
+        ("lfUnderline", ctypes.c_byte),
+        ("lfStrikeOut", ctypes.c_byte),
+        ("lfCharSet", ctypes.c_byte),
+        ("lfOutPrecision", ctypes.c_byte),
+        ("lfClipPrecision", ctypes.c_byte),
+        ("lfQuality", ctypes.c_byte),
+        ("lfPitchAndFamily", ctypes.c_byte),
+        ("lfFaceName", ctypes.c_wchar * 32),
+    )
+
+
+class NONCLIENTMETRICS(ctypes.Structure):
+    _fields_ = (
+        ("cbSize", ctypes.c_ulong),
+        ("iBorderWidth", ctypes.c_long),
+        ("iScrollWidth", ctypes.c_long),
+        ("iScrollHeight", ctypes.c_long),
+        ("iCaptionWidth", ctypes.c_long),
+        ("iCaptionHeight", ctypes.c_long),
+        ("lfCaptionFont", LOGFONT),
+        ("iSmCaptionWidth", ctypes.c_long),
+        ("iSmCaptionHeight", ctypes.c_long),
+        ("lfSmCaptionFont", LOGFONT),
+        ("iMenuWidth", ctypes.c_long),
+        ("iMenuHeight", ctypes.c_long),
+        ("lfMenuFont", LOGFONT),
+        ("lfStatusFont", LOGFONT),
+        ("lfMessageFont", LOGFONT),
+        ("iPaddedBorderWidth", ctypes.c_long),
+    )
+
+
+SPI_GETNONCLIENTMETRICS = 0x29
+
+
+def get_default_font_win32() -> str:
+    metrics = NONCLIENTMETRICS()
+    metrics.cbSize = ctypes.sizeof(NONCLIENTMETRICS)
+    ctypes.windll.user32.SystemParametersInfoW(
+        SPI_GETNONCLIENTMETRICS, metrics.cbSize, ctypes.byref(metrics), 0
+    )
+    return metrics.lfMessageFont.lfFaceName
+
+
+def get_default_font_unix() -> str | None:
+    import fontconfig
+
+    for font in fontconfig.query(where="", select=("family",)):
+        return font["family"]
 
 
 async def main(page: ft.Page) -> None:
@@ -35,9 +95,26 @@ async def main(page: ft.Page) -> None:
     page.window.title_bar_buttons_hidden = True
     page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.Alignment.CENTER)
 
+    readonly_plugin_ids = [
+        identifier
+        for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+        if issubclass(plugin, ReadOnlyConverterMixin)
+    ]
+    writeonly_plugin_ids = [
+        identifier
+        for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+        if issubclass(plugin, WriteOnlyConverterMixin)
+    ]
+
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
 
+    if page.platform == ft.PagePlatform.WINDOWS:
+        page.theme = ft.Theme(font_family=get_default_font_win32())
+    elif page.platform in [ft.PagePlatform.LINUX, ft.PagePlatform.MACOS] and (
+        default_font_family := get_default_font_unix()
+    ):
+        page.theme = ft.Theme(font_family=default_font_family)
     if not await page.shared_preferences.contains_key("dark_mode"):
         await page.shared_preferences.set("dark_mode", "System")
     page.theme_mode = ft.ThemeMode(
@@ -76,7 +153,7 @@ async def main(page: ft.Page) -> None:
     output_options = ft.Ref[ft.ResponsiveRow]()
     middleware_options = {
         middleware_id: ft.Ref[ft.ExpansionPanel]()
-        for middleware_id in middleware_manager.plugin_registry
+        for middleware_id in middleware_manager.plugins.get("middleware", {})
     }
 
     def build_options(option_class: type[BaseModel]) -> list[ft.Control]:
@@ -177,48 +254,21 @@ async def main(page: ft.Page) -> None:
         return fields
 
     def build_input_options(value: str | None) -> list[ft.Control]:
-        if value in plugin_manager.plugin_registry:
-            input_plugin = plugin_manager.plugin_registry[value]
-            if (
-                input_plugin.plugin_object is not None
-                and (
-                    input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
-                        "options",
-                    )
-                )
-                is not None
-            ):
-                return build_options(input_option_cls)
+        if value in plugin_manager.plugins.get("svs", {}):
+            input_plugin = plugin_manager.plugins.get("svs", {})[value]
+            return build_options(input_plugin.input_option_cls)
         return []
 
     def build_middleware_options(value: str) -> list[ft.Control]:
-        if value in middleware_manager.plugin_registry:
-            middleware = middleware_manager.plugin_registry[value]
-            if (
-                middleware.plugin_object is not None
-                and (
-                    middleware_option_cls := get_type_hints(middleware.plugin_object.process).get(
-                        "options"
-                    )
-                )
-                is not None
-            ):
-                return build_options(middleware_option_cls)
+        if value in middleware_manager.plugins.get("middleware", {}):
+            middleware = middleware_manager.plugins.get("middleware", {})[value]
+            return build_options(middleware.process_option_cls)
         return []
 
     def build_output_options(value: str | None) -> list[ft.Control]:
-        if value in plugin_manager.plugin_registry:
-            output_plugin = plugin_manager.plugin_registry[value]
-            if (
-                output_plugin.plugin_object is not None
-                and (
-                    output_option_cls := get_type_hints(output_plugin.plugin_object.dump).get(
-                        "options",
-                    )
-                )
-                is not None
-            ):
-                return build_options(output_option_cls)
+        if value in plugin_manager.plugins.get("svs", {}):
+            output_plugin = plugin_manager.plugins.get("svs", {})[value]
+            return build_options(output_plugin.output_option_cls)
         return []
 
     async def set_last_input_format(value: str | ft.Event[ft.BaseControl] | None) -> None:
@@ -317,7 +367,7 @@ async def main(page: ft.Page) -> None:
                 if (
                     suffix != last_input_format
                     and auto_detect_input_format
-                    and suffix in plugin_manager.plugin_registry
+                    and suffix in plugin_manager.plugins.get("svs", {})
                 ):
                     await set_last_input_format(suffix)
                 task_list_view.current.controls.append(
@@ -398,7 +448,7 @@ async def main(page: ft.Page) -> None:
             if (
                 suffix != last_input_format
                 and auto_detect_input_format
-                and suffix in plugin_manager.plugin_registry
+                and suffix in plugin_manager.plugins.get("svs", {})
             ):
                 await set_last_input_format(suffix)
             task_list_view.current.controls.append(
@@ -527,115 +577,79 @@ async def main(page: ft.Page) -> None:
                     output_path = output_path.with_suffix(
                         f".{output_format}",
                     )
-                input_plugin = plugin_manager.plugin_registry[input_format]
-                output_plugin = plugin_manager.plugin_registry[output_format]
-                if (
-                    input_plugin.plugin_object is not None
-                    and (
-                        input_option_class := get_type_hints(input_plugin.plugin_object.load).get(
-                            "options",
-                        )
-                    )
-                    is not None
-                    and output_plugin.plugin_object is not None
-                    and (
-                        output_option_class := get_type_hints(
-                            output_plugin.plugin_object.dump,
-                        ).get("options")
-                    )
-                    is not None
-                ):
-                    input_option = input_option_class.model_validate(
-                        {
-                            control.data: control.value
-                            for control in input_options.current.controls
-                            if control.data is not None and hasattr(control, "value")
-                        }
-                    )
-                    if conversion_mode == "merge":
-                        child_projects = [
-                            input_plugin.plugin_object.load(
-                                sub_task.data["path"],
-                                input_option,
-                            )
-                            for sub_task in more_itertools.value_chain(list_tile, sub_tasks)
-                            if sub_task.data is not None
-                        ]
-                        project = Project.merge_projects(child_projects)
-                    else:
-                        project = input_plugin.plugin_object.load(
-                            list_tile.data["path"],
+                input_plugin = plugin_manager.plugins.get("svs", {})[input_format]
+                output_plugin = plugin_manager.plugins.get("svs", {})[output_format]
+                input_option = {
+                    control.data: control.value
+                    for control in input_options.current.controls
+                    if control.data is not None and hasattr(control, "value")
+                }
+                if conversion_mode == "merge":
+                    child_projects = [
+                        input_plugin.load(
+                            sub_task.data["path"],
                             input_option,
                         )
-                    for middleware_id, middleware_ref in middleware_options.items():
-                        if (
-                            middleware_ref.current.header is not None
-                            and middleware_ref.current.header.leading.value
-                        ):
-                            middleware = middleware_manager.plugin_registry[middleware_id]
-                            if (
-                                middleware_ref.current.content is not None
-                                and middleware.plugin_object is not None
-                                and hasattr(middleware.plugin_object, "process")
-                                and (
-                                    middleware_option_cls := get_type_hints(
-                                        middleware.plugin_object.process
-                                    ).get(
-                                        "options",
-                                    )
-                                )
-                            ):
-                                project = middleware.plugin_object.process(
-                                    project,
-                                    middleware_option_cls.model_validate(
-                                        {
-                                            control.data: control.value
-                                            for control in middleware_ref.current.content.controls[
-                                                -1
-                                            ].controls
-                                            if control.data is not None
-                                            and hasattr(control, "value")
-                                        }
-                                    ),
-                                )
-                    output_option = output_option_class.model_validate(
-                        {
-                            control.data: control.value
-                            for control in output_options.current.controls
-                            if control.data is not None and hasattr(control, "value")
-                        }
+                        for sub_task in more_itertools.value_chain(list_tile, sub_tasks)
+                        if sub_task.data is not None
+                    ]
+                    project = Project.merge_projects(child_projects)
+                else:
+                    project = input_plugin.load(
+                        list_tile.data["path"],
+                        input_option,
                     )
-                    if conversion_mode == "split":
-                        output_path.mkdir(parents=True, exist_ok=True)
-                        for i, child_project in enumerate(
-                            project.split_tracks(max_track_count), start=1
-                        ):
-                            output_plugin.plugin_object.dump(
-                                output_path
-                                / f"{list_tile.subtitle.value}_{i:0=2d}.{output_format}",
-                                child_project,
-                                output_option,
+                for middleware_id, middleware_ref in middleware_options.items():
+                    if (
+                        middleware_ref.current.header is not None
+                        and middleware_ref.current.header.leading.value
+                    ):
+                        middleware = middleware_manager.plugins.get("middleware", {})[middleware_id]
+                        if middleware_ref.current.content is not None:
+                            project = middleware.process(
+                                project,
+                                {
+                                    control.data: control.value
+                                    for control in middleware_ref.current.content.controls[
+                                        -1
+                                    ].controls
+                                    if control.data is not None and hasattr(control, "value")
+                                },
                             )
-                    else:
-                        output_plugin.plugin_object.dump(
-                            output_path,
-                            project,
+                output_option = {
+                    control.data: control.value
+                    for control in output_options.current.controls
+                    if control.data is not None and hasattr(control, "value")
+                }
+                if conversion_mode == "split":
+                    output_path.mkdir(parents=True, exist_ok=True)
+                    for i, child_project in enumerate(
+                        project.split_tracks(max_track_count), start=1
+                    ):
+                        output_plugin.dump(
+                            output_path / f"{list_tile.subtitle.value}_{i:0=2d}.{output_format}",
+                            child_project,
                             output_option,
                         )
+                else:
+                    output_plugin.dump(
+                        output_path,
+                        project,
+                        output_option,
+                    )
             if w.output:
                 list_tile.data["log_text"] = w.output
             buffer = io.BytesIO()
             if output_path.is_file():
                 buffer.write(output_path.read_bytes())
             else:
-                with ZipFile(buffer, "w") as zip_file:
-                    for child_file in output_path.iterdir():
-                        if not child_file.is_file():
-                            continue
-                        zip_file.writestr(
-                            child_file.name,
-                            child_file.read_bytes(),
-                        )
+                zip_file = UPath("zip://", fo=buffer, mode="a")
+                for child_file in output_path.iterdir():
+                    if not child_file.is_file():
+                        continue
+                    (zip_file / child_file.name).write_bytes(
+                        child_file.read_bytes(),
+                    )
             if conversion_mode != "split":
                 save_path = save_folder / output_path.name
             else:
@@ -800,22 +814,26 @@ async def main(page: ft.Page) -> None:
             )
 
         async def swap_formats(e: ft.ControlEvent) -> None:
-            last_output_format, last_input_format = (
-                output_select.current.value,
-                input_select.current.value,
-            )
-            await set_last_output_format(last_input_format)
-            await set_last_input_format(last_output_format)
-            page.update()
+            if (
+                input_select.current.value not in readonly_plugin_ids
+                and output_select.current.value not in writeonly_plugin_ids
+            ):
+                last_output_format, last_input_format = (
+                    output_select.current.value,
+                    input_select.current.value,
+                )
+                await set_last_output_format(last_input_format)
+                await set_last_input_format(last_output_format)
+                page.update()
 
         def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
             if control.current.value:
-                plugin_obj = plugin_manager.plugin_registry[control.current.value]
+                plugin_obj = plugin_manager.plugins.get("svs", {})[control.current.value]
                 page.views.append(
                     ft.View(
                         "/plugin_info",
                         appbar=ft.AppBar(
-                            title=ft.Text(plugin_obj.name),
+                            title=ft.Text(plugin_obj.info.name),
                             center_title=True,
                             bgcolor=ft.Colors.SURFACE,
                             leading=ft.IconButton(
@@ -828,7 +846,7 @@ async def main(page: ft.Page) -> None:
                             ft.ResponsiveRow(
                                 [
                                     ft.Image(
-                                        src_base64=plugin_obj.icon_base64,
+                                        src_base64=plugin_obj.info.icon_base64,
                                         fit=ft.BoxFit.FILL,
                                         col=3,
                                     ),
@@ -836,7 +854,7 @@ async def main(page: ft.Page) -> None:
                                         [
                                             ft.Icon(ft.Icons.BOOKMARK_OUTLINE_OUTLINED, col=1),
                                             ft.Text(
-                                                str(plugin_obj.version), tooltip=_("Version"), col=3
+                                                plugin_obj.version, tooltip=_("Version"), col=3
                                             ),
                                             ft.Icon(ft.Icons.PERSON_OUTLINE_OUTLINED, col=1),
                                             ft.Row(
@@ -844,14 +862,14 @@ async def main(page: ft.Page) -> None:
                                                     ft.Text(
                                                         spans=[
                                                             ft.TextSpan(
-                                                                _(plugin_obj.author),
+                                                                _(plugin_obj.info.author),
                                                                 ft.TextStyle(
                                                                     decoration=ft.TextDecoration.UNDERLINE
                                                                 ),
-                                                                url=plugin_obj.website,
+                                                                url=plugin_obj.info.website,
                                                             ),
                                                         ],
-                                                        tooltip=plugin_obj.website,
+                                                        tooltip=plugin_obj.info.website,
                                                     ),
                                                     ft.Icon(ft.Icons.OPEN_IN_NEW_OUTLINED),
                                                 ],
@@ -859,7 +877,7 @@ async def main(page: ft.Page) -> None:
                                             ),
                                             ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
                                             ft.Text(
-                                                f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                                f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                                 col=11,
                                             ),
                                         ],
@@ -875,7 +893,7 @@ async def main(page: ft.Page) -> None:
                                         ],
                                         col=12,
                                     ),
-                                    ft.Text(_(plugin_obj.description)),
+                                    ft.Text(_(plugin_obj.info.description)),
                                 ],
                             )
                         ],
@@ -897,9 +915,12 @@ async def main(page: ft.Page) -> None:
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
-                                            f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                            f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                         )
-                                        for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
+                                        for plugin_id, plugin_obj in plugin_manager.plugins.get(
+                                            "svs", {}
+                                        ).items()
+                                        if plugin_id not in writeonly_plugin_ids
                                     ],
                                     col=10,
                                     dense=True,
@@ -926,9 +947,12 @@ async def main(page: ft.Page) -> None:
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
-                                            f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                            f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
                                         )
-                                        for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
+                                        for plugin_id, plugin_obj in plugin_manager.plugins.get(
+                                            "svs", {}
+                                        ).items()
+                                        if plugin_id not in readonly_plugin_ids
                                     ],
                                     col=10,
                                     dense=True,
@@ -1054,9 +1078,9 @@ async def main(page: ft.Page) -> None:
                                             leading=ft.Switch(value=False),
                                             title=ft.Text(
                                                 _(
-                                                    middleware_manager.plugin_registry[
-                                                        middleware_id
-                                                    ].name
+                                                    middleware_manager.plugins.get(
+                                                        "middleware", {}
+                                                    )[middleware_id].info.name
                                                 )
                                             ),
                                         ),

@@ -29,7 +29,11 @@ class NiaoniaoGenerator:
         if self.options.track_index < 0:
             if (
                 first_singing_track := next(
-                    (track for track in project.track_list if isinstance(track, SingingTrack)),
+                    (
+                        track
+                        for track in project.track_list
+                        if isinstance(track, SingingTrack) and track.note_list
+                    ),
                     None,
                 )
             ) is None:

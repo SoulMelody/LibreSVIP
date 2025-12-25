@@ -1,10 +1,8 @@
 [Core]
 name = MIDI
-module = midi_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 1.0.0
 Website = https://space.bilibili.com/175862486
 Format = Standard MIDI file (SMF)
 Description = Conversion plugin for midi file

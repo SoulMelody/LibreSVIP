@@ -7,8 +7,8 @@ from rich.console import Console
 from rich.table import Table
 
 from libresvip.core.config import save_settings, settings
+from libresvip.extension.base import SVSConverter
 from libresvip.extension.manager import plugin_manager
-from libresvip.extension.meta_info import FormatProviderPluginInfo
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -17,43 +17,33 @@ app = typer.Typer()
 
 @app.command()
 def toggle(identifier: str) -> None:
-    if identifier in plugin_manager.plugin_registry:
-        try:
-            settings.disabled_plugins.append(identifier)
-            plugin_manager.import_plugins(reload=True)
-            assert identifier not in plugin_manager.plugin_registry
-            save_settings()
-            typer.secho(_("The plugin is successfully disabled."), fg="green")
-        except AssertionError:
-            typer.secho(_("Failed to disable the plugin!"), err=True, fg="red")
+    if identifier in plugin_manager.plugins.get("svs", {}):
+        settings.disabled_plugins.append(identifier)
+        save_settings()
+        typer.secho(_("The plugin is successfully disabled."), fg="green")
     elif identifier in settings.disabled_plugins:
-        try:
-            settings.disabled_plugins.remove(identifier)
-            plugin_manager.import_plugins(reload=True)
-            assert identifier in plugin_manager.plugin_registry
-            save_settings()
-            typer.secho(_("The plugin is successfully enabled."), fg="green")
-        except AssertionError:
-            typer.secho(_("Failed to enable the plugin!"), err=True, fg="red")
+        settings.disabled_plugins.remove(identifier)
+        save_settings()
+        typer.secho(_("The plugin is successfully enabled."), fg="green")
     else:
         typer.secho(_("Unable to find the plugin."), fg="yellow")
 
 
 @app.command("list")
 def list_plugins() -> None:
-    print_plugin_summary(plugin_manager.plugin_registry.values())
+    print_plugin_summary(plugin_manager.plugins.get("svs", {}).values())
 
 
 @app.command()
 def detail(plugin_name: str) -> None:
-    if plugin_name in plugin_manager.plugin_registry:
-        print_plugin_details(plugin_manager.plugin_registry[plugin_name])
+    if plugin_name in plugin_manager.plugins.get("svs", {}):
+        print_plugin_details(plugin_manager.plugins.get("svs", {})[plugin_name])
     else:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!", err=True)
 
 
 def print_plugin_summary(
-    plugins: ValuesView[FormatProviderPluginInfo],
+    plugins: ValuesView[SVSConverter],
 ) -> None:
     console = Console(color_system="256")
     if not plugins:
@@ -67,45 +57,47 @@ def print_plugin_summary(
     table.add_column(_("Identifier"), justify="left", style="cyan")
     table.add_column(_("Applicable file format"), justify="left", style="cyan")
     for num, plugin in enumerate(plugins, start=1):
-        format_desc = f"{_(plugin.file_format)} (*.{plugin.suffix})"
+        if plugin.info is None:
+            continue
+        format_desc = f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})"
         table.add_row(
             f"[{num}] ",
-            plugin.name + margin,
-            str(plugin.version) + margin,
-            _(plugin.author) + margin,
-            plugin.suffix + margin,
+            plugin.info.name + margin,
+            (plugin.version or "N/A") + margin,  # type: ignore[attr-defined]
+            _(plugin.info.author) + margin,
+            plugin.info.suffix + margin,
             format_desc + margin,
         )
     console.print(table)
 
 
-def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
-    if plugin.plugin_object is None:
+def print_plugin_details(plugin: SVSConverter) -> None:
+    if plugin.info is None:
         return
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
-        f"{{}}{plugin.name}\t{{}}{plugin.version!s}\t{{}}{_(plugin.author)}".format(
+        f"{{}}{plugin.info.name}\t{{}}{plugin.version!s}\t{{}}{_(plugin.info.author)}".format(  # type: ignore[attr-defined]
             _("Plugin: "),
             _("Version: "),
             _("Author: "),
         )
     )
-    if plugin.website:
-        typer.echo("\n" + _("Website: ") + plugin.website)
-    format_desc = f"{_(plugin.file_format)} (*.{plugin.suffix})"
+    if plugin.info.website:
+        typer.echo("\n" + _("Website: ") + plugin.info.website)
+    format_desc = f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})"
     typer.echo("\n" + f"{_('This plugin is applicable to')} {format_desc}.")
     typer.echo(
         _(
             "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
-        ).format(plugin.suffix.lower(), plugin.suffix.lower())
+        ).format(plugin.info.suffix.lower(), plugin.info.suffix.lower())
     )
-    if plugin.description:
-        typer.echo(f"\n{_('Description: ')}\n{_(plugin.description)}")
+    if plugin.info.description:
+        typer.echo(f"\n{_('Description: ')}\n{_(plugin.info.description)}")
     op_arr = [_("input"), _("output")]
     options_arr = [
-        get_type_hints(plugin.plugin_object.load).get("options", None),
-        get_type_hints(plugin.plugin_object.dump).get("options", None),
+        plugin.input_option_cls,
+        plugin.output_option_cls,
     ]
     for op, options in zip(op_arr, options_arr):
         if options is None:

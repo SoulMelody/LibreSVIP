@@ -229,7 +229,7 @@ class VsqParser:
                         lyric_handle, "L0", fallback=","
                     ).split(",")[:2]
                     if BREATH_PATTERN.fullmatch(phoneme_value.strip('"')) is not None:
-                        if self.options.breath == BreathOption.IGNORE:
+                        if self.options.breath.value == BreathOption.IGNORE.value:
                             continue
                         else:
                             lyric_value = phoneme_value

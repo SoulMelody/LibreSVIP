@@ -67,9 +67,9 @@ class MidiParser:
     time_signatures: list[TimeSignature] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
-        if self.options.multi_channel == MultiChannelOption.FIRST:
+        if self.options.multi_channel.value == MultiChannelOption.FIRST.value:
             self.selected_channels = [0]
-        elif self.options.multi_channel == MultiChannelOption.CUSTOM:
+        elif self.options.multi_channel.value == MultiChannelOption.CUSTOM.value:
             for exp in self.options.channels.split(","):
                 if exp:
                     start, _sep, end = exp.partition("-")

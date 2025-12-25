@@ -67,6 +67,8 @@ class VOXFactoryParser:
                         track_data.clip_bank.items(),
                         key=lambda x: track_data.clip_order.index(x[0]),
                     ):
+                        if not clip_data.source_audio_data_key:
+                            continue
                         audio_path = (self.path.parent / clip_data.name).with_suffix(
                             pathlib.Path(clip_data.source_audio_data_key).suffix
                         )

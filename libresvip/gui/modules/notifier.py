@@ -12,7 +12,6 @@ from desktop_notifier import Button, DesktopNotifier
 from loguru import logger
 from packaging.version import Version
 from PySide6.QtCore import QObject, QTimer, Slot
-from PySide6.QtQml import QmlElement
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -27,12 +26,7 @@ if TYPE_CHECKING:
     from contextlib import AbstractContextManager
     from pathlib import Path
 
-QML_IMPORT_NAME = "LibreSVIP"
-QML_IMPORT_MAJOR_VERSION = 1
-QML_IMPORT_MINOR_VERSION = 0
 
-
-@QmlElement
 class Notifier(QObject):
     def __init__(self) -> None:
         super().__init__()
@@ -146,6 +140,10 @@ class Notifier(QObject):
                                                 asset["name"],
                                                 f"LibreSVIP-*.win-{arch}.*",
                                             )
+                                            or fnmatch.fnmatch(
+                                                asset["name"],
+                                                f"LibreSVIP-*-{arch}.exe",
+                                            )
                                         ),
                                         None,
                                     )
@@ -157,6 +155,10 @@ class Notifier(QObject):
                                         if fnmatch.fnmatch(
                                             asset["name"],
                                             f"LibreSVIP-*.linux-{arch}.tar.gz",
+                                        )
+                                        or fnmatch.fnmatch(
+                                            asset["name"],
+                                            f"LibreSVIP-*-{arch}.AppImage",
                                         )
                                     ),
                                     None,
@@ -256,7 +258,3 @@ class Notifier(QObject):
             await self.notifier.clear(identifier)
         except Exception as e:
             logger.exception(e)
-
-    @Slot(str)
-    def open_link(self, url: str) -> None:
-        open_url(url)

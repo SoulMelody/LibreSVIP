@@ -3,8 +3,11 @@ import math
 import random
 from collections.abc import Callable
 
+from ko_pron.ko_pron import romanise
+
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -203,8 +206,12 @@ class AceGenerator:
         )
 
         if all(symbol not in note.lyric for symbol in ["-", "+"]):
-            if self.options.lyric_language == AcepLyricsLanguage.CHINESE:
+            if self.options.lyric_language.value == AcepLyricsLanguage.CHINESE.value:
                 pronunciation = next(iter(get_pinyin_series(note.lyric)), None)
+            elif self.options.lyric_language.value == AcepLyricsLanguage.JAPANESE.value:
+                pronunciation = to_romaji(note.lyric) or None
+            elif self.options.lyric_language.value == AcepLyricsLanguage.KOREAN.value:
+                pronunciation = romanise(note.lyric, "rr") or None
             else:
                 pronunciation = None
             if note.pronunciation is not None and note.pronunciation != pronunciation:
@@ -214,7 +221,14 @@ class AceGenerator:
             elif self.options.default_consonant_length:
                 ace_note.head_consonants = [self.options.default_consonant_length]
         elif (
-            self.options.lyric_language in [AcepLyricsLanguage.ENGLISH, AcepLyricsLanguage.SPANISH]
+            self.options.lyric_language
+            in [
+                AcepLyricsLanguage.ENGLISH,
+                AcepLyricsLanguage.SPANISH,
+                AcepLyricsLanguage.PORTUGUESE,
+                AcepLyricsLanguage.FRENCH,
+                AcepLyricsLanguage.ITALIAN,
+            ]
             and ace_note.lyric == "+"
             and self.ace_note_list
         ):
@@ -262,7 +276,7 @@ class AceGenerator:
             gender=self.generate_param_curves(parameters.gender, self.linear_transform(-1, 0, 1)),
         )
         result.pitch_delta = self.generate_pitch_curves(parameters.pitch)
-        if self.options.map_strength_info == StrengthMappingOption.BOTH:
+        if self.options.map_strength_info.value == StrengthMappingOption.BOTH.value:
             result.energy = self.generate_param_curves(
                 parameters.strength,
                 lambda x: self.linear_transform(0, 1, 2)(x / 2),
@@ -271,11 +285,11 @@ class AceGenerator:
                 parameters.strength,
                 lambda x: self.linear_transform(0.7, 1, 1.5)(x / 2),
             )
-        elif self.options.map_strength_info == StrengthMappingOption.ENERGY:
+        elif self.options.map_strength_info.value == StrengthMappingOption.ENERGY.value:
             result.energy = self.generate_param_curves(
                 parameters.strength, self.linear_transform(0, 1, 2)
             )
-        elif self.options.map_strength_info == StrengthMappingOption.TENSION:
+        elif self.options.map_strength_info.value == StrengthMappingOption.TENSION.value:
             result.tension = self.generate_param_curves(
                 parameters.strength, self.linear_transform(0.7, 1, 1.5)
             )

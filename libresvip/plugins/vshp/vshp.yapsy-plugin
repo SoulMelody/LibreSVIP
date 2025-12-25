@@ -1,10 +1,8 @@
 [Core]
 name = VocalShifter
-module = vocalshifter_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 1.0.0
 Website = https://space.bilibili.com/175862486
 Format = VocalShifter project file
 Description = Import parameters from VocalShifter project file.

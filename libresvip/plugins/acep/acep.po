@@ -25,6 +25,18 @@ msgstr ""
 msgid "Spanish"
 msgstr ""
 
+msgid "Korean"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
 msgid "Both strength and tension"
 msgstr ""
 
@@ -214,8 +226,8 @@ msgid "Lyrics language"
 msgstr ""
 
 msgid ""
-"ACE Studio supports four languages of lyrics. This option is used to set "
-"the language of lyrics."
+"ACE Studio supports eight languages of lyrics. This option is used to set"
+" the language of lyrics."
 msgstr ""
 
 msgid "Default consonant length (secs)"

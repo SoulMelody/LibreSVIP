@@ -9,13 +9,14 @@ import sys
 sys.modules['FixTk'] = None
 
 import shellingham
+from PyInstaller.compat import is_conda, is_win
 from PyInstaller.utils.hooks import collect_data_files, collect_entry_point, collect_submodules
 
 with contextlib.suppress(Exception):
     if (
-        ("conda" in sys.version or "Continuum" in sys.version)
+        is_conda
+        and is_win
         and shellingham.detect_shell()[0] == "bash"
-        and os.name == "nt"
     ):
         os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
 
@@ -33,13 +34,12 @@ a = Analysis(
         "construct_typed",
         "Cryptodome.Util.Padding",
         "svg",
-        "google.protobuf.any_pb2",
         "jinja2",
         "jyutping",
         "ko_pron",
         "tatsu",
         "portion",
-        "proto",
+        "aristaproto.lib.pydantic.google.protobuf",
         "pypinyin",
         "pysubs2",
         "pyzipper",
@@ -49,6 +49,7 @@ a = Analysis(
         "xsdata_pydantic.bindings",
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
+        "yaml_ft",
         "yaml",
     ] + collect_submodules("textual.widgets"),
     hookspath=[],

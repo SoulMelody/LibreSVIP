@@ -3,7 +3,6 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
-import LibreSVIP
 
 RoundButton {
     id: iconButton
@@ -20,7 +19,7 @@ RoundButton {
         anchors.centerIn: parent
         text: iconicFontLoader.icon(icon_name)
         font.family: "Material Design Icons"
-        font.pixelSize: diameter * 0.56
+        font.pixelSize: diameter * 0.5
     }
 
     background: Rectangle {

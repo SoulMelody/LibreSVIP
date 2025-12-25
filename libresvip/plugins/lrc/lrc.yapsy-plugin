@@ -1,10 +1,8 @@
 [Core]
 name = LRC
-module = lrc_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 0.0.1
 Website = https://space.bilibili.com/175862486
 Format = LRC lyric file
 Description = Generator plugin for LRC lyric file

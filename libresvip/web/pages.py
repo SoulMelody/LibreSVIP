@@ -29,7 +29,7 @@ from urllib.parse import quote, unquote
 
 import anyio
 import more_itertools
-from nicegui import APIRouter, PageArguments, app, ui
+from nicegui import PageArguments, app, ui
 from nicegui.context import context
 from nicegui.elements.switch import Switch
 from nicegui.events import (
@@ -43,14 +43,10 @@ from pydantic import RootModel, create_model
 from pydantic.config import JsonValue
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
-from starlette.exceptions import HTTPException
-from starlette.requests import Request
-from starlette.responses import Response
 from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile
 from libresvip.core.config import (
     ConversionMode,
     DarkMode,
@@ -62,6 +58,7 @@ from libresvip.core.config import (
 )
 from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import (
     get_translation,
     middleware_manager,
@@ -162,50 +159,29 @@ class ConversionTask:
                 self.output_path.unlink()
 
 
-export_router = APIRouter(prefix="/export", tags=["Export"])
-
-
-@export_router.get("/{client_id}/")
-def export_all(request: Request) -> Response:
-    if selected_formats := getattr(
-        app.state, f"{request.path_params['client_id']}_selected_formats"
-    ):
-        return selected_formats.export_all(request)
-    else:
-        return Response(
-            "No selected formats",
-            status_code=400,
-        )
-
-
-@export_router.get("/{client_id}/{filename}")
-def export_one(request: Request) -> Response:
-    if selected_formats := getattr(
-        app.state, f"{request.path_params['client_id']}_selected_formats"
-    ):
-        return selected_formats.export_one(request)
-    else:
-        return Response(
-            "No selected formats",
-            status_code=400,
-        )
-
-
-app.include_router(export_router)
-
 plugin_details = {
     identifier: {
-        "name": plugin.name,
-        "author": plugin.author,
-        "website": plugin.website,
-        "description": plugin.description,
-        "version": str(plugin.version),
-        "suffix": f"(*.{plugin.suffix})",
-        "file_format": plugin.file_format,
-        "icon_base64": plugin.icon_base64,
+        "name": plugin.info.name,
+        "author": plugin.info.author,
+        "website": plugin.info.website,
+        "description": plugin.info.description,
+        "version": plugin.version,
+        "suffix": f"(*.{plugin.info.suffix})",
+        "file_format": plugin.info.file_format,
+        "icon_base64": plugin.info.icon_base64,
     }
-    for identifier, plugin in plugin_manager.plugin_registry.items()
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
 }
+readonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, ReadOnlyConverterMixin)
+]
+writeonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, WriteOnlyConverterMixin)
+]
 
 
 @ui.page("/")
@@ -331,39 +307,39 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         @context_vars_wrapper
         def plugin_info(attr_name: str) -> None:
             attr = getattr(selected_formats, attr_name)
-            with ui.row().classes("w-full h-full"):
+            with ui.grid(columns=5).classes("w-full h-full"):
                 with ui.element("div").classes("w-100 h-100") as icon:
-                    icon.props["style"] = (
-                        f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
-                    )
-                ui.separator().props("vertical")
-                with ui.column().classes("justify-center flex-grow"):
+                    if plugin_details[attr]["icon_base64"]:
+                        icon.props["style"] = (
+                            f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
+                        )
+                with ui.column().classes("justify-center flex-grow col-span-4"):
                     ui.label(_(plugin_details[attr]["name"] or "")).classes(
                         "text-h5 w-full font-bold text-center",
                     )
-                    with ui.row().classes("w-full"):
-                        with ui.element("q-chip").props("icon=bookmark").tooltip(_("Version")):
+                    with ui.grid(columns=2).classes("w-full"):
+                        with ui.chip(icon="bookmark", color="none").tooltip(_("Version")):
                             ui.label(plugin_details[attr]["version"] or "")
-                        ui.separator().props("vertical")
                         with (
-                            ui.element("q-chip")
-                            .props("icon=person")
-                            .tooltip(plugin_details[attr]["website"] or ""),
+                            ui.chip(_("Author") + ": ", icon="person", color="none")
+                            .tooltip(plugin_details[attr]["website"] or "")
+                            .props("icon-right=open_in_new"),
                             ui.row().classes("items-center"),
                         ):
-                            ui.label(_("Author") + ": ")
                             ui.link(
                                 _(plugin_details[attr]["author"] or ""),
                                 plugin_details[attr]["website"] or "",
                                 new_tab=True,
                             )
-                            ui.icon("open_in_new")
-                    with ui.element("q-chip").props("icon=outline_insert_drive_file"):
-                        ui.label(
+                    ui.chip(
+                        (
                             _(plugin_details[attr]["file_format"] or "")
                             + " "
                             + (plugin_details[attr]["suffix"] or ""),
-                        )
+                        ),
+                        icon="outline_insert_drive_file",
+                        color="none",
+                    )
             ui.separator()
             with ui.card_section().classes("w-full"):
                 ui.label(_("Introduction")).classes("text-subtitle1 font-bold")
@@ -403,15 +379,12 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         @context_vars_wrapper
         def options_form(attr_prefix: str, method: str) -> None:
             attr = getattr(selected_formats, attr_prefix + "_format")
-            conversion_plugin = plugin_manager.plugin_registry[attr]
-            option_class = None
-            if hasattr(conversion_plugin.plugin_object, method) and (
-                _option_class := get_type_hints(
-                    getattr(conversion_plugin.plugin_object, method),
-                ).get("options")
-            ):
-                option_class = _option_class
-            if not option_class:
+            conversion_plugin = plugin_manager.plugins.get("svs", {})[attr]
+            if method == "load":
+                option_class = conversion_plugin.input_option_cls
+            elif method == "dump":
+                option_class = conversion_plugin.output_option_cls
+            else:
                 return
             option_dict = getattr(selected_formats, attr_prefix + "_options")
             option_dict.clear()
@@ -511,29 +484,20 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @context_vars_wrapper
         def middleware_options_form(attr: str, toggler: Switch) -> None:
-            conversion_plugin = middleware_manager.plugin_registry[attr]
+            middleware = middleware_manager.plugins.get("middleware", {})[attr]
             field_types = {}
-            option_class = None
-            if (
-                hasattr(conversion_plugin.plugin_object, "process")
-                and (
-                    option_class := get_type_hints(
-                        getattr(conversion_plugin.plugin_object, "process"),
-                    ).get("options")
-                )
-                and hasattr(option_class, "model_fields")
-            ):
-                for option_key, field_info in option_class.model_fields.items():
-                    if issubclass(
-                        field_info.annotation,
-                        str | Color | enum.Enum | BaseComplexModel,
-                    ):
-                        field_types[option_key] = str
-                    else:
-                        field_types[option_key] = field_info.annotation
-            if not option_class or not field_types:
+            option_class = middleware.process_option_cls
+            for option_key, field_info in option_class.model_fields.items():
+                if issubclass(
+                    field_info.annotation,
+                    str | Color | enum.Enum | BaseComplexModel,
+                ):
+                    field_types[option_key] = str
+                else:
+                    field_types[option_key] = field_info.annotation
+            option_dict = selected_formats.middleware_options.get(attr)
+            if not field_types or option_dict is None:
                 return
-            option_dict = getattr(selected_formats.middleware_options, attr)
             with ui.column().classes("w-full").bind_visibility_from(toggler, "value"):
                 for i, (option_key, field_info) in enumerate(
                     option_class.model_fields.items(),
@@ -631,7 +595,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 settings.last_input_format
                 if settings.last_input_format is not None
                 else next(
-                    iter(plugin_manager.plugin_registry),
+                    iter(plugin_manager.plugins.get("svs", {})),
                     "",
                 )
             )
@@ -641,7 +605,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 settings.last_output_format
                 if settings.last_output_format is not None
                 else next(
-                    iter(plugin_manager.plugin_registry),
+                    iter(plugin_manager.plugins.get("svs", {})),
                     "",
                 )
             )
@@ -666,24 +630,14 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             def __post_init__(self) -> None:
                 self.middleware_enabled_states = create_model(
                     "middleware_enabled_states",
-                    **dict.fromkeys(middleware_manager.plugin_registry, (bool, False)),
+                    **dict.fromkeys(
+                        middleware_manager.plugins.get("middleware", {}), (bool, False)
+                    ),
                 )()
-                self.middleware_options = create_model(
-                    "middleware_options",
-                    **{
-                        abbr: (options, options())
-                        for abbr, middleware in middleware_manager.plugin_registry.items()
-                        if (
-                            middleware.plugin_object is not None
-                            and hasattr(middleware.plugin_object, "process")
-                            and (
-                                options := get_type_hints(middleware.plugin_object.process).get(
-                                    "options",
-                                )
-                            )
-                        )
-                    },
-                )()
+                self.middleware_options = {
+                    abbr: middleware.process_option_cls()
+                    for abbr, middleware in middleware_manager.plugins.get("middleware", {}).items()
+                }
 
             @functools.cached_property
             def temp_path(self) -> UPath:
@@ -746,10 +700,17 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         backward=shorten_error_message,
                                     )
                                 with error_banner.add_slot("action"):
+
+                                    @context_vars_wrapper
+                                    def copy_error_message() -> None:
+                                        ui.clipboard.write(info.error or "")
+                                        ui.notification(
+                                            _("Copied"), type="info", close_button=_("Close")
+                                        )
+
                                     ui.button(
                                         _("Copy to clipboard"),
-                                        on_click=lambda: ui.clipboard.write(info.error or "")
-                                        and ui.notify(_("Copied"), type="info"),
+                                        on_click=copy_error_message,
                                     )
                                     ui.button(_("Close"), on_click=error_dialog.close)
                             ui.button(
@@ -774,10 +735,17 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         "word-break: break-all; white-space: pre-wrap",
                                     ).bind_text_from(info, "warning", backward=str)
                                 with warn_banner.add_slot("action"):
+
+                                    @context_vars_wrapper
+                                    def copy_warning_message() -> None:
+                                        ui.clipboard.write(info.warning or "")
+                                        ui.notification(
+                                            _("Copied"), type="info", close_button=_("Close")
+                                        )
+
                                     ui.button(
                                         _("Copy to clipboard"),
-                                        on_click=lambda: ui.clipboard.write(info.warning or "")
-                                        and ui.notify(_("Copied"), type="info"),
+                                        on_click=copy_warning_message,
                                     )
                                     ui.button(_("Close"), on_click=warn_dialog.close)
                             ui.button(
@@ -832,7 +800,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 if settings.auto_detect_input_format:
                     cur_suffix = name.rpartition(".")[-1].lower()
                     if (
-                        cur_suffix in plugin_manager.plugin_registry
+                        cur_suffix in plugin_manager.plugins.get("svs", {})
                         and cur_suffix != self.input_format
                     ):
                         self.input_format = cur_suffix
@@ -879,94 +847,58 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 task.running = True
                 try:
                     with CatchWarnings() as w:
-                        input_plugin = plugin_manager.plugin_registry[self.input_format]
-                        output_plugin = plugin_manager.plugin_registry[self.output_format]
-                        if (
-                            input_plugin.plugin_object is None
-                            or (
-                                input_option_class := get_type_hints(
-                                    input_plugin.plugin_object.load
-                                ).get(
-                                    "options",
+                        input_plugin = plugin_manager.plugins.get("svs", {})[self.input_format]
+                        output_plugin = plugin_manager.plugins.get("svs", {})[self.output_format]
+                        if self._conversion_mode == ConversionMode.MERGE:
+                            child_projects = [
+                                input_plugin.load(
+                                    sub_task.upload_path,
+                                    self.input_options,
                                 )
-                            )
-                            is None
-                            or output_plugin.plugin_object is None
-                            or (
-                                output_option_class := get_type_hints(
-                                    output_plugin.plugin_object.dump,
-                                ).get("options")
-                            )
-                            is None
-                        ):
-                            task.success = False
+                                for sub_task in more_itertools.value_chain(task, sub_tasks)
+                            ]
+                            project = Project.merge_projects(child_projects)
                         else:
-                            input_option = input_option_class(**self.input_options)
-                            if self._conversion_mode == ConversionMode.MERGE:
-                                child_projects = [
-                                    input_plugin.plugin_object.load(
-                                        sub_task.upload_path,
-                                        input_option,
-                                    )
-                                    for sub_task in more_itertools.value_chain(task, sub_tasks)
+                            project = input_plugin.load(
+                                task.upload_path,
+                                self.input_options,
+                            )
+                        if self._conversion_mode != ConversionMode.SPLIT:
+                            task.output_path = task.output_path.with_suffix(
+                                f".{self.output_format}",
+                            )
+                        for (
+                            middleware_abbr,
+                            enabled,
+                        ) in self.middleware_enabled_states.model_dump().items():
+                            if enabled and (
+                                middleware_option := self.middleware_options.get(middleware_abbr)
+                            ):
+                                middleware = middleware_manager.plugins.get("middleware", {})[
+                                    middleware_abbr
                                 ]
-                                project = Project.merge_projects(child_projects)
-                            else:
-                                project = input_plugin.plugin_object.load(
-                                    task.upload_path,
-                                    input_option,
-                                )
-                            if self._conversion_mode != ConversionMode.SPLIT:
-                                task.output_path = task.output_path.with_suffix(
-                                    f".{self.output_format}",
-                                )
-                            for (
-                                middleware_abbr,
-                                enabled,
-                            ) in self.middleware_enabled_states.model_dump().items():
-                                if enabled:
-                                    middleware = middleware_manager.plugin_registry[middleware_abbr]
-                                    if (
-                                        middleware.plugin_object is not None
-                                        and hasattr(middleware.plugin_object, "process")
-                                        and (
-                                            middleware_option_class := get_type_hints(
-                                                middleware.plugin_object.process
-                                            ).get(
-                                                "options",
-                                            )
-                                        )
-                                    ):
-                                        middleware_option = getattr(
-                                            self.middleware_options,
-                                            middleware_abbr,
-                                        )
-                                        project = middleware.plugin_object.process(
-                                            project,
-                                            middleware_option_class.model_validate(
-                                                middleware_option,
-                                                from_attributes=True,
-                                            ),
-                                        )
-                            output_option = output_option_class(**self.output_options)
-                            if self._conversion_mode == ConversionMode.SPLIT:
-                                task.output_path.mkdir(parents=True, exist_ok=True)
-                                for i, child_project in enumerate(
-                                    project.split_tracks(settings.max_track_count)
-                                ):
-                                    output_plugin.plugin_object.dump(
-                                        task.output_path
-                                        / f"{task.upload_path.stem}_{i + 1:0=2d}.{self.output_format}",
-                                        child_project,
-                                        output_option,
-                                    )
-                            else:
-                                output_plugin.plugin_object.dump(
-                                    task.output_path,
+                                project = middleware.process(
                                     project,
-                                    output_option,
+                                    middleware_option.model_dump(),
                                 )
-                            task.success = True
+                        if self._conversion_mode == ConversionMode.SPLIT:
+                            task.output_path.mkdir(parents=True, exist_ok=True)
+                            for i, child_project in enumerate(
+                                project.split_tracks(settings.max_track_count)
+                            ):
+                                output_plugin.dump(
+                                    task.output_path
+                                    / f"{task.upload_path.stem}_{i + 1:0=2d}.{self.output_format}",
+                                    child_project,
+                                    self.output_options,
+                                )
+                        else:
+                            output_plugin.dump(
+                                task.output_path,
+                                project,
+                                self.output_options,
+                            )
+                        task.success = True
                     if w.output:
                         task.warning = w.output
                 except Exception:
@@ -1006,33 +938,26 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     for future in asyncio.as_completed(futures):
                         await future
                 if any(not task.success for task in running_tasks):
-                    ui.notification(_("Conversion Failed"), type="negative")
+                    ui.notification(
+                        _("Conversion Failed"), type="negative", close_button=_("Close")
+                    )
                 else:
-                    ui.notification(_("Conversion Successful"), type="positive")
-
-            def export_all(self, request: Request) -> Response:
-                if result := self._export_all():
-                    return Response(*result)
-                raise HTTPException(400, "No files to export")
-
-            def export_one(self, request: Request) -> Response:
-                if result := self._export_one(request.path_params["filename"]):
-                    return Response(*result)
-                raise HTTPException(404, "File not found")
+                    ui.notification(
+                        _("Conversion Successful"), type="positive", close_button=_("Close")
+                    )
 
             def _export_one(self, filename: str) -> tuple[bytes, int, dict[str, str], str] | None:
                 if not (task := self.files_to_convert.get(filename)) or not task.success:
                     return None
                 if self._conversion_mode == ConversionMode.SPLIT:
                     buffer = io.BytesIO()
-                    with ZipFile(buffer, "w") as zip_file:
-                        for child_file in task.output_path.iterdir():
-                            if not child_file.is_file():
-                                continue
-                            zip_file.writestr(
-                                child_file.name,
-                                child_file.read_bytes(),
-                            )
+                    zip_path = UPath("zip://", fo=buffer, mode="a")
+                    for child_file in task.output_path.iterdir():
+                        if not child_file.is_file():
+                            continue
+                        (zip_path / child_file.name).write_bytes(
+                            child_file.read_bytes(),
+                        )
                     content = buffer.getvalue()
                     filename_header = quote(task.upload_path.with_suffix(".zip").name)
                 else:
@@ -1058,22 +983,23 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     filename = next(iter(self.files_to_convert))
                     return self._export_one(filename)
                 buffer = io.BytesIO()
-                with ZipFile(buffer, "w") as zip_file:
-                    for task in self.files_to_convert.values():
-                        if task.success:
-                            if task.output_path.is_dir():
-                                for i, child_file in enumerate(task.output_path.iterdir()):
-                                    if not child_file.is_file():
-                                        continue
-                                    zip_file.writestr(
-                                        child_file.name,
-                                        child_file.read_bytes(),
-                                    )
-                            else:
-                                zip_file.writestr(
-                                    task.upload_path.with_suffix(task.output_path.suffix).name,
-                                    task.output_path.read_bytes(),
+                zip_path = UPath("zip://", fo=buffer, mode="a")
+                for task in self.files_to_convert.values():
+                    if task.success:
+                        if task.output_path.is_dir():
+                            for i, child_file in enumerate(task.output_path.iterdir()):
+                                if not child_file.is_file():
+                                    continue
+                                (zip_path / child_file.name).write_bytes(
+                                    child_file.read_bytes(),
                                 )
+                        else:
+                            (
+                                zip_path
+                                / task.upload_path.with_suffix(task.output_path.suffix).name
+                            ).write_bytes(
+                                task.output_path.read_bytes(),
+                            )
                 return (
                     buffer.getvalue(),
                     200,
@@ -1138,20 +1064,18 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             @context_vars_wrapper
             async def save_file(self, file_name: str = "") -> None:
                 nonlocal select_output
+                result = self._export_one(file_name) if file_name else self._export_all()
+                if result is None:
+                    ui.notification(_("Save failed!"), type="negative", close_button=_("Close"))
+                    return
+                save_filename = unquote(
+                    result[2]["Content-Disposition"].removeprefix("attachment; filename=")
+                )
                 if app.native.main_window is not None and hasattr(
                     app.native.main_window, "create_file_dialog"
                 ):
                     import webview
 
-                    result = None
-                    result = self._export_one(file_name) if file_name else self._export_all()
-                    if result is None:
-                        ui.notify(_("Save failed!"), type="negative")
-                        return
-
-                    save_filename = unquote(
-                        result[2]["Content-Disposition"].removeprefix("attachment; filename=")
-                    )
                     save_path = await app.native.main_window.create_file_dialog(
                         webview.SAVE_DIALOG,
                         save_filename=save_filename,
@@ -1169,9 +1093,11 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         save_path = save_path[0]
                     async with await anyio.open_file(save_path, "wb") as content:
                         await content.write(result[0])
-                    ui.notify(_("Saved"), type="positive")
+                    ui.notification(_("Saved"), type="positive", close_button=_("Close"))
                 else:
-                    ui.download(f"/export/{context.client.id}/{file_name}")
+                    ui.download.content(
+                        content=result[0], filename=save_filename, media_type=result[3]
+                    )
 
         dark_toggler = ui.dark_mode(dark_mode2bool(getattr(DarkMode, dark_mode.upper())))
         dark_toggler.on_value_change(
@@ -1204,10 +1130,14 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         )  # fix icon position
 
         def swap_values() -> None:
-            selected_formats.input_format, selected_formats.output_format = (
-                selected_formats.output_format,
-                selected_formats.input_format,
-            )
+            if (
+                selected_formats.input_format not in readonly_plugin_ids
+                and selected_formats.output_format not in writeonly_plugin_ids
+            ):
+                selected_formats.input_format, selected_formats.output_format = (
+                    selected_formats.output_format,
+                    selected_formats.input_format,
+                )
 
         ui.colors(
             primary="#3F51B5",
@@ -1231,13 +1161,13 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         )
                         ui.label(_("Author: SoulMelody")).classes("text-md w-full")
                         with ui.row().classes("w-full justify-center"):
-                            with ui.element("q-chip").props("icon=live_tv"):
+                            with ui.chip(icon="live_tv", color="none"):
                                 ui.link(
                                     _("Author's Profile"),
                                     "https://space.bilibili.com/175862486",
                                     new_tab=True,
                                 )
-                            with ui.element("q-chip").props("icon=logo_dev"):
+                            with ui.chip(icon="logo_dev", color="none"):
                                 ui.link(
                                     _("Repo URL"),
                                     "https://github.com/SoulMelody/LibreSVIP",
@@ -1692,7 +1622,6 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     with ui.card_actions().props("align=right").classes("w-full"):
                         ui.button(_("Close"), on_click=settings_dialog.close)
                 ui.space()
-                ui.space()
                 if app.native.main_window is not None:
                     if platform.system() == "Windows":
                         import ctypes.wintypes
@@ -1838,6 +1767,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                             {
                                 k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
                                 for i, (k, v) in enumerate(plugin_details.items())
+                                if k not in writeonly_plugin_ids
                             },
                         )
                         .bind_value(selected_formats, "input_format")
@@ -1857,6 +1787,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         {
                             k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
                             for i, (k, v) in enumerate(plugin_details.items())
+                            if k not in readonly_plugin_ids
                         },
                     ).bind_value(selected_formats, "output_format")
                 with (
@@ -1978,6 +1909,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                             {
                                 k: _(v["file_format"] or "") + " " + (v["suffix"] or "")
                                 for k, v in plugin_details.items()
+                                if k not in writeonly_plugin_ids
                             },
                             label=_("Import format"),
                         )
@@ -2026,6 +1958,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                             {
                                 k: _(v["file_format"] or "") + " " + (v["suffix"] or "")
                                 for k, v in plugin_details.items()
+                                if k not in readonly_plugin_ids
                             },
                             label=_("Export format"),
                         )
@@ -2179,22 +2112,24 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         @ui.refreshable
         def middleware_options() -> None:
-            for middleware in middleware_manager.plugin_registry.values():
+            for middleware_id, middleware in middleware_manager.plugins.get(
+                "middleware", {}
+            ).items():
                 with ui.row().classes("items-center w-full"):
                     middleware_toggler = (
-                        ui.switch(_(middleware.name))
+                        ui.switch(_(middleware.info.name))
                         .props("color=green")
                         .bind_value(
                             selected_formats.middleware_enabled_states,
-                            middleware.identifier,
+                            middleware_id,
                         )
                     )
-                    if middleware.description:
+                    if middleware.info.description:
                         ui.space()
                         ui.icon("help_outline").classes("text-3xl").style(
                             "cursor: help",
-                        ).tooltip(_(middleware.description))
-                middleware_options_form(middleware.identifier, middleware_toggler)
+                        ).tooltip(_(middleware.info.description))
+                middleware_options_form(middleware_id, middleware_toggler)
 
         def options_area() -> None:
             with ui.scroll_area().classes("w-full h-full"):

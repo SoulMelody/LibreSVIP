@@ -220,21 +220,21 @@ class Vsq3Generator:
             )
             if note.lyric in legato_chars:
                 vsqx_note.phnms = Vsq3TypePhonemes(value="-")
-            elif self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
+            elif self.options.default_lang_id.value == VocaloidLanguage.SIMPLIFIED_CHINESE.value:
                 vsqx_note.lyric = " ".join(
                     get_pinyin_series([note.lyric], filter_non_chinese=False)
                 )
                 vsqx_note.phnms = Vsq3TypePhonemes(
                     value=pinyin2xsampa.get(vsqx_note.lyric, DEFAULT_CHINESE_PHONEME),
                 )
-            elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
+            elif self.options.default_lang_id.value == VocaloidLanguage.JAPANESE.value:
                 vsqx_note.phnms = Vsq3TypePhonemes(
                     value=romaji2xsampa.get(
                         to_romaji(vsqx_note.lyric),
                         DEFAULT_JAPANESE_PHONEME,
                     ),
                 )
-            elif self.options.default_lang_id == VocaloidLanguage.KOREAN:
+            elif self.options.default_lang_id.value == VocaloidLanguage.KOREAN.value:
                 vsqx_note.phnms = Vsq3TypePhonemes(
                     value=hangul2xsampa(vsqx_note.lyric),
                 )

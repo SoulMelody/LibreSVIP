@@ -1,10 +1,8 @@
 [Core]
 name = DeepVocal
-module = deepvocal_converter
 
 [Documentation]
 Author = Oxygen Dioxide
-Version = 1.0.0
 Website = https://space.bilibili.com/340295349
 Format = DeepVocal project file
 Description = Conversion plugin for dv file
