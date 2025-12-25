@@ -746,7 +746,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.48.0"
+version = "0.49.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -760,9 +760,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tomli", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/59/9e/d975995c21ecfc645c1724f836a6d53411abaa1e727872b513541edbe416/datamodel_code_generator-0.48.0.tar.gz", hash = "sha256:638a51d44c77af95f0789639c3144f9bd74429cfc0690ce12acb6038c04af6f5", size = 608754, upload-time = "2025-12-24T01:45:19.69Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/92/738536021ea6b0ec7cc080bb0fa149b52e908b662ea03aac9462c7b02d7c/datamodel_code_generator-0.49.0.tar.gz", hash = "sha256:eb4a95ee21c10f7675982f8b7d92344971b9a5e4c34c89b54652f8576b3a604b", size = 695361, upload-time = "2025-12-25T02:19:50.164Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e6/e9/de87c085142bd74778940dc96b086ea6f58fa7ac9543f30642372dd2431e/datamodel_code_generator-0.48.0-py3-none-any.whl", hash = "sha256:b77c90672cc8bc7d239a875c0aefb4de7dc1e48188c0622ea1c1456ca0dd1823", size = 210004, upload-time = "2025-12-24T01:45:17.506Z" },
+    { url = "https://files.pythonhosted.org/packages/2b/e4/c59fd088850a8d35085d7ba90fe70098096da152600a96b9ba260740b76c/datamodel_code_generator-0.49.0-py3-none-any.whl", hash = "sha256:0c24d21b7a3103a89a324be48bbcac3fed1fd2f22804de8589e589f2c93d9dc0", size = 214650, upload-time = "2025-12-25T02:19:48.255Z" },
 ]
 
 [[package]]
@@ -1545,7 +1545,7 @@ provides-extras = ["cli", "crypto", "desktop", "lxml", "mobile", "ruamel-yaml", 
 all = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
     { name = "babel", specifier = ">=2.17.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.48.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.49.0" },
     { name = "mypy", specifier = ">=1.19.1" },
     { name = "pre-commit", specifier = ">=4.5.1" },
     { name = "protoc-wrapper", specifier = ">=33.0.0" },
@@ -1569,7 +1569,7 @@ all = [
 ]
 code-gen = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.48.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.49.0" },
     { name = "protoc-wrapper", specifier = ">=33.0.0" },
     { name = "pyside6-addons", specifier = ">=6.10.1,<6.11.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=25.7" },
