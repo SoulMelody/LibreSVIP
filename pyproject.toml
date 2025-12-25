@@ -81,7 +81,7 @@ ruamel_yaml = [
 lxml = ["lxml>=6.0.2"]
 cli = [
   "rich<14.2.1,>=14.2.0",
-  "typer-slim<1.0.0,>=0.20.1",
+  "typer-slim<1.0.0,>=0.21.0",
   "winloop>=0.4.1; sys_platform == \"win32\"",
 ]
 tui = [
