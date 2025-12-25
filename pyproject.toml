@@ -230,6 +230,7 @@ ignore = [
   "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
   "E501",   # Line too long
   "RUF001", # String contains ambiguous symbol
+  "RUF006", # Store a reference to the return value of `asyncio.create_task`
   "RUF009", # Do not perform function call in dataclass defaults
   "PLC0415",# `import` should be at the top-level of a file
 ]
@@ -272,6 +273,7 @@ missing-argument = "ignore"
 missing-attribute = "ignore"
 missing-import = "ignore"
 missing-module-attribute = "ignore"
+not-async = "ignore"
 not-iterable = "ignore"
 no-matching-overload = "ignore"
 unbound-name = "ignore"
