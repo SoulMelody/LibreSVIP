@@ -73,7 +73,7 @@ shiboken6==6.10.1
 six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.9.2
-tatsu-lts==5.13.2
+tatsu-lts==5.14.0
 ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0
 typer-slim==0.21.0
