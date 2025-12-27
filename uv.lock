@@ -1374,7 +1374,7 @@ dependencies = [
     { name = "pyyaml-ft", marker = "python_full_version == '3.13.*' and sys_platform != 'emscripten'" },
     { name = "retrie" },
     { name = "svg-py" },
-    { name = "tatsu-lts" },
+    { name = "tatsu" },
     { name = "universal-pathlib" },
     { name = "wanakana-python" },
     { name = "xsdata-pydantic" },
@@ -1522,7 +1522,7 @@ requires-dist = [
     { name = "rich", marker = "extra == 'cli'", specifier = ">=14.2.0,<14.2.1" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.17" },
     { name = "svg-py", specifier = ">=1.9.2,<2.0.0" },
-    { name = "tatsu-lts", specifier = ">=5.14.0,<6.0.0" },
+    { name = "tatsu", specifier = ">=5.14.0,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
     { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.0" },
     { name = "typer-slim", marker = "extra == 'cli'", specifier = ">=0.21.0,<1.0.0" },
@@ -3547,13 +3547,14 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/f8/74/86c10415be3767718311763a1023717ebd9f929470e97a898c96b7c3f64b/svg_py-1.9.2-py3-none-any.whl", hash = "sha256:9178310947b62f0f2b41d1248a734c25ddf4df87d817c17f048d06fe18fcbf46", size = 15142, upload-time = "2025-10-18T09:01:02.792Z" },
 ]
 
+
 [[package]]
-name = "tatsu-lts"
+name = "tatsu"
 version = "5.14.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ec/c3/d542908e1e541ec028dd6a7be800c20da02282bda15b57de441afff98bfb/tatsu_lts-5.14.0.tar.gz", hash = "sha256:1f09f328aa4a5b53242055e8e24493ef7d9e4f770b90daa4d4de7c88523c232a", size = 126665, upload-time = "2025-12-26T10:28:55.986Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9b/5e/0c3a1ca27ac8cb4599ae936ea5aee9bb6a40add9096fb14d30065ddf65bc/tatsu-5.14.0.tar.gz", hash = "sha256:dac8a83411c48d61e2cb2b9ff718aff6dd65981d91217974adfb815ee01b16c6", size = 132590, upload-time = "2025-12-25T23:25:56.513Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5d/d0/6c47488dac70e67746fc7b34b1b9fd1e59987991eaee8112b15c0c3eabdd/tatsu_lts-5.14.0-py3-none-any.whl", hash = "sha256:80c9db343cab0e35cacbbfd7148444a3b73584c27b571e606e34f0da292716e2", size = 80354, upload-time = "2025-12-26T10:28:54.346Z" },
+    { url = "https://files.pythonhosted.org/packages/55/50/e2419fbb7a34a984d93edcf3e12f259175ae3b294b8228bfa680b61fba69/tatsu-5.14.0-py3-none-any.whl", hash = "sha256:8d3d6f259b22b033f111f786cbc963cef96c53dcad102bd96db9d8f7c6502e55", size = 80853, upload-time = "2025-12-25T23:25:54.824Z" },
 ]
 
 [[package]]
