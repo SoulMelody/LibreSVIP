@@ -501,7 +501,7 @@ async def main(page: ft.Page) -> None:
             url_launcher,
         ]
     )
-    if page.web or page.platform in [
+    if page.platform not in [
         ft.PagePlatform.ANDROID,
         ft.PagePlatform.IOS,
         ft.PagePlatform.WINDOWS,
