@@ -491,20 +491,29 @@ async def main(page: ft.Page) -> None:
 
     clipboard = ft.Clipboard()
     file_picker = ft.FilePicker(on_upload=on_upload_progress)
-    permission_handler = fph.PermissionHandler()
     url_launcher = ft.UrlLauncher()
     page.services.extend(
         [
             clipboard,
             file_picker,
-            permission_handler,
             shared_preferences,
             storage_paths,
             url_launcher,
         ]
     )
+    if page.web or page.platform in [
+        ft.PagePlatform.ANDROID,
+        ft.PagePlatform.IOS,
+        ft.PagePlatform.WINDOWS,
+    ]:
+        permission_handler = None
+    else:
+        permission_handler = fph.PermissionHandler()
+        page.services.append(permission_handler)
 
     async def check_permission(e: ft.ControlEvent) -> None:
+        if permission_handler is None:
+            return
         result: fph.PermissionStatus | None = await permission_handler.get_status(e.control.data)
         banner_ref = ft.Ref[ft.Banner]()
         dismiss_btn = ft.TextButton(_("OK"), on_click=page.pop_dialog)
@@ -1012,7 +1021,7 @@ async def main(page: ft.Page) -> None:
                                     data=fph.Permission.MANAGE_EXTERNAL_STORAGE,
                                     on_click=check_permission,
                                     col=12,
-                                    visible=not page.web,
+                                    visible=permission_handler is not None,
                                 ),
                             ],
                             vertical_alignment=ft.CrossAxisAlignment.CENTER,
