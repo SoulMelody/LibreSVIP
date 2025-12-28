@@ -72,7 +72,7 @@ shellingham==1.5.4
 shiboken6==6.10.1
 six==1.17.0
 sortedcontainers==2.4.0
-svg-py==1.9.2
+svg-py==1.10.0
 tatsu==5.14.0
 ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0

@@ -7,10 +7,10 @@ cffi==1.17.1
 charset-normalizer==3.4.4
 construct==2.10.70
 construct-typing==0.7.0
-flet==0.28.3
+flet==0.80.0
 flet-libxml2==2.9.8
 flet-libxslt==1.1.32
-flet-permission-handler==0.1.0
+flet-permission-handler==0.80.0
 fsspec==2025.12.0
 grpclib==0.4.9
 h11==0.16.0
@@ -27,6 +27,7 @@ loguru==0.7.3
 lxml==5.3.0
 markupsafe==2.1.5
 more-itertools==10.8.0
+msgpack==1.1.0
 multidict==6.7.0
 oauthlib==3.3.1
 packaging==25.0
@@ -52,7 +53,7 @@ ruamel-yaml==0.18.17
 ruamel-yaml-clib==0.2.12
 six==1.17.0
 sortedcontainers==2.4.0
-svg-py==1.9.2
+svg-py==1.10.0
 tatsu==5.14.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
