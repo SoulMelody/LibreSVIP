@@ -74,7 +74,7 @@ def install_mingw_deps() -> None:
         [
             "pacman",
             "-S",
-            f"{mingw_arch}-python-cffi",
+            f"{mingw_arch}-libuv",
             "--noconfirm",
         ]
     )
