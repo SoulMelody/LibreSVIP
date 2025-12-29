@@ -26,7 +26,7 @@ with contextlib.suppress(Exception):
 here = pathlib.Path(".")
 
 zstd_backends = []
-if platform.python_version_tuple() >= (3, 14):
+if platform.python_version_tuple() >= ("3", "14"):
     pass
 elif is_win and platform.python_compiler().startswith("GCC"):
     zstd_backends.append("zstandard")
