@@ -1,3 +1,4 @@
+import contextlib
 import sys
 from typing import TYPE_CHECKING
 
@@ -39,12 +40,10 @@ def run() -> None:
         "localeSwitcher": locale_switcher,
         "taskManager": TaskManager(),
     }
-    try:
+    with contextlib.suppress(ImportError):
         from libresvip.gui.modules import Notifier
 
         initial_properties["notifier"] = Notifier()
-    except ImportError:
-        pass
     icon_pixmap = QPixmap()
     icon_pixmap.load_from_data((res_dir / "libresvip.ico").read_bytes())
     app.application_name = "LibreSVIP"
