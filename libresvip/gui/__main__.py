@@ -1,6 +1,7 @@
 import sys
+from typing import TYPE_CHECKING
 
-from PySide6.QtGui import QIcon, QObject, QPixmap
+from PySide6.QtGui import QIcon, QPixmap
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -16,6 +17,9 @@ from libresvip.gui.modules import (
     event_loop,
     qml_engine,
 )
+
+if TYPE_CHECKING:
+    from PySide6.QtCore import QObject
 
 
 def startup() -> None:
