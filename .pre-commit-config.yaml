@@ -39,7 +39,7 @@ repos:
         language: system
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.19
+    rev: 0.9.20
     hooks:
       - id: uv-lock
         args: ["--frozen"]
