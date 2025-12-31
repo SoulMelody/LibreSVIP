@@ -15,7 +15,7 @@ from libresvip.utils.search import find_index
 from .constants import MAX_BREAK
 from .interval_utils import position_to_ticks
 from .lambert_w import LambertW
-from .model import SVCurvePitchControl, SVPitchControl
+from .model import SVPitchControl
 
 
 class NoteStruct(NamedTuple):
@@ -484,7 +484,7 @@ class PitchControlLayerGenerator:
 
     def __post_init__(self, _pitch_controls: list[SVPitchControl]) -> None:
         for pitch_control in _pitch_controls:
-            if isinstance(pitch_control, SVCurvePitchControl) and len(pitch_control.points):
+            if pitch_control.type_ == "curve" and len(pitch_control.points):
                 prev_point = pitch_control.points.root[0]
                 base_position = position_to_ticks(pitch_control.pos)
                 prev_ticks = position_to_ticks(prev_point.offset) + base_position
