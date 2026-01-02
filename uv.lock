@@ -1520,9 +1520,9 @@ requires-dist = [
     { name = "pyzipper", marker = "extra == 'crypto'", specifier = ">=0.3.6" },
     { name = "retrie", specifier = ">=0.3.1,<1.0.0" },
     { name = "rich", marker = "extra == 'cli'", specifier = ">=14.2.0,<14.2.1" },
-    { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.19.0" },
+    { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.19.1" },
     { name = "svg-py", specifier = ">=1.10.0,<2.0.0" },
-    { name = "tatsu", specifier = ">=5.14.0,<6.0.0" },
+    { name = "tatsu", specifier = ">=5.15.0,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
     { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.0" },
     { name = "typer-slim", marker = "extra == 'cli'", specifier = ">=0.21.0,<1.0.0" },
@@ -3340,21 +3340,12 @@ wheels = [
 
 [[package]]
 name = "ruamel-yaml"
-version = "0.19.0"
+version = "0.19.1"
 source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "ruamel-yaml-clibz", marker = "platform_python_implementation == 'CPython'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/0c/5d/8a1de57b5a11245c61c906d422cd1e66b6778e134a1c68823a451be5759c/ruamel_yaml-0.19.0.tar.gz", hash = "sha256:ff19233e1eb3e9301e7a3d437847713e361a80faace167639327efbe8c0e5f95", size = 142095, upload-time = "2025-12-31T16:47:31.837Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c7/3b/ebda527b56beb90cb7652cb1c7e4f91f48649fbcd8d2eb2fb6e77cd3329b/ruamel_yaml-0.19.1.tar.gz", hash = "sha256:53eb66cd27849eff968ebf8f0bf61f46cdac2da1d1f3576dd4ccee9b25c31993", size = 142709, upload-time = "2026-01-02T16:50:31.84Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9b/3e/835d495068a4bb03419ce8c5464734ff6f3343df948e033cb5e5f81f7f08/ruamel_yaml-0.19.0-py3-none-any.whl", hash = "sha256:96ea8bafd9f3fdb0181ce3cc05e6ec02ce0a8788cbafa9b5a6e47c76fe26dfc6", size = 117777, upload-time = "2025-12-31T16:47:29.07Z" },
+    { url = "https://files.pythonhosted.org/packages/b8/0c/51f6841f1d84f404f92463fc2b1ba0da357ca1e3db6b7fbda26956c3b82a/ruamel_yaml-0.19.1-py3-none-any.whl", hash = "sha256:27592957fedf6e0b62f281e96effd28043345e0e66001f97683aa9a40c667c93", size = 118102, upload-time = "2026-01-02T16:50:29.201Z" },
 ]
-
-[[package]]
-name = "ruamel-yaml-clibz"
-version = "0.3.4"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/8f/95/9bcc25e84703180c3941062796572e0fc73bd659086efdc4ef9b8af19e36/ruamel_yaml_clibz-0.3.4.tar.gz", hash = "sha256:e99077ac6aa4943af1000161a0cb793a379c5c8cd03ea8dd3803e0b58739b685", size = 231076, upload-time = "2025-12-31T17:11:09.341Z" }
 
 [[package]]
 name = "rubicon-objc"
@@ -3497,11 +3488,11 @@ wheels = [
 
 [[package]]
 name = "tatsu"
-version = "5.14.0"
+version = "5.15.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/9b/5e/0c3a1ca27ac8cb4599ae936ea5aee9bb6a40add9096fb14d30065ddf65bc/tatsu-5.14.0.tar.gz", hash = "sha256:dac8a83411c48d61e2cb2b9ff718aff6dd65981d91217974adfb815ee01b16c6", size = 132590, upload-time = "2025-12-25T23:25:56.513Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ca/e6/10d8e4f3282c546c05a330c50d9b72f183f4e0afc9be523f6eee0e711006/tatsu-5.15.0.tar.gz", hash = "sha256:e9b6bba1adafe71f1994fc7138ae79a71f42032456616ea8caf099cbc3dfb5b6", size = 135249, upload-time = "2026-01-02T11:27:29.773Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/55/50/e2419fbb7a34a984d93edcf3e12f259175ae3b294b8228bfa680b61fba69/tatsu-5.14.0-py3-none-any.whl", hash = "sha256:8d3d6f259b22b033f111f786cbc963cef96c53dcad102bd96db9d8f7c6502e55", size = 80853, upload-time = "2025-12-25T23:25:54.824Z" },
+    { url = "https://files.pythonhosted.org/packages/66/e5/152d0fd5bce7f22aea0258e1dec0a73c64c0644a5fd0ad3472d588fba57e/tatsu-5.15.0-py3-none-any.whl", hash = "sha256:afa8e81f49738b4f9a1160bd3537d8a5f276d1b3ce5940109b2915dcbe8c3d15", size = 81510, upload-time = "2026-01-02T11:27:28.525Z" },
 ]
 
 [[package]]
