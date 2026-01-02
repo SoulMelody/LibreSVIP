@@ -51,7 +51,7 @@ dependencies = [
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
   "retrie<1.0.0,>=0.3.1",
   "svg-py<2.0.0,>=1.10.0",
-  "tatsu<6.0.0,>=5.14.0",
+  "tatsu<6.0.0,>=5.15.0",
   "universal-pathlib<1.0.0,>=0.3.7",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
@@ -76,7 +76,7 @@ crypto = [
 ]
 ujson = ["ujson>=5.11.0"]
 ruamel_yaml = [
-  "ruamel.yaml>=0.19.0",
+  "ruamel.yaml>=0.19.1",
 ]
 lxml = ["lxml>=6.0.2"]
 cli = [
