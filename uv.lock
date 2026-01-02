@@ -900,7 +900,7 @@ wheels = [
 
 [[package]]
 name = "flet"
-version = "0.80.0"
+version = "0.80.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx", marker = "platform_system != 'Pyodide'" },
@@ -909,9 +909,9 @@ dependencies = [
     { name = "repath" },
     { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cd/ab/038c52c3dc5c3e330a582ae7bbd5e57697a8f583ed9fa2dc5b6bf144f0d7/flet-0.80.0.tar.gz", hash = "sha256:f2d4607d2e5d1e55286799c2a4c8188386b21641ac56481384d0fc58ec171cbd", size = 349614, upload-time = "2025-12-25T01:32:48.719Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0a/80/0dbf92f0d829729be0f22721fa7dd6cffbdaca6017e51379f96666f20d65/flet-0.80.1.tar.gz", hash = "sha256:1ecfa713e46051c3b4b856ac9d46bb69aa476c51d35823b518387cfb2d415d64", size = 349528, upload-time = "2026-01-02T21:40:32.697Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/25/be/59da1b8760a2e786d5efed9be9e53c1499508fdedba1f5f0e5ac5f413e4c/flet-0.80.0-py3-none-any.whl", hash = "sha256:06cf3bef89c6448c5ae285a5bfba4af23ce67897293ea4552a6f6f546f485916", size = 440670, upload-time = "2025-12-25T01:32:47.102Z" },
+    { url = "https://files.pythonhosted.org/packages/fe/20/085201355f6525756ab32fc766e26559983ca6cbc0bd24e073846cf5492f/flet-0.80.1-py3-none-any.whl", hash = "sha256:645dfa7e0ff9648b94a3a47b6e0f26944046200e631e25f397bd4c5295067b9d", size = 440587, upload-time = "2026-01-02T21:40:30.988Z" },
 ]
 
 [package.optional-dependencies]
@@ -960,14 +960,14 @@ wheels = [
 
 [[package]]
 name = "flet-permission-handler"
-version = "0.80.0"
+version = "0.80.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "flet" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/85/46/e3c5b70f8f7a39b6220df7334333b9bc21f97f0d29a7474684bc1fa1d2c7/flet_permission_handler-0.80.0.tar.gz", hash = "sha256:3e2bbb9a325bbbfbb872c37ef7dce65b8a3559afde4e3c488e5d0a8f56ebc89d", size = 20000, upload-time = "2025-12-25T01:34:15.631Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8f/e7/e9670aebd2c468a34f1bb6c20b452398b8aeec554c8784f1c4873ba70ac4/flet_permission_handler-0.80.1.tar.gz", hash = "sha256:898fb627136b633db78105427c0770313e6e4f8c949d2f5248267b5550b1c1ad", size = 19993, upload-time = "2026-01-02T21:42:03.067Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/13/1a/37d3c81ebcb3ac97fba97020cac3aa0b6b2e87d8b9531fe1c7d7bacd0267/flet_permission_handler-0.80.0-py3-none-any.whl", hash = "sha256:1d2da3c2e0666fc7adb4931f84128e1e5d42047175a96707c8eb333867e4aebe", size = 21292, upload-time = "2025-12-25T01:34:14.452Z" },
+    { url = "https://files.pythonhosted.org/packages/12/70/5f53f954b7fb162c06299e0cbc1321bc9fd9c17d7e05a407c81dfc870feb/flet_permission_handler-0.80.1-py3-none-any.whl", hash = "sha256:3c2826af42d5b95219fb5c834f19099d19e9b6beeb1f402a497783fc2a88fb1a", size = 21291, upload-time = "2026-01-02T21:42:03.815Z" },
 ]
 
 [[package]]
@@ -1493,8 +1493,8 @@ requires-dist = [
     { name = "charset-normalizer", specifier = ">=3.4.4,<4.0.0" },
     { name = "construct-typing", specifier = ">=0.7.0,<1.0.0" },
     { name = "desktop-notifier", marker = "platform_python_implementation == 'CPython' and extra == 'desktop'", specifier = ">=6.2.0" },
-    { name = "flet", extras = ["cli", "desktop"], marker = "extra == 'mobile'", specifier = ">=0.80.0,<0.80.1" },
-    { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.80.0" },
+    { name = "flet", extras = ["cli", "desktop"], marker = "extra == 'mobile'", specifier = ">=0.80.1,<0.80.2" },
+    { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.80.1" },
     { name = "fontconfig-py", marker = "(sys_platform == 'darwin' and extra == 'mobile') or (sys_platform == 'linux' and extra == 'mobile')", specifier = ">=1.0.1" },
     { name = "httpx", marker = "extra == 'desktop'", specifier = ">=0.28.1" },
     { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=6.5.2,<7.0.0" },
