@@ -49,12 +49,11 @@ pyyaml==6.0.2
 pyzipper==0.3.6
 repath==0.9.0
 retrie==0.3.1
-ruamel-yaml==0.19.0
-ruamel-yaml-clibz==0.3.4
+ruamel-yaml==0.19.1
 six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.10.0
-tatsu==5.14.0
+tatsu==5.15.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 universal-pathlib==0.3.7

@@ -38,7 +38,7 @@ multidict==6.7.0
 packaging==25.0
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
-pillow==12.0.0
+pillow==12.1.0
 platformdirs==4.5.1
 portion==2.6.1
 pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32')
@@ -64,8 +64,7 @@ pyyaml-ft==8.0.0 ; python_full_version == '3.13.*' and sys_platform != 'emscript
 pyzipper==0.3.6
 retrie==0.3.1
 rich==14.2.0
-ruamel-yaml==0.19.0
-ruamel-yaml-clibz==0.3.4 ; platform_python_implementation == 'CPython'
+ruamel-yaml==0.19.1
 rubicon-objc==0.5.3 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
 setuptools==80.9.0
 shellingham==1.5.4
@@ -73,7 +72,7 @@ shiboken6==6.10.1
 six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.10.0
-tatsu==5.14.0
+tatsu==5.15.0
 ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0
 typer-slim==0.21.0
