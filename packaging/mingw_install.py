@@ -51,6 +51,7 @@ def install_mingw_deps() -> None:
         "shellingham": "python-shellingham",
         "setuptools": "python-setuptools",
         "ujson": "python-ujson",
+        "winloop": "python-winloop",
     }
     cwd = pathlib.Path()
     install_msys2_requirements(
@@ -68,14 +69,6 @@ def install_mingw_deps() -> None:
             f"{mingw_arch}-libmediainfo",
             "--noconfirm",
             "--needed",
-        ]
-    )
-    install_msys2_requirements(
-        [
-            "pacman",
-            "-S",
-            f"{mingw_arch}-libuv",
-            "--noconfirm",
         ]
     )
     if "clang" in mingw_arch:
