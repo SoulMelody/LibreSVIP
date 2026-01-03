@@ -340,7 +340,7 @@ jobs:
         shell: bash -el {0}
         run: |
           uv venv --python cpython-${FLET_PYTHON_VERSION}-windows-x86-none
-          uv sync --extra mobile --extra crypto --extra ujson --extra ruamel_yaml --extra lxml --extra zstd
+          uv sync --extra mobile --extra crypto --extra ujson --extra yaml12 --extra lxml --extra zstd
           cd packaging
           uv pip install -r requirements-pyinstaller.in
           uv run pyinstaller libresvip-mobile.spec

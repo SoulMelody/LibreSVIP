@@ -46,7 +46,7 @@ def install_mingw_deps() -> None:
         "pyyaml": "python-yaml",
         "regex": "python-regex",
         "ruamel-yaml": "python-ruamel-yaml",
-        "ruamel-yaml-clib": "python-ruamel.yaml.clib",
+        "py-yaml12": "python-ruamel.yaml.clib",
         "shiboken6": None,
         "shellingham": "python-shellingham",
         "setuptools": "python-setuptools",
