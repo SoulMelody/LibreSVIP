@@ -41,6 +41,7 @@ pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.1.0
 platformdirs==4.5.1
 portion==2.6.1
+py-yaml12==0.1.0 ; sys_platform == 'darwin' or sys_platform == 'linux' or sys_platform == 'win32'
 pycparser==2.23 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32')
 pycryptodomex==3.23.0
 pydantic==2.12.5
@@ -65,6 +66,7 @@ pyzipper==0.3.6
 retrie==0.3.1
 rich==14.2.0
 ruamel-yaml==0.19.1
+ruamel-yaml-clib==0.2.15 ; sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 rubicon-objc==0.5.3 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
 setuptools==80.9.0
 shellingham==1.5.4
