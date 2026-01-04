@@ -1,10 +1,8 @@
 [Core]
 name = BinSvip
-module = binsvip_converter
 
 [Documentation]
 Author = yqzhishen
-Version = 1.3.0
 Website = https://space.bilibili.com/102844209
 Format = X Studio project file
 Description = Conversion plugin for the original .svip binary file format

@@ -3,6 +3,7 @@ import pathlib
 import subprocess
 from collections.abc import Iterator
 from configparser import RawConfigParser
+from importlib.resources import files
 from typing import Any, BinaryIO, cast
 
 from babel.messages import setuptools_frontend
@@ -42,16 +43,17 @@ def extract_from_plugin_metadata(
 
 
 def extract_plugin_msgs() -> None:
-    for entry_path, plugin_info in itertools.chain.from_iterable(
-        (middleware_manager._candidates, plugin_manager._candidates)
+    for plugin_id, plugin in itertools.chain(
+        plugin_manager.plugins.get("svs", {}).items(),
+        middleware_manager.plugins.get("middleware", {}).items(),
     ):
-        plugin_dir = cast("pathlib.Path", entry_path).parent
+        plugin_dir = cast("pathlib.Path", files(plugin.__module__))
         cmdinst = setuptools_frontend.extract_messages()
         cmdinst.initialize_options()
         cmdinst.omit_header = True
         cmdinst.no_location = True
         cmdinst.input_dirs = [str(plugin_dir)]
-        cmdinst.output_file = str(plugin_dir / f"{plugin_info.identifier}.po")
+        cmdinst.output_file = str(plugin_dir / f"{plugin_id}.po")
         cmdinst.mapping_file = "babel.cfg"
         cmdinst.finalize_options()
         cmdinst.run()

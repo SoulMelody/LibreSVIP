@@ -1,10 +1,8 @@
 [Core]
 name = DiffSinger
-module = diffsinger_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 0.0.1
 Website = https://space.bilibili.com/175862486
 Format = DiffSinger parameters file
 Description = DiffSinger plugin.

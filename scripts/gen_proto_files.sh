@@ -1,0 +1,1 @@
+protoc --python_aristaproto_opt=pydantic_dataclasses --python_aristaproto_out=. -I ../libresvip/res/protos/ libresvip.proto

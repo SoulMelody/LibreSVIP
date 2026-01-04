@@ -25,7 +25,11 @@ class DiffSingerGenerator:
         synchronizer = TimeSynchronizer(project.song_tempo_list)
         if self.options.track_index < 0:
             singing_track = next(
-                (track for track in project.track_list if isinstance(track, SingingTrack)),
+                (
+                    track
+                    for track in project.track_list
+                    if isinstance(track, SingingTrack) and track.note_list
+                ),
                 None,
             )
         else:

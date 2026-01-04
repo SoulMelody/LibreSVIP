@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/xvsq/xvsq.po\n"
+"X-Crowdin-File-ID: 202\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2025-10-19 13:42\n"
+
+msgid "Pretty XML"
+msgstr "Leserliches XML"
+
+msgid "Whether to output pretty XML"
+msgstr "Soll leserliches XML ausgegeben werden"
+
+msgid "Cadencii"
+msgstr ""
+
+msgid "Cadencii project file"
+msgstr ""
+
+msgid "Conversion plugin for Cadencii project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

@@ -48,8 +48,8 @@ def qt_log_handler(message_type: QtMsgType, ctx: QMessageLogContext, message: st
     )
     with qt_logger.contextualize(prefix=message_prefix):
         msg = msg.removeprefix(message_prefix).removeprefix(":9").removeprefix(": ")
-        log_method = log_methods.get(msg_type, qt_logger.info)
-        log_method(msg)
+        if log_method := log_methods.get(msg_type, qt_logger.info):
+            log_method(msg)
 
 
 def enable_log_handler() -> None:

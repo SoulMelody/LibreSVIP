@@ -4,7 +4,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material as QQC2
 import QtQuick.Dialogs
 import QtQuick.Layouts
-import LibreSVIP
 
 Item {
     property alias folderPresetsList: folderPresetsListView
@@ -255,7 +254,7 @@ Item {
                         Layout.alignment: Qt.AlignHCenter
                         text: iconicFontLoader.icon("mdi7.plus")
                         font.family: "Material Design Icons"
-                        font.pixelSize: Qt.application.font.pixelSize * 1.5
+                        font.pixelSize: Qt.application.font.pixelSize
                         onClicked: {
                             folderPresetsListView.model.append({
                                 "path": ""

@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-19 01:02\n"
+"PO-Revision-Date: 2025-10-19 13:42\n"
 
 msgid "Align to left"
 msgstr "Links ausrichten"
@@ -97,5 +97,8 @@ msgid "Generate graphics containing notes and pitch curve in SVG format. Only th
 msgstr "Erzeuge Grafiken mit Noten und Tonhöhenkurve im SVG-Format. Es wird nur die erste oder angegebene Gesangsspur importiert."
 
 msgid "CrSjimo"
+msgstr ""
+
+msgid "Project has no tracks"
 msgstr ""
 

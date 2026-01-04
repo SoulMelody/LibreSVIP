@@ -87,3 +87,6 @@ msgstr ""
 msgid "CrSjimo"
 msgstr ""
 
+msgid "Project has no tracks"
+msgstr ""
+

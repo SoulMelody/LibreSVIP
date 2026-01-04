@@ -4,7 +4,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Shapes
-import LibreSVIP
 
 Page {
     title: qsTr("Converter")
@@ -426,9 +425,13 @@ Page {
                     ToolTip.text: qsTr("Swap Input and Output")
                     onClicked: {
                         if (inputFormat.enabled && outputFormat.enabled) {
-                            [inputFormat.currentIndex, outputFormat.currentIndex] = [outputFormat.currentIndex, inputFormat.currentIndex];
-                            taskManager.set_str("input_format", inputFormat.currentValue);
-                            taskManager.set_str("output_format", outputFormat.currentValue);
+                            let inputFormatChangedIndex = inputFormat.indexOfValue(outputFormat.currentValue);
+                            let outputFormatChangedIndex = outputFormat.indexOfValue(inputFormat.currentValue);
+                            if (inputFormatChangedIndex >= 0 && outputFormatChangedIndex >= 0) {
+                                [inputFormat.currentIndex, outputFormat.currentIndex] = [inputFormatChangedIndex, outputFormatChangedIndex];
+                                taskManager.set_str("input_format", inputFormat.currentValue);
+                                taskManager.set_str("output_format", outputFormat.currentValue);
+                            }
                         }
                     }
                 }
@@ -737,7 +740,7 @@ Page {
                         text: iconicFontLoader.icon("mdi7.hammer-wrench")
                         y: parent.height - this.height / 2
                         font.family: "Material Design Icons"
-                        font.pixelSize: Qt.application.font.pixelSize * 1.5
+                        font.pixelSize: Qt.application.font.pixelSize
                         radius: this.height / 2
                         Behavior on rotation {
                             RotationAnimation {
@@ -778,7 +781,7 @@ Page {
                                     color: Material.color(Material.LightBlue, Material.Shade200)
                                 }
                                 font.family: "Material Design Icons"
-                                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                                font.pixelSize: Qt.application.font.pixelSize
                                 radius: this.height / 2
                                 ToolTip.visible: hovered
                                 ToolTip.text: qsTr("Continue Adding files")
@@ -799,7 +802,7 @@ Page {
                                     color: Material.color(Material.LightBlue, Material.Shade200)
                                 }
                                 font.family: "Material Design Icons"
-                                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                                font.pixelSize: Qt.application.font.pixelSize
                                 radius: this.height / 2
                                 enabled: taskManager.count > 0
                                 ToolTip.visible: hovered
@@ -823,7 +826,7 @@ Page {
                                     color: Material.color(Material.LightBlue, Material.Shade200)
                                 }
                                 font.family: "Material Design Icons"
-                                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                                font.pixelSize: Qt.application.font.pixelSize
                                 radius: this.height / 2
                                 ToolTip.visible: hovered
                                 ToolTip.text: qsTr("Reset Default Extension")
@@ -846,7 +849,7 @@ Page {
                                     color: Material.color(Material.LightBlue, Material.Shade200)
                                 }
                                 font.family: "Material Design Icons"
-                                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                                font.pixelSize: Qt.application.font.pixelSize
                                 radius: this.height / 2
                                 ToolTip.visible: hovered
                                 ToolTip.text: qsTr("Remove Tasks With Other Extensions")
@@ -922,7 +925,7 @@ Page {
                         contentItem: Label {
                             text: iconicFontLoader.icon("mdi7.chevron-right")
                             font.family: "Material Design Icons"
-                            font.pixelSize: 20
+                            font.pixelSize: 16
                             rotation: inputContainer.expanded ? 45 : 0
                             Behavior on rotation {
                                 RotationAnimation {
@@ -1068,7 +1071,7 @@ Page {
                                 icon_name: "mdi7.help-circle-outline"
                                 anchors.verticalCenter: parent.verticalCenter
                                 diameter: 30
-                                new_padding: 6
+                                new_padding: 7
                                 cursor_shape: Qt.WhatsThisCursor
                                 visible: modelData.description != ""
                                 ToolTip.visible: hovered
@@ -1217,7 +1220,7 @@ Page {
                         contentItem: Label {
                             text: iconicFontLoader.icon("mdi7.chevron-right")
                             font.family: "Material Design Icons"
-                            font.pixelSize: 20
+                            font.pixelSize: 16
                             rotation: outputContainer.expanded ? 45 : 0
                             Behavior on rotation {
                                 RotationAnimation {

@@ -31,12 +31,8 @@ def install_mingw_deps() -> None:
         "backports-zstd": "python-zstandard",
         "cffi": "python-cffi",
         "charset-normalizer": "python-charset-normalizer",
-        "cx-freeze": None,
-        "cx-logging": None,
-        "lief": None,
         "lxml": "python-lxml",
         "markupsafe": "python-markupsafe",
-        "nuitka": "python-nuitka",
         "platformdirs": "python-platformdirs",
         "protobuf": "python-protobuf",
         "pycryptodomex": "python-pycryptodomex",
@@ -44,17 +40,18 @@ def install_mingw_deps() -> None:
         "pydantic-core": "python-pydantic-core",
         "pyinstaller": "pyinstaller",
         "pyinstaller-hooks-contrib": "pyinstaller-hooks-contrib",
-        "pyside6": "pyside6",
+        "pyside6": None,
         "pyside6-addons": None,
-        "pyside6-essentials": None,
+        "pyside6-essentials": "pyside6",
         "pyyaml": "python-yaml",
         "regex": "python-regex",
         "ruamel-yaml": "python-ruamel-yaml",
-        "ruamel-yaml-clib": "python-ruamel.yaml.clib",
+        "py-yaml12": "python-ruamel.yaml.clib",
         "shiboken6": None,
         "shellingham": "python-shellingham",
         "setuptools": "python-setuptools",
         "ujson": "python-ujson",
+        "winloop": "python-winloop",
     }
     cwd = pathlib.Path()
     install_msys2_requirements(
@@ -72,14 +69,6 @@ def install_mingw_deps() -> None:
             f"{mingw_arch}-libmediainfo",
             "--noconfirm",
             "--needed",
-        ]
-    )
-    install_msys2_requirements(
-        [
-            "pacman",
-            "-S",
-            f"{mingw_arch}-python-cffi",
-            "--noconfirm",
         ]
     )
     if "clang" in mingw_arch:

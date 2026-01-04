@@ -40,7 +40,9 @@ if __name__ == "__main__":
             secrets_path.write_text(secrets.token_urlsafe(32))
         os.environ["LIBRESVIP_SETTINGS_BACKEND"] = "remote"
         os.environ["FLET_SECRET_KEY"] = secrets_path.read_text()
-        flet_app = flet_web.fastapi.app(main, upload_dir=str(settings.save_folder))
+        flet_app = flet_web.fastapi.app(
+            main, before_main=None, upload_dir=str(settings.save_folder)
+        )
         app = FastAPI()
 
         @app.get("/download/{filename}")
@@ -51,6 +53,4 @@ if __name__ == "__main__":
 
         uvicorn.run(app, host=args.host, port=args.port)
     else:
-        import asyncio
-
-        asyncio.run(ft.app_async(main, name="LibreSVIP"))
+        ft.run(main, name="LibreSVIP", no_cdn=True)

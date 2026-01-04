@@ -28,7 +28,8 @@ class DsProjectModel:
             consonant = ds_phoneme.consonant
             vowel = ds_phoneme.vowel
             input_text += cur_note.lyric.replace("-", "")
-            phoneme_counts.append(1)
+            if not cur_note.is_slur:
+                phoneme_counts.append(1)
             if consonant is not None:
                 phoneme_seq += f"{consonant.phoneme} "
                 if consonant.duration is not None:
@@ -37,8 +38,9 @@ class DsProjectModel:
                     phoneme_dur_enabled = False
                 is_slur_seq += "0 "
                 phoneme_counts[-1] += 1
-            phoneme_seq += vowel.phoneme
-            phoneme_dur_seq += str(vowel.duration)
+            if not cur_note.is_slur:
+                phoneme_seq += vowel.phoneme
+                phoneme_dur_seq += str(vowel.duration)
             input_note_seq += vowel.note_name
             input_duration += str(cur_note.duration)
             is_slur_seq += "1" if cur_note.is_slur else "0"
@@ -53,6 +55,8 @@ class DsProjectModel:
                 phoneme_seq += " "
                 phoneme_dur_seq += " "
 
+        if len(phoneme_counts) > 0:
+            phoneme_counts = [*phoneme_counts[1:], phoneme_counts[0]]
         pitch_points = self.pitch_param_curve.point_list
         f0_sequence = None
         if pitch_points and len(pitch_points) > 0:

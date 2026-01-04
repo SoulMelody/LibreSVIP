@@ -53,9 +53,9 @@ from textual_fspicker import FileOpen, SelectDirectory
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import ZipFile
 from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.core.warning_types import CatchWarnings
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
@@ -63,6 +63,16 @@ from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 translation.singleton_translation = get_translation()
+readonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, ReadOnlyConverterMixin)
+]
+writeonly_plugin_ids = [
+    identifier
+    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+    if issubclass(plugin, WriteOnlyConverterMixin)
+]
 
 
 class LibreSVIPCommandProvider(Provider):
@@ -91,13 +101,13 @@ class PluginInfoScreen(Screen[None]):
     def compose(self) -> ComposeResult:
         yield Header(icon="☰")
         yield Footer()
-        plugin_info = plugin_manager.plugin_registry[self.plugin_id]
+        plugin = plugin_manager.plugins.get("svs", {})[self.plugin_id]
         with Vertical():
-            yield Label(plugin_info.name, classes="title")
-            yield Label(f"{_('Version: ')}{plugin_info.version}")
-            yield Link(f"{_('Author: ')}{_(plugin_info.author)}", url=plugin_info.website)
+            yield Label(plugin.info.name, classes="title")
+            yield Label(f"{_('Version: ')}{plugin.version}")
+            yield Link(f"{_('Author: ')}{_(plugin.info.author)}", url=plugin.info.website)
             yield Label(_("Introduction"))
-            yield Markdown(_(plugin_info.description))
+            yield Markdown(_(plugin.info.description))
             with Horizontal():
                 yield Label("", classes="fill-width")
                 yield Button(_("Close"), id="close", variant="success")
@@ -146,12 +156,16 @@ class SelectFormats(Vertical):
     def on_swap_input_output(self, pressed: Button.Pressed) -> None:
         input_format_select = self.query_one("#input_format")
         output_format_select = self.query_one("#output_format")
-        input_format_value, output_format_value = (
-            output_format_select._value,
-            input_format_select._value,
-        )
-        input_format_select._watch_value(input_format_value)
-        output_format_select._watch_value(output_format_value)
+        if (
+            input_format_select._value not in readonly_plugin_ids
+            and output_format_select._value not in writeonly_plugin_ids
+        ):
+            input_format_value, output_format_value = (
+                output_format_select._value,
+                input_format_select._value,
+            )
+            input_format_select._watch_value(input_format_value)
+            output_format_select._watch_value(output_format_value)
 
     @on(Button.Pressed, "#input_plugin_info")
     def on_input_plugin_info(self, pressed: Button.Pressed) -> None:
@@ -183,14 +197,15 @@ class SelectFormats(Vertical):
             yield Label(_("Import format"), classes="text-middle")
             yield Select(
                 [
-                    (f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})", plugin_id)
-                    for plugin_id, plugin_info in plugin_manager.plugin_registry.items()
+                    (f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})", plugin_id)
+                    for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                    if plugin_id not in writeonly_plugin_ids
                 ],
                 value=(
                     settings.last_input_format
                     if settings.last_input_format is not None
                     else next(
-                        iter(plugin_manager.plugin_registry),
+                        iter(plugin_manager.plugins.get("svs", {})),
                         Select.BLANK,
                     )
                 ),
@@ -207,14 +222,15 @@ class SelectFormats(Vertical):
             yield Label(_("Export format"), classes="text-middle")
             yield Select(
                 [
-                    (f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})", plugin_id)
-                    for plugin_id, plugin_info in plugin_manager.plugin_registry.items()
+                    (f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})", plugin_id)
+                    for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                    if plugin_id not in readonly_plugin_ids
                 ],
                 value=(
                     settings.last_output_format
                     if settings.last_output_format is not None
                     else next(
-                        iter(plugin_manager.plugin_registry),
+                        iter(plugin_manager.plugins.get("svs", {})),
                         Select.BLANK,
                     )
                 ),
@@ -450,14 +466,11 @@ class TUIApp(App[None]):
             tab_id = self.query_one("#task_list").current
             self.query_one(f"ListView#{tab_id}").clear()
         if event.value:
-            plugin_object = plugin_manager.plugin_registry[event.value].plugin_object
-            if plugin_object is not None and (
-                input_option := get_type_hints(plugin_object.load).get("options")
-            ):
-                input_options = self.query_one("#input_options")
-                input_options.option_class = input_option
-                input_options.option_dict = {}
-                await input_options.recompose()
+            plugin_object = plugin_manager.plugins.get("svs", {})[event.value]
+            input_options = self.query_one("#input_options")
+            input_options.option_class = plugin_object.input_option_cls
+            input_options.option_dict = {}
+            await input_options.recompose()
 
     @on(SelectFormats.OutputFormatChanged)
     async def handle_output_format_change(self, event: SelectFormats.OutputFormatChanged) -> None:
@@ -468,14 +481,11 @@ class TUIApp(App[None]):
                 for node in task_list_view._nodes:
                     node.ext = event.value
                     node.query_one("#ext").update(f".{event.value}")
-            plugin_object = plugin_manager.plugin_registry[event.value].plugin_object
-            if plugin_object is not None and (
-                output_option := get_type_hints(plugin_object.dump).get("options")
-            ):
-                output_options = self.query_one("#output_options")
-                output_options.option_class = output_option
-                output_options.option_dict = {}
-                await output_options.recompose()
+            plugin_object = plugin_manager.plugins.get("svs", {})[event.value]
+            output_options = self.query_one("#output_options")
+            output_options.option_class = plugin_object.output_option_cls
+            output_options.option_dict = {}
+            await output_options.recompose()
 
     @on(Button.Pressed, "#add_task")
     @work
@@ -487,7 +497,7 @@ class TUIApp(App[None]):
         else:
             return
         ext = selected_path.suffix.removeprefix(".").lower()
-        if ext in plugin_manager.plugin_registry and settings.auto_detect_input_format:
+        if ext in plugin_manager.plugins.get("svs", {}) and settings.auto_detect_input_format:
             settings.last_input_format = ext
             self.query_one("#input_format")._watch_value(ext)
         tab_id = self.query_one("#task_list").current
@@ -552,88 +562,65 @@ class TUIApp(App[None]):
                     output_path = output_path.with_suffix(
                         f".{settings.last_output_format}",
                     )
-                input_plugin = plugin_manager.plugin_registry[settings.last_input_format]
-                output_plugin = plugin_manager.plugin_registry[settings.last_output_format]
-                if (
-                    input_plugin.plugin_object is not None
-                    and (
-                        input_option_class := get_type_hints(input_plugin.plugin_object.load).get(
-                            "options",
-                        )
-                    )
-                    is not None
-                    and output_plugin.plugin_object is not None
-                    and (
-                        output_option_class := get_type_hints(
-                            output_plugin.plugin_object.dump,
-                        ).get("options")
-                    )
-                    is not None
-                ):
-                    input_options = self.query_one("#input_options")
-                    input_option = input_option_class.model_validate(input_options.option_dict)
-                    if tab_id == "merge":
-                        child_projects = [
-                            input_plugin.plugin_object.load(
-                                sub_task.input_path,
-                                input_option,
-                            )
-                            for sub_task in more_itertools.value_chain(task_row, sub_tasks)
-                        ]
-                        project = Project.merge_projects(child_projects)
-                    else:
-                        project = input_plugin.plugin_object.load(
-                            task_row.input_path,
+                input_plugin = plugin_manager.plugins.get("svs", {})[settings.last_input_format]
+                output_plugin = plugin_manager.plugins.get("svs", {})[settings.last_output_format]
+                input_options = self.query_one("#input_options")
+                input_option = input_options.option_dict
+                if tab_id == "merge":
+                    child_projects = [
+                        input_plugin.load(
+                            sub_task.input_path,
                             input_option,
                         )
-                    for (
-                        middleware_id,
-                        middleware,
-                    ) in middleware_manager.plugin_registry.items():
-                        enabled = self.query_one(f"#{middleware_id}_switch").value
-                        if (
-                            enabled
-                            and middleware.plugin_object is not None
-                            and hasattr(middleware.plugin_object, "process")
-                        ):
-                            option_form = self.query_one(f"#{middleware_id}_options")
-                            project = middleware.plugin_object.process(
-                                project,
-                                option_form.option_class.model_validate(option_form.option_dict),
-                            )
-                    output_options = self.query_one("#output_options")
-                    output_option = output_option_class.model_validate(output_options.option_dict)
-                    if tab_id == "split":
-                        output_path.mkdir(parents=True, exist_ok=True)
-                        for i, child_project in enumerate(
-                            project.split_tracks(settings.max_track_count), start=1
-                        ):
-                            output_plugin.plugin_object.dump(
-                                output_path
-                                / f"{task_row.stem}_{i:0=2d}.{settings.last_output_format}",
-                                child_project,
-                                output_option,
-                            )
-                    else:
-                        output_plugin.plugin_object.dump(
-                            output_path,
+                        for sub_task in more_itertools.value_chain(task_row, sub_tasks)
+                    ]
+                    project = Project.merge_projects(child_projects)
+                else:
+                    project = input_plugin.load(
+                        task_row.input_path,
+                        input_option,
+                    )
+                for (
+                    middleware_id,
+                    middleware,
+                ) in middleware_manager.plugins.get("middleware", {}).items():
+                    if self.query_one(f"#{middleware_id}_switch").value:
+                        option_form = self.query_one(f"#{middleware_id}_options")
+                        project = middleware.process(
                             project,
+                            option_form.option_dict,
+                        )
+                output_options = self.query_one("#output_options")
+                output_option = output_options.option_dict
+                if tab_id == "split":
+                    output_path.mkdir(parents=True, exist_ok=True)
+                    for i, child_project in enumerate(
+                        project.split_tracks(settings.max_track_count), start=1
+                    ):
+                        output_plugin.dump(
+                            output_path / f"{task_row.stem}_{i:0=2d}.{settings.last_output_format}",
+                            child_project,
                             output_option,
                         )
+                else:
+                    output_plugin.dump(
+                        output_path,
+                        project,
+                        output_option,
+                    )
             if w.output:
                 task_row.log_text = w.output
             buffer = io.BytesIO()
             if output_path.is_file():
                 buffer.write(output_path.read_bytes())
             else:
-                with ZipFile(buffer, "w") as zip_file:
-                    for child_file in output_path.iterdir():
-                        if not child_file.is_file():
-                            continue
-                        zip_file.writestr(
-                            child_file.name,
-                            child_file.read_bytes(),
-                        )
+                zip_path = UPath("zip://", fo=buffer, mode="a")
+                for child_file in output_path.iterdir():
+                    if not child_file.is_file():
+                        continue
+                    (zip_path / child_file.name).write_bytes(
+                        child_file.read_bytes(),
+                    )
             self.call_from_thread(
                 self.deliver_text,
                 io.StringIO(buffer.getvalue().decode("latin-1")),
@@ -747,20 +734,17 @@ class TUIApp(App[None]):
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
                         yield OptionsForm(None, id="input_options")
-                    for middleware_id, middleware in middleware_manager.plugin_registry.items():
-                        if middleware.plugin_object is not None and (
-                            middleware_option := get_type_hints(
-                                middleware.plugin_object.process
-                            ).get("options")
-                        ):
-                            with Collapsible(title=_(middleware.name)), VerticalGroup():
-                                with Horizontal(classes="row"):
-                                    yield Label(_("Enable"), classes="text-middle fill-width")
-                                    yield Switch(id=f"{middleware_id}_switch")
-                                with Vertical():
-                                    yield OptionsForm(
-                                        middleware_option, id=f"{middleware_id}_options"
-                                    )
+                    for middleware_id, middleware in middleware_manager.plugins.get(
+                        "middleware", {}
+                    ).items():
+                        with Collapsible(title=_(middleware.info.name)), VerticalGroup():
+                            with Horizontal(classes="row"):
+                                yield Label(_("Enable"), classes="text-middle fill-width")
+                                yield Switch(id=f"{middleware_id}_switch")
+                            with Vertical():
+                                yield OptionsForm(
+                                    middleware.process_option_cls, id=f"{middleware_id}_options"
+                                )
                     with Collapsible(title=_("Output Options")):
                         yield OptionsForm(None, id="output_options")
                 with Horizontal(classes="bottom-pane card row"):
@@ -852,11 +836,11 @@ class TUIApp(App[None]):
                     yield SelectionList(
                         *(
                             Selection(
-                                f"{plugin_info.name} ({plugin_info.version})",
+                                f"{plugin.info.name} ({plugin.version})",
                                 plugin_id,
                                 plugin_id not in settings.disabled_plugins,
                             )
-                            for plugin_id, plugin_info in plugin_manager.plugin_registry.items()
+                            for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                         )
                     )
             with TabPane(_("About")), Vertical():

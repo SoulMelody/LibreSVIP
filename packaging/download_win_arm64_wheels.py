@@ -23,7 +23,8 @@ def download_win_arm64_wheels() -> None:
     native_packages = {}
     third_party_arm64_packages = {
         "protobuf": None,
-        "ruamel_yaml_clib": "ruamel-yaml-clib",
+        "pyyaml_ft": "pyyaml-ft",
+        "py-yaml12": "ruamel-yaml-clib",
     }
 
     def collect_wheels(bundle_url: str) -> None:

@@ -49,7 +49,7 @@ from .msnrbf.xstudio_models import (
     XSVibratoPercentInfo,
     XSVibratoStyle,
 )
-from .options import OutputOptions
+from .options import BinarySvipVersion, OutputOptions
 
 
 @dataclasses.dataclass
@@ -153,7 +153,7 @@ class BinarySvipGenerator:
             s_track.edited_volume_line = params["Volume"]
             s_track.edited_breath_line = params["Breath"]
             s_track.edited_gender_line = params["Gender"]
-            if self.options.version == "SVIP7.0.0":
+            if self.options.version.value == BinarySvipVersion.SVIP7_0_0.value:
                 s_track.edited_power_line = params["Strength"]
         elif isinstance(track, InstrumentalTrack):
             s_track = XSInstrumentTrack(

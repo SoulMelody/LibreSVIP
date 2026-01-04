@@ -18,17 +18,21 @@ __all__ = [
 ]
 
 if platform.system() == "Windows":
-    os.environ["QT_QPA_PLATFORM"] = "windows:fontengine=gdi"
+    os.environ["QT_QPA_PLATFORM"] = "windows:nodirectwrite"
 os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
 app = QGuiApplication()
 qml_engine = QQmlApplicationEngine()
-if hasattr(QQuickStyle, "set_style"):
-    QQuickStyle.set_style("Material")
-else:
-    QQuickStyle.setStyle("Material")
+QQuickStyle.setStyle("Material")
 
 event_loop = QEventLoop(app)
 asyncio.set_event_loop(event_loop)
 app_close_event: asyncio.Event = asyncio.Event()
-app.aboutToQuit.connect(app_close_event.set)
-qml_engine.quit.connect(app_close_event.set)
+
+
+def set_close_event() -> None:
+    if not app_close_event.is_set():
+        app_close_event.set()
+
+
+app.aboutToQuit.connect(set_close_event)
+qml_engine.quit.connect(set_close_event)

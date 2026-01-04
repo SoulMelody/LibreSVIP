@@ -16,6 +16,8 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import settings
 
+from . import AutoCaseObject
+
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
@@ -26,7 +28,7 @@ if TYPE_CHECKING:
     RoleNames = dict[str, Any] | tuple[str, ...] | list[str]  # suggested
 
 
-class ModelProxy(QAbstractListModel):
+class ModelProxy(QAbstractListModel, metaclass=AutoCaseObject):
     """
     references:
         https://github.com/likianta/qmlease/blob/master/qmlease/qmlside/model/model.py
@@ -256,7 +258,7 @@ class ModelProxy(QAbstractListModel):
         return {k: QByteArray(v.encode("utf-8")) for k, v in self._role_2_name.items()}
 
 
-class LyricReplacementPresetsModel(QStringListModel):
+class LyricReplacementPresetsModel(QStringListModel, metaclass=AutoCaseObject):
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
         self.set_string_list(settings.lyric_replace_rules_groups)

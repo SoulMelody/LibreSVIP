@@ -1,4 +1,5 @@
 import pathlib
+from importlib.resources import files
 
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
@@ -13,20 +14,32 @@ from .model import CeVIOCreativeStudioProject
 from .options import InputOptions, OutputOptions
 
 
-class CeVIOConverter(plugin_base.SVSConverterBase):
-    def load(self, path: pathlib.Path, options: InputOptions) -> Project:
+class CeVIOConverter(plugin_base.SVSConverter):
+    input_option_cls = InputOptions
+    output_option_cls = OutputOptions
+    info = plugin_base.FormatProviderPluginInfo.load_from_string(
+        content=(files(__package__) / "ccs.yapsy-plugin").read_text(encoding="utf-8"),
+    )
+    _alias_ = "ccs"
+    _version_ = "1.0.0"
+
+    @classmethod
+    def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.input_option_cls.model_validate(options)
         ccs_project = XmlParser(config=ParserConfig(fail_on_unknown_properties=False)).from_bytes(
             path.read_bytes(), CeVIOCreativeStudioProject
         )
-        return CeVIOParser(options).parse_project(ccs_project)
+        return CeVIOParser(options_obj).parse_project(ccs_project)
 
+    @classmethod
     def dump(
-        self,
+        cls,
         path: pathlib.Path,
         project: Project,
-        options: OutputOptions,
+        options: plugin_base.OptionsDict,
     ) -> None:
-        ccs_project = CeVIOGenerator(options).generate_project(project)
+        options_obj = cls.output_option_cls.model_validate(options)
+        ccs_project = CeVIOGenerator(options_obj).generate_project(project)
         serializer = XmlSerializer(
             config=SerializerConfig(pretty_print=True),
         )

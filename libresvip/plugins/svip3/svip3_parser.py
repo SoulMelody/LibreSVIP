@@ -4,7 +4,7 @@ import operator
 from collections.abc import MutableSequence
 from urllib.parse import urljoin
 
-from google.protobuf import any_pb2
+import aristaproto.lib.pydantic.google.protobuf as any_pb2
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.tick_counter import shift_tempo_list
@@ -83,12 +83,12 @@ class Svip3Parser:
         tracks = []
         for track in track_list:
             if track.type_url == urljoin(TYPE_URL_BASE, Svip3TrackType.SINGING_TRACK):
-                singing_track = Svip3SingingTrack.deserialize(track.value)
+                singing_track = Svip3SingingTrack().parse(track.value)
                 tracks.append(self.parse_singing_track(singing_track))
             elif self.options.import_instrumental_track and track.type_url == urljoin(
                 TYPE_URL_BASE, Svip3TrackType.AUDIO_TRACK
             ):
-                audio_track = Svip3AudioTrack.deserialize(track.value)
+                audio_track = Svip3AudioTrack().parse(track.value)
                 if xstudio_audio_track := self.parse_audio_track(audio_track):
                     tracks.append(xstudio_audio_track)
         return tracks

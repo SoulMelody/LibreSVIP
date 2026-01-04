@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import LibreSVIP
 
 Item {
     property QtObject openFile: Action {
@@ -88,7 +87,7 @@ Item {
     }
     property QtObject openDocumentation: Action {
         shortcut: "F1"
-        onTriggered: notifier.open_link("https://soulmelody.github.io/LibreSVIP")
+        onTriggered: Qt.openUrlExternally("https://soulmelody.github.io/LibreSVIP")
     }
     property QtObject quit: Action {
         shortcut: "Ctrl+Q"

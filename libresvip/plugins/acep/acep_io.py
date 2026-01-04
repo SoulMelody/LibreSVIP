@@ -31,81 +31,10 @@ for zstd_backend in (
         zstd = importlib.import_module(zstd_backend)
         if zstd_backend == "cramjam":
             zstd = zstd.zstd
+        ZSTD_AVAILABLE = True
         break
 else:
-    import ctypes.util
-
-    from . import ctypes_buffer
-
-    CLEVEL_DEFAULT = 3
-
-    if not (_libname := ctypes.util.find_library("libzstd") or ctypes.util.find_library("zstd")):
-        msg = "zstd library not found"
-        raise ImportError(msg)
-    _lib = ctypes.CDLL(_libname)
-
-    _ZSTD_compress = _lib.ZSTD_compress
-    _ZSTD_compress.restype = ctypes.c_size_t
-    _ZSTD_compress.argtypes = [
-        ctypes.c_void_p,
-        ctypes.c_size_t,
-        ctypes.c_void_p,
-        ctypes.c_size_t,
-        ctypes.c_int,
-    ]
-
-    _ZSTD_compressBound = _lib.ZSTD_compressBound
-    _ZSTD_compressBound.restype = ctypes.c_size_t
-    _ZSTD_compressBound.argtypes = [ctypes.c_size_t]
-
-    _ZSTD_decompress = _lib.ZSTD_decompress
-    _ZSTD_decompress.restype = ctypes.c_size_t
-    _ZSTD_decompress.argtypes = [
-        ctypes.c_void_p,
-        ctypes.c_size_t,
-        ctypes.c_void_p,
-        ctypes.c_size_t,
-    ]
-
-    _ZSTD_getFrameContentSize = _lib.ZSTD_getFrameContentSize
-    _ZSTD_getFrameContentSize.restype = ctypes.c_ulonglong
-    _ZSTD_getFrameContentSize.argtypes = [ctypes.c_void_p, ctypes.c_size_t]
-
-    _array_type = ctypes.c_uint8 * 0
-
-    class zstd:  # type: ignore[no-redef] # noqa: N801
-        """adapted from https://github.com/MaaAssistantArknights/UpdateEngine/blob/master/makedelta/zstd_ctypes.py"""
-
-        @staticmethod
-        def decompress(data: bytes) -> bytes | None:
-            with ctypes_buffer.CtypesSimpleBuffer(data) as inbuf:
-                content_size = _ZSTD_getFrameContentSize(inbuf, len(inbuf))
-                if content_size == 0:
-                    msg = "Invalid zstd frame"
-                    raise ValueError(msg)
-                out = bytearray(content_size)
-                outlen = _ZSTD_decompress(
-                    _array_type.from_buffer(out), content_size, inbuf, len(inbuf)
-                )
-                if _lib.ZSTD_isError(outlen):
-                    msg = f"Decompression error: {_lib.ZSTD_getErrorName(outlen)}"
-                    raise RuntimeError(msg)
-                return bytes(out[:outlen])
-
-        @staticmethod
-        def compress(data: bytes) -> bytes | None:
-            with ctypes_buffer.CtypesSimpleBuffer(data) as inbuf:
-                outbuflen = _ZSTD_compressBound(len(inbuf))
-                out = bytearray(outbuflen)
-                outlen = _ZSTD_compress(
-                    _array_type.from_buffer(out),
-                    outbuflen,
-                    inbuf,
-                    len(inbuf),
-                    CLEVEL_DEFAULT,
-                )
-                out = out[:outlen]
-                return bytes(out)
+    ZSTD_AVAILABLE = False
 
 
 class AcepDebug(BaseModel):
@@ -142,7 +71,10 @@ def decrypt_acep_content_v1(content: bytes) -> bytes:
     key = hashlib.sha256(key_bytes).digest()
     iv = hashlib.md5(iv_bytes).digest()
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    return unpad(cipher.decrypt(content), AES.block_size, style="iso7816")
+    decrypted = cipher.decrypt(content)
+    if decrypted.endswith(b"\x00"):
+        return unpad(decrypted, AES.block_size, style="iso7816")
+    return decrypted
 
 
 def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
@@ -153,7 +85,10 @@ def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
     iv = hashlib.md5(iv_bytes).digest()
     key = b"\xb7\x4b\x57\x57\x5f\xb1\x4f\xc7\xec\xa9\x9c\x8b\x82\x53\x10\xfc\x4a\x33\x7b\x83\x7b\x12\x83\xe9\x0e\xe0\xef\x02\x20\x1c\x91\x12"
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    return unpad(cipher.decrypt(content), AES.block_size, style="iso7816")
+    decrypted = cipher.decrypt(content)
+    if decrypted.endswith(b"\x00"):
+        return unpad(decrypted, AES.block_size, style="iso7816")
+    return decrypted
 
 
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:

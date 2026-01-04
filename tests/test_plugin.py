@@ -5,12 +5,12 @@ from typing import TYPE_CHECKING
 
 import pytest
 import rich
+from upath import UPath
 
-from libresvip.core.compat import ZipFile
 from libresvip.extension.manager import plugin_manager
 from libresvip.utils.text import to_unicode
 
-plugin_registry = plugin_manager.plugin_registry
+plugin_registry = plugin_manager.plugins.get("svs", {})
 
 
 def test_ust_write(shared_datadir: pathlib.Path) -> None:
@@ -128,7 +128,7 @@ def test_ppsf_read(
     with capsys.disabled():
         proj_path = shared_datadir / "test.ppsf"
         try:
-            proj_text = ZipFile(proj_path, "r").read("ppsf.json")
+            proj_text = (UPath("zip://", fo=proj_path, mode="r") / "ppsf.json").read_bytes()
             proj = PpsfProject.model_validate_json(proj_text)
             rich.print(proj)
         except zipfile.BadZipFile:
@@ -141,7 +141,7 @@ def test_vog_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.vog"
-        proj_text = ZipFile(proj_path, "r").read("chart.json")
+        proj_text = (UPath("zip://", fo=proj_path, mode="r") / "chart.json").read_bytes()
         proj = VogenProject.model_validate_json(proj_text)
         rich.print(proj)
 
@@ -151,7 +151,7 @@ def test_vpr_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.vpr"
-        proj_text = ZipFile(proj_path, "r").read("Project/sequence.json")
+        proj_text = (UPath("zip://", fo=proj_path, mode="r") / "Project/sequence.json").read_bytes()
         proj = VocaloidProject.model_validate_json(proj_text)
         rich.print(proj)
 
@@ -169,21 +169,12 @@ def test_aisp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[s
         rich.print(body)
 
 
-def test_gj_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
-    from libresvip.plugins.gj.model import GjgjProject
-
-    with capsys.disabled():
-        proj_path = shared_datadir / "test.gj"
-        proj = GjgjProject.model_validate_json(proj_path.read_text(encoding="utf-8-sig"))
-        rich.print(proj)
-
-
 def test_dspx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
-    from experimental.dspx.model import DspxModel
+    from experimental.dspx.model import DiffscopeProjectExchangeFormat
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.dspx"
-        proj = DspxModel.model_validate_json(proj_path.read_text(encoding="utf-8"))
+        proj = DiffscopeProjectExchangeFormat.model_validate_json(proj_path.read_text(encoding="utf-8"))
         rich.print(proj)
 
 
@@ -239,57 +230,50 @@ def test_ccs_read(shared_datadir: pathlib.Path) -> None:
 
 
 def test_s5p_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
-    from libresvip.plugins.s5p.options import InputOptions
-
     with capsys.disabled():
-        if s5p_plugin := plugin_registry["s5p"].plugin_object:
+        if s5p_plugin := plugin_registry["s5p"]:
             proj_path = shared_datadir / "test.s5p"
-            proj = s5p_plugin.load(proj_path, InputOptions())
+            proj = s5p_plugin.load(proj_path, {})
             rich.print(proj)
 
 
 def test_svp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
-    from libresvip.plugins.svp.options import InputOptions
-
     with capsys.disabled():
-        if svp_plugin := plugin_registry["svp"].plugin_object:
+        if svp_plugin := plugin_registry["svp"]:
             proj_path = shared_datadir / "test.svp"
-            proj = svp_plugin.load(proj_path, InputOptions())
+            proj = svp_plugin.load(proj_path, {})
             rich.print(proj)
 
 
 def test_svp_write(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
-    from libresvip.plugins.svp.options import InputOptions, OutputOptions
-
     with capsys.disabled():
-        if svp_plugin := plugin_registry["svp"].plugin_object:
+        if svp_plugin := plugin_registry["svp"]:
             proj_path = shared_datadir / "test.svp"
-            proj = svp_plugin.load(proj_path, InputOptions())
-            svp_plugin.dump(pathlib.Path("./test.svp"), proj, OutputOptions())
+            proj = svp_plugin.load(proj_path, {})
+            svp_plugin.dump(pathlib.Path("./test.svp"), proj, {})
 
 
 def test_svip_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.svip.msnrbf.svip_reader import SvipReader
 
     with capsys.disabled():
-        # svip_plugin = plugin_registry["svip"].plugin_object
+        # svip_plugin = plugin_registry["svip"]
         # proj_path = shared_datadir / "test.svip"
         proj_path = pathlib.Path("./test.svip")
         with SvipReader() as reader:
             reader.read(proj_path)
-        # proj = svip_plugin.load(proj_path, None)
+        # proj = svip_plugin.load(proj_path, {})
 
 
 def test_svip_write(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     # from libresvip.plugins.svip.msnrbf.svip_reader import SvipReader
     # from libresvip.plugins.svip.msnrbf.svip_writer import SvipWriter
-    from libresvip.plugins.svip.options import InputOptions, OutputOptions
 
     with capsys.disabled():
-        if svip_plugin := plugin_registry["svip"].plugin_object:
+        if svip_plugin := plugin_registry["svip"]:
             proj_path = shared_datadir / "test.svip"
-            proj = svip_plugin.load(proj_path, InputOptions())
-            svip_plugin.dump(pathlib.Path("./test.svip"), proj, OutputOptions())
+            proj = svip_plugin.load(proj_path, {})
+            svip_plugin.dump(pathlib.Path("./test.svip"), proj, {})
             # with SvipReader() as registry:
             #     version, proj = registry.read(proj_path)
             # with SvipWriter() as writer:

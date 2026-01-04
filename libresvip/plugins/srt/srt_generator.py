@@ -18,7 +18,9 @@ class SrtGenerator:
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         if self.options.track_index == -1:
             singing_track = next(
-                track for track in project.track_list if isinstance(track, SingingTrack)
+                track
+                for track in project.track_list
+                if isinstance(track, SingingTrack) and track.note_list
             )
         else:
             singing_track = project.track_list[self.options.track_index]
@@ -32,11 +34,11 @@ class SrtGenerator:
             condition_gap = (
                 i + 1 < len(note_list) and note_list[i + 1].start_pos - note.end_pos >= 60
             )
-            if self.options.split_by == SplitOption.SYMBOL:
+            if self.options.split_by.value == SplitOption.SYMBOL.value:
                 commit_flag = condition_symbol
-            elif self.options.split_by == SplitOption.GAP:
+            elif self.options.split_by.value == SplitOption.GAP.value:
                 commit_flag = condition_gap
-            elif self.options.split_by == SplitOption.BOTH:
+            elif self.options.split_by.value == SplitOption.BOTH.value:
                 commit_flag = condition_symbol or condition_gap
             if i + 1 == len(note_list):
                 commit_flag = True

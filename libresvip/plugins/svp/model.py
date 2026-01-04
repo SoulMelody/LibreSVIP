@@ -102,6 +102,7 @@ class SVBaseAttributes(BaseModel):
     t_f0_vbr_right: float | None = Field(None, alias="tF0VbrRight")
     d_f0_vbr: float | None = Field(None, alias="dF0Vbr")
     f_f0_vbr: float | None = Field(None, alias="fF0Vbr")
+    d_f0_vbr_mod: float | None = Field(None, alias="dF0VbrMod")
     param_loudness: float | None = Field(None, alias="paramLoudness")
     param_tension: float | None = Field(None, alias="paramTension")
     param_breathiness: float | None = Field(None, alias="paramBreathiness")
@@ -235,16 +236,6 @@ class SVPhonemeAttribute(BaseModel):
 
 
 class SVNoteAttributes(SVBaseAttributes):
-    t_f0_left: float | None = Field(None, alias="tF0Left")
-    t_f0_right: float | None = Field(None, alias="tF0Right")
-    d_f0_left: float | None = Field(None, alias="dF0Left")
-    d_f0_right: float | None = Field(None, alias="dF0Right")
-    t_f0_vbr_start: float | None = Field(None, alias="tF0VbrStart")
-    t_f0_vbr_left: float | None = Field(None, alias="tF0VbrLeft")
-    t_f0_vbr_right: float | None = Field(None, alias="tF0VbrRight")
-    d_f0_vbr: float | None = Field(None, alias="dF0Vbr")
-    d_f0_vbr_mod: float | None = Field(None, alias="dF0VbrMod")
-    f_f0_vbr: float | None = Field(None, alias="fF0Vbr")
     t_f0_offset: float | None = Field(None, alias="tF0Offset")
     p_f0_vbr: float | None = Field(None, alias="pF0Vbr")
     d_f0_jitter: float | None = Field(None, alias="dF0Jitter")
@@ -577,6 +568,7 @@ class SVDatabase(BaseModel):
 
 class SVRef(BaseModel):
     audio: SVAudio | None = None
+    mute: bool | None = False
     blick_absolute_begin: int | None = Field(0, alias="blickAbsoluteBegin")
     blick_absolute_end: int | None = Field(-1, alias="blickAbsoluteEnd")
     blick_offset: int = Field(default=0, alias="blickOffset")

@@ -38,11 +38,11 @@ class LrcGenerator:
             condition_gap = (
                 i + 1 < len(note_list) and note_list[i + 1].start_pos - note.end_pos >= 60
             )
-            if self.options.split_by == SplitOption.SYMBOL:
+            if self.options.split_by.value == SplitOption.SYMBOL.value:
                 commit_flag = condition_symbol
-            elif self.options.split_by == SplitOption.GAP:
+            elif self.options.split_by.value == SplitOption.GAP.value:
                 commit_flag = condition_gap
-            elif self.options.split_by == SplitOption.BOTH:
+            elif self.options.split_by.value == SplitOption.BOTH.value:
                 commit_flag = condition_symbol or condition_gap
             if i + 1 == len(note_list):
                 commit_flag = True
@@ -58,7 +58,7 @@ class LrcGenerator:
             info_tags.append(AlbumInfoTag(value=self.options.album))
         if self.options.by:
             info_tags.append(ByInfoTag(value=self.options.by))
-        if self.options.offset_policy == OffsetPolicyOption.TIMELINE:
+        if self.options.offset_policy.value == OffsetPolicyOption.TIMELINE.value:
             for line in lyric_lines:
                 for time_tag in line.time_tags:
                     ori_time = datetime.datetime(
@@ -74,7 +74,7 @@ class LrcGenerator:
                     time_tag.minute = ori_time.minute
                     time_tag.second = ori_time.second
                     time_tag.milisecond = ori_time.microsecond // 1000
-        elif self.options.offset_policy == OffsetPolicyOption.META:
+        elif self.options.offset_policy.value == OffsetPolicyOption.META.value:
             info_tags.append(OffsetInfoTag(value=str(self.options.offset)))
         return LrcFile(
             lyric_lines=lyric_lines,

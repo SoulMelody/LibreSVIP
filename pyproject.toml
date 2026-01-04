@@ -28,10 +28,10 @@ classifiers = [
   'Typing :: Typed',
 ]
 dependencies = [
+  "aristaproto<0.2.0,>=0.1.4",
   "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.4.3",
-  "construct",
-  "construct-typing<1.0.0,>=0.6.2",
+  "charset-normalizer<4.0.0,>=3.4.4",
+  "construct-typing<1.0.0,>=0.7.0",
   "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
   "jyutping",
@@ -39,23 +39,21 @@ dependencies = [
   "loguru<1.0.0,>=0.7.3",
   "more-itertools<11.0.0,>=10.8.0",
   "packaging<25.1,>=25.0",
-  "platformdirs<5.0.0,>=4.4.0",
+  "platformdirs<5.0.0,>=4.5.1",
   "portion<3.0.0,>=2.6.1",
-  "proto-plus<2.0.0,>=1.26.1",
-  "pydantic<3.0.0,>=2.12.0",
-  "pydantic-extra-types<3.0.0,>=2.10.5",
-  "pydantic-settings<3.0.0,>=2.11.0",
+  "pydantic<3.0.0,>=2.12.5",
+  "pydantic-extra-types<3.0.0,>=2.11.0",
+  "pydantic-settings<3.0.0,>=2.12.0",
   "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.55.0",
   "pysubs2<2.0.0,>=1.8.0",
   "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
-  "repro-zipfile<1.0.0,>=0.4.1; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
-  "rich<14.1.1,>=14.1.0",
-  "svg-py<2.0.0,>=1.9.1",
-  "tatsu-lts<6.0.0,>=5.13.2",
-  "typer-slim<1.0.0,>=0.19.2",
+  "ruamel.yaml<=0.20.0,>=0.19.1",
+  "svg-py<2.0.0,>=1.10.0",
+  "tatsu<6.0.0,>=5.15.0",
+  "universal-pathlib<1.0.0,>=0.3.7",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
@@ -70,74 +68,72 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 zstd = [
-  "backports.zstd<0.5.1,>=0.5.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
+  "backports.zstd<1.3.1,>=1.3.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "zstandard<0.25.1,>=0.25.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
 ]
 crypto = [
-  "cffi>=2.0.0; sys_platform != \"win32\" or python_version <= \"3.11\"",
+  "cffi>=2.0.0; platform_python_implementation != \"PyPy\" and (sys_platform != \"win32\" or python_version <= \"3.11\")",
   "pyzipper>=0.3.6",
 ]
 ujson = ["ujson>=5.11.0"]
-upath = [
-  "universal-pathlib<1.0.0,>=0.3.2",
-]
-ruamel_yaml = [
-  "ruamel.yaml>=0.18.15",
+yaml12 = [
+  "py-yaml12<0.2.0,>=0.1.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
+  "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
 ]
 lxml = ["lxml>=6.0.2"]
+cli = [
+  "rich<14.2.1,>=14.2.0",
+  "typer-slim<1.0.0,>=0.21.0",
+  "winloop>=0.4.1; sys_platform == \"win32\"",
+]
 tui = [
   "textual-fspicker>=0.6.0",
-  "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=3.0.3",
-  "libresvip[upath]",
+  "nicegui>=3.4.1",
 ]
 mobile = [
-  "flet[cli,desktop]>=0.28.3,<0.29.0",
-  "flet-permission-handler>=0.1.0",
-  "libresvip[upath]",
+  "flet[cli,desktop]>=0.80.1,<0.80.2",
+  "flet-permission-handler>=0.80.1",
+  "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 desktop = [
-  "pyside6<6.9.4,>=6.9.3",
-  "fonticon-materialdesignicons7>=7.2.96",
+  "pyside6-essentials<6.11.0,>=6.10.1",
+  "ttkbootstrap-icons-mat>=1.0.0",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
-  "libresvip[upath]",
 ]
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.34.0",
-  "gapic-generator>=1.28.0",
-  "protoc-wheel-0>=30.2",
+  "aristaproto[compiler]>=0.1.4,<0.2.0",
+  "datamodel-code-generator>=0.52.1",
+  "protoc-wrapper>=33.0.0",
+  "pyside6-addons<6.11.0,>=6.10.1",
   "xsdata[cli]>=25.7",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
-  "pre-commit>=4.3.0",
-  "ruff>=0.14.0",
-  "mypy>=1.18.2",
-  "sourcery>=1.37.0",
-  "proto-plus-stubs>=0.7.0",
-  "pyrefly>=0.36.1",
-  "types-lxml>=2025.8.25",
+  "pre-commit>=4.5.1",
+  "ruff>=0.14.10",
+  "mypy>=1.19.1",
+  "pyrefly>=0.46.3",
+  "pyside6<6.11.0,>=6.10.1",
+  "types-lxml>=2026.1.1",
   "types-pyyaml>=6.0.12.20250915",
   "types-ujson>=5.10.0.20250822",
-  "types-pyinstaller>=6.16.0.20250918",
+  "types-pyinstaller>=6.17.0.20251127",
   "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
-  "cx-Freeze>=8.4.1",
-  "nuitka>=2.7.16",
   "pyfuze>=2.7.2",
-  "pyinstaller>=6.16.0",
+  "pyinstaller>=6.17.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "mkdocs-material<10.0.0,>=9.6.21",
+  "zensical>=0.0.15",
 ]
-test = ["pytest>=8.4.2", "pytest-datadir>=1.8.0", "textual-dev>=1.7.0"]
+test = ["pytest>=9.0.2", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
@@ -158,11 +154,6 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 
 [project.entry-points.pyinstaller40]
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
-
-[tool.uv.sources]
-construct = { url = "https://www.piwheels.org/simple/construct/construct-2.10.68-py3-none-any.whl" }
-jyutping = { url = "https://archive1.piwheels.org/simple/jyutping/jyutping-0.3.4-py2.py3-none-any.whl" }
-wanakana-python = { url = "https://archive1.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" }
 
 [tool.hatch.version]
 path = "libresvip/__init__.py"
@@ -241,6 +232,7 @@ ignore = [
   "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
   "E501",   # Line too long
   "RUF001", # String contains ambiguous symbol
+  "RUF006", # Store a reference to the return value of `asyncio.create_task`
   "RUF009", # Do not perform function call in dataclass defaults
   "PLC0415",# `import` should be at the top-level of a file
 ]
@@ -269,23 +261,48 @@ plugins = [
 python-version = "3.10"
 
 [tool.pyrefly.errors]
+bad-argument-count = "ignore"
 bad-argument-type = "ignore"
 bad-assignment = "ignore"
+bad-index = "ignore"
 bad-instantiation = "ignore"
 bad-override = "ignore"
 bad-return = "ignore"
 bad-specialization = "ignore"
 implicitly-defined-attribute = "ignore"
-import-error = "ignore"
-index-error = "ignore"
 invalid-inheritance = "ignore"
+missing-argument = "ignore"
 missing-attribute = "ignore"
+missing-import = "ignore"
 missing-module-attribute = "ignore"
+not-async = "ignore"
 not-iterable = "ignore"
 no-matching-overload = "ignore"
 unbound-name = "ignore"
+unexpected-keyword = "ignore"
 unknown-name = "ignore"
 unsupported-operation = "ignore"
+
+[tool.ty.environment]
+python-version = "3.10"
+
+[tool.ty.rules]
+call-non-callable = "ignore"
+invalid-argument-type = "ignore"
+invalid-assignment = "ignore"
+invalid-method-override = "ignore"
+invalid-return-type = "ignore"
+missing-argument = "ignore"
+no-matching-overload = "ignore"
+not-iterable = "ignore"
+not-subscriptable = "ignore"
+possibly-missing-attribute = "ignore"
+possibly-missing-import = "warn"
+unknown-argument = "ignore"
+unresolved-attribute = "ignore"
+unresolved-import = "ignore"
+unsupported-base = "ignore"
+unsupported-operator = "ignore"
 
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]

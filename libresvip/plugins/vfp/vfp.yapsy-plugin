@@ -1,10 +1,8 @@
 [Core]
 name = VOX Factory
-module = vox_factory_converter
 
 [Documentation]
 Author = SoulMelody
-Version = 1.0.0
 Website = https://space.bilibili.com/175862486
 Format = VOX Factory Project File
 Description = Conversion plugin for VOX Factory Project File

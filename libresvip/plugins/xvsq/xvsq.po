@@ -1,0 +1,18 @@
+msgid "Pretty XML"
+msgstr ""
+
+msgid "Whether to output pretty XML"
+msgstr ""
+
+msgid "Cadencii"
+msgstr ""
+
+msgid "Cadencii project file"
+msgstr ""
+
+msgid "Conversion plugin for Cadencii project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

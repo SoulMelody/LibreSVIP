@@ -18,12 +18,14 @@ from libresvip.core.config import (
 )
 from libresvip.extension.manager import plugin_manager
 
+from . import AutoCaseObject
+
 
 def _(text: str) -> str:
     return text
 
 
-class PluginCadidatesTableModel(QAbstractTableModel):
+class PluginCadidatesTableModel(QAbstractTableModel, metaclass=AutoCaseObject):
     def __init__(self) -> None:
         super().__init__()
         self.column_names = [
@@ -39,17 +41,28 @@ class PluginCadidatesTableModel(QAbstractTableModel):
         self.begin_remove_rows(QModelIndex(), 0, len(self.plugin_candidates) - 1)
         self.plugin_candidates.clear()
         self.end_remove_rows()
-        self.begin_insert_rows(QModelIndex(), 0, len(plugin_manager._candidates) - 1)
+        self.begin_insert_rows(QModelIndex(), 0, len(plugin_manager.plugins.get("svs", {})) - 1)
         self.plugin_candidates = [
-            {
-                0: plugin.file_format,
-                1: plugin.author,
-                2: str(plugin.version),
-                3: "checkbox-marked"
-                if plugin.suffix not in settings.disabled_plugins
-                else "checkbox-blank-outline",
-            }
-            for _path, plugin in plugin_manager._candidates
+            *(
+                {
+                    0: plugin.info.file_format,
+                    1: plugin.info.author,
+                    2: plugin.version,
+                    3: "checkbox-marked"
+                    if plugin_id not in settings.disabled_plugins
+                    else "checkbox-blank-outline",
+                }
+                for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+            ),
+            *(
+                {
+                    0: plugin_id,
+                    1: "?",
+                    2: "?",
+                    3: "checkbox-blank-outline",
+                }
+                for plugin_id in settings.disabled_plugins
+            ),
         ]
         self.end_insert_rows()
 
@@ -98,7 +111,7 @@ class PluginCadidatesTableModel(QAbstractTableModel):
         }
 
 
-class LyricReplacementRulesTableModel(QAbstractTableModel):
+class LyricReplacementRulesTableModel(QAbstractTableModel, metaclass=AutoCaseObject):
     def __init__(self, preset: str) -> None:
         super().__init__()
         self.preset = preset

@@ -3,7 +3,6 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import LibreSVIP
 
 ColumnLayout {
     id: taskRow
@@ -94,7 +93,7 @@ ColumnLayout {
                         }
                     }
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    font.pixelSize: Qt.application.font.pixelSize
                     height: parent.height
                     width: height
                     radius: height / 2
@@ -150,7 +149,7 @@ ColumnLayout {
                     }
                     text: iconicFontLoader.icon("mdi7.minus-thick")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    font.pixelSize: Qt.application.font.pixelSize
                     height: parent.height
                     width: height
                     radius: height / 2
@@ -193,7 +192,7 @@ ColumnLayout {
                     }
                     text: iconicFontLoader.icon("mdi7.alert-circle")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    font.pixelSize: Qt.application.font.pixelSize
                     height: parent.height
                     width: height
                     radius: height / 2
@@ -234,7 +233,7 @@ ColumnLayout {
                     }
                     text: iconicFontLoader.icon("mdi7.alert-circle")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    font.pixelSize: Qt.application.font.pixelSize
                     height: parent.height
                     width: height
                     radius: height / 2

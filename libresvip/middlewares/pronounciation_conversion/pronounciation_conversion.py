@@ -1,5 +1,6 @@
 import functools
 import re
+from importlib.resources import files
 
 import jyutping
 from ko_pron.ko_pron import romanise
@@ -17,18 +18,27 @@ from libresvip.model.base import Project, SingingTrack
 from .options import ProcessOptions, PronounciationConversionOptions
 
 
-class PronounciationMiddleware(plugin_base.MiddlewareBase):
-    def process(self, project: Project, options: ProcessOptions) -> Project:
-        if options.mode != PronounciationConversionOptions.NONE:
-            if options.mode == PronounciationConversionOptions.KANA2ROMAJI:
+class PronounciationMiddleware(plugin_base.Middleware):
+    process_option_cls = ProcessOptions
+    info = plugin_base.MiddlewarePluginInfo.load_from_string(
+        (files(__package__) / "pronounciation_conversion.yapsy-plugin").read_text(encoding="utf-8")
+    )
+    _alias_ = "pronounciation_conversion"
+    _version_ = "1.0.0"
+
+    @classmethod
+    def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:
+        options_obj = cls.process_option_cls.model_validate(options)
+        if options_obj.mode != PronounciationConversionOptions.NONE:
+            if options_obj.mode == PronounciationConversionOptions.KANA2ROMAJI:
                 lyric_transformer = to_romaji
-            elif options.mode == PronounciationConversionOptions.TO_KATAKANA:
+            elif options_obj.mode == PronounciationConversionOptions.TO_KATAKANA:
                 lyric_transformer = to_katakana
-            elif options.mode == PronounciationConversionOptions.TO_HIRAGANA:
+            elif options_obj.mode == PronounciationConversionOptions.TO_HIRAGANA:
                 lyric_transformer = to_hiragana
-            elif options.mode == PronounciationConversionOptions.HANGUL2ROMANIZATION:
+            elif options_obj.mode == PronounciationConversionOptions.HANGUL2ROMANIZATION:
                 lyric_transformer = functools.partial(romanise, system_index="rr")
-            elif options.mode == PronounciationConversionOptions.HANZI2JYUTPING:
+            elif options_obj.mode == PronounciationConversionOptions.HANZI2JYUTPING:
 
                 def lyric_transformer(lyric: str) -> str:  # type: ignore[misc]
                     return " ".join(
