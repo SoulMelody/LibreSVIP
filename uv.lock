@@ -1526,7 +1526,7 @@ requires-dist = [
     { name = "ruamel-yaml", specifier = ">=0.19.1,<=0.20.0" },
     { name = "ruamel-yaml-clib", marker = "sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32' and extra == 'yaml12'", specifier = ">=0.2.15,<0.3.0" },
     { name = "svg-py", specifier = ">=1.10.0,<2.0.0" },
-    { name = "tatsu", specifier = ">=5.15.0,<6.0.0" },
+    { name = "tatsu", specifier = ">=5.15.1,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=0.6.0" },
     { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.0" },
     { name = "typer-slim", marker = "extra == 'cli'", specifier = ">=0.21.0,<1.0.0" },
@@ -3512,11 +3512,11 @@ wheels = [
 
 [[package]]
 name = "tatsu"
-version = "5.15.0"
+version = "5.15.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ca/e6/10d8e4f3282c546c05a330c50d9b72f183f4e0afc9be523f6eee0e711006/tatsu-5.15.0.tar.gz", hash = "sha256:e9b6bba1adafe71f1994fc7138ae79a71f42032456616ea8caf099cbc3dfb5b6", size = 135249, upload-time = "2026-01-02T11:27:29.773Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/dc/0b/46725961e0b77e88352e60b9e78aef268cacd6dfae7f1527a348b0247606/tatsu-5.15.1.tar.gz", hash = "sha256:38b0467dbf086f032a7321023e65a773201c1acdebe0e9ac35c5ec26637e0b0d", size = 133908, upload-time = "2026-01-04T13:39:47.97Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/66/e5/152d0fd5bce7f22aea0258e1dec0a73c64c0644a5fd0ad3472d588fba57e/tatsu-5.15.0-py3-none-any.whl", hash = "sha256:afa8e81f49738b4f9a1160bd3537d8a5f276d1b3ce5940109b2915dcbe8c3d15", size = 81510, upload-time = "2026-01-02T11:27:28.525Z" },
+    { url = "https://files.pythonhosted.org/packages/e8/2f/7afdd76cac1511c456fdd880394cd54bc27ff5d991d3cb6b2ce0720b7d80/tatsu-5.15.1-py3-none-any.whl", hash = "sha256:3a1229eec55dcb1da7ae2842b1abf26bb746e92dc6734ab6785e84cecb465f06", size = 80069, upload-time = "2026-01-04T13:39:46.358Z" },
 ]
 
 [[package]]
