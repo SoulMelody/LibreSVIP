@@ -111,6 +111,7 @@ code_gen = [
   "protoc-wrapper>=33.0.0",
   "pyside6-addons<6.11.0,>=6.10.1",
   "xsdata[cli]>=25.7",
+  "untokenize",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
@@ -154,6 +155,18 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 
 [project.entry-points.pyinstaller40]
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
+
+# [tool.uv]
+# index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+# python-install-mirror = "https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
+
+[tool.uv.sources]
+untokenize = { index = "piwheels" }
+
+[[tool.uv.index]]
+name = "piwheels"
+url = "https://www.piwheels.org/simple/"
+explicit = true
 
 [tool.hatch.version]
 path = "libresvip/__init__.py"
