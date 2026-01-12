@@ -208,6 +208,10 @@ jobs:
         shell: bash
         run: |
           softwareupdate --install-rosetta --agree-to-license
+      - name: Set up rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          target: x86_64-apple-darwin
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
         with:
