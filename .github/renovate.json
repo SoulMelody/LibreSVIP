@@ -4,10 +4,11 @@
     "config:recommended"
   ],
   "constraints": {
-    "python": "==3.13"
+    "python": "==3.14"
   },
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": true,
+    "recreateWhen": "never"
   },
   "rangeStrategy": "bump",
   "enabledManagers": ["github-actions", "pep621", "pre-commit"],
