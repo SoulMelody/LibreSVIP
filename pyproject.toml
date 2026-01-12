@@ -53,7 +53,7 @@ dependencies = [
   "ruamel.yaml<=0.20.0,>=0.19.1",
   "svg-py<2.0.0,>=1.10.0",
   "tatsu<6.0.0,>=5.15.1",
-  "universal-pathlib<1.0.0,>=0.3.7",
+  "universal-pathlib<1.0.0,>=0.3.8",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
