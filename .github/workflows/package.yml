@@ -309,20 +309,20 @@ jobs:
           mv build/apk/app-release.apk build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
           cd ..
 
-      - uses: r0adkll/sign-android-release@v1
+      - uses: ilharp/sign-android-release@v2
         name: Sign app APK
         id: sign_app
         with:
-          releaseDirectory: ./packaging/build/apk
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
+          releaseDir: ./packaging/build/apk
+          signingKey: ${{ secrets.SIGNING_KEY }}
+          keyAlias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v6
         with:
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          path: ${{steps.sign_app.outputs.signedFile}}
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -330,7 +330,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ${{steps.sign_app.outputs.signedReleaseFile}}
+            ${{steps.sign_app.outputs.signedFile}}
 
   release_mobile_win32:
     runs-on: windows-latest
