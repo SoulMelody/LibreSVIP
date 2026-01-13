@@ -44,6 +44,7 @@ def install_mingw_deps() -> None:
         "pyside6-addons": None,
         "pyside6-essentials": "pyside6",
         "pyyaml": "python-yaml",
+        "pyyaml-ft": "python-yaml",
         "regex": "python-regex",
         "ruamel-yaml": "python-ruamel-yaml",
         "py-yaml12": "python-ruamel.yaml.clib",
