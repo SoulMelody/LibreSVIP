@@ -93,8 +93,8 @@ webui = [
   "nicegui>=3.5.0",
 ]
 mobile = [
-  "flet[cli,desktop]>=0.80.1,<0.80.2",
-  "flet-permission-handler>=0.80.1",
+  "flet[cli,desktop]>=0.80.2,<0.80.3",
+  "flet-permission-handler>=0.80.2",
   "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 desktop = [
