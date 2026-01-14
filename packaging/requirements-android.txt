@@ -54,7 +54,7 @@ ruamel-yaml-clib==0.2.12
 six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.10.0
-tatsu==5.15.1
+tatsu-lts==5.16.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 universal-pathlib==0.3.8
