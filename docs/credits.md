@@ -19,7 +19,7 @@
 | loguru                  | Python logging made (stupidly) simple                                                                                        | MIT License                                         |
 | more-itertools          | More routines for operating on iterables, beyond itertools                                                                   | MIT License                                         |
 | packaging               | Core utilities for Python packages                                                                                           | Apache Software License; BSD License                |
-| TatSu                   | TatSu takes a grammar in a variation of EBNF as input, and outputs a memoizing PEG/Packrat parser in Python.                 | BSD License                                         |
+| TatSu-LTS               | TatSu takes a grammar in a variation of EBNF as input, and outputs a memoizing PEG/Packrat parser in Python.                 | BSD License                                         |
 | platformdirs            | A small Python package for determining appropriate platform-specific dirs, e.g. a "user data dir".                           | MIT License                                         |
 | portion                 | Python data structure and operations for intervals                                                                           | GNU Lesser General Public License v3 (LGPLv3)       |
 | aristaproto             | Arista Protobuf / Python gRPC bindings generator & library                                                                   | MIT License                                         |
