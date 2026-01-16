@@ -322,7 +322,7 @@ def model_to_value_tree(model: BaseModel, name: str = "MobileSongEditor") -> dic
                 field_type = field_info.annotation
             elif field_info.default is None or field_info.default_factory is list:
                 field_type = field_info.annotation
-                while not isinstance(field_type, type | GenericAlias):
+                while not isinstance(field_type, (type, GenericAlias)):
                     field_type = get_args(field_type)[0]
             else:
                 field_type = type(field_info.default)

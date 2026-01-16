@@ -72,7 +72,7 @@ class RangeInterval:
 
     def sub_ranges(self) -> Iterable[tuple[int, int]]:
         for sub_range in portion.to_data(self.interval):
-            yield sub_range[1], sub_range[2]
+            yield int(sub_range[1]), int(sub_range[2])
 
     def sub_range_including(self, value: int) -> tuple[int, int] | None:
         for sub_range in self.interval:
