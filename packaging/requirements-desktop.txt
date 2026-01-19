@@ -84,14 +84,14 @@ ujson==5.11.0
 universal-pathlib==0.3.8
 wanakana-python==1.2.2
 win32-setctime==1.2.0 ; sys_platform == 'win32'
-winloop==0.4.1 ; sys_platform == 'win32'
+winloop==0.4.2 ; sys_platform == 'win32'
 winrt-runtime==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-applicationmodel-core==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-data-xml-dom==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-foundation==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-foundation-collections==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-ui-notifications==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-xsdata==25.7
+xsdata==26.1
 xsdata-pydantic==24.5
 zhon==2.1.1
 zstandard==0.25.0 ; python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
