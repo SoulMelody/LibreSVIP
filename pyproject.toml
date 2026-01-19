@@ -111,7 +111,6 @@ code_gen = [
   "protoc-wrapper>=33.0.0",
   "pyside6-addons<6.11.0,>=6.10.1",
   "xsdata[cli]>=26.1",
-  "untokenize",
 ]
 i18n = ["babel>=2.17.0"]
 linting = [
@@ -161,7 +160,8 @@ hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 # python-install-mirror = "https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
 
 [tool.uv.sources]
-untokenize = { index = "piwheels" }
+jyutping = { index = "piwheels" }
+wanakana-python = { index = "piwheels" }
 
 [[tool.uv.index]]
 name = "piwheels"
