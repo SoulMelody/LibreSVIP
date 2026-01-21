@@ -1483,7 +1483,7 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=6.0.2" },
     { name = "more-itertools", specifier = ">=10.8.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.6.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.6.1" },
     { name = "packaging", specifier = ">=25.0,<25.1" },
     { name = "platformdirs", specifier = ">=4.5.1,<5.0.0" },
     { name = "portion", specifier = ">=2.6.1,<3.0.0" },
@@ -2215,7 +2215,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "3.6.0"
+version = "3.6.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2240,9 +2240,9 @@ dependencies = [
     { name = "uvicorn", extra = ["standard"] },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bf/9d/18d199ed15d043abf4b94a39c58fdd5061c845d1200afe518b5136f9d4ac/nicegui-3.6.0.tar.gz", hash = "sha256:d11d3de3870a59c3c48ca1d3fc713a851138493b28a8914b13ba068dcc8dd612", size = 21202814, upload-time = "2026-01-21T07:42:24.438Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/59/de/82d966c6c84fc95847ceb9eb439eaf7087eb07bdc30c19903d6390de0901/nicegui-3.6.1.tar.gz", hash = "sha256:40f56f18f23023d03a15c217d62c0bf801e0c874745c7b5995c890ef01af3dfb", size = 21202754, upload-time = "2026-01-21T16:41:06.202Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/18/81/65f5fe929ebc35107e451dda65a07b2bb43f73c7b90e3f9056fa5954263c/nicegui-3.6.0-py3-none-any.whl", hash = "sha256:c7c1b99f0b015f74eb22fbe34c8b00d51ef065a13106f1d3c410bda86a0137c9", size = 21865509, upload-time = "2026-01-21T07:42:21.033Z" },
+    { url = "https://files.pythonhosted.org/packages/1c/18/19539da813ab65c9d9fa08236fa891cddb5dfc55031fefaf475f50cd0aa6/nicegui-3.6.1-py3-none-any.whl", hash = "sha256:41c9ae11422ed3ac76f3d054dac600449e437a230c2a692d62cde847337f1548", size = 21865440, upload-time = "2026-01-21T16:41:02.926Z" },
 ]
 
 [[package]]
