@@ -30,7 +30,7 @@ more-itertools==10.8.0
 msgpack==1.1.0
 multidict==6.7.0
 oauthlib==3.3.1
-packaging==25.0
+packaging==26.0
 pathlib-abc==0.5.2
 platformdirs==4.5.1
 portion==2.6.1
