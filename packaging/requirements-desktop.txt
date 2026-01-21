@@ -84,7 +84,7 @@ ujson==5.11.0
 universal-pathlib==0.3.8
 wanakana-python==1.2.2
 win32-setctime==1.2.0 ; sys_platform == 'win32'
-winloop==0.4.2 ; sys_platform == 'win32'
+winloop==0.5.0 ; sys_platform == 'win32'
 winrt-runtime==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-applicationmodel-core==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-data-xml-dom==3.2.1 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
