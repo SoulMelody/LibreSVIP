@@ -34,7 +34,7 @@ packaging==25.0
 pathlib-abc==0.5.2
 platformdirs==4.5.1
 portion==2.6.1
-pycparser==2.23
+pycparser==3.0
 pycryptodomex==3.21.0
 pydantic==2.11.7
 pydantic-core==2.33.2
