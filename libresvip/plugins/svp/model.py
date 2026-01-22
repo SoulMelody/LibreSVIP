@@ -514,10 +514,10 @@ class SVParameters(BaseModel):
 
 
 class SVVoice(SVBaseAttributes):
-    t_f0_left: float | None = Field(0.07, alias="tF0Left")
-    t_f0_right: float | None = Field(0.07, alias="tF0Right")
-    d_f0_left: float | None = Field(0.15, alias="dF0Left")
-    d_f0_right: float | None = Field(0.15, alias="dF0Right")
+    t_f0_left: float | None = Field(0.0, alias="tF0Left")
+    t_f0_right: float | None = Field(0.0, alias="tF0Right")
+    d_f0_left: float | None = Field(0.0, alias="dF0Left")
+    d_f0_right: float | None = Field(0.0, alias="dF0Right")
     t_f0_vbr_start: float | None = Field(0.25, alias="tF0VbrStart")
     t_f0_vbr_left: float | None = Field(0.2, alias="tF0VbrLeft")
     t_f0_vbr_right: float | None = Field(0.2, alias="tF0VbrRight")

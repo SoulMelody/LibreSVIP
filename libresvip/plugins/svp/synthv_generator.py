@@ -135,7 +135,7 @@ class SynthVGenerator:
                 synchronizer=self.synchronizer,
                 note_list=track.note_list,
                 time_signature_list=time_signature_list,
-                portamento=PortamentoPitch.sigmoid_portamento(),
+                portamento=PortamentoPitch.no_portamento(),
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
             if (

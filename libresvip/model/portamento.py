@@ -37,7 +37,7 @@ class PortamentoPitch:
 
     @classmethod
     def sigmoid_portamento(cls) -> PortamentoPitch:
-        return cls(0.075, 0.48, partial(sigmoid_interpolation, k=5.5))  # type: ignore[call-arg]
+        return cls(0.075, 0.5, partial(sigmoid_interpolation, k=5.5))  # type: ignore[call-arg]
 
     @classmethod
     def vocaloid_portamento(cls) -> PortamentoPitch:

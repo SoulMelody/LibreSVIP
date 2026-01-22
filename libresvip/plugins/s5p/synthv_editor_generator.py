@@ -151,7 +151,7 @@ class SynthVEditorGenerator:
         interval = round(TICK_RATE * 3.75)
         pitch_simulator = PitchSimulator(
             synchronizer=self.synchronizer,
-            portamento=PortamentoPitch.sigmoid_portamento(),
+            portamento=PortamentoPitch.no_portamento(),
             note_list=note_list,
             time_signature_list=self.time_signatures,
         )
