@@ -64,7 +64,7 @@ pyyaml==6.0.3 ; python_full_version != '3.13.*' or sys_platform == 'emscripten'
 pyyaml-ft==8.0.0 ; python_full_version == '3.13.*' and sys_platform != 'emscripten'
 pyzipper==0.3.6
 retrie==0.3.1
-rich==14.2.0
+rich==14.3.0
 ruamel-yaml==0.19.1
 ruamel-yaml-clib==0.2.15 ; sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 rubicon-objc==0.5.3 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
