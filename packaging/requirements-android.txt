@@ -28,7 +28,7 @@ lxml==5.3.0
 markupsafe==2.1.5
 more-itertools==10.8.0
 msgpack==1.1.0
-multidict==6.7.0
+multidict==6.7.1
 oauthlib==3.3.1
 packaging==26.0
 pathlib-abc==0.5.2
