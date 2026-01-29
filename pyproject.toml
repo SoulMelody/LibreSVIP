@@ -131,7 +131,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "zensical>=0.0.19",
+  "zensical>=0.0.20",
 ]
 test = ["pytest>=9.0.2", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
 all = [
