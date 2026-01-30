@@ -9,6 +9,7 @@ ToolBar {
     id: toolBar
     implicitHeight: 32
     height: 32
+    property alias titleLabel: captionLabel
     signal openConvertMenu
     signal openFormatsMenu
     signal openImportFormatMenu
@@ -19,7 +20,7 @@ ToolBar {
     signal openHelpMenu
 
     function toggleMaximized() {
-        window.click_maximize_btn();
+        window.visibility == Window.Maximized ? window.framelessHelperInstance.show_normal() : window.framelessHelperInstance.show_maximized();
     }
 
     background: Rectangle {
@@ -32,21 +33,6 @@ ToolBar {
         layer.effect: ElevationEffect {
             elevation: toolBar.Material.elevation
             fullWidth: true
-        }
-    }
-
-    Item {
-        anchors.fill: parent
-        TapHandler {
-            onTapped: if (tapCount === 2)
-                toggleMaximized()
-            gesturePolicy: TapHandler.DragThreshold
-        }
-        DragHandler {
-            grabPermissions: TapHandler.CanTakeOverFromAnything
-            onActiveChanged: if (active) {
-                window.start_system_move();
-            }
         }
     }
 
@@ -75,12 +61,13 @@ ToolBar {
                 spacing: 0
                 Button {
                     Material.roundedScale: Material.NotRounded
+                    Material.background: pressed ? Material.color(Material.Grey, Material.Shade300) : "transparent"
+                    Material.elevation: 0
                     Layout.fillHeight: true
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
                     bottomInset: 0
-                    flat: true
                     implicitWidth: 46
                     implicitHeight: 24
                     background.implicitWidth: implicitWidth
@@ -88,20 +75,18 @@ ToolBar {
                     text: iconicFontLoader.icon("mdi7.window-minimize")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize
-                    onClicked: window.click_minimize_btn()
+                    onClicked: window.framelessHelperInstance.show_minimized()
                 }
 
                 Button {
-                    id: maximizeButton
-                    objectName: "maximizeButton"
                     Material.roundedScale: Material.NotRounded
+                    Material.background: pressed ? Material.color(Material.Grey, Material.Shade300) : "transparent"
+                    Material.elevation: 0
                     Layout.fillHeight: true
-                    hoverEnabled: true
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
                     bottomInset: 0
-                    flat: true
                     implicitWidth: 46
                     implicitHeight: 24
                     background.implicitWidth: implicitWidth
@@ -115,12 +100,13 @@ ToolBar {
                 Button {
                     id: exitButton
                     Material.roundedScale: Material.NotRounded
+                    Material.background: pressed ? Material.color(Material.Red, Material.Shade300) : (hovered ? Material.color(Material.Red, Material.Shade700) : "transparent")
+                    Material.elevation: 0
                     Layout.fillHeight: true
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
                     bottomInset: 0
-                    flat: true
                     implicitWidth: 46
                     implicitHeight: 24
                     background.implicitWidth: implicitWidth
@@ -129,24 +115,31 @@ ToolBar {
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize
                     onClicked: actions.quit.trigger()
-                    onHoveredChanged: {
-                        if (hovered) {
-                            exitButton.background.color = Material.color(Material.Red);
-                        } else {
-                            exitButton.background.color = "transparent";
-                        }
-                    }
                 }
             }
 
             Label {
-                objectName: "captionLabel"
+                id: captionLabel
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 verticalAlignment: Text.AlignVCenter
                 text: window.title + " - " + qsTr("SVS Projects Converter")
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 elide: Text.ElideRight
+                Item {
+                    anchors.fill: parent
+                    TapHandler {
+                        onTapped: if (tapCount === 2)
+                            toggleMaximized()
+                        gesturePolicy: TapHandler.DragThreshold
+                    }
+                    DragHandler {
+                        grabPermissions: TapHandler.CanTakeOverFromAnything
+                        onActiveChanged: if (active) {
+                            window.framelessHelperInstance.start_system_move();
+                        }
+                    }
+                }
             }
 
             ToolSeparator {

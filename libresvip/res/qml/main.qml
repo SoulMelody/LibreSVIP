@@ -4,7 +4,7 @@ import QtQuick.Controls.Material
 import FramelessWindow
 import "qrc:/qml/components/" as Components
 
-FramelessWindow {
+ApplicationWindow {
     id: window
     title: qsTr("LibreSVIP")
     visible: true
@@ -20,6 +20,7 @@ FramelessWindow {
     property var localeSwitcher
     property var notifier
     property var taskManager
+    property alias framelessHelperInstance: framelessHelper
     color: "transparent"
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
@@ -31,6 +32,16 @@ FramelessWindow {
             return Material.Light;
         default:
             return Material.System;
+        }
+    }
+
+    FramelessHelper {
+        id: framelessHelper
+    }
+
+    onVisibleChanged: {
+        if (visible) {
+            framelessHelper.refresh_shadow();
         }
     }
 
@@ -46,6 +57,9 @@ FramelessWindow {
         id: converterPage
         header: Components.TopToolbar {
             id: toolbar
+            Component.onCompleted: {
+                framelessHelper.titlebar_item = toolbar.titleLabel;
+            }
         }
         anchors.fill: parent
         anchors.margins: 0

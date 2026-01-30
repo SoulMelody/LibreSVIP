@@ -27,7 +27,7 @@ def startup() -> None:
     qml_engine.load(":/qml/main.qml")
     if not qml_engine.root_objects():
         sys.exit(-1)
-    with event_loop:
+    with contextlib.suppress(RuntimeError), event_loop:
         event_loop.run_until_complete(app_close_event.wait())
 
 
