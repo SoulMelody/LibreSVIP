@@ -33,6 +33,8 @@ if sys.platform == "win32":
         byref,
         c_int,
         cast,
+        memset,
+        sizeof,
     )
     from ctypes.wintypes import HWND, LPARAM, MSG, POINT, RECT, UINT, WPARAM
 
@@ -98,6 +100,13 @@ if sys.platform == "win32":
     TPM_LEFTALIGN = 0x0000
     TPM_RIGHTALIGN = 0x0008
 
+    ABM_GETSTATE = 4
+    ABM_GETTASKBARPOS = 5
+    ABS_AUTOHIDE = 1
+
+    MONITOR_DEFAULTTONEAREST = 2
+    MONITOR_DEFAULTTOPRIMARY = 1
+
     class MARGINS(Structure):
         _fields_ = [
             ("cxLeftWidth", c_int),
@@ -129,11 +138,32 @@ if sys.platform == "win32":
             ("ptMaxTrackSize", POINT),
         ]
 
+    class WINDOWPLACEMENT(Structure):
+        _fields_ = (
+            ("length", UINT),
+            ("flags", UINT),
+            ("showCmd", UINT),
+            ("ptMinPosition", POINT),
+            ("ptMaxPosition", POINT),
+            ("rcNormalPosition", RECT),
+        )
+
+    class APPBARDATA(Structure):
+        _fields_ = (
+            ("cbSize", UINT),
+            ("hWnd", HWND),
+            ("uCallbackMessage", UINT),
+            ("uEdge", UINT),
+            ("rc", RECT),
+            ("lParam", LPARAM),
+        )
+
     LPNCCALCSIZE_PARAMS = POINTER(NcCalcsizeParams)
     qt_native_event_type = b"windows_generic_MSG"
 
     user32 = WinDLL("user32")
     dwmapi = WinDLL("dwmapi")
+    shell32 = WinDLL("shell32")
 
     GetWindowLongPtrW = user32.GetWindowLongPtrW
     SetWindowLongPtrW = user32.SetWindowLongPtrW
@@ -183,7 +213,7 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
     def __init__(self) -> None:
         QQuickItem.__init__(self)
         QAbstractNativeEventFilter.__init__(self)
-        self._current = 0
+        self._current = HWND(0)
         self._edges = 0
         self._margins = 5
         self._titlebar_item = None
@@ -215,6 +245,7 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
         self._current = window.win_id()
         window.flags |= (
             Qt.WindowType.Window
+            | Qt.WindowType.CustomizeWindowHint
             | Qt.WindowType.WindowMaximizeButtonHint
             | Qt.WindowType.FramelessWindowHint
         )
@@ -307,6 +338,39 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
             frame_x = GetSystemMetrics(SM_CXSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)
             client_rect.left += frame_x
             client_rect.right -= frame_x
+            abd = APPBARDATA()
+            memset(byref(abd), 0, sizeof(abd))
+            abd.cbSize = sizeof(APPBARDATA)
+            taskbar_state = shell32.SHAppBarMessage(ABM_GETSTATE, byref(abd))
+            if taskbar_state & ABS_AUTOHIDE:
+                edge = -1
+                abd2 = APPBARDATA()
+                memset(byref(abd2), 0, sizeof(abd2))
+                abd2.cbSize = sizeof(APPBARDATA)
+                abd2.hWnd = user32.FindWindowW("Shell_TrayWnd", None)
+                if abd2.hWnd:
+                    window_monitor = user32.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST)
+                    if window_monitor:
+                        taskbar_monitor = user32.MonitorFromWindow(
+                            abd2.hWnd, MONITOR_DEFAULTTONEAREST
+                        )
+                        if taskbar_monitor and taskbar_monitor == window_monitor:
+                            shell32.SHAppBarMessage(ABM_GETTASKBARPOS, byref(abd2))
+                            edge = int(abd2.uEdge)
+                top = edge == Qt.Edge.TopEdge.value
+                bottom = edge == Qt.Edge.BottomEdge.value
+                left = edge == Qt.Edge.LeftEdge.value
+                right = edge == Qt.Edge.RightEdge.value
+                if top:
+                    client_rect.top += 1
+                elif bottom:
+                    client_rect.bottom -= 1
+                elif left:
+                    client_rect.left += 1
+                elif right:
+                    client_rect.right -= 1
+                else:
+                    client_rect.bottom -= 1
         return True, WVR_REDRAW if w_param else 0
 
     def _handle_nc_hit_test(self, hwnd: HWND, l_param: LPARAM) -> tuple[bool, int]:
