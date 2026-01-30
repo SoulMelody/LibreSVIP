@@ -61,7 +61,7 @@ ToolBar {
                 spacing: 0
                 Button {
                     Material.roundedScale: Material.NotRounded
-                    Material.background: pressed ? Material.color(Material.Grey, Material.Shade300) : "transparent"
+                    Material.background: pressed ? window.Material.background : "transparent"
                     Material.elevation: 0
                     Layout.fillHeight: true
                     leftPadding: 0
@@ -80,7 +80,7 @@ ToolBar {
 
                 Button {
                     Material.roundedScale: Material.NotRounded
-                    Material.background: pressed ? Material.color(Material.Grey, Material.Shade300) : "transparent"
+                    Material.background: pressed ? window.Material.background : "transparent"
                     Material.elevation: 0
                     Layout.fillHeight: true
                     leftPadding: 0

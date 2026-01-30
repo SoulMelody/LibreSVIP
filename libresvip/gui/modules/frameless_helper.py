@@ -178,7 +178,6 @@ if sys.platform == "win32":
 
 @QmlElement
 class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
-    disabled_changed = Signal()
     titlebar_item_changed = Signal()
 
     def __init__(self) -> None:
@@ -187,7 +186,6 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
         self._current = 0
         self._edges = 0
         self._margins = 5
-        self._disabled = False
         self._titlebar_item = None
 
     @Property(QQuickItem, notify=titlebar_item_changed)
@@ -198,15 +196,6 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
     def titlebar_item(self, value: QQuickItem | None) -> None:
         self._titlebar_item = value
         self.titlebar_item_changed.emit()
-
-    @Property(bool, notify=disabled_changed)
-    def disabled(self) -> bool:
-        return self._disabled
-
-    @disabled.setter
-    def disabled(self, value: bool) -> None:
-        self._disabled = value
-        self.disabled_changed.emit()
 
     @Slot()
     def on_destruction(self) -> None:
@@ -222,9 +211,6 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
                 self._current = hwnd
 
     def component_complete(self) -> None:
-        if self._disabled:
-            return
-
         window = self.window()
         self._current = window.win_id()
         window.flags |= (
@@ -386,12 +372,10 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
 
         if event_type == QEvent.Type.MouseButtonPress:
             return self._handle_mouse_button_press(event)
-
-        if event_type == QEvent.Type.MouseButtonRelease:
+        elif event_type == QEvent.Type.MouseButtonRelease:
             self._edges = 0
             return False
-
-        if event_type == QEvent.Type.MouseMove:
+        elif event_type == QEvent.Type.MouseMove:
             return self._handle_mouse_move(event)
 
         return super().event_filter(watched, event)
@@ -431,11 +415,6 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
 
     def _handle_mouse_button_press(self, mouse_event: QMouseEvent) -> bool:
         if mouse_event.button() != Qt.MouseButton.LeftButton:
-            if mouse_event.button() == Qt.MouseButton.RightButton and self._hit_title_bar():
-                window = self.window()
-                pos = window.position()
-                offset = window.map_from_global(QCursor.pos())
-                self._show_system_menu(QPoint(pos.x() + offset.x(), pos.y() + offset.y()))
             return False
 
         if self._edges != 0:
