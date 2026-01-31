@@ -10,7 +10,8 @@ from libresvip.model.base import (
 )
 from libresvip.utils.music_math import note2midi
 
-from .models.enums import StartStop, StartStopContinue
+from .models.enums import StartStop, StartStopContinue, Syllabic
+from .models import mxml4
 from .models.mxml4 import ScorePart, ScorePartwise
 from .options import InputOptions
 
@@ -84,6 +85,11 @@ class MusicXMLParser:
             tick_position += round(current_time_signature.bar_length())
         return time_signatures, tempos, import_tick_rate
 
+    def syllabic_status(self, lyric: mxml4.Lyric) -> StartStopContinue:
+        if lyric.syllabic:
+            return lyric.syllabic[0]
+        return Syllabic.SINGLE
+
     def parse_track(
         self,
         track_index: int,
@@ -100,9 +106,22 @@ class MusicXMLParser:
         is_inside_note = False
         measure_nodes = part_node.measure
         tick_position = 0
+        previous_tick_position = 0
+        incomplete_lyric_note: Note | None = None
         for measure_node in measure_nodes:
-            note_nodes = measure_node.note
-            for note_node in note_nodes:
+            for note_node in measure_node.content:
+                if(isinstance(note_node, mxml4.Backup)):
+                    duration = int(float(note_node.duration) * import_tick_rate)
+                    tick_position -= duration
+                    previous_tick_position = tick_position
+                    continue
+
+                if(isinstance(note_node, mxml4.Forward)):
+                    duration = int(float(note_node.duration) * import_tick_rate)
+                    tick_position += duration
+                    previous_tick_position = tick_position
+                    continue
+
                 duration_nodes = note_node.duration
                 duration = (
                     int(float(duration_nodes[0]) * import_tick_rate)
@@ -142,6 +161,12 @@ class MusicXMLParser:
                 else:
                     lyric = DEFAULT_PHONEME
 
+                #In MusicXml, <chord/> means the note forms a chord with the previous note.
+                #It starts at the same tick position as the previous note.
+                chord_node = note_node.chord
+                if(chord_node):
+                    tick_position = previous_tick_position
+
                 if not is_inside_note:
                     note = Note(
                         key_number=key,
@@ -149,6 +174,17 @@ class MusicXMLParser:
                         start_pos=tick_position,
                         length=duration,
                     )
+                    if len(lyric_nodes):
+                        syllabic = self.syllabic_status(lyric_nodes[0])
+                        if syllabic == Syllabic.BEGIN:
+                            incomplete_lyric_note = note
+                        elif syllabic == Syllabic.END and incomplete_lyric_note is not None:
+                            incomplete_lyric_note.lyric += lyric
+                            incomplete_lyric_note = None
+                            note.lyric = "+"
+                        elif syllabic == Syllabic.MIDDLE and incomplete_lyric_note is not None:
+                            incomplete_lyric_note.lyric += lyric
+                            note.lyric = "+"
                     notes.append(note)
                 else:
                     notes[-1] = notes[-1].model_copy(
@@ -156,7 +192,8 @@ class MusicXMLParser:
                             "length": notes[-1].length + duration,
                         }
                     )
-
+                
+                previous_tick_position = tick_position
                 tick_position += duration
 
                 tie_nodes = note_node.tie
@@ -166,6 +203,7 @@ class MusicXMLParser:
                     elif tie_node.type_value == StartStop.STOP:
                         is_inside_note = False
 
+        notes.sort(key=lambda n: (n.start_pos, n.key_number))
         return SingingTrack(
             title=track_name,
             note_list=notes,
