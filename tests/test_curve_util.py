@@ -1,5 +1,4 @@
 import sys
-import pytest
 
 from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
