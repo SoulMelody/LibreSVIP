@@ -1,3 +1,5 @@
+import pytest
+
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 
 
