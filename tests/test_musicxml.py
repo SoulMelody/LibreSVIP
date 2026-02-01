@@ -1,8 +1,6 @@
 import pathlib
 from itertools import pairwise
 
-import pytest
-
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.model.base import SingingTrack
 from libresvip.plugins.musicxml.musicxml_converter import MusicXMLConverter
@@ -15,7 +13,7 @@ def assert_legato(track: SingingTrack) -> None:
         assert note1.length == note2.start_pos - note1.start_pos
 
 
-def test_musicxml_pitches():
+def test_musicxml_pitches() -> None:
     test_file = musicxml_test_base_path / "01a-Pitches-Pitches.musicxml"
 
     project = MusicXMLConverter.load(test_file, {})
@@ -50,7 +48,7 @@ def test_musicxml_pitches():
         assert note.length == 480
         assert note.key_number == expected_tone
 
-def test_musicxml_rhythm_durations():
+def test_musicxml_rhythm_durations() -> None:
     test_file = musicxml_test_base_path / "03aa-Rhythm-Durations.musicxml"
     project = MusicXMLConverter.load(test_file, {})
 
@@ -60,8 +58,8 @@ def test_musicxml_rhythm_durations():
 
     base_lengths = [128, 64, 32, 16, 8, 4, 2, 1, 1]
     lengths = (
-        [l*30 for l in base_lengths] 
-        + [l*45 for l in base_lengths] 
+        [l*30 for l in base_lengths]
+        + [l*45 for l in base_lengths]
         + [l*105 for l in base_lengths[2:]]
     )
 
@@ -72,7 +70,7 @@ def test_musicxml_rhythm_durations():
         assert note.key_number == 72
         assert note.length == expected_length
 
-def test_musicxml_rhythm_backup():
+def test_musicxml_rhythm_backup() -> None:
     test_file = musicxml_test_base_path / "03b-Rhythm-Backup.musicxml"
 
     project = MusicXMLConverter.load(test_file, {})
@@ -99,7 +97,7 @@ def test_musicxml_rhythm_backup():
             f"Note at position {note.start_pos} should have tone {expected_tone}, got {note.key_number}"
         )
 
-def test_musicxml_chord():
+def test_musicxml_chord() -> None:
     test_file = musicxml_test_base_path / "21c-Chords-ThreeNotesDuration.musicxml"
 
     project = MusicXMLConverter.load(test_file, {})
@@ -135,7 +133,7 @@ def test_musicxml_chord():
         assert note.start_pos == expected_pos
         assert note.length == expected_dur
 
-def test_musicxml_tie():
+def test_musicxml_tie() -> None:
     test_file = musicxml_test_base_path / "33b-Spanners-Tie.musicxml"
 
     project = MusicXMLConverter.load(test_file, {})
@@ -150,7 +148,7 @@ def test_musicxml_tie():
     assert note.key_number == 65
     assert note.length == 480 * 8
 
-def test_musicxml_lyrics():
+def test_musicxml_lyrics() -> None:
     test_file = musicxml_test_base_path / "61a-Lyrics.musicxml"
     project = MusicXMLConverter.load(test_file, {})
 

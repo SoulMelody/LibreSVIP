@@ -10,8 +10,8 @@ from libresvip.model.base import (
 )
 from libresvip.utils.music_math import note2midi
 
-from .models.enums import StartStop, StartStopContinue, Syllabic
 from .models import mxml4
+from .models.enums import StartStop, StartStopContinue, Syllabic
 from .models.mxml4 import ScorePart, ScorePartwise
 from .options import InputOptions
 
@@ -110,13 +110,13 @@ class MusicXMLParser:
         incomplete_lyric_note: Note | None = None
         for measure_node in measure_nodes:
             for note_node in measure_node.content:
-                if(isinstance(note_node, mxml4.Backup)):
+                if isinstance(note_node, mxml4.Backup):
                     duration = int(float(note_node.duration) * import_tick_rate)
                     tick_position -= duration
                     previous_tick_position = tick_position
                     continue
 
-                if(isinstance(note_node, mxml4.Forward)):
+                if isinstance(note_node, mxml4.Forward):
                     duration = int(float(note_node.duration) * import_tick_rate)
                     tick_position += duration
                     previous_tick_position = tick_position
@@ -161,10 +161,10 @@ class MusicXMLParser:
                 else:
                     lyric = DEFAULT_PHONEME
 
-                #In MusicXml, <chord/> means the note forms a chord with the previous note.
-                #It starts at the same tick position as the previous note.
+                # In MusicXml, <chord/> means the note forms a chord with the previous note.
+                # It starts at the same tick position as the previous note.
                 chord_node = note_node.chord
-                if(chord_node):
+                if chord_node:
                     tick_position = previous_tick_position
 
                 if not is_inside_note:
@@ -192,7 +192,7 @@ class MusicXMLParser:
                             "length": notes[-1].length + duration,
                         }
                     )
-                
+
                 previous_tick_position = tick_position
                 tick_position += duration
 
