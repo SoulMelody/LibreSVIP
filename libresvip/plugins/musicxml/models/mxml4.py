@@ -15031,7 +15031,7 @@ class ScorePartwise(BaseModel):
 
         class Measure(BaseModel):
             model_config = ConfigDict(defer_build=True)
-            content: list[Note | Backup | Forward] = field (
+            content: list[Note | Backup | Forward] = field(
                 default_factory=list,
                 metadata={
                     "type": "Elements",
