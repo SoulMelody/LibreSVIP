@@ -58,9 +58,9 @@ def test_musicxml_rhythm_durations() -> None:
 
     base_lengths = [128, 64, 32, 16, 8, 4, 2, 1, 1]
     lengths = (
-        [l*30 for l in base_lengths]
-        + [l*45 for l in base_lengths]
-        + [l*105 for l in base_lengths[2:]]
+        [length*30 for length in base_lengths]
+        + [length*45 for length in base_lengths]
+        + [length*105 for length in base_lengths[2:]]
     )
 
     assert_legato(track)
