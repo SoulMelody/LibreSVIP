@@ -1541,7 +1541,7 @@ all = [
     { name = "pyinstaller", specifier = ">=6.18.0" },
     { name = "pyrefly", specifier = ">=0.50.1" },
     { name = "pyside6", specifier = ">=6.10.1,<6.11.0" },
-    { name = "pyside6-addons", specifier = ">=6.10.1,<6.11.0" },
+    { name = "pyside6-addons", specifier = ">=6.10.2,<6.11.0" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-run-parallel", specifier = ">=0.8.2" },
     { name = "ruff", specifier = ">=0.14.14" },
@@ -1559,7 +1559,7 @@ code-gen = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
     { name = "datamodel-code-generator", specifier = ">=0.53.0" },
     { name = "protoc-wrapper", specifier = ">=33.0.0" },
-    { name = "pyside6-addons", specifier = ">=6.10.1,<6.11.0" },
+    { name = "pyside6-addons", specifier = ">=6.10.2,<6.11.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=26.1" },
 ]
 docs = [{ name = "zensical", specifier = ">=0.0.20" }]
