@@ -61,8 +61,8 @@ if sys.platform == "win32":
     WM_NCRBUTTONDOWN = 0x00A4
     WM_NCRBUTTONUP = 0x00A5
     WM_SYSCOMMAND = 0x0112
-    WM_NCMOUSEHOVER = 0x02A0
     WM_NCMOUSELEAVE = 0x02A2
+    WM_MOUSELEAVE = 0x02A3
 
     WVR_REDRAW = 0x0001
 
@@ -210,6 +210,7 @@ if sys.platform == "win32":
 @QmlElement
 class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
     titlebar_item_changed = Signal()
+    maximize_button_changed = Signal()
 
     def __init__(self) -> None:
         QQuickItem.__init__(self)
@@ -218,6 +219,28 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
         self._edges = 0
         self._margins = 5
         self._titlebar_item = None
+        self._maximize_button = None
+
+    @property
+    def is_windows_11_or_newer(self) -> bool:
+        if sys.platform != "win32":
+            return False
+        windows_version = sys.getwindowsversion()
+        return windows_version.major >= 10 and windows_version.build >= 22000
+
+    def get_maximize_button(self) -> QQuickItem | None:
+        return self._maximize_button
+
+    def set_maximize_button(self, value: QQuickItem | None) -> None:
+        self._maximize_button = value
+        self.maximize_button_changed.emit()
+
+    maximize_button = Property(
+        QQuickItem,
+        fget=get_maximize_button,
+        fset=set_maximize_button,
+        notify=maximize_button_changed,
+    )
 
     def get_titlebar_item(self) -> QQuickItem | None:
         return self._titlebar_item
@@ -280,6 +303,15 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
                 return self._handle_get_min_max_info(msg.lParam)
             elif u_msg == WM_NCRBUTTONDOWN and msg.wParam == HTCAPTION:
                 return self._handle_nc_rbutton_down(hwnd)
+            elif self.is_windows_11_or_newer and self.maximize_button is not None:
+                if u_msg == WM_NCLBUTTONDOWN and msg.wParam == HTMAXBUTTON:
+                    self._set_maximize_pressed(True)
+                    return True, 1
+                elif u_msg == WM_NCLBUTTONUP and msg.wParam == HTMAXBUTTON:
+                    self._set_maximize_pressed(False)
+                    return True, 1
+                elif u_msg in (WM_NCMOUSELEAVE, WM_MOUSELEAVE):
+                    self._set_maximize_hovered(False)
         return False, 0
 
     def _handle_nc_rbutton_down(self, hwnd: HWND) -> tuple[bool, int]:
@@ -377,6 +409,12 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
         return True, WVR_REDRAW if w_param else 0
 
     def _handle_nc_hit_test(self, hwnd: HWND, l_param: LPARAM) -> tuple[bool, int]:
+        if self.is_windows_11_or_newer and self.maximize_button is not None:
+            if self._hit_maximize_button():
+                self._set_maximize_hovered(True)
+                return True, HTMAXBUTTON
+            self._set_maximize_hovered(False)
+            self._set_maximize_pressed(False)
         cursor_pos = QCursor.pos()
         point = self.window().map_from_global(cursor_pos)
         logical_x = point.x()
@@ -555,3 +593,32 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
         if self._titlebar_item:
             return self._contains_cursor_to_item(self._titlebar_item)
         return False
+
+    def _hit_maximize_button(self) -> bool:
+        if self._maximize_button:
+            return self._contains_cursor_to_item(self._maximize_button)
+        return False
+
+    def _set_maximize_pressed(self, val: bool) -> None:
+        app.send_event(
+            self.maximize_button,
+            QMouseEvent(
+                QEvent.Type.MouseButtonPress if val else QEvent.Type.MouseButtonRelease,
+                QPoint(),
+                Qt.MouseButton.LeftButton,
+                Qt.MouseButton.LeftButton,
+                Qt.KeyboardModifier.NoModifier,
+            ),
+        )
+
+    def _set_maximize_hovered(self, val: bool) -> None:
+        app.send_event(
+            self.maximize_button,
+            QMouseEvent(
+                QEvent.Type.HoverEnter if val else QEvent.Type.HoverLeave,
+                QPoint(),
+                Qt.MouseButton.NoButton,
+                Qt.MouseButton.NoButton,
+                Qt.KeyboardModifier.NoModifier,
+            ),
+        )

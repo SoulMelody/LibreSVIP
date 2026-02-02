@@ -10,6 +10,7 @@ ToolBar {
     implicitHeight: 32
     height: 32
     property alias titleLabel: captionLabel
+    property alias maximizeBtn: maximizeButton
     signal openConvertMenu
     signal openFormatsMenu
     signal openImportFormatMenu
@@ -79,6 +80,7 @@ ToolBar {
                 }
 
                 Button {
+                    id: maximizeButton
                     Material.roundedScale: Material.NotRounded
                     Material.background: pressed ? window.Material.background : "transparent"
                     Material.elevation: 0
@@ -98,11 +100,11 @@ ToolBar {
                 }
 
                 Button {
-                    id: exitButton
                     Material.roundedScale: Material.NotRounded
                     Material.background: pressed ? Material.color(Material.Red, Material.Shade300) : (hovered ? Material.color(Material.Red, Material.Shade700) : "transparent")
                     Material.elevation: 0
                     Layout.fillHeight: true
+                    hoverEnabled: true
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0

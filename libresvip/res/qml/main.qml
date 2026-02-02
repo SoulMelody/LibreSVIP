@@ -59,6 +59,7 @@ ApplicationWindow {
             id: toolbar
             Component.onCompleted: {
                 framelessHelper.titlebar_item = toolbar.titleLabel;
+                framelessHelper.maximize_button = toolbar.maximizeBtn;
             }
         }
         anchors.fill: parent
