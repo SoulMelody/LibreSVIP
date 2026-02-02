@@ -1,3 +1,4 @@
+# mypy: disable-error-code="arg-type"
 import sys
 from typing import SupportsInt
 
@@ -218,14 +219,16 @@ class FramelessHelper(QQuickItem, QAbstractNativeEventFilter):
         self._margins = 5
         self._titlebar_item = None
 
-    @Property(QQuickItem, notify=titlebar_item_changed)
-    def titlebar_item(self) -> QQuickItem | None:
+    def get_titlebar_item(self) -> QQuickItem | None:
         return self._titlebar_item
 
-    @titlebar_item.setter
-    def titlebar_item(self, value: QQuickItem | None) -> None:
+    def set_titlebar_item(self, value: QQuickItem | None) -> None:
         self._titlebar_item = value
         self.titlebar_item_changed.emit()
+
+    titlebar_item = Property(
+        QQuickItem, fget=get_titlebar_item, fset=set_titlebar_item, notify=titlebar_item_changed
+    )
 
     @Slot()
     def on_destruction(self) -> None:

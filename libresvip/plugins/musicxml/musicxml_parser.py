@@ -85,7 +85,7 @@ class MusicXMLParser:
             tick_position += round(current_time_signature.bar_length())
         return time_signatures, tempos, import_tick_rate
 
-    def syllabic_status(self, lyric: mxml4.Lyric) -> StartStopContinue:
+    def syllabic_status(self, lyric: mxml4.Lyric) -> Syllabic:
         if lyric.syllabic:
             return lyric.syllabic[0]
         return Syllabic.SINGLE
@@ -108,6 +108,7 @@ class MusicXMLParser:
         tick_position = 0
         previous_tick_position = 0
         incomplete_lyric_note: Note | None = None
+        duration: int | None = None
         for measure_node in measure_nodes:
             for note_node in measure_node.content:
                 if isinstance(note_node, mxml4.Backup):

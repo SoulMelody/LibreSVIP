@@ -39,3 +39,9 @@ except ImportError:
                 allow_unicode=True,
                 sort_keys=False,
             )
+
+
+__all__ = [
+    "dump_yaml_1_2",
+    "load_yaml_1_2",
+]
