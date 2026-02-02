@@ -102,6 +102,7 @@ desktop = [
   "ttkbootstrap-icons-mat>=1.0.0",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0",
+  "qasync>=0.28.0",
 ]
 
 [dependency-groups]

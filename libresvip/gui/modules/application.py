@@ -5,10 +5,9 @@ import platform
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuickControls2 import QQuickStyle
+from qasync import QEventLoop
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
-
-from .vendor.qasync import QEventLoop
 
 __all__ = [
     "app",
