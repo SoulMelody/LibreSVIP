@@ -22,7 +22,7 @@ if platform.system() == "Windows":
 os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
 app = QGuiApplication()
 qml_engine = QQmlApplicationEngine()
-QQuickStyle.setStyle("Material")
+QQuickStyle.set_style("Material")
 
 event_loop = QEventLoop(app)
 asyncio.set_event_loop(event_loop)
