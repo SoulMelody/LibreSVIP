@@ -49,6 +49,7 @@ a = Analysis(
         "xsdata_pydantic.bindings",
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
+        "ryaml",
         "yaml_ft",
         "yaml",
         "yaml12",

@@ -78,7 +78,8 @@ crypto = [
 ]
 ujson = ["ujson>=5.11.0"]
 yaml12 = [
-  "py-yaml12<0.2.0,>=0.1.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
+  "py-yaml12<0.2.0,>=0.1.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and platform_python_implementation == \"PyPy\"",
+  "ryaml<0.6.0,>=0.5.1; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and platform_python_implementation != \"PyPy\"",
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
 ]
 lxml = ["lxml>=6.0.2"]

@@ -30,6 +30,7 @@
 | pypinyin                | 汉字拼音转换模块/工具.                                                                                                       | MIT License                                         |
 | pysubs2                 | A library for editing subtitle files                                                                                         | MIT License                                         |
 | py-yaml12               | A modern YAML 1.2 parser and emitter for Python, written in Rust.                                                            | MIT License                                         |
+| ryaml                   | A simple yaml serializer and deserializer using Rust.                                                                        | MIT License                                         |
 | rich                    | Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal                              | MIT License                                         |
 | svg.py                  | Type-safe and powerful Python library to generate SVG files.                                                                 | MIT License                                         |
 | typer-slim              | Typer, build great CLIs. Easy to code. Based on Python type hints.                                                           | MIT License                                         |
