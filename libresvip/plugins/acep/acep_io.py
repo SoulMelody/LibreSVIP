@@ -100,12 +100,16 @@ def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
     else:
         content = acep_file.content
     decompressed = zstd.decompress(content)
+    if not isinstance(decompressed, bytes):
+        decompressed = bytes(decompressed)
     return json.loads(decompressed)
 
 
 def compress_ace_studio_project(src: dict[str, Any], target: pathlib.Path) -> None:
     raw_content = json.dumps(src).encode()
     compressed = zstd.compress(raw_content)
+    if not isinstance(compressed, bytes):
+        compressed = bytes(compressed)
     acep_file = AcepFile.model_construct(content=compressed)
     target.write_bytes(
         json.dumps(
