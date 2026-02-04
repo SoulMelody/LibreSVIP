@@ -136,7 +136,7 @@ class Svip3Generator:
         kwargs: dict[str, Any] = {}
         if (track_info := audio_track_info(track.audio_file_path)) is not None:
             audio_duration_in_ticks = round(
-                self.synchronizer.get_actual_ticks_from_secs(track_info.duration / 1000)
+                self.synchronizer.get_actual_ticks_from_secs(track_info.duration)
             )
             kwargs["real_dur"] = kwargs["play_dur"] = audio_duration_in_ticks
             if track.offset >= 0:

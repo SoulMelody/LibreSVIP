@@ -94,7 +94,7 @@ class VocalSharpGenerator:
                     path=track.audio_file_path,
                     pos=track.offset,
                 )
-                if track_info.channel_s == 1:
+                if track_info.channels == 1:
                     track_list.append(
                         VocalSharpMonoTrack(
                             name=track.title,
@@ -103,7 +103,7 @@ class VocalSharpGenerator:
                             sequences=[sequence],
                         )
                     )
-                elif track_info.channel_s == 2:
+                elif track_info.channels == 2:
                     track_list.append(
                         VocalSharpStereoTrack(
                             name=track.title,

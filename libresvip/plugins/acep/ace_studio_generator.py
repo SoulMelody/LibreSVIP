@@ -113,7 +113,7 @@ class AceGenerator:
             audio_pattern = AcepAudioPattern(path=track.audio_file_path)
             audio_pattern.pos = self.synchronizer.get_actual_secs_from_ticks(track.offset)
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
-                audio_pattern.dur = track_info.duration / 1000
+                audio_pattern.dur = track_info.duration
                 audio_pattern.clip_dur = audio_pattern.dur - audio_pattern.clip_pos
             else:
                 return None

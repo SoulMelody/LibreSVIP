@@ -1,12 +1,21 @@
 import contextlib
+import dataclasses
 import pathlib
 import platform
-from typing import NewType
 
 from pydantic import ValidationInfo
 
 from libresvip.core.warning_types import show_warning
 from libresvip.utils.translation import gettext_lazy as _
+
+
+@dataclasses.dataclass
+class SoundFileInfo:
+    sample_rate: int
+    channels: int
+    bit_depth: int
+    format: str
+    duration: float | None = None
 
 
 def audio_path_validator(path: str, info: ValidationInfo) -> str:
@@ -19,15 +28,24 @@ def audio_path_validator(path: str, info: ValidationInfo) -> str:
     return path
 
 
-if platform.system() != "Emscripten":
+try:
     import xml.etree.ElementTree as ET
 
     from pymediainfo import MediaInfo
     from pymediainfo import Track as MediaInfoTrack
 
+    def mediainfo_track2soundfile_info(track: MediaInfoTrack) -> SoundFileInfo:
+        return SoundFileInfo(
+            sample_rate=track.sampling_rate,
+            channels=track.channel_s,
+            bit_depth=track.bit_depth,
+            format=track.format,
+            duration=track.duration / 1000 if track.duration is not None else None,
+        )
+
     def audio_track_info(
         file_path: str | pathlib.Path, only_wav: bool = False
-    ) -> MediaInfoTrack | None:
+    ) -> SoundFileInfo | None:
         def filter_func(track: MediaInfoTrack) -> bool:
             return track.format == "PCM" if only_wav else (track.duration is not None)
 
@@ -43,16 +61,40 @@ if platform.system() != "Emscripten":
                     media_info = MediaInfo.parse(file_path, library_file=library_name)
                     if not len(media_info.video_tracks):
                         return next(
-                            (track for track in media_info.audio_tracks if filter_func(track)),
+                            (
+                                mediainfo_track2soundfile_info(track)
+                                for track in media_info.audio_tracks
+                                if filter_func(track)
+                            ),
                             None,
                         )
             except FileNotFoundError:
-                show_warning(_("Audio file not found: ") + f"{file_path}")
+                show_warning(_("Invalid audio file: ") + f"{file_path}")
         return None
-else:
-    MediaInfoTrack = NewType("MediaInfoTrack", object)  # type: ignore[no-redef, misc]
+except ImportError:
+    import re
+
+    import soundfile as sf
+
+    BIT_DEPTH_PATTERN = re.compile(r"(?:^|\n)\s+Bit width\s+:\s+(\d+)(?:\n|$)")
+
+    def _soundfile_info2soundfile_info(info: sf._SoundFileInfo) -> SoundFileInfo:
+        bit_depth_match = BIT_DEPTH_PATTERN.search(info.extra_info)
+        return SoundFileInfo(
+            sample_rate=info.samplerate,
+            channels=info.channels,
+            bit_depth=int(bit_depth_match.group(1)) if bit_depth_match is not None else None,
+            format=info.format,
+            duration=info.duration,
+        )
 
     def audio_track_info(
         file_path: str | pathlib.Path, only_wav: bool = False
-    ) -> MediaInfoTrack | None:  # not implemented yet
-        return None
+    ) -> SoundFileInfo | None:
+        try:
+            info = _soundfile_info2soundfile_info(sf.info(file_path))
+        except sf.LibsndfileError:
+            show_warning(_("Invalid audio file: ") + f"{file_path}")
+            return None
+        else:
+            return info if not only_wav or info.format == "WAV" else None

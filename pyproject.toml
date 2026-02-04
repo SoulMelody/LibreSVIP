@@ -45,6 +45,7 @@ dependencies = [
   "pydantic-extra-types<3.0.0,>=2.11.0",
   "pydantic-settings<3.0.0,>=2.12.0",
   "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
+  "soundfile; sys_platform == \"emscripten\"",
   "pypinyin<1.0.0,>=0.55.0",
   "pysubs2<2.0.0,>=1.8.0",
   "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
