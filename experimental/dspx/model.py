@@ -129,7 +129,7 @@ class TimeSignature(BaseModel):
 
     @field_validator("index", mode="before")
     @classmethod
-    def index_validator(cls, index: int, info: ValidationInfo) -> str:
+    def index_validator(cls, index: int, info: ValidationInfo) -> int:
         if info.context is not None and "start_index" in info.context:
             index = info.context["start_index"]
             info.context["start_index"] += 1

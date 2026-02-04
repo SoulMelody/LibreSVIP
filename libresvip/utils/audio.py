@@ -13,9 +13,9 @@ from libresvip.utils.translation import gettext_lazy as _
 class SoundFileInfo:
     sample_rate: int
     channels: int
-    bit_depth: int
     format: str
-    duration: float | None = None
+    duration: float
+    bit_depth: int | None = None
 
 
 def audio_path_validator(path: str, info: ValidationInfo) -> str:
@@ -40,7 +40,7 @@ try:
             channels=track.channel_s,
             bit_depth=track.bit_depth,
             format=track.format,
-            duration=track.duration / 1000 if track.duration is not None else None,
+            duration=track.duration / 1000 if track.duration is not None else 0,
         )
 
     def audio_track_info(
