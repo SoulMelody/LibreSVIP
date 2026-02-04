@@ -7,6 +7,7 @@ from libresvip.plugins.musicxml.musicxml_converter import MusicXMLConverter
 
 musicxml_test_base_path = pathlib.Path(__file__).parent / "files" / "musicxml"
 
+
 def assert_legato(track: SingingTrack) -> None:
     """Assert that all notes in a track are legato, meaning no gaps between notes."""
     for note1, note2 in pairwise(track.note_list):
@@ -23,14 +24,38 @@ def test_musicxml_pitches() -> None:
     assert isinstance(track, SingingTrack)
 
     base_tones = [
-        43, 45, 47, 48,
-        50, 52, 53, 55,
-        57, 59, 60, 62,
-        64, 65, 67, 69,
-        71, 72, 74, 76,
-        77, 79, 81, 83,
-        84, 86, 88, 89,
-        91, 93, 95, 96,
+        43,
+        45,
+        47,
+        48,
+        50,
+        52,
+        53,
+        55,
+        57,
+        59,
+        60,
+        62,
+        64,
+        65,
+        67,
+        69,
+        71,
+        72,
+        74,
+        76,
+        77,
+        79,
+        81,
+        83,
+        84,
+        86,
+        88,
+        89,
+        91,
+        93,
+        95,
+        96,
     ]
     tones = (
         base_tones
@@ -48,6 +73,7 @@ def test_musicxml_pitches() -> None:
         assert note.length == 480
         assert note.key_number == expected_tone
 
+
 def test_musicxml_rhythm_durations() -> None:
     test_file = musicxml_test_base_path / "03aa-Rhythm-Durations.musicxml"
     project = MusicXMLConverter.load(test_file, {})
@@ -58,9 +84,9 @@ def test_musicxml_rhythm_durations() -> None:
 
     base_lengths = [128, 64, 32, 16, 8, 4, 2, 1, 1]
     lengths = (
-        [length*30 for length in base_lengths]
-        + [length*45 for length in base_lengths]
-        + [length*105 for length in base_lengths[2:]]
+        [length * 30 for length in base_lengths]
+        + [length * 45 for length in base_lengths]
+        + [length * 105 for length in base_lengths[2:]]
     )
 
     assert_legato(track)
@@ -69,6 +95,7 @@ def test_musicxml_rhythm_durations() -> None:
     for note, expected_length in zip(track.note_list, lengths):
         assert note.key_number == 72
         assert note.length == expected_length
+
 
 def test_musicxml_rhythm_backup() -> None:
     test_file = musicxml_test_base_path / "03b-Rhythm-Backup.musicxml"
@@ -97,6 +124,7 @@ def test_musicxml_rhythm_backup() -> None:
             f"Note at position {note.start_pos} should have tone {expected_tone}, got {note.key_number}"
         )
 
+
 def test_musicxml_chord() -> None:
     test_file = musicxml_test_base_path / "21c-Chords-ThreeNotesDuration.musicxml"
 
@@ -107,23 +135,49 @@ def test_musicxml_chord() -> None:
     assert isinstance(track, SingingTrack)
 
     expected_positions = [
-        0, 0, 0,
-        720, 720,
-        960, 960, 960,
-        1440, 1440, 1440,
-        1920, 1920, 1920,
-        2400, 2400, 2400,
-        2880, 2880, 2880,
+        0,
+        0,
+        0,
+        720,
+        720,
+        960,
+        960,
+        960,
+        1440,
+        1440,
+        1440,
+        1920,
+        1920,
+        1920,
+        2400,
+        2400,
+        2400,
+        2880,
+        2880,
+        2880,
     ]
 
     expected_durations = [
-        720, 720, 720,
-        240, 240,
-        480, 480, 480,
-        480, 480, 480,
-        480, 480, 480,
-        480, 480, 480,
-        960, 960, 960,
+        720,
+        720,
+        720,
+        240,
+        240,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        960,
+        960,
+        960,
     ]
 
     assert len(track.note_list) == len(expected_positions)
@@ -132,6 +186,7 @@ def test_musicxml_chord() -> None:
     ):
         assert note.start_pos == expected_pos
         assert note.length == expected_dur
+
 
 def test_musicxml_tie() -> None:
     test_file = musicxml_test_base_path / "33b-Spanners-Tie.musicxml"
@@ -147,6 +202,7 @@ def test_musicxml_tie() -> None:
     assert note.start_pos == 0
     assert note.key_number == 65
     assert note.length == 480 * 8
+
 
 def test_musicxml_lyrics() -> None:
     test_file = musicxml_test_base_path / "61a-Lyrics.musicxml"

@@ -109,15 +109,15 @@ if sys.platform == "win32":
     MONITOR_DEFAULTTOPRIMARY = 1
 
     class MARGINS(Structure):
-        _fields_ = [
+        _fields_ = (
             ("cxLeftWidth", c_int),
             ("cxRightWidth", c_int),
             ("cyTopHeight", c_int),
             ("cyBottomHeight", c_int),
-        ]
+        )
 
     class PWINDOWPOS(Structure):
-        _fields_ = [
+        _fields_ = (
             ("hWnd", HWND),
             ("hwndInsertAfter", HWND),
             ("x", c_int),
@@ -125,19 +125,22 @@ if sys.platform == "win32":
             ("cx", c_int),
             ("cy", c_int),
             ("flags", UINT),
-        ]
+        )
 
     class NcCalcsizeParams(Structure):
-        _fields_ = [("rgrc", RECT * 3), ("lppos", POINTER(PWINDOWPOS))]
+        _fields_ = (
+            ("rgrc", RECT * 3),
+            ("lppos", POINTER(PWINDOWPOS)),
+        )
 
     class MINMAXINFO(Structure):
-        _fields_ = [
+        _fields_ = (
             ("ptReserved", POINT),
             ("ptMaxSize", POINT),
             ("ptMaxPosition", POINT),
             ("ptMinTrackSize", POINT),
             ("ptMaxTrackSize", POINT),
-        ]
+        )
 
     class WINDOWPLACEMENT(Structure):
         _fields_ = (
