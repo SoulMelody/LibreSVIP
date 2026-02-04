@@ -156,7 +156,7 @@ class GroupDict(DictWithDotNotation):
         """
 
         plugins = DictWithDotNotation()
-        filtered_name = kwargs.get(self._key_attr, None)
+        filtered_name = kwargs.get(self._key_attr)
 
         for key, val in self._items(type_filter, filtered_name):
             plugin_blacklist = None

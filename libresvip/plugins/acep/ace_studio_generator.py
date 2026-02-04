@@ -317,14 +317,14 @@ class AceGenerator:
             start_point = (
                 binary_find_last(
                     segment,
-                    lambda point: (0 <= point.x - self.first_bar_ticks <= left_bound),
+                    lambda point: 0 <= point.x - self.first_bar_ticks <= left_bound,
                 )
                 or segment[0]
             )
             end_point = (
                 binary_find_first(
                     segment,
-                    lambda point: (right_bound <= point.x - self.first_bar_ticks),
+                    lambda point: right_bound <= point.x - self.first_bar_ticks,
                 )
                 or segment[-1]
             )
@@ -379,14 +379,14 @@ class AceGenerator:
             start_point = (
                 binary_find_last(
                     segment,
-                    lambda point: (0 <= point.x - self.first_bar_ticks <= left_bound),
+                    lambda point: 0 <= point.x - self.first_bar_ticks <= left_bound,
                 )
                 or segment[0]
             )
             end_point = (
                 binary_find_first(
                     segment,
-                    lambda point: (right_bound <= point.x - self.first_bar_ticks),
+                    lambda point: right_bound <= point.x - self.first_bar_ticks,
                 )
                 or segment[-1]
             )

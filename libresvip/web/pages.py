@@ -2054,8 +2054,9 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         ).bind_text_from(
                             settings,
                             "max_track_count",
-                            backward=lambda max_track_count: _("Max Track count:")
-                            + f" {max_track_count}",
+                            backward=lambda max_track_count: (
+                                _("Max Track count:") + f" {max_track_count}"
+                            ),
                         )
                         ui.slider(
                             min=1,

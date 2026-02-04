@@ -84,11 +84,11 @@ class SigmoidNode:
             h_l = h * k_l / (2 * k_l - self.k)
             d_l = -_radius / k_l * math.log(2 * h_l / h - 1)
 
-        self.sigmoid_l = lambda x: _key_left * 100 + h_l / (
-            1 + math.exp(-k_l / _radius * (x - self.center + d_l))
+        self.sigmoid_l = lambda x: (
+            _key_left * 100 + h_l / (1 + math.exp(-k_l / _radius * (x - self.center + d_l)))
         )
-        self.d_sigmoid_l = (
-            lambda x: h_l
+        self.d_sigmoid_l = lambda x: (
+            h_l
             * k_l
             / _radius
             * math.exp(-k_l / _radius * (x - self.center + d_l))
@@ -108,11 +108,11 @@ class SigmoidNode:
             h_r = h * k_r / (2 * k_r - self.k)
             d_r = -_radius / k_r * math.log(2 * h_r / h - 1)
 
-        self.sigmoid_r = lambda x: _key_right * 100 - h_r / (
-            1 + math.exp(-k_r / _radius * (self.center - x + d_r))
+        self.sigmoid_r = lambda x: (
+            _key_right * 100 - h_r / (1 + math.exp(-k_r / _radius * (self.center - x + d_r)))
         )
-        self.d_sigmoid_r = (
-            lambda x: h_r
+        self.d_sigmoid_r = lambda x: (
+            h_r
             * k_r
             / _radius
             * math.exp(-k_r / _radius * (self.center - x + d_r))
@@ -265,10 +265,8 @@ class GaussianNode:
             length_base_l = self.expand * sigma_base - miu_base
             if _length_l >= length_base_l:
                 self.start = self.origin - length_base_l
-                self.gaussian_l = (
-                    lambda x: sign
-                    * depth
-                    * math.exp(-(((x - self.origin - miu_base) / sigma_base) ** 2))
+                self.gaussian_l = lambda x: (
+                    sign * depth * math.exp(-(((x - self.origin - miu_base) / sigma_base) ** 2))
                 )
             else:
                 self.start = self.origin - _length_l
@@ -276,19 +274,15 @@ class GaussianNode:
                 miu_l = miu_base * k_l
                 sigma_2l = r2 * k_l
                 depth_l = depth * math.exp(miu_l**2 / r2 * (k_l - 1))
-                self.gaussian_l = (
-                    lambda x: sign
-                    * depth_l
-                    * math.exp(-((x - self.origin - miu_l) ** 2) / sigma_2l)
+                self.gaussian_l = lambda x: (
+                    sign * depth_l * math.exp(-((x - self.origin - miu_l) ** 2) / sigma_2l)
                 )
 
             length_base_r = self.expand * sigma_base + miu_base
             if _length_r >= length_base_r:
                 self.end = self.origin + length_base_r
-                self.gaussian_r = (
-                    lambda x: sign
-                    * depth
-                    * math.exp(-(((x - self.origin - miu_base) / sigma_base) ** 2))
+                self.gaussian_r = lambda x: (
+                    sign * depth * math.exp(-(((x - self.origin - miu_base) / sigma_base) ** 2))
                 )
             else:
                 self.end = self.origin + _length_r
@@ -296,10 +290,8 @@ class GaussianNode:
                 miu_r = miu_base * k_r
                 sigma_2r = r2 * k_r
                 depth_r = depth * math.exp(miu_r**2 / r2 * (k_r - 1))
-                self.gaussian_r = (
-                    lambda x: sign
-                    * depth_r
-                    * math.exp(-((x - self.origin - miu_r) ** 2) / sigma_2r)
+                self.gaussian_r = lambda x: (
+                    sign * depth_r * math.exp(-((x - self.origin - miu_r) ** 2) / sigma_2r)
                 )
 
     def value_at_secs(self, secs: float) -> float:

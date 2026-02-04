@@ -436,9 +436,11 @@ class SynthVParser:
         if self.options.import_volume:
             params.volume = self.parse_param_curve(
                 sv_params.loudness,
-                lambda val: round(val / 12.0 * 1000.0)
-                if val >= 0.0
-                else round(1000 * db_to_float(val) - 1000),
+                lambda val: (
+                    round(val / 12.0 * 1000.0)
+                    if val >= 0.0
+                    else round(1000 * db_to_float(val) - 1000)
+                ),
                 self.voice_settings.param_loudness or 0.0,
                 master_params.loudness if master_params else None,
             )
