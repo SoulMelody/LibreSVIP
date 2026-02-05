@@ -21,7 +21,7 @@ ToolBar {
     signal openHelpMenu
 
     function toggleMaximized() {
-        window.visibility == Window.Maximized ? window.framelessHelperInstance.show_normal() : window.framelessHelperInstance.show_maximized();
+        window.visibility == Window.Maximized ? window.framelessHelperInstance.show_normal(window) : window.framelessHelperInstance.show_maximized(window);
     }
 
     background: Rectangle {
@@ -76,7 +76,7 @@ ToolBar {
                     text: iconicFontLoader.icon("mdi7.window-minimize")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize
-                    onClicked: window.framelessHelperInstance.show_minimized()
+                    onClicked: window.framelessHelperInstance.show_minimized(window)
                 }
 
                 Button {
@@ -138,7 +138,7 @@ ToolBar {
                     DragHandler {
                         grabPermissions: TapHandler.CanTakeOverFromAnything
                         onActiveChanged: if (active) {
-                            window.framelessHelperInstance.start_system_move();
+                            window.framelessHelperInstance.start_system_move(window);
                         }
                     }
                 }

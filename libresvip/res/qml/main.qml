@@ -21,6 +21,7 @@ ApplicationWindow {
     property var notifier
     property var taskManager
     property alias framelessHelperInstance: framelessHelper
+    flags: Qt.WindowMaximizeButtonHint
     color: "transparent"
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
@@ -37,12 +38,6 @@ ApplicationWindow {
 
     FramelessHelper {
         id: framelessHelper
-    }
-
-    onVisibleChanged: {
-        if (visible) {
-            framelessHelper.refresh_shadow();
-        }
     }
 
     Components.Dialogs {
