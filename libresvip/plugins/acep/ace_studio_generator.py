@@ -69,7 +69,7 @@ class AceGenerator:
         denominator = project.time_signature_list[0].denominator
         numerator = project.time_signature_list[0].numerator
         ace_project.beats_per_bar = numerator * 4 // denominator
-        if denominator <= 8 and numerator <= 8:
+        if denominator <= 32 and numerator <= 32:
             ace_project.time_signatures = [
                 AcepTimeSignature(bar_pos=0, numerator=numerator, denominator=denominator)
             ]
