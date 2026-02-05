@@ -17,7 +17,7 @@ class OpenUtauEnglishPhonemizerCompatibility(Enum):
             "OpenUtauEnglishPhonemizerCompatibility",
             __module__="libresvip.plugins.ustx.options",
             NON_ARPA=(str, Field(title=_("Incompatible with ARPAsing-series Phonemizers"))),
-            KEEP=(str, Field(title=_("Compatible with ARPAsing-series Phonemizers"))),
+            ARPA=(str, Field(title=_("Compatible with ARPAsing-series Phonemizers"))),
         ),
     ]
     NON_ARPA = "non-arpa"
