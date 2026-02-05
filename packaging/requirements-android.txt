@@ -11,7 +11,7 @@ flet==0.80.0
 flet-libxml2==2.9.8
 flet-libxslt==1.1.32
 flet-permission-handler==0.80.0
-fsspec==2026.1.0
+fsspec==2026.2.0
 grpclib==0.4.9
 h11==0.16.0
 h2==4.3.0
