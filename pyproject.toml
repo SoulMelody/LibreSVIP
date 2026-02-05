@@ -92,7 +92,7 @@ tui = [
   "textual-fspicker>=0.6.0",
 ]
 webui = [
-  "nicegui>=3.6.1",
+  "nicegui>=3.7.0",
 ]
 mobile = [
   "flet[cli,desktop]>=0.80.5,<0.90.0",
