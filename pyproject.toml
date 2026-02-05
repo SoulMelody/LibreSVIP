@@ -1,7 +1,7 @@
 [project]
 authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
 license-files = ["LICENSE*"]
-requires-python = ">=3.10,<3.15"
+requires-python = ">=3.14.3,<3.15"
 classifiers = [
   'Development Status :: 4 - Beta',
   'Programming Language :: Python',
