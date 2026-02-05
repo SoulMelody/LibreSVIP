@@ -318,6 +318,7 @@ unresolved-attribute = "ignore"
 unresolved-import = "ignore"
 unsupported-base = "ignore"
 unsupported-operator = "ignore"
+unused-type-ignore-comment = "ignore"
 
 [build-system]
 requires = ["hatchling", "hatch-fancy-pypi-readme"]
