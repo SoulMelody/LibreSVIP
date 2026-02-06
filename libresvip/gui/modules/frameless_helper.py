@@ -90,8 +90,9 @@ if sys.platform == "win32":
     SW_SHOWMINIMIZED = 2
     SW_SHOWNORMAL = 1
 
+    SC_SIZE = 0xF000
     SC_MOVE = 0xF010
-    SC_SIZE = 0xF020
+    SC_MINIMIZE = 0xF020
     SC_MAXIMIZE = 0xF030
     SC_RESTORE = 0xF120
 
