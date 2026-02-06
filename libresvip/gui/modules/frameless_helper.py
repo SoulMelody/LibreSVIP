@@ -41,6 +41,7 @@ if sys.platform == "win32":
 
     GWL_STYLE = -16
     CS_DBLCLKS = 8
+    WS_MAXIMIZEBOX = 0x00010000
     WS_CAPTION = 0x00C00000
     WS_THICKFRAME = 0x00040000
     WS_MAXIMIZEBOX = 0x00010000
@@ -66,6 +67,7 @@ if sys.platform == "win32":
 
     WVR_REDRAW = 0x0001
 
+    HTNOWHERE = 0
     HTCLIENT = 1
     HTCAPTION = 2
     HTMAXBUTTON = 9
@@ -233,9 +235,10 @@ if sys.platform == "win32":
 
         def _setup_window(self, hwnd: int) -> None:
             style = GetWindowLongPtrW(hwnd, GWL_STYLE)
-            SetWindowLongPtrW(
-                hwnd, GWL_STYLE, style | WS_CAPTION | WS_THICKFRAME | WS_MAXIMIZEBOX | CS_DBLCLKS
-            )
+            new_style = style | WS_CAPTION | WS_THICKFRAME | WS_MAXIMIZEBOX | CS_DBLCLKS
+            if not self._is_fixed_size(hwnd):
+                new_style &= ~WS_MAXIMIZEBOX
+            SetWindowLongPtrW(hwnd, GWL_STYLE, new_style)
             SetWindowPos(
                 hwnd,
                 None,
@@ -306,7 +309,7 @@ if sys.platform == "win32":
             return False, 0
 
         def _handle_nc_rbutton_down(self, hwnd: int) -> tuple[bool, int]:
-            window = self.host_window
+            window = self.windows[hwnd]
             pos = window.position()
             offset = window.map_from_global(QCursor.pos())
             self._show_system_menu(hwnd, QPoint(pos.x() + offset.x(), pos.y() + offset.y()))
@@ -424,7 +427,7 @@ if sys.platform == "win32":
             top = logical_y < margins
             bottom = logical_y > client_height - margins
 
-            if not self._is_maximized(hwnd) or not self._is_fixed_size(hwnd):
+            if not self._is_maximized(hwnd) and not self._is_fixed_size(hwnd):
                 result = self._get_hit_test_result(left, right, top, bottom)
                 if result != 0:
                     return True, result
@@ -573,10 +576,12 @@ class FramelessHelper(QPyQmlParserStatus):
         self.host_window.install_event_filter(self)
         if sys.platform == "win32":
             native_filter_initialized = WindowsNativeEventFilter._instance is not None
-            self._native_filter = WindowsNativeEventFilter()
             if not native_filter_initialized:
+                self._native_filter = WindowsNativeEventFilter()
                 app.install_native_event_filter(self._native_filter)
                 app.aboutToQuit.connect(lambda: app.remove_native_event_filter(self._native_filter))
+            else:
+                self._native_filter = WindowsNativeEventFilter._instance
             if isinstance(self.host_window, QQuickWindow):
                 self._native_filter.add_window(self.host_window)
 
@@ -676,7 +681,7 @@ class FramelessHelper(QPyQmlParserStatus):
         return self.host_window.visibility == QQuickWindow.Visibility.Maximized
 
     def _is_fixed_size(self) -> bool:
-        return self.host_window.flags & Qt.WindowType.WindowMaximizeButtonHint
+        return not (self.host_window.flags & Qt.WindowType.WindowMaximizeButtonHint)
 
     def _update_cursor(self, edges: int) -> None:
         cursor_map = {

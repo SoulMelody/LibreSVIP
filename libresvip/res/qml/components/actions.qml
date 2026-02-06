@@ -43,7 +43,14 @@ Item {
     }
     property QtObject openOptions: Action {
         shortcut: "Alt+O"
-        onTriggered: dialogs.settingsDialog.open()
+        onTriggered: {
+            if (dialogs.settingsDialog.visibility === Window.Hidden) {
+                dialogs.settingsDialog.show();
+            } else {
+                dialogs.settingsDialog.raise();
+                dialogs.settingsDialog.requestActivate();
+            }
+        }
     }
     property QtObject openConvertMenu: Action {
         shortcut: "Alt+C"
