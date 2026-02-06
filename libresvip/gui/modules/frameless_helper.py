@@ -236,7 +236,7 @@ if sys.platform == "win32":
         def _setup_window(self, hwnd: int) -> None:
             style = GetWindowLongPtrW(hwnd, GWL_STYLE)
             new_style = style | WS_CAPTION | WS_THICKFRAME | WS_MAXIMIZEBOX | CS_DBLCLKS
-            if not self._is_fixed_size(hwnd):
+            if self._is_fixed_size(hwnd):
                 new_style &= ~WS_MAXIMIZEBOX
             SetWindowLongPtrW(hwnd, GWL_STYLE, new_style)
             SetWindowPos(

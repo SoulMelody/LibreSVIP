@@ -863,7 +863,7 @@ ApplicationWindow {
             RowLayout {
                 Layout.fillWidth: true
                 Row {
-                    width: 10
+                    Layout.preferredWidth: 10
                 }
                 Label {
                     text: qsTr("Auto Check for Updates")
@@ -886,6 +886,7 @@ ApplicationWindow {
         spacing: 0
         RowLayout {
             Layout.fillWidth: true
+            spacing: 0
             Rectangle {
                 Layout.fillHeight: true
                 Layout.preferredWidth: 15
@@ -899,6 +900,24 @@ ApplicationWindow {
                 Component.onCompleted: {
                     settingsFramelessHelper.titlebar_item = this;
                 }
+            }
+            Button {
+                Material.roundedScale: Material.NotRounded
+                Material.background: pressed ? settingsDialog.Material.background : "transparent"
+                Material.elevation: 0
+                Layout.fillHeight: true
+                leftPadding: 0
+                rightPadding: 0
+                topInset: 0
+                bottomInset: 0
+                implicitWidth: 46
+                implicitHeight: 24
+                background.implicitWidth: implicitWidth
+                background.implicitHeight: implicitHeight
+                text: iconicFontLoader.icon("mdi7.window-minimize")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize
+                onClicked: settingsFramelessHelper.show_minimized(settingsDialog)
             }
             Button {
                 Material.roundedScale: Material.NotRounded
