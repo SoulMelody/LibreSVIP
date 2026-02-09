@@ -33,6 +33,7 @@ def install_mingw_deps() -> None:
         "charset-normalizer": "python-charset-normalizer",
         "lxml": "python-lxml",
         "markupsafe": "python-markupsafe",
+        "pillow": "python-pillow",
         "platformdirs": "python-platformdirs",
         "protobuf": "python-protobuf",
         "pycryptodomex": "python-pycryptodomex",
