@@ -134,7 +134,7 @@ gui_a = Analysis(
         os.path.join(PySide6.__path__[0], os.pardir)
     ],
     binaries=[],
-    datas=collect_data_files("desktop_notifier") + collect_data_files("ttkbootstrap_icons_mat") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0] + collect_entry_point("ttkbootstrap_icons_mat")[0],
+    datas=collect_data_files("desktop_notifier") + collect_data_files("ttkbootstrap_icons_mat") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_data_files("qasync", include_py_files=True) + collect_entry_point("xsdata.plugins.class_types")[0] + collect_entry_point("ttkbootstrap_icons_mat")[0],
     hiddenimports=[
         *zstd_backends,
         "bidict",
@@ -160,6 +160,7 @@ gui_a = Analysis(
         "yaml_ft",
         "yaml",
         "yaml12",
+        "PySide6.QtWidgets",
     ],
     hookspath=[],
     hooksconfig={},
@@ -179,6 +180,7 @@ gui_a = Analysis(
         'PySide6.QtPrintSupport',
         'PySide6.QtQuick3D',
         'PySide6.QtQuickWidgets',
+        'qasync',
     ],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
