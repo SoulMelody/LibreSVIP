@@ -72,7 +72,7 @@ ruamel-yaml==0.19.1
 ruamel-yaml-clib==0.2.15 ; sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 rubicon-objc==0.5.3 ; sys_platform == 'darwin'
 ryaml==0.5.1 ; (platform_python_implementation != 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation != 'PyPy' and sys_platform == 'linux') or (platform_python_implementation != 'PyPy' and sys_platform == 'win32')
-setuptools==81.0.0
+setuptools==82.0.0
 shellingham==1.5.4
 shiboken6==6.10.2
 six==1.17.0
