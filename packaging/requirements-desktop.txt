@@ -1,4 +1,5 @@
 altgraph==0.17.5
+annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.12.1
 aristaproto==0.1.4
@@ -40,7 +41,7 @@ numpy==2.4.2 ; python_full_version >= '3.11' and sys_platform == 'emscripten'
 packaging==26.0
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
-pillow==12.1.0
+pillow==12.1.1
 platformdirs==4.5.1
 portion==2.6.1
 py-yaml12==0.1.0 ; (platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (platform_python_implementation == 'PyPy' and sys_platform == 'win32')
@@ -82,7 +83,8 @@ svg-py==1.10.0
 tatsu-lts==5.16.0
 ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0
-typer-slim==0.21.1
+typer==0.23.0
+typer-slim==0.23.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 ujson==5.11.0
