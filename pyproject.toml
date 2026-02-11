@@ -84,8 +84,7 @@ yaml12 = [
 ]
 lxml = ["lxml>=6.0.2"]
 cli = [
-  "rich<14.3.3,>=14.3.2",
-  "typer-slim<1.0.0,>=0.23.0",
+  "typer<1.0.0,>=0.23.0",
   "winloop>=0.5.0; sys_platform == \"win32\"",
 ]
 tui = [
