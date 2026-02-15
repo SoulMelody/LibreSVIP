@@ -1502,7 +1502,7 @@ requires-dist = [
     { name = "more-itertools", specifier = ">=10.8.0,<11.0.0" },
     { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.7.1" },
     { name = "packaging", specifier = ">=26.0,<26.1" },
-    { name = "platformdirs", specifier = ">=4.8.0,<5.0.0" },
+    { name = "platformdirs", specifier = ">=4.9.1,<5.0.0" },
     { name = "portion", specifier = ">=2.6.1,<3.0.0" },
     { name = "py-yaml12", marker = "(platform_python_implementation == 'PyPy' and sys_platform == 'darwin' and extra == 'yaml12') or (platform_python_implementation == 'PyPy' and sys_platform == 'linux' and extra == 'yaml12') or (platform_python_implementation == 'PyPy' and sys_platform == 'win32' and extra == 'yaml12')", specifier = ">=0.1.0,<0.2.0" },
     { name = "pydantic", specifier = ">=2.12.5,<3.0.0" },
@@ -2515,11 +2515,11 @@ wheels = [
 
 [[package]]
 name = "platformdirs"
-version = "4.8.0"
+version = "4.9.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/41/9b/20c8288dc591129bf9dd7be2c91aec6ef23e450605c3403716bd6c74833e/platformdirs-4.8.0.tar.gz", hash = "sha256:c1d4a51ab04087041dd602707fbe7ee8b62b64e590f30e336e5c99c2d0c542d2", size = 27607, upload-time = "2026-02-14T01:52:03.451Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/d5/763666321efaded11112de8b7a7f2273dd8d1e205168e73c334e54b0ab9a/platformdirs-4.9.1.tar.gz", hash = "sha256:f310f16e89c4e29117805d8328f7c10876eeff36c94eac879532812110f7d39f", size = 28392, upload-time = "2026-02-14T21:02:44.973Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e0/f0/227a7d1b8d80ae55c4b47f271c0870dd7a153aa65353bf71921265df2300/platformdirs-4.8.0-py3-none-any.whl", hash = "sha256:1c1328b4d2ea997bbcb904175a9bde14e824a3fa79f751ea3888d63d7d727557", size = 20647, upload-time = "2026-02-14T01:52:01.915Z" },
+    { url = "https://files.pythonhosted.org/packages/70/77/e8c95e95f1d4cdd88c90a96e31980df7e709e51059fac150046ad67fac63/platformdirs-4.9.1-py3-none-any.whl", hash = "sha256:61d8b967d34791c162d30d60737369cbbd77debad5b981c4bfda1842e71e0d66", size = 21307, upload-time = "2026-02-14T21:02:43.492Z" },
 ]
 
 [[package]]
