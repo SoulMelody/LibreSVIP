@@ -1558,7 +1558,7 @@ all = [
     { name = "types-pyinstaller", specifier = ">=6.19.0.20260215" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20250915" },
     { name = "types-ujson", specifier = ">=5.10.0.20250822" },
-    { name = "xsdata", extras = ["cli"], specifier = ">=26.1" },
+    { name = "xsdata", extras = ["cli"], specifier = ">=26.2" },
     { name = "zensical", specifier = ">=0.0.23" },
 ]
 code-gen = [
@@ -1566,7 +1566,7 @@ code-gen = [
     { name = "datamodel-code-generator", specifier = ">=0.54.0" },
     { name = "protoc-wrapper", specifier = ">=33.0.0" },
     { name = "pyside6-addons", specifier = ">=6.10.2,<6.11.0" },
-    { name = "xsdata", extras = ["cli"], specifier = ">=26.1" },
+    { name = "xsdata", extras = ["cli"], specifier = ">=26.2" },
 ]
 docs = [{ name = "zensical", specifier = ">=0.0.23" }]
 i18n = [{ name = "babel", specifier = ">=2.18.0" }]
@@ -4507,14 +4507,14 @@ wheels = [
 
 [[package]]
 name = "xsdata"
-version = "26.1"
+version = "26.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/24/9f/c1b0fa54f2b3f43989015668daddd8bd50d3bf3461ba8b79fdeb8000b27d/xsdata-26.1.tar.gz", hash = "sha256:dcae2c0e5f329f1b4e09a2d148c96941c9556616bb5e3418970a63c5eb2cd831", size = 348523, upload-time = "2026-01-19T19:03:54.347Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2f/c9/71e9e8eac669091fd434ed494d806c8cc37614aecb34ce4c62c283f99abf/xsdata-26.2.tar.gz", hash = "sha256:c631af71aaa75734f8ce92a08fcf8389d905dee2aab0b5032c9032e9071009a6", size = 349690, upload-time = "2026-02-15T16:13:31.274Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7b/48/37775c15adba3070f0af934a6617696a608a75f2e01be37a454e298cf32c/xsdata-26.1-py3-none-any.whl", hash = "sha256:aa02adf1b75668e7b685f4de3c4507e4aa31af3f2e2210fd45aa2f0e4a637a99", size = 235422, upload-time = "2026-01-19T19:03:52.684Z" },
+    { url = "https://files.pythonhosted.org/packages/d3/92/f0edcbc2f895ecea14a68e492b24c157625e251279a94b172a6b263290e7/xsdata-26.2-py3-none-any.whl", hash = "sha256:85a591a4405d903416afbd4a917e8dda8ea44641a3e66d72134bc2a31b3c16b0", size = 235561, upload-time = "2026-02-15T16:13:29.614Z" },
 ]
 
 [package.optional-dependencies]
