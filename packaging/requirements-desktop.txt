@@ -42,7 +42,7 @@ packaging==26.0
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.1.1
-platformdirs==4.8.0
+platformdirs==4.9.1
 portion==2.6.1
 py-yaml12==0.1.0 ; (platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (platform_python_implementation == 'PyPy' and sys_platform == 'win32')
 pycparser==3.0 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32') or (implementation_name != 'PyPy' and sys_platform == 'emscripten')

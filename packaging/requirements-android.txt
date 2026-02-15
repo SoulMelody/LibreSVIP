@@ -32,7 +32,7 @@ multidict==6.7.1
 oauthlib==3.3.1
 packaging==26.0
 pathlib-abc==0.5.2
-platformdirs==4.8.0
+platformdirs==4.9.1
 portion==2.6.1
 pycparser==3.0
 pycryptodomex==3.21.0
