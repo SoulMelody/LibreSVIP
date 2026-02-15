@@ -39,7 +39,7 @@ pycryptodomex==3.21.0
 pydantic==2.11.7
 pydantic-core==2.33.2
 pydantic-extra-types==2.11.0
-pydantic-settings==2.12.0
+pydantic-settings==2.13.0
 pymediainfo==7.0.1
 pypinyin==0.55.0
 pysubs2==1.8.0
@@ -59,7 +59,7 @@ typing-extensions==4.15.0
 typing-inspection==0.4.2
 universal-pathlib==0.3.9
 wanakana-python==1.2.2
-xsdata==26.1
+xsdata==26.2
 xsdata-pydantic==24.5
 zhon==2.1.1
 zstandard==0.23.0
