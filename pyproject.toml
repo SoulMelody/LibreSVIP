@@ -109,7 +109,7 @@ desktop = [
 [dependency-groups]
 code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
-  "datamodel-code-generator>=0.53.0",
+  "datamodel-code-generator>=0.54.0",
   "protoc-wrapper>=33.0.0",
   "pyside6-addons<6.11.0,>=6.10.2",
   "xsdata[cli]>=26.1",
@@ -128,7 +128,7 @@ linting = [
   "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
-  "pyinstaller>=6.18.0",
+  "pyinstaller>=6.19.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
