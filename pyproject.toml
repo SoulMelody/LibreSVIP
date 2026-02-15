@@ -112,7 +112,7 @@ code_gen = [
   "datamodel-code-generator>=0.54.0",
   "protoc-wrapper>=33.0.0",
   "pyside6-addons<6.11.0,>=6.10.2",
-  "xsdata[cli]>=26.1",
+  "xsdata[cli]>=26.2",
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
