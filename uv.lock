@@ -1555,7 +1555,7 @@ all = [
     { name = "sortedcontainers-stubs", specifier = ">=2.4.3" },
     { name = "textual-dev", specifier = ">=1.8.0" },
     { name = "types-lxml", specifier = ">=2026.1.1" },
-    { name = "types-pyinstaller", specifier = ">=6.18.0.20260115" },
+    { name = "types-pyinstaller", specifier = ">=6.19.0.20260215" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20250915" },
     { name = "types-ujson", specifier = ">=5.10.0.20250822" },
     { name = "xsdata", extras = ["cli"], specifier = ">=26.1" },
@@ -1578,7 +1578,7 @@ linting = [
     { name = "ruff", specifier = ">=0.15.1" },
     { name = "sortedcontainers-stubs", specifier = ">=2.4.3" },
     { name = "types-lxml", specifier = ">=2026.1.1" },
-    { name = "types-pyinstaller", specifier = ">=6.18.0.20260115" },
+    { name = "types-pyinstaller", specifier = ">=6.19.0.20260215" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20250915" },
     { name = "types-ujson", specifier = ">=5.10.0.20250822" },
 ]
@@ -3832,11 +3832,11 @@ wheels = [
 
 [[package]]
 name = "types-pyinstaller"
-version = "6.18.0.20260115"
+version = "6.19.0.20260215"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/7b/b6/faa9e262a5c80db9b317fb83d50485dfd0c7903fcfc1cdd2982f3bdb4b21/types_pyinstaller-6.18.0.20260115.tar.gz", hash = "sha256:abf1b7935a1ba4b2f64e4bccdf9a3f2ed3ef2227cc866eee88c296b52eb17d5d", size = 19588, upload-time = "2026-01-15T03:22:22.855Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e2/ac/552ef1a39253189266638f439655b7e73658413ad290e4126cf1985e2ccb/types_pyinstaller-6.19.0.20260215.tar.gz", hash = "sha256:dead1011722ad06d6c8482be271dc8c7e2f995ec76c7b8fc54b24f996ae8c608", size = 19945, upload-time = "2026-02-15T04:10:38.201Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a8/44/b94bf8dbc1424ff11b7010842e687ff2233b1ce31d2ce647a0611c56b527/types_pyinstaller-6.18.0.20260115-py3-none-any.whl", hash = "sha256:bc534ec90c0fa459d08400d3e1ee42acb7b8a9c3ba68b6e3bca42c148fddf73c", size = 22063, upload-time = "2026-01-15T03:22:21.661Z" },
+    { url = "https://files.pythonhosted.org/packages/0e/fc/9d86a9c0aba04c60b5786a7929bdba4f5b97401ea1bc2ed8d7a485e026a4/types_pyinstaller-6.19.0.20260215-py3-none-any.whl", hash = "sha256:5e3af03dad356be22eb2524c1955149ebd4723ad1af529ac4fecf9d8fbc17ec1", size = 22064, upload-time = "2026-02-15T04:10:36.921Z" },
 ]
 
 [[package]]
