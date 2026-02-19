@@ -198,7 +198,7 @@ class MusicXMLParser:
                 tick_position += duration
 
                 tie_nodes = note_node.tie
-                if len(tie_nodes) and (tie_node := tie_nodes[0]) and tie_node.type_value:
+                if len(tie_nodes) > 0 and (tie_node := tie_nodes[0]) and tie_node.type_value:
                     if tie_node.type_value == StartStop.START:
                         is_inside_note = True
                     elif tie_node.type_value == StartStop.STOP:
