@@ -1,6 +1,7 @@
 import io
 import pathlib
 from importlib.resources import files
+from zipfile import ZipFile
 
 from upath import UPath
 
@@ -43,14 +44,14 @@ class VocaloidConverter(plugin_base.SVSConverter):
         buffer = io.BytesIO()
         generator = VocaloidGenerator(options_obj)
         vocaloid_project = generator.generate_project(project)
-        zip_path = UPath("zip://", fo=buffer, mode="a")
-        (zip_path / "Project/sequence.json").write_text(
-            json.dumps(
-                vocaloid_project.model_dump(mode="json", exclude_none=True, by_alias=True),
-                ensure_ascii=False,
-            ),
-            encoding="utf-8",
-        )
-        for wav_name, wav_path in generator.wav_paths.items():
-            (zip_path / f"Project/Audio/{wav_name}").write_bytes(wav_path.read_bytes())
+        with ZipFile(buffer, "w") as archive_file:
+            archive_file.writestr(
+                "Project/sequence.json",
+                json.dumps(
+                    vocaloid_project.model_dump(mode="json", exclude_none=True, by_alias=True),
+                    ensure_ascii=False,
+                ),
+            )
+            for wav_name, wav_path in generator.wav_paths.items():
+                archive_file.writestr(f"Project/Audio/{wav_name}", wav_path.read_bytes())
         path.write_bytes(buffer.getvalue())

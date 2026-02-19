@@ -1,6 +1,7 @@
 import io
 import pathlib
 from importlib.resources import files
+from zipfile import ZipFile
 
 from upath import UPath
 
@@ -54,8 +55,8 @@ class PiaproStudioConverter(plugin_base.SVSConverter):
             ),
             ensure_ascii=False,
             separators=(", ", ": "),
-        )
+        ).encode("utf-8")
         buffer = io.BytesIO()
-        zip_path = UPath("zip://", fo=buffer, mode="w")
-        (zip_path / "ppsf.json").write_text(proj_text, encoding="utf-8")
+        with ZipFile(buffer, "w") as zf:
+            zf.writestr("ppsf.json", proj_text)
         path.write_bytes(buffer.getvalue())

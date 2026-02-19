@@ -8,6 +8,7 @@ import traceback
 from functools import partial
 from importlib.resources import as_file
 from typing import get_args, get_type_hints
+from zipfile import ZipFile
 
 import flet as ft
 import flet_permission_handler as fph
@@ -663,13 +664,14 @@ async def main(page: ft.Page) -> None:
             if output_path.is_file():
                 buffer.write(output_path.read_bytes())
             else:
-                zip_file = UPath("zip://", fo=buffer, mode="a")
-                for child_file in output_path.iterdir():
-                    if not child_file.is_file():
-                        continue
-                    (zip_file / child_file.name).write_bytes(
-                        child_file.read_bytes(),
-                    )
+                with ZipFile(buffer, "w") as zip_file:
+                    for child_file in output_path.iterdir():
+                        if not child_file.is_file():
+                            continue
+                        zip_file.writestr(
+                            child_file.name,
+                            child_file.read_bytes(),
+                        )
             if conversion_mode != "split":
                 save_path = save_folder / output_path.name
             else:

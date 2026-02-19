@@ -26,6 +26,7 @@ from typing import (
     get_type_hints,
 )
 from urllib.parse import quote, unquote
+from zipfile import ZipFile
 
 import anyio
 import more_itertools
@@ -951,13 +952,14 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     return None
                 if self._conversion_mode == ConversionMode.SPLIT:
                     buffer = io.BytesIO()
-                    zip_path = UPath("zip://", fo=buffer, mode="a")
-                    for child_file in task.output_path.iterdir():
-                        if not child_file.is_file():
-                            continue
-                        (zip_path / child_file.name).write_bytes(
-                            child_file.read_bytes(),
-                        )
+                    with ZipFile(buffer, "w") as zip_file:
+                        for child_file in task.output_path.iterdir():
+                            if not child_file.is_file():
+                                continue
+                            zip_file.writestr(
+                                child_file.name,
+                                child_file.read_bytes(),
+                            )
                     content = buffer.getvalue()
                     filename_header = quote(task.upload_path.with_suffix(".zip").name)
                 else:
@@ -983,23 +985,22 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     filename = next(iter(self.files_to_convert))
                     return self._export_one(filename)
                 buffer = io.BytesIO()
-                zip_path = UPath("zip://", fo=buffer, mode="a")
-                for task in self.files_to_convert.values():
-                    if task.success:
-                        if task.output_path.is_dir():
-                            for i, child_file in enumerate(task.output_path.iterdir()):
-                                if not child_file.is_file():
-                                    continue
-                                (zip_path / child_file.name).write_bytes(
-                                    child_file.read_bytes(),
+                with ZipFile(buffer, "w") as zip_file:
+                    for task in self.files_to_convert.values():
+                        if task.success:
+                            if task.output_path.is_dir():
+                                for i, child_file in enumerate(task.output_path.iterdir()):
+                                    if not child_file.is_file():
+                                        continue
+                                    zip_file.writestr(
+                                        child_file.name,
+                                        child_file.read_bytes(),
+                                    )
+                            else:
+                                zip_file.writestr(
+                                    task.upload_path.with_suffix(task.output_path.suffix).name,
+                                    task.output_path.read_bytes(),
                                 )
-                        else:
-                            (
-                                zip_path
-                                / task.upload_path.with_suffix(task.output_path.suffix).name
-                            ).write_bytes(
-                                task.output_path.read_bytes(),
-                            )
                 return (
                     buffer.getvalue(),
                     200,
