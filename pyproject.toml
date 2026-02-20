@@ -117,7 +117,7 @@ code_gen = [
 i18n = ["babel>=2.18.0"]
 linting = [
   "pre-commit>=4.5.1",
-  "ruff>=0.15.1",
+  "ruff>=0.15.2",
   "mypy>=1.19.1",
   "pyrefly>=0.53.0,<0.53.1",
   "pyside6<6.11.0,>=6.10.2",
