@@ -83,7 +83,7 @@ svg-py==1.10.0
 tatsu-lts==5.16.0
 ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0
-typer==0.24.0
+typer==0.24.1
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 ujson==5.11.0
