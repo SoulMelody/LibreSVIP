@@ -57,7 +57,7 @@ svg-py==1.10.0
 tatsu-lts==5.16.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
-universal-pathlib==0.3.9
+universal-pathlib==0.3.10
 wanakana-python==1.2.2
 xsdata==26.2
 xsdata-pydantic==24.5
