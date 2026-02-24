@@ -23,7 +23,7 @@ repos:
           - mdformat-gfm
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.1
+    rev: v0.15.2
     hooks:
       - id: ruff-check
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
@@ -31,14 +31,14 @@ repos:
         args: ["--config", "pyproject.toml", "--exclude", "tests/"]
 
   - repo: https://github.com/facebook/pyrefly-pre-commit
-    rev: 0.52.0
+    rev: 0.54.0
     hooks:
       - id: pyrefly-check
         name: Pyrefly (type checking)
         pass_filenames: false
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.10.4
+    rev: 0.10.5
     hooks:
       - id: uv-lock
         args: ["--frozen"]
