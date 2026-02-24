@@ -875,7 +875,7 @@ wheels = [
 
 [[package]]
 name = "flet"
-version = "0.80.5"
+version = "0.81.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx", marker = "platform_system != 'Pyodide'" },
@@ -884,9 +884,9 @@ dependencies = [
     { name = "repath" },
     { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/32/79/5b4e98933b77030f5fafc0ae75fd9a62891712fa8b81280a362eefbb1fcb/flet-0.80.5.tar.gz", hash = "sha256:9317dba543cf6a8773f991d08c570bee377cc916780ed57362114e4777c1ea5c", size = 391425, upload-time = "2026-01-30T00:43:28.017Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/92/86/cd5c7c11155a8a5345065c5eafe086bb43ee129773118b9ef8951551bb51/flet-0.81.0.tar.gz", hash = "sha256:406466e378c8e863e6af1247f308837dfc90f4e1a40d476e47ac3881ff4b76e7", size = 444034, upload-time = "2026-02-24T18:16:31.549Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a5/55/71f796477263f76b2e25b21dab24ed4acb1988199ff6bc0d9640cdda16a1/flet-0.80.5-py3-none-any.whl", hash = "sha256:8ce4cde04fa698515d273b8dcb6261a873e965c493740c590ca09b8e698cae16", size = 484605, upload-time = "2026-01-30T00:43:26.198Z" },
+    { url = "https://files.pythonhosted.org/packages/73/db/417852ec9a2afe6bbd7fd1c797707fa3403b4880a75e132c44e272b9e519/flet-0.81.0-py3-none-any.whl", hash = "sha256:2bc22d9ddf65b30a836fff43455968a1531f0673a41c1c89eec494816ed68676", size = 540464, upload-time = "2026-02-24T18:16:30.214Z" },
 ]
 
 [package.optional-dependencies]
@@ -952,14 +952,14 @@ wheels = [
 
 [[package]]
 name = "flet-permission-handler"
-version = "0.80.5"
+version = "0.81.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "flet" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f6/dd/182983bdf1f4a234af012393ecf1be9834538e6b146d4243f6a5524d591f/flet_permission_handler-0.80.5.tar.gz", hash = "sha256:21cd5c16d524963256869a75d7289ec77b2a4b36518475ee13adc7867dc2a162", size = 20701, upload-time = "2026-01-30T00:45:10.802Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/17/db/f38f632c4853f571919b1d146d61720b8fbb1c4a364ad818b70be6b8aac7/flet_permission_handler-0.81.0.tar.gz", hash = "sha256:a1b28a8b1ee7072226e79d4b45ad74e0f76dd7a341ce5d1e28fbfbba9649bac3", size = 20879, upload-time = "2026-02-24T18:18:16.442Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/dc/d3/718a57188f88af2f30d2904f7a3ceae832bbfcd1f2905b5f1a2559e818f5/flet_permission_handler-0.80.5-py3-none-any.whl", hash = "sha256:f0eb5b4e7cd195cd9b93afe6720280aad34d2f09c88fb1da5c3b37a67acf6147", size = 21891, upload-time = "2026-01-30T00:45:09.988Z" },
+    { url = "https://files.pythonhosted.org/packages/0f/ed/c2d0808544aa68193299b6ace622a3cde34bc08df44889eb082d01fef831/flet_permission_handler-0.81.0-py3-none-any.whl", hash = "sha256:e63d4c5f9669e4640dc92c15cac1d76cabd1eeafec6d56a086a8d94b4b2961b3", size = 22024, upload-time = "2026-02-24T18:18:17.158Z" },
 ]
 
 [[package]]
@@ -1489,8 +1489,8 @@ requires-dist = [
     { name = "charset-normalizer", specifier = ">=3.4.4,<4.0.0" },
     { name = "construct-typing", specifier = ">=0.7.0,<1.0.0" },
     { name = "desktop-notifier", marker = "extra == 'desktop'", specifier = ">=6.2.0" },
-    { name = "flet", extras = ["cli", "desktop"], marker = "extra == 'mobile'", specifier = ">=0.80.5,<0.90.0" },
-    { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.80.5,<0.90.0" },
+    { name = "flet", extras = ["cli", "desktop"], marker = "extra == 'mobile'", specifier = ">=0.81.0,<0.90.0" },
+    { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.81.0,<0.90.0" },
     { name = "fontconfig-py", marker = "(sys_platform == 'darwin' and extra == 'mobile') or (sys_platform == 'linux' and extra == 'mobile')", specifier = ">=1.0.1" },
     { name = "httpx", marker = "extra == 'desktop'", specifier = ">=0.28.1" },
     { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=6.5.2,<7.0.0" },
@@ -1500,7 +1500,7 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=6.0.2" },
     { name = "more-itertools", specifier = ">=10.8.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.7.1" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.8.0" },
     { name = "packaging", specifier = ">=26.0,<26.1" },
     { name = "platformdirs", specifier = ">=4.9.2,<5.0.0" },
     { name = "portion", specifier = ">=2.6.1,<3.0.0" },
@@ -2244,7 +2244,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "3.7.1"
+version = "3.8.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2269,9 +2269,9 @@ dependencies = [
     { name = "uvicorn", extra = ["standard"] },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f7/76/0fe2a54f0ba6141747fc1413ffd1657dd809bf5c8105f6832628d9b5f86e/nicegui-3.7.1.tar.gz", hash = "sha256:dc6ef68083ce15d92848e91908eb5313962dc0cd8a3350536b18c425ad5d5ca5", size = 21343701, upload-time = "2026-02-05T14:39:21.818Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ec/87/512897ea7d412adec5bfd5b32250f13a5eec2f0168b9abdd496b9f9e1f0f/nicegui-3.8.0.tar.gz", hash = "sha256:4badf3f8ef6d20119d25a2bee553fe5b224d2821a17853d54360fd3ae14e595c", size = 19048154, upload-time = "2026-02-24T16:11:16.183Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/13/a8/91f47b20368bdfb4c818416df0d5cbd867a07364d05cff56d095d248b81e/nicegui-3.7.1-py3-none-any.whl", hash = "sha256:202c39b415eb6aa08cc74b29cadc8b9357c5ba1bf67840c989437caf111c54b4", size = 22008333, upload-time = "2026-02-05T14:39:17.209Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/a2/ce16affb093fd44912ef39b29ff78734e0281e60be64f30dfb64f84c2c3e/nicegui-3.8.0-py3-none-any.whl", hash = "sha256:22040fe3c07144dfcaf464a1e136f9a63137bb78f5ad43337fd232e446cb2823", size = 19625456, upload-time = "2026-02-24T16:11:11.993Z" },
 ]
 
 [[package]]
