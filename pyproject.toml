@@ -117,7 +117,7 @@ code_gen = [
 i18n = ["babel>=2.18.0"]
 linting = [
   "pre-commit>=4.5.1",
-  "ruff>=0.15.2",
+  "ruff>=0.15.4",
   "mypy>=1.19.1",
   "pyrefly>=0.54.0,<0.54.1",
   "pyside6<6.11.0,>=6.10.2",
@@ -132,7 +132,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "zensical>=0.0.23",
+  "zensical>=0.0.24",
 ]
 test = ["pytest>=9.0.2", "pytest-run-parallel>=0.8.2", "textual-dev>=1.8.0"]
 all = [
