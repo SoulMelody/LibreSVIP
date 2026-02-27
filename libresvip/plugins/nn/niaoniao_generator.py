@@ -106,21 +106,27 @@ class NiaoniaoGenerator:
                     pitch_simulator.merge_pitch_curve(
                         singing_track.edited_params.pitch, self.first_bar_length
                     )
-                nn_note.pitch = self.generate_pitch(
-                    pitch_simulator, note, nn_note.pitch_bend_sensitivity
+                nn_note.pitch, nn_note.pitch_bend_sensitivity = self.generate_pitch(
+                    pitch_simulator, note
                 )
             nn_notes.append(nn_note)
         return nn_notes
 
-    def generate_pitch(
-        self, pitch_simulator: PitchSimulator, note: Note, pitch_bend_sensitivity: int
-    ) -> NNPoints:
+    def generate_pitch(self, pitch_simulator: PitchSimulator, note: Note) -> tuple[NNPoints, int]:
+        rel_pitch_values = [
+            pitch_simulator.pitch_at_ticks(note.start_pos + int((note.length / 100.0) * i))
+            - (note.key_number) * 100
+            for i in range(100)
+        ]
+
+        max_abs_value = max(abs(value / 100) for value in rel_pitch_values)
+        pbs_for_this_note = min(math.ceil(max_abs_value), 12)
         nn_pitch_param = []
         for i in range(100):
             pitch_value = pitch_simulator.pitch_at_ticks(
                 note.start_pos + int((note.length / 100.0) * i)
             )
-            value = 50 + round((pitch_value - (note.key_number) * 100) / pitch_bend_sensitivity)
+            value = 50 + round((pitch_value - (note.key_number) * 100) / pbs_for_this_note)
             nn_pitch_param.append(value)
 
-        return NNPoints(points=nn_pitch_param)
+        return NNPoints(points=nn_pitch_param), pbs_for_this_note - 1
