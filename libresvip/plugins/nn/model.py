@@ -94,13 +94,13 @@ class NNNote(BaseModel):
     key: int
     cle: int = 0
     vel: int = 50
-    por: int = 20
+    por: int = 0
     vibrato_length: int = 0
     vibrato_depth: int = 0
     vibrato_rate: int = 0
     dynamics: NNPoints = Field(default_factory=NNPoints)
     pitch: NNPoints = Field(default_factory=NNPoints)
-    pitch_bend_sensitivity: int = 12
+    pitch_bend_sensitivity: int = 2
 
 
 class NNProject(BaseModel):

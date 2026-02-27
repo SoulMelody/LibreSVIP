@@ -4,14 +4,16 @@ import math
 import pypinyin
 
 from libresvip.core.exceptions import NoTrackError
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
-    ParamCurve,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.utils.translation import gettext_lazy as _
 
 from .model import NNInfoLine, NNNote, NNPoints, NNProject, NNTimeSignature
@@ -21,8 +23,10 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class NiaoniaoGenerator:
     options: OutputOptions
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     length_multiplier: int = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
+    time_signatures: list[TimeSignature] = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> NNProject:
         self.length_multiplier = 60 if self.options.version == 19 else 30
@@ -41,7 +45,13 @@ class NiaoniaoGenerator:
                 raise NoTrackError(msg)
         else:
             first_singing_track = project.track_list[self.options.track_index]
+        self.time_signatures = (
+            project.time_signature_list[0]
+            if len(project.time_signature_list)
+            else [TimeSignature()]
+        )
         nn_time_signature = self.generate_time_signature(project.time_signature_list)
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list, self.first_bar_length)
         nn_tempo = self.generate_tempo(project.song_tempo_list)
         nn_info_line = NNInfoLine(
             version=self.options.version,
@@ -76,67 +86,41 @@ class NiaoniaoGenerator:
 
     def generate_notes(self, singing_track: SingingTrack) -> list[NNNote]:
         nn_notes = []
+        pitch_simulator = None
         for note in singing_track.note_list:
             nn_note = NNNote(
                 lyric=note.lyric,
                 pronunciation=note.pronunciation or " ".join(pypinyin.lazy_pinyin(note.lyric)),
-                key=88 - note.key_number,
+                key=83 - note.key_number,
                 start=note.start_pos // self.length_multiplier,
                 duration=note.length // self.length_multiplier,
             )
             if singing_track.edited_params.pitch:
-                nn_note.pitch = self.generate_pitch(singing_track.edited_params.pitch, note)
+                if pitch_simulator is None:
+                    pitch_simulator = PitchSimulator(
+                        synchronizer=self.synchronizer,
+                        portamento=PortamentoPitch.no_portamento(),
+                        note_list=singing_track.note_list,
+                        time_signature_list=self.time_signatures,
+                    )
+                    pitch_simulator.merge_pitch_curve(
+                        singing_track.edited_params.pitch, self.first_bar_length
+                    )
+                nn_note.pitch = self.generate_pitch(
+                    pitch_simulator, note, nn_note.pitch_bend_sensitivity
+                )
             nn_notes.append(nn_note)
         return nn_notes
 
-    def generate_pitch(self, pitch_param_curve: ParamCurve, note: Note) -> NNPoints:
-        sample_time_list = [
-            note.start_pos + self.first_bar_length + int((note.length / 100.0) * i)
-            for i in range(100)
-        ]
-        pitch_param_in_note = [
-            p
-            for p in pitch_param_curve.points.root
-            if p.x >= note.start_pos + self.first_bar_length
-            and p.x < note.end_pos + self.first_bar_length
-        ]
-
-        pitch_param_time_in_note = dict(pitch_param_in_note)
-
+    def generate_pitch(
+        self, pitch_simulator: PitchSimulator, note: Note, pitch_bend_sensitivity: int
+    ) -> NNPoints:
         nn_pitch_param = []
-        for sample_time in sample_time_list:
-            if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
-                distance = -1
-                value = 50
-
-                for point in pitch_param_in_note:
-                    if distance > abs(point.x - sample_time) or distance == -1:
-                        distance = abs(point.x - sample_time)
-                        value = 50 + (
-                            0 if point.y == -100 else round((point.y - note.key_number * 100) / 12)
-                        )
-
-                nn_pitch_param.append(value)
-
-            elif pitch == -100:
-                nn_pitch_param.append(50)
-            else:
-                nn_pitch_param.append(50 + round((pitch - note.key_number * 100) / 12))
-        buffer = []
-        previous_node = nn_pitch_param[0]
-        previous_node_index = 0
-        for i in range(len(nn_pitch_param)):
-            if nn_pitch_param[i] == previous_node:
-                buffer.append(nn_pitch_param[i])
-            else:
-                for j in range(len(buffer)):
-                    nn_pitch_param[previous_node_index + j] = round(
-                        previous_node + j * (nn_pitch_param[i] - buffer[j]) / len(buffer)
-                    )
-                buffer.clear()
-
-            if nn_pitch_param[i] != previous_node:
-                previous_node_index = i
-                previous_node = nn_pitch_param[i]
+        for i in range(100):
+            pitch_value = pitch_simulator.pitch_at_ticks(
+                note.start_pos + int((note.length / 100.0) * i)
+            )
+            value = 50 + round((pitch_value - (note.key_number) * 100) / pitch_bend_sensitivity)
+            nn_pitch_param.append(value)
 
         return NNPoints(points=nn_pitch_param)

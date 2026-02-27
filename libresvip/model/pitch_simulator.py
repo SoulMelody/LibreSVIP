@@ -1,6 +1,7 @@
 import dataclasses
 import functools
 
+import more_itertools
 import portion
 
 from libresvip.core.constants import MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS
@@ -8,8 +9,9 @@ from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.tick_counter import find_bar_index
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import Note, TimeSignature
+from libresvip.model.base import Note, ParamCurve, TimeSignature
 from libresvip.model.portamento import PortamentoPitch
+from libresvip.utils.music_math import linear_interpolation
 from libresvip.utils.translation import gettext_lazy as _
 
 
@@ -20,6 +22,7 @@ class PitchSimulator:
     note_list: dataclasses.InitVar[list[Note]]
     time_signature_list: dataclasses.InitVar[list[TimeSignature]]
     interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
+    pitch_interval_dict: PiecewiseIntervalDict | None = dataclasses.field(default=None)
 
     def __post_init__(
         self, note_list: list[Note], time_signature_list: list[TimeSignature]
@@ -120,9 +123,31 @@ class PitchSimulator:
             current_note.key_number
         )
 
+    def merge_pitch_curve(self, pitch_curve: ParamCurve, first_bar_length: int) -> None:
+        self.pitch_interval_dict = PiecewiseIntervalDict()
+        for point_part in more_itertools.split_at(
+            pitch_curve.points.root, lambda point: point.y == -100
+        ):
+            if len(point_part):
+                for prev_point, point in more_itertools.pairwise(point_part):
+                    start_time = self.synchronizer.get_actual_secs_from_ticks(
+                        prev_point.x - first_bar_length
+                    )
+                    end_time = self.synchronizer.get_actual_secs_from_ticks(
+                        point.x - first_bar_length
+                    )
+                    interval = portion.closedopen(start_time, end_time)
+                    self.pitch_interval_dict[interval] = functools.partial(
+                        linear_interpolation,  # type: ignore[call-arg]
+                        start=(start_time, prev_point.y),
+                        end=(end_time, point.y),
+                    )
+
     def pitch_at_ticks(self, ticks: int) -> float | None:
         return self.pitch_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
 
     def pitch_at_secs(self, secs: float) -> float | None:
+        if self.pitch_interval_dict is not None and (value := self.pitch_interval_dict.get(secs)):
+            return value
         if value := self.interval_dict.get(secs):
             return value * 100
