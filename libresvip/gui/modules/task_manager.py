@@ -274,7 +274,7 @@ class TaskManager(QObject):
         self.tasks.rowsRemoved.connect(self._on_tasks_changed)
         self.input_formats = ModelProxy({"value": "", "text": ""})
         self.output_formats = ModelProxy({"value": "", "text": ""})
-        self.input_fields = ModelProxy(
+        self._input_fields = ModelProxy(
             {
                 "index": 0,
                 "name": "",
@@ -287,7 +287,7 @@ class TaskManager(QObject):
             }
         )
         self._input_fields_inited = False
-        self.output_fields = ModelProxy(
+        self._output_fields = ModelProxy(
             {
                 "index": 0,
                 "name": "",
@@ -683,10 +683,11 @@ class TaskManager(QObject):
             return
         if input_format:
             self.input_format = input_format
-            self.input_fields.clear()
+            self._input_fields.clear()
             plugin_input = plugin_manager.plugins.get("svs", {})[self.input_format]
             input_fields = self.inspect_fields(plugin_input.input_option_cls)
-            self.input_fields.append_many(input_fields)
+            if input_fields:
+                self._input_fields.append_many(input_fields)
             if not self._input_fields_inited:
                 self._input_fields_inited = True
             self.input_fields_changed.emit()
@@ -697,18 +698,43 @@ class TaskManager(QObject):
             return
         if output_format:
             self.output_format = output_format
-            self.output_fields.clear()
+            self._output_fields.clear()
             plugin_output = plugin_manager.plugins.get("svs", {})[self.output_format]
             output_fields = self.inspect_fields(plugin_output.output_option_cls)
-            self.output_fields.append_many(output_fields)
+            if output_fields:
+                self._output_fields.append_many(output_fields)
             if not self._output_fields_inited:
                 self._output_fields_inited = True
             self.output_fields_changed.emit()
 
-    @Slot(str, result="QVariant")
-    def plugin_info(self, name: str) -> dict[str, str]:
-        assert name in {"input_format", "output_format"}
-        if (suffix := getattr(self, name)) in plugin_manager.plugins.get("svs", {}):
+    @Property("QVariant", notify=input_format_changed)
+    def input_plugin_info(self) -> dict[str, str]:
+        if (suffix := self.input_format) in plugin_manager.plugins.get("svs", {}):
+            plugin = plugin_manager.plugins.get("svs", {})[suffix]
+            return {
+                "name": plugin.info.name,
+                "author": plugin.info.author,
+                "website": plugin.info.website,
+                "description": plugin.info.description,
+                "version": plugin.version,
+                "file_format": plugin.info.file_format,
+                "suffix": f"(*.{plugin.info.suffix})",
+                "icon_base64": f"data:image/png;base64,{plugin.info.icon_base64}",
+            }
+        return {
+            "name": "",
+            "author": "",
+            "website": "",
+            "description": "",
+            "version": "",
+            "file_format": "",
+            "suffix": "(*.*)",
+            "icon_base64": "",
+        }
+
+    @Property("QVariant", notify=output_format_changed)
+    def output_plugin_info(self) -> dict[str, str]:
+        if (suffix := self.output_format) in plugin_manager.plugins.get("svs", {}):
             plugin = plugin_manager.plugins.get("svs", {})[suffix]
             return {
                 "name": plugin.info.name,
@@ -758,6 +784,14 @@ class TaskManager(QObject):
             and (suffix := path_obj.suffix[1:]) in plugin_manager.plugins.get("svs", {})
         ):
             self.set_str("input_format", suffix)
+
+    @Property("QVariant", notify=input_fields_changed)
+    def input_fields(self) -> ModelProxy:
+        return self._input_fields
+
+    @Property("QVariant", notify=output_fields_changed)
+    def output_fields(self) -> ModelProxy:
+        return self._output_fields
 
     @Slot(str, result=QAbstractListModel)
     def qget(self, name: str) -> Any:
@@ -828,8 +862,8 @@ class TaskManager(QObject):
                     {"success": False, "error": error_message, "warning": ""},
                 )
             return
-        input_options = {field["name"]: field["value"] for field in self.input_fields}
-        output_options = {field["name"]: field["value"] for field in self.output_fields}
+        input_options = {field["name"]: field["value"] for field in self._input_fields}
+        output_options = {field["name"]: field["value"] for field in self._output_fields}
         middleware_options = {
             middleware_state["identifier"]: {
                 field["name"]: field["value"]

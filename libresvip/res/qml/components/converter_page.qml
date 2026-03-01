@@ -14,6 +14,57 @@ Page {
     property alias outputFormatComboBox: outputFormat
     property alias swapInputOutputButton: swapInputOutput
 
+    function getOptionFields(container) {
+        var result = [];
+        for (var i = 0; i < container.actualChildren.rowCount(); ++i) {
+            let modelData = container.actualChildren.get(i);
+            if (modelData !== null) {
+                switch (modelData.type) {
+                case "bool":
+                    {
+                        result.push(switchItem.createObject(container, {
+                            "field": modelData,
+                            "index": modelData.index,
+                            "list_model": container.actualChildren
+                        }));
+                        break;
+                    }
+                case "enum":
+                    {
+                        result.push(comboBoxItem.createObject(container, {
+                            "field": modelData,
+                            "index": modelData.index,
+                            "list_model": container.actualChildren
+                        }));
+                        break;
+                    }
+                case "color":
+                    {
+                        result.push(colorPickerItem.createObject(container, {
+                            "field": modelData,
+                            "index": modelData.index,
+                            "list_model": container.actualChildren
+                        }));
+                        break;
+                    }
+                default:
+                    {
+                        result.push(textFieldItem.createObject(container, {
+                            "field": modelData,
+                            "index": modelData.index,
+                            "list_model": container.actualChildren
+                        }));
+                        break;
+                    }
+                }
+            }
+            if (i < container.actualChildren.rowCount() - 1) {
+                result.push(separatorItem.createObject(container));
+            }
+        }
+        return result;
+    }
+
     Component {
         id: colorPickerItem
         RowLayout {
@@ -393,12 +444,7 @@ Page {
                         x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
-                            info: taskManager.plugin_info("input_format")
-                            Component.onCompleted: {
-                                taskManager.input_format_changed.connect(input_format => {
-                                    info = taskManager.plugin_info("input_format");
-                                });
-                            }
+                            info: taskManager.input_plugin_info
                         }
                     }
                 }
@@ -530,12 +576,7 @@ Page {
                         x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
-                            info: taskManager.plugin_info("output_format")
-                            Component.onCompleted: {
-                                taskManager.output_format_changed.connect(output_format => {
-                                    info = taskManager.plugin_info("output_format");
-                                });
-                            }
+                            info: taskManager.output_plugin_info
                         }
                     }
                 }
@@ -952,17 +993,11 @@ Page {
                         color: "transparent"
                     }
                     Label {
-                        property string input_format_name: ""
+                        property string input_format_name: taskManager.input_plugin_info.file_format
                         text: qsTr("[Import as ") + qsTr(input_format_name) + "]"
                         color: Material.color(Material.Grey)
                         font.pixelSize: 20
                         anchors.verticalCenter: parent.verticalCenter
-                        Component.onCompleted: {
-                            taskManager.input_format_changed.connect(input_format => {
-                                let plugin_info = taskManager.plugin_info("input_format");
-                                input_format_name = plugin_info.file_format;
-                            });
-                        }
                     }
                 }
                 RowLayout {
@@ -1032,6 +1067,15 @@ Page {
                                 }
                             }
                         ]
+
+                        default property var actualChildren: taskManager.input_fields
+                        children: getOptionFields(inputContainer)
+                        Connections {
+                            target: taskManager
+                            onInput_fields_changed: {
+                                inputContainer.children = getOptionFields(inputContainer);
+                            }
+                        }
                     }
                     Rectangle {
                         width: 20
@@ -1247,17 +1291,11 @@ Page {
                         color: "transparent"
                     }
                     Label {
-                        property string output_format_name: ""
+                        property string output_format_name: taskManager.output_plugin_info.file_format
                         text: qsTr("[Export to ") + qsTr(output_format_name) + "]"
                         font.pixelSize: 20
                         color: Material.color(Material.Grey)
                         anchors.verticalCenter: parent.verticalCenter
-                        Component.onCompleted: {
-                            taskManager.output_format_changed.connect(output_format => {
-                                let plugin_info = taskManager.plugin_info("output_format");
-                                output_format_name = plugin_info.file_format;
-                            });
-                        }
                     }
                 }
                 RowLayout {
@@ -1327,138 +1365,18 @@ Page {
                                 }
                             }
                         ]
+
+                        default property var actualChildren: taskManager.output_fields
+                        children: getOptionFields(outputContainer)
+                        Connections {
+                            target: taskManager
+                            onOutput_fields_changed: {
+                                outputContainer.children = getOptionFields(outputContainer);
+                            }
+                        }
                     }
                     Rectangle {
                         width: 20
-                    }
-                }
-                Repeater {
-                    id: inputFields
-                    model: []
-                    delegate: Rectangle {
-                        width: 0
-                        height: 0
-                        required property var modelData
-                        Component.onCompleted: {
-                            let separator_item = separatorItem.createObject(inputContainer);
-                            this.Component.onDestruction.connect(separator_item.destroy);
-                            let item = null;
-                            let list_model = taskManager.qget("input_fields");
-                            switch (modelData.type) {
-                            case "bool":
-                                {
-                                    item = switchItem.createObject(inputContainer, {
-                                        "field": modelData,
-                                        "index": modelData.index,
-                                        "list_model": list_model
-                                    });
-                                    break;
-                                }
-                            case "enum":
-                                {
-                                    item = comboBoxItem.createObject(inputContainer, {
-                                        "field": modelData,
-                                        "index": modelData.index,
-                                        "list_model": list_model
-                                    });
-                                    break;
-                                }
-                            case "color":
-                                {
-                                    item = colorPickerItem.createObject(inputContainer, {
-                                        "field": modelData,
-                                        "index": modelData.index,
-                                        "list_model": list_model
-                                    });
-                                    break;
-                                }
-                            default:
-                                {
-                                    item = textFieldItem.createObject(inputContainer, {
-                                        "field": modelData,
-                                        "index": modelData.index,
-                                        "list_model": list_model
-                                    });
-                                    break;
-                                }
-                            }
-                            if (item) {
-                                this.Component.onDestruction.connect(item.destroy);
-                            }
-                        }
-                    }
-                }
-                Repeater {
-                    id: outputFields
-                    model: []
-                    delegate: Rectangle {
-                        width: 0
-                        height: 0
-                        required property var modelData
-                        Component.onCompleted: {
-                            let separator_item = separatorItem.createObject(outputContainer);
-                            this.Component.onDestruction.connect(separator_item.destroy);
-                            let item = null;
-                            let list_model = taskManager.qget("output_fields");
-                            switch (modelData.type) {
-                            case "bool":
-                                {
-                                    item = switchItem.createObject(outputContainer, {
-                                        "field": modelData,
-                                        "index": modelData.index,
-                                        "list_model": list_model
-                                    });
-                                    break;
-                                }
-                            case "enum":
-                                {
-                                    item = comboBoxItem.createObject(outputContainer, {
-                                        "field": modelData,
-                                        "index": modelData.index,
-                                        "list_model": list_model
-                                    });
-                                    break;
-                                }
-                            case "color":
-                                {
-                                    item = colorPickerItem.createObject(outputContainer, {
-                                        "field": modelData,
-                                        "index": modelData.index,
-                                        "list_model": list_model
-                                    });
-                                    break;
-                                }
-                            default:
-                                {
-                                    item = textFieldItem.createObject(outputContainer, {
-                                        "field": modelData,
-                                        "index": modelData.index,
-                                        "list_model": list_model
-                                    });
-                                    break;
-                                }
-                            }
-                            if (item) {
-                                this.Component.onDestruction.connect(item.destroy);
-                            }
-                        }
-                    }
-                }
-                Connections {
-                    target: taskManager
-                    function onInput_fields_changed() {
-                        inputFields.model.splice(0, inputFields.model.length);
-                        let _input_fields = taskManager.qget("input_fields");
-                        for (var i = 0; i < _input_fields.rowCount(); i++) {
-                            inputFields.model.push(_input_fields.get(i));
-                        }
-                    }
-                    function onOutput_fields_changed() {
-                        outputFields.model.splice(0, outputFields.model.length);
-                        let _output_fields = taskManager.qget("output_fields");
-                        for (var i = 0; i < _output_fields.rowCount(); i++) {
-                            outputFields.model.push(_output_fields.get(i));
-                        }
                     }
                 }
             }
