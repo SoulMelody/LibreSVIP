@@ -707,34 +707,10 @@ class TaskManager(QObject):
                 self._output_fields_inited = True
             self.output_fields_changed.emit()
 
-    @Property("QVariant", notify=input_format_changed)
-    def input_plugin_info(self) -> dict[str, str]:
-        if (suffix := self.input_format) in plugin_manager.plugins.get("svs", {}):
-            plugin = plugin_manager.plugins.get("svs", {})[suffix]
-            return {
-                "name": plugin.info.name,
-                "author": plugin.info.author,
-                "website": plugin.info.website,
-                "description": plugin.info.description,
-                "version": plugin.version,
-                "file_format": plugin.info.file_format,
-                "suffix": f"(*.{plugin.info.suffix})",
-                "icon_base64": f"data:image/png;base64,{plugin.info.icon_base64}",
-            }
-        return {
-            "name": "",
-            "author": "",
-            "website": "",
-            "description": "",
-            "version": "",
-            "file_format": "",
-            "suffix": "(*.*)",
-            "icon_base64": "",
-        }
-
-    @Property("QVariant", notify=output_format_changed)
-    def output_plugin_info(self) -> dict[str, str]:
-        if (suffix := self.output_format) in plugin_manager.plugins.get("svs", {}):
+    @Slot(str, result="QVariant")
+    def plugin_info(self, name: str) -> dict[str, str]:
+        assert name in {"input_format", "output_format"}
+        if (suffix := getattr(self, name)) in plugin_manager.plugins.get("svs", {}):
             plugin = plugin_manager.plugins.get("svs", {})[suffix]
             return {
                 "name": plugin.info.name,

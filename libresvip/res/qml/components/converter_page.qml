@@ -444,7 +444,12 @@ Page {
                         x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
-                            info: taskManager.input_plugin_info
+                            info: taskManager.plugin_info("input_format")
+                            Component.onCompleted: {
+                                taskManager.input_format_changed.connect(input_format => {
+                                    info = taskManager.plugin_info("input_format");
+                                });
+                            }
                         }
                     }
                 }
@@ -576,7 +581,12 @@ Page {
                         x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
-                            info: taskManager.output_plugin_info
+                            info: taskManager.plugin_info("output_format")
+                            Component.onCompleted: {
+                                taskManager.output_format_changed.connect(output_format => {
+                                    info = taskManager.plugin_info("output_format");
+                                });
+                            }
                         }
                     }
                 }
@@ -993,11 +1003,17 @@ Page {
                         color: "transparent"
                     }
                     Label {
-                        property string input_format_name: taskManager.input_plugin_info.file_format
+                        property string input_format_name: ""
                         text: qsTr("[Import as ") + qsTr(input_format_name) + "]"
                         color: Material.color(Material.Grey)
                         font.pixelSize: 20
                         anchors.verticalCenter: parent.verticalCenter
+                        Component.onCompleted: {
+                            taskManager.input_format_changed.connect(input_format => {
+                                let plugin_info = taskManager.plugin_info("input_format");
+                                input_format_name = plugin_info.file_format;
+                            });
+                        }
                     }
                 }
                 RowLayout {
@@ -1291,11 +1307,17 @@ Page {
                         color: "transparent"
                     }
                     Label {
-                        property string output_format_name: taskManager.output_plugin_info.file_format
+                        property string output_format_name: ""
                         text: qsTr("[Export to ") + qsTr(output_format_name) + "]"
                         font.pixelSize: 20
                         color: Material.color(Material.Grey)
                         anchors.verticalCenter: parent.verticalCenter
+                        Component.onCompleted: {
+                            taskManager.output_format_changed.connect(output_format => {
+                                let plugin_info = taskManager.plugin_info("output_format");
+                                output_format_name = plugin_info.file_format;
+                            });
+                        }
                     }
                 }
                 RowLayout {
