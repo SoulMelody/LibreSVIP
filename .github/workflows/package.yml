@@ -322,7 +322,7 @@ jobs:
           bash install_mobile_requirements.sh android_24_armeabi_v7a armeabi-v7a
           bash install_mobile_requirements.sh android_24_x86_64 x86_64
           bash build_apk.sh
-          mv build/apk/app-release.apk build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
+          mv build/apk/LibreSVIP.apk build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
           cd ..
 
       - uses: ilharp/sign-android-release@v2
