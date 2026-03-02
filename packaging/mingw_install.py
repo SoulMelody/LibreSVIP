@@ -33,6 +33,7 @@ def install_mingw_deps() -> None:
         "charset-normalizer": "python-charset-normalizer",
         "lxml": "python-lxml",
         "markupsafe": "python-markupsafe",
+        "pillow": "python-pillow",
         "platformdirs": "python-platformdirs",
         "protobuf": "python-protobuf",
         "pycryptodomex": "python-pycryptodomex",
@@ -44,13 +45,15 @@ def install_mingw_deps() -> None:
         "pyside6-addons": None,
         "pyside6-essentials": "pyside6",
         "pyyaml": "python-yaml",
+        "pyyaml-ft": "python-yaml",
         "regex": "python-regex",
         "ruamel-yaml": "python-ruamel-yaml",
-        "ruamel-yaml-clib": "python-ruamel.yaml.clib",
+        "ryaml": "python-ruamel.yaml.clib",
         "shiboken6": None,
         "shellingham": "python-shellingham",
         "setuptools": "python-setuptools",
         "ujson": "python-ujson",
+        "winloop": "python-winloop",
     }
     cwd = pathlib.Path()
     install_msys2_requirements(
@@ -68,14 +71,6 @@ def install_mingw_deps() -> None:
             f"{mingw_arch}-libmediainfo",
             "--noconfirm",
             "--needed",
-        ]
-    )
-    install_msys2_requirements(
-        [
-            "pacman",
-            "-S",
-            f"{mingw_arch}-python-cffi",
-            "--noconfirm",
         ]
     )
     if "clang" in mingw_arch:

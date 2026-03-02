@@ -178,7 +178,7 @@ class GjgjParser:
                 right_point = Point(self.pitch_time_to_position(mod_range.y), -100)
                 index = find_index(
                     tone.modifies,
-                    lambda p: (p.x >= mod_range.x and p.y <= mod_range.y),
+                    lambda p: p.x >= mod_range.x and p.y <= mod_range.y,
                 )
                 if index == -1:
                     continue

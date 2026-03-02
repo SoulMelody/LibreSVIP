@@ -391,11 +391,5 @@ Item {
         }
     }
 
-    property QtObject settingsDialog: SettingsDialog {
-        Overlay.modal: Rectangle {
-            anchors.fill: parent
-            anchors.topMargin: toolbar.height
-            color: Material.backgroundDimColor
-        }
-    }
+    property QtObject settingsDialog: SettingsDialog {}
 }

@@ -6,15 +6,59 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import Qt.labs.qmlmodels
+import FramelessWindow
 
-Dialog {
+ApplicationWindow {
     id: settingsDialog
-    x: window.width / 2 - width / 2
-    y: window.height / 2 - height / 2
+    title: qsTr("Options")
     width: 700
     height: 500
-    padding: 5
-    topPadding: 5
+    transientParent: null
+    Material.primary: "#FF5722"
+    Material.accent: "#3F51B5"
+    Material.theme: {
+        switch (configItems.theme) {
+        case "Dark":
+            return Material.Dark;
+        case "Light":
+            return Material.Light;
+        default:
+            return Material.System;
+        }
+    }
+
+    function handleThemeChange(theme) {
+        switch (theme) {
+        case "Light":
+            settingsDialog.Material.theme = Material.Light;
+            break;
+        case "Dark":
+            settingsDialog.Material.theme = Material.Dark;
+            break;
+        case "System":
+            settingsDialog.Material.theme = Material.System;
+            break;
+        }
+    }
+
+    Connections {
+        target: Application.styleHints
+        function onColorSchemeChanged(value) {
+            let currentTheme = configItems.theme;
+            if (currentTheme === "System") {
+                handleThemeChange(currentTheme);
+            }
+        }
+    }
+
+    onClosing: close => {
+        settingsDialog.hide();
+        close.accepted = false;
+    }
+
+    FramelessHelper {
+        id: settingsFramelessHelper
+    }
 
     function save_folder_type(save_folder) {
         let preset_folder = null;
@@ -31,40 +75,6 @@ Dialog {
             return 3;
         default:
             return 4;
-        }
-    }
-    header: ColumnLayout {
-        Layout.fillWidth: true
-        RowLayout {
-            Layout.fillWidth: true
-            Rectangle {
-                Layout.fillHeight: true
-                width: 15
-                color: "transparent"
-            }
-            Label {
-                text: qsTr("Options")
-                font.bold: true
-                font.pixelSize: 20
-                Layout.fillWidth: true
-            }
-            IconButton {
-                Layout.alignment: Qt.AlignRight
-                icon_name: "mdi7.close"
-                diameter: 30
-                new_padding: 6
-                onClicked: settingsDialog.close()
-            }
-            Rectangle {
-                Layout.fillHeight: true
-                width: 10
-                color: "transparent"
-            }
-        }
-        Rectangle {
-            Layout.fillWidth: true
-            height: 1
-            color: "#ccc"
         }
     }
 
@@ -394,7 +404,6 @@ Dialog {
     Component {
         id: pluginsSettingsPage
         ColumnLayout {
-            anchors.fill: parent
             HorizontalHeaderView {
                 resizableColumns: false
                 syncView: pluginsTableView
@@ -520,7 +529,6 @@ Dialog {
     Component {
         id: lyricReplacementSettingsPage
         ColumnLayout {
-            anchors.fill: parent
             RowLayout {
                 Layout.fillWidth: true
                 ComboBox {
@@ -855,7 +863,7 @@ Dialog {
             RowLayout {
                 Layout.fillWidth: true
                 Row {
-                    width: 10
+                    Layout.preferredWidth: 10
                 }
                 Label {
                     text: qsTr("Auto Check for Updates")
@@ -873,160 +881,223 @@ Dialog {
         }
     }
 
-    RowLayout {
+    ColumnLayout {
         anchors.fill: parent
-        TabBar {
-            id: settingsTabBar
-            Layout.fillHeight: true
-            Layout.preferredWidth: 180
-
-            contentItem: ListView {
-                model: settingsTabBar.contentModel
-                currentIndex: settingsTabBar.currentIndex
-
-                spacing: settingsTabBar.spacing
-                orientation: ListView.Vertical
-                boundsBehavior: Flickable.StopAtBounds
-                flickableDirection: Flickable.AutoFlickIfNeeded
-                snapMode: ListView.SnapToItem
-
-                highlightMoveDuration: 250
-                highlightResizeDuration: 0
-                highlightFollowsCurrentItem: true
-                highlightRangeMode: ListView.ApplyRange
-                preferredHighlightBegin: 48
-                preferredHighlightEnd: width - 48
-
-                highlight: Item {
-                    Rectangle {
-                        height: 46
-                        width: settingsTabBar.width
-                        y: settingsTabBar.position === T.TabBar.Footer ? 0 : parent.height - height
-                        border.width: 1
-                        border.color: settingsTabBar.Material.accentColor
-                        color: "transparent"
-                    }
+        spacing: 0
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 0
+            Rectangle {
+                Layout.fillHeight: true
+                Layout.preferredWidth: 15
+                color: "transparent"
+            }
+            Label {
+                text: qsTr("Settings")
+                font.bold: true
+                font.pixelSize: 20
+                Layout.fillWidth: true
+                Component.onCompleted: {
+                    settingsFramelessHelper.titlebar_item = this;
                 }
             }
-            spacing: 5
-
-            TabButton {
-                id: basicSettingsBtn
-                width: 180
-                contentItem: RowLayout {
-                    Label {
-                        text: iconicFontLoader.icon("mdi7.application-cog-outline")
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 22
-                    }
-                    Label {
-                        text: qsTr("Basic Settings")
-                    }
-                }
-                onClicked: {
-                    settingsStack.currentIndex = 0;
-                }
+            Button {
+                Material.roundedScale: Material.NotRounded
+                Material.background: pressed ? settingsDialog.Material.background : "transparent"
+                Material.elevation: 0
+                Layout.fillHeight: true
+                leftPadding: 0
+                rightPadding: 0
+                topInset: 0
+                bottomInset: 0
+                implicitWidth: 46
+                implicitHeight: 24
+                background.implicitWidth: implicitWidth
+                background.implicitHeight: implicitHeight
+                text: iconicFontLoader.icon("mdi7.window-minimize")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize
+                onClicked: settingsFramelessHelper.show_minimized(settingsDialog)
             }
-
-            TabButton {
-                id: savePathSettingsBtn
-                width: 180
-                contentItem: RowLayout {
-                    Label {
-                        text: iconicFontLoader.icon("mdi7.folder-download-outline")
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 22
-                    }
-                    Label {
-                        text: qsTr("Save Path Settings")
-                    }
-                }
-                anchors.top: basicSettingsBtn.bottom
-                anchors.topMargin: parent.spacing
-                onClicked: {
-                    settingsStack.currentIndex = 1;
-                }
-            }
-
-            TabButton {
-                id: pluginsSettingsBtn
-                width: 180
-                contentItem: RowLayout {
-                    Label {
-                        text: iconicFontLoader.icon("mdi7.puzzle-check-outline")
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 22
-                    }
-                    Label {
-                        text: qsTr("Format Provider Plugins")
-                    }
-                }
-                enabled: !taskManager.busy
-                anchors.top: savePathSettingsBtn.bottom
-                anchors.topMargin: parent.spacing
-                onClicked: {
-                    settingsStack.currentIndex = 2;
-                }
-            }
-
-            TabButton {
-                id: lyricReplacementSettingsBtn
-                width: 180
-                contentItem: RowLayout {
-                    Label {
-                        text: iconicFontLoader.icon("mdi7.find-replace")
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 22
-                    }
-                    Label {
-                        text: qsTr("Lyric Replacement Rules")
-                    }
-                }
-                anchors.top: pluginsSettingsBtn.bottom
-                anchors.topMargin: parent.spacing
-                onClicked: {
-                    settingsStack.currentIndex = 3;
-                }
-            }
-
-            TabButton {
-                id: updatesSettingsBtn
-                width: 180
-                contentItem: RowLayout {
-                    Label {
-                        text: iconicFontLoader.icon("mdi7.update")
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 22
-                    }
-                    Label {
-                        text: qsTr("Updates Settings")
-                    }
-                }
-                anchors.top: lyricReplacementSettingsBtn.bottom
-                anchors.topMargin: parent.spacing
-                onClicked: {
-                    settingsStack.currentIndex = 4;
-                }
+            Button {
+                Material.roundedScale: Material.NotRounded
+                Material.background: pressed ? Material.color(Material.Red, Material.Shade300) : (hovered ? Material.color(Material.Red, Material.Shade700) : "transparent")
+                Material.elevation: 0
+                Layout.fillHeight: true
+                hoverEnabled: true
+                leftPadding: 0
+                rightPadding: 0
+                topInset: 0
+                bottomInset: 0
+                implicitWidth: 46
+                implicitHeight: 24
+                background.implicitWidth: implicitWidth
+                background.implicitHeight: implicitHeight
+                text: hovered ? "<font color='white'>" + iconicFontLoader.icon("mdi7.close") + "</font>" : iconicFontLoader.icon("mdi7.close")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize
+                onClicked: settingsDialog.hide()
             }
         }
         Rectangle {
-            Layout.fillHeight: true
-            width: 1
-            color: "lightgrey"
-        }
-        StackLayout {
-            id: settingsStack
-            Layout.fillHeight: true
             Layout.fillWidth: true
-            clip: true
-            currentIndex: 0
-            Component.onCompleted: {
-                basicSettingsPage.createObject(settingsStack);
-                savePathSettingsPage.createObject(settingsStack);
-                pluginsSettingsPage.createObject(settingsStack);
-                lyricReplacementSettingsPage.createObject(settingsStack);
-                updatesSettingsPage.createObject(settingsStack);
-                configItems.save_folder = configItems.save_folder;
+            Layout.preferredHeight: 1
+            color: "#ccc"
+        }
+        RowLayout {
+            TabBar {
+                id: settingsTabBar
+                Layout.fillHeight: true
+                Layout.preferredWidth: 180
+
+                contentItem: ListView {
+                    model: settingsTabBar.contentModel
+                    currentIndex: settingsTabBar.currentIndex
+
+                    spacing: settingsTabBar.spacing
+                    orientation: ListView.Vertical
+                    boundsBehavior: Flickable.StopAtBounds
+                    flickableDirection: Flickable.AutoFlickIfNeeded
+                    snapMode: ListView.SnapToItem
+
+                    highlightMoveDuration: 250
+                    highlightResizeDuration: 0
+                    highlightFollowsCurrentItem: true
+                    highlightRangeMode: ListView.ApplyRange
+                    preferredHighlightBegin: 48
+                    preferredHighlightEnd: width - 48
+
+                    highlight: Item {
+                        Rectangle {
+                            height: 46
+                            width: settingsTabBar.width
+                            y: settingsTabBar.position === T.TabBar.Footer ? 0 : parent.height - height
+                            border.width: 1
+                            border.color: settingsTabBar.Material.accentColor
+                            color: "transparent"
+                        }
+                    }
+                }
+                spacing: 5
+
+                TabButton {
+                    id: basicSettingsBtn
+                    width: 180
+                    contentItem: RowLayout {
+                        Label {
+                            text: iconicFontLoader.icon("mdi7.application-cog-outline")
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 22
+                        }
+                        Label {
+                            text: qsTr("Basic Settings")
+                        }
+                    }
+                    onClicked: {
+                        settingsStack.currentIndex = 0;
+                    }
+                }
+
+                TabButton {
+                    id: savePathSettingsBtn
+                    width: 180
+                    contentItem: RowLayout {
+                        Label {
+                            text: iconicFontLoader.icon("mdi7.folder-download-outline")
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 22
+                        }
+                        Label {
+                            text: qsTr("Save Path Settings")
+                        }
+                    }
+                    anchors.top: basicSettingsBtn.bottom
+                    anchors.topMargin: parent.spacing
+                    onClicked: {
+                        settingsStack.currentIndex = 1;
+                    }
+                }
+
+                TabButton {
+                    id: pluginsSettingsBtn
+                    width: 180
+                    contentItem: RowLayout {
+                        Label {
+                            text: iconicFontLoader.icon("mdi7.puzzle-check-outline")
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 22
+                        }
+                        Label {
+                            text: qsTr("Format Provider Plugins")
+                        }
+                    }
+                    enabled: !taskManager.busy
+                    anchors.top: savePathSettingsBtn.bottom
+                    anchors.topMargin: parent.spacing
+                    onClicked: {
+                        settingsStack.currentIndex = 2;
+                    }
+                }
+
+                TabButton {
+                    id: lyricReplacementSettingsBtn
+                    width: 180
+                    contentItem: RowLayout {
+                        Label {
+                            text: iconicFontLoader.icon("mdi7.find-replace")
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 22
+                        }
+                        Label {
+                            text: qsTr("Lyric Replacement Rules")
+                        }
+                    }
+                    anchors.top: pluginsSettingsBtn.bottom
+                    anchors.topMargin: parent.spacing
+                    onClicked: {
+                        settingsStack.currentIndex = 3;
+                    }
+                }
+
+                TabButton {
+                    id: updatesSettingsBtn
+                    width: 180
+                    contentItem: RowLayout {
+                        Label {
+                            text: iconicFontLoader.icon("mdi7.update")
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 22
+                        }
+                        Label {
+                            text: qsTr("Updates Settings")
+                        }
+                    }
+                    anchors.top: lyricReplacementSettingsBtn.bottom
+                    anchors.topMargin: parent.spacing
+                    onClicked: {
+                        settingsStack.currentIndex = 4;
+                    }
+                }
+            }
+            Rectangle {
+                Layout.fillHeight: true
+                Layout.preferredWidth: 1
+                color: "lightgrey"
+            }
+            StackLayout {
+                id: settingsStack
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                clip: true
+                currentIndex: 0
+                Component.onCompleted: {
+                    basicSettingsPage.createObject(settingsStack);
+                    savePathSettingsPage.createObject(settingsStack);
+                    pluginsSettingsPage.createObject(settingsStack);
+                    lyricReplacementSettingsPage.createObject(settingsStack);
+                    updatesSettingsPage.createObject(settingsStack);
+                    configItems.save_folder = configItems.save_folder;
+                }
             }
         }
     }

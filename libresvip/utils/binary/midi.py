@@ -118,9 +118,9 @@ MIDITypeEnum = CSEnum(Int16ub, FORMAT_0=0, FORMAT_1=1, FORMAT_2=2)
 
 MIDIMessage = Struct(
     time=VarIntBE,
-    __next=Peek(Int8ub),
+    _next=Peek(Int8ub),
     status=IfThenElse(
-        this.__next & 0x80,
+        this._next & 0x80,
         Byte * remember_last,
         Computed(lambda ctx: ctx._root._last_status),
     ),

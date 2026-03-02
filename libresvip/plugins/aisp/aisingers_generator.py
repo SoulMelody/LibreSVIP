@@ -143,7 +143,7 @@ class AiSingersGenerator:
             elif isinstance(track, InstrumentalTrack) and (
                 track_info := audio_track_info(track.audio_file_path, only_wav=True)
             ):
-                offset_secs = track_info.duration / 1000
+                offset_secs = track_info.duration
                 end_tick = self.synchronizer.get_actual_ticks_from_secs_offset(
                     track.offset, offset_secs
                 )
@@ -159,7 +159,7 @@ class AiSingersGenerator:
                             path_audio=track.audio_file_path,
                             path_wave=track.audio_file_path,
                             len_sec=int(offset_secs),
-                            n_channel=track_info.channel_s,
+                            n_channel=track_info.channels,
                         )
                     ],
                 )

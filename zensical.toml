@@ -5,7 +5,7 @@ site_url = "https://soulmelody.github.io/LibreSVIP/"
 site_description = "一个通用的歌声合成工程文件转换器"
 repo_name = "SoulMelody/LibreSVIP"
 repo_url = "https://github.com/SoulMelody/LibreSVIP"
-copyright = "Copyright &copy; 2023 - 2025 SoulMelody"
+copyright = "Copyright &copy; 2023 - 2026 SoulMelody"
 extra_css = ["extra.css"]
 
 [project.markdown_extensions.tables]

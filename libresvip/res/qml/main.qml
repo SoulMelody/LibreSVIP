@@ -4,7 +4,7 @@ import QtQuick.Controls.Material
 import FramelessWindow
 import "qrc:/qml/components/" as Components
 
-FramelessWindow {
+ApplicationWindow {
     id: window
     title: qsTr("LibreSVIP")
     visible: true
@@ -20,6 +20,8 @@ FramelessWindow {
     property var localeSwitcher
     property var notifier
     property var taskManager
+    property alias framelessHelperInstance: framelessHelper
+    flags: Qt.WindowMaximizeButtonHint
     color: "transparent"
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
@@ -34,6 +36,10 @@ FramelessWindow {
         }
     }
 
+    FramelessHelper {
+        id: framelessHelper
+    }
+
     Components.Dialogs {
         id: dialogs
     }
@@ -46,6 +52,10 @@ FramelessWindow {
         id: converterPage
         header: Components.TopToolbar {
             id: toolbar
+            Component.onCompleted: {
+                framelessHelper.titlebar_item = toolbar.titleLabel;
+                framelessHelper.maximize_button = toolbar.maximizeBtn;
+            }
         }
         anchors.fill: parent
         anchors.margins: 0

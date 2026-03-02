@@ -137,10 +137,10 @@ class VocaloidGenerator:
                 if (
                     (track_info := audio_track_info(track.audio_file_path, only_wav=True))
                     is not None
-                    and track_info.sampling_rate == 44100
+                    and track_info.sample_rate == 44100
                     and track_info.bit_depth == 16
                 ):
-                    audio_duration_in_secs = track_info.duration / 1000
+                    audio_duration_in_secs = track_info.duration
                     wav_part_region_end = self.time_synchronizer.get_actual_ticks_from_secs_offset(
                         track.offset, audio_duration_in_secs
                     )

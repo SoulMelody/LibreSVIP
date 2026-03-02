@@ -5,13 +5,13 @@
 | `aisp`         | AISingers Studio                      | 混合类型         | 基于json；为两段json拼接而成                          |                                                            | 尚在维护 |
 | `ccs/ccst`     | CeVIO Creative Studio                 | 标准序列化格式   | 基于xml                                               |                                                            | 活跃开发 |
 | `ds`           | DiffSinger                            | 标准序列化格式   | 基于json                                              | 为临时解决方案                                             | 活跃开发 |
-| `dsc`          | 大市唱                                | 标准序列化格式   | 基于json                                              |                                                            | 活跃开发 |
 | `dspx`         | DiffScope                             | 标准序列化格式   | 基于json                                              | 尚在开发中                                                 | 活跃开发 |
 | `dv/sk`        | DeepVocal/Sharpkey                    | 自定义二进制格式 |                                                       |                                                            | 疑似暂停 |
 | `gj`           | 歌叽歌叽                              | 标准序列化格式   | 基于json                                              |                                                            | 停止维护 |
 | `json`         | OpenSVIP                              | 标准序列化格式   | 基于json                                              |                                                            | 尚在维护 |
 | `nn`           | 袅袅虚拟歌手                          | 自定义文本格式   |                                                       |                                                            | 停止开发 |
 | `mid/midi`     | 众多音序器/DAW                        | 标准二进制格式   | 标准MIDI(SMF)格式                                     |                                                            | 尚在维护 |
+| `msq`          | Mikoto Studio                         | 标准序列化格式   | 基于toml                                              |                                                            | 活跃开发 |
 | `mtp`          | MUTA 2                                | 自定义二进制格式 |                                                       |                                                            | 停止开发 |
 | `MusicXML`     | MuseScore、Sibelius、Finale等打谱软件 | 标准序列化格式   | 基于xml                                               |                                                            | 活跃开发 |
 | `ppsf`         | Piapro Studio                         | 混合类型         | 旧版使用自定义二进制格式；NT版基于json，并使用zip压缩 |                                                            | 尚在维护 |
@@ -21,6 +21,7 @@
 | `svip3`        | X Studio 3/网易云音乐·X Studio        | 标准二进制格式   | 基于protobuf                                          |                                                            | 活跃开发 |
 | `svp`          | Synthesizer V Studio                  | 标准序列化格式   | 基于json                                              |                                                            | 活跃开发 |
 | `tlp`          | TuneLab                               | 标准序列化格式   | 基于json                                              |                                                            | 活跃开发 |
+| `tlpx`         | TuneLab                               | 标准序列化格式   | 基于cbor                                              |                                                            | 活跃开发 |
 | `tssln/tssprj` | VoiSona                               | 自定义二进制格式 | 基于JUCE框架的ValueTree数据结构                       |                                                            | 活跃开发 |
 | `tsmsln`       | VoiSona Mobile                        | 自定义二进制格式 | 基于JUCE框架的ValueTree数据结构                       |                                                            | 活跃开发 |
 | `ufdata`       | UtaFormatix 3                         | 标准序列化格式   | 基于json                                              |                                                            | 活跃开发 |

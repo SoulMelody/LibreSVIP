@@ -48,7 +48,7 @@ class MidiGenerator:
         master_track.append(
             {
                 "time": master_track[-1]["time"] if master_track else 0,
-                "__next": 0xFF,
+                "_next": 0xFF,
                 "status": 0xFF,
                 "detail": {
                     "type": "meta",
@@ -77,7 +77,7 @@ class MidiGenerator:
         master_track.extend(
             {
                 "time": round(tempo.position / self.tick_rate),
-                "__next": 0xFF,
+                "_next": 0xFF,
                 "status": 0xFF,
                 "detail": {
                     "type": "meta",
@@ -109,7 +109,7 @@ class MidiGenerator:
                 master_track.append(
                     {
                         "time": prev_ticks,
-                        "__next": 0xFF,
+                        "_next": 0xFF,
                         "status": 0xFF,
                         "detail": {
                             "type": "meta",
@@ -149,7 +149,7 @@ class MidiGenerator:
         mido_track: list[MidiMessage] = [
             {
                 "time": 0,
-                "__next": 0xFF,
+                "_next": 0xFF,
                 "status": 0xFF,
                 "detail": {
                     "type": "meta",
@@ -166,7 +166,7 @@ class MidiGenerator:
                 mido_track.append(
                     {
                         "time": round(note.start_pos / self.tick_rate),
-                        "__next": 0xFF,
+                        "_next": 0xFF,
                         "status": 0xFF,
                         "detail": {
                             "type": "meta",
@@ -184,7 +184,7 @@ class MidiGenerator:
                 (
                     {
                         "time": round(note.start_pos / self.tick_rate),
-                        "__next": 0x90,
+                        "_next": 0x90,
                         "status": 0x90,
                         "detail": {
                             "type": "channel",
@@ -197,7 +197,7 @@ class MidiGenerator:
                     },
                     {
                         "time": round(note.end_pos / self.tick_rate),
-                        "__next": 0x80,
+                        "_next": 0x80,
                         "status": 0x80,
                         "detail": {
                             "type": "channel",
@@ -223,7 +223,7 @@ class MidiGenerator:
                     [
                         {
                             "time": msg_time,
-                            "__next": 0xB0,
+                            "_next": 0xB0,
                             "status": 0xB0,
                             "detail": {
                                 "type": "channel",
@@ -236,7 +236,7 @@ class MidiGenerator:
                         },
                         {
                             "time": msg_time,
-                            "__next": 0xB0,
+                            "_next": 0xB0,
                             "status": 0xB0,
                             "detail": {
                                 "type": "channel",
@@ -249,7 +249,7 @@ class MidiGenerator:
                         },
                         {
                             "time": msg_time,
-                            "__next": 0xB0,
+                            "_next": 0xB0,
                             "status": 0xB0,
                             "detail": {
                                 "type": "channel",
@@ -265,7 +265,7 @@ class MidiGenerator:
             mido_track.extend(
                 {
                     "time": round(pitch_event.tick / self.tick_rate),
-                    "__next": 0xE0,
+                    "_next": 0xE0,
                     "status": 0xE0,
                     "detail": {
                         "type": "channel",
@@ -282,7 +282,7 @@ class MidiGenerator:
             mido_track.append(
                 {
                     "time": mido_track[-1]["time"],
-                    "__next": 0xFF,
+                    "_next": 0xFF,
                     "status": 0xFF,
                     "detail": {
                         "type": "meta",

@@ -243,9 +243,7 @@ class PiaproStudioGenerator:
             ):
                 offset = self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
                 tick_length = round(
-                    self.time_synchronizer.get_actual_ticks_from_secs(
-                        offset + track_info.duration / 1000
-                    )
+                    self.time_synchronizer.get_actual_ticks_from_secs(offset + track_info.duration)
                     - track.offset
                 )
                 audio_track = PpsfAudioTrackItem(

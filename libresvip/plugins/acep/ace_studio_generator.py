@@ -69,7 +69,7 @@ class AceGenerator:
         denominator = project.time_signature_list[0].denominator
         numerator = project.time_signature_list[0].numerator
         ace_project.beats_per_bar = numerator * 4 // denominator
-        if denominator <= 8 and numerator <= 8:
+        if denominator <= 32 and numerator <= 32:
             ace_project.time_signatures = [
                 AcepTimeSignature(bar_pos=0, numerator=numerator, denominator=denominator)
             ]
@@ -113,7 +113,7 @@ class AceGenerator:
             audio_pattern = AcepAudioPattern(path=track.audio_file_path)
             audio_pattern.pos = self.synchronizer.get_actual_secs_from_ticks(track.offset)
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
-                audio_pattern.dur = track_info.duration / 1000
+                audio_pattern.dur = track_info.duration
                 audio_pattern.clip_dur = audio_pattern.dur - audio_pattern.clip_pos
             else:
                 return None
@@ -317,14 +317,14 @@ class AceGenerator:
             start_point = (
                 binary_find_last(
                     segment,
-                    lambda point: (0 <= point.x - self.first_bar_ticks <= left_bound),
+                    lambda point: 0 <= point.x - self.first_bar_ticks <= left_bound,
                 )
                 or segment[0]
             )
             end_point = (
                 binary_find_first(
                     segment,
-                    lambda point: (right_bound <= point.x - self.first_bar_ticks),
+                    lambda point: right_bound <= point.x - self.first_bar_ticks,
                 )
                 or segment[-1]
             )
@@ -379,14 +379,14 @@ class AceGenerator:
             start_point = (
                 binary_find_last(
                     segment,
-                    lambda point: (0 <= point.x - self.first_bar_ticks <= left_bound),
+                    lambda point: 0 <= point.x - self.first_bar_ticks <= left_bound,
                 )
                 or segment[0]
             )
             end_point = (
                 binary_find_first(
                     segment,
-                    lambda point: (right_bound <= point.x - self.first_bar_ticks),
+                    lambda point: right_bound <= point.x - self.first_bar_ticks,
                 )
                 or segment[-1]
             )

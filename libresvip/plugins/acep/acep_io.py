@@ -71,7 +71,10 @@ def decrypt_acep_content_v1(content: bytes) -> bytes:
     key = hashlib.sha256(key_bytes).digest()
     iv = hashlib.md5(iv_bytes).digest()
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    return unpad(cipher.decrypt(content), AES.block_size, style="iso7816")
+    decrypted = cipher.decrypt(content)
+    if decrypted.endswith(b"\x00"):
+        return unpad(decrypted, AES.block_size, style="iso7816")
+    return decrypted
 
 
 def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
@@ -82,7 +85,10 @@ def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
     iv = hashlib.md5(iv_bytes).digest()
     key = b"\xb7\x4b\x57\x57\x5f\xb1\x4f\xc7\xec\xa9\x9c\x8b\x82\x53\x10\xfc\x4a\x33\x7b\x83\x7b\x12\x83\xe9\x0e\xe0\xef\x02\x20\x1c\x91\x12"
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    return unpad(cipher.decrypt(content), AES.block_size, style="iso7816")
+    decrypted = cipher.decrypt(content)
+    if decrypted.endswith(b"\x00"):
+        return unpad(decrypted, AES.block_size, style="iso7816")
+    return decrypted
 
 
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
@@ -94,12 +100,16 @@ def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
     else:
         content = acep_file.content
     decompressed = zstd.decompress(content)
+    if not isinstance(decompressed, bytes):
+        decompressed = bytes(decompressed)
     return json.loads(decompressed)
 
 
 def compress_ace_studio_project(src: dict[str, Any], target: pathlib.Path) -> None:
     raw_content = json.dumps(src).encode()
     compressed = zstd.compress(raw_content)
+    if not isinstance(compressed, bytes):
+        compressed = bytes(compressed)
     acep_file = AcepFile.model_construct(content=compressed)
     target.write_bytes(
         json.dumps(

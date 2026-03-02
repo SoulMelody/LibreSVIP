@@ -15031,24 +15031,30 @@ class ScorePartwise(BaseModel):
 
         class Measure(BaseModel):
             model_config = ConfigDict(defer_build=True)
-            note: list[Note] = field(
+            content: list[Note | Backup | Forward] = field(
                 default_factory=list,
                 metadata={
-                    "type": "Element",
+                    "type": "Elements",
+                    "choices": (
+                        {"name": "note", "type": Note},
+                        {"name": "backup", "type": Backup},
+                        {"name": "forward", "type": Forward},
+                    ),
                 },
             )
-            backup: list[Backup] = field(
-                default_factory=list,
-                metadata={
-                    "type": "Element",
-                },
-            )
-            forward: list[Forward] = field(
-                default_factory=list,
-                metadata={
-                    "type": "Element",
-                },
-            )
+
+            @property
+            def note(self) -> list[Note]:
+                return [i for i in self.content if isinstance(i, Note)]
+
+            @property
+            def backup(self) -> list[Backup]:
+                return [i for i in self.content if isinstance(i, Backup)]
+
+            @property
+            def forward(self) -> list[Forward]:
+                return [i for i in self.content if isinstance(i, Forward)]
+
             direction: list[Direction] = field(
                 default_factory=list,
                 metadata={

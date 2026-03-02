@@ -78,16 +78,16 @@ class VOXFactoryGenerator:
                     source_audio_data_key = f"{self.prefix}-au{i}{audio_path.suffix}"
                     self.audio_paths[source_audio_data_key] = audio_path
                     audio_data_bank[source_audio_data_key] = VOXFactoryAudioData(
-                        sample_rate=44100,
-                        sample_length=int(track_info.duration * 44100 / 1000),
-                        number_of_channels=track_info.channel_s,
+                        sample_rate=track_info.sample_rate,
+                        sample_length=int(track_info.duration * track_info.sample_rate),
+                        number_of_channels=track_info.channels,
                     )
                     clip_bank = {
                         f"{self.prefix}-cl0": VOXFactoryAudioClip(
                             name=audio_path.stem,
                             offset_quarter=0,
                             start_quarter=track.offset / TICKS_IN_BEAT,
-                            length=track_info.duration / 1000,
+                            length=track_info.duration,
                             source_audio_data_key=source_audio_data_key,
                         )
                     }

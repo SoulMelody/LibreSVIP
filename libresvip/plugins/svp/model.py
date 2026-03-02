@@ -420,6 +420,7 @@ class SVNote(BaseModel):
     timbre_takes: SVParamTakes | None = Field(None, alias="timbreTakes")
     musical_type: Literal["singing", "rap"] | None = Field("singing", alias="musicalType")
     instant_mode: bool | None = Field(None, alias="instantMode")
+    uuid: str = Field(default_factory=uuid_str)
 
     def merge_attributes(self, attributes: SVNoteAttributes) -> None:
         ori_dict = self.attributes.model_dump(
@@ -484,6 +485,9 @@ class SVRenderConfig(BaseModel):
     sample_rate: int = Field(44100, alias="sampleRate")
     export_mix_down: bool = Field(True, alias="exportMixDown")
     export_pitch: bool | None = Field(False, alias="exportPitch")
+    bypass_pan: bool | None = Field(False, alias="bypassPan")
+    bypass_gain: bool | None = Field(False, alias="bypassGain")
+    bypass_effects: bool | None = Field(False, alias="bypassEffects")
 
 
 class SVParameters(BaseModel):
@@ -514,10 +518,10 @@ class SVParameters(BaseModel):
 
 
 class SVVoice(SVBaseAttributes):
-    t_f0_left: float | None = Field(0.07, alias="tF0Left")
-    t_f0_right: float | None = Field(0.07, alias="tF0Right")
-    d_f0_left: float | None = Field(0.15, alias="dF0Left")
-    d_f0_right: float | None = Field(0.15, alias="dF0Right")
+    t_f0_left: float | None = Field(0.0, alias="tF0Left")
+    t_f0_right: float | None = Field(0.0, alias="tF0Right")
+    d_f0_left: float | None = Field(0.0, alias="dF0Left")
+    d_f0_right: float | None = Field(0.0, alias="dF0Right")
     t_f0_vbr_start: float | None = Field(0.25, alias="tF0VbrStart")
     t_f0_vbr_left: float | None = Field(0.2, alias="tF0VbrLeft")
     t_f0_vbr_right: float | None = Field(0.2, alias="tF0VbrRight")
@@ -529,6 +533,7 @@ class SVVoice(SVBaseAttributes):
         None, alias="vocalModeParams"
     )
     render_mode: str | None = Field(None, alias="renderMode")
+    choir_seating_separation: float | None = Field(None, alias="choirSeatingSeparation")
 
     def to_attributes(self) -> SVNoteAttributes:
         voice_dict = self.model_dump(
@@ -541,6 +546,7 @@ class SVVoice(SVBaseAttributes):
                 "vocal_mode_params",
                 "render_mode",
                 "improvise_attack_release",
+                "choir_seating_separation",
             },
         )
         return SVNoteAttributes.model_validate(voice_dict)
@@ -578,11 +584,14 @@ class SVRef(BaseModel):
     timbre_takes: SVParamTakes | None = Field(None, alias="timbreTakes")
     database: SVDatabase = Field(default_factory=SVDatabase)
     dictionary: str = ""
+    uuid: str = Field(default_factory=uuid_str)
     voice: SVVoice = Field(default_factory=SVVoice)
     voice_preset_name: str | None = Field(None, alias="voicePresetName")
     group_id: str = Field(default_factory=uuid_str, alias="groupID")
     is_instrumental: bool = Field(default=False, alias="isInstrumental")
     system_pitch_delta: SVParamCurve = Field(default_factory=SVParamCurve, alias="systemPitchDelta")
+    timestamp_lmr: float | None = Field(None, alias="timestampLMR")
+    timestamp_lrsr: float | None = Field(None, alias="timestampLRSR")
 
 
 class SVGroup(BaseModel):
@@ -592,6 +601,9 @@ class SVGroup(BaseModel):
     uuid: str = Field(default_factory=uuid_str)
     vocal_modes: dict[str, SVParamCurve] = Field(default_factory=dict, alias="vocalModes")
     pitch_controls: list[SVPitchControl] = Field(default_factory=list, alias="pitchControls")
+    musical_scale: dict[str, str] | None = Field(None, alias="musicalScale")
+    timestamp_lmr: float | None = Field(None, alias="timestampLMR")
+    timestamp_lrsr: float | None = Field(None, alias="timestampLRSR")
 
     @field_validator("notes", mode="before")
     @classmethod
@@ -635,6 +647,8 @@ class SVMixer(BaseModel):
     solo: bool = False
     display: bool = True
     gain_decibel: float = Field(0.0, alias="gainDecibel")
+    fx_preset_name: str | None = Field(None, alias="fxPresetName")
+    fx_params: dict[str, Any] | None = Field(None, alias="fxParams")
 
 
 class SVTrack(BaseModel):
@@ -655,3 +669,5 @@ class SVProject(BaseModel):
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
     tracks: list[SVTrack] = Field(default_factory=list)
     version: int = 100
+    uuid: str = Field(default_factory=uuid_str)
+    project_mixer: dict[str, Any] | None = Field(None, alias="projectMixer")

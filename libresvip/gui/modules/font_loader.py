@@ -25,7 +25,7 @@ class IconicFontLoader(QObject):
             for each in PACKAGE_FILES  # type: ignore[union-attr]
             if each.name == "materialdesignicons-webfont.ttf"
         )
-        QFontDatabase.addApplicationFontFromData(material_icons_font_file.read_binary())
+        QFontDatabase.add_application_font_from_data(material_icons_font_file.read_binary())
 
     @Slot(str, result=str)
     def icon(self, icon_name: str) -> str:

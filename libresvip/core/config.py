@@ -334,8 +334,8 @@ class Language(enum.Enum):
         if sys.platform == "win32":
             import ctypes
 
-            windll = ctypes.windll.kernel32
-            sys_locale = locale.windows_locale[windll.GetUserDefaultUILanguage()]
+            kernel32 = ctypes.windll.kernel32
+            sys_locale = locale.windows_locale[kernel32.GetUserDefaultUILanguage()]
         else:
             sys_locale = locale.getdefaultlocale()[0]
         return cls.from_locale(sys_locale or "en_US")

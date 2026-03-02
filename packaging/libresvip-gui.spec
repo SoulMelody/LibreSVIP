@@ -25,10 +25,13 @@ with contextlib.suppress(Exception):
 
 here = pathlib.Path(".")
 
-if is_win and platform.python_compiler().startswith("GCC"):
-    zstd_backend = "zstandard"
+zstd_backends = []
+if platform.python_version_tuple() >= ("3", "14"):
+    pass
+elif is_win and platform.python_compiler().startswith("GCC"):
+    zstd_backends.append("zstandard")
 else:
-    zstd_backend = "backports.zstd"
+    zstd_backends.append("backports.zstd")
 
 cli_collections = []
 if platform.system() != "Darwin":
@@ -40,7 +43,7 @@ if platform.system() != "Darwin":
         binaries=[],
         datas=collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
         hiddenimports=[
-            zstd_backend,
+            *zstd_backends,
             "bidict",
             "construct_typed",
             "Cryptodome.Util.Padding",
@@ -57,11 +60,14 @@ if platform.system() != "Darwin":
             "fsspec.implementations.memory",
             "upath.implementations.memory",
             "wanakana",
+            "winloop._noop",
             "xsdata_pydantic.bindings",
             "xsdata_pydantic.fields",
             "xsdata_pydantic.hooks.class_type",
+            "ryaml",
             "yaml_ft",
             "yaml",
+            "yaml12",
         ],
         hookspath=[],
         hooksconfig={},
@@ -128,9 +134,9 @@ gui_a = Analysis(
         os.path.join(PySide6.__path__[0], os.pardir)
     ],
     binaries=[],
-    datas=collect_data_files("desktop_notifier") + collect_data_files("ttkbootstrap_icons_mat") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0] + collect_entry_point("ttkbootstrap_icons_mat")[0],
+    datas=collect_data_files("desktop_notifier") + collect_data_files("ttkbootstrap_icons_mat") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_data_files("qasync", include_py_files=True) + collect_entry_point("xsdata.plugins.class_types")[0] + collect_entry_point("ttkbootstrap_icons_mat")[0],
     hiddenimports=[
-        zstd_backend,
+        *zstd_backends,
         "bidict",
         "construct_typed",
         "Cryptodome.Util.Padding",
@@ -150,8 +156,11 @@ gui_a = Analysis(
         "xsdata_pydantic.bindings",
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
+        "ryaml",
         "yaml_ft",
         "yaml",
+        "yaml12",
+        "PySide6.QtWidgets",
     ],
     hookspath=[],
     hooksconfig={},
@@ -171,6 +180,7 @@ gui_a = Analysis(
         'PySide6.QtPrintSupport',
         'PySide6.QtQuick3D',
         'PySide6.QtQuickWidgets',
+        'qasync',
     ],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
