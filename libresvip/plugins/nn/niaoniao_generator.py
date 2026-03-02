@@ -115,17 +115,15 @@ class NiaoniaoGenerator:
     def generate_pitch(self, pitch_simulator: PitchSimulator, note: Note) -> tuple[NNPoints, int]:
         tick_step = note.length / 100.0
         rel_pitch_values = [
-            pitch_simulator.pitch_at_ticks(note.start_pos + int(tick_step * i))
-            - (note.key_number) * 100
+            pitch_simulator.pitch_at_ticks(note.start_pos + int(tick_step * i)) / 100
+            - (note.key_number)
             for i in range(100)
         ]
 
-        max_abs_value = max(abs(value / 100) for value in rel_pitch_values)
+        max_abs_value = max(abs(value) for value in rel_pitch_values)
         pbs_for_this_note = min(math.ceil(max_abs_value), 12)
-        nn_pitch_param = []
-        for i in range(100):
-            pitch_value = pitch_simulator.pitch_at_ticks(note.start_pos + int(tick_step * i))
-            value = 50 + round((pitch_value - (note.key_number) * 100) / pbs_for_this_note)
-            nn_pitch_param.append(value)
+        nn_pitch_param = [
+            50 + round(rel_pitch_value / pbs_for_this_note) for rel_pitch_value in rel_pitch_values
+        ]
 
         return NNPoints(points=nn_pitch_param), pbs_for_this_note - 1
