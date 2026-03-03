@@ -3,6 +3,7 @@ export FLET_VERSION=`uv run --locked python -c 'import flet;print(flet.version.f
 export FLET_BUILD_COMMAND_PATH=`uv run --locked python -c 'from flet_cli.commands import build_base;print(build_base.__file__)'`
 export START_LINE_NUM=`awk "/# requirements/{print NR}" $FLET_BUILD_COMMAND_PATH`
 export END_LINE_NUM=`awk "/# site-packages variable/{print NR;exit;}" $FLET_BUILD_COMMAND_PATH`
+export SERIOUS_PYTHON_SITE_PACKAGES="./build/site-packages"
 if [ -n "$START_LINE_NUM" ]; then
     sed -i $START_LINE_NUM','$END_LINE_NUM'd' $FLET_BUILD_COMMAND_PATH
 fi
