@@ -307,7 +307,7 @@ jobs:
         run: |
           uv build --wheel
           uv venv --python 3.12
-          uv sync --extra mobile --extra packaging
+          uv sync --extra mobile --group packaging
           uv run python -m ensurepip --upgrade
       - name: Flet Build APK
         run: |
