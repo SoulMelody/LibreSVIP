@@ -94,7 +94,7 @@ webui = [
   "nicegui>=3.8.0",
 ]
 mobile = [
-  "flet[cli,desktop]>=0.81.0,<0.90.0",
+  "flet[desktop]>=0.81.0,<0.90.0",
   "flet-permission-handler>=0.81.0,<0.90.0",
   "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
@@ -128,6 +128,7 @@ linting = [
   "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
+  "flet-cli>=0.81.0,<0.90.0",
   "pyinstaller>=6.19.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
