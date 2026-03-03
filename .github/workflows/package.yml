@@ -307,14 +307,8 @@ jobs:
         run: |
           uv build --wheel
           uv venv --python 3.12
-          uv sync --extra mobile
+          uv sync --extra mobile --extra packaging
           uv run python -m ensurepip --upgrade
-      - name: Setup Android SDK
-        # https://github.com/android-actions/setup-android
-        uses: android-actions/setup-android@v3
-        with:
-          packages: "build-tools;29.0.3"
-
       - name: Flet Build APK
         run: |
           cd packaging
