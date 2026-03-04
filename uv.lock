@@ -415,9 +415,9 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "chardet" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a7/fe/7ebfec74d49f97fc55cd38240c7a7d08134002b1e14be8c3897c0dd5e49b/binaryornot-0.4.4.tar.gz", hash = "sha256:359501dfc9d40632edc9fac890e19542db1a287bbcfa58175b66658392018061" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/fe/7ebfec74d49f97fc55cd38240c7a7d08134002b1e14be8c3897c0dd5e49b/binaryornot-0.4.4.tar.gz", hash = "sha256:359501dfc9d40632edc9fac890e19542db1a287bbcfa58175b66658392018061", size = 371054, upload-time = "2017-08-03T15:55:25.08Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/24/7e/f7b6f453e6481d1e233540262ccbfcf89adcd43606f44a028d7f5fae5eb2/binaryornot-0.4.4-py2.py3-none-any.whl", hash = "sha256:b8b71173c917bddcd2c16070412e369c3ed7f0528926f70cac18a6c97fd563e4" },
+    { url = "https://files.pythonhosted.org/packages/24/7e/f7b6f453e6481d1e233540262ccbfcf89adcd43606f44a028d7f5fae5eb2/binaryornot-0.4.4-py2.py3-none-any.whl", hash = "sha256:b8b71173c917bddcd2c16070412e369c3ed7f0528926f70cac18a6c97fd563e4", size = 9006, upload-time = "2017-08-03T15:55:31.23Z" },
 ]
 
 [[package]]
@@ -1542,7 +1542,7 @@ all = [
     { name = "datamodel-code-generator", specifier = ">=0.54.1" },
     { name = "flet-cli", specifier = ">=0.81.0,<0.90.0" },
     { name = "mypy", specifier = ">=1.19.1" },
-    { name = "pbtk", specifier = ">=1.0.8" },
+    { name = "pbtk", specifier = ">=1.0.9" },
     { name = "pre-commit", specifier = ">=4.5.1" },
     { name = "protoc-wrapper", specifier = ">=33.0.0" },
     { name = "pyinstaller", specifier = ">=6.19.0" },
@@ -1565,7 +1565,7 @@ all = [
 code-gen = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
     { name = "datamodel-code-generator", specifier = ">=0.54.1" },
-    { name = "pbtk", specifier = ">=1.0.8" },
+    { name = "pbtk", specifier = ">=1.0.9" },
     { name = "protoc-wrapper", specifier = ">=33.0.0" },
     { name = "pyside6-addons", specifier = ">=6.10.2,<6.11.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=26.2" },
@@ -2423,17 +2423,18 @@ wheels = [
 
 [[package]]
 name = "pbtk"
-version = "1.0.8"
+version = "1.0.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "protobuf" },
     { name = "pyside6" },
     { name = "requests" },
+    { name = "system-pyside6" },
     { name = "websocket-client" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2d/38/ecbdb6591eebe0aa7635b8289e0b2701a5a41fd1b3a5abb4ecc2f35a82fd/pbtk-1.0.8.tar.gz", hash = "sha256:de2eccc23cddc9f53e07d5d1c6610679a7bb5da67b8dc69d86499249f1398440", size = 8295656, upload-time = "2026-03-04T08:23:18.539Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/51/b7/ff510b8254d117ca8865f0097b703152e31f14dbcafc3d8071e0df0b841e/pbtk-1.0.9.tar.gz", hash = "sha256:cb117dcdb595b6001e06b277efde2e16357ad80e7eb8eb68fe1be6e535806283", size = 8296446, upload-time = "2026-03-04T13:14:08.937Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/16/df/90e09253b321a37e315b08f4bcd7dcc68a5f9a45f58e909ba0cf5847ddbc/pbtk-1.0.8-py3-none-any.whl", hash = "sha256:8164435e84cf864d0b693ef8435f4e63b9c2a27755168b1fc84a62564f85e4ba", size = 8346691, upload-time = "2026-03-04T08:23:16.524Z" },
+    { url = "https://files.pythonhosted.org/packages/26/42/86ec2913ab99a6cae1e5ad20f080f41f757169fc2f492f36712959cb6892/pbtk-1.0.9-py3-none-any.whl", hash = "sha256:e5c74e8045b9b1d81c9735fc4be1d4977e54bffd814d8a5358745ee64d4c53ff", size = 8347252, upload-time = "2026-03-04T13:14:06.318Z" },
 ]
 
 [[package]]
@@ -3619,6 +3620,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/bc/1e/f36612d46266942c351de904bd9928610c485baee61220892277ac37be65/svg_py-1.10.0.tar.gz", hash = "sha256:2e1391411a205220a0e72ca303f3c2d11dbd564cb1dbc445406c5e11421bcc4b", size = 43808, upload-time = "2025-12-28T09:52:41.124Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/18/9f/77a405e7b2a334ce774835263c3374d4ed307a3473f3925d9990a8c029e0/svg_py-1.10.0-py3-none-any.whl", hash = "sha256:54c7470347d5d79b30d059584a4f449da08b462903e8ce262981338bab755560", size = 15207, upload-time = "2025-12-28T09:52:39.559Z" },
+]
+
+[[package]]
+name = "system-pyside6"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/87/b7/c1eacace88fd5976a743dd3f476aaca6ce7865ddd7da5cc02e0274d81aa2/system_pyside6-0.1.1.tar.gz", hash = "sha256:d19401efd58584ef11398d86ab86b8e61bbe49002cbee4e8c1c494abfc65ba24", size = 17595, upload-time = "2026-01-05T01:14:06.925Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/67/5d/b360f74274378795f725f50f04bcfa7ec0a34ea70266e5fcf30cc8b8170b/system_pyside6-0.1.1-py3-none-any.whl", hash = "sha256:d1855bc9721dce97ee233715f34a5b2b45d9581d9d56f40c20e28ddcaf57cd82", size = 5802, upload-time = "2026-01-05T01:14:05.837Z" },
 ]
 
 [[package]]
