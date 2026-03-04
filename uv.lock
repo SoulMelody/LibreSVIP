@@ -415,9 +415,9 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "chardet" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a7/fe/7ebfec74d49f97fc55cd38240c7a7d08134002b1e14be8c3897c0dd5e49b/binaryornot-0.4.4.tar.gz", hash = "sha256:359501dfc9d40632edc9fac890e19542db1a287bbcfa58175b66658392018061", size = 371054, upload-time = "2017-08-03T15:55:25.08Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/fe/7ebfec74d49f97fc55cd38240c7a7d08134002b1e14be8c3897c0dd5e49b/binaryornot-0.4.4.tar.gz", hash = "sha256:359501dfc9d40632edc9fac890e19542db1a287bbcfa58175b66658392018061" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/24/7e/f7b6f453e6481d1e233540262ccbfcf89adcd43606f44a028d7f5fae5eb2/binaryornot-0.4.4-py2.py3-none-any.whl", hash = "sha256:b8b71173c917bddcd2c16070412e369c3ed7f0528926f70cac18a6c97fd563e4", size = 9006, upload-time = "2017-08-03T15:55:31.23Z" },
+    { url = "https://files.pythonhosted.org/packages/24/7e/f7b6f453e6481d1e233540262ccbfcf89adcd43606f44a028d7f5fae5eb2/binaryornot-0.4.4-py2.py3-none-any.whl", hash = "sha256:b8b71173c917bddcd2c16070412e369c3ed7f0528926f70cac18a6c97fd563e4" },
 ]
 
 [[package]]
@@ -1423,6 +1423,7 @@ all = [
     { name = "datamodel-code-generator" },
     { name = "flet-cli" },
     { name = "mypy" },
+    { name = "pbtk" },
     { name = "pre-commit" },
     { name = "protoc-wrapper" },
     { name = "pyinstaller" },
@@ -1445,6 +1446,7 @@ all = [
 code-gen = [
     { name = "aristaproto", extra = ["compiler"] },
     { name = "datamodel-code-generator" },
+    { name = "pbtk" },
     { name = "protoc-wrapper" },
     { name = "pyside6-addons" },
     { name = "xsdata", extra = ["cli"] },
@@ -1540,6 +1542,7 @@ all = [
     { name = "datamodel-code-generator", specifier = ">=0.54.1" },
     { name = "flet-cli", specifier = ">=0.81.0,<0.90.0" },
     { name = "mypy", specifier = ">=1.19.1" },
+    { name = "pbtk", specifier = ">=1.0.8" },
     { name = "pre-commit", specifier = ">=4.5.1" },
     { name = "protoc-wrapper", specifier = ">=33.0.0" },
     { name = "pyinstaller", specifier = ">=6.19.0" },
@@ -1562,6 +1565,7 @@ all = [
 code-gen = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
     { name = "datamodel-code-generator", specifier = ">=0.54.1" },
+    { name = "pbtk", specifier = ">=1.0.8" },
     { name = "protoc-wrapper", specifier = ">=33.0.0" },
     { name = "pyside6-addons", specifier = ">=6.10.2,<6.11.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=26.2" },
@@ -2418,6 +2422,21 @@ wheels = [
 ]
 
 [[package]]
+name = "pbtk"
+version = "1.0.8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "protobuf" },
+    { name = "pyside6" },
+    { name = "requests" },
+    { name = "websocket-client" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2d/38/ecbdb6591eebe0aa7635b8289e0b2701a5a41fd1b3a5abb4ecc2f35a82fd/pbtk-1.0.8.tar.gz", hash = "sha256:de2eccc23cddc9f53e07d5d1c6610679a7bb5da67b8dc69d86499249f1398440", size = 8295656, upload-time = "2026-03-04T08:23:18.539Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/16/df/90e09253b321a37e315b08f4bcd7dcc68a5f9a45f58e909ba0cf5847ddbc/pbtk-1.0.8-py3-none-any.whl", hash = "sha256:8164435e84cf864d0b693ef8435f4e63b9c2a27755168b1fc84a62564f85e4ba", size = 8346691, upload-time = "2026-03-04T08:23:16.524Z" },
+]
+
+[[package]]
 name = "pefile"
 version = "2024.8.26"
 source = { registry = "https://pypi.org/simple" }
@@ -2682,6 +2701,21 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/cb/ef/3c6ecf8b317aa982f309835e8f96987466123c6e596646d4e6a1dfcd080f/propcache-0.4.1-cp314-cp314t-win_amd64.whl", hash = "sha256:990f6b3e2a27d683cb7602ed6c86f15ee6b43b1194736f9baaeb93d0016633b1", size = 46259, upload-time = "2025-10-08T19:48:34.226Z" },
     { url = "https://files.pythonhosted.org/packages/c4/2d/346e946d4951f37eca1e4f55be0f0174c52cd70720f84029b02f296f4a38/propcache-0.4.1-cp314-cp314t-win_arm64.whl", hash = "sha256:ecef2343af4cc68e05131e45024ba34f6095821988a9d0a02aa7c73fcc448aa9", size = 40428, upload-time = "2025-10-08T19:48:35.441Z" },
     { url = "https://files.pythonhosted.org/packages/5b/5a/bc7b4a4ef808fa59a816c17b20c4bef6884daebbdf627ff2a161da67da19/propcache-0.4.1-py3-none-any.whl", hash = "sha256:af2a6052aeb6cf17d3e46ee169099044fd8224cbaf75c76a2ef596e8163e2237", size = 13305, upload-time = "2025-10-08T19:49:00.792Z" },
+]
+
+[[package]]
+name = "protobuf"
+version = "6.33.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ba/25/7c72c307aafc96fa87062aa6291d9f7c94836e43214d43722e86037aac02/protobuf-6.33.5.tar.gz", hash = "sha256:6ddcac2a081f8b7b9642c09406bc6a4290128fce5f471cddd165960bb9119e5c", size = 444465, upload-time = "2026-01-29T21:51:33.494Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b1/79/af92d0a8369732b027e6d6084251dd8e782c685c72da161bd4a2e00fbabb/protobuf-6.33.5-cp310-abi3-win32.whl", hash = "sha256:d71b040839446bac0f4d162e758bea99c8251161dae9d0983a3b88dee345153b", size = 425769, upload-time = "2026-01-29T21:51:21.751Z" },
+    { url = "https://files.pythonhosted.org/packages/55/75/bb9bc917d10e9ee13dee8607eb9ab963b7cf8be607c46e7862c748aa2af7/protobuf-6.33.5-cp310-abi3-win_amd64.whl", hash = "sha256:3093804752167bcab3998bec9f1048baae6e29505adaf1afd14a37bddede533c", size = 437118, upload-time = "2026-01-29T21:51:24.022Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/6b/e48dfc1191bc5b52950246275bf4089773e91cb5ba3592621723cdddca62/protobuf-6.33.5-cp39-abi3-macosx_10_9_universal2.whl", hash = "sha256:a5cb85982d95d906df1e2210e58f8e4f1e3cdc088e52c921a041f9c9a0386de5", size = 427766, upload-time = "2026-01-29T21:51:25.413Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/b1/c79468184310de09d75095ed1314b839eb2f72df71097db9d1404a1b2717/protobuf-6.33.5-cp39-abi3-manylinux2014_aarch64.whl", hash = "sha256:9b71e0281f36f179d00cbcb119cb19dec4d14a81393e5ea220f64b286173e190", size = 324638, upload-time = "2026-01-29T21:51:26.423Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/f5/65d838092fd01c44d16037953fd4c2cc851e783de9b8f02b27ec4ffd906f/protobuf-6.33.5-cp39-abi3-manylinux2014_s390x.whl", hash = "sha256:8afa18e1d6d20af15b417e728e9f60f3aa108ee76f23c3b2c07a2c3b546d3afd", size = 339411, upload-time = "2026-01-29T21:51:27.446Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/53/a9443aa3ca9ba8724fdfa02dd1887c1bcd8e89556b715cfbacca6b63dbec/protobuf-6.33.5-cp39-abi3-manylinux2014_x86_64.whl", hash = "sha256:cbf16ba3350fb7b889fca858fb215967792dc125b35c7976ca4818bee3521cf0", size = 323465, upload-time = "2026-01-29T21:51:28.925Z" },
+    { url = "https://files.pythonhosted.org/packages/57/bf/2086963c69bdac3d7cff1cc7ff79b8ce5ea0bec6797a017e1be338a46248/protobuf-6.33.5-py3-none-any.whl", hash = "sha256:69915a973dd0f60f31a08b8318b73eab2bd6a392c79184b3612226b0a3f8ec02", size = 170687, upload-time = "2026-01-29T21:51:32.557Z" },
 ]
 
 [[package]]
@@ -4213,6 +4247,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/bd/95/615e72cd27b85b61eec764a5ca51bd94d40b5adea5ff47567d9ebc4d275a/watchfiles-1.1.1-pp311-pypy311_pp73-macosx_11_0_arm64.whl", hash = "sha256:89eef07eee5e9d1fda06e38822ad167a044153457e6fd997f8a858ab7564a336", size = 396117, upload-time = "2025-10-14T15:06:11.28Z" },
     { url = "https://files.pythonhosted.org/packages/c9/81/e7fe958ce8a7fb5c73cc9fb07f5aeaf755e6aa72498c57d760af760c91f8/watchfiles-1.1.1-pp311-pypy311_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ce19e06cbda693e9e7686358af9cd6f5d61312ab8b00488bc36f5aabbaf77e24", size = 450493, upload-time = "2025-10-14T15:06:12.321Z" },
     { url = "https://files.pythonhosted.org/packages/6e/d4/ed38dd3b1767193de971e694aa544356e63353c33a85d948166b5ff58b9e/watchfiles-1.1.1-pp311-pypy311_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3e6f39af2eab0118338902798b5aa6664f46ff66bc0280de76fca67a7f262a49", size = 457546, upload-time = "2025-10-14T15:06:13.372Z" },
+]
+
+[[package]]
+name = "websocket-client"
+version = "1.9.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2c/41/aa4bf9664e4cda14c3b39865b12251e8e7d239f4cd0e3cc1b6c2ccde25c1/websocket_client-1.9.0.tar.gz", hash = "sha256:9e813624b6eb619999a97dc7958469217c3176312b3a16a4bd1bc7e08a46ec98", size = 70576, upload-time = "2025-10-07T21:16:36.495Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/34/db/b10e48aa8fff7407e67470363eac595018441cf32d5e1001567a7aeba5d2/websocket_client-1.9.0-py3-none-any.whl", hash = "sha256:af248a825037ef591efbf6ed20cc5faa03d3b47b9e5a2230a529eeee1c1fc3ef", size = 82616, upload-time = "2025-10-07T21:16:34.951Z" },
 ]
 
 [[package]]

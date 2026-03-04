@@ -109,6 +109,7 @@ desktop = [
 code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
   "datamodel-code-generator>=0.54.1",
+  "pbtk>=1.0.8",
   "protoc-wrapper>=33.0.0",
   "pyside6-addons<6.11.0,>=6.10.2",
   "xsdata[cli]>=26.2",
