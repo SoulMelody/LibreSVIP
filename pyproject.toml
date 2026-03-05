@@ -128,7 +128,7 @@ linting = [
   "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
-  "flet-cli>=0.81.0,<0.90.0",
+  "flet-cli>=0.82.0,<0.90.0",
   "pyinstaller>=6.19.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
