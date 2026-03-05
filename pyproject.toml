@@ -157,7 +157,8 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 [project.entry-points.pyinstaller40]
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
-# [tool.uv]
+[tool.uv]
+override-dependencies = ["system_pyside6; sys_platform == \"linux\""]
 # index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 # python-install-mirror = "https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
 
