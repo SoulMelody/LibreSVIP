@@ -30,7 +30,7 @@ classifiers = [
 dependencies = [
   "aristaproto<0.2.0,>=0.1.4",
   "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.4.4",
+  "charset-normalizer<4.0.0,>=3.4.5",
   "construct-typing<1.0.0,>=0.7.0",
   "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
@@ -110,7 +110,7 @@ code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
   "datamodel-code-generator>=0.54.1",
   "pbtk>=1.0.9",
-  "protoc-wrapper>=33.0.0",
+  "protobuf-protoc-bin>=34.0",
   "pyside6-addons<6.11.0,>=6.10.2",
   "xsdata[cli]>=26.2",
 ]
