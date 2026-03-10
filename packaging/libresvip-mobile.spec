@@ -52,6 +52,7 @@ a = Analysis(
         "yaml_ft",
         "yaml",
         "yaml12",
+        "yaml_rs",
     ],
     hookspath=[],
     hooksconfig={},
