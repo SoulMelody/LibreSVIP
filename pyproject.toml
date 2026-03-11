@@ -108,7 +108,7 @@ desktop = [
 [dependency-groups]
 code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
-  "datamodel-code-generator>=0.54.1",
+  "datamodel-code-generator>=0.55.0",
   "pbtk>=1.0.9",
   "protobuf-protoc-bin>=34.0",
   "pyside6-addons<6.11.0,>=6.10.2",
@@ -133,7 +133,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "zensical>=0.0.24",
+  "zensical>=0.0.25",
 ]
 test = ["pytest>=9.0.2", "pytest-run-parallel>=0.8.2", "textual-dev>=1.8.0"]
 all = [
@@ -159,7 +159,7 @@ hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv]
 override-dependencies = ["system_pyside6; sys_platform == \"linux\""]
-index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+# index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 # python-install-mirror = "https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
 
 [tool.uv.sources]
