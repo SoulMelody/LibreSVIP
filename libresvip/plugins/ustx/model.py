@@ -77,7 +77,7 @@ class UCurve(BaseModel):
 class PitchPoint(BaseModel):
     x: float
     y: float
-    shape: Literal["io", "l", "i", "o"] | None = "io"
+    shape: Literal["io", "l", "i", "o", "sp"] | None = "io"
 
 
 class UTempo(BaseModel):
