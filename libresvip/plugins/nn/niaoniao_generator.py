@@ -123,7 +123,8 @@ class NiaoniaoGenerator:
         max_abs_value = max(abs(value) for value in rel_pitch_values)
         pbs_for_this_note = min(math.ceil(max_abs_value), 12)
         nn_pitch_param = [
-            50 + round(rel_pitch_value / pbs_for_this_note) for rel_pitch_value in rel_pitch_values
+            50 + (round(rel_pitch_value / pbs_for_this_note) if pbs_for_this_note > 0 else 0)
+            for rel_pitch_value in rel_pitch_values
         ]
 
         return NNPoints(points=nn_pitch_param), pbs_for_this_note - 1

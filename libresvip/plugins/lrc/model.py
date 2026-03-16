@@ -8,6 +8,9 @@ class TimeTag(BaseModel):
     second: int
     milisecond: int
 
+    def __str__(self) -> str:
+        return f"{self.minute:02d}:{self.second:02d}.{self.milisecond:03d}"
+
 
 class LyricLine(BaseModel):
     time_tags: list[TimeTag]

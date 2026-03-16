@@ -91,7 +91,8 @@ class Y77Generator:
         max_abs_value = max(abs(value) for value in rel_pitch_values)
         pbs_for_this_note = min(math.ceil(max_abs_value), 12)
         y77_pitch_param = [
-            rel_pitch_value * 50 / pbs_for_this_note + 50 for rel_pitch_value in rel_pitch_values
+            ((rel_pitch_value * 50 / pbs_for_this_note) if pbs_for_this_note > 0 else 0) + 50
+            for rel_pitch_value in rel_pitch_values
         ]
 
         return y77_pitch_param, pbs_for_this_note - 1
