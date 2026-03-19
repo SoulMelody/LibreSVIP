@@ -1535,7 +1535,7 @@ requires-dist = [
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = "<=7.0.1" },
     { name = "pypinyin", specifier = ">=0.55.0,<1.0.0" },
     { name = "pyside6-essentials", marker = "extra == 'desktop'", specifier = ">=6.10.2,<6.11.0" },
-    { name = "pysubs2", specifier = ">=1.8.0,<2.0.0" },
+    { name = "pysubs2", specifier = ">=1.8.1,<2.0.0" },
     { name = "pyyaml", marker = "python_full_version != '3.13.*' or sys_platform == 'emscripten'", specifier = ">=6.0.3,<7.0.0" },
     { name = "pyyaml-ft", marker = "python_full_version == '3.13.*' and sys_platform != 'emscripten'", specifier = ">=8.0.0,<8.0.1" },
     { name = "pyzipper", marker = "extra == 'crypto'", specifier = ">=0.3.6" },
@@ -3132,11 +3132,11 @@ wheels = [
 
 [[package]]
 name = "pysubs2"
-version = "1.8.0"
+version = "1.8.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/31/4a/becf78d9d3df56e6c4a9c50b83794e5436b6c5ab6dd8a3f934e94c89338c/pysubs2-1.8.0.tar.gz", hash = "sha256:3397bb58a4a15b1325ba2ae3fd4d7c214e2c0ddb9f33190d6280d783bb433b20", size = 1130048, upload-time = "2024-12-24T12:39:47.769Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c4/73/eff32fcc4babb32b76d7fce6d74995de2d04201f7b43c9a7764554d6ab49/pysubs2-1.8.1.tar.gz", hash = "sha256:af3a288643da87db6bb13dbde70e94c9570765cc8f6423b1c21de11f16d734da", size = 1153150, upload-time = "2026-03-19T17:25:01.941Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/99/09/0fc0719162e5ad723f71d41cf336f18b6b5054d70dc0fe42ace6b4d2bdc9/pysubs2-1.8.0-py3-none-any.whl", hash = "sha256:05716f5039a9ebe32cd4d7673f923cf36204f3a3e99987f823ab83610b7035a0", size = 43516, upload-time = "2024-12-24T12:39:44.469Z" },
+    { url = "https://files.pythonhosted.org/packages/0b/bb/0dc8b9a38609701ca3f107dc516300b317641bed9b2ef1c964a9ad37ae9e/pysubs2-1.8.1-py3-none-any.whl", hash = "sha256:eb5d8872b7f87208070dd6f0d85fc110b7ad6cc2a7ec422f5b12363e9194e4e4", size = 44269, upload-time = "2026-03-19T17:24:59.953Z" },
 ]
 
 [[package]]
