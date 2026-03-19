@@ -58,7 +58,7 @@ pyinstaller-hooks-contrib==2026.3
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.55.0
 pyside6-essentials==6.10.2
-pysubs2==1.8.0
+pysubs2==1.8.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
