@@ -37,6 +37,7 @@ a = Analysis(
         "jinja2",
         "jyutping",
         "ko_pron",
+        "minijinja",
         "tatsu",
         "portion",
         "aristaproto.lib.pydantic.google.protobuf",
@@ -59,7 +60,7 @@ a = Analysis(
     runtime_hooks=[],
     excludes=[
         'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3',
-        'pywintypes', 'pythoncom',
+        'pywintypes', 'pythoncom', 'mypy',
         'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
         'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
         'PySide6',

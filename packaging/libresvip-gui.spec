@@ -51,6 +51,7 @@ if platform.system() != "Darwin":
             "jinja2",
             "jyutping",
             "ko_pron",
+            "minijinja",
             "tatsu",
             "portion",
             "aristaproto.lib.pydantic.google.protobuf",
@@ -74,7 +75,7 @@ if platform.system() != "Darwin":
         runtime_hooks=[],
         excludes=[
             'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3', 'docutils',
-            'pywintypes', 'pythoncom',
+            'pywintypes', 'pythoncom', 'mypy',
             'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
             'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
             "uvicorn", "webview", "clr", 'pythoncom', 'pywintypes',
@@ -144,6 +145,7 @@ gui_a = Analysis(
         "jinja2",
         "jyutping",
         "ko_pron",
+        "minijinja",
         "tatsu",
         "portion",
         "aristaproto.lib.pydantic.google.protobuf",
@@ -167,7 +169,7 @@ gui_a = Analysis(
     runtime_hooks=[],
     excludes=[
         'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3', 'docutils',
-        'pywintypes', 'pythoncom',
+        'pywintypes', 'pythoncom', 'mypy',
         'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
         'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
         "uvicorn", "webview", "clr", 'pythoncom', 'pywintypes',
