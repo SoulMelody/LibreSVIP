@@ -449,6 +449,8 @@ class AcepProject(BaseModel):
     track_control_panel_w: int | None = Field(0, alias="trackControlPanelW")
     svc_results: list[dict[str, Any]] = Field(default_factory=list, alias="svcResults")
     piano_display_config: dict[str, Any] | None = Field(None, alias="pianoDisplayConfig")
+    tempo_track_height: int | None = Field(0, alias="tempoTrackHeight")
+    video_track: dict[str, Any] | None = Field(None, alias="videoTrack")
 
     @model_validator(mode="after")
     def migrate_time_signatures(self) -> Self:
