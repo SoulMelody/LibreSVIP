@@ -92,7 +92,11 @@ def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
 
 
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
-    acep_file = AcepFile.model_validate_json(src.read_bytes().decode("utf-8"))
+    content = src.read_bytes()
+    if content[:4].startswith(b"ACEP2"):
+        msg = _("Unsupported project version")
+        raise UnsupportedProjectVersionError(msg)
+    acep_file = AcepFile.model_validate_json(content.decode("utf-8"))
     if acep_file.version == 1:
         content = decrypt_acep_content_v1(acep_file.content)
     elif acep_file.version == 2:
