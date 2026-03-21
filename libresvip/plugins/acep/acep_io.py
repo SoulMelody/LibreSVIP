@@ -5,6 +5,18 @@ import pathlib
 import sys
 from typing import Any
 
+import cbor2
+from construct import (
+    Byte,
+    Bytes,
+    Const,
+    Int16ul,
+    Int64ul,
+    Padding,
+    Pointer,
+    Struct,
+    this,
+)
 from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
 
 from libresvip.core.compat import json
@@ -35,6 +47,33 @@ for zstd_backend in (
         break
 else:
     ZSTD_AVAILABLE = False
+
+ACEP2_MAGIC = b"ACEP2"
+ACEP2_FLAG = 0x01
+
+
+Acep2Header = Struct(
+    "magic" / Const(ACEP2_MAGIC, Bytes(5)),
+    "flags" / Const(ACEP2_FLAG, Byte),
+    "header_size" / Int16ul,
+    "content_offset" / Int64ul,
+    "compressed_content_size" / Int64ul,
+    "content_size" / Int64ul,
+    "encrypted_metadata" / Bytes(140),
+    "metadata_flag" / Const(ACEP2_FLAG, Byte),
+    "content_hash" / Bytes(16),
+    "padding" / Padding(lambda this: this.content_offset - 189),
+)
+
+
+Acep2File = Struct(
+    "header" / Acep2Header,
+    "compressed_content"
+    / Pointer(
+        this.header.content_offset,
+        Bytes(this.header.compressed_content_size),
+    ),
+)
 
 
 class AcepDebug(BaseModel):
@@ -93,20 +132,24 @@ def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
 
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
     content = src.read_bytes()
-    if content[:4].startswith(b"ACEP2"):
-        msg = _("Unsupported project version")
-        raise UnsupportedProjectVersionError(msg)
-    acep_file = AcepFile.model_validate_json(content.decode("utf-8"))
-    if acep_file.version == 1:
-        content = decrypt_acep_content_v1(acep_file.content)
-    elif acep_file.version == 2:
-        content = decrypt_acep_content_v2(acep_file.content, acep_file.salt)
+    if content[:5] == b"ACEP2":
+        result = Acep2File.parse(content)
+        decompressed = zstd.decompress(result.compressed_content)
+        if not isinstance(decompressed, bytes):
+            decompressed = bytes(decompressed)
+        return cbor2.loads(decompressed)
     else:
-        content = acep_file.content
-    decompressed = zstd.decompress(content)
-    if not isinstance(decompressed, bytes):
-        decompressed = bytes(decompressed)
-    return json.loads(decompressed)
+        acep_file = AcepFile.model_validate_json(content.decode("utf-8"))
+        if acep_file.version == 1:
+            content = decrypt_acep_content_v1(acep_file.content)
+        elif acep_file.version == 2:
+            content = decrypt_acep_content_v2(acep_file.content, acep_file.salt)
+        else:
+            content = acep_file.content
+        decompressed = zstd.decompress(content)
+        if not isinstance(decompressed, bytes):
+            decompressed = bytes(decompressed)
+        return json.loads(decompressed)
 
 
 def compress_ace_studio_project(src: dict[str, Any], target: pathlib.Path) -> None:
