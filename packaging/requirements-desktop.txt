@@ -5,6 +5,7 @@ anyio==4.12.1
 aristaproto==0.1.4
 backports-zstd==1.3.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
 bidict==0.23.1
+cbor2==5.8.0
 certifi==2026.2.25
 cffi==2.0.0 ; (python_full_version < '3.12' and platform_python_implementation != 'PyPy') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32') or sys_platform == 'emscripten'
 charset-normalizer==3.4.6
@@ -50,7 +51,7 @@ pydantic==2.12.5
 pydantic-core==2.41.5
 pydantic-extra-types==2.11.1
 pydantic-settings==2.13.1
-pydeployment==1.3.13 ; sys_platform != 'darwin'
+pydeployment==1.3.14 ; sys_platform != 'darwin'
 pygments==2.19.2
 pyinstaller==6.19.0 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.19.0-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
