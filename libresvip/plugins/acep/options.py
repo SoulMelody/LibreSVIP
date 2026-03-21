@@ -29,6 +29,34 @@ if TYPE_CHECKING:
     from pydantic.json_schema import JsonSchemaValue
 
 
+class AcepSerialization(Enum):
+    _value_: Annotated[
+        str,
+        create_model(
+            "AcepSerialization",
+            __module__="libresvip.plugins.acep.options",
+            JSON=(
+                str,
+                Field(
+                    title="JSON",
+                    description=_(
+                        "Use the project file version which is compatible with ACE Studio 2.0.6 and earlier."
+                    ),
+                ),
+            ),
+            CBOR=(
+                str,
+                Field(
+                    title="CBOR",
+                    description=_("Use the project file version of ACE Studio 2.0.7 and later."),
+                ),
+            ),
+        ),
+    ]
+    JSON = "json"
+    CBOR = "cbor"
+
+
 class StrengthMappingOption(Enum):
     _value_: Annotated[
         str,
@@ -248,4 +276,8 @@ class OutputOptions(BaseModel):
         default=0.0,
         title=_("Default consonant length (secs)"),
         description=_("Set default consonant length for notes if not specified"),
+    )
+    serialization: AcepSerialization = Field(
+        default=AcepSerialization.JSON,
+        title=_("Specify the serialization method of the generated .acep file"),
     )

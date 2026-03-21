@@ -26,6 +26,8 @@ from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
 from libresvip.utils.translation import gettext_lazy as _
 
+from .options import AcepSerialization
+
 try:
     __import__("Cryptodome")
 except ImportError:
@@ -154,15 +156,37 @@ def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
         return json.loads(decompressed)
 
 
-def compress_ace_studio_project(src: dict[str, Any], target: pathlib.Path) -> None:
-    raw_content = json.dumps(src).encode()
-    compressed = zstd.compress(raw_content)
-    if not isinstance(compressed, bytes):
-        compressed = bytes(compressed)
-    acep_file = AcepFile.model_construct(content=compressed)
-    target.write_bytes(
-        json.dumps(
+def compress_ace_studio_project(
+    src: dict[str, Any], target: pathlib.Path, serialization: AcepSerialization
+) -> None:
+    if serialization == AcepSerialization.JSON:
+        raw_content = json.dumps(src).encode()
+        compressed = zstd.compress(raw_content)
+        if not isinstance(compressed, bytes):
+            compressed = bytes(compressed)
+        acep_file = AcepFile.model_construct(content=compressed)
+        content = json.dumps(
             acep_file.model_dump(mode="json", by_alias=True),
             separators=(",", ":"),
         ).encode("utf-8")
-    )
+    else:
+        raw_content = cbor2.dumps(src)
+        content_size = len(raw_content)
+        compressed = zstd.compress(raw_content)
+        if not isinstance(compressed, bytes):
+            compressed = bytes(compressed)
+        compressed_content_size = len(compressed)
+        content = Acep2File.build(
+            {
+                "header": {
+                    "header_size": 0,
+                    "content_offset": 192,
+                    "compressed_content_size": compressed_content_size,
+                    "content_size": content_size,
+                    "encrypted_metadata": b"\x00" * 138,
+                    "content_hash": b"\x00" * 16,
+                },
+                "compressed_content": compressed,
+            }
+        )
+    target.write_bytes(content)
