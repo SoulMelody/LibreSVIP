@@ -31,6 +31,7 @@ a = Analysis(
     hiddenimports=[
         "backports.zstd",
         "bidict",
+        "cbor2",
         "construct_typed",
         "Cryptodome.Util.Padding",
         "svg",

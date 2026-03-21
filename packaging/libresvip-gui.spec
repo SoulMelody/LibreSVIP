@@ -45,6 +45,7 @@ if platform.system() != "Darwin":
         hiddenimports=[
             *zstd_backends,
             "bidict",
+            "cbor2",
             "construct_typed",
             "Cryptodome.Util.Padding",
             "svg",
@@ -139,6 +140,7 @@ gui_a = Analysis(
     hiddenimports=[
         *zstd_backends,
         "bidict",
+        "cbor2",
         "construct_typed",
         "Cryptodome.Util.Padding",
         "svg",
