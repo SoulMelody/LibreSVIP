@@ -32,7 +32,7 @@ from typing_extensions import Never
 from . import singleton
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
-VariantList: TypeAlias = list["Variant"]
+VariantList: TypeAlias = list["Variant"]  # pyrefly: ignore[non-convergent-recursion]
 Variant = bool | int | float | str | bytes | VariantList
 NodeType = TypeVar("NodeType", bound="Node[Any]")
 Node = dict[str, Variant | NodeType | list[NodeType]]

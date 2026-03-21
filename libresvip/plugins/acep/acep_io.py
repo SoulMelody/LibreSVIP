@@ -10,10 +10,12 @@ from construct import (
     Byte,
     Bytes,
     Const,
+    GreedyBytes,
     Int16ul,
     Int64ul,
     Padding,
     Pointer,
+    Prefixed,
     Struct,
     this,
 )
@@ -59,10 +61,10 @@ Acep2Header = Struct(
     "content_offset" / Int64ul,
     "compressed_content_size" / Int64ul,
     "content_size" / Int64ul,
-    "encrypted_metadata" / Bytes(140),
+    "encrypted_metadata" / Prefixed(Int16ul, GreedyBytes),
     "metadata_flag" / Const(ACEP2_FLAG, Byte),
     "content_hash" / Bytes(16),
-    "padding" / Padding(lambda this: this.content_offset - 189),
+    "padding" / Padding(lambda this: this.content_offset - 51 - len(this.encrypted_metadata)),
 )
 
 
