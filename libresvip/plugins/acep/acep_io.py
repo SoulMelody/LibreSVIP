@@ -132,7 +132,7 @@ def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
 
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
     content = src.read_bytes()
-    if content[:5] == b"ACEP2":
+    if content[:5] == ACEP2_MAGIC:
         result = Acep2File.parse(content)
         decompressed = zstd.decompress(result.compressed_content)
         if not isinstance(decompressed, bytes):
