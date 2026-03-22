@@ -2,7 +2,7 @@ annotated-types==0.7.0
 anyio==4.12.1
 aristaproto==0.1.4
 bidict==0.23.1
-cbor2==5.8.0
+cbor2==5.9.0
 certifi==2026.2.25
 cffi==1.17.1
 charset-normalizer==3.4.6
