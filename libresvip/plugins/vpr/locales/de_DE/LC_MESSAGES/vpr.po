@@ -4,13 +4,13 @@ msgstr ""
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
 "X-Crowdin-Language: de\n"
-"X-Crowdin-File: /main/libresvip/plugins/vpr/vpr.po\n"
-"X-Crowdin-File-ID: 162\n"
+"X-Crowdin-File: /libresvip/plugins/vpr/vpr.po\n"
+"X-Crowdin-File-ID: 412\n"
 "Project-Id-Version: libresvip\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2025-06-19 02:47\n"
+"PO-Revision-Date: 2026-03-23 01:36\n"
 
 msgid "日本語"
 msgstr "Japanisch"
@@ -67,8 +67,8 @@ msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert
 msgstr "Phonemes aller Noten wurden auf \"la\" gesetzt. Bitte benutze \"Job\" -> \"convert Phonemes, um Sprachen im VOCALOID-Menü anzupassen\", um sie zurückzusetzen."
 
 msgid "Note overlap detected, cutting note "
-msgstr "Notenüberlappung erkannt, schneide Note "
+msgstr "Notenüberlappung erkannt, Note wird geschnitten "
 
 msgid "Note overlap detected, skipping note "
-msgstr "Notenüberlappung erkannt, überspringe Note "
+msgstr "Notenüberlappung erkannt, Note wird übersprungen "
 
