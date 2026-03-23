@@ -4,13 +4,13 @@ msgstr ""
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
 "X-Crowdin-Language: de\n"
-"X-Crowdin-File: /main/libresvip/res/libresvip.po\n"
-"X-Crowdin-File-ID: 174\n"
+"X-Crowdin-File: /libresvip/res/libresvip.po\n"
+"X-Crowdin-File-ID: 524\n"
 "Project-Id-Version: libresvip\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-03-02 12:42\n"
+"PO-Revision-Date: 2026-03-23 01:36\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 #, python-brace-format
