@@ -1,3 +1,6 @@
+project_id_env: CROWDIN_PROJECT_ID
+api_key_env: CROWDIN_PERSONAL_TOKEN
+preserve_hierarchy: true
 files:
   - source: /libresvip/**/*.po
     translation: /%original_path%/locales/%locale_with_underscore%/LC_MESSAGES/%original_file_name%
