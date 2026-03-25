@@ -1,5 +1,5 @@
 annotated-types==0.7.0
-anyio==4.12.1
+anyio==4.13.0
 aristaproto==0.1.4
 bidict==0.23.1
 cbor2==5.9.0
