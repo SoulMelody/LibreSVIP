@@ -100,7 +100,7 @@ mobile = [
   "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 desktop = [
-  "pyside6-essentials<6.11.0,>=6.10.2",
+  "pyside6-essentials<6.12.0,>=6.11.0",
   "ttkbootstrap-icons-mat>=1.0.0",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0",
@@ -113,7 +113,7 @@ code_gen = [
   "datamodel-code-generator>=0.55.0",
   "pbtk>=1.1.0",
   "protobuf-protoc-bin>=34.1",
-  "pyside6-addons<6.11.0,>=6.10.2",
+  "pyside6-addons<6.12.0,>=6.11.0",
   "xsdata[cli]>=26.2",
 ]
 i18n = ["babel>=2.18.0"]
@@ -122,7 +122,7 @@ linting = [
   "ruff>=0.15.7",
   "mypy>=1.19.1",
   "pyrefly>=0.57.1,<0.57.2",
-  "pyside6<6.11.0,>=6.10.2",
+  "pyside6<6.12.0,>=6.11.0",
   "types-lxml>=2026.2.16",
   "types-pyyaml>=6.0.12.20250915",
   "types-ujson>=5.10.0.20250822",
@@ -135,7 +135,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = [
-  "zensical>=0.0.28",
+  "zensical>=0.0.29",
 ]
 test = ["pytest>=9.0.2", "pytest-run-parallel>=0.8.2", "textual-dev>=1.8.0"]
 all = [
