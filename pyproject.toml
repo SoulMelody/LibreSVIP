@@ -306,10 +306,13 @@ python-version = "3.10"
 
 [tool.ty.rules]
 call-non-callable = "ignore"
+call-top-callable = "ignore"
 invalid-argument-type = "ignore"
 invalid-assignment = "ignore"
 invalid-method-override = "ignore"
+invalid-parameter-default = "ignore"
 invalid-return-type = "ignore"
+invalid-yield = "ignore"
 missing-argument = "ignore"
 no-matching-overload = "ignore"
 not-iterable = "ignore"

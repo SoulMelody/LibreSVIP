@@ -213,6 +213,8 @@ class AiSingersGenerator:
         ais_pitch_param = []
         for i in range(500):
             pitch_value = pitch_simulator.pitch_at_ticks(note.start_pos + int(tick_step * i))
+            if pitch_value is None:
+                pitch_value = note.key_number * 100
             value = (pitch_value - note.key_number * 100) / 10
             ais_pitch_param.append(value)
 

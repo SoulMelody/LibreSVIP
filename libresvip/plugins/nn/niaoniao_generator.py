@@ -115,8 +115,10 @@ class NiaoniaoGenerator:
     def generate_pitch(self, pitch_simulator: PitchSimulator, note: Note) -> tuple[NNPoints, int]:
         tick_step = note.length / 100.0
         rel_pitch_values = [
-            pitch_simulator.pitch_at_ticks(note.start_pos + int(tick_step * i)) / 100
-            - (note.key_number)
+            (pitch_value / 100)
+            if (pitch_value := pitch_simulator.pitch_at_ticks(note.start_pos + int(tick_step * i)))
+            is not None
+            else note.key_number - (note.key_number)
             for i in range(100)
         ]
 

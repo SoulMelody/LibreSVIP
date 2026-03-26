@@ -83,7 +83,16 @@ class Y77Generator:
     ) -> tuple[list[float], int]:
         tick_step = note.length / 500.0
         rel_pitch_values = [
-            pitch_simulator.pitch_at_ticks(note.start_pos + int(tick_step * i)) / 100
+            (
+                (pitch_value / 100)
+                if (
+                    pitch_value := pitch_simulator.pitch_at_ticks(
+                        note.start_pos + int(tick_step * i)
+                    )
+                )
+                is not None
+                else note.key_number
+            )
             - (note.key_number)
             for i in range(500)
         ]

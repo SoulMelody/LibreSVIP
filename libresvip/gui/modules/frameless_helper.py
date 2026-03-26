@@ -535,7 +535,7 @@ class FramelessHelper(QPyQmlParserStatus):
         self._edges = 0
         self._titlebar_item = None
         self._maximize_button = None
-        self._native_filter = None
+        self._native_filter: WindowsNativeEventFilter | None = None
 
     def component_complete(self) -> None:
         pass
@@ -545,7 +545,8 @@ class FramelessHelper(QPyQmlParserStatus):
 
     def set_maximize_button(self, value: QQuickItem | None) -> None:
         self._maximize_button = value
-        self._native_filter.update_context(self.host_window, maximize_button=value)
+        if self._native_filter is not None:
+            self._native_filter.update_context(self.host_window, maximize_button=value)
         self.maximize_button_changed.emit()
 
     maximize_button = Property(
@@ -560,7 +561,8 @@ class FramelessHelper(QPyQmlParserStatus):
 
     def set_titlebar_item(self, value: QQuickItem | None) -> None:
         self._titlebar_item = value
-        self._native_filter.update_context(self.host_window, title_bar=value)
+        if self._native_filter is not None:
+            self._native_filter.update_context(self.host_window, title_bar=value)
         self.titlebar_item_changed.emit()
 
     titlebar_item = Property(
@@ -583,7 +585,7 @@ class FramelessHelper(QPyQmlParserStatus):
                 app.aboutToQuit.connect(lambda: app.remove_native_event_filter(self._native_filter))
             else:
                 self._native_filter = WindowsNativeEventFilter._instance
-            if isinstance(self.host_window, QQuickWindow):
+            if isinstance(self.host_window, QQuickWindow) and self._native_filter is not None:
                 self._native_filter.add_window(self.host_window)
 
     def event_filter(self, watched: QObject, event: QEvent) -> bool:

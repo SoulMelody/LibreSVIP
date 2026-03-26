@@ -19,7 +19,7 @@ try:
 except ImportError:
     from jinja2 import Template
 
-    class JinjaEnvironment:
+    class JinjaEnvironment:  # type: ignore[no-redef]
         def __init__(self) -> None:
             self._compiled_templates: dict[str, Template] = {}
 

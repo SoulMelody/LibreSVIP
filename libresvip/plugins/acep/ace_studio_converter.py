@@ -31,8 +31,8 @@ class ACEStudioConverter(plugin_base.SVSConverter):
 
     @classmethod
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
-        options = cls.output_option_cls.model_validate(options)
-        ace_project = AceGenerator(options=options).generate_project(project)
+        options_obj = cls.output_option_cls.model_validate(options)
+        ace_project = AceGenerator(options=options_obj).generate_project(project)
         compress_ace_studio_project(
-            ace_project.model_dump(mode="json", by_alias=True), path, options.serialization
+            ace_project.model_dump(mode="json", by_alias=True), path, options_obj.serialization
         )
