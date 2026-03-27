@@ -72,6 +72,12 @@ class NONCLIENTMETRICS(ctypes.Structure):
 SPI_GETNONCLIENTMETRICS = 0x29
 
 
+def ensure_bool(value: bool | str) -> bool:
+    if isinstance(value, bool):
+        return value
+    return json.loads(value)
+
+
 def get_default_font_win32() -> str:
     metrics = NONCLIENTMETRICS()
     metrics.cbSize = ctypes.sizeof(NONCLIENTMETRICS)
@@ -282,8 +288,8 @@ async def main(page: ft.Page) -> None:
         last_input_format = await shared_preferences.get("last_input_format")
         if last_input_format != value:
             input_options.current.controls = build_input_options(value)
-            reset_tasks_on_input_change = await shared_preferences.get(
-                "reset_tasks_on_input_change"
+            reset_tasks_on_input_change = ensure_bool(
+                await shared_preferences.get("reset_tasks_on_input_change")
             )
             if reset_tasks_on_input_change:
                 task_list_view.current.controls.clear()
@@ -419,25 +425,27 @@ async def main(page: ft.Page) -> None:
                 save_folder_text_field.current.value = path
 
     if not await shared_preferences.contains_key("auto_detect_input_format"):
-        await shared_preferences.set("auto_detect_input_format", "true")
+        await shared_preferences.set("auto_detect_input_format", True)
 
     async def change_auto_detect_input_format(e: ft.ControlEvent) -> None:
-        await shared_preferences.set("auto_detect_input_format", json.dumps(e.control.value))
+        await shared_preferences.set("auto_detect_input_format", e.control.value)
 
     if not await shared_preferences.contains_key("reset_tasks_on_input_change"):
-        await shared_preferences.set("reset_tasks_on_input_change", "true")
+        await shared_preferences.set("reset_tasks_on_input_change", True)
 
     async def change_reset_tasks_on_input_change(e: ft.ControlEvent) -> None:
-        await shared_preferences.set("reset_tasks_on_input_change", json.dumps(e.control.value))
+        await shared_preferences.set("reset_tasks_on_input_change", e.control.value)
 
     if not await shared_preferences.contains_key("max_track_count"):
-        await shared_preferences.set("max_track_count", "1")
+        await shared_preferences.set("max_track_count", 1)
 
     async def change_max_track_count(e: ft.ControlEvent) -> None:
-        await shared_preferences.set("max_track_count", str(int(e.control.value)))
+        await shared_preferences.set("max_track_count", int(e.control.value))
 
     async def on_upload_progress(f: ft.FilePickerFile) -> None:
-        auto_detect_input_format = await shared_preferences.get("auto_detect_input_format")
+        auto_detect_input_format = ensure_bool(
+            await shared_preferences.get("auto_detect_input_format")
+        )
         last_input_format = await shared_preferences.get("last_input_format")
         file_path = temp_path / f.name
         file_path.write_bytes(f.bytes)
@@ -996,7 +1004,7 @@ async def main(page: ft.Page) -> None:
                                 ),
                                 ft.Switch(
                                     label=_("Auto detect import format"),
-                                    value=json.loads(
+                                    value=ensure_bool(
                                         await shared_preferences.get("auto_detect_input_format")
                                     ),
                                     col=12,
@@ -1004,7 +1012,7 @@ async def main(page: ft.Page) -> None:
                                 ),
                                 ft.Switch(
                                     label=_("Reset list when import format changed"),
-                                    value=json.loads(
+                                    value=ensure_bool(
                                         await shared_preferences.get("reset_tasks_on_input_change")
                                     ),
                                     col=12,
@@ -1079,6 +1087,7 @@ async def main(page: ft.Page) -> None:
                     [
                         ft.ExpansionPanelList(
                             elevation=8,
+                            scroll=ft.ScrollMode.ALWAYS,
                             controls=[
                                 ft.ExpansionPanel(
                                     header=ft.ListTile(
