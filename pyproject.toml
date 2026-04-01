@@ -121,7 +121,7 @@ linting = [
   "prek>=0.3.8",
   "ruff>=0.15.8",
   "mypy>=1.20.0",
-  "pyrefly>=0.59.0,<0.59.1",
+  "pyrefly>=0.59.1,<0.59.2",
   "pyside6<6.12.0,>=6.11.0",
   "types-lxml>=2026.2.16",
   "types-pyyaml>=6.0.12.20250915",
@@ -130,7 +130,7 @@ linting = [
   "sortedcontainers-stubs>=2.4.3",
 ]
 packaging = [
-  "flet-cli>=0.83.1,<0.90.0",
+  "flet-cli>=0.84.0,<0.90.0",
   "pyinstaller>=6.19.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
