@@ -1,7 +1,7 @@
 ci:
   skip:
     - mdformat
-exclude: "(docs/license.md|.*\\.musicxml)"
+exclude: "(.*\\.musicxml)"
 
 repos:
   - repo: builtin
@@ -13,12 +13,10 @@ repos:
         args: ["--fix=lf"]
       - id: trailing-whitespace
 
-  - repo: https://github.com/executablebooks/mdformat
-    rev: 1.0.0
+  - repo: https://github.com/rvben/rumdl-pre-commit
+    rev: v0.1.64
     hooks:
-      - id: mdformat
-        additional_dependencies:
-          - mdformat-gfm
+      - id: rumdl-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.8
