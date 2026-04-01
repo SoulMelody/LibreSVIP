@@ -29,14 +29,15 @@ classifiers = [
 ]
 dependencies = [
   "aristaproto<0.2.0,>=0.1.4",
+  "backports.zstd<1.3.1,>=1.3.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "bidict<0.23.2,>=0.23.1",
-  "cbor2>=5.9.0",
+  "cbor2<6.0.0,>=5.9.0",
   "charset-normalizer<4.0.0,>=3.4.6",
   "construct-typing<1.0.0,>=0.7.0",
   "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
   "jyutping",
-  "ko-pron>=1.3",
+  "ko-pron<2.0,>=1.3",
   "loguru<1.0.0,>=0.7.3",
   "more-itertools<11.0.0,>=10.8.0",
   "packaging<26.1,>=26.0",
@@ -59,6 +60,7 @@ dependencies = [
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
+  "zstandard<0.25.1,>=0.25.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
 ]
 name = "libresvip"
 dynamic = ["readme", "version"]
@@ -69,10 +71,6 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
-zstd = [
-  "backports.zstd<1.3.1,>=1.3.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
-  "zstandard<0.25.1,>=0.25.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
-]
 crypto = [
   "cffi>=2.0.0; platform_python_implementation != \"PyPy\" and (sys_platform != \"win32\" or python_version <= \"3.11\")",
   "pyzipper>=0.3.6",
