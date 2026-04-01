@@ -4,13 +4,11 @@ ci:
 exclude: "(docs/license.md|.*\\.musicxml)"
 
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+  - repo: builtin
     hooks:
       - id: check-json
       - id: check-toml
       - id: check-yaml
-        args: ["--unsafe"]
       - id: mixed-line-ending
         args: ["--fix=lf"]
       - id: trailing-whitespace

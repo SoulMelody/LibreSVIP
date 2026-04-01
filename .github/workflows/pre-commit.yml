@@ -13,4 +13,4 @@ jobs:
         run: |
           pip install pyrefly uv
           uv sync --all-extras --group linting
-      - uses: pre-commit/action@v3.0.1
+      - uses: j178/prek-action@v2
