@@ -1635,7 +1635,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         from System import IntPtr
                         from System.Windows.Forms import Screen
 
-                        user32 = ctypes.windll.user32  # type: ignore[attr-defined]
+                        user32 = ctypes.windll.user32
                         rect_tuple = (0, 0, 1200, 800)
                         _maximized = False
 

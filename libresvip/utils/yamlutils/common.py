@@ -55,7 +55,7 @@ def set_yaml_grammar(
         resolver_registry = resolver
     resolver_registry.yaml_implicit_resolvers = {}
     for r in resolvers:
-        for start_char in r["start_chars"]:  # type: ignore[attr-defined]
+        for start_char in r["start_chars"]:
             resolver_registry.yaml_implicit_resolvers.setdefault(start_char, [])
             resolver_registry.yaml_implicit_resolvers[start_char].append((r["tag"], r["regexp"]))
 

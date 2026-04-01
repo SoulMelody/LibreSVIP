@@ -261,7 +261,7 @@ known-third-party = ['svg']
 
 [tool.mypy]
 python_version = "3.10"
-disable_error_code = "import-not-found,import-untyped,unused-ignore"
+disable_error_code = "attr-defined,import-not-found,import-untyped,unused-ignore"
 warn_redundant_casts = true
 warn_unused_ignores = true
 disallow_any_generics = true

@@ -3,8 +3,6 @@ on:
   push:
     tags:
       - "v*"
-env:
-  FLET_PYTHON_VERSION: "3.14.3"
 
 jobs:
   make-outputs:
