@@ -78,7 +78,7 @@ crypto = [
   "pyzipper>=0.3.6",
 ]
 ujson = ["ujson>=5.12.0"]
-minijinja = ["minijinja>=2.18.0"]
+minijinja = ["minijinja>=2.19.0"]
 yaml12 = [
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
   "yaml-rs<0.1.0,>=0.0.15; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
@@ -95,8 +95,8 @@ webui = [
   "nicegui>=3.9.0",
 ]
 mobile = [
-  "flet[desktop]>=0.83.1,<0.90.0",
-  "flet-permission-handler>=0.83.1,<0.90.0",
+  "flet[desktop]>=0.84.0,<0.90.0",
+  "flet-permission-handler>=0.84.0,<0.90.0",
   "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 desktop = [
