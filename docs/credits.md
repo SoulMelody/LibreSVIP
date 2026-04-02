@@ -12,6 +12,7 @@
 | 包名                    | 简介                                                                                                                         | 许可证                                              |
 | :---------------------- | :--------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
 | bidict                  | The bidirectional mapping library for Python.                                                                                | Mozilla Public License 2.0 (MPL 2.0)                |
+| cbor2                   | CBOR (de)serializer with extensive tag support                                                                               | MIT License                                         |
 | charset-normalizer      | The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.                      | MIT License                                         |
 | construct-typing        | Extension for the python package 'construct' that adds typing features                                                       | MIT License                                         |
 | Jinja2                  | A very fast and expressive template engine.                                                                                  | BSD License                                         |
