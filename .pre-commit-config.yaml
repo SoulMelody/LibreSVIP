@@ -11,7 +11,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.1.64
+    rev: v0.1.65
     hooks:
       - id: rumdl-fmt
 
@@ -24,7 +24,7 @@ repos:
         args: ["--config", "pyproject.toml", "--exclude", "tests/"]
 
   - repo: https://github.com/facebook/pyrefly-pre-commit
-    rev: 0.59.0
+    rev: 0.59.1
     hooks:
       - id: pyrefly-check
         name: Pyrefly (type checking)
