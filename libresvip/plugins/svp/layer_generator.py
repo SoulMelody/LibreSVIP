@@ -5,7 +5,6 @@ import math
 from collections.abc import Callable
 from typing import NamedTuple
 
-import more_itertools
 import portion
 
 from libresvip.core.exceptions import ParamsError

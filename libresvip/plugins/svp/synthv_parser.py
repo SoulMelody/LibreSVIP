@@ -6,8 +6,6 @@ from collections.abc import Callable
 from functools import partial, reduce
 from typing import cast
 
-import more_itertools
-
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.tick_counter import find_bar_index, shift_beat_list, shift_tempo_list

@@ -2,7 +2,6 @@ import functools
 import itertools
 import math
 
-import more_itertools
 import portion
 
 from libresvip.model.base import SongTempo, TimeSignature

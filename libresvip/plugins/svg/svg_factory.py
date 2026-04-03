@@ -1,7 +1,6 @@
 import dataclasses
 import itertools
 
-import more_itertools
 from svg import Line, Polyline, Rect, Style, Text
 
 from libresvip.core.constants import TICKS_IN_BEAT
