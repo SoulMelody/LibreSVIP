@@ -1,4 +1,5 @@
 import dataclasses
+import itertools
 import operator
 import re
 from collections.abc import Callable
@@ -532,7 +533,7 @@ class SynthVParser:
         lyrics_phoneme = sv_g2p(lyrics, languages)
         if not note_list:
             return note_list
-        for prev_note, note in more_itertools.pairwise(note_list):
+        for prev_note, note in itertools.pairwise(note_list):
             if prev_note.end_pos > note.start_pos:
                 msg = _("Notes overlapped near bar {}").format(
                     find_bar_index(self.time_signatures, note.start_pos)

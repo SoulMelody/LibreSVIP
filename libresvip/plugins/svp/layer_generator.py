@@ -1,5 +1,6 @@
 import dataclasses
 import functools
+import itertools
 import math
 from collections.abc import Callable
 from typing import NamedTuple
@@ -137,7 +138,7 @@ class BaseLayerGenerator:
         if not _note_list:
             return
         self.note_list = _note_list
-        for current_note, next_note in more_itertools.pairwise(self.note_list):
+        for current_note, next_note in itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
             if (diameter := current_note.portamento_right + next_note.portamento_left) and (
@@ -317,7 +318,7 @@ class GaussianLayerGenerator:
                 _length_r=current_note.end - current_note.start,
             )
         )
-        for current_note, next_note in more_itertools.pairwise(_note_list):
+        for current_note, next_note in itertools.pairwise(_note_list):
             if next_note.start - current_note.end >= MAX_BREAK:
                 self.gaussian_nodes.append(
                     GaussianNode(

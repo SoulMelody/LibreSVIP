@@ -1,5 +1,6 @@
 import dataclasses
 import functools
+import itertools
 
 import more_itertools
 import portion
@@ -129,7 +130,7 @@ class PitchSimulator:
             pitch_curve.points.root, lambda point: point.y == -100
         ):
             if len(point_part):
-                for prev_point, point in more_itertools.pairwise(point_part):
+                for prev_point, point in itertools.pairwise(point_part):
                     start_time = self.synchronizer.get_actual_secs_from_ticks(
                         prev_point.x - first_bar_length
                     )

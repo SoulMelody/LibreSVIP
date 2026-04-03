@@ -1,5 +1,6 @@
 import dataclasses
 import functools
+import itertools
 import math
 
 import more_itertools
@@ -78,7 +79,7 @@ class BasePitchCurve:
             for is_first, is_last, (
                 prev_note,
                 next_note,
-            ) in more_itertools.mark_ends(more_itertools.pairwise(note_track.note)):
+            ) in more_itertools.mark_ends(itertools.pairwise(note_track.note)):
                 prev_start_secs = self.synchronizer.get_actual_secs_from_ticks(prev_note.pos)
                 prev_end_secs = self.synchronizer.get_actual_secs_from_ticks(
                     prev_note.pos + prev_note.duration

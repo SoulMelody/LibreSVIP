@@ -1,4 +1,5 @@
 import functools
+import itertools
 import math
 
 import more_itertools
@@ -69,7 +70,7 @@ def find_bar_index(beat_list: list[TimeSignature], ticks: int) -> int:
     tick = 0
     ticks2beat_interval_dict = PiecewiseIntervalDict()
     next_tick = None
-    for beat, next_beat in more_itertools.pairwise(beat_list):
+    for beat, next_beat in itertools.pairwise(beat_list):
         next_tick = tick + beat.bar_length() * (next_beat.bar_index - beat.bar_index)
         ticks2beat_interval_dict[portion.closedopen(tick, next_tick)] = functools.partial(
             calc_bar_index, base_tick=tick, beat=beat
