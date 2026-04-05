@@ -100,8 +100,8 @@ async def main(page: ft.Page) -> None:
     storage_paths = ft.StoragePaths()
     page.title = "LibreSVIP"
     page.scroll = ft.ScrollMode.ADAPTIVE
-    page.window.width = 480
-    page.window.height = 720
+    page.window.min_width = 480
+    page.window.min_height = 720
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
     page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.Alignment.CENTER)
