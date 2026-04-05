@@ -4,11 +4,16 @@ repos:
   - repo: builtin
     hooks:
       - id: check-json
-      - id: check-toml
       - id: check-yaml
       - id: mixed-line-ending
         args: ["--fix=lf"]
       - id: trailing-whitespace
+
+  - repo: https://github.com/tombi-toml/tombi-pre-commit
+    rev: v0.9.14
+    hooks:
+      - id: tombi-format
+        args: ["--offline"]
 
   - repo: https://github.com/rvben/rumdl-pre-commit
     rev: v0.1.67
