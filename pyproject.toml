@@ -200,7 +200,7 @@ pythonpath = "."
 testpaths = "tests"
 
 [tool.tombi.files]
-exclude = ["uv.lock"]
+exclude = ["pyproject.toml", "uv.lock"]
 
 [tool.ruff]
 target-version = "py310"
