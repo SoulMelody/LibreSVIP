@@ -321,7 +321,7 @@ if sys.platform == "win32":
             screen = window.screen()
             origin = screen.geometry.top_left()
             native_pos = (
-                QPointF(QPointF(point - origin) * window.device_pixel_ratio()).to_point() + origin
+                QPointF(QPointF(point - origin) * window.device_pixel_ratio).to_point() + origin
             )
             h_menu = GetSystemMenu(hwnd, False)
             if self._is_maximized(hwnd):
@@ -459,7 +459,7 @@ if sys.platform == "win32":
         def _handle_get_min_max_info(self, hwnd: int, l_param: LPARAM) -> tuple[bool, int]:
             window = self.windows[hwnd]
             minmax_info = cast(l_param, POINTER(MINMAXINFO)).contents
-            pixel_ratio = window.device_pixel_ratio()
+            pixel_ratio = window.device_pixel_ratio
             geometry = window.screen().available_geometry
             rect = RECT()
             SystemParametersInfoW(SPI_GETWORKAREA, 0, byref(rect), 0)
