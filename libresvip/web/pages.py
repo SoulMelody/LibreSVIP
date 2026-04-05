@@ -1851,15 +1851,15 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     if e.modifiers.alt and e.action.keyup and not e.action.repeat:
                         match e.key.name:
                             case "c":
-                                convert_menu.open()
+                                convert_menu.toggle()
                             case "[":
-                                input_formats_menu.open()
+                                input_formats_menu.toggle()
                             case "]":
-                                output_formats_menu.open()
+                                output_formats_menu.toggle()
                             case "t":
-                                theme_menu.open()
+                                theme_menu.toggle()
                             case "h":
-                                help_menu.open()
+                                help_menu.toggle()
                             case "o":
                                 await selected_formats.add_upload()
                             case "i":
@@ -2157,12 +2157,12 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         backward=bool,
                     ).tooltip(_("Export"))
                 ui.label(_("Advanced Options")).classes("text-h5 font-bold")
-                with ui.expansion().classes("w-full") as import_panel:
+                with ui.expansion(group="options").classes("w-full") as import_panel:
                     with import_panel.add_slot("header"):
                         input_panel_header()
                     input_options()
                 ui.separator()
-                with ui.expansion().classes("w-full") as middleware_panel:
+                with ui.expansion(group="options").classes("w-full") as middleware_panel:
                     with (
                         middleware_panel.add_slot("header"),
                         ui.row().classes("w-full items-center"),
@@ -2171,7 +2171,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         ui.label(_("Intermediate Processing")).classes("text-subtitle1 font-bold")
                     middleware_options()
                 ui.separator()
-                with ui.expansion().classes("w-full") as export_panel:
+                with ui.expansion(group="options").classes("w-full") as export_panel:
                     with export_panel.add_slot("header"):
                         output_panel_header()
                     output_options()
