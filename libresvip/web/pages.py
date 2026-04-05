@@ -614,7 +614,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         uploader = ui.upload(
             multiple=True,
             auto_upload=True,
-        ).props("hidden")
+        ).classes("hidden")
 
         @dataclasses.dataclass
         class SelectedFormats:
@@ -2255,4 +2255,5 @@ def main() -> None:
             favicon=icon_path,
             show_welcome_message=False,
             binding_refresh_interval=0.03,
+            unocss="mini",
         )
