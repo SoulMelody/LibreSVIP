@@ -30,7 +30,7 @@ from zipfile import ZipFile
 
 import anyio
 import more_itertools
-from nicegui import PageArguments, app, ui
+from nicegui import PageArguments, app, binding, ui
 from nicegui.context import context
 from nicegui.elements.switch import Switch
 from nicegui.events import (
@@ -129,7 +129,7 @@ def float_validator(value: SupportsFloat | None) -> bool:
         return False
 
 
-@dataclasses.dataclass
+@binding.bindable_dataclass(bindable_fields=["running", "success", "error", "warning"])
 class ConversionTask:
     name: str
     upload_path: pathlib.Path
@@ -616,7 +616,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             auto_upload=True,
         ).classes("hidden")
 
-        @dataclasses.dataclass
+        @binding.bindable_dataclass(bindable_fields=["current_preset"])
         class SelectedFormats:
             _input_format: str = dataclasses.field(default_factory=_input_format_factory)
             _output_format: str = dataclasses.field(default_factory=_output_format_factory)
@@ -1992,13 +1992,17 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     ).tooltip(_("View Detail Information"))
 
         def tasks_area() -> None:
+            @context_vars_wrapper
+            def max_track_count_text(max_track_count: int) -> str:
+                return _("Max Track count:") + f" {max_track_count}"
+
             with ui.card().classes("w-full h-full").tight() as tasks_card:
                 with ui.row().classes("w-full"):
                     ui.label(_("Import project")).classes("text-h5 font-bold")
                     ui.space()
                     ui.label(_("Conversion Mode:")).classes("text-h5")
                     ui.toggle(
-                        {mode.value: mode.name for mode in ConversionMode},
+                        {mode.value: _(mode.value) for mode in ConversionMode},
                     ).bind_value(
                         selected_formats,
                         "conversion_mode",
@@ -2055,9 +2059,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         ).bind_text_from(
                             settings,
                             "max_track_count",
-                            backward=lambda max_track_count: (
-                                _("Max Track count:") + f" {max_track_count}"
-                            ),
+                            backward=max_track_count_text,
                         )
                         ui.slider(
                             min=1,
