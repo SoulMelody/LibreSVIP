@@ -77,7 +77,7 @@ cli_a = Analysis(
         'pywintypes', 'pythoncom', 'mypy',
         'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
         'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
-        "uvicorn", "webview", "clr", 'pythoncom', 'pywintypes',
+        "uvicorn", "webview", "clr", 'pythoncom', 'pywintypes', "aiohttp", "requests", "yarl", "certifi",
         'PySide6',
         'PySide6.QtCore',
         'PySide6.QtDataVisualization',
