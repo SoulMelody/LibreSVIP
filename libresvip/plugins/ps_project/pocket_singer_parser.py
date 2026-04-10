@@ -1,12 +1,10 @@
 import dataclasses
 import pathlib
-from typing import TYPE_CHECKING
 
 try:
     from pyzipper import AESZipFile
 except ImportError:
-    if not TYPE_CHECKING:
-        AESZipFile = object
+    AESZipFile = object  # type: ignore[misc, assignment]
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
