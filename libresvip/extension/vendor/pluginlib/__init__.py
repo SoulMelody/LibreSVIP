@@ -16,7 +16,6 @@ __all__ = [
     "BlacklistEntry",
     "Parent",
     "Plugin",
-    "PluginImportError",
     "PluginLoader",
     "PluginlibError",
     "abstractattribute",
@@ -28,10 +27,5 @@ from abc import abstractmethod
 from libresvip.extension.vendor.pluginlib._loader import PluginLoader
 from libresvip.extension.vendor.pluginlib._objects import BlacklistEntry
 from libresvip.extension.vendor.pluginlib._parent import Parent, Plugin
-from libresvip.extension.vendor.pluginlib._util import (
-    abstractattribute,
-)
-from libresvip.extension.vendor.pluginlib.exceptions import (
-    PluginImportError,
-    PluginlibError,
-)
+from libresvip.extension.vendor.pluginlib._util import abstractattribute
+from libresvip.extension.vendor.pluginlib.exceptions import PluginlibError

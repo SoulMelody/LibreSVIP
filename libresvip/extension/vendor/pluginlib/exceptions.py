@@ -30,23 +30,3 @@ class PluginlibError(Exception):
     def __init__(self, *args: object, **kwargs: object) -> None:
         super().__init__(*args)
         self.friendly = kwargs.get("friendly")
-
-
-class PluginImportError(PluginlibError):
-    """
-    **Exception class for Pluginlib import errors**
-
-    Subclass of :py:exc:`PluginlibError`
-
-    **Custom Instance Attributes**
-
-        .. py:attribute:: friendly
-            :annotation: = None
-
-            :py:class:`str` -- May contain abbreviated traceback
-
-            When an exception is raised while importing a module, an attempt is made to create a
-            "friendly" version of the output with a traceback limited to the plugin itself
-            or, failing that, the loader module.
-
-    """

@@ -17,62 +17,17 @@ import os
 import pathlib
 import pkgutil
 import sys
-import traceback
 from collections.abc import Iterable
 from types import ModuleType
-from typing import NoReturn
 
 from loguru import logger
 
 from libresvip.extension.vendor.pluginlib._objects import BlacklistEntry
 from libresvip.extension.vendor.pluginlib._parent import Plugin, get_plugins
 from libresvip.extension.vendor.pluginlib._util import DictWithDotNotation, NoneType
-from libresvip.extension.vendor.pluginlib.exceptions import PluginImportError
 
 
-def _raise_friendly_exception(
-    exc: Exception, name: str, path: pathlib.Path | None = None
-) -> NoReturn:
-    """
-    Attempt to create a friendly traceback that only shows the errors
-    encountered from the plugin import and not the framework
-    """
-
-    etype = exc.__class__
-    tback = getattr(exc, "__traceback__", sys.exc_info()[2])
-
-    # Create traceback starting at module for friendly output
-    start = 0
-    here = 0
-    tb_list = traceback.extract_tb(tback)
-
-    if path:
-        for idx, entry in enumerate(tb_list):
-            entry_path = pathlib.Path(entry[0])
-            # Find index for traceback starting with module we tried to load
-            if entry_path.parent == path:
-                start = idx
-                break
-
-            # Find index for traceback starting with this file
-            if entry_path.with_suffix("") == pathlib.Path(__file__).with_suffix(""):
-                here = idx
-
-    if start == 0 and isinstance(exc, SyntaxError):
-        limit = 0
-    else:
-        limit = 0 - len(tb_list) + max(start, here)
-
-    friendly = "".join(traceback.format_exception(etype, exc, tback, limit))
-
-    # Format exception
-    msg = f"Error while importing candidate plugin module {name} from {path}"
-    exception = PluginImportError(f"{msg}: {exc!r}", friendly=friendly)
-
-    raise exception.with_traceback(tback) from None
-
-
-def _import_module(name: str, path: str | None = None) -> ModuleType:
+def _import_module(name: str, path: str | None = None) -> ModuleType | None:
     """
     Args:
         name(str):
@@ -98,11 +53,10 @@ def _import_module(name: str, path: str | None = None) -> ModuleType:
     logger.debug(f"Attempting to load module {name} from {path}")
     try:
         mod = importlib.import_module(name)
-
-    except Exception as e:  # pylint: disable=broad-except
-        _raise_friendly_exception(e, name, path)
-
-    return mod
+    except Exception as e:
+        logger.exception(e)
+    else:
+        return mod
 
 
 def _recursive_import(package: ModuleType) -> None:
@@ -163,8 +117,8 @@ def _recursive_path_import(path: pathlib.Path, prefix_package: str | None = None
                 sys.modules[name] = module
                 spec.loader.exec_module(module)
 
-            except Exception as e:  # pylint: disable=broad-except
-                _raise_friendly_exception(e, name, root)
+            except Exception as e:
+                logger.exception(e)
 
 
 # pylint: disable=too-many-instance-attributes,too-many-arguments
