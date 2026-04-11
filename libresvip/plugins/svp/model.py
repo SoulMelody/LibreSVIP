@@ -113,6 +113,9 @@ class SVBaseAttributes(BaseModel):
     phoneset_override: str | None = Field(None, alias="phonesetOverride")
     transpose_cents: float | None = Field(None, alias="transposeCents")
     transpose_semitones: float | None = Field(None, alias="transposeSemitones")
+    choir_num_stems: int | None = Field(None, alias="choirNumStems")
+    choir_part_name: str | None = Field(None, alias="choirPartName")
+    consonant_strength: float | None = Field(None, alias="consonantStrength")
 
 
 class SVMeter(BaseModel):
