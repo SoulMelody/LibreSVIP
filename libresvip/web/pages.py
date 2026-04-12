@@ -1,3 +1,4 @@
+# mypy: disable-error-code="call-arg"
 import argparse
 import asyncio
 import dataclasses

@@ -66,7 +66,7 @@ def calc_bar_index(tick: float, base_tick: float, beat: TimeSignature) -> int:
 
 
 def find_bar_index(beat_list: list[TimeSignature], ticks: int) -> int:
-    tick = 0
+    tick = 0.0
     ticks2beat_interval_dict = PiecewiseIntervalDict()
     next_tick = None
     for beat, next_beat in itertools.pairwise(beat_list):
