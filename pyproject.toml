@@ -38,7 +38,7 @@ dependencies = [
   "cbor2<6.0.0,>=5.9.0",
   "charset-normalizer<4.0.0,>=3.4.7",
   "construct-typing<1.0.0,>=0.7.0",
-  "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
+  "importlib-resources<7.0.1,>=7.0.0; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
   "jyutping",
   "ko-pron<2.0,>=1.3",

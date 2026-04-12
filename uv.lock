@@ -1268,11 +1268,11 @@ wheels = [
 
 [[package]]
 name = "importlib-resources"
-version = "6.5.2"
+version = "7.0.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/cf/8c/f834fbf984f691b4f7ff60f50b514cc3de5cc08abfc3295564dd89c5e2e7/importlib_resources-6.5.2.tar.gz", hash = "sha256:185f87adef5bcc288449d98fb4fba07cea78bc036455dd44c5fc4a2fe78fed2c", size = 44693, upload-time = "2025-01-03T18:51:56.698Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/57/da/13b1abf7ca68d74c3f2f1f899354c58952fc665ab22131b40d09800e6795/importlib_resources-7.0.0.tar.gz", hash = "sha256:ccb3c88c71b22528f9e8f2ccf46493f83496b93002fe0faeaefd90461c642585", size = 44582, upload-time = "2026-04-12T00:06:00.103Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a4/ed/1f1afb2e9e7f38a545d628f864d562a5ae64fe6f7a10e28ffb9b185b4e89/importlib_resources-6.5.2-py3-none-any.whl", hash = "sha256:789cfdc3ed28c78b67a06acb8126751ced69a3d5f79c095a98298cd8a760ccec", size = 37461, upload-time = "2025-01-03T18:51:54.306Z" },
+    { url = "https://files.pythonhosted.org/packages/4f/da/83e07e729220b4328d08f457164637c92e22f84bb333069ea6b54ba71ec7/importlib_resources-7.0.0-py3-none-any.whl", hash = "sha256:bba0dbad6a723061fb617707522bb4438e1690855640704fba115eccec7abb40", size = 36818, upload-time = "2026-04-12T00:05:58.842Z" },
 ]
 
 [[package]]
@@ -1501,7 +1501,7 @@ requires-dist = [
     { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.84.0,<0.90.0" },
     { name = "fontconfig-py", marker = "(sys_platform == 'darwin' and extra == 'mobile') or (sys_platform == 'linux' and extra == 'mobile')", specifier = ">=1.0.1" },
     { name = "httpx", marker = "extra == 'desktop'", specifier = ">=0.28.1" },
-    { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=6.5.2,<7.0.0" },
+    { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=7.0.0,<7.0.1" },
     { name = "jinja2", specifier = ">=3.1.6,<4.0.0" },
     { name = "jyutping", index = "https://www.piwheels.org/simple/" },
     { name = "ko-pron", specifier = ">=1.3,<2.0" },
