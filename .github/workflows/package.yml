@@ -40,7 +40,7 @@ jobs:
           name: libresvip-win-amd64.zip
           path: ./packaging/dist/
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
@@ -79,7 +79,7 @@ jobs:
           name: libresvip-msys2-ucrt64.zip
           path: ./packaging/dist/
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
@@ -128,7 +128,7 @@ jobs:
           name: libresvip-win-arm64.zip
           path: ./packaging/archive/
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
@@ -164,7 +164,7 @@ jobs:
           name: libresvip-linux-x86_64.zip
           path: ./packaging/dist/
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
@@ -200,7 +200,7 @@ jobs:
           name: libresvip-linux-aarch64.zip
           path: ./packaging/dist/
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
@@ -245,7 +245,7 @@ jobs:
           name: libresvip-macos-x86_64.zip
           path: ./packaging/dist/
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
@@ -281,7 +281,7 @@ jobs:
           name: libresvip-macos-arm64.zip
           path: ./packaging/dist/
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
@@ -333,7 +333,7 @@ jobs:
           path: ${{steps.sign_app.outputs.signedFile}}
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
