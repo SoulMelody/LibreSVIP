@@ -39,7 +39,7 @@ more-itertools==11.0.2
 multidict==6.7.1
 numpy==2.2.6 ; python_full_version < '3.11' and sys_platform == 'emscripten'
 numpy==2.4.4 ; python_full_version >= '3.11' and sys_platform == 'emscripten'
-packaging==26.0
+packaging==26.1
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.2.0
