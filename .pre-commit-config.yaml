@@ -16,7 +16,7 @@ repos:
         args: ["--offline"]
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.1.71
+    rev: v0.1.72
     hooks:
       - id: rumdl-fmt
 
@@ -29,7 +29,7 @@ repos:
         args: ["--config", "pyproject.toml", "--exclude", "tests/"]
 
   - repo: https://github.com/facebook/pyrefly-pre-commit
-    rev: 0.60.2
+    rev: 0.61.0
     hooks:
       - id: pyrefly-check
         name: Pyrefly (type checking)
