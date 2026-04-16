@@ -47,8 +47,8 @@ platformdirs==4.9.6
 portion==2.6.1
 pycparser==3.0 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32') or (implementation_name != 'PyPy' and sys_platform == 'emscripten')
 pycryptodomex==3.23.0
-pydantic==2.13.0
-pydantic-core==2.46.0
+pydantic==2.13.1
+pydantic-core==2.46.1
 pydantic-extra-types==2.11.1
 pydantic-settings==2.13.1
 pydeployment==1.3.14 ; sys_platform != 'darwin'
