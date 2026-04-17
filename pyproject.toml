@@ -47,7 +47,7 @@ dependencies = [
   "packaging<26.2,>=26.1",
   "platformdirs<5.0.0,>=4.9.6",
   "portion<3.0.0,>=2.6.1",
-  "pydantic<3.0.0,>=2.13.1",
+  "pydantic<3.0.0,>=2.13.2",
   "pydantic-extra-types<3.0.0,>=2.11.1",
   "pydantic-settings<3.0.0,>=2.13.1",
   "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
