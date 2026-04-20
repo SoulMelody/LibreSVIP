@@ -28,8 +28,8 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python 3.14
           uv build --wheel
+          uv venv --python 3.14
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
@@ -106,13 +106,10 @@ jobs:
         shell: bash -el {0}
         run: |
           uv build --wheel
-          uv venv --python cpython-3.13.10-windows-aarch64-none
-          cd dist
-          uv pip install *.whl --no-deps
-          cd ../packaging
-          uv run python -m ensurepip
-          uv run python download_win_arm64_wheels.py
-          uv pip install *.whl --no-deps
+          uv venv --python 3.14
+          cd packaging
+          uv pip install -r requirements-desktop.txt
+          uv pip install ../dist/*.whl --no-deps
           uv run pyinstaller libresvip-gui.spec
           mkdir archive
           cd dist
@@ -306,7 +303,6 @@ jobs:
           uv build --wheel
           uv venv --python 3.12
           uv sync --extra mobile --group packaging
-          uv run python -m ensurepip --upgrade
       - name: Flet Build APK
         run: |
           cd packaging
