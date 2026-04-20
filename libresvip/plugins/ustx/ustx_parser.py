@@ -30,7 +30,7 @@ from .model import (
     UVoicePart,
     UWavePart,
 )
-from .options import InputOptions, OpenUtauEnglishPhonemizerCompatibility
+from .options import InputOptions, PlusHandlingMode
 from .util import BasePitchGenerator
 
 PHONETIC_HINT_RE = re.compile(r"\[(.*?)\]")
@@ -41,6 +41,19 @@ class UstxParser:
     options: InputOptions
     time_signatures: list[TimeSignature] = dataclasses.field(default_factory=list)
     base_pitch_generator: BasePitchGenerator = dataclasses.field(init=False)
+
+    def _is_monosyllabic_mode(self, phonemizer: str | None) -> bool:
+        if self.options.plus_handling_mode == PlusHandlingMode.MONOSYLLABIC:
+            return True
+        if self.options.plus_handling_mode == PlusHandlingMode.POLYSYLLABIC:
+            return False
+        if phonemizer is None:
+            return False
+        phonemizer_lower = phonemizer.lower()
+        return any(
+            lang in phonemizer_lower
+            for lang in ["chinese", "japanese", "korean", "cantonese", "vietnamese"]
+        )
 
     def parse_project(self, ustx_project: USTXProject) -> Project:
         self.breath_lyrics = self.options.breath_lyrics.strip().split()
@@ -109,7 +122,8 @@ class UstxParser:
                 continue
             if not singing_track.title:
                 singing_track.title = voice_part.name
-            notes = self.parse_notes(voice_part.notes, voice_part.position)
+            monosyllabic_mode = self._is_monosyllabic_mode(tracks[track_index].phonemizer)
+            notes = self.parse_notes(voice_part.notes, voice_part.position, monosyllabic_mode)
             singing_track.note_list.extend(notes)
             if self.options.import_pitch:
                 singing_track.edited_params.pitch.points.root.extend(self.parse_pitch(voice_part))
@@ -143,20 +157,18 @@ class UstxParser:
         )
         return point_list
 
-    def parse_notes(self, notes: list[UNote], tick_prefix: int) -> list[Note]:
+    def parse_notes(
+        self, notes: list[UNote], tick_prefix: int, monosyllabic_mode: bool
+    ) -> list[Note]:
         note_list = []
         prev_ustx_note = None
         for ustx_note in notes:
             note_lyric = ustx_note.lyric
             if note_lyric.startswith("+"):
-                if (
-                    note_lyric.removeprefix("+").isdigit()
-                    and self.options.english_phonemizer_compatibility
-                    == OpenUtauEnglishPhonemizerCompatibility.ARPA
-                ):
-                    note_lyric = "+"
-                else:
+                if monosyllabic_mode or note_lyric == "+~" or note_lyric == "+*":
                     note_lyric = "-"
+                else:
+                    note_lyric = "+"
             note = Note(
                 key_number=ustx_note.tone,
                 lyric=note_lyric,
