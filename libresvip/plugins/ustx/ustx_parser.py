@@ -157,7 +157,7 @@ class UstxParser:
         )
         return point_list
 
-    def parse_notes(self, notes: list[UNote], tick_prefix, monosyllabic_mode: bool) -> list[Note]:
+    def parse_notes(self, notes: list[UNote], tick_prefix: int, monosyllabic_mode: bool) -> list[Note]:
         note_list = []
         prev_ustx_note = None
         for ustx_note in notes:
