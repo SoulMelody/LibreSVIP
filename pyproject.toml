@@ -47,9 +47,9 @@ dependencies = [
   "packaging<26.2,>=26.1",
   "platformdirs<5.0.0,>=4.9.6",
   "portion<3.0.0,>=2.6.1",
-  "pydantic<3.0.0,>=2.13.2",
+  "pydantic<3.0.0,>=2.13.3",
   "pydantic-extra-types<3.0.0,>=2.11.1",
-  "pydantic-settings<3.0.0,>=2.13.1",
+  "pydantic-settings<3.0.0,>=2.14.0",
   "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.55.0",
   "pysubs2<2.0.0,>=1.8.1",
@@ -102,7 +102,7 @@ webui = [
 ]
 yaml12 = [
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
-  "yaml-rs<0.1.0,>=0.0.16; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
+  "yaml-rs<0.1.0,>=0.0.17; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
 ]
 
 [dependency-groups]
