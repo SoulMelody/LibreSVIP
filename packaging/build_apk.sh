@@ -15,5 +15,6 @@ uv run flet build apk -v --yes --skip-flutter-doctor \
     --org org.soulmelody \
     --project LibreSVIP \
     --build-version $LIBRESVIP_VERSION \
-    --template gh:SoulMelody/flet-build-template \
+    --template gh:SoulMelody/flet \
+    --template-dir flet/sdk/python/templates/build \
     --template-ref $FLET_VERSION
