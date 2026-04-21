@@ -10,7 +10,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-03-23 01:36\n"
+"PO-Revision-Date: 2026-04-21 01:26\n"
+
+msgid "Auto determine by phonemizer language"
+msgstr "通过音素器语言自动确定"
+
+msgid "Monosyllabic languages: treating +, +~ and +* as slur notes"
+msgstr "单音节语言：将+、+~ 和 +* 作为延音符"
+
+msgid "Polysyllabic languages: treating + as slur notes, and treating +~ or +* as syllable placeholders"
+msgstr "多音节语言：将+作为延音符处理，并将+~ 或+* 作为音节占位符"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr "与 ARPAsing系列音素器不兼容"
@@ -18,11 +27,11 @@ msgstr "与 ARPAsing系列音素器不兼容"
 msgid "Compatible with ARPAsing-series Phonemizers"
 msgstr "与 ARPAsing系列音素器兼容"
 
-msgid "The way to handle english multisyllabic words"
-msgstr "处理英文多音节单词的方式"
+msgid "Plus sign handling mode"
+msgstr "加号处理模式"
 
-msgid "Compatibility with ARPAsing-series Phonemizer"
-msgstr "与 ARPAsing系列音素器的兼容性"
+msgid "How to handle the + symbol in lyrics when importing USTX"
+msgstr "在导入 USTX 时如何处理歌词中的 + 符号"
 
 msgid "Breath lyrics"
 msgstr "呼吸音歌词"
@@ -35,6 +44,12 @@ msgstr "休止符歌词"
 
 msgid "Special lyrics that will be ignored, each separated by a space"
 msgstr "将被忽略的特殊歌词，歌词之间用空格隔开"
+
+msgid "The way to handle english multisyllabic words"
+msgstr "处理英文多音节单词的方式"
+
+msgid "Compatibility with ARPAsing-series Phonemizer"
+msgstr "与 ARPAsing系列音素器的兼容性"
 
 msgid "Ustx"
 msgstr ""

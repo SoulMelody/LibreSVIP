@@ -10,7 +10,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-03-23 01:36\n"
+"PO-Revision-Date: 2026-04-21 01:24\n"
+
+msgid "Auto determine by phonemizer language"
+msgstr ""
+
+msgid "Monosyllabic languages: treating +, +~ and +* as slur notes"
+msgstr ""
+
+msgid "Polysyllabic languages: treating + as slur notes, and treating +~ or +* as syllable placeholders"
+msgstr ""
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr "Inkompatibel mit Phonemizern der ARPAsing-Serie"
@@ -18,11 +27,11 @@ msgstr "Inkompatibel mit Phonemizern der ARPAsing-Serie"
 msgid "Compatible with ARPAsing-series Phonemizers"
 msgstr "Kompatibel mit Phonemizern der ARPAsing-Serie"
 
-msgid "The way to handle english multisyllabic words"
-msgstr "Die Art und Weise, englische mehrsilbige Wörter zu behandeln"
+msgid "Plus sign handling mode"
+msgstr ""
 
-msgid "Compatibility with ARPAsing-series Phonemizer"
-msgstr "Kompatibilität mit Phonemizern der ARPAsing-Serie"
+msgid "How to handle the + symbol in lyrics when importing USTX"
+msgstr ""
 
 msgid "Breath lyrics"
 msgstr "Atemtexte"
@@ -35,6 +44,12 @@ msgstr "Stille Texte"
 
 msgid "Special lyrics that will be ignored, each separated by a space"
 msgstr "Spezielle Texte, die ignoriert werden, jeweils durch ein Leerzeichen getrennt"
+
+msgid "The way to handle english multisyllabic words"
+msgstr "Die Art und Weise, englische mehrsilbige Wörter zu behandeln"
+
+msgid "Compatibility with ARPAsing-series Phonemizer"
+msgstr "Kompatibilität mit Phonemizern der ARPAsing-Serie"
 
 msgid "Ustx"
 msgstr ""

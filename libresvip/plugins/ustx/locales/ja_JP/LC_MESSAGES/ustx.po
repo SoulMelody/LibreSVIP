@@ -10,7 +10,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-03-23 01:30\n"
+"PO-Revision-Date: 2026-04-21 01:24\n"
+
+msgid "Auto determine by phonemizer language"
+msgstr ""
+
+msgid "Monosyllabic languages: treating +, +~ and +* as slur notes"
+msgstr ""
+
+msgid "Polysyllabic languages: treating + as slur notes, and treating +~ or +* as syllable placeholders"
+msgstr ""
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr ""
@@ -18,10 +27,10 @@ msgstr ""
 msgid "Compatible with ARPAsing-series Phonemizers"
 msgstr ""
 
-msgid "The way to handle english multisyllabic words"
+msgid "Plus sign handling mode"
 msgstr ""
 
-msgid "Compatibility with ARPAsing-series Phonemizer"
+msgid "How to handle the + symbol in lyrics when importing USTX"
 msgstr ""
 
 msgid "Breath lyrics"
@@ -34,6 +43,12 @@ msgid "Silence lyrics"
 msgstr ""
 
 msgid "Special lyrics that will be ignored, each separated by a space"
+msgstr ""
+
+msgid "The way to handle english multisyllabic words"
+msgstr ""
+
+msgid "Compatibility with ARPAsing-series Phonemizer"
 msgstr ""
 
 msgid "Ustx"
