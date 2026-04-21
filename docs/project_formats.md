@@ -12,7 +12,7 @@
 | `json`          | OpenSVIP                              | 标准序列化格式   | 基于json                          |                                                            | 尚在维护 |
 | `nn`            | 袅袅虚拟歌手                          | 自定义文本格式   |                                   |                                                            | 停止开发 |
 | `mid/midi`      | 众多音序器/DAW                        | 标准二进制格式   | 标准MIDI(SMF)格式                 |                                                            | 尚在维护 |
-| `msq`           | Mikoto Studio                         | 标准序列化格式   | 基于toml                          |                                                            | 活跃开发 |
+| `msq`           | Mikoto Studio                         | 标准序列化格式   | 基于json                          |                                                            | 活跃开发 |
 | `mtp`           | MUTA 2                                | 自定义二进制格式 |                                   |                                                            | 停止开发 |
 | `MusicXML`      | MuseScore、Sibelius、Finale等打谱软件 | 标准序列化格式   | 基于xml                           |                                                            | 活跃开发 |
 | `ppsf` (旧版)   | Piapro Studio (VOCALOID)              | 自定义二进制格式 |                                   |                                                            | 尚在维护 |
