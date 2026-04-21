@@ -6,7 +6,7 @@ msgstr ""
 
 msgid ""
 "Polysyllabic languages: treating + as slur notes, and treating +~ or +* "
-"as syllable placerholders"
+"as syllable placeholders"
 msgstr ""
 
 msgid "Incompatible with ARPAsing-series Phonemizers"

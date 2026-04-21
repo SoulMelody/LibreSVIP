@@ -25,7 +25,7 @@ class PlusHandlingMode(Enum):
                 str,
                 Field(
                     title=_(
-                        "Polysyllabic languages: treating + as slur notes, and treating +~ or +* as syllable placerholders"
+                        "Polysyllabic languages: treating + as slur notes, and treating +~ or +* as syllable placeholders"
                     )
                 ),
             ),
