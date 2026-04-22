@@ -3,7 +3,7 @@ anyio==4.13.0
 aristaproto==0.1.4
 bidict==0.23.1
 cbor2==5.9.0
-certifi==2026.2.25
+certifi==2026.4.22
 cffi==1.17.1
 charset-normalizer==3.4.7
 construct==2.10.70
@@ -21,7 +21,7 @@ hpack==4.1.0
 httpcore==1.0.9
 httpx==0.28.1
 hyperframe==6.1.0
-idna==3.12
+idna==3.13
 jinja2==3.1.6
 jyutping==0.3.4
 ko-pron==1.3
