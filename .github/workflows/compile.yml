@@ -68,11 +68,11 @@ jobs:
           uv pip install zensical
           uv run zensical build
 
-      - uses: peaceiris/actions-gh-pages@v4
+      - uses: JamesIves/github-pages-deploy-action@v4
         if: steps.changed-files.outputs.docs_any_changed == 'true'
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: site
+          token: ${{ secrets.GITHUB_TOKEN }}
+          folder: site
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v7
