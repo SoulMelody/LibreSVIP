@@ -98,7 +98,7 @@ tui = [
 ]
 ujson = ["ujson>=5.12.0"]
 webui = [
-  "nicegui>=3.11.0",
+  "nicegui>=3.11.1",
 ]
 yaml12 = [
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
