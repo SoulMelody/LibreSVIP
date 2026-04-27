@@ -226,9 +226,9 @@ class SynthVEditorParser:
                 note_list=note_list,
                 time_signature_list=self.time_signatures,
             )
-            params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(
-                rel_pitch_points, pitch_simulator
-            )
+            params.pitch = RelativePitchCurve(
+                self.first_bar_length, is_staircase=False
+            ).to_absolute(rel_pitch_points, pitch_simulator)
         return params
 
     def parse_pitch_curve(
