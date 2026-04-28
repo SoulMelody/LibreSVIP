@@ -35,7 +35,7 @@ dependencies = [
   "aristaproto<0.2.0,>=0.1.4",
   "backports.zstd<1.3.1,>=1.3.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "bidict<0.23.2,>=0.23.1",
-  "cbor2<6.0.0,>=5.9.0",
+  "cbor2<6.0.1,>=6.0.0",
   "charset-normalizer<4.0.0,>=3.4.7",
   "construct-typing<1.0.0,>=0.7.0",
   "importlib-resources<7.1.1,>=7.1.0; python_version < \"3.11\"",
