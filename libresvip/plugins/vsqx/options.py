@@ -1,8 +1,12 @@
 from pydantic import BaseModel, Field
 
 from libresvip.model.option_mixins import (
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
     EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
+    EnableStrengthImportationMixin,
+    EnableVolumeImportationMixin,
 )
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -12,6 +16,10 @@ from .models.enums import VocaloidLanguage, VsqxVersion
 class InputOptions(
     EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
+    EnableVolumeImportationMixin,
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnableStrengthImportationMixin,
     BaseModel,
 ):
     combine_syllables: bool = Field(

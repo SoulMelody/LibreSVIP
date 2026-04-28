@@ -17,11 +17,13 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.vocaloid import VocaloidPitchHandler
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -53,7 +55,6 @@ from .model import (
 )
 from .models.enums import VocaloidLanguage
 from .options import OutputOptions
-from .vocaloid_pitch import generate_for_vocaloid
 
 
 @dataclasses.dataclass
@@ -168,6 +169,7 @@ class Vsq4Generator:
                 )
                 if pitch := self.generate_pitch(track.edited_params.pitch, track.note_list):
                     musical_part.m_ctrl = pitch
+                musical_part.m_ctrl.extend(self.generate_params(track.edited_params, tick_prefix))
                 vsqx_track.musical_part = [musical_part]
             vsqx_unit = Vsq4VsUnit(
                 vs_track_no=track_index,
@@ -247,9 +249,17 @@ class Vsq4Generator:
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq4MCtrl]:
         music_controls: list[Vsq4MCtrl] = []
-        if pitch_raw_data := generate_for_vocaloid(
-            pitch, notes, self.time_signatures, self.first_bar_length, self.time_synchronizer
-        ):
+        # 使用新的处理器
+        pitch_handler = VocaloidPitchHandler(
+            synchronizer=self.time_synchronizer,
+            note_list=notes,
+            time_signature_list=self.time_signatures,
+            first_bar_length=self.first_bar_length,
+        )
+
+        pitch_data = pitch_handler.from_absolute_pitch(pitch)
+
+        if not pitch_data.is_empty():
             music_controls.extend(
                 Vsq4MCtrl(
                     pos_tick=pbs_event.pos,
@@ -258,7 +268,7 @@ class Vsq4Generator:
                         value=pbs_event.value,
                     ),
                 )
-                for pbs_event in pitch_raw_data.pbs
+                for pbs_event in pitch_data.pbs.events
             )
             music_controls.extend(
                 Vsq4MCtrl(
@@ -268,7 +278,73 @@ class Vsq4Generator:
                         value=pit_event.value,
                     ),
                 )
-                for pit_event in pitch_raw_data.pit
+                for pit_event in pitch_data.pit.events
             )
             music_controls.sort(key=operator.attrgetter("pos_tick"))
+        return music_controls
+
+    def generate_params(
+        self,
+        params: Params,
+        tick_prefix: int,
+    ) -> list[Vsq4MCtrl]:
+        music_controls: list[Vsq4MCtrl] = []
+
+        music_controls.extend(
+            [
+                Vsq4MCtrl(
+                    pos_tick=point.x + tick_prefix,
+                    attr=Vsq4TypeParamAttr(
+                        type_param_attr_id=Vsq4ParameterNames.DYN.value,
+                        value=point.y,
+                    ),
+                )
+                for point in params.volume.points.root
+                if point.y >= 0
+            ]
+        )
+
+        music_controls.extend(
+            [
+                Vsq4MCtrl(
+                    pos_tick=point.x + tick_prefix,
+                    attr=Vsq4TypeParamAttr(
+                        type_param_attr_id=Vsq4ParameterNames.BRE.value,
+                        value=point.y,
+                    ),
+                )
+                for point in params.breath.points.root
+                if point.y >= 0
+            ]
+        )
+
+        music_controls.extend(
+            [
+                Vsq4MCtrl(
+                    pos_tick=point.x + tick_prefix,
+                    attr=Vsq4TypeParamAttr(
+                        type_param_attr_id=Vsq4ParameterNames.GEN.value,
+                        value=point.y,
+                    ),
+                )
+                for point in params.gender.points.root
+                if point.y >= 0
+            ]
+        )
+
+        music_controls.extend(
+            [
+                Vsq4MCtrl(
+                    pos_tick=point.x + tick_prefix,
+                    attr=Vsq4TypeParamAttr(
+                        type_param_attr_id=Vsq4ParameterNames.BRI.value,
+                        value=point.y,
+                    ),
+                )
+                for point in params.strength.points.root
+                if point.y >= 0
+            ]
+        )
+
+        music_controls.sort(key=operator.attrgetter("pos_tick"))
         return music_controls

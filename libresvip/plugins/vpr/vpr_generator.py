@@ -14,12 +14,14 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.vocaloid import VocaloidPitchHandler
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -27,8 +29,6 @@ from .constants import (
     BPM_RATE,
     DEFAULT_CHINESE_PHONEME,
     DEFAULT_JAPANESE_PHONEME,
-    PITCH_BEND_NAME,
-    PITCH_BEND_SENSITIVITY_NAME,
 )
 from .model import (
     VocaloidAITrack,
@@ -51,7 +51,6 @@ from .model import (
     VocaloidWavPart,
 )
 from .options import OutputOptions
-from .vocaloid_pitch import generate_for_vocaloid
 
 
 @dataclasses.dataclass
@@ -183,6 +182,7 @@ class VocaloidGenerator:
                 ]
                 duration = track.note_list[-1].end_pos if track.note_list else None
                 controllers = self.generate_pitch_data(track)
+                controllers.extend(self.generate_params(track.edited_params))
                 part = (
                     VocaloidVoicePart(
                         duration=duration,
@@ -230,29 +230,68 @@ class VocaloidGenerator:
             )
         return tracks
 
-    def generate_pitch_data(self, track: SingingTrack) -> list[VocaloidControllers] | None:
-        raw_pitch_data = generate_for_vocaloid(
-            track.edited_params.pitch,
-            track.note_list,
-            self.time_signatures,
-            self.first_bar_length,
-            self.time_synchronizer,
+    def generate_pitch_data(self, track: SingingTrack) -> list[VocaloidControllers]:
+        # 使用新的处理器
+        pitch_handler = VocaloidPitchHandler(
+            synchronizer=self.time_synchronizer,
+            note_list=track.note_list,
+            time_signature_list=self.time_signatures,
+            first_bar_length=self.first_bar_length,
         )
-        if not raw_pitch_data:
-            return None
+
+        result = pitch_handler.from_absolute_pitch(track.edited_params.pitch)
+
+        controllers: list[VocaloidControllers] = []
+        if result.is_empty():
+            return controllers
+
+        # 添加 PBS 控制器
+        if result.pbs.events:
+            pbs_events = [
+                VocaloidPoint(pos=event.pos, value=event.value) for event in result.pbs.events
+            ]
+            controllers.append(VocaloidControllers(name="pitchBendSens", events=pbs_events))
+
+        # 添加 PIT 控制器
+        if result.pit.events:
+            pit_events = [
+                VocaloidPoint(pos=event.pos, value=event.value) for event in result.pit.events
+            ]
+            controllers.append(VocaloidControllers(name="pitchBend", events=pit_events))
+
+        return controllers
+
+    def generate_params(self, params: "Params") -> list[VocaloidControllers]:
         controllers = []
-        if raw_pitch_data.pbs:
-            controller_events = [
-                VocaloidPoint(pos=pbs_event.pos, value=pbs_event.value)
-                for pbs_event in raw_pitch_data.pbs
+
+        if params.volume.points.root:
+            volume_events = [
+                VocaloidPoint(pos=point.x, value=point.y)
+                for point in params.volume.points.root
+                if point.y >= 0
             ]
-            controllers.append(
-                VocaloidControllers(name=PITCH_BEND_SENSITIVITY_NAME, events=controller_events)
-            )
-        if raw_pitch_data.pit:
-            controller_events = [
-                VocaloidPoint(pos=pit_event.pos, value=pit_event.value)
-                for pit_event in raw_pitch_data.pit
+            if volume_events:
+                controllers.append(VocaloidControllers(name="dynamics", events=volume_events))
+
+        if params.breath.points.root:
+            breath_events = [
+                VocaloidPoint(pos=point.x, value=point.y) for point in params.breath.points.root
             ]
-            controllers.append(VocaloidControllers(name=PITCH_BEND_NAME, events=controller_events))
+            if breath_events:
+                controllers.append(VocaloidControllers(name="breathiness", events=breath_events))
+
+        if params.gender.points.root:
+            gender_events = [
+                VocaloidPoint(pos=point.x, value=point.y) for point in params.gender.points.root
+            ]
+            if gender_events:
+                controllers.append(VocaloidControllers(name="gender", events=gender_events))
+
+        if params.strength.points.root:
+            brightness_events = [
+                VocaloidPoint(pos=point.x, value=point.y) for point in params.strength.points.root
+            ]
+            if brightness_events:
+                controllers.append(VocaloidControllers(name="brightness", events=brightness_events))
+
         return controllers

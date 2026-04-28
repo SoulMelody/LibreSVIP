@@ -12,6 +12,7 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
     ParamCurve,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
@@ -19,11 +20,11 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.reset_time_axis import limit_bars
+from libresvip.model.vocaloid import VocaloidPitchHandler
 from libresvip.utils.binary.midi import bpm2tempo
 
 from .constants import DEFAULT_PHONEME
 from .options import OutputOptions
-from .vocaloid_pitch import generate_for_vocaloid
 
 MidiMessage: TypeAlias = dict[str, Any]
 
@@ -293,19 +294,69 @@ class VsqGenerator:
         result.extend(
             self.generate_pitch_text(track.edited_params.pitch, tick_prefix, track.note_list)
         )
+        result.extend(self.generate_params_text(track.edited_params, tick_prefix))
         return "\n".join(result)
 
     def generate_pitch_text(
         self, pitch: ParamCurve, tick_prefix: int, note_list: list[Note]
     ) -> list[str]:
         result = []
-        if pitch_raw_data := generate_for_vocaloid(
-            pitch, note_list, self.time_signatures, self.first_bar_length, self.synchronizer
-        ):
-            if len(pitch_raw_data.pit):
+        # 使用新的处理器
+        pitch_handler = VocaloidPitchHandler(
+            synchronizer=self.synchronizer,
+            note_list=note_list,
+            time_signature_list=self.time_signatures,
+            first_bar_length=self.first_bar_length,
+        )
+
+        pitch_data = pitch_handler.from_absolute_pitch(pitch)
+
+        if not pitch_data.is_empty():
+            if pitch_data.pit.events:
                 result.append("[PitchBendBPList]")
-                result.extend(f"{pit.pos + tick_prefix}={pit.value}" for pit in pitch_raw_data.pit)
-            if len(pitch_raw_data.pbs):
+                result.extend(
+                    f"{event.pos + tick_prefix}={event.value}" for event in pitch_data.pit.events
+                )
+            if pitch_data.pbs.events:
                 result.append("[PitchBendSensBPList]")
-                result.extend(f"{pbs.pos + tick_prefix}={pbs.value}" for pbs in pitch_raw_data.pbs)
+                result.extend(
+                    f"{event.pos + tick_prefix}={event.value}" for event in pitch_data.pbs.events
+                )
+        return result
+
+    def generate_params_text(
+        self,
+        params: "Params",
+        tick_prefix: int,
+    ) -> list[str]:
+        result = []
+
+        if params.volume.points.root:
+            result.append("[DynamicsBPList]")
+            result.extend(
+                [
+                    f"{point.x + tick_prefix}={point.y}"
+                    for point in params.volume.points.root
+                    if point.y >= 0
+                ]
+            )
+
+        if params.breath.points.root:
+            result.append("[BreathinessBPList]")
+            result.extend(
+                [f"{point.x + tick_prefix}={point.y}" for point in params.breath.points.root]
+            )
+
+        if params.gender.points.root:
+            result.append("[GenderFactorBPList]")
+            result.extend(
+                [f"{point.x + tick_prefix}={point.y}" for point in params.gender.points.root]
+            )
+
+        if params.strength.points.root:
+            result.append("[BrightnessBPList]")
+            result.extend(
+                [f"{point.x + tick_prefix}={point.y}" for point in params.strength.points.root]
+            )
+
         return result

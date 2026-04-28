@@ -14,12 +14,14 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
 from libresvip.model.point import Point
+from libresvip.model.vocaloid import ControllerCurve, VocaloidPitchHandler
 
 from .constants import BPM_RATE
 from .model import (
@@ -39,11 +41,7 @@ from .model import (
     VsqxWavUnitList,
 )
 from .options import InputOptions
-from .vocaloid_pitch import (
-    ControllerEvent,
-    VocaloidPartPitchData,
-    pitch_from_vocaloid_parts,
-)
+from .vocaloid_controllers import VsqxControllerAdapter
 
 
 @dataclasses.dataclass
@@ -155,6 +153,11 @@ class VsqxParser:
                     )
                 ):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
+                self.parse_params(
+                    musical_part,
+                    singing_track.edited_params,
+                    tick_prefix,
+                )
             if len(singing_track.edited_params.pitch.points.root):
                 singing_track.edited_params.pitch.points.root.insert(0, Point.start_point())
                 singing_track.edited_params.pitch.points.root.append(Point.end_point())
@@ -274,38 +277,75 @@ class VsqxParser:
         vibrato_depth_interval_dict: PiecewiseIntervalDict,
         tick_offset: int,
     ) -> ParamCurve | None:
-        pitch_data = VocaloidPartPitchData(
-            start_pos=musical_part.pos_tick - tick_offset,
-            pit=[
-                ControllerEvent(
-                    pos=music_control.pos_tick,
-                    value=music_control.attr.value,
-                )
-                for music_control in musical_part.m_ctrl
-                if music_control.attr.type_param_attr_id == self.param_names.PIT.value
-                and music_control.attr.value is not None
-            ],
-            pbs=[
-                ControllerEvent(
-                    pos=music_control.pos_tick,
-                    value=music_control.attr.value,
-                )
-                for music_control in musical_part.m_ctrl
-                if music_control.attr.type_param_attr_id == self.param_names.PBS.value
-                and music_control.attr.value is not None
-            ],
+        # 使用新的适配器和处理器
+        adapter = VsqxControllerAdapter(param_names=self.param_names)
+        pitch_handler = VocaloidPitchHandler(
+            synchronizer=self.synchronizer,
+            note_list=note_list,
+            time_signature_list=self.time_signatures,
+            first_bar_length=self.first_bar_length,
         )
-        return pitch_from_vocaloid_parts(
+
+        pit_curve = adapter.extract(musical_part, "pitch_bend")
+        pbs_curve = adapter.extract(musical_part, "pitch_bend_sens")
+
+        if pit_curve is None:
+            return None
+
+        if pbs_curve is None:
+            pbs_curve = ControllerCurve(
+                name="pitch_bend_sens",
+                events=[],
+                default_value=2,
+                min_value=1,
+                max_value=24,
+            )
+
+        from libresvip.model.vocaloid import PitchBendData
+
+        pitch_data = PitchBendData(pit=pit_curve, pbs=pbs_curve)
+
+        return pitch_handler.to_absolute_pitch(
             [pitch_data],
-            self.synchronizer,
-            note_list,
-            self.time_signatures,
-            vibrato_rate_interval_dict,
-            vibrato_depth_interval_dict,
-            self.first_bar_length,
-            musical_part.pos_tick - tick_offset,
-            musical_part.pos_tick + musical_part.play_time - tick_offset,
+            part_offsets=[musical_part.pos_tick - tick_offset],
+            vibrato_rate_interval_dict=vibrato_rate_interval_dict,
+            vibrato_depth_interval_dict=vibrato_depth_interval_dict,
+            part_start_ticks=[musical_part.pos_tick - tick_offset],
+            part_end_ticks=[musical_part.pos_tick + musical_part.play_time - tick_offset],
         )
+
+    def parse_params(
+        self,
+        musical_part: VsqxMusicalPart,
+        params: "Params",
+        tick_prefix: int,
+    ) -> None:
+        adapter = VsqxControllerAdapter(param_names=self.param_names)
+        offset = musical_part.pos_tick - tick_prefix
+
+        if self.options.import_volume:
+            dynamics_curve = adapter.extract(musical_part, "dynamics")
+            if dynamics_curve is not None:
+                for event in dynamics_curve.events:
+                    params.volume.points.append(Point(x=event.pos + offset, y=event.value))
+
+        if self.options.import_breath:
+            breathiness_curve = adapter.extract(musical_part, "breathiness")
+            if breathiness_curve is not None:
+                for event in breathiness_curve.events:
+                    params.breath.points.append(Point(x=event.pos + offset, y=event.value))
+
+        if self.options.import_gender:
+            gender_curve = adapter.extract(musical_part, "gender")
+            if gender_curve is not None:
+                for event in gender_curve.events:
+                    params.gender.points.append(Point(x=event.pos + offset, y=event.value))
+
+        if self.options.import_strength:
+            brightness_curve = adapter.extract(musical_part, "brightness")
+            if brightness_curve is not None:
+                for event in brightness_curve.events:
+                    params.strength.points.append(Point(x=event.pos + offset, y=event.value))
 
     def parse_instrumental_tracks(
         self,

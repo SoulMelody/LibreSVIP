@@ -11,19 +11,18 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
     ParamCurve,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
+from libresvip.model.vocaloid import ControllerCurve, VocaloidPitchHandler
 from libresvip.utils.binary.midi import MIDIFile, MIDITrack, tempo2bpm
 
 from .options import BreathOption, InputOptions
-from .vocaloid_pitch import (
-    ControllerEvent,
-    VocaloidPartPitchData,
-    pitch_from_vocaloid_parts,
-)
+from .vocaloid_controllers import VsqControllerAdapter
 
 BREATH_PATTERN = re.compile("br[1-5]")
 
@@ -173,6 +172,7 @@ class VsqParser:
             pitch := self.parse_pitch(vsq_track, singing_track.note_list, tick_prefix)
         ):
             singing_track.edited_params.pitch = pitch
+        self.parse_params(vsq_track, singing_track.edited_params, tick_prefix)
         return singing_track
 
     def parse_pitch(
@@ -181,37 +181,66 @@ class VsqParser:
         note_list: list[Note],
         tick_prefix: int,
     ) -> ParamCurve | None:
-        pit: list[ControllerEvent] = []
-        pbs: list[ControllerEvent] = []
-        if vsq_track.has_section("PitchBendBPList"):
-            pit.extend(
-                ControllerEvent(
-                    pos=int(key) - tick_prefix,
-                    value=int(value),
-                )
-                for key, value in vsq_track["PitchBendBPList"].items()
-            )
-        if vsq_track.has_section("PitchBendSensBPList"):
-            pbs.extend(
-                ControllerEvent(
-                    pos=int(key) - tick_prefix,
-                    value=int(value),
-                )
-                for key, value in vsq_track["PitchBendSensBPList"].items()
-            )
-        return pitch_from_vocaloid_parts(
-            [
-                VocaloidPartPitchData(
-                    start_pos=0,
-                    pit=pit,
-                    pbs=pbs,
-                )
-            ],
-            self.synchronizer,
-            note_list,
-            self.time_signatures,
-            self.first_bar_length,
+        # 使用新的适配器和处理器
+        adapter = VsqControllerAdapter(tick_prefix=tick_prefix)
+        pitch_handler = VocaloidPitchHandler(
+            synchronizer=self.synchronizer,
+            note_list=note_list,
+            time_signature_list=self.time_signatures,
+            first_bar_length=self.first_bar_length,
         )
+
+        pit_curve = adapter.extract(vsq_track, "pitch_bend")
+        pbs_curve = adapter.extract(vsq_track, "pitch_bend_sens")
+
+        if pit_curve is None:
+            return None
+
+        if pbs_curve is None:
+            pbs_curve = ControllerCurve(
+                name="pitch_bend_sens",
+                events=[],
+                default_value=2,
+                min_value=1,
+                max_value=24,
+            )
+
+        from libresvip.model.vocaloid import PitchBendData
+
+        pitch_data = PitchBendData(pit=pit_curve, pbs=pbs_curve)
+        return pitch_handler.to_absolute_pitch([pitch_data])
+
+    def parse_params(
+        self,
+        vsq_track: configparser.ConfigParser,
+        params: "Params",
+        tick_prefix: int,
+    ) -> None:
+        adapter = VsqControllerAdapter(tick_prefix=tick_prefix)
+
+        if self.options.import_volume:
+            dynamics_curve = adapter.extract(vsq_track, "dynamics")
+            if dynamics_curve is not None:
+                for event in dynamics_curve.events:
+                    params.volume.points.append(Point(x=event.pos, y=event.value))
+
+        if self.options.import_breath:
+            breathiness_curve = adapter.extract(vsq_track, "breathiness")
+            if breathiness_curve is not None:
+                for event in breathiness_curve.events:
+                    params.breath.points.append(Point(x=event.pos, y=event.value))
+
+        if self.options.import_gender:
+            gender_curve = adapter.extract(vsq_track, "gender")
+            if gender_curve is not None:
+                for event in gender_curve.events:
+                    params.gender.points.append(Point(x=event.pos, y=event.value))
+
+        if self.options.import_strength:
+            brightness_curve = adapter.extract(vsq_track, "brightness")
+            if brightness_curve is not None:
+                for event in brightness_curve.events:
+                    params.strength.points.append(Point(x=event.pos, y=event.value))
 
     def parse_notes(self, vsq_track: configparser.ConfigParser, tick_prefix: int) -> list[Note]:
         notes = []
