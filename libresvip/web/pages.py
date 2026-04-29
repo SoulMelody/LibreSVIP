@@ -6,6 +6,7 @@ import enum
 import functools
 import io
 import math
+import os
 import pathlib
 import platform
 import re
@@ -54,9 +55,9 @@ from libresvip.core.config import (
     DarkMode,
     Language,
     LibreSvipBaseUISettings,
+    LibreSVIPSettingsContainer,
     LyricsReplacement,
     LyricsReplaceMode,
-    ui_settings_ctx,
 )
 from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
@@ -82,7 +83,6 @@ R = TypeVar("R")
 
 class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
     def __post_init__(self) -> None:
-        self.lyric_replace_rules.setdefault("default", [])
         detected_language = None
         request = request_contextvar.get()
         if accept_lang := request.headers.get("Accept-Language"):
@@ -283,7 +283,6 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                             storage[key] = default_value
 
             context.client.on_disconnect(save_settings)
-        ui_settings_ctx.set(settings)
 
         if lang is not None:
             settings.language = Language.from_locale(lang)
@@ -292,19 +291,21 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
 
         def set_context_vars() -> None:
             nonlocal translation
-            ui_settings_ctx.set(settings)
-            translation = get_translation()
-            lazy_translation.set(translation)
+            with LibreSVIPSettingsContainer.state.init(settings):
+                translation = get_translation()
+                lazy_translation.set(translation)
 
         def context_vars_wrapper(func: Callable[P, R]) -> Callable[P, R]:
             @functools.wraps(func)
             def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-                set_context_vars()
-                return func(*args, **kwargs)
+                with LibreSVIPSettingsContainer.state.init(settings):
+                    set_context_vars()
+                    return func(*args, **kwargs)
 
             return wrapper
 
-        set_context_vars()
+        with LibreSVIPSettingsContainer.state.init(settings):
+            set_context_vars()
 
         @context_vars_wrapper
         def plugin_info(attr_name: str) -> None:
@@ -1512,27 +1513,27 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         .tooltip(_("Toggle fullscreen"))
                                     )
 
-                                    def refresh_rows(
-                                        event: ValueChangeEventArguments,
-                                    ) -> None:
-                                        if event.value is not None:
-                                            settings.lyric_replace_rules.setdefault(event.value, [])
-                                            table.update_rows(refresh_rules(event.value))
+                                def refresh_rows(
+                                    event: ValueChangeEventArguments,
+                                ) -> None:
+                                    if event.value is not None:
+                                        settings.add_rules_group(event.value)
+                                        table.update_rows(refresh_rules(event.value))
 
-                                    preset_select = ui.select(
-                                        list(settings.lyric_replace_rules),
-                                        label=_("Preset: "),
-                                        new_value_mode="add-unique",
-                                        on_change=refresh_rows,
-                                    ).bind_value(selected_formats, "current_preset")
+                                preset_select = ui.select(
+                                    settings.lyric_replace_rules_groups,
+                                    label=_("Preset: "),
+                                    new_value_mode="add-unique",
+                                    on_change=refresh_rows,
+                                ).bind_value(selected_formats, "current_preset")
 
-                                    def delete_preset() -> None:
-                                        if preset_select.value != "default":
-                                            settings.lyric_replace_rules.pop(preset_select.value)
-                                            preset_select.set_options(
-                                                list(settings.lyric_replace_rules),
-                                                value="default",
-                                            )
+                                def delete_preset() -> None:
+                                    if preset_select.value and preset_select.value != "default":
+                                        settings.remove_rules_group(preset_select.value)
+                                        preset_select.set_options(
+                                            settings.lyric_replace_rules_groups,
+                                            value="default",
+                                        )
 
                                     ui.button(icon="remove", on_click=delete_preset).props(
                                         "round"
@@ -1592,6 +1593,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                                     add_rule, option["value"]
                                                 ),
                                             )
+
                             with ui.tab_panel(language_tab):
 
                                 def switch_language(
@@ -2244,6 +2246,8 @@ def main() -> None:
         secrets_path.parent.mkdir(parents=True, exist_ok=True)
         secrets_path.write_text(secrets.token_urlsafe(32))
     storage_secret = secrets_path.read_text()
+    if args.server:
+        os.environ["LIBRESVIP_SETTINGS_BACKEND"] = "remote"
 
     with as_file(res_dir / "libresvip.ico") as icon_path:
         ui.run(

@@ -261,14 +261,14 @@ class ModelProxy(QAbstractListModel, metaclass=AutoCaseObject):
 class LyricReplacementPresetsModel(QStringListModel, metaclass=AutoCaseObject):
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
-        self.set_string_list(list(settings.lyric_replace_rules))
+        self.set_string_list(settings.lyric_replace_rules_groups)
 
     @Slot(str)
     def append(self, value: str) -> None:
-        settings.lyric_replace_rules.setdefault(value, [])
-        self.set_string_list(list(settings.lyric_replace_rules))
+        settings.add_rules_group(value)
+        self.set_string_list(settings.lyric_replace_rules_groups)
 
     @Slot(str)
     def remove(self, value: str) -> None:
-        settings.lyric_replace_rules.pop(value, None)
-        self.set_string_list(list(settings.lyric_replace_rules))
+        settings.remove_rules_group(value)
+        self.set_string_list(settings.lyric_replace_rules_groups)

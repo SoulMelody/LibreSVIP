@@ -1,9 +1,9 @@
 # mypy: disable-error-code="name-defined"
 from __future__ import annotations
 
-import contextvars
 import enum
 import locale
+import os
 import pathlib
 import re
 import sys
@@ -18,6 +18,7 @@ from pydantic import (
     model_validator,
 )
 from pydantic_core import core_schema
+from that_depends import BaseContainer, providers
 from typing_extensions import Self
 
 from libresvip.core.constants import app_dir  # isort:skip
@@ -373,10 +374,37 @@ class LibreSvipBaseUISettings(YamlSettings):
     max_track_count: int = Field(default=1)
     lyric_replace_rules: dict[str, list[LyricsReplacement]] = Field(default_factory=dict)
 
+    @property
+    def lyric_replace_rules_groups(self) -> list[str]:
+        return list(self.lyric_replace_rules)
 
-ui_settings_ctx: contextvars.ContextVar[LibreSvipBaseUISettings | None] = contextvars.ContextVar(
-    "ui_settings_ctx"
-)
+    def add_rules_group(self, group_name: str) -> bool:
+        if group_name not in self.lyric_replace_rules:
+            self.lyric_replace_rules[group_name] = []
+            return True
+        return False
+
+    def remove_rules_group(self, group_name: str) -> bool:
+        if group_name in self.lyric_replace_rules:
+            del self.lyric_replace_rules[group_name]
+            return True
+        return False
+
+    def add_rule(self, group_name: str, mode: LyricsReplaceMode, index: int = -1) -> None:
+        self.add_rules_group(group_name)
+        rule = LyricsReplacement(
+            replacement="",
+            pattern_main="",
+            mode=mode,
+        )
+        if index == -1:
+            self.lyric_replace_rules[group_name].append(rule)
+        elif 0 <= index < len(self.lyric_replace_rules[group_name]):
+            self.lyric_replace_rules[group_name].insert(index, rule)
+
+    def remove_rule(self, group_name: str, index: int) -> None:
+        if group_name in self.lyric_replace_rules:
+            del self.lyric_replace_rules[group_name][index]
 
 
 class LibreSvipSettings(LibreSvipBaseUISettings):
@@ -415,8 +443,13 @@ else:
 settings.lyric_replace_rules.setdefault("default", [])
 
 
-def get_ui_settings() -> LibreSvipBaseUISettings:
-    return ui_settings_ctx.get(None) or settings
+class LibreSVIPSettingsContainer(BaseContainer):
+    state: providers.State[LibreSvipBaseUISettings] = providers.State()
+    settings = providers.Selector(
+        lambda: os.getenv("LIBRESVIP_SETTINGS_BACKEND", "local"),
+        local=providers.Factory(lambda: settings),
+        remote=providers.Factory(lambda x: x, state.cast),
+    )
 
 
 def save_settings() -> None:
