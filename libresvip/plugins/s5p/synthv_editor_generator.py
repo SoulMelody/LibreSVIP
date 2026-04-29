@@ -151,13 +151,13 @@ class SynthVEditorGenerator:
         interval = round(TICK_RATE * 3.75)
         pitch_simulator = PitchSimulator(
             synchronizer=self.synchronizer,
-            portamento=PortamentoPitch.sigmoid_portamento(),
+            portamento=PortamentoPitch.no_portamento(),
             note_list=note_list,
             time_signature_list=self.time_signatures,
         )
-        rel_pitch_points = RelativePitchCurve(self.first_bar_length).from_absolute(
-            edited_params.pitch.points.root, pitch_simulator
-        )
+        rel_pitch_points = RelativePitchCurve(
+            self.first_bar_length, is_staircase=False
+        ).from_absolute(edited_params.pitch.points.root, pitch_simulator)
         return S5pParameters(
             pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),
             interval=interval,

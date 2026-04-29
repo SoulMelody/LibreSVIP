@@ -8,9 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-      - name: Install Pyrefly
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          version: "latest"
+      - name: Install linting dependencies
         run: |
-          pip install pyrefly uv
           uv sync --all-extras --group linting
-      - uses: pre-commit/action@v3.0.1
+      - uses: j178/prek-action@v2

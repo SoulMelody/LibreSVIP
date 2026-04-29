@@ -122,7 +122,7 @@ class PocketSingerGenerator:
                     file_md5=hashlib.md5(audio_content).hexdigest(),
                     position=audio_position,
                     start_time=audio_position,
-                    end_time=audio_position + track_info.duration / 1000,
+                    end_time=audio_position + track_info.duration,
                 )
             ],
         )

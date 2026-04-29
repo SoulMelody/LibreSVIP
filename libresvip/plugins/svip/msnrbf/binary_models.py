@@ -408,7 +408,7 @@ MemberTypeInfo = Struct(
 
 MemberValueWithType = Struct(
     binary_type_enum=Computed(
-        lambda this: (this._.member_type_info["binary_type_enums"][this._._index])
+        lambda this: this._.member_type_info["binary_type_enums"][this._._index]
     ),
     value=Switch(
         lambda this: this.binary_type_enum,
@@ -446,9 +446,9 @@ ClassWithId = ObjectRegistryAdapter(
         record_type_enum=Computed(RecordTypeEnum.ClassWithId),
         object_id=Int32sl,
         metadata_id=Int32sl,
-        class_info=Computed(lambda this: (local_store.classes[this.metadata_id]["class_info"])),
+        class_info=Computed(lambda this: local_store.classes[this.metadata_id]["class_info"]),
         member_type_info=Computed(
-            lambda this: (local_store.classes[this.metadata_id].get("member_type_info", None))
+            lambda this: local_store.classes[this.metadata_id].get("member_type_info", None)
         ),
         member_values=IfThenElse(
             lambda this: this.member_type_info,
@@ -474,17 +474,19 @@ BinaryArray = ObjectRegistryAdapter(
         rank=Int32sl,
         lengths=Int32sl[this.rank],
         lower_bounds=IfThenElse(
-            lambda this: str(this.binary_array_type_enum)
-            in [
-                "SingleOffset",
-                "JaggedOffset",
-                "RectangularOffset",
-            ],
+            lambda this: (
+                str(this.binary_array_type_enum)
+                in [
+                    "SingleOffset",
+                    "JaggedOffset",
+                    "RectangularOffset",
+                ]
+            ),
             Int32sl[this.rank],
             Null,
         ),
         binary_type_enum=BinaryTypeEnum,
-        info=BinaryType(lambda this: (this.binary_type_enum)),
+        info=BinaryType(lambda this: this.binary_type_enum),
         member_values=If(
             lambda this: (
                 str(this.binary_array_type_enum)
@@ -508,14 +510,14 @@ BinaryArray = ObjectRegistryAdapter(
                     >= obj["total"]
                 ),
                 Struct(
-                    total=Computed(lambda this: (this._.lengths[0])),
+                    total=Computed(lambda this: this._.lengths[0]),
                     real_obj=Switch(
                         lambda this: this._.binary_type_enum,
                         {
                             "Primitive": PrimitiveType(
-                                lambda this: this._._.member_type_info.additional_infos[
-                                    this._._._index
-                                ].info
+                                lambda this: (
+                                    this._._.member_type_info.additional_infos[this._._._index].info
+                                )
                             ),
                             "String": LengthPrefixedString,
                         },

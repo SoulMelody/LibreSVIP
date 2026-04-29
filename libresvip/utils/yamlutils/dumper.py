@@ -1,3 +1,4 @@
+# mypy: disable-error-code="name-defined"
 from __future__ import annotations
 
 import re
@@ -91,7 +92,7 @@ def get_dumper(
         return sequence
 
     dumper = OrderedIndentlessDumper if indentless else OrderedDumper
-    dumper.add_representer(dict, represent_dict)  # type: ignore[attr-defined]
-    dumper.add_representer(list, represent_list)  # type: ignore[attr-defined]
+    dumper.add_representer(dict, represent_dict)
+    dumper.add_representer(list, represent_list)
     set_yaml_grammar(dumper, grammar_version=grammar_version)
     return dumper

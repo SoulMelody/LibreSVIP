@@ -3,7 +3,6 @@ from __future__ import annotations
 import copy
 import gettext
 import itertools
-import traceback
 from importlib.resources import files
 from typing import TYPE_CHECKING
 
@@ -22,22 +21,15 @@ plugin_manager = pluginlib.PluginLoader(
     prefix_package="libresvip",
     blacklist=[("svs", each) for each in settings.disabled_plugins],
 )
-try:
-    plugin_manager.load_modules()
-except pluginlib.PluginImportError as e:
-    logger.error(f"Unable to import plugin: {e}")
-    logger.error(traceback.format_exc())
-    plugin_manager.loaded = True
+plugin_manager.load_modules()
+plugin_manager.loaded = True
 middleware_manager = pluginlib.PluginLoader(
     paths=[str(pkg_dir / "middlewares"), str(app_dir.user_config_path / "middlewares")],
     type_filter=["middleware"],
     prefix_package="libresvip",
 )
-try:
-    middleware_manager.load_modules()
-except pluginlib.PluginImportError as e:
-    logger.error(f"Unable to import middleware plugin: {e}")
-    middleware_manager.loaded = True
+middleware_manager.load_modules()
+middleware_manager.loaded = True
 
 
 def merge_translation(

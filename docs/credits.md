@@ -12,14 +12,16 @@
 | 包名                    | 简介                                                                                                                         | 许可证                                              |
 | :---------------------- | :--------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
 | bidict                  | The bidirectional mapping library for Python.                                                                                | Mozilla Public License 2.0 (MPL 2.0)                |
+| cbor2                   | CBOR (de)serializer with extensive tag support                                                                               | MIT License                                         |
 | charset-normalizer      | The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.                      | MIT License                                         |
 | construct-typing        | Extension for the python package 'construct' that adds typing features                                                       | MIT License                                         |
 | Jinja2                  | A very fast and expressive template engine.                                                                                  | BSD License                                         |
 | ko-pron                 | Korean pronunciation and romanisation based on Wiktionary ko-pron lua module                                                 | MIT License                                         |
 | loguru                  | Python logging made (stupidly) simple                                                                                        | MIT License                                         |
+| minijinja               | An experimental Python binding of the Rust MiniJinja template engine.                                                        | Apache Software License                             |
 | more-itertools          | More routines for operating on iterables, beyond itertools                                                                   | MIT License                                         |
 | packaging               | Core utilities for Python packages                                                                                           | Apache Software License; BSD License                |
-| TatSu                   | TatSu takes a grammar in a variation of EBNF as input, and outputs a memoizing PEG/Packrat parser in Python.                 | BSD License                                         |
+| TatSu-LTS               | TatSu takes a grammar in a variation of EBNF as input, and outputs a memoizing PEG/Packrat parser in Python.                 | BSD License                                         |
 | platformdirs            | A small Python package for determining appropriate platform-specific dirs, e.g. a "user data dir".                           | MIT License                                         |
 | portion                 | Python data structure and operations for intervals                                                                           | GNU Lesser General Public License v3 (LGPLv3)       |
 | aristaproto             | Arista Protobuf / Python gRPC bindings generator & library                                                                   | MIT License                                         |
@@ -29,7 +31,7 @@
 | pymediainfo             | A Python wrapper for the mediainfo library.                                                                                  | MIT License                                         |
 | pypinyin                | 汉字拼音转换模块/工具.                                                                                                       | MIT License                                         |
 | pysubs2                 | A library for editing subtitle files                                                                                         | MIT License                                         |
-| py-yaml12               | A modern YAML 1.2 parser and emitter for Python, written in Rust.                                                            | MIT License                                         |
+| yaml-rs                 | A High-Performance YAML Parser for Python written in Rust.                                                                   | Unlicense                                           |
 | rich                    | Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal                              | MIT License                                         |
 | svg.py                  | Type-safe and powerful Python library to generate SVG files.                                                                 | MIT License                                         |
 | typer-slim              | Typer, build great CLIs. Easy to code. Based on Python type hints.                                                           | MIT License                                         |
@@ -52,3 +54,5 @@
 | flet                    | Flet for Python - easily build interactive multi-platform apps in Python                                                     | Apache Software License                             |
 | flet-permission-handler | PermissionHandler control for Flet                                                                                           | Apache Software License                             |
 | jyutping                | Python tool to convert Chinese characters to Jyutping.                                                                       | MIT License                                         |
+| qasync                  | Python library for using asyncio in Qt-based applications.                                                                   | BSD License                                         |
+| soundfile               | An audio library based on libsndfile, CFFI and NumPy                                                                         | BSD License                                         |

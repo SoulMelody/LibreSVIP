@@ -19,6 +19,7 @@ class RelativePitchCurve:
     lower_bound: float = 0.0
     upper_bound: float = portion.inf
     pitch_interval: int = 5
+    is_staircase: bool = True
 
     def to_absolute(self, points: list[Point], pitch_simulator: PitchSimulator) -> ParamCurve:
         return ParamCurve(
@@ -56,8 +57,16 @@ class RelativePitchCurve:
                     tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
                     if (tick_key := pitch_simulator.pitch_at_ticks(tick_pos)) is not None:
                         if to_absolute:
-                            converted_data.append(Point(x=tick, y=round(prev_y + tick_key)))
-                        else:
+                            if self.is_staircase:
+                                interpolated_rel_y = prev_y
+                            else:
+                                interpolated_rel_y = prev_y + (y - prev_y) * (tick - prev_x) / (
+                                    cur_x - prev_x
+                                )
+                            converted_data.append(
+                                Point(x=tick, y=round(interpolated_rel_y + tick_key))
+                            )
+                        elif not (self.is_staircase and prev_y == y):
                             converted_data.append(
                                 Point(
                                     x=tick,

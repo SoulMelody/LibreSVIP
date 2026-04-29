@@ -1,6 +1,7 @@
 import io
 import pathlib
 from importlib.resources import files
+from zipfile import ZipFile
 
 from upath import UPath
 
@@ -40,6 +41,6 @@ class VogenConverter(plugin_base.SVSConverter):
         vogen_project = VogenGenerator(options_obj).generate_project(project)
         proj_text = json.dumps(vogen_project.model_dump(by_alias=True), separators=(",", ":"))
         buffer = io.BytesIO()
-        zip_path = UPath("zip://", fo=buffer, mode="w")
-        (zip_path / "chart.json").write_text(proj_text, encoding="utf-8")
+        with ZipFile(buffer, "w") as zf:
+            zf.writestr("chart.json", proj_text)
         path.write_bytes(buffer.getvalue())

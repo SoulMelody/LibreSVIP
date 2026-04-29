@@ -1,11 +1,10 @@
 import dataclasses
+import itertools
 import operator
 import re
 from collections.abc import Callable
 from functools import partial, reduce
 from typing import cast
-
-import more_itertools
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NotesOverlappedError
@@ -436,9 +435,11 @@ class SynthVParser:
         if self.options.import_volume:
             params.volume = self.parse_param_curve(
                 sv_params.loudness,
-                lambda val: round(val / 12.0 * 1000.0)
-                if val >= 0.0
-                else round(1000 * db_to_float(val) - 1000),
+                lambda val: (
+                    round(val / 12.0 * 1000.0)
+                    if val >= 0.0
+                    else round(1000 * db_to_float(val) - 1000)
+                ),
                 self.voice_settings.param_loudness or 0.0,
                 master_params.loudness if master_params else None,
             )
@@ -530,7 +531,7 @@ class SynthVParser:
         lyrics_phoneme = sv_g2p(lyrics, languages)
         if not note_list:
             return note_list
-        for prev_note, note in more_itertools.pairwise(note_list):
+        for prev_note, note in itertools.pairwise(note_list):
             if prev_note.end_pos > note.start_pos:
                 msg = _("Notes overlapped near bar {}").format(
                     find_bar_index(self.time_signatures, note.start_pos)

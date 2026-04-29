@@ -8,6 +8,7 @@ import traceback
 from functools import partial
 from importlib.resources import as_file
 from typing import get_args, get_type_hints
+from zipfile import ZipFile
 
 import flet as ft
 import flet_permission_handler as fph
@@ -71,6 +72,12 @@ class NONCLIENTMETRICS(ctypes.Structure):
 SPI_GETNONCLIENTMETRICS = 0x29
 
 
+def ensure_bool(value: bool | str) -> bool:
+    if isinstance(value, bool):
+        return value
+    return json.loads(value)
+
+
 def get_default_font_win32() -> str:
     metrics = NONCLIENTMETRICS()
     metrics.cbSize = ctypes.sizeof(NONCLIENTMETRICS)
@@ -93,8 +100,8 @@ async def main(page: ft.Page) -> None:
     storage_paths = ft.StoragePaths()
     page.title = "LibreSVIP"
     page.scroll = ft.ScrollMode.ADAPTIVE
-    page.window.width = 480
-    page.window.height = 720
+    page.window.min_width = 480
+    page.window.min_height = 720
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
     page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.Alignment.CENTER)
@@ -281,8 +288,8 @@ async def main(page: ft.Page) -> None:
         last_input_format = await shared_preferences.get("last_input_format")
         if last_input_format != value:
             input_options.current.controls = build_input_options(value)
-            reset_tasks_on_input_change = await shared_preferences.get(
-                "reset_tasks_on_input_change"
+            reset_tasks_on_input_change = ensure_bool(
+                await shared_preferences.get("reset_tasks_on_input_change")
             )
             if reset_tasks_on_input_change:
                 task_list_view.current.controls.clear()
@@ -350,17 +357,13 @@ async def main(page: ft.Page) -> None:
             page.update()
 
     async def select_files() -> None:
-        if files := await file_picker.pick_files(_("Select files to convert"), allow_multiple=True):
+        if files := await file_picker.pick_files(
+            _("Select files to convert"), allow_multiple=True, with_data=True
+        ):
             auto_detect_input_format = await shared_preferences.get("auto_detect_input_format")
             if page.web:
-                uf = [
-                    ft.FilePickerUploadFile(
-                        name=f.name,
-                        upload_url=page.get_upload_url(f.name, 600),
-                    )
-                    for f in files
-                ]
-                await file_picker.upload(uf)
+                for file in files:
+                    await on_upload_progress(file)
                 return
             for file in files:
                 last_input_format = await shared_preferences.get("last_input_format")
@@ -422,75 +425,77 @@ async def main(page: ft.Page) -> None:
                 save_folder_text_field.current.value = path
 
     if not await shared_preferences.contains_key("auto_detect_input_format"):
-        await shared_preferences.set("auto_detect_input_format", "true")
+        await shared_preferences.set("auto_detect_input_format", True)
 
     async def change_auto_detect_input_format(e: ft.ControlEvent) -> None:
-        await shared_preferences.set("auto_detect_input_format", json.dumps(e.control.value))
+        await shared_preferences.set("auto_detect_input_format", e.control.value)
 
     if not await shared_preferences.contains_key("reset_tasks_on_input_change"):
-        await shared_preferences.set("reset_tasks_on_input_change", "true")
+        await shared_preferences.set("reset_tasks_on_input_change", True)
 
     async def change_reset_tasks_on_input_change(e: ft.ControlEvent) -> None:
-        await shared_preferences.set("reset_tasks_on_input_change", json.dumps(e.control.value))
+        await shared_preferences.set("reset_tasks_on_input_change", e.control.value)
 
     if not await shared_preferences.contains_key("max_track_count"):
-        await shared_preferences.set("max_track_count", "1")
+        await shared_preferences.set("max_track_count", 1)
 
     async def change_max_track_count(e: ft.ControlEvent) -> None:
-        await shared_preferences.set("max_track_count", str(int(e.control.value)))
+        await shared_preferences.set("max_track_count", int(e.control.value))
 
-    async def on_upload_progress(e: ft.FilePickerUploadEvent) -> None:
-        if e.progress == 1.0:
-            auto_detect_input_format = await shared_preferences.get("auto_detect_input_format")
-            last_input_format = await shared_preferences.get("last_input_format")
-            file_path = settings.save_folder / e.file_name
-            suffix = file_path.suffix.lower().removeprefix(".")
-            if (
-                suffix != last_input_format
-                and auto_detect_input_format
-                and suffix in plugin_manager.plugins.get("svs", {})
-            ):
-                await set_last_input_format(suffix)
-            task_list_view.current.controls.append(
-                ft.ListTile(
-                    leading=ft.Stack(
-                        [
-                            ft.Icon(
-                                ft.Icons.ACCESS_TIME_FILLED_OUTLINED,
-                                color=ft.Colors.GREY_400,
-                            ),
-                            ft.ProgressRing(visible=False),
-                        ]
-                    ),
-                    title=ft.Text(e.file_name),
-                    subtitle=ft.Text(file_path.stem),
-                    trailing=ft.PopupMenuButton(
-                        menu_position=ft.PopupMenuPosition.UNDER,
-                        items=[
-                            ft.PopupMenuItem(
-                                icon=ft.Icons.REMOVE_RED_EYE_OUTLINED,
-                                content=_("View Log"),
-                                on_click=show_task_log,
-                            ),
-                            ft.PopupMenuItem(
-                                icon=ft.Icons.EDIT,
-                                content=_("Rename"),
-                                on_click=open_rename_dialog,
-                            ),
-                            ft.PopupMenuItem(
-                                icon=ft.Icons.DELETE_OUTLINE,
-                                content=_("Remove"),
-                                on_click=remove_task,
-                            ),
-                        ],
-                        tooltip=_("Actions"),
-                    ),
-                    data={"path": file_path, "log_text": ""},
-                )
+    async def on_upload_progress(f: ft.FilePickerFile) -> None:
+        auto_detect_input_format = ensure_bool(
+            await shared_preferences.get("auto_detect_input_format")
+        )
+        last_input_format = await shared_preferences.get("last_input_format")
+        file_path = temp_path / f.name
+        file_path.write_bytes(f.bytes)
+        suffix = file_path.suffix.lower().removeprefix(".")
+        if (
+            suffix != last_input_format
+            and auto_detect_input_format
+            and suffix in plugin_manager.plugins.get("svs", {})
+        ):
+            await set_last_input_format(suffix)
+        task_list_view.current.controls.append(
+            ft.ListTile(
+                leading=ft.Stack(
+                    [
+                        ft.Icon(
+                            ft.Icons.ACCESS_TIME_FILLED_OUTLINED,
+                            color=ft.Colors.GREY_400,
+                        ),
+                        ft.ProgressRing(visible=False),
+                    ]
+                ),
+                title=ft.Text(f.name),
+                subtitle=ft.Text(file_path.stem),
+                trailing=ft.PopupMenuButton(
+                    menu_position=ft.PopupMenuPosition.UNDER,
+                    items=[
+                        ft.PopupMenuItem(
+                            icon=ft.Icons.REMOVE_RED_EYE_OUTLINED,
+                            content=_("View Log"),
+                            on_click=show_task_log,
+                        ),
+                        ft.PopupMenuItem(
+                            icon=ft.Icons.EDIT,
+                            content=_("Rename"),
+                            on_click=open_rename_dialog,
+                        ),
+                        ft.PopupMenuItem(
+                            icon=ft.Icons.DELETE_OUTLINE,
+                            content=_("Remove"),
+                            on_click=remove_task,
+                        ),
+                    ],
+                    tooltip=_("Actions"),
+                ),
+                data={"path": file_path, "log_text": ""},
             )
+        )
 
     clipboard = ft.Clipboard()
-    file_picker = ft.FilePicker(on_upload=on_upload_progress)
+    file_picker = ft.FilePicker()
     url_launcher = ft.UrlLauncher()
     page.services.extend(
         [
@@ -501,11 +506,15 @@ async def main(page: ft.Page) -> None:
             url_launcher,
         ]
     )
-    if page.platform not in [
-        ft.PagePlatform.ANDROID,
-        ft.PagePlatform.IOS,
-        ft.PagePlatform.WINDOWS,
-    ]:
+    if (
+        page.platform
+        not in [
+            ft.PagePlatform.ANDROID,
+            ft.PagePlatform.IOS,
+            ft.PagePlatform.WINDOWS,
+        ]
+        or page.web
+    ):
         permission_handler = None
     else:
         permission_handler = fph.PermissionHandler()
@@ -663,20 +672,27 @@ async def main(page: ft.Page) -> None:
             if output_path.is_file():
                 buffer.write(output_path.read_bytes())
             else:
-                zip_file = UPath("zip://", fo=buffer, mode="a")
-                for child_file in output_path.iterdir():
-                    if not child_file.is_file():
-                        continue
-                    (zip_file / child_file.name).write_bytes(
-                        child_file.read_bytes(),
-                    )
+                with ZipFile(buffer, "w") as zip_file:
+                    for child_file in output_path.iterdir():
+                        if not child_file.is_file():
+                            continue
+                        zip_file.writestr(
+                            child_file.name,
+                            child_file.read_bytes(),
+                        )
             if conversion_mode != "split":
                 save_path = save_folder / output_path.name
             else:
                 save_path = save_folder / f"{list_tile.subtitle.value}.zip"
-            save_path.write_bytes(buffer.getvalue())
             if page.web:
-                loop.create_task(url_launcher.launch_url(f"/download/{save_path.name}"))
+                loop.create_task(
+                    file_picker.save_file(
+                        file_name=save_path.name,
+                        src_bytes=buffer.getvalue(),
+                    )
+                )
+            else:
+                save_path.write_bytes(buffer.getvalue())
             if w.output:
                 list_tile.leading.controls[0].name = ft.Icons.WARNING_OUTLINED
                 list_tile.leading.controls[0].color = ft.Colors.YELLOW_400
@@ -988,7 +1004,7 @@ async def main(page: ft.Page) -> None:
                                 ),
                                 ft.Switch(
                                     label=_("Auto detect import format"),
-                                    value=json.loads(
+                                    value=ensure_bool(
                                         await shared_preferences.get("auto_detect_input_format")
                                     ),
                                     col=12,
@@ -996,7 +1012,7 @@ async def main(page: ft.Page) -> None:
                                 ),
                                 ft.Switch(
                                     label=_("Reset list when import format changed"),
-                                    value=json.loads(
+                                    value=ensure_bool(
                                         await shared_preferences.get("reset_tasks_on_input_change")
                                     ),
                                     col=12,
@@ -1071,6 +1087,7 @@ async def main(page: ft.Page) -> None:
                     [
                         ft.ExpansionPanelList(
                             elevation=8,
+                            scroll=ft.ScrollMode.ALWAYS,
                             controls=[
                                 ft.ExpansionPanel(
                                     header=ft.ListTile(

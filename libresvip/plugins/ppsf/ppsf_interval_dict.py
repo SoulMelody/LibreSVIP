@@ -1,4 +1,5 @@
 import functools
+import itertools
 
 import more_itertools
 import portion
@@ -21,7 +22,7 @@ def ppsf_key_interval_dict(
             is_first,
             is_last,
             ((prev_note, prev_event), (next_note, next_event)),
-        ) in more_itertools.mark_ends(more_itertools.pairwise(zip(event_list, note_list))):
+        ) in more_itertools.mark_ends(itertools.pairwise(zip(event_list, note_list))):
             if is_first:
                 interval_dict[
                     portion.closedopen(

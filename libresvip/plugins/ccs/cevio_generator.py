@@ -156,7 +156,7 @@ class CeVIOGenerator:
                     )
                     end_time = XmlTime.from_time(
                         datetime.datetime.fromtimestamp(
-                            track_info.duration / 1000,
+                            track_info.duration,
                             tz=datetime.timezone.utc,
                         ).time()
                     )

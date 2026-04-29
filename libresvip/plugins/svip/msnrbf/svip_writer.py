@@ -1,5 +1,4 @@
 # Ported from QNrbf by SineStriker
-# mypy: disable-error-code="attr-defined"
 import dataclasses
 import enum
 import inspect

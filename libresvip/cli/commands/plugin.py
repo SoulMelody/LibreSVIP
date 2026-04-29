@@ -63,7 +63,7 @@ def print_plugin_summary(
         table.add_row(
             f"[{num}] ",
             plugin.info.name + margin,
-            (plugin.version or "N/A") + margin,  # type: ignore[attr-defined]
+            (plugin.version or "N/A") + margin,
             _(plugin.info.author) + margin,
             plugin.info.suffix + margin,
             format_desc + margin,
@@ -77,7 +77,7 @@ def print_plugin_details(plugin: SVSConverter) -> None:
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
-        f"{{}}{plugin.info.name}\t{{}}{plugin.version!s}\t{{}}{_(plugin.info.author)}".format(  # type: ignore[attr-defined]
+        f"{{}}{plugin.info.name}\t{{}}{plugin.version!s}\t{{}}{_(plugin.info.author)}".format(
             _("Plugin: "),
             _("Version: "),
             _("Author: "),

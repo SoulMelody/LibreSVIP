@@ -2,7 +2,7 @@ import enum
 from dataclasses import dataclass
 from typing import Annotated, Literal
 
-from pydantic import ConfigDict, Field, ValidationInfo, create_model, model_validator
+from pydantic import Field, ValidationInfo, create_model, model_validator
 from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
@@ -242,10 +242,13 @@ class VocaloidWav(BaseModel):
         return self
 
 
-class VocaloidVoicePart(VocaloidWithDur):
+class VocaloidBasePart(VocaloidBasePos):
     name: str | None = ""
-    midi_effects: list[VocaloidEffects] = Field(default_factory=list, alias="midiEffects")
     audio_effects: list[VocaloidEffects] = Field(default_factory=list, alias="audioEffects")
+
+
+class VocaloidVoicePart(VocaloidBasePart, VocaloidWithDur):
+    midi_effects: list[VocaloidEffects] = Field(default_factory=list, alias="midiEffects")
     notes: list[VocaloidNotes] = Field(default_factory=list)
     style_preset_id: str | None = Field(None, alias="stylePresetID")
     style_name: str | None = Field("No Effect", alias="styleName")
@@ -269,14 +272,13 @@ class VocaloidVoicePart(VocaloidWithDur):
         ]
 
 
-class VocaloidWavPart(VocaloidBasePos):
-    model_config = ConfigDict(
-        populate_by_name=True,
-        extra="forbid",
-    )
+class VocaloidWavPart(VocaloidBasePart):
     region: VocaloidRegion | None = None
-    name: str | None = ""
     wav: VocaloidWav | None = None
+    voice_changer: VocaloidCompID | None = Field(
+        None,
+        alias="voiceChanger",
+    )
 
 
 class VocaloidBaseTracks(VocaloidFolded):

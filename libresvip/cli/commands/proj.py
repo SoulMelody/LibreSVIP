@@ -1,4 +1,3 @@
-# mypy: disable-error-code="attr-defined"
 import pathlib
 from typing import Annotated
 

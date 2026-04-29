@@ -1,7 +1,6 @@
 import dataclasses
 import itertools
 
-import more_itertools
 from svg import Line, Polyline, Rect, Style, Text
 
 from libresvip.core.constants import TICKS_IN_BEAT
@@ -61,7 +60,7 @@ text {{
         prev_pos = 0
         pos = 0
         beat_start = self.coordinate_helper.position_range_start
-        for previous_time_signature, time_signature in more_itertools.pairwise(time_signature_list):
+        for previous_time_signature, time_signature in itertools.pairwise(time_signature_list):
             beat_length = (
                 time_signature.bar_index - previous_time_signature.bar_index
             ) * previous_time_signature.numerator

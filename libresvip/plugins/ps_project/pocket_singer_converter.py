@@ -1,18 +1,8 @@
+import importlib
 import io
 import pathlib
 import sys
 from importlib.resources import files
-
-try:
-    try:
-        __import__("Cryptodome")
-    except ImportError:
-        sys.modules["Cryptodome"] = __import__("Crypto")
-    from pyzipper import WZ_AES, ZIP_STORED, AESZipFile
-
-    PYZIPPER_AVAILABLE = True
-except ImportError:
-    PYZIPPER_AVAILABLE = False
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
@@ -21,7 +11,19 @@ from libresvip.model.reset_time_axis import reset_time_axis
 from .model import PocketSingerMetadata
 from .options import InputOptions, OutputOptions
 from .pocket_singer_generator import PocketSingerGenerator
-from .pocket_singer_parser import PocketSingerParser
+
+try:
+    try:
+        importlib.import_module("Cryptodome")
+    except ImportError:
+        sys.modules["Cryptodome"] = importlib.import_module("Crypto")
+    from pyzipper import WZ_AES, ZIP_STORED, AESZipFile
+
+    from .pocket_singer_parser import PocketSingerParser
+
+    PYZIPPER_AVAILABLE = True
+except ImportError:
+    PYZIPPER_AVAILABLE = False
 
 POCKET_SIGER_PASSWORD = b"a022ab39cb3b7b1de92ee441978c9e08"
 

@@ -136,7 +136,7 @@ class UstxGenerator:
                 track_no=track_no,
                 position=os_track.offset,
                 relative_path=os_track.audio_file_path,
-                file_duration_ms=track_info.duration,
+                file_duration_ms=track_info.duration * 1000,
             )
 
     def generate_notes(self, os_notes: list[Note]) -> list[UNote]:

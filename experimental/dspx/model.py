@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from enum import Enum
-from typing import Any, Literal
+from enum import Enum, IntEnum
+from typing import Annotated, Any, Literal
 
 from pydantic import Field, RootModel
 
@@ -14,10 +14,6 @@ class BusControl(BaseModel):
     pan: float = Field(..., title="Pan")
 
 
-class CentShift(RootModel[int]):
-    root: int = Field(..., title="Cent Shift")
-
-
 class ClipTime(BaseModel):
     clip_len: int = Field(
         ...,
@@ -28,7 +24,7 @@ class ClipTime(BaseModel):
     clip_start: int = Field(
         ...,
         alias="clipStart",
-        description="The clipped length relative to `start`",
+        description="The clipped length relative to `pos`",
         title="Clipped Start (Ticks)",
     )
     length: int = Field(
@@ -36,16 +32,11 @@ class ClipTime(BaseModel):
         description="The actual length of the content in the clip",
         title="Length (Ticks)",
     )
-    start: int = Field(
+    pos: int = Field(
         ...,
-        description="The start position of the content in the clip in the timeline",
-        title="Start Position (Ticks)",
+        description="The position of the the clip in the timeline",
+        title="Position (Ticks)",
     )
-
-
-class Label(BaseModel):
-    pos: int = Field(..., title="Position (Ticks)")
-    text: str = Field(..., title="Text")
 
 
 class ControlPoint(BaseModel):
@@ -54,7 +45,12 @@ class ControlPoint(BaseModel):
 
 
 class ControlPoints(RootModel[list[ControlPoint]]):
-    root: list[ControlPoint] = Field(default_factory=list, title="Control Points")
+    root: list[ControlPoint] = Field(..., title="Control Points")
+
+
+class Label(BaseModel):
+    pos: int = Field(..., title="Position (Ticks)")
+    text: str = Field(..., title="Text")
 
 
 class Pronunciation(BaseModel):
@@ -78,9 +74,9 @@ class Vibrato(BaseModel):
 
 
 class Interp(Enum):
-    NONE = "none"
-    LINEAR = "linear"
-    HERMITE = "hermite"
+    none = "none"
+    linear = "linear"
+    hermite = "hermite"
 
 
 class Node(BaseModel):
@@ -90,7 +86,7 @@ class Node(BaseModel):
 
 
 class ParamCurveAnchor(BaseModel):
-    nodes: list[Node] = Field(default_factory=list, title="Anchor Node List")
+    nodes: list[Node] = Field(..., title="Anchor Node List")
     start: int = Field(..., title="Start Position (Ticks)")
     type: Literal["anchor"] = Field(..., title="Curve Type")
 
@@ -104,25 +100,33 @@ class ParamCurveFree(BaseModel):
 
 class Phoneme(BaseModel):
     language: str = Field(..., title="Language (ISO 639-3 Code)")
+    onset: bool = Field(..., title="Onset Flag")
     start: int = Field(..., title="Start Position (Milliseconds from Note On)")
     token: str = Field(..., title="Phoneme Token")
-    onset: bool = Field(..., title="Onset Flag")
+
+
+class SourceMixingRatio(RootModel[list[float]]):
+    root: list[float] = Field(
+        ...,
+        description="This array must satisfy the following conditions: 1) 0 <= each item <= 1; 2) Sum(each item) <= 1; 3) Length + 1 equals to the number of singers in the context.",
+        title="Source Mixing Ratio",
+    )
 
 
 class Tempo(BaseModel):
     pos: int = Field(..., title="Position (Ticks)")
-    value: float = Field(..., description="Quarter notes per minute", title="Tempo Value")
+    value: float = Field(..., title="Tempo Value")
 
 
-class Denominator(Enum):
-    INTEGER_1 = 1
-    INTEGER_2 = 2
-    INTEGER_4 = 4
-    INTEGER_8 = 8
-    INTEGER_16 = 16
-    INTEGER_32 = 32
-    INTEGER_64 = 64
-    INTEGER_128 = 128
+class Denominator(IntEnum):
+    integer_1 = 1
+    integer_2 = 2
+    integer_4 = 4
+    integer_8 = 8
+    integer_16 = 16
+    integer_32 = 32
+    integer_64 = 64
+    integer_128 = 128
 
 
 class TimeSignature(BaseModel):
@@ -144,7 +148,7 @@ class Workspace(RootModel[dict[str, dict[str, Any]]]):
 
 class Global(BaseModel):
     author: str = Field(..., title="Project Author")
-    cent_shift: CentShift = Field(..., alias="centShift")
+    cent_shift: int = Field(..., alias="centShift")
     editor_id: str = Field(..., alias="editorId", title="Editor Identifier")
     editor_name: str = Field(..., alias="editorName", title="Editor Name")
     name: str = Field(..., title="Project Name")
@@ -155,10 +159,10 @@ class Master(BaseModel):
 
 
 class Timeline(BaseModel):
-    labels: list[Label] = Field(default_factory=list, title="Labels")
-    tempos: list[Tempo] = Field(default_factory=list, title="Tempos")
+    labels: list[Label] = Field(..., title="Labels")
+    tempos: list[Tempo] = Field(..., title="Tempos")
     time_signatures: list[TimeSignature] = Field(
-        default_factory=list, alias="timeSignatures", title="Time Signatures"
+        ..., alias="timeSignatures", title="Time Signatures"
     )
 
 
@@ -171,15 +175,18 @@ class AudioClip(BaseModel):
     workspace: Workspace
 
 
+class DynamicMixingAnchor(BaseModel):
+    pos: int = Field(..., title="Position (Ticks)")
+    ratio: SourceMixingRatio
+
+
 class Phonemes(BaseModel):
-    edited: list[Phoneme] = Field(default_factory=list, title="Edited Phonemes")
-    original: list[Phoneme] = Field(
-        default_factory=list, title="Original Phonemes Generated from Pronunciation"
-    )
+    edited: list[Phoneme] = Field(..., title="Edited Phonemes")
+    original: list[Phoneme] = Field(..., title="Original Phonemes Generated from Pronunciation")
 
 
 class Note(BaseModel):
-    cent_shift: CentShift = Field(..., alias="centShift")
+    cent_shift: int = Field(..., alias="centShift")
     key_num: int = Field(..., alias="keyNum", title="MIDI Key Number")
     language: str = Field(..., title="Language (ISO 639-3 Code)")
     length: int = Field(..., title="Length (Ticks)")
@@ -191,44 +198,75 @@ class Note(BaseModel):
     workspace: Workspace
 
 
-class ParamCurve(RootModel[ParamCurveAnchor | ParamCurveFree]):
-    root: ParamCurveAnchor | ParamCurveFree = Field(..., title="Parameter Curve")
+ParamCurve = Annotated[
+    ParamCurveAnchor | ParamCurveFree,
+    Field(..., title="Parameter Curve", discriminator="type"),
+]
 
 
 class ParamCurveList(RootModel[list[ParamCurve]]):
-    root: list[ParamCurve] = Field(default_factory=list, title="Parameter Curve List")
+    root: list[ParamCurve] = Field(..., title="Parameter Curve List")
+
+
+class SingleSinger(BaseModel):
+    extra: Any = Field(..., description="Any JSON value (implementation-specific)", title="Extra")
+    id: str = Field(..., title="Singer Identifier")
+    type: Literal["single"] = Field(..., title="Singer Type")
+    workspace: Workspace
 
 
 class Param(BaseModel):
     edited: ParamCurveList = Field(..., title="Edited Parameter Curves")
-    transform: ParamCurveList = Field(..., title="Transform Parameter Curves")
     original: ParamCurveList = Field(..., title="Original Parameter Curves")
+    transform: ParamCurveList = Field(..., title="Transform Parameter Curves")
+
+
+class MixedSinger(BaseModel):
+    extra: Any = Field(..., description="Any JSON value (implementation-specific)", title="Extra")
+    ratio: SourceMixingRatio
+    singers: list[Singer] = Field(..., min_length=1, title="Singers")
+    type: Literal["mixed"] = Field(..., title="Singer Type")
+    workspace: Workspace
+
+
+Singer = Annotated[
+    SingleSinger | MixedSinger,
+    Field(..., title="Singer", discriminator="type"),
+]
 
 
 class SingingClip(BaseModel):
     control: BusControl
     name: str = Field(..., title="Clip Name")
-    notes: list[Note] = Field(default_factory=list, title="Notes")
-    params: dict[str, Param] = Field(default_factory=dict, title="Parameters")
-    sources: dict[str, dict[str, Any]] = Field(default_factory=dict, title="Sources")
+    notes: list[Note] = Field(..., title="Notes")
+    params: dict[str, Param] = Field(..., title="Parameters")
+    sources: Sources | None = Field(..., title="Sources")
     time: ClipTime
     type: Literal["singing"] = Field(..., title="Clip Type")
     workspace: Workspace
 
 
-class Clip(RootModel[AudioClip | SingingClip]):
-    root: AudioClip | SingingClip = Field(..., title="Clip")
+Clip = Annotated[
+    AudioClip | SingingClip,
+    Field(..., title="Clip", discriminator="type"),
+]
+
+
+class Sources(BaseModel):
+    category: str = Field(..., title="Synthesis Category")
+    mix: list[DynamicMixingAnchor] = Field(..., title="Dynamic Mixing Anchors")
+    singers: list[Singer] = Field(..., min_length=1, title="Singers")
 
 
 class Track(BaseModel):
-    clips: list[Clip] = Field(default_factory=list, title="Clips")
+    clips: list[Clip] = Field(..., title="Clips")
     control: TrackControl
     name: str = Field(..., title="Track Name")
     workspace: Workspace
 
 
-class Content(BaseModel):
-    global_config: Global = Field(
+class DspxContent(BaseModel):
+    global_: Global = Field(
         ...,
         alias="global",
         description="Global metadata for the project",
@@ -236,10 +274,10 @@ class Content(BaseModel):
     )
     master: Master = Field(..., title="Master")
     timeline: Timeline = Field(..., title="Timeline")
-    tracks: list[Track] = Field(default_factory=list, title="Tracks")
+    tracks: list[Track] = Field(..., title="Tracks")
     workspace: Workspace
 
 
 class DiffscopeProjectExchangeFormat(BaseModel):
-    content: Content = Field(..., title="Content")
-    version: str = Field("1.0.0", title="Version")
+    content: DspxContent = Field(..., title="Content")
+    version: Literal["1.0.0"] = Field(..., title="Version")

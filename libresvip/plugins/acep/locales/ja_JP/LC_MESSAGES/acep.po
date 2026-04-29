@@ -4,13 +4,13 @@ msgstr ""
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
 "X-Crowdin-Language: ja\n"
-"X-Crowdin-File: /main/libresvip/plugins/acep/acep.po\n"
-"X-Crowdin-File-ID: 110\n"
+"X-Crowdin-File: /libresvip/plugins/acep/acep.po\n"
+"X-Crowdin-File-ID: 444\n"
 "Project-Id-Version: libresvip\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2025-12-06 13:46\n"
+"PO-Revision-Date: 2026-03-23 01:30\n"
 
 msgid "ACE Studio"
 msgstr ""
@@ -49,6 +49,12 @@ msgid "French"
 msgstr ""
 
 msgid "Italian"
+msgstr ""
+
+msgid "Use the project file version which is compatible with ACE Studio 2.0.6 and earlier."
+msgstr ""
+
+msgid "Use the project file version of ACE Studio 2.0.7 and later."
 msgstr ""
 
 msgid "Both strength and tension"
@@ -166,5 +172,8 @@ msgid "Default consonant length (secs)"
 msgstr ""
 
 msgid "Set default consonant length for notes if not specified"
+msgstr ""
+
+msgid "Specify the serialization method of the generated .acep file"
 msgstr ""
 

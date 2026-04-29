@@ -5,17 +5,18 @@ site_url = "https://soulmelody.github.io/LibreSVIP/"
 site_description = "一个通用的歌声合成工程文件转换器"
 repo_name = "SoulMelody/LibreSVIP"
 repo_url = "https://github.com/SoulMelody/LibreSVIP"
-copyright = "Copyright &copy; 2023 - 2025 SoulMelody"
+copyright = "Copyright &copy; 2023 - 2026 SoulMelody"
 extra_css = ["extra.css"]
 
 [project.markdown_extensions.tables]
+
 [project.markdown_extensions.pymdownx.snippets]
 
 [project.theme]
 name = "material"
 features = [
-    "navigation.footer",
-    "navigation.tabs",
+  "navigation.footer",
+  "navigation.tabs",
 ]
 font = false
 favicon = "images/libresvip.svg"
@@ -47,17 +48,17 @@ repo = "material/github"
 
 [[project.nav]]
 "快速开始" = [
-    { "简介" = "index.md" },
-    { "鸣谢" = "credits.md" },
-    { "开源协议" = "license.md" },
+  { "简介" = "index.md" },
+  { "鸣谢" = "credits.md" },
+  { "开源协议" = "license.md" },
 ]
 
 [[project.nav]]
 "开发者文档" = [
-    { "环境搭建" = "setup.md" },
-    { "贡献代码" = "contributing.md" },
-    { "代码规范" = "coding_style.md" },
-    { "歌声合成工程格式一览" = "project_formats.md" },
+  { "环境搭建" = "setup.md" },
+  { "贡献代码" = "contributing.md" },
+  { "代码规范" = "coding_style.md" },
+  { "歌声合成工程格式一览" = "project_formats.md" },
 ]
 
 [[project.nav]]
@@ -65,7 +66,7 @@ repo = "material/github"
 
 [project.extra]
 social = [
-    { icon = "material/github", link = "https://github.com/SoulMelody/LibreSVIP" },
-    { icon = "material/language-python", link = "https://pypi.org/project/libresvip/" },
-    { icon = "material/translate", link = "https://zh.crowdin.com/project/libresvip" },
+  { icon = "material/github", link = "https://github.com/SoulMelody/LibreSVIP" },
+  { icon = "material/language-python", link = "https://pypi.org/project/libresvip/" },
+  { icon = "material/translate", link = "https://zh.crowdin.com/project/libresvip" },
 ]

@@ -4,13 +4,13 @@ msgstr ""
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /main/libresvip/plugins/acep/acep.po\n"
-"X-Crowdin-File-ID: 110\n"
+"X-Crowdin-File: /libresvip/plugins/acep/acep.po\n"
+"X-Crowdin-File-ID: 444\n"
 "Project-Id-Version: libresvip\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-12-06 13:59\n"
+"PO-Revision-Date: 2026-04-21 01:24\n"
 
 msgid "ACE Studio"
 msgstr ""
@@ -50,6 +50,12 @@ msgstr "法语"
 
 msgid "Italian"
 msgstr "意大利语"
+
+msgid "Use the project file version which is compatible with ACE Studio 2.0.6 and earlier."
+msgstr "使用兼容ACE Studio 2.0.6 及更早版本的项目文件格式。"
+
+msgid "Use the project file version of ACE Studio 2.0.7 and later."
+msgstr "使用ACE Studio 2.0.7 及更高版本的项目文件格式。"
 
 msgid "Both strength and tension"
 msgstr "力度与张力"
@@ -182,4 +188,7 @@ msgstr "默认辅音长度 (单位为秒)"
 
 msgid "Set default consonant length for notes if not specified"
 msgstr "给未设置辅音长度的音符添加默认值"
+
+msgid "Specify the serialization method of the generated .acep file"
+msgstr "指定生成.acep文件的序列化方法"
 

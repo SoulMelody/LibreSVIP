@@ -1,3 +1,4 @@
+# mypy: disable-error-code="call-arg"
 import argparse
 import asyncio
 import dataclasses
@@ -27,10 +28,11 @@ from typing import (
     get_type_hints,
 )
 from urllib.parse import quote, unquote
+from zipfile import ZipFile
 
 import anyio
 import more_itertools
-from nicegui import PageArguments, app, ui
+from nicegui import PageArguments, app, binding, ui
 from nicegui.context import context
 from nicegui.elements.switch import Switch
 from nicegui.events import (
@@ -128,7 +130,7 @@ def float_validator(value: SupportsFloat | None) -> bool:
         return False
 
 
-@dataclasses.dataclass
+@binding.bindable_dataclass(bindable_fields=["running", "success", "error", "warning"])
 class ConversionTask:
     name: str
     upload_path: pathlib.Path
@@ -614,9 +616,9 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         uploader = ui.upload(
             multiple=True,
             auto_upload=True,
-        ).props("hidden")
+        ).classes("hidden")
 
-        @dataclasses.dataclass
+        @binding.bindable_dataclass(bindable_fields=["current_preset"])
         class SelectedFormats:
             _input_format: str = dataclasses.field(default_factory=_input_format_factory)
             _output_format: str = dataclasses.field(default_factory=_output_format_factory)
@@ -952,13 +954,14 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     return None
                 if self._conversion_mode == ConversionMode.SPLIT:
                     buffer = io.BytesIO()
-                    zip_path = UPath("zip://", fo=buffer, mode="a")
-                    for child_file in task.output_path.iterdir():
-                        if not child_file.is_file():
-                            continue
-                        (zip_path / child_file.name).write_bytes(
-                            child_file.read_bytes(),
-                        )
+                    with ZipFile(buffer, "w") as zip_file:
+                        for child_file in task.output_path.iterdir():
+                            if not child_file.is_file():
+                                continue
+                            zip_file.writestr(
+                                child_file.name,
+                                child_file.read_bytes(),
+                            )
                     content = buffer.getvalue()
                     filename_header = quote(task.upload_path.with_suffix(".zip").name)
                 else:
@@ -984,23 +987,22 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     filename = next(iter(self.files_to_convert))
                     return self._export_one(filename)
                 buffer = io.BytesIO()
-                zip_path = UPath("zip://", fo=buffer, mode="a")
-                for task in self.files_to_convert.values():
-                    if task.success:
-                        if task.output_path.is_dir():
-                            for i, child_file in enumerate(task.output_path.iterdir()):
-                                if not child_file.is_file():
-                                    continue
-                                (zip_path / child_file.name).write_bytes(
-                                    child_file.read_bytes(),
+                with ZipFile(buffer, "w") as zip_file:
+                    for task in self.files_to_convert.values():
+                        if task.success:
+                            if task.output_path.is_dir():
+                                for i, child_file in enumerate(task.output_path.iterdir()):
+                                    if not child_file.is_file():
+                                        continue
+                                    zip_file.writestr(
+                                        child_file.name,
+                                        child_file.read_bytes(),
+                                    )
+                            else:
+                                zip_file.writestr(
+                                    task.upload_path.with_suffix(task.output_path.suffix).name,
+                                    task.output_path.read_bytes(),
                                 )
-                        else:
-                            (
-                                zip_path
-                                / task.upload_path.with_suffix(task.output_path.suffix).name
-                            ).write_bytes(
-                                task.output_path.read_bytes(),
-                            )
                 return (
                     buffer.getvalue(),
                     200,
@@ -1321,21 +1323,12 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                     rows=refresh_rules(selected_formats.current_preset),
                                     pagination=5,
                                 ).classes("w-full")
-                                table.add_slot(
-                                    "body-cell-mode",
-                                    r'''
-                                    <q-td key="mode" :props="props">
-                                        <q-select
-                                            v-model="props.row.mode"
-                                            readonly
-                                            map-options
-                                            :options="'''
-                                    + str(replace_mode_options)
-                                    + r""""
-                                        />
-                                    </q-td>
-                                """,
-                                )
+
+                                with table.add_slot("body-cell-mode"), table.cell("mode"), ui.row():
+                                    ui.element("q-select").props(f"""
+                                        readonly :model-value=props.row.mode map-options
+                                        options={replace_mode_options}
+                                    """)
                                 table.add_slot(
                                     "body-cell-pattern_prefix",
                                     r"""
@@ -1407,24 +1400,6 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                     </q-td>
                                 """,
                                 )
-                                table.add_slot(
-                                    "body-cell-actions",
-                                    r"""
-                                    <q-td key="actions" :props="props">
-                                        <span>
-                                            <q-btn size="sm" color="accent" round dense
-                                                @click="() => $parent.$emit('move_up', props.row)"
-                                                icon="arrow_upward" />
-                                            <q-btn size="sm" color="accent" round dense
-                                                @click="() => $parent.$emit('move_down', props.row)"
-                                                icon="arrow_downward" />
-                                            <q-btn size="sm" color="accent" round dense
-                                                @click="() => $parent.$emit('delete', props.row)"
-                                                icon="remove" />
-                                        </span>
-                                    </q-td>
-                                """,
-                                )
 
                                 def modify_field(
                                     event: GenericEventArguments,
@@ -1455,8 +1430,6 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                             rows[row_idx - 1],
                                         )
 
-                                table.on("move_up", move_up_rule)
-
                                 def move_down_rule(
                                     event: GenericEventArguments,
                                 ) -> None:
@@ -1476,8 +1449,6 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                             rows[row_idx + 1],
                                         )
 
-                                table.on("move_down", move_down_rule)
-
                                 def delete_rule(
                                     event: GenericEventArguments,
                                 ) -> None:
@@ -1490,7 +1461,38 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                     ) != -1:
                                         table.remove_row(rows[row_idx])
 
-                                table.on("delete", delete_rule)
+                                with (
+                                    table.add_slot("body-cell-actions"),
+                                    table.cell("actions"),
+                                    ui.row(),
+                                ):
+                                    ui.button().props("""
+                                        size="sm" color="accent" round dense icon="arrow_upward"
+                                    """).on(
+                                        "click",
+                                        js_handler="""
+                                            () => emit(props.row)
+                                        """,
+                                        handler=move_up_rule,
+                                    )
+                                    ui.button().props("""
+                                        size="sm" color="accent" round dense icon="arrow_downward"
+                                    """).on(
+                                        "click",
+                                        js_handler="""
+                                            () => emit(props.row)
+                                        """,
+                                        handler=move_down_rule,
+                                    )
+                                    ui.button().props("""
+                                        size="sm" color="accent" round dense icon="remove"
+                                    """).on(
+                                        "click",
+                                        js_handler="""
+                                            () => emit(props.row)
+                                        """,
+                                        handler=delete_rule,
+                                    )
 
                                 with table.add_slot("top"):
 
@@ -1636,7 +1638,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         from System import IntPtr
                         from System.Windows.Forms import Screen
 
-                        user32 = ctypes.windll.user32  # type: ignore[attr-defined]
+                        user32 = ctypes.windll.user32
                         rect_tuple = (0, 0, 1200, 800)
                         _maximized = False
 
@@ -1852,15 +1854,15 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     if e.modifiers.alt and e.action.keyup and not e.action.repeat:
                         match e.key.name:
                             case "c":
-                                convert_menu.open()
+                                convert_menu.toggle()
                             case "[":
-                                input_formats_menu.open()
+                                input_formats_menu.toggle()
                             case "]":
-                                output_formats_menu.open()
+                                output_formats_menu.toggle()
                             case "t":
-                                theme_menu.open()
+                                theme_menu.toggle()
                             case "h":
-                                help_menu.open()
+                                help_menu.toggle()
                             case "o":
                                 await selected_formats.add_upload()
                             case "i":
@@ -1993,13 +1995,17 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     ).tooltip(_("View Detail Information"))
 
         def tasks_area() -> None:
+            @context_vars_wrapper
+            def max_track_count_text(max_track_count: int) -> str:
+                return _("Max Track count:") + f" {max_track_count}"
+
             with ui.card().classes("w-full h-full").tight() as tasks_card:
                 with ui.row().classes("w-full"):
                     ui.label(_("Import project")).classes("text-h5 font-bold")
                     ui.space()
                     ui.label(_("Conversion Mode:")).classes("text-h5")
                     ui.toggle(
-                        {mode.value: mode.name for mode in ConversionMode},
+                        {mode.value: _(mode.value) for mode in ConversionMode},
                     ).bind_value(
                         selected_formats,
                         "conversion_mode",
@@ -2048,22 +2054,25 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 with ui.row().classes(
                     "absolute bottom-0 right-2 m-2 z-10",
                 ):
-                    ui.label(_("Max Track count:")).bind_visibility_from(
-                        selected_formats,
-                        "conversion_mode",
-                        backward=ConversionMode.SPLIT.value.__eq__,
-                    )
-                    ui.knob(
-                        min=1,
-                        max=10,
-                        step=1,
-                        show_value=True,
-                        track_color="light-blue",
-                    ).bind_value(settings, "max_track_count").bind_visibility_from(
-                        selected_formats,
-                        "conversion_mode",
-                        backward=ConversionMode.SPLIT.value.__eq__,
-                    )
+                    with ui.column():
+                        ui.label().bind_visibility_from(
+                            selected_formats,
+                            "conversion_mode",
+                            backward=ConversionMode.SPLIT.value.__eq__,
+                        ).bind_text_from(
+                            settings,
+                            "max_track_count",
+                            backward=max_track_count_text,
+                        )
+                        ui.slider(
+                            min=1,
+                            max=10,
+                            step=1,
+                        ).bind_value(settings, "max_track_count").bind_visibility_from(
+                            selected_formats,
+                            "conversion_mode",
+                            backward=ConversionMode.SPLIT.value.__eq__,
+                        )
                     with ui.button(
                         icon="add",
                         on_click=selected_formats.add_upload,
@@ -2153,12 +2162,12 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         backward=bool,
                     ).tooltip(_("Export"))
                 ui.label(_("Advanced Options")).classes("text-h5 font-bold")
-                with ui.expansion().classes("w-full") as import_panel:
+                with ui.expansion(group="options").classes("w-full") as import_panel:
                     with import_panel.add_slot("header"):
                         input_panel_header()
                     input_options()
                 ui.separator()
-                with ui.expansion().classes("w-full") as middleware_panel:
+                with ui.expansion(group="options").classes("w-full") as middleware_panel:
                     with (
                         middleware_panel.add_slot("header"),
                         ui.row().classes("w-full items-center"),
@@ -2167,7 +2176,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         ui.label(_("Intermediate Processing")).classes("text-subtitle1 font-bold")
                     middleware_options()
                 ui.separator()
-                with ui.expansion().classes("w-full") as export_panel:
+                with ui.expansion(group="options").classes("w-full") as export_panel:
                     with export_panel.add_slot("header"):
                         output_panel_header()
                     output_options()
@@ -2253,4 +2262,5 @@ def main() -> None:
             favicon=icon_path,
             show_welcome_message=False,
             binding_refresh_interval=0.03,
+            unocss="mini",
         )

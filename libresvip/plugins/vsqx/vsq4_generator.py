@@ -99,7 +99,7 @@ class Vsq4Generator:
     ) -> None:
         if (
             (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None
-            and track_info.sampling_rate == 44100
+            and track_info.sample_rate == 44100
             and track_info.bit_depth == 16
         ):
             wav_part = Vsq4WavPart(
@@ -108,21 +108,21 @@ class Vsq4Generator:
                 pos_tick=tick_prefix + track.offset,
                 play_time=round(
                     self.time_synchronizer.get_actual_ticks_from_secs_offset(
-                        track.offset, track_info.duration / 1000
+                        track.offset, track_info.duration
                     )
                 )
                 - track.offset,
-                sample_rate=track_info.sampling_rate,
+                sample_rate=track_info.sample_rate,
                 sample_reso=track_info.bit_depth,
-                channels=track_info.channel_s,
+                channels=track_info.channels,
             )
-            if track_info.channel_s == 1:
+            if track_info.channels == 1:
                 vsqx.mixer.mono_unit = Vsq4MonoUnit(
                     mute=int(track.mute),
                     solo=int(track.solo),
                 )
                 vsqx.mono_track = Vsq4MonoTrack(wav_part=[wav_part])
-            elif track_info.channel_s == 2:
+            elif track_info.channels == 2:
                 vsqx.mixer.stereo_unit = Vsq4StereoUnit(
                     mute=int(track.mute),
                     solo=int(track.solo),

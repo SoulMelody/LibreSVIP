@@ -55,7 +55,7 @@ class NiaoNiaoParser:
                 lyric=nn_note.lyric,
                 start_pos=nn_note.start * self.length_multiplier,
                 length=nn_note.duration * self.length_multiplier,
-                key_number=88 - nn_note.key,
+                key_number=83 - nn_note.key,
             )
             phonemes = pypinyin.pinyin(nn_note.lyric, heteronym=True, style=pypinyin.STYLE_NORMAL)
             if len(phonemes[0]) > 1 or phonemes[0][0] != nn_note.pronunciation:
@@ -81,7 +81,7 @@ class NiaoNiaoParser:
                         Point(
                             round(nn_note.start * self.length_multiplier + i * step) + 1920,
                             round(
-                                ((nn_note.pitch.points[i] - 50) / 50 * pbs + 88 - nn_note.key) * 100
+                                ((nn_note.pitch.points[i] - 50) / 50 * pbs + 83 - nn_note.key) * 100
                             ),
                         )
                     )

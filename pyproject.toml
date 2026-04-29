@@ -1,147 +1,149 @@
 [project]
-authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
-license-files = ["LICENSE*"]
+name = "libresvip"
+description = "Universal Converter for Singing Voice Projects"
 requires-python = ">=3.10,<3.15"
+license-files = ["LICENSE*"]
+authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
 classifiers = [
-  'Development Status :: 4 - Beta',
-  'Programming Language :: Python',
-  'Programming Language :: Python :: Implementation :: CPython',
-  'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3 :: Only',
-  'Programming Language :: Python :: 3.10',
-  'Programming Language :: Python :: 3.11',
-  'Programming Language :: Python :: 3.12',
-  'Programming Language :: Python :: 3.13',
-  'Programming Language :: Python :: 3.14',
-  'Intended Audience :: Developers',
-  'Intended Audience :: End Users/Desktop',
-  'License :: OSI Approved :: MIT License',
-  'Environment :: Console',
-  'Operating System :: Unix',
-  'Operating System :: POSIX :: Linux',
-  'Operating System :: Microsoft :: Windows :: Windows 11',
-  'Operating System :: MacOS :: MacOS X',
-  'Operating System :: Android',
-  'Framework :: Pydantic :: 2',
-  'Topic :: File Formats',
-  'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis',
-  'Typing :: Typed',
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Framework :: Pydantic :: 2",
+  "Intended Audience :: Developers",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: Android",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows :: Windows 11",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Unix",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: File Formats",
+  "Topic :: Multimedia :: Sound/Audio :: Sound Synthesis",
+  "Typing :: Typed",
 ]
 dependencies = [
-  "aristaproto<0.2.0,>=0.1.4",
-  "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.4.4",
-  "construct-typing<1.0.0,>=0.7.0",
-  "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
-  "jinja2<4.0.0,>=3.1.6",
-  "jyutping",
-  "ko-pron>=1.3",
-  "loguru<1.0.0,>=0.7.3",
-  "more-itertools<11.0.0,>=10.8.0",
-  "packaging<25.1,>=25.0",
-  "platformdirs<5.0.0,>=4.5.1",
-  "portion<3.0.0,>=2.6.1",
-  "pydantic<3.0.0,>=2.12.5",
-  "pydantic-extra-types<3.0.0,>=2.11.0",
-  "pydantic-settings<3.0.0,>=2.12.0",
-  "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
-  "pypinyin<1.0.0,>=0.55.0",
-  "pysubs2<2.0.0,>=1.8.0",
   "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
+  "aristaproto<0.2.0,>=0.1.4",
+  "backports.zstd<1.3.1,>=1.3.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
+  "bidict<0.23.2,>=0.23.1",
+  "cbor2<6.0.2,>=6.0.1",
+  "charset-normalizer<4.0.0,>=3.4.7",
+  "construct-typing<1.0.0,>=0.7.0",
+  "importlib-resources<7.1.1,>=7.1.0; python_version < \"3.11\"",
+  "jinja2<4.0.0,>=3.1.6",
+  "jyutping",
+  "ko-pron<2.0,>=1.3",
+  "loguru<1.0.0,>=0.7.3",
+  "more-itertools<11.0.3,>=11.0.2",
+  "packaging<26.3,>=26.2",
+  "platformdirs<5.0.0,>=4.9.6",
+  "portion<3.0.0,>=2.6.1",
+  "pydantic<3.0.0,>=2.13.3",
+  "pydantic-extra-types<3.0.0,>=2.11.1",
+  "pydantic-settings<3.0.0,>=2.14.0",
+  "pymediainfo<=7.0.1; sys_platform != \"emscripten\"",
+  "pypinyin<1.0.0,>=0.55.0",
+  "pysubs2<2.0.0,>=1.8.1",
   "retrie<1.0.0,>=0.3.1",
   "ruamel.yaml<=0.20.0,>=0.19.1",
+  "soundfile; sys_platform == \"emscripten\"",
   "svg-py<2.0.0,>=1.10.0",
-  "tatsu<6.0.0,>=5.15.0",
-  "universal-pathlib<1.0.0,>=0.3.7",
+  "tatsu-lts<6.0.0,>=5.16.0",
+  "universal-pathlib<1.0.0,>=0.3.10",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
+  "zstandard<0.25.1,>=0.25.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
 ]
-name = "libresvip"
 dynamic = ["readme", "version"]
-description = "Universal Converter for Singing Voice Projects"
 
 [project.urls]
-repository = "https://github.com/SoulMelody/LibreSVIP"
 documentation = "https://soulmelody.github.io/LibreSVIP"
+repository = "https://github.com/SoulMelody/LibreSVIP"
 
 [project.optional-dependencies]
-zstd = [
-  "backports.zstd<1.3.1,>=1.3.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
-  "zstandard<0.25.1,>=0.25.0; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\") and platform_python_implementation == \"CPython\" and python_version < \"3.14\"",
+cli = [
+  "typer<1.0.0,>=0.25.0",
+  "winloop>=0.6.3; sys_platform == \"win32\"",
 ]
 crypto = [
   "cffi>=2.0.0; platform_python_implementation != \"PyPy\" and (sys_platform != \"win32\" or python_version <= \"3.11\")",
   "pyzipper>=0.3.6",
 ]
-ujson = ["ujson>=5.11.0"]
-yaml12 = [
-  "py-yaml12<0.2.0,>=0.1.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
-  "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
-]
-lxml = ["lxml>=6.0.2"]
-cli = [
-  "rich<14.2.1,>=14.2.0",
-  "typer-slim<1.0.0,>=0.21.0",
-  "winloop>=0.4.1; sys_platform == \"win32\"",
-]
-tui = [
-  "textual-fspicker>=0.6.0",
-]
-webui = [
-  "nicegui>=3.4.1",
-]
-mobile = [
-  "flet[cli,desktop]>=0.80.1,<0.80.2",
-  "flet-permission-handler>=0.80.1",
-  "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
-]
 desktop = [
-  "pyside6-essentials<6.11.0,>=6.10.1",
+  "pyside6-essentials<6.12.0,>=6.11.0",
   "ttkbootstrap-icons-mat>=1.0.0",
   "httpx>=0.28.1",
-  "desktop-notifier>=6.2.0; platform_python_implementation == \"CPython\"",
+  "desktop-notifier>=6.2.0",
+  "qasync>=0.28.0",
+]
+lxml = ["lxml>=6.1.0"]
+minijinja = ["minijinja>=2.19.0"]
+mobile = [
+  "flet[desktop]>=0.84.0,<0.90.0",
+  "flet-permission-handler>=0.84.0,<0.90.0",
+  "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
+]
+tui = [
+  "textual-fspicker>=1.0.0",
+]
+ujson = ["ujson>=5.12.0"]
+webui = [
+  "nicegui>=3.11.1",
+]
+yaml12 = [
+  "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
+  "yaml-rs<0.1.1,>=0.1.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
 ]
 
 [dependency-groups]
+all = [
+  { include-group = "code_gen" },
+  { include-group = "docs" },
+  { include-group = "i18n" },
+  { include-group = "linting" },
+  { include-group = "packaging" },
+  { include-group = "test" }
+]
 code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
-  "datamodel-code-generator>=0.52.1",
-  "protoc-wrapper>=33.0.0",
-  "pyside6-addons<6.11.0,>=6.10.1",
-  "xsdata[cli]>=25.7",
-]
-i18n = ["babel>=2.17.0"]
-linting = [
-  "pre-commit>=4.5.1",
-  "ruff>=0.14.10",
-  "mypy>=1.19.1",
-  "pyrefly>=0.46.3",
-  "pyside6<6.11.0,>=6.10.1",
-  "types-lxml>=2026.1.1",
-  "types-pyyaml>=6.0.12.20250915",
-  "types-ujson>=5.10.0.20250822",
-  "types-pyinstaller>=6.17.0.20251127",
-  "sortedcontainers-stubs>=2.4.3",
-]
-packaging = [
-  "pyfuze>=2.7.2",
-  "pyinstaller>=6.17.0",
-  "shellingham<2.0.0,>=1.5.4",
+  "datamodel-code-generator>=0.56.1",
+  "pbtk>=1.1.1.post1",
+  "protobuf-protoc-bin>=34.1",
+  "pyside6-addons<6.12.0,>=6.11.0",
+  "xsdata[cli]>=26.2",
 ]
 docs = [
-  "zensical>=0.0.15",
+  "zensical>=0.0.37",
 ]
-test = ["pytest>=9.0.2", "pytest-datadir>=1.8.0", "textual-dev>=1.8.0"]
-all = [
-  {include-group = "code_gen"},
-  {include-group = "i18n"},
-  {include-group = "linting"},
-  {include-group = "packaging"},
-  {include-group = "docs"},
-  {include-group = "test"}
+i18n = ["babel>=2.18.0"]
+linting = [
+  "mypy>=1.20.2",
+  "prek>=0.3.11",
+  "pyrefly>=0.63.0,<0.63.1",
+  "pyside6<6.12.0,>=6.11.0",
+  "ruff>=0.15.12",
+  "sortedcontainers-stubs>=2.4.3",
+  "types-lxml>=2026.2.16",
+  "types-pyinstaller>=6.19.0.20260408",
+  "types-pyyaml>=6.0.12.20260408",
+  "types-ujson>=5.10.0.20250822",
 ]
+packaging = [
+  "flet-cli>=0.84.0,<0.90.0",
+  "pyinstaller>=6.20.0",
+  "shellingham<2.0.0,>=1.5.4",
+]
+test = ["pytest>=9.0.3", "pytest-run-parallel>=0.8.2", "textual-dev>=1.8.0"]
 
 [project.scripts]
 libresvip-cli = "libresvip.cli.__main__:app"
@@ -154,6 +156,20 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 
 [project.entry-points.pyinstaller40]
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
+
+[tool.uv]
+override-dependencies = ["system_pyside6; sys_platform == \"linux\""]
+# index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+# python-install-mirror = "https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
+
+[tool.uv.sources]
+jyutping = { index = "piwheels" }
+wanakana-python = { index = "piwheels" }
+
+[[tool.uv.index]]
+name = "piwheels"
+url = "https://www.piwheels.org/simple/"
+explicit = true
 
 [tool.hatch.version]
 path = "libresvip/__init__.py"
@@ -183,67 +199,70 @@ addopts = "-s -p no:warnings"
 pythonpath = "."
 testpaths = "tests"
 
+[tool.tombi.files]
+exclude = ["pyproject.toml", "uv.lock"]
+
 [tool.ruff]
 target-version = "py310"
-src = ['libresvip', 'tests']
+src = ["libresvip", "tests"]
 line-length = 100
 fix = true
 
 [tool.ruff.lint]
 select = [
-  "A",     # builtins
-  "ANN",   # annotations
-  "ASYNC", # async
-  "C4",    # comprehensions
-  "DTZ",   # timezone
-  "E",     # style errors
-  "EM",    # error messages
-  "EXE",   # executable
-  "F",     # flakes
-  "FA",    # future annotations
-  "FLY",   # flynt
-  "I",     # import sorting
-  "ICN",   # import conventions
-  "INT",   # gettext
-  "ISC",   # implicit str concat
-  "N",     # naming
+  "A",  # builtins
+  "ANN",  # annotations
+  "ASYNC",  # async
+  "C4",  # comprehensions
+  "DTZ",  # timezone
+  "E",  # style errors
+  "EM",  # error messages
+  "EXE",  # executable
+  "F",  # flakes
+  "FA",  # future annotations
+  "FLY",  # flynt
+  "I",  # import sorting
+  "ICN",  # import conventions
+  "INT",  # gettext
+  "ISC",  # implicit str concat
+  "N",  # naming
   "PERF",  # perflint
-  "PIE",   # assign and return
-  "PGH",   # pygrep-hooks
-  "PLC",   # pylint convention
-  "PLE",   # pylint errors
-  "PT",    # pytest-style
-  "PTH",   # pathlib
-  "PYI",   # stubs
-  "Q",     # quotes
-  "RUF",   # ruff
-  "RSE",   # raise
-  "SIM",   # simplify
-  "T10",   # debugger
-  "T20",   # print
-  "TC",    # type-checking
-  "TID",   # tidy imports
-  "TRY",   # tryceratops
-  "UP",    # pyupgrade
-  "W",     # style warnings
-  "YTT",   # sys.version
+  "PIE",  # assign and return
+  "PGH",  # pygrep-hooks
+  "PLC",  # pylint convention
+  "PLE",  # pylint errors
+  "PT",  # pytest-style
+  "PTH",  # pathlib
+  "PYI",  # stubs
+  "Q",  # quotes
+  "RUF",  # ruff
+  "RSE",  # raise
+  "SIM",  # simplify
+  "T10",  # debugger
+  "T20",  # print
+  "TC",  # type-checking
+  "TID",  # tidy imports
+  "TRY",  # tryceratops
+  "UP",  # pyupgrade
+  "W",  # style warnings
+  "YTT",  # sys.version
 ]
 ignore = [
-  "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
-  "E501",   # Line too long
-  "RUF001", # String contains ambiguous symbol
-  "RUF006", # Store a reference to the return value of `asyncio.create_task`
-  "RUF009", # Do not perform function call in dataclass defaults
-  "PLC0415",# `import` should be at the top-level of a file
+  "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
+  "E501",  # Line too long
+  "RUF001",  # String contains ambiguous symbol
+  "RUF006",  # Store a reference to the return value of `asyncio.create_task`
+  "RUF009",  # Do not perform function call in dataclass defaults
+  "PLC0415",  # `import` should be at the top-level of a file
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ['libresvip', 'tests']
-known-third-party = ['svg']
+known-first-party = ["libresvip", "tests"]
+known-third-party = ["svg"]
 
 [tool.mypy]
 python_version = "3.10"
-disable_error_code = "import-not-found,import-untyped,unused-ignore"
+disable_error_code = "attr-defined,import-not-found,import-untyped,unused-ignore"
 warn_redundant_casts = true
 warn_unused_ignores = true
 disallow_any_generics = true
@@ -253,9 +272,7 @@ disallow_untyped_defs = true
 warn_no_return = false
 no_site_packages = true
 explicit_package_bases = true
-plugins = [
-  "pydantic.mypy"
-]
+plugins = ["pydantic.mypy"]
 
 [tool.pyrefly]
 python-version = "3.10"
@@ -288,10 +305,13 @@ python-version = "3.10"
 
 [tool.ty.rules]
 call-non-callable = "ignore"
+call-top-callable = "ignore"
 invalid-argument-type = "ignore"
 invalid-assignment = "ignore"
 invalid-method-override = "ignore"
+invalid-parameter-default = "ignore"
 invalid-return-type = "ignore"
+invalid-yield = "ignore"
 missing-argument = "ignore"
 no-matching-overload = "ignore"
 not-iterable = "ignore"
@@ -305,5 +325,5 @@ unsupported-base = "ignore"
 unsupported-operator = "ignore"
 
 [build-system]
-requires = ["hatchling", "hatch-fancy-pypi-readme"]
+requires = ["hatch-fancy-pypi-readme", "hatchling"]
 build-backend = "hatchling.build"

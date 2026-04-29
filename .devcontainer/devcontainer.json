@@ -18,8 +18,7 @@
 				"redhat.vscode-xml",
 				"redhat.vscode-yaml",
 				"samuelcolvin.jinjahtml",
-				"seanwu.vscode-qt-for-python",
-				"sourcery.sourcery",
+				"TheQtCompany.qt-python",
 				"theqtcompany.qt-qml"
 			]
 		}

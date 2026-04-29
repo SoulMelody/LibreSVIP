@@ -135,7 +135,7 @@ class SynthVGenerator:
                 synchronizer=self.synchronizer,
                 note_list=track.note_list,
                 time_signature_list=time_signature_list,
-                portamento=PortamentoPitch.sigmoid_portamento(),
+                portamento=PortamentoPitch.no_portamento(),
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
             if (
@@ -167,7 +167,7 @@ class SynthVGenerator:
             sv_track.main_ref.audio = SVAudio(filename=track.audio_file_path, duration=0)
             sv_track.main_ref.blick_offset = self.generate_audio_offset(track.offset)
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
-                sv_track.main_ref.audio.duration = track_info.duration / 1000
+                sv_track.main_ref.audio.duration = track_info.duration
         return sv_track
 
     def generate_audio_offset(self, offset: int) -> int:

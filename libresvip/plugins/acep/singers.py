@@ -145,6 +145,12 @@ id2singer = bidict(
         2029: "水音ラル Gravity",
         3006: "Rowly G.",
         5038: "空诗音Lemi",
+        5073: "YAO",
+        5074: "OSCAR",
+        5075: "JOAN",
+        5076: "ZETA",
+        5077: "DOO",
+        5078: "空诗音Lemi2",
     },
 )
 
@@ -291,5 +297,11 @@ singer2seed = bidict(
         "水音ラル Gravity": 102,
         "Rowly G.": 31,
         "空诗音Lemi": 87,
+        "YAO": 202,
+        "OSCAR": 203,
+        "JOAN": 204,
+        "ZETA": 205,
+        "DOO": 206,
+        "空诗音Lemi2": 207,
     },
 )

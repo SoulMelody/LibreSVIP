@@ -19,7 +19,7 @@ class ACEStudioConverter(plugin_base.SVSConverter):
     )
     _alias_ = "acep"
     _skipload_ = not ZSTD_AVAILABLE
-    _version_ = "1.9.12"
+    _version_ = "2.0.7"
 
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
@@ -31,7 +31,8 @@ class ACEStudioConverter(plugin_base.SVSConverter):
 
     @classmethod
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
-        ace_project = AceGenerator(
-            options=cls.output_option_cls.model_validate(options)
-        ).generate_project(project)
-        compress_ace_studio_project(ace_project.model_dump(mode="json", by_alias=True), path)
+        options_obj = cls.output_option_cls.model_validate(options)
+        ace_project = AceGenerator(options=options_obj).generate_project(project)
+        compress_ace_studio_project(
+            ace_project.model_dump(mode="json", by_alias=True), path, options_obj.serialization
+        )

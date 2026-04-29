@@ -1,10 +1,11 @@
 import pathlib
 
-from jinja2 import Template
+from libresvip.core.compat import jinja_env
 
 from .model import UTAUProject
 
-UST_TEMPLATE = Template(
+jinja_env.add_template(
+    "ust",
     """\
 [#VERSION]
 UST Version={{ ust_project.ust_version }}{% if ust_project.charset %}
@@ -18,7 +19,7 @@ OutFile={{ ust_project.out_file }}{% endif %}{% if ust_project.cache_dir %}
 CacheDir={{ ust_project.cache_dir }}{% endif %}{% if ust_project.tool1 %}
 Tool1={{ ust_project.tool1 }}{% endif %}{% if ust_project.tool2 %}
 Tool2={{ ust_project.tool2 }}{% endif %}{% if ust_project.pitch_mode2 %}
-Mode2={{ ust_project.pitch_mode2 | round }}{% endif %}{% if ust_project.autoren %}
+Mode2={{ ust_project.pitch_mode2 | string | capitalize }}{% endif %}{% if ust_project.autoren %}
 Autoren={{ ust_project.autoren }}{% endif %}{% if ust_project.flags %}
 Flags={{ ust_project.flags }}{% endif %}{% if ust_project.track | length > 0 %}{% for note in ust_project.track[0].notes %}
 [#{{ note.note_type }}]
@@ -53,7 +54,7 @@ VBR={{ note.vbr.length }},{{ note.vbr.period }},{% if note.vbr.depth is defined 
 {{ note.vbr.phase_shift }}{% endif %},{% if note.vbr.shift is defined %}\
 {{ note.vbr.shift }}{% endif %}{% endif %}{% endfor %}
 [#TRACKEND]{% endif %}
-"""
+""",
 )
 
 
@@ -62,4 +63,6 @@ def render_ust(
     output_path: pathlib.Path,
     encoding: str = "utf-8",
 ) -> None:
-    output_path.write_bytes(UST_TEMPLATE.render(ust_project=ust_project).encode(encoding))
+    output_path.write_bytes(
+        jinja_env.render_template("ust", ust_project=ust_project).encode(encoding)
+    )

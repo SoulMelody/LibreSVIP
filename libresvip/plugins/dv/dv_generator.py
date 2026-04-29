@@ -114,7 +114,7 @@ class DeepVocalGenerator:
                     start=track.offset + self.tick_prefix,
                     length=round(
                         self.time_synchronizer.get_actual_ticks_from_secs_offset(
-                            track.offset, track_info.duration / 1000
+                            track.offset, track_info.duration
                         )
                     ),
                 )

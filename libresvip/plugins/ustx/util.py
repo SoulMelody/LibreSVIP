@@ -1,4 +1,3 @@
-# mypy: disable-error-code="attr-defined"
 import dataclasses
 import operator
 

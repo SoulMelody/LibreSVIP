@@ -1,5 +1,4 @@
 import contextlib
-import inspect
 import sys
 from typing import Any
 
@@ -15,27 +14,27 @@ except ImportError:
 with contextlib.suppress(ImportError):
     sys.modules["yaml"] = __import__("yaml_ft")
 
-__all__ = ["Traversable", "json"]
+try:
+    from minijinja import Environment as JinjaEnvironment
+except ImportError:
+    from jinja2 import Template
+
+    class JinjaEnvironment:  # type: ignore[no-redef]
+        def __init__(self) -> None:
+            self._compiled_templates: dict[str, Template] = {}
+
+        def add_template(self, name: str, source: str) -> None:
+            self._compiled_templates[name] = Template(source)
+
+        def render_template(self, template_name: str, **ctx: dict[str, Any]) -> str:
+            return self._compiled_templates[template_name].render(**ctx)
+
+
+jinja_env = JinjaEnvironment()
+
+__all__ = ["Traversable", "jinja_env", "json"]
 
 if sys.version_info < (3, 11):
     from importlib_resources.abc import Traversable
 else:
     from importlib.resources.abc import Traversable
-
-import xsdata
-from packaging.version import Version
-
-if Version(xsdata.__version__) <= Version("25.7"):
-    from xsdata.exceptions import XmlContextError
-    from xsdata.formats.dataclass.models.builders import XmlMetaBuilder
-
-    def find_declared_class(cls: XmlMetaBuilder, clazz: type, name: str) -> Any:
-        for base in clazz.__mro__:
-            ann = inspect.get_annotations(base)
-            if ann and name in ann:
-                return base
-
-        msg = f"Failed to detect the declared class for field {name}"
-        raise XmlContextError(msg)
-
-    XmlMetaBuilder.find_declared_class = classmethod(find_declared_class)

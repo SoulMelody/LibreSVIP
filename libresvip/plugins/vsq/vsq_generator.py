@@ -54,7 +54,7 @@ class VsqGenerator:
         master_track: list[MidiMessage] = [
             {
                 "time": 0,
-                "__next": 0xFF,
+                "_next": 0xFF,
                 "status": 0xFF,
                 "detail": {
                     "type": "meta",
@@ -71,7 +71,7 @@ class VsqGenerator:
         master_track.append(
             {
                 "time": master_track[-1]["time"] if master_track else 0,
-                "__next": 0xFF,
+                "_next": 0xFF,
                 "status": 0xFF,
                 "detail": {
                     "type": "meta",
@@ -100,7 +100,7 @@ class VsqGenerator:
         master_track.extend(
             {
                 "time": round(tempo.position / self.tick_rate),
-                "__next": 0xFF,
+                "_next": 0xFF,
                 "status": 0xFF,
                 "detail": {
                     "type": "meta",
@@ -130,7 +130,7 @@ class VsqGenerator:
             master_track.append(
                 {
                     "time": ticks,
-                    "__next": 0xFF,
+                    "_next": 0xFF,
                     "status": 0xFF,
                     "detail": {
                         "type": "meta",
@@ -172,7 +172,7 @@ class VsqGenerator:
             mido_track.append(
                 {
                     "time": 0,
-                    "__next": 0xFF,
+                    "_next": 0xFF,
                     "status": 0xFF,
                     "detail": {
                         "type": "meta",
@@ -190,7 +190,7 @@ class VsqGenerator:
         mido_track.append(
             {
                 "time": 0,
-                "__next": 0xFF,
+                "_next": 0xFF,
                 "status": 0xFF,
                 "detail": {
                     "type": "meta",

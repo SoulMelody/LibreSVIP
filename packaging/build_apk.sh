@@ -8,11 +8,13 @@ if [ -n "$START_LINE_NUM" ]; then
 fi
 sed -i 's/dev_packages_configured/True/' $FLET_BUILD_COMMAND_PATH
 sed -i 's/self.flutter_dependencies = {}/self.flutter_dependencies = {"flet_permission_handler": "any"}/' $FLET_BUILD_COMMAND_PATH
+sed -i 's/cleanup_packages = self.get_bool_setting/cleanup_packages = False and /' $FLET_BUILD_COMMAND_PATH
 cp  ../libresvip/mobile/__main__.py main.py
 uv run flet build apk -v --yes --skip-flutter-doctor \
     --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
     --org org.soulmelody \
     --project LibreSVIP \
     --build-version $LIBRESVIP_VERSION \
-    --template gh:SoulMelody/flet-build-template \
-    --template-ref $FLET_VERSION
+    --template gh:SoulMelody/flet \
+    --template-dir sdk/python/templates/build \
+    --template-ref v$FLET_VERSION

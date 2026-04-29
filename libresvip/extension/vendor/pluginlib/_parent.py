@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# mypy: disable-error-code="arg-type,assignment,attr-defined,union-attr,var-annotated"
+# mypy: disable-error-code="arg-type,assignment,union-attr,var-annotated"
 """
 **Pluginlib Parent Submodule**
 

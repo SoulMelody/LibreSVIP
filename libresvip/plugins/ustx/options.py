@@ -10,6 +10,32 @@ from libresvip.model.option_mixins import (
 from libresvip.utils.translation import gettext_lazy as _
 
 
+class PlusHandlingMode(Enum):
+    _value_: Annotated[
+        str,
+        create_model(
+            "PlusHandlingMode",
+            __module__="libresvip.plugins.ustx.options",
+            AUTO=(str, Field(title=_("Auto determine by phonemizer language"))),
+            MONOSYLLABIC=(
+                str,
+                Field(title=_("Monosyllabic languages: treating +, +~ and +* as slur notes")),
+            ),
+            POLYSYLLABIC=(
+                str,
+                Field(
+                    title=_(
+                        "Polysyllabic languages: treating + as slur notes, and treating +~ or +* as syllable placeholders"
+                    )
+                ),
+            ),
+        ),
+    ]
+    AUTO = "auto"
+    MONOSYLLABIC = "monosyllabic"
+    POLYSYLLABIC = "polysyllabic"
+
+
 class OpenUtauEnglishPhonemizerCompatibility(Enum):
     _value_: Annotated[
         str,
@@ -17,7 +43,7 @@ class OpenUtauEnglishPhonemizerCompatibility(Enum):
             "OpenUtauEnglishPhonemizerCompatibility",
             __module__="libresvip.plugins.ustx.options",
             NON_ARPA=(str, Field(title=_("Incompatible with ARPAsing-series Phonemizers"))),
-            KEEP=(str, Field(title=_("Compatible with ARPAsing-series Phonemizers"))),
+            ARPA=(str, Field(title=_("Compatible with ARPAsing-series Phonemizers"))),
         ),
     ]
     NON_ARPA = "non-arpa"
@@ -29,10 +55,10 @@ class InputOptions(
     EnablePitchImportationMixin,
     BaseModel,
 ):
-    english_phonemizer_compatibility: OpenUtauEnglishPhonemizerCompatibility = Field(
-        OpenUtauEnglishPhonemizerCompatibility.NON_ARPA,
-        title=_("The way to handle english multisyllabic words"),
-        description=_("Compatibility with ARPAsing-series Phonemizer"),
+    plus_handling_mode: PlusHandlingMode = Field(
+        PlusHandlingMode.AUTO,
+        title=_("Plus sign handling mode"),
+        description=_("How to handle the + symbol in lyrics when importing USTX"),
     )
     breath_lyrics: str = Field(
         "Asp AP",

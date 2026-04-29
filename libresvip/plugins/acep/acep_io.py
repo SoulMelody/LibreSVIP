@@ -5,12 +5,28 @@ import pathlib
 import sys
 from typing import Any
 
+import cbor2
+from construct import (
+    Byte,
+    Bytes,
+    Const,
+    GreedyBytes,
+    Int16ul,
+    Int64ul,
+    Padding,
+    Pointer,
+    Prefixed,
+    Struct,
+    this,
+)
 from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
 
 from libresvip.core.compat import json
 from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
 from libresvip.utils.translation import gettext_lazy as _
+
+from .options import AcepSerialization
 
 try:
     __import__("Cryptodome")
@@ -35,6 +51,33 @@ for zstd_backend in (
         break
 else:
     ZSTD_AVAILABLE = False
+
+ACEP2_MAGIC = b"ACEP2"
+ACEP2_FLAG = 0x01
+
+
+Acep2Header = Struct(
+    "magic" / Const(ACEP2_MAGIC, Bytes(5)),
+    "flags" / Const(ACEP2_FLAG, Byte),
+    "header_size" / Int16ul,
+    "content_offset" / Int64ul,
+    "compressed_content_size" / Int64ul,
+    "content_size" / Int64ul,
+    "encrypted_metadata" / Prefixed(Int16ul, GreedyBytes),
+    "metadata_flag" / Const(ACEP2_FLAG, Byte),
+    "content_hash" / Bytes(16),
+    "padding" / Padding(lambda this: this.content_offset - 51 - len(this.encrypted_metadata)),
+)
+
+
+Acep2File = Struct(
+    "header" / Acep2Header,
+    "compressed_content"
+    / Pointer(
+        this.header.content_offset,
+        Bytes(this.header.compressed_content_size),
+    ),
+)
 
 
 class AcepDebug(BaseModel):
@@ -92,24 +135,58 @@ def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
 
 
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
-    acep_file = AcepFile.model_validate_json(src.read_bytes().decode("utf-8"))
-    if acep_file.version == 1:
-        content = decrypt_acep_content_v1(acep_file.content)
-    elif acep_file.version == 2:
-        content = decrypt_acep_content_v2(acep_file.content, acep_file.salt)
+    content = src.read_bytes()
+    if content[:5] == ACEP2_MAGIC:
+        result = Acep2File.parse(content)
+        decompressed = zstd.decompress(result.compressed_content)
+        if not isinstance(decompressed, bytes):
+            decompressed = bytes(decompressed)
+        return cbor2.loads(decompressed)
     else:
-        content = acep_file.content
-    decompressed = zstd.decompress(content)
-    return json.loads(decompressed)
+        acep_file = AcepFile.model_validate_json(content.decode("utf-8"))
+        if acep_file.version == 1:
+            content = decrypt_acep_content_v1(acep_file.content)
+        elif acep_file.version == 2:
+            content = decrypt_acep_content_v2(acep_file.content, acep_file.salt)
+        else:
+            content = acep_file.content
+        decompressed = zstd.decompress(content)
+        if not isinstance(decompressed, bytes):
+            decompressed = bytes(decompressed)
+        return json.loads(decompressed)
 
 
-def compress_ace_studio_project(src: dict[str, Any], target: pathlib.Path) -> None:
-    raw_content = json.dumps(src).encode()
-    compressed = zstd.compress(raw_content)
-    acep_file = AcepFile.model_construct(content=compressed)
-    target.write_bytes(
-        json.dumps(
+def compress_ace_studio_project(
+    src: dict[str, Any], target: pathlib.Path, serialization: AcepSerialization
+) -> None:
+    if serialization == AcepSerialization.JSON:
+        raw_content = json.dumps(src).encode()
+        compressed = zstd.compress(raw_content)
+        if not isinstance(compressed, bytes):
+            compressed = bytes(compressed)
+        acep_file = AcepFile.model_construct(content=compressed)
+        content = json.dumps(
             acep_file.model_dump(mode="json", by_alias=True),
             separators=(",", ":"),
         ).encode("utf-8")
-    )
+    else:
+        raw_content = cbor2.dumps(src)
+        content_size = len(raw_content)
+        compressed = zstd.compress(raw_content)
+        if not isinstance(compressed, bytes):
+            compressed = bytes(compressed)
+        compressed_content_size = len(compressed)
+        content = Acep2File.build(
+            {
+                "header": {
+                    "header_size": 0,
+                    "content_offset": 192,
+                    "compressed_content_size": compressed_content_size,
+                    "content_size": content_size,
+                    "encrypted_metadata": b"\x00" * 138,
+                    "content_hash": b"\x00" * 16,
+                },
+                "compressed_content": compressed,
+            }
+        )
+    target.write_bytes(content)
