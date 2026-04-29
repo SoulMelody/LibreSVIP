@@ -115,3 +115,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: compile files
+          branch: ${{ github.ref_name }}
