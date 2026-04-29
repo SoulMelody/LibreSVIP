@@ -269,6 +269,13 @@ class LyricsReplaceMode(enum.Enum):
     REGEX = "regex"
 
 
+LYRIC_REPLACE_MODE_PREFIX_SUFFIX: dict[str, tuple[str, str]] = {
+    LyricsReplaceMode.FULL.value: ("^", "$"),
+    LyricsReplaceMode.ALPHABETIC.value: (r"(?<=^|\b)", r"(?=$|\b)"),
+    LyricsReplaceMode.NON_ALPHABETIC.value: ("", ""),
+}
+
+
 class LyricsReplacement(BaseModel):
     replacement: str
     pattern_main: str
@@ -278,14 +285,10 @@ class LyricsReplacement(BaseModel):
     mode: Annotated[LyricsReplaceMode, pydantic_enum(LyricsReplaceMode)] = LyricsReplaceMode.FULL
 
     def __post_init__(self) -> None:
-        if self.mode == LyricsReplaceMode.FULL:
-            self.pattern_prefix = "^"
-            self.pattern_suffix = "$"
-        elif self.mode == LyricsReplaceMode.ALPHABETIC:
-            self.pattern_prefix = r"(?<=^|\b)"
-            self.pattern_suffix = r"(?=$|\b)"
-        elif self.mode == LyricsReplaceMode.NON_ALPHABETIC:
-            self.pattern_prefix = self.pattern_suffix = ""
+        if self.mode.value in LYRIC_REPLACE_MODE_PREFIX_SUFFIX:
+            self.pattern_prefix, self.pattern_suffix = LYRIC_REPLACE_MODE_PREFIX_SUFFIX[
+                self.mode.value
+            ]
         if self.mode != LyricsReplaceMode.REGEX:
             self.pattern_main = re.escape(self.pattern_main)
         else:
