@@ -532,8 +532,8 @@ class LyricsRulesPanel(Vertical):
             )
             yield Button("＋", id="add_group", tooltip=_("Add"))
             yield Button("✕", id="delete_group", tooltip=_("Delete"))
-        yield DataTable(id="lyric_rules_table")
-        with Horizontal(classes="row"):
+        yield DataTable(id="lyric_rules_table", classes="fill-height")
+        with Horizontal(classes="bottom-pane row"):
             yield Button(_("Add"), id="add_rule", variant="primary")
             yield Button(_("Edit"), id="edit_rule", variant="warning")
             yield Button(_("Delete"), id="delete_rule", variant="error")
@@ -1064,11 +1064,12 @@ class TUIApp(App[None]):
                         )
             with TabPane(_("Lyric Replace Rules")):
                 yield LyricsRulesPanel(classes="card")
-            with TabPane(_("Other Settings")), Horizontal():
+            with TabPane(_("Other Settings")), Vertical():
                 with Vertical(classes="card"):
                     yield Label(_("Appearance"), classes="title")
-                    with Horizontal():
+                    with Horizontal(classes="row"):
                         yield Label(_("Switch Language"), classes="text-middle")
+                        yield Label("", classes="fill-width")
                         yield Select(
                             [
                                 ("简体中文", "zh_CN"),
@@ -1081,8 +1082,9 @@ class TUIApp(App[None]):
                             allow_blank=False,
                             id="language_select",
                         )
-                    with Horizontal():
+                    with Horizontal(classes="row"):
                         yield Label(_("Switch Theme"), classes="text-middle")
+                        yield Label("", classes="fill-width")
                         yield Select(
                             [
                                 (_("Light"), 0),
@@ -1095,16 +1097,19 @@ class TUIApp(App[None]):
                         )
                 with Vertical(classes="card"):
                     yield Label(_("Choose Plugins"), classes="title")
-                    yield SelectionList(
-                        *(
-                            Selection(
-                                f"{plugin.info.name} ({plugin.version})",
-                                plugin_id,
-                                plugin_id not in settings.disabled_plugins,
+                    with VerticalScroll():
+                        yield SelectionList(
+                            *(
+                                Selection(
+                                    f"{plugin.info.name} ({plugin.version})",
+                                    plugin_id,
+                                    plugin_id not in settings.disabled_plugins,
+                                )
+                                for plugin_id, plugin in plugin_manager.plugins.get(
+                                    "svs", {}
+                                ).items()
                             )
-                            for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                         )
-                    )
             with TabPane(_("About")), Vertical():
                 yield Link(
                     "LibreSVIP 𝅘𝅥𝅮",
