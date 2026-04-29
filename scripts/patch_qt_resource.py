@@ -13,6 +13,8 @@ if __name__ == "__main__":
         [
             "pyside6-rcc",
             "--binary",
+            "--format-version",
+            "1",
             "-o",
             "../libresvip/res/resources.rcc",
             "../libresvip/res/qml/resources.qrc",

@@ -7,7 +7,6 @@ import "qrc:/qml/components/" as Components
 ApplicationWindow {
     id: window
     title: qsTr("LibreSVIP")
-    visible: true
     minimumWidth: 700
     minimumHeight: 600
     width: 1200
