@@ -38,7 +38,7 @@ jobs:
 
       - name: Upload compiled resources
         if: steps.changed-files.outputs.qml_any_changed == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: qt-resources
           path: libresvip/res/resources.rcc
@@ -87,7 +87,7 @@ jobs:
 
       - name: Download compiled qt resources
         if: steps.changed-files.outputs.qml_any_changed == 'true'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: qt-resources
           path: libresvip/res
