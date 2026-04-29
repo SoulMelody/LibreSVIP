@@ -54,6 +54,6 @@
 | flet                    | Flet for Python - easily build interactive multi-platform apps in Python                                                     | Apache Software License                             |
 | flet-permission-handler | PermissionHandler control for Flet                                                                                           | Apache Software License                             |
 | jyutping                | Python tool to convert Chinese characters to Jyutping.                                                                       | MIT License                                         |
-| that-depends            | Simple Dependency injection framework for Python                                                                            | MIT License                                         |
 | qasync                  | Python library for using asyncio in Qt-based applications.                                                                   | BSD License                                         |
 | soundfile               | An audio library based on libsndfile, CFFI and NumPy                                                                         | BSD License                                         |
+| that-depends            | Simple Dependency injection framework for Python                                                                            | MIT License                                         |
