@@ -68,6 +68,8 @@ jobs:
           uv pip install zensical
           uv run zensical build
 
+      - uses: GuillaumeFalourd/setup-rsync@v1.2
+        if: steps.changed-files.outputs.docs_any_changed == 'true'
       - uses: JamesIves/github-pages-deploy-action@v4
         if: steps.changed-files.outputs.docs_any_changed == 'true'
         with:
