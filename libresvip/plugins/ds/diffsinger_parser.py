@@ -47,7 +47,7 @@ class DiffSingerParser:
         all_notes = []
         for ds_item in ds_items:
             notes: list[Note] = []
-            cur_time = self.synchronizer.get_actual_ticks_from_secs(float(ds_item.offset))
+            cur_secs = float(ds_item.offset)
             prev_is_breath = False
             for lyric_index, slur_group in enumerate(
                 more_itertools.split_before(
@@ -61,8 +61,9 @@ class DiffSingerParser:
                     text = ds_item.text[lyric_index]
                     note_dur = ds_item.note_dur[note_index]
                     note = ds_item.note_seq[note_index]
-                    next_time = self.synchronizer.get_actual_ticks_from_secs_offset(
-                        int(cur_time), note_dur
+                    cur_time = self.synchronizer.get_actual_ticks_from_secs(cur_secs)
+                    next_time = self.synchronizer.get_actual_ticks_from_secs(
+                        cur_secs + note_dur
                     )
                     if text == "SP":
                         pass
@@ -90,7 +91,7 @@ class DiffSingerParser:
                                     lyric="-",
                                 )
                             )
-                    cur_time = next_time
+                    cur_secs += note_dur
             all_notes.extend(notes)
         return all_notes
 
