@@ -13,7 +13,7 @@ flet-desktop==0.84.0
 flet-libxml2==2.9.8
 flet-libxslt==1.1.32
 flet-permission-handler==0.84.0
-fsspec==2026.3.0
+fsspec==2026.4.0
 grpclib==0.4.9
 h11==0.16.0
 h2==4.3.0
@@ -57,6 +57,7 @@ six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.10.0
 tatsu-lts==5.16.0
+that-depends==3.9.2
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 universal-pathlib==0.3.10
