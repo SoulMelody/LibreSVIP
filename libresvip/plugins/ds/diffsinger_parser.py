@@ -62,9 +62,7 @@ class DiffSingerParser:
                     note_dur = ds_item.note_dur[note_index]
                     note = ds_item.note_seq[note_index]
                     cur_time = self.synchronizer.get_actual_ticks_from_secs(cur_secs)
-                    next_time = self.synchronizer.get_actual_ticks_from_secs(
-                        cur_secs + note_dur
-                    )
+                    next_time = self.synchronizer.get_actual_ticks_from_secs(cur_secs + note_dur)
                     if text == "SP":
                         pass
                     elif text == "AP":
