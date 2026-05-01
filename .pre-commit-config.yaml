@@ -16,7 +16,7 @@ repos:
         args: ["--offline"]
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.1.85
+    rev: v0.1.86
     hooks:
       - id: rumdl-fmt
 
