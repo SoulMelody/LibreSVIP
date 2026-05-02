@@ -21,8 +21,6 @@ from construct_typed import (
     csfield,
 )
 
-from .constants import NOTE_UNKNOWN_DATA_BLOCK
-
 Int32ul = BytesInteger(4, swapped=True)
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 
@@ -82,7 +80,7 @@ class DvNote(DataclassMixin):
     note_vibrato_data: DvNoteParameter = csfield(
         Prefixed(Int32ul, DataclassStruct(DvNoteParameter))
     )
-    unknown: bytes = csfield(Const(NOTE_UNKNOWN_DATA_BLOCK))
+    unknown: list[float] = csfield(Prefixed(Int32ul, PrefixedArray(Int32ul, Float32l)))
     phonemes: bytes = csfield(DataclassStruct(DvPhoneme))
     ben_depth: int = csfield(Int32ul)
     ben_length: int = csfield(Int32ul)
