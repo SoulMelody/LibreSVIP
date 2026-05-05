@@ -10,16 +10,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-04-21 01:24\n"
+"PO-Revision-Date: 2026-04-30 06:22\n"
 
-msgid "TuneLab"
+msgid "TuneLab Legacy"
 msgstr ""
 
-msgid "TuneLab project file"
-msgstr "TuneLab工程文件"
+msgid "TuneLab legacy project file"
+msgstr ""
 
-msgid "Conversion plugin for TuneLab project file"
-msgstr "TuneLab工程格式转换插件"
+msgid "Conversion plugin for TuneLab legacy project file"
+msgstr ""
 
 msgid "LiuYunPlayer"
 msgstr "金刚小刘"
