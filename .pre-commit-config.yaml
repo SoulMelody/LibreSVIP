@@ -10,7 +10,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/tombi-toml/tombi-pre-commit
-    rev: v0.10.3
+    rev: v0.10.4
     hooks:
       - id: tombi-format
         args: ["--offline"]
