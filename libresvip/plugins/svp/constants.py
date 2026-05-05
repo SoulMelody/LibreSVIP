@@ -26,3 +26,5 @@ DEFAULT_DURATIONS = SimpleNamespace(
     semivowel=0.055,
     diphthong=0.0,
 )
+PORTAMENTO_HALFWIDTH_RATIO: Final[float] = 0.3
+HALFWIDTH_FLOOR_SECS: Final[float] = 1.0 / 256

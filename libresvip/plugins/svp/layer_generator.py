@@ -9,12 +9,11 @@ import portion
 
 from libresvip.core.exceptions import ParamsError
 from libresvip.core.time_interval import PiecewiseIntervalDict
-from libresvip.utils.music_math import clamp, linear_interpolation
+from libresvip.utils.music_math import linear_interpolation
 from libresvip.utils.search import find_index
 
-from .constants import MAX_BREAK
+from .constants import HALFWIDTH_FLOOR_SECS, MAX_BREAK, PORTAMENTO_HALFWIDTH_RATIO
 from .interval_utils import position_to_ticks
-from .lambert_w import LambertW
 from .model import SVPitchControl
 
 
@@ -40,95 +39,60 @@ class SigmoidNode:
     start: float = dataclasses.field(init=False)
     end: float = dataclasses.field(init=False)
     center: float = dataclasses.field(init=False)
-    sigmoid_l: Callable[[float], float] = dataclasses.field(init=False)
-    sigmoid_r: Callable[[float], float] = dataclasses.field(init=False)
-    d_sigmoid_l: Callable[[float], float] = dataclasses.field(init=False)
-    d_sigmoid_r: Callable[[float], float] = dataclasses.field(init=False)
-    _start: dataclasses.InitVar[float]
-    _end: dataclasses.InitVar[float]
+    key_left: int = dataclasses.field(init=False)
+    key_right: int = dataclasses.field(init=False)
+    sigmoid: Callable[[float], float] = dataclasses.field(init=False)
+    d_sigmoid: Callable[[float], float] = dataclasses.field(init=False)
     _center: dataclasses.InitVar[float]
-    _radius: dataclasses.InitVar[float]
+    _half_left: dataclasses.InitVar[float]
+    _half_right: dataclasses.InitVar[float]
     _key_left: dataclasses.InitVar[int]
     _key_right: dataclasses.InitVar[int]
 
-    @property
-    def k(self) -> float:
-        return 5.5
-
     def __post_init__(
         self,
-        _start: float,
-        _end: float,
         _center: float,
-        _radius: float,
+        _half_left: float,
+        _half_right: float,
         _key_left: int,
         _key_right: int,
     ) -> None:
-        self.start = _start
-        self.end = _end
         self.center = _center
-        h: float = (_key_right - _key_left) * 100
-        a = 1 / (1 + math.exp(self.k))
-        power = 0.75
+        self.start = _center - _half_left
+        self.end = _center + _half_right
+        self.key_left = _key_left
+        self.key_right = _key_right
+        h = (_key_right - _key_left) * 100
+        base = _key_left * 100
+        k = 3.0 / (_half_left + _half_right)
 
-        left = self.center - self.start
-        if left >= _radius or left == 0:
-            k_l = self.k
-            h_l = h
-            d_l = 0.0
-        else:
-            al = a * math.pow(_radius / left, power)
-            bl = left / _radius
-            cl = al * bl * self.k / (2 * al - 1)
-            k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(cl * math.exp(cl), -1)
-            h_l = h * k_l / (2 * k_l - self.k)
-            d_l = -_radius / k_l * math.log(2 * h_l / h - 1)
+        def _logistic(x: float) -> float:
+            arg = k * (x - self.center)
+            if arg >= 10.0:
+                return base + h
+            if arg <= -10.0:
+                return base
+            return base + h / (1.0 + math.exp(-arg))
 
-        self.sigmoid_l = lambda x: (
-            _key_left * 100 + h_l / (1 + math.exp(-k_l / _radius * (x - self.center + d_l)))
-        )
-        self.d_sigmoid_l = lambda x: (
-            h_l
-            * k_l
-            / _radius
-            * math.exp(-k_l / _radius * (x - self.center + d_l))
-            / math.pow(1 + math.exp(-k_l / _radius * (x - self.center + d_l)), 2)
-        )
+        def _d_logistic(x: float) -> float:
+            arg = k * (x - self.center)
+            if arg >= 10.0 or arg <= -10.0:
+                return 0.0
+            e = math.exp(-arg)
+            return h * k * e / (1.0 + e) ** 2
 
-        right = self.end - self.center
-        if right >= _radius or right == 0:
-            k_r = self.k
-            h_r = h
-            d_r = 0.0
-        else:
-            ar = a * math.pow(_radius / right, power)
-            br = right / _radius
-            cr = ar * br * self.k / (2 * ar - 1)
-            k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(cr * math.exp(cr), -1)
-            h_r = h * k_r / (2 * k_r - self.k)
-            d_r = -_radius / k_r * math.log(2 * h_r / h - 1)
-
-        self.sigmoid_r = lambda x: (
-            _key_right * 100 - h_r / (1 + math.exp(-k_r / _radius * (self.center - x + d_r)))
-        )
-        self.d_sigmoid_r = lambda x: (
-            h_r
-            * k_r
-            / _radius
-            * math.exp(-k_r / _radius * (self.center - x + d_r))
-            / math.pow(1 + math.exp(-k_r / _radius * (self.center - x + d_r)), 2)
-        )
+        self.sigmoid = _logistic
+        self.d_sigmoid = _d_logistic
 
     def value_at_secs(self, secs: float) -> float:
-        return self.sigmoid_l(secs) if secs <= self.center else self.sigmoid_r(secs)
+        return self.sigmoid(secs)
 
     def slope_at_secs(self, secs: float) -> float:
-        return self.d_sigmoid_l(secs) if secs <= self.center else self.d_sigmoid_r(secs)
+        return self.d_sigmoid(secs)
 
 
 @dataclasses.dataclass
 class BaseLayerGenerator:
-    default_radius = 0.07
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     note_list: list[NoteStruct] = dataclasses.field(init=False)
     sigmoid_nodes: list[SigmoidNode] = dataclasses.field(default_factory=list)
@@ -140,50 +104,37 @@ class BaseLayerGenerator:
         for current_note, next_note in itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
-            if (diameter := current_note.portamento_right + next_note.portamento_left) and (
-                next_note.start - current_note.end <= MAX_BREAK
-            ):
-                start = clamp(
-                    current_note.end - current_note.portamento_right + next_note.portamento_offset,
-                    current_note.start,
-                    current_note.end,
+            if next_note.start - current_note.end > MAX_BREAK:
+                continue
+            half_left = max(
+                next_note.portamento_left * PORTAMENTO_HALFWIDTH_RATIO,
+                HALFWIDTH_FLOOR_SECS,
+            )
+            half_right = max(
+                current_note.portamento_right * PORTAMENTO_HALFWIDTH_RATIO,
+                HALFWIDTH_FLOOR_SECS,
+            )
+            mid = (current_note.end + next_note.start) / 2 + next_note.portamento_offset
+            self.sigmoid_nodes.append(
+                SigmoidNode(
+                    _center=mid,
+                    _half_left=half_left,
+                    _half_right=half_right,
+                    _key_left=current_note.key,
+                    _key_right=next_note.key,
                 )
-                end = clamp(
-                    next_note.start + next_note.portamento_left + next_note.portamento_offset,
-                    next_note.start,
-                    next_note.end,
-                )
-                mid = clamp(
-                    (current_note.end + next_note.start) / 2 + next_note.portamento_offset,
-                    start,
-                    end,
-                )
-                self.sigmoid_nodes.append(
-                    SigmoidNode(
-                        _start=start,
-                        _end=end,
-                        _center=mid,
-                        _radius=diameter / 2,
-                        _key_left=current_note.key,
-                        _key_right=next_note.key,
-                    )
-                )
-            else:
-                mid = (current_note.end + next_note.start) / 2
-                self.sigmoid_nodes.append(
-                    SigmoidNode(
-                        _start=mid - self.default_radius,
-                        _end=mid + self.default_radius,
-                        _center=mid,
-                        _radius=self.default_radius,
-                        _key_left=current_note.key,
-                        _key_right=next_note.key,
-                    )
-                )
+            )
 
     def pitch_at_secs(self, secs: float) -> float:
         query = [node for node in self.sigmoid_nodes if node.start <= secs < node.end]
         if not query:
+            if self.sigmoid_nodes:
+                next_idx = find_index(self.sigmoid_nodes, lambda node: node.start > secs)
+                if next_idx == 0:
+                    return self.sigmoid_nodes[0].key_left * 100
+                if next_idx < 0:
+                    return self.sigmoid_nodes[-1].key_right * 100
+                return self.sigmoid_nodes[next_idx - 1].key_right * 100
             on_note_index = find_index(self.note_list, lambda note: note.start <= secs < note.end)
             if on_note_index >= 0:
                 return self.note_list[on_note_index].key * 100
@@ -222,80 +173,22 @@ class BaseLayerGenerator:
 
 @dataclasses.dataclass
 class GaussianNode:
+    origin: float
+    sigma: float
+    depth: float
     start: float = dataclasses.field(init=False)
     end: float = dataclasses.field(init=False)
-    origin: float = dataclasses.field(init=False)
-    gaussian_l: Callable[[float], float] = dataclasses.field(init=False)
-    gaussian_r: Callable[[float], float] = dataclasses.field(init=False)
-    is_end_point: dataclasses.InitVar[bool]
-    _origin: dataclasses.InitVar[float]
-    _depth: dataclasses.InitVar[float]
-    _width: dataclasses.InitVar[float]
-    _length_l: dataclasses.InitVar[float]
-    _length_r: dataclasses.InitVar[float]
-    ratio_miu: float = 0.447684
-    ratio_sigma: float = 0.415
-    expand: float = 2.5
 
-    def __post_init__(
-        self,
-        is_end_point: bool,
-        _origin: float,
-        _depth: float,
-        _width: float,
-        _length_l: float,
-        _length_r: float,
-    ) -> None:
-        self.origin = _origin
-        _depth *= 100
-        sigma_base = abs(self.ratio_sigma * _width)
-        if is_end_point:
-            sigma_l = min(sigma_base, _length_l / self.expand)
-            self.start = self.origin - sigma_l * self.expand
-            self.gaussian_l = lambda x: _depth * math.exp(-(((x - self.origin) / sigma_l) ** 2))
-            sigma_r = min(sigma_base, _length_r / self.expand)
-            self.end = self.origin + sigma_r * self.expand
-            self.gaussian_r = lambda x: _depth * math.exp(-(((x - self.origin) / sigma_r) ** 2))
-        else:
-            sign = 1 if _depth > 0 else -1 if _depth < 0 else 0
-            depth = abs(_depth)
-            miu_base = self.ratio_miu * _width
-            r2 = sigma_base**2
-
-            length_base_l = self.expand * sigma_base - miu_base
-            if _length_l >= length_base_l:
-                self.start = self.origin - length_base_l
-                self.gaussian_l = lambda x: (
-                    sign * depth * math.exp(-(((x - self.origin - miu_base) / sigma_base) ** 2))
-                )
-            else:
-                self.start = self.origin - _length_l
-                k_l = _length_l / length_base_l
-                miu_l = miu_base * k_l
-                sigma_2l = r2 * k_l
-                depth_l = depth * math.exp(miu_l**2 / r2 * (k_l - 1))
-                self.gaussian_l = lambda x: (
-                    sign * depth_l * math.exp(-((x - self.origin - miu_l) ** 2) / sigma_2l)
-                )
-
-            length_base_r = self.expand * sigma_base + miu_base
-            if _length_r >= length_base_r:
-                self.end = self.origin + length_base_r
-                self.gaussian_r = lambda x: (
-                    sign * depth * math.exp(-(((x - self.origin - miu_base) / sigma_base) ** 2))
-                )
-            else:
-                self.end = self.origin + _length_r
-                k_r = _length_r / length_base_r
-                miu_r = miu_base * k_r
-                sigma_2r = r2 * k_r
-                depth_r = depth * math.exp(miu_r**2 / r2 * (k_r - 1))
-                self.gaussian_r = lambda x: (
-                    sign * depth_r * math.exp(-((x - self.origin - miu_r) ** 2) / sigma_2r)
-                )
+    def __post_init__(self) -> None:
+        self.start = self.origin - 5.0 * self.sigma
+        self.end = self.origin + 5.0 * self.sigma
 
     def value_at_secs(self, secs: float) -> float:
-        return self.gaussian_l(secs) if secs < self.origin else self.gaussian_r(secs)
+        return self.depth * math.exp(-0.5 * ((secs - self.origin) / self.sigma) ** 2)
+
+
+def _portamento_sigma(portamento: float) -> float:
+    return max(portamento * PORTAMENTO_HALFWIDTH_RATIO, HALFWIDTH_FLOOR_SECS)
 
 
 @dataclasses.dataclass
@@ -306,86 +199,62 @@ class GaussianLayerGenerator:
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         if not _note_list:
             return
-        current_note = _note_list[0]
+        first_note = _note_list[0]
+        sigma_first = _portamento_sigma(first_note.portamento_left)
         self.gaussian_nodes.append(
             GaussianNode(
-                is_end_point=True,
-                _origin=current_note.start,
-                _depth=-current_note.depth_left,
-                _width=current_note.portamento_left,
-                _length_l=math.nan,
-                _length_r=current_note.end - current_note.start,
+                origin=first_note.start + 1.5 * sigma_first,
+                sigma=sigma_first,
+                depth=-first_note.depth_left * 100,
             )
         )
         for current_note, next_note in itertools.pairwise(_note_list):
+            sigma_l = _portamento_sigma(current_note.portamento_right)
+            sigma_r = _portamento_sigma(next_note.portamento_left)
             if next_note.start - current_note.end >= MAX_BREAK:
                 self.gaussian_nodes.append(
                     GaussianNode(
-                        is_end_point=True,
-                        _origin=current_note.end,
-                        _depth=current_note.depth_right,
-                        _width=current_note.portamento_left,
-                        _length_l=current_note.end - current_note.start,
-                        _length_r=math.nan,
+                        origin=current_note.end - 1.5 * sigma_l,
+                        sigma=sigma_l,
+                        depth=-current_note.depth_right * 100,
                     )
                 )
                 self.gaussian_nodes.append(
                     GaussianNode(
-                        is_end_point=True,
-                        _origin=next_note.start,
-                        _depth=-next_note.depth_left,
-                        _width=next_note.portamento_left,
-                        _length_l=math.nan,
-                        _length_r=next_note.end - next_note.start,
+                        origin=next_note.start + 1.5 * sigma_r,
+                        sigma=sigma_r,
+                        depth=-next_note.depth_left * 100,
                     )
                 )
+                continue
+            center = (current_note.end + next_note.start) / 2 + next_note.portamento_offset
+            depth_left = current_note.depth_right * 100
+            depth_right = next_note.depth_left * 100
+            if next_note.key <= current_note.key:
+                depth_right = -depth_right
             else:
-                middle = (current_note.end + next_note.start) / 2
-                origin = clamp(
-                    middle + current_note.portamento_offset,
-                    current_note.start,
-                    current_note.end,
+                depth_left = -depth_left
+            self.gaussian_nodes.append(
+                GaussianNode(
+                    origin=center - 1.5 * sigma_l,
+                    sigma=sigma_l,
+                    depth=depth_left,
                 )
-
-                depth_l = (
-                    current_note.depth_right
-                    if current_note.key >= next_note.key
-                    else -current_note.depth_right
+            )
+            self.gaussian_nodes.append(
+                GaussianNode(
+                    origin=center + 1.5 * sigma_r,
+                    sigma=sigma_r,
+                    depth=depth_right,
                 )
-                self.gaussian_nodes.append(
-                    GaussianNode(
-                        is_end_point=False,
-                        _origin=origin,
-                        _depth=depth_l,
-                        _width=-current_note.portamento_right,
-                        _length_l=origin - current_note.start,
-                        _length_r=next_note.end - origin,
-                    )
-                )
-
-                depth_r = (
-                    -next_note.depth_left
-                    if current_note.key >= next_note.key
-                    else next_note.depth_left
-                )
-                self.gaussian_nodes.append(
-                    GaussianNode(
-                        is_end_point=False,
-                        _origin=origin,
-                        _depth=depth_r,
-                        _width=next_note.portamento_left,
-                        _length_l=origin - current_note.start,
-                        _length_r=next_note.end - origin,
-                    )
-                )
+            )
+        last_note = _note_list[-1]
+        sigma_last = _portamento_sigma(last_note.portamento_right)
         self.gaussian_nodes.append(
             GaussianNode(
-                is_end_point=True,
-                _origin=_note_list[-1].end,
-                _depth=-_note_list[-1].depth_right,
-                _width=_note_list[-1].portamento_left,
-                _length_l=_note_list[-1].end - _note_list[-1].start,
-                _length_r=math.nan,
+                origin=last_note.end - 1.5 * sigma_last,
+                sigma=sigma_last,
+                depth=-last_note.depth_right * 100,
             )
         )
 
