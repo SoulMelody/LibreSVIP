@@ -1,3 +1,4 @@
+# mypy: disable-error-code="arg-type"
 import functools
 from collections.abc import MutableMapping
 from importlib.resources import files

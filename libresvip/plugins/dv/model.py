@@ -80,7 +80,7 @@ class DvNote(DataclassMixin):
     note_vibrato_data: DvNoteParameter = csfield(
         Prefixed(Int32ul, DataclassStruct(DvNoteParameter))
     )
-    unknown: list[float] = csfield(Prefixed(Int32ul, PrefixedArray(Int32ul, Float32l)))
+    unknown: tuple[float, ...] = csfield(Prefixed(Int32ul, PrefixedArray(Int32ul, Float32l)))
     phonemes: bytes = csfield(DataclassStruct(DvPhoneme))
     ben_depth: int = csfield(Int32ul)
     ben_length: int = csfield(Int32ul)

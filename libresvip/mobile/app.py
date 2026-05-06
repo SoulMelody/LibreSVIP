@@ -8,7 +8,7 @@ import re
 import traceback
 from functools import partial
 from importlib.resources import as_file
-from typing import get_args, get_type_hints
+from typing import Any, get_args, get_type_hints
 from zipfile import ZipFile
 
 import flet as ft
@@ -451,7 +451,7 @@ async def main(page: ft.Page) -> None:
         await shared_preferences.set("max_track_count", int(e.control.value))
 
     current_lyric_group = "default"
-    lyric_replace_rules: dict[str, list[dict]] = {}
+    lyric_replace_rules: dict[str, list[dict[str, Any]]] = {}
 
     async def load_lyric_rules_from_prefs() -> None:
         nonlocal lyric_replace_rules
