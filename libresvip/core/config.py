@@ -18,7 +18,7 @@ from pydantic import (
     model_validator,
 )
 from pydantic_core import core_schema
-from that_depends import BaseContainer, providers
+from that_depends import BaseContainer, Provide, inject, providers
 from typing_extensions import Self
 
 from libresvip.core.constants import app_dir  # isort:skip
@@ -450,6 +450,13 @@ class LibreSVIPSettingsContainer(BaseContainer):
         local=providers.Factory(lambda: settings),
         remote=providers.Factory(lambda x: x, state.cast),
     )
+
+
+@inject
+def get_settings(
+    settings: LibreSvipBaseUISettings = Provide[LibreSVIPSettingsContainer.settings],
+) -> LibreSvipBaseUISettings:
+    return settings
 
 
 def save_settings() -> None:

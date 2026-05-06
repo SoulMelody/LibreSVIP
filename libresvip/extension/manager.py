@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from loguru import logger
 
-from libresvip.core.config import LibreSVIPSettingsContainer, settings
+from libresvip.core.config import get_settings, settings
 from libresvip.core.constants import app_dir, pkg_dir, res_dir
 from libresvip.extension.vendor import pluginlib
 
@@ -53,7 +53,7 @@ def merge_translation(
 
 def get_translation(lang: str | None = None) -> gettext.NullTranslations:
     if lang is None:
-        ui_settings = LibreSVIPSettingsContainer.settings.resolve_sync()
+        ui_settings = get_settings()
         lang = ui_settings.language.value
     translation = gettext.NullTranslations()
     translation = merge_translation(translation, res_dir, lang)

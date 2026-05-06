@@ -4,7 +4,7 @@ import gettext
 import os
 import sys
 
-from that_depends import BaseContainer, providers
+from that_depends import BaseContainer, Provide, inject, providers
 
 singleton_translation: gettext.NullTranslations | None = None
 lazy_translation: contextvars.ContextVar[gettext.NullTranslations | None] = contextvars.ContextVar(
@@ -20,11 +20,18 @@ class TranslationContainer(BaseContainer):
     )
 
 
+@inject
+def create_translation(
+    translation: gettext.NullTranslations | None = Provide[TranslationContainer.translation],
+) -> gettext.NullTranslations | None:
+    return translation
+
+
 def gettext_lazy(message: str) -> str:
     if not message:
         return message
     with contextlib.suppress(LookupError):
-        if (translation := TranslationContainer.translation.resolve_sync()) is not None:
+        if (translation := create_translation()) is not None:
             return translation.gettext(message)
     return gettext.gettext(message)
 
@@ -38,6 +45,6 @@ def pgettext_lazy(context: str | None, message: str) -> str:
     if not message:
         return message
     with contextlib.suppress(LookupError):
-        if (translation := TranslationContainer.translation.resolve_sync()) is not None:
+        if (translation := create_translation()) is not None:
             return translation.pgettext(context, message)
     return gettext.pgettext(context, message)

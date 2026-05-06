@@ -3,7 +3,7 @@ from collections.abc import MutableMapping
 from importlib.resources import files
 from typing import Any
 
-from libresvip.core.config import LibreSVIPSettingsContainer, LyricsReplacement
+from libresvip.core.config import LyricsReplacement, get_settings
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, SingingTrack
 
@@ -27,7 +27,7 @@ class ReplaceLyricsMiddleware(plugin_base.Middleware):
     @classmethod
     def process(cls, project: Project, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.process_option_cls.model_validate(options)
-        if (settings := LibreSVIPSettingsContainer.settings.resolve_sync()) and (
+        if (settings := get_settings()) and (
             options_obj.lyric_replacement_preset_name in settings.lyric_replace_rules
         ):
             for track in project.track_list:
