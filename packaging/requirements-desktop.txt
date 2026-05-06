@@ -32,7 +32,7 @@ ko-pron==1.3
 loguru==0.7.3
 lxml==6.1.0
 macholib==1.16.4 ; sys_platform == 'darwin'
-markdown-it-py==4.0.0
+markdown-it-py==4.1.0
 markupsafe==3.0.3
 mdurl==0.1.2
 more-itertools==11.0.2
@@ -47,11 +47,11 @@ platformdirs==4.9.6
 portion==2.6.1
 pycparser==3.0 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32') or (implementation_name != 'PyPy' and sys_platform == 'emscripten')
 pycryptodomex==3.23.0
-pydantic==2.13.3
-pydantic-core==2.46.3
+pydantic==2.13.4
+pydantic-core==2.46.4
 pydantic-extra-types==2.11.1
 pydantic-settings==2.14.0
-pydeployment==1.3.14 ; sys_platform != 'darwin'
+pydeployment==1.3.15 ; sys_platform != 'darwin'
 pygments==2.20.0
 pyinstaller==6.20.0 ; platform_machine == 'ARM64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.20.0-py3-none-any.whl ; platform_machine != 'ARM64' and sys_platform == 'win32'
@@ -71,7 +71,7 @@ retrie==0.3.1
 rich==15.0.0
 ruamel-yaml==0.19.1
 ruamel-yaml-clib==0.2.15 ; sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
-rubicon-objc==0.5.3 ; sys_platform == 'darwin'
+rubicon-objc==0.5.4 ; sys_platform == 'darwin'
 setuptools==82.0.1
 shellingham==1.5.4
 shiboken6==6.11.0
