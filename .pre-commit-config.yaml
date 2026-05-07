@@ -10,13 +10,13 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/tombi-toml/tombi-pre-commit
-    rev: v0.10.5
+    rev: v0.10.6
     hooks:
       - id: tombi-format
         args: ["--offline"]
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.1.89
+    rev: v0.1.90
     hooks:
       - id: rumdl-fmt
 
