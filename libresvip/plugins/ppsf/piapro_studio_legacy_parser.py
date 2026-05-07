@@ -1,17 +1,9 @@
+# mypy: disable-error-code="operator"
 import dataclasses
-import struct
 from collections import defaultdict
 from typing import Annotated
 
-from construct import (
-    Byte,
-    Container,
-    Int16ul,
-    PascalString,
-    PrefixedArray,
-    Struct,
-)
-from more_itertools import split_into
+from construct import Container
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import (
@@ -30,40 +22,52 @@ from .options import InputOptions
 class PiaproStudioLegacyParser:
     options: InputOptions
     clip_offsets: list[int] = dataclasses.field(default_factory=list)
-    clip_note_counts: list[int] = dataclasses.field(default_factory=list)
     clips2track_indexes: dict[int, int] = dataclasses.field(default_factory=dict)
+    clips2note_indexes: dict[int, list[int]] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, ppsf_project: Annotated[Container, PpsfLegacyProject]) -> Project:
         events_chunk: Annotated[Container, PpsfChunk] | None = None
-        for chunk in ppsf_project.body.chunks:
+        automation_id2event_indexes: dict[int, list[int]] = defaultdict(list)
+        tempo_events: list[Container] = []
+        meter_events: list[Container] = []
+        for chunk in ppsf_project.chunks:
             match chunk.magic:
                 case "Clips":
-                    for clip_group in chunk.data.clips:
-                        for clip in clip_group:
-                            if clip.magic == "Vocaloid3NoteClip":
-                                (clip_offset,) = struct.unpack_from(
-                                    "<i", clip.data, len(clip.data) - 32
-                                )
-                                self.clip_offsets.append(clip_offset)
-                case "EditorDatas":
-                    for track_data in chunk.data.editor_datas:
-                        for clip_data in track_data.data.clip_datas:
-                            self.clip_note_counts.append(len(clip_data.data.note_datas))
+                    for i, clip in enumerate(chunk.data.vocaloid3_note_clips):
+                        self.clip_offsets.append(clip.data.noteclip.offset)
+                        self.clips2note_indexes[i] = clip.data.noteclip.iclip.event_indices
+                    for clip in chunk.data.automation_clips:
+                        automation_id2event_indexes[clip.index] = clip.data.event_indices
+                case "Plugins":
+                    for plugin in chunk.data.music_param_event_control_plugins:
+                        if (
+                            plugin.data.name == "Tempo"
+                            and plugin.data.self_clip_idx in automation_id2event_indexes
+                        ):
+                            tempo_events.extend(
+                                events_chunk[idx]
+                                for idx in automation_id2event_indexes[plugin.data.self_clip_idx]
+                            )
+                        if (
+                            plugin.data.name == "Meter"
+                            and plugin.data.self_clip_idx in automation_id2event_indexes
+                        ):
+                            meter_events.extend(
+                                events_chunk[idx]
+                                for idx in automation_id2event_indexes[plugin.data.self_clip_idx]
+                            )
                 case "Events":
-                    events_chunk = chunk
+                    events_chunk = chunk.data
                 case "Tracks":
-                    clip_indexes_struct = Struct(
-                        PascalString(Byte, "utf-8"),
-                        "indexes" / PrefixedArray(Byte, Int16ul),
-                    )
-                    for track_group in chunk.data.tracks:
-                        if track_group.magic == "Vocaloid3EventTracks":
-                            clip_index = 0
-                            for i, track in enumerate(track_group.data):
-                                clip_indexes = clip_indexes_struct.parse(track.data[30:])
-                                for clip_index in clip_indexes.indexes:
-                                    self.clips2track_indexes[clip_index] = i
-        tempos, time_signatures = self.parse_tempos_and_time_signatures(events_chunk)
+                    clip_index: int
+                    for i, track in enumerate(chunk.data.vocaloid3_event_tracks.data):
+                        if track.magic == "Vocaloid3EventTrack":
+                            for clip_index in track.data.clip_indices:
+                                self.clips2track_indexes[clip_index] = i
+        tempos, time_signatures = self.parse_tempos_and_time_signatures(
+            tempo_events,
+            meter_events,
+        )
         return Project(
             song_tempo_list=tempos,
             time_signature_list=time_signatures,
@@ -71,51 +75,40 @@ class PiaproStudioLegacyParser:
         )
 
     def parse_tempos_and_time_signatures(
-        self, events_chunk: Container | None = None
+        self,
+        tempo_events: list[Container],
+        meter_events: list[Container],
     ) -> tuple[list[SongTempo], list[TimeSignature]]:
         tempos = []
         time_signatures: list[TimeSignature] = []
-        if events_chunk is not None:
-            prev_tick = 0
-            for event_group in events_chunk.data.events:
-                events_by_level: list[list[tuple[int, bytes]]] = []
-                for event in event_group:
-                    if event.magic == "MidiEvent":
-                        (tick,) = struct.unpack_from(
-                            "<i",
-                            event.data,
-                        )
-                        if event.data[-1] == 0:
-                            if tick == 0:
-                                events_by_level.append([])
-                            if events_by_level:
-                                events_by_level[-1].append((tick, event.data))
-
-                if len(events_by_level) > 1:
-                    for tick, event_data in events_by_level[-2]:
-                        bpm = struct.unpack_from("<i", event_data, 4)[0] / 10000
-                        tempos.append(
-                            SongTempo(
-                                position=tick,
-                                bpm=bpm,
-                            )
-                        )
-                    for tick, event_data in events_by_level[-1]:
-                        (denominator, numerator) = struct.unpack_from("<2b", event_data, 4)
-                        if time_signatures:
-                            prev_bar_length = time_signatures[-1].bar_length()
-                            prev_bar_index = time_signatures[-1].bar_index
-                        else:
-                            prev_bar_length = TICKS_IN_BEAT * 4
-                            prev_bar_index = 0
-                        time_signatures.append(
-                            TimeSignature(
-                                bar_index=prev_bar_index + (tick - prev_tick) // prev_bar_length,
-                                numerator=numerator,
-                                denominator=denominator,
-                            )
-                        )
-                        prev_tick = tick
+        prev_tick = 0
+        for event in tempo_events:
+            tick = event.data.tick
+            bpm = event.data.value / 10000
+            tempos.append(
+                SongTempo(
+                    position=tick,
+                    bpm=bpm,
+                )
+            )
+        for event in meter_events:
+            tick = event.data.tick
+            denominator = event.data.value & 0xFF
+            numerator = event.data.value >> 8
+            if time_signatures:
+                prev_bar_length = time_signatures[-1].bar_length()
+                prev_bar_index = time_signatures[-1].bar_index
+            else:
+                prev_bar_length = TICKS_IN_BEAT * 4
+                prev_bar_index = 0
+            time_signatures.append(
+                TimeSignature(
+                    bar_index=prev_bar_index + (tick - prev_tick) // prev_bar_length,
+                    numerator=numerator,
+                    denominator=denominator,
+                )
+            )
+            prev_tick = tick
         if not tempos:
             tempos.append(SongTempo())
         if not time_signatures:
@@ -125,33 +118,18 @@ class PiaproStudioLegacyParser:
     def parse_tracks(self, events_chunk: Container | None = None) -> list[SingingTrack]:
         tracks: list[SingingTrack] = []
         if events_chunk is not None:
-            lyric_info_struct = Struct(
-                "lyric" / PascalString(Byte, "utf-8"),
-                Byte,
-                "phoneme" / PascalString(Byte, "utf-8"),
-                Byte,
-            )
             track_index2notes = defaultdict(list)
-            note_events = [
-                event
-                for event_group in events_chunk.data.events
-                for event in event_group
-                if event.magic == "Vocaloid3NoteEvent"
-            ]
-            for i, note_group in enumerate(split_into(note_events, self.clip_note_counts)):
-                for note in note_group:
-                    note_offset, pit, length = struct.unpack_from(
-                        "<ibi",
-                        note.data,
-                    )
-                    lyric_info = lyric_info_struct.parse(note.data[16:])
-                    track_index2notes[self.clips2track_indexes[i]].append(
+            for clip_index, note_group in self.clips2note_indexes.items():
+                track_index = self.clips2track_indexes[clip_index]
+                for note_index in note_group:
+                    note = events_chunk[note_index]
+                    track_index2notes[track_index].append(
                         Note(
-                            start_pos=self.clip_offsets[i] + note_offset,
-                            length=length,
-                            key_number=pit,
-                            lyric=lyric_info.lyric,
-                            pronunciation=lyric_info.phoneme,
+                            start_pos=self.clip_offsets[clip_index] + note.data.tick,
+                            length=note.data.duration,
+                            key_number=note.data.note,
+                            lyric=note.data.lyric,
+                            pronunciation=note.data.phoneme,
                         )
                     )
             tracks.extend(SingingTrack(note_list=notes) for notes in track_index2notes.values())
