@@ -33,7 +33,7 @@ except ImportError:
 
 jinja_env = JinjaEnvironment()
 
-__all__ = ["Traversable", "jinja_env", "json"]
+__all__ = ["Traversable", "jinja_env", "json", "prefix_match"]
 
 if sys.version_info < (3, 11):
     from importlib_resources.abc import Traversable
