@@ -1,7 +1,7 @@
 import dataclasses
-import re
 from collections.abc import Callable
 
+from libresvip.core.compat import prefix_match
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
@@ -63,7 +63,7 @@ class BinarySvipGenerator:
     def generate_project(self, project: Project) -> tuple[str, XSAppModel]:
         version = (
             project.version
-            if re.match(r"^SVIP\d\.\d\.\d$", project.version) is not None
+            if prefix_match(r"^SVIP\d\.\d\.\d$", project.version) is not None
             else "SVIP6.0.0"
         )
         model = XSAppModel()
@@ -178,7 +178,9 @@ class BinarySvipGenerator:
             head_tag=XSNoteHeadTag(
                 value=svip_note_head_tags.get(note.head_tag, XSNoteHeadTagEnum.NoTag)
             ),
-            lyric=note.lyric if CHINESE_RE.match(note.lyric) is not None else DEFAULT_CHINESE_LYRIC,
+            lyric=note.lyric
+            if prefix_match(CHINESE_RE, note.lyric) is not None
+            else DEFAULT_CHINESE_LYRIC,
             pronouncing=note.pronunciation or "",
         )
         xs_note.width_pos = (

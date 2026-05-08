@@ -1,4 +1,4 @@
-# mypy: disable-error-code="operator"
+# mypy: disable-error-code="index,operator"
 import dataclasses
 from collections import defaultdict
 from typing import Annotated

@@ -4,6 +4,7 @@ from collections.abc import Iterable
 import pypinyin
 import zhon
 
+from libresvip.core.compat import prefix_match
 from libresvip.utils.text import LATIN_ALPHABET
 
 CHINESE_RE: re.Pattern[str] = re.compile(rf"[{zhon.hanzi.characters}]")
@@ -26,12 +27,12 @@ def get_pinyin_series(
         is_letter = False
         non_chinese = ""
         for char in part:
-            if WHITE_SPACE.match(char) is not None or (ignore_hyphens and char == "-"):
+            if prefix_match(WHITE_SPACE, char) is not None or (ignore_hyphens and char == "-"):
                 if non_chinese:
                     result_items.append(non_chinese)
                     count += 1
                     non_chinese = ""
-            elif CHINESE_RE.match(char) is not None:
+            elif prefix_match(CHINESE_RE, char) is not None:
                 if non_chinese:
                     result_items.append(non_chinese)
                     count += 1
@@ -42,7 +43,7 @@ def get_pinyin_series(
                 if len(chinese):
                     result_items.extend(pypinyin.lazy_pinyin(chinese, errors=lambda x: " "))
                     chinese = ""
-                if LATIN_ALPHABET.match(char) is not None:
+                if prefix_match(LATIN_ALPHABET, char) is not None:
                     if reverse_letters:
                         if non_chinese and not is_letter:
                             result_items.append(non_chinese)

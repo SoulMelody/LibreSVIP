@@ -8,6 +8,7 @@ from typing import Concatenate
 
 from typing_extensions import ParamSpec
 
+from libresvip.core.compat import prefix_match
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.model.point import Point
 
@@ -50,7 +51,7 @@ def note2midi(note: str) -> int:
         "♮": 0,
     }
 
-    if (match := NOTE_RE.match(note)) is None:
+    if (match := prefix_match(NOTE_RE, note)) is None:
         msg = f"Invalid note format: {note!r}"
         raise ValueError(msg)
 

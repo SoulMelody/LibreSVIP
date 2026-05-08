@@ -6,6 +6,7 @@ from collections.abc import Callable
 from functools import partial, reduce
 from typing import cast
 
+from libresvip.core.compat import prefix_match
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.tick_counter import find_bar_index, shift_beat_list, shift_tempo_list
@@ -491,7 +492,7 @@ class SynthVParser:
                 while (
                     current_offset := find_index(
                         sv_note_list[prev_index + 1 :],
-                        lambda _note: breath_pattern.match(_note.lyrics) is None,
+                        lambda _note: prefix_match(breath_pattern, _note.lyrics) is None,
                     )
                 ) != -1:
                     current_index = prev_index + current_offset + 1
@@ -505,15 +506,20 @@ class SynthVParser:
                             note.head_tag = "V"
                     note_list.append(note)
                     prev_index = current_index
-            elif len(sv_note_list) == 1 and breath_pattern.match(sv_note_list[0].lyrics) is None:
+            elif (
+                len(sv_note_list) == 1
+                and prefix_match(breath_pattern, sv_note_list[0].lyrics) is None
+            ):
                 note_list.append(self.parse_note(sv_note_list[0], database))
             sv_note_list = [
-                note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
+                note for note in sv_note_list if prefix_match(breath_pattern, note.lyrics) is None
             ]
         else:
             if self.options.breath.value == BreathOption.IGNORE.value:
                 sv_note_list = [
-                    note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
+                    note
+                    for note in sv_note_list
+                    if prefix_match(breath_pattern, note.lyrics) is None
                 ]
             note_list = [self.parse_note(note, database) for note in sv_note_list]
         if sv_note_list:

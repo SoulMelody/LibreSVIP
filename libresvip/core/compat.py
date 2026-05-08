@@ -1,4 +1,5 @@
 import contextlib
+import re
 import sys
 from typing import Any
 
@@ -38,3 +39,12 @@ if sys.version_info < (3, 11):
     from importlib_resources.abc import Traversable
 else:
     from importlib.resources.abc import Traversable
+
+
+def prefix_match(
+    pattern: str | re.Pattern[str], string: str, flags: int = 0
+) -> re.Match[str] | None:
+    if sys.version_info >= (3, 15):
+        return re.prefixmatch(pattern, string, flags)
+    else:
+        return re.match(pattern, string, flags)
