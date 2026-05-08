@@ -55,8 +55,7 @@ def get_nn_grammar() -> Grammar:
             tempo:float ' '
             time_signature:nn_time_signature ' '
             bar_count:int ' '
-            version:int ' '
-            unknown:int ' 0 0 0 0' ;
+            version:int ' 0 0 0 0 0' ;
 
         newline           = /\r?\n/ ;
         word              = ?"([\u4e00-\u9fff]|-|[a-z]+)" ;
@@ -83,7 +82,6 @@ class NNInfoLine(BaseModel):
     time_signature: NNTimeSignature
     bar_count: int = 0
     version: int = 19
-    unknown: int = 0
 
 
 class NNNote(BaseModel):
@@ -137,7 +135,6 @@ class NnWalker(NodeWalker):
             time_signature=self.walk(node.time_signature),
             bar_count=node.bar_count,
             version=node.version,
-            unknown=node.unknown,
         )
 
     def walk_nn_time_signature(self, node: Node) -> NNTimeSignature:
