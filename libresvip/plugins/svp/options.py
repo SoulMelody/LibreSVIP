@@ -238,7 +238,7 @@ class OutputOptions(BaseModel):
         default=VibratoOption.NONE, title=_("The way to handle vibrato notes")
     )
     down_sample: int = Field(
-        default=40,
+        default=20,
         title=_(
             "Set the average sampling interval of parameter points to improve performance (0 means no limit)"
         ),

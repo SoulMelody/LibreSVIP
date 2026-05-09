@@ -8,16 +8,16 @@ import operator
 from typing import TYPE_CHECKING
 
 from libresvip.model.point import Point
+from libresvip.model.synthv_pitch import (
+    NoteStruct,
+    PitchControl,
+    PitchControlLayerGenerator,
+    PitchControlPoint,
+    SynthVPitchSimulator,
+)
 from libresvip.utils.search import binary_find_last
 
 from .interval_utils import position_to_ticks
-from .layer_generator import (
-    BaseLayerGenerator,
-    GaussianLayerGenerator,
-    NoteStruct,
-    PitchControlLayerGenerator,
-    VibratoLayerGenerator,
-)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -215,9 +215,7 @@ class PitchGenerator(ParamExpression):
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pitch_diff: ParamExpression = dataclasses.field(init=False)
     vibrato_env: ParamExpression = dataclasses.field(init=False)
-    base_layer: BaseLayerGenerator = dataclasses.field(init=False)
-    gaussian_layer: GaussianLayerGenerator = dataclasses.field(init=False)
-    vibrato_layer: VibratoLayerGenerator = dataclasses.field(init=False)
+    pitch_simulator: SynthVPitchSimulator = dataclasses.field(init=False)
     _synchronizer: dataclasses.InitVar[TimeSynchronizer]
     _pitch_diff: dataclasses.InitVar[ParamExpression]
     _vibrato_env: dataclasses.InitVar[ParamExpression]
@@ -236,8 +234,6 @@ class PitchGenerator(ParamExpression):
         self.synchronizer = _synchronizer
         self.pitch_diff = _pitch_diff
         self.vibrato_env = _vibrato_env
-        if not len(_note_list):
-            return
         note_structs = [
             NoteStruct(
                 key=sv_note.pitch,
@@ -259,28 +255,38 @@ class PitchGenerator(ParamExpression):
             )
             for sv_note in _note_list
         ]
-        self.base_layer = BaseLayerGenerator(note_structs)
-        self.vibrato_layer = VibratoLayerGenerator(note_structs)
-        self.gaussian_layer = GaussianLayerGenerator(note_structs)
+        pitch_controls = None
         if _pitch_controls:
-            self.pitch_control_layer = PitchControlLayerGenerator(_pitch_controls)
+            pitch_controls = [
+                PitchControl(
+                    pos=position_to_ticks(pitch_control.pos),
+                    pitch=pitch_control.pitch,
+                    type_=pitch_control.type_,
+                    points=[
+                        PitchControlPoint(
+                            offset=position_to_ticks(point.offset),
+                            value=point.value,
+                        )
+                        for point in pitch_control.points.root
+                    ]
+                    if pitch_control.type_ == "curve"
+                    else [],
+                )
+                for pitch_control in _pitch_controls
+            ]
+        self.pitch_simulator = SynthVPitchSimulator(
+            synchronizer=_synchronizer,
+            _note_list=note_structs,
+            _pitch_controls=pitch_controls,
+        )
+        self.pitch_control_layer = self.pitch_simulator.pitch_control_layer
 
     def value_at_ticks(self, ticks: int) -> float:
         return self.value_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
 
     def value_at_secs(self, secs: float) -> float:
         ticks = round(self.synchronizer.get_actual_ticks_from_secs(secs))
-        if self.pitch_control_layer:
-            pitch_control_value = self.pitch_control_layer.value_at_ticks(ticks)
-        else:
-            pitch_control_value = None
-        if pitch_control_value is None:
-            pitch_control_value = (
-                self.base_layer.pitch_at_secs(secs)
-                + self.vibrato_layer.pitch_diff_at_secs(secs)
-                + self.gaussian_layer.pitch_diff_at_secs(secs)
-            )
         return (
-            pitch_control_value
+            self.pitch_simulator.pitch_at_secs(secs, ticks)
             + self.pitch_diff.value_at_ticks(ticks) * self.vibrato_env.value_at_ticks(ticks) / 1000
         )
