@@ -941,7 +941,7 @@ wheels = [
 
 [[package]]
 name = "flet"
-version = "0.84.0"
+version = "0.85.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx", marker = "platform_system != 'Pyodide'" },
@@ -950,9 +950,9 @@ dependencies = [
     { name = "repath" },
     { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1b/8e/d042b5cefa507195683ba439ee183ce24f0cdfa13005b0a8ab64dd403e72/flet-0.84.0.tar.gz", hash = "sha256:f8a4121666c8df2d1c5ea10b14113755895328251b7ce4ab37b140fc8b23fa36", size = 472575, upload-time = "2026-04-01T19:23:59.207Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/96/05/fad3c45a31707779c745e5361f25022f3d8447aba29c6dcaaa4e03e6ec0a/flet-0.85.0.tar.gz", hash = "sha256:17ba534fdf5bc4d806468156302216c4c906d483fa37c505dc629c9e9a42f3ee", size = 501301, upload-time = "2026-05-08T22:15:46.541Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/cf/2ea7810646e310977b2f756c875b3556dc8893aa706177106712ba8f77f9/flet-0.84.0-py3-none-any.whl", hash = "sha256:0661e317a7451d7ca562dde22520598e0ada74038ea171783c18dbc26c6cc5ca", size = 560353, upload-time = "2026-04-01T19:23:57.914Z" },
+    { url = "https://files.pythonhosted.org/packages/46/52/80ecbec0ea38150d755f6686689dd36e4db1812234abc19ebadd80e416f5/flet-0.85.0-py3-none-any.whl", hash = "sha256:ebc0e8bf378be186f664e3a751f0f6d6bc012f1ff50fabbe9b05a92f65414b32", size = 579720, upload-time = "2026-05-08T22:15:47.962Z" },
 ]
 
 [package.optional-dependencies]
@@ -962,7 +962,7 @@ desktop = [
 
 [[package]]
 name = "flet-cli"
-version = "0.84.0"
+version = "0.85.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "binaryornot" },
@@ -974,33 +974,33 @@ dependencies = [
     { name = "tomli", marker = "python_full_version < '3.11'" },
     { name = "watchdog" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c9/8c/0f639eb94940e98fe4393d0b4463edcb951afd2f48210c27df78b702f752/flet_cli-0.84.0.tar.gz", hash = "sha256:f7ff547cab621f767487ace75ce1101d301290b79d414845375a9ae2971074dc", size = 56986, upload-time = "2026-04-01T19:24:01.211Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9c/68/2b8d542834601c9f744088df8f673575e69500dbd9be8e0049c60cbb2dad/flet_cli-0.85.0.tar.gz", hash = "sha256:567c13ee4e7ff05db2fc84487c211344d4f6b0b1ff5f591544dc39327fd68b90", size = 59604, upload-time = "2026-05-08T22:15:51.931Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1c/d7/d184d5667570987ed4dfe596380980d192a26b3c603e0db20db54e50573e/flet_cli-0.84.0-py3-none-any.whl", hash = "sha256:20a7106533ed40d3a4c3dbc62ab576e42c4eca9fa7fe136a9f78e41448322bf0", size = 70595, upload-time = "2026-04-01T19:24:02.323Z" },
+    { url = "https://files.pythonhosted.org/packages/52/ea/25bb4d989c601f9fe6c8c1e0e3c88311854c5f1935d45dea3649357b8876/flet_cli-0.85.0-py3-none-any.whl", hash = "sha256:bc6297aff13a8cb7cf46e6d79cde7effce484bec47bedb99fb550cbab0ea21f9", size = 71711, upload-time = "2026-05-08T22:15:50.796Z" },
 ]
 
 [[package]]
 name = "flet-desktop"
-version = "0.84.0"
+version = "0.85.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "flet" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/95/64/4aff45661c4a7f950c1162b127dfcfcdc6f66c6814ad2384beb41097956a/flet_desktop-0.84.0.tar.gz", hash = "sha256:85e2c54372dc61b4e2d594fbcd0f1e47488b6dd23e27ab40a31e753ade83d0af", size = 6096, upload-time = "2026-04-01T19:24:04.992Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f7/25/fee47b56b4ff05277708fa0e7b1c2716d7ce20b2d8695cbe062a5c32c64f/flet_desktop-0.85.0.tar.gz", hash = "sha256:7e29ab551e3b956574125b3ba2dbd5771c8d16a0602c93808955893ecdc47362", size = 6076, upload-time = "2026-05-08T22:15:54.305Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d1/ea/6a54be2a614902be7898df2011651f8caadff37509ac8eccbd1a17972bf5/flet_desktop-0.84.0-py3-none-any.whl", hash = "sha256:5e91ae87e0f0a0146ff22344aa981b79d7c7a9f535fe70703f3c4f328f521fd1", size = 6193, upload-time = "2026-04-01T19:24:03.916Z" },
+    { url = "https://files.pythonhosted.org/packages/38/d7/1f1a936dde6e7b5f27345d2ec63a9cd8e505e8a7763ba8119aded210e86e/flet_desktop-0.85.0-py3-none-any.whl", hash = "sha256:9e545f7e6839614ec6abd6305bfa8dbf2b1ddec99c840cc4f625af1f1171e7b1", size = 6177, upload-time = "2026-05-08T22:15:55.08Z" },
 ]
 
 [[package]]
 name = "flet-permission-handler"
-version = "0.84.0"
+version = "0.85.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "flet" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ef/01/b0f72006e5d8ab69a57d0591d936c0a0a895768567afd644f085f2bf9ac3/flet_permission_handler-0.84.0.tar.gz", hash = "sha256:f2d96448edb7d976cbf80241a1d9310efed8a8a4adbf6778d0d6023c44aa5627", size = 12238, upload-time = "2026-04-01T19:24:43.564Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/52/03/6704d0d7b4d8fad8624e1bb71f6aa0cbe88366660494e958584c7bbf321a/flet_permission_handler-0.85.0.tar.gz", hash = "sha256:112701b49f1c2549c1f6d80afa87e5d15676dc3435f7e45da58f83fe30384084", size = 12219, upload-time = "2026-05-08T22:16:44.608Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4b/48/6de5f581bd87ddacd3b2388abd62f213cb6d7729e3c3573e733103f50eb6/flet_permission_handler-0.84.0-py3-none-any.whl", hash = "sha256:a2aee6bb90191d3f502c00eb05088b068eae06e3d67ed73b6b66a42cc5d362eb", size = 13552, upload-time = "2026-04-01T19:24:44.203Z" },
+    { url = "https://files.pythonhosted.org/packages/63/ad/2eaab039c351b0412b10eaa8255ba62ddf80779c9f4b9c247cdbc0e9bbc4/flet_permission_handler-0.85.0-py3-none-any.whl", hash = "sha256:07fa1220f808ce832e97a8df2592ba680f22708bb19e5fd82a6661f33b203ebe", size = 13552, upload-time = "2026-05-08T22:16:43.706Z" },
 ]
 
 [[package]]
@@ -1581,7 +1581,7 @@ all = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
     { name = "babel", specifier = ">=2.18.0" },
     { name = "datamodel-code-generator", specifier = ">=0.57.0" },
-    { name = "flet-cli", specifier = ">=0.84.0,<0.90.0" },
+    { name = "flet-cli", specifier = ">=0.85.0,<0.90.0" },
     { name = "mypy", specifier = ">=2.0.0" },
     { name = "pbtk", specifier = ">=1.1.1.post1" },
     { name = "prek", specifier = ">=0.3.13" },
@@ -1626,7 +1626,7 @@ linting = [
     { name = "types-ujson", specifier = ">=5.10.0.20250822" },
 ]
 packaging = [
-    { name = "flet-cli", specifier = ">=0.84.0,<0.90.0" },
+    { name = "flet-cli", specifier = ">=0.85.0,<0.90.0" },
     { name = "pyinstaller", specifier = ">=6.20.0" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
 ]
