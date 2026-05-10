@@ -247,7 +247,6 @@ class Vsq3Generator:
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq3MCtrl]:
         music_controls: list[Vsq3MCtrl] = []
-        # 使用新的处理器
         pitch_handler = VocaloidPitchHandler(
             synchronizer=self.time_synchronizer,
             note_list=notes,

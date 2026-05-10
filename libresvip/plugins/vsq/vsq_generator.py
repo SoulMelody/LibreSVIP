@@ -301,7 +301,6 @@ class VsqGenerator:
         self, pitch: ParamCurve, tick_prefix: int, note_list: list[Note]
     ) -> list[str]:
         result = []
-        # 使用新的处理器
         pitch_handler = VocaloidPitchHandler(
             synchronizer=self.synchronizer,
             note_list=note_list,

@@ -55,7 +55,7 @@ class VprControllerAdapter:
         events = [
             ControllerEvent(pos=event.pos, value=int(event.value))
             for event in controller.events
-            if event.value is not None
+            if isinstance(event.value, int | float)
         ]
 
         return ControllerCurve(

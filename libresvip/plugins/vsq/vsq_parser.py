@@ -181,7 +181,6 @@ class VsqParser:
         note_list: list[Note],
         tick_prefix: int,
     ) -> ParamCurve | None:
-        # 使用新的适配器和处理器
         adapter = VsqControllerAdapter(tick_prefix=tick_prefix)
         pitch_handler = VocaloidPitchHandler(
             synchronizer=self.synchronizer,

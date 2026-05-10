@@ -20,7 +20,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.model.vocaloid import ControllerCurve, VocaloidPitchHandler
+from libresvip.model.vocaloid import VocaloidPitchHandler
 from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import BPM_RATE
@@ -35,7 +35,7 @@ from .model import (
     VocaloidVoicePart,
 )
 from .options import InputOptions
-from .vocaloid_controllers import VprControllerAdapter
+from .vocaloid_controllers import VprControllerAdapter, extract_pitch_data
 
 
 @dataclasses.dataclass
@@ -142,8 +142,6 @@ class VocaloidParser:
                                 direct_pitch_points
                             )
                         else:
-                            # 使用新的适配器和处理器
-                            adapter = VprControllerAdapter()
                             pitch_handler = VocaloidPitchHandler(
                                 synchronizer=self.synchronizer,
                                 note_list=singing_track.note_list,
@@ -151,23 +149,12 @@ class VocaloidParser:
                                 first_bar_length=self.first_bar_length,
                             )
 
-                            pit_curve = adapter.extract(part, "pitch_bend")
-                            pbs_curve = adapter.extract(part, "pitch_bend_sens")
-
-                            if pit_curve is not None:
+                            pitch_tuple = extract_pitch_data(part)
+                            if pitch_tuple is not None:
+                                pit_curve, pbs_curve = pitch_tuple
                                 from libresvip.model.vocaloid import PitchBendData
 
-                                pitch_data = PitchBendData(
-                                    pit=pit_curve,
-                                    pbs=pbs_curve
-                                    or ControllerCurve(
-                                        name="pitch_bend_sens",
-                                        events=[],
-                                        default_value=2,
-                                        min_value=1,
-                                        max_value=24,
-                                    ),
-                                )
+                                pitch_data = PitchBendData(pit=pit_curve, pbs=pbs_curve)
                                 part_pitch = pitch_handler.to_absolute_pitch(
                                     [pitch_data], [part.pos]
                                 )

@@ -231,7 +231,6 @@ class VocaloidGenerator:
         return tracks
 
     def generate_pitch_data(self, track: SingingTrack) -> list[VocaloidControllers]:
-        # 使用新的处理器
         pitch_handler = VocaloidPitchHandler(
             synchronizer=self.time_synchronizer,
             note_list=track.note_list,
