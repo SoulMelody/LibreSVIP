@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from libresvip.model.vocaloid.controller_models import (
     ControllerCurve,
     ControllerEvent,
@@ -11,6 +13,20 @@ from .model import VocaloidControllers, VocaloidPoint, VocaloidVoicePart
 
 
 class VprControllerAdapter:
+    VPR_PARAM_OVERRIDES: ClassVar[dict[str, tuple[int, int, int]]] = {
+        "gender": (0, -64, 63),
+    }
+
+    @classmethod
+    def get_param_metadata(cls, param_name: str) -> tuple[int, int, int] | None:
+        if param_name in cls.VPR_PARAM_OVERRIDES:
+            return cls.VPR_PARAM_OVERRIDES[param_name]
+
+        param_def = get_param_def(param_name)
+        if param_def is None:
+            return None
+        return param_def.default_value, param_def.min_value, param_def.max_value
+
     def extract_all(self, part: VocaloidVoicePart) -> list[ControllerCurve]:
         curves = []
         if part.controllers:
@@ -43,9 +59,11 @@ class VprControllerAdapter:
 
         if param_def:
             name = param_def.name
-            default_value = param_def.default_value
-            min_value = param_def.min_value
-            max_value = param_def.max_value
+            default_value, min_value, max_value = self.get_param_metadata(name) or (
+                param_def.default_value,
+                param_def.min_value,
+                param_def.max_value,
+            )
         else:
             name = controller.name
             default_value = 0
@@ -116,19 +134,3 @@ def create_pitch_controllers(
         controllers.append(pbs_controller)
 
     return controllers
-
-
-VPR_PARAM_NAMES = {
-    "pitch_bend": "pitchBend",
-    "pitch_bend_sens": "pitchBendSens",
-    "dynamics": "dynamics",
-    "breathiness": "breathiness",
-    "brightness": "brightness",
-    "clearness": "clearness",
-    "gender": "gender",
-    "portamento": "portamento",
-    "cross_synth": "crossSynthesis",
-    "growl": "growl",
-    "air": "air",
-    "exciter": "exciter",
-}

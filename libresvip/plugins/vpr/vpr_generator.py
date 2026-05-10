@@ -273,11 +273,16 @@ class VocaloidGenerator:
             (params.gender.points.root, "gender"),
             (params.strength.points.root, "brightness"),
         ):
+            param_metadata = adapter.get_param_metadata(param_name)
             if controller := adapter.create(
                 convert_param_points_to_vocaloid_curve(
                     point_list,
                     param_name,
                     position_offset=-self.first_bar_length,
+                    reverse_value=False,
+                    default_value=param_metadata[0] if param_metadata is not None else None,
+                    min_value=param_metadata[1] if param_metadata is not None else None,
+                    max_value=param_metadata[2] if param_metadata is not None else None,
                 )
             ):
                 controllers.append(controller)

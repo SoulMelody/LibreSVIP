@@ -348,7 +348,11 @@ class VsqxParser:
             and (gender_curve := adapter.extract(musical_part, "gender")) is not None
         ):
             params.gender.points.extend(
-                convert_vocaloid_curve_to_param_points(gender_curve, offset + self.first_bar_length)
+                convert_vocaloid_curve_to_param_points(
+                    gender_curve,
+                    offset + self.first_bar_length,
+                    reverse_value=True,
+                )
             )
 
         if (

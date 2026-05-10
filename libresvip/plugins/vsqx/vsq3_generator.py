@@ -303,6 +303,7 @@ class Vsq3Generator:
                         point_list,
                         param_name,
                         position_offset=-self.first_bar_length,
+                        reverse_value=param_name == "gender",
                     ),
                     Vsq3MCtrl,
                 )

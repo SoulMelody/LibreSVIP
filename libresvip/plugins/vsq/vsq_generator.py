@@ -359,6 +359,7 @@ class VsqGenerator:
             params.gender.points.root,
             "gender",
             position_offset=-self.first_bar_length,
+            reverse_value=True,
         )
         if not gender_curve.is_empty():
             result.append("[GenderFactorBPList]")

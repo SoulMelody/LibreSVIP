@@ -8,7 +8,7 @@ class VocaloidParameterDef:
     display_name: str
     vpr_name: str | None = None
     vsq_name: str | None = None
-    min_value: int = -127
+    min_value: int = 0
     max_value: int = 127
     default_value: int = 0
     is_complex: bool = False
@@ -30,7 +30,7 @@ VOCALOID_PARAMETERS: dict[str, VocaloidParameterDef] = {
         display_name="Pitch Bend Sensitivity",
         vpr_name="pitchBendSens",
         vsq_name="PBS",
-        min_value=1,
+        min_value=0,
         max_value=24,
         default_value=2,
         is_complex=True,
@@ -47,8 +47,10 @@ VOCALOID_PARAMETERS: dict[str, VocaloidParameterDef] = {
     "breathiness": VocaloidParameterDef(
         name="breathiness",
         display_name="Breathiness",
-        vpr_name="breathiness",
+        vpr_name="air",
         vsq_name="BRE",
+        min_value=0,
+        max_value=127,
         default_value=0,
     ),
     "brightness": VocaloidParameterDef(
@@ -56,14 +58,18 @@ VOCALOID_PARAMETERS: dict[str, VocaloidParameterDef] = {
         display_name="Brightness",
         vpr_name="brightness",
         vsq_name="BRI",
+        min_value=0,
+        max_value=127,
         default_value=0,
     ),
     "gender": VocaloidParameterDef(
         name="gender",
         display_name="Gender Factor",
-        vpr_name="gender",
+        vpr_name="character",
         vsq_name="GEN",
-        default_value=0,
+        min_value=0,
+        max_value=127,
+        default_value=64,
     ),
 }
 

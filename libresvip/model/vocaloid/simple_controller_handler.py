@@ -69,6 +69,7 @@ class SimpleControllerHandler:
         self,
         curve: ControllerCurve,
         position_offset: int = 0,
+        reverse_value: bool = False,
     ) -> list[Point]:
         if curve.is_empty():
             return []
@@ -80,6 +81,7 @@ class SimpleControllerHandler:
                     curve.default_value,
                     curve.min_value,
                     curve.max_value,
+                    reverse=reverse_value,
                 ),
             )
             for event in curve.events
@@ -93,6 +95,7 @@ class SimpleControllerHandler:
         default_value: int | None = None,
         min_value: int | None = None,
         max_value: int | None = None,
+        reverse_value: bool = False,
     ) -> ControllerCurve:
         param_def = get_param_def(param_name)
         default_val = (
@@ -127,6 +130,7 @@ class SimpleControllerHandler:
                     default_val,
                     min_val,
                     max_val,
+                    reverse=reverse_value,
                 ),
             )
             for point in real_points
@@ -186,6 +190,7 @@ class SimpleControllerHandler:
         default_value: int,
         min_value: int,
         max_value: int,
+        reverse: bool = False,
     ) -> int:
         if value >= default_value:
             denominator = max_value - default_value
@@ -211,6 +216,8 @@ class SimpleControllerHandler:
                     + self.internal_default_value
                 )
             )
+        if reverse:
+            mapped_value = -mapped_value
         return max(self.internal_min_value, min(self.internal_max_value, mapped_value))
 
     def _map_internal_to_external(
@@ -219,8 +226,11 @@ class SimpleControllerHandler:
         default_value: int,
         min_value: int,
         max_value: int,
+        reverse: bool = False,
     ) -> int:
         clamped_value = max(self.internal_min_value, min(self.internal_max_value, value))
+        if reverse:
+            clamped_value = -clamped_value
         if clamped_value >= self.internal_default_value:
             denominator = self.internal_max_value - self.internal_default_value
             mapped_value = (
@@ -275,9 +285,10 @@ def convert_gender_to_points(curve: ControllerCurve) -> list[Point]:
 def convert_vocaloid_curve_to_param_points(
     curve: ControllerCurve,
     position_offset: int = 0,
+    reverse_value: bool = False,
 ) -> list[Point]:
     handler = SimpleControllerHandler()
-    return handler.convert_vocaloid_curve_to_param_points(curve, position_offset)
+    return handler.convert_vocaloid_curve_to_param_points(curve, position_offset, reverse_value)
 
 
 def convert_param_points_to_vocaloid_curve(
@@ -287,6 +298,7 @@ def convert_param_points_to_vocaloid_curve(
     default_value: int | None = None,
     min_value: int | None = None,
     max_value: int | None = None,
+    reverse_value: bool = False,
 ) -> ControllerCurve:
     handler = SimpleControllerHandler(simplify=False)
     return handler.convert_param_points_to_vocaloid_curve(
@@ -296,4 +308,5 @@ def convert_param_points_to_vocaloid_curve(
         default_value,
         min_value,
         max_value,
+        reverse_value,
     )

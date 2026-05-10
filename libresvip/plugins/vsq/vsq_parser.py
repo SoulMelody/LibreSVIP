@@ -235,7 +235,11 @@ class VsqParser:
             gender_curve = adapter.extract(vsq_track, "gender")
             if gender_curve is not None:
                 params.gender.points.extend(
-                    convert_vocaloid_curve_to_param_points(gender_curve, self.first_bar_length)
+                    convert_vocaloid_curve_to_param_points(
+                        gender_curve,
+                        self.first_bar_length,
+                        reverse_value=True,
+                    )
                 )
 
         if self.options.import_strength:
