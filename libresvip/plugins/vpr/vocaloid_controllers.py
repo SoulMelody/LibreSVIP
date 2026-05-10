@@ -129,4 +129,6 @@ VPR_PARAM_NAMES = {
     "portamento": "portamento",
     "cross_synth": "crossSynthesis",
     "growl": "growl",
+    "air": "air",
+    "exciter": "exciter",
 }
