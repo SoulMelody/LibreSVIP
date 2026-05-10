@@ -20,7 +20,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.model.vocaloid import VocaloidPitchHandler
+from libresvip.model.vocaloid import PitchBendData, VocaloidPitchHandler
 from libresvip.model.vocaloid.simple_controller_handler import (
     convert_vocaloid_curve_to_param_points,
 )
@@ -155,7 +155,6 @@ class VocaloidParser:
                             pitch_tuple = extract_pitch_data(part)
                             if pitch_tuple is not None:
                                 pit_curve, pbs_curve = pitch_tuple
-                                from libresvip.model.vocaloid import PitchBendData
 
                                 pitch_data = PitchBendData(pit=pit_curve, pbs=pbs_curve)
                                 part_pitch = pitch_handler.to_absolute_pitch(
@@ -245,7 +244,9 @@ class VocaloidParser:
             and (dynamics_curve := adapter.extract(part, "dynamics")) is not None
         ):
             params.volume.points.extend(
-                convert_vocaloid_curve_to_param_points(dynamics_curve, offset)
+                convert_vocaloid_curve_to_param_points(
+                    dynamics_curve, offset + self.first_bar_length
+                )
             )
 
         if (
@@ -253,7 +254,9 @@ class VocaloidParser:
             and (breathiness_curve := adapter.extract(part, "breathiness")) is not None
         ):
             params.breath.points.extend(
-                convert_vocaloid_curve_to_param_points(breathiness_curve, offset)
+                convert_vocaloid_curve_to_param_points(
+                    breathiness_curve, offset + self.first_bar_length
+                )
             )
 
         if (
@@ -261,7 +264,7 @@ class VocaloidParser:
             and (gender_curve := adapter.extract(part, "gender")) is not None
         ):
             params.gender.points.extend(
-                convert_vocaloid_curve_to_param_points(gender_curve, offset)
+                convert_vocaloid_curve_to_param_points(gender_curve, offset + self.first_bar_length)
             )
 
         if (
@@ -269,5 +272,7 @@ class VocaloidParser:
             and (brightness_curve := adapter.extract(part, "brightness")) is not None
         ):
             params.strength.points.extend(
-                convert_vocaloid_curve_to_param_points(brightness_curve, offset)
+                convert_vocaloid_curve_to_param_points(
+                    brightness_curve, offset + self.first_bar_length
+                )
             )

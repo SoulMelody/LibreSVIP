@@ -21,7 +21,7 @@ from libresvip.model.base import (
     TimeSignature,
 )
 from libresvip.model.point import Point
-from libresvip.model.vocaloid import ControllerCurve, VocaloidPitchHandler
+from libresvip.model.vocaloid import ControllerCurve, PitchBendData, VocaloidPitchHandler
 from libresvip.model.vocaloid.simple_controller_handler import (
     convert_vocaloid_curve_to_param_points,
 )
@@ -303,8 +303,6 @@ class VsqxParser:
                 max_value=24,
             )
 
-        from libresvip.model.vocaloid import PitchBendData
-
         pitch_data = PitchBendData(pit=pit_curve, pbs=pbs_curve)
 
         return pitch_handler.to_absolute_pitch(
@@ -330,7 +328,9 @@ class VsqxParser:
             and (dynamics_curve := adapter.extract(musical_part, "dynamics")) is not None
         ):
             params.volume.points.extend(
-                convert_vocaloid_curve_to_param_points(dynamics_curve, offset)
+                convert_vocaloid_curve_to_param_points(
+                    dynamics_curve, offset + self.first_bar_length
+                )
             )
 
         if (
@@ -338,7 +338,9 @@ class VsqxParser:
             and (breathiness_curve := adapter.extract(musical_part, "breathiness")) is not None
         ):
             params.breath.points.extend(
-                convert_vocaloid_curve_to_param_points(breathiness_curve, offset)
+                convert_vocaloid_curve_to_param_points(
+                    breathiness_curve, offset + self.first_bar_length
+                )
             )
 
         if (
@@ -346,7 +348,7 @@ class VsqxParser:
             and (gender_curve := adapter.extract(musical_part, "gender")) is not None
         ):
             params.gender.points.extend(
-                convert_vocaloid_curve_to_param_points(gender_curve, offset)
+                convert_vocaloid_curve_to_param_points(gender_curve, offset + self.first_bar_length)
             )
 
         if (
@@ -354,7 +356,9 @@ class VsqxParser:
             and (brightness_curve := adapter.extract(musical_part, "brightness")) is not None
         ):
             params.strength.points.extend(
-                convert_vocaloid_curve_to_param_points(brightness_curve, offset)
+                convert_vocaloid_curve_to_param_points(
+                    brightness_curve, offset + self.first_bar_length
+                )
             )
 
     def parse_instrumental_tracks(

@@ -304,7 +304,7 @@ class Vsq4Generator:
                     convert_param_points_to_vocaloid_curve(
                         point_list,
                         param_name,
-                        position_offset=tick_prefix,
+                        position_offset=-self.first_bar_length,
                     ),
                     Vsq4MCtrl,
                 )

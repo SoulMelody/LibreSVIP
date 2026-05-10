@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from libresvip.model.vocaloid.controller_models import (
     ControllerCurve,
@@ -9,15 +9,14 @@ from libresvip.model.vocaloid.controller_registry import (
     get_param_def,
 )
 
-if TYPE_CHECKING:
-    from .model import VsqxMusicalPart
+from .model import VsqxMusicalPart
 
 
 class VsqxControllerAdapter:
     def __init__(self, param_names: type) -> None:
         self.param_names = param_names
 
-    def extract_all(self, musical_part: "VsqxMusicalPart") -> list[ControllerCurve]:
+    def extract_all(self, musical_part: VsqxMusicalPart) -> list[ControllerCurve]:
         curves = []
         events_by_param: dict[str, list[ControllerEvent]] = {}
 
@@ -59,12 +58,12 @@ class VsqxControllerAdapter:
 
         return curves
 
-    def extract(self, musical_part: "VsqxMusicalPart", param_name: str) -> ControllerCurve | None:
+    def extract(self, musical_part: VsqxMusicalPart, param_name: str) -> ControllerCurve | None:
         param_def = get_param_def(param_name)
-        if param_def is None or param_def.vsqx_name is None:
+        if param_def is None or param_def.vsq_name is None:
             return None
 
-        vsqx_param_id = param_def.vsqx_name
+        vsqx_param_id = self.param_names[param_def.vsq_name].value
 
         events = [
             ControllerEvent(
@@ -78,7 +77,6 @@ class VsqxControllerAdapter:
                 and m_ctrl.attr.value is not None
             )
         ]
-
         if not events:
             return None
 

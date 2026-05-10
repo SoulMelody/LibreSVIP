@@ -336,6 +336,7 @@ class VsqGenerator:
         volume_curve = convert_param_points_to_vocaloid_curve(
             params.volume.points.root,
             "dynamics",
+            position_offset=-self.first_bar_length,
         )
         if not volume_curve.is_empty():
             result.append("[DynamicsBPList]")
@@ -346,6 +347,7 @@ class VsqGenerator:
         breath_curve = convert_param_points_to_vocaloid_curve(
             params.breath.points.root,
             "breathiness",
+            position_offset=-self.first_bar_length,
         )
         if not breath_curve.is_empty():
             result.append("[BreathinessBPList]")
@@ -356,6 +358,7 @@ class VsqGenerator:
         gender_curve = convert_param_points_to_vocaloid_curve(
             params.gender.points.root,
             "gender",
+            position_offset=-self.first_bar_length,
         )
         if not gender_curve.is_empty():
             result.append("[GenderFactorBPList]")
@@ -366,6 +369,7 @@ class VsqGenerator:
         brightness_curve = convert_param_points_to_vocaloid_curve(
             params.strength.points.root,
             "brightness",
+            position_offset=-self.first_bar_length,
         )
         if not brightness_curve.is_empty():
             result.append("[BrightnessBPList]")

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from libresvip.model.point import Point
-from libresvip.utils.music_math import linear_interpolation
+from libresvip.utils.music_math import clamp, linear_interpolation
 
 from .controller_models import ControllerCurve, ControllerEvent
 from .controller_registry import get_param_def
@@ -54,7 +54,7 @@ class SimpleControllerHandler:
 
         events = []
         for point in points:
-            value = int(max(min_val, min(max_val, point.y)))
+            value = int(clamp(point.y, min_val, max_val))
             events.append(ControllerEvent(pos=point.x, value=value))
 
         return ControllerCurve(

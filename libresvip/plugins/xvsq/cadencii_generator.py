@@ -220,7 +220,11 @@ class CadenciiGenerator:
             (params.strength.points.root, "brightness"),
         ):
             result = adapter.create_bplist(
-                convert_param_points_to_vocaloid_curve(point_list, param_name)
+                convert_param_points_to_vocaloid_curve(
+                    point_list,
+                    param_name,
+                    position_offset=-self.first_bar_length,
+                )
             )
             if result:
                 controller_name, bplist = result

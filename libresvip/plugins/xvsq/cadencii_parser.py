@@ -201,25 +201,29 @@ class CadenciiParser:
         if self.options.import_volume:
             dynamics_curve = adapter.extract(vsq_track.meta_text, "dynamics")
             if dynamics_curve is not None:
-                params.volume.points.extend(convert_vocaloid_curve_to_param_points(dynamics_curve))
+                params.volume.points.extend(
+                    convert_vocaloid_curve_to_param_points(dynamics_curve, self.first_bar_length)
+                )
 
         if self.options.import_breath:
             breathiness_curve = adapter.extract(vsq_track.meta_text, "breathiness")
             if breathiness_curve is not None:
                 params.breath.points.extend(
-                    convert_vocaloid_curve_to_param_points(breathiness_curve)
+                    convert_vocaloid_curve_to_param_points(breathiness_curve, self.first_bar_length)
                 )
 
         if self.options.import_gender:
             gender_curve = adapter.extract(vsq_track.meta_text, "gender")
             if gender_curve is not None:
-                params.gender.points.extend(convert_vocaloid_curve_to_param_points(gender_curve))
+                params.gender.points.extend(
+                    convert_vocaloid_curve_to_param_points(gender_curve, self.first_bar_length)
+                )
 
         if self.options.import_strength:
             brightness_curve = adapter.extract(vsq_track.meta_text, "brightness")
             if brightness_curve is not None:
                 params.strength.points.extend(
-                    convert_vocaloid_curve_to_param_points(brightness_curve)
+                    convert_vocaloid_curve_to_param_points(brightness_curve, self.first_bar_length)
                 )
 
     def parse_instrumental_tracks(

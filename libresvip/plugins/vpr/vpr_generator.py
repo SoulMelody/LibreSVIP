@@ -274,7 +274,11 @@ class VocaloidGenerator:
             (params.strength.points.root, "brightness"),
         ):
             if controller := adapter.create(
-                convert_param_points_to_vocaloid_curve(point_list, param_name)
+                convert_param_points_to_vocaloid_curve(
+                    point_list,
+                    param_name,
+                    position_offset=-self.first_bar_length,
+                )
             ):
                 controllers.append(controller)
         return controllers

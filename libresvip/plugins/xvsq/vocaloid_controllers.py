@@ -8,7 +8,7 @@ from libresvip.model.vocaloid.controller_registry import (
     get_param_def,
 )
 
-from .model import VsqBPList, VsqMetaText
+from .model import VibratoBPPair, VsqBPList, VsqMetaText
 
 
 class XvsqControllerAdapter:
@@ -91,8 +91,6 @@ class XvsqControllerAdapter:
         if param_metadata is None:
             return None
         default_value, min_value, max_value = param_metadata
-
-        from .model import VibratoBPPair
 
         points = [
             VibratoBPPair(x=event.pos + self.tick_prefix, y=event.value) for event in curve.events
