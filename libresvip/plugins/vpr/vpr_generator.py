@@ -22,6 +22,9 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.vocaloid import VocaloidPitchHandler
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_param_points_to_vocaloid_curve,
+)
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -51,6 +54,7 @@ from .model import (
     VocaloidWavPart,
 )
 from .options import OutputOptions
+from .vocaloid_controllers import VprControllerAdapter
 
 
 @dataclasses.dataclass
@@ -261,36 +265,16 @@ class VocaloidGenerator:
         return controllers
 
     def generate_params(self, params: "Params") -> list[VocaloidControllers]:
-        controllers = []
-
-        if params.volume.points.root:
-            volume_events = [
-                VocaloidPoint(pos=point.x, value=point.y)
-                for point in params.volume.points.root
-                if point.y >= 0
-            ]
-            if volume_events:
-                controllers.append(VocaloidControllers(name="dynamics", events=volume_events))
-
-        if params.breath.points.root:
-            breath_events = [
-                VocaloidPoint(pos=point.x, value=point.y) for point in params.breath.points.root
-            ]
-            if breath_events:
-                controllers.append(VocaloidControllers(name="breathiness", events=breath_events))
-
-        if params.gender.points.root:
-            gender_events = [
-                VocaloidPoint(pos=point.x, value=point.y) for point in params.gender.points.root
-            ]
-            if gender_events:
-                controllers.append(VocaloidControllers(name="gender", events=gender_events))
-
-        if params.strength.points.root:
-            brightness_events = [
-                VocaloidPoint(pos=point.x, value=point.y) for point in params.strength.points.root
-            ]
-            if brightness_events:
-                controllers.append(VocaloidControllers(name="brightness", events=brightness_events))
-
+        adapter = VprControllerAdapter()
+        controllers: list[VocaloidControllers] = []
+        for point_list, param_name in (
+            (params.volume.points.root, "dynamics"),
+            (params.breath.points.root, "breathiness"),
+            (params.gender.points.root, "gender"),
+            (params.strength.points.root, "brightness"),
+        ):
+            if controller := adapter.create(
+                convert_param_points_to_vocaloid_curve(point_list, param_name)
+            ):
+                controllers.append(controller)
         return controllers

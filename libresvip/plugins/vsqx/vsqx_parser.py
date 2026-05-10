@@ -22,6 +22,9 @@ from libresvip.model.base import (
 )
 from libresvip.model.point import Point
 from libresvip.model.vocaloid import ControllerCurve, VocaloidPitchHandler
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_vocaloid_curve_to_param_points,
+)
 
 from .constants import BPM_RATE
 from .model import (
@@ -322,29 +325,37 @@ class VsqxParser:
         adapter = VsqxControllerAdapter(param_names=self.param_names)
         offset = musical_part.pos_tick - tick_prefix
 
-        if self.options.import_volume:
-            dynamics_curve = adapter.extract(musical_part, "dynamics")
-            if dynamics_curve is not None:
-                for event in dynamics_curve.events:
-                    params.volume.points.append(Point(x=event.pos + offset, y=event.value))
+        if (
+            self.options.import_volume
+            and (dynamics_curve := adapter.extract(musical_part, "dynamics")) is not None
+        ):
+            params.volume.points.extend(
+                convert_vocaloid_curve_to_param_points(dynamics_curve, offset)
+            )
 
-        if self.options.import_breath:
-            breathiness_curve = adapter.extract(musical_part, "breathiness")
-            if breathiness_curve is not None:
-                for event in breathiness_curve.events:
-                    params.breath.points.append(Point(x=event.pos + offset, y=event.value))
+        if (
+            self.options.import_breath
+            and (breathiness_curve := adapter.extract(musical_part, "breathiness")) is not None
+        ):
+            params.breath.points.extend(
+                convert_vocaloid_curve_to_param_points(breathiness_curve, offset)
+            )
 
-        if self.options.import_gender:
-            gender_curve = adapter.extract(musical_part, "gender")
-            if gender_curve is not None:
-                for event in gender_curve.events:
-                    params.gender.points.append(Point(x=event.pos + offset, y=event.value))
+        if (
+            self.options.import_gender
+            and (gender_curve := adapter.extract(musical_part, "gender")) is not None
+        ):
+            params.gender.points.extend(
+                convert_vocaloid_curve_to_param_points(gender_curve, offset)
+            )
 
-        if self.options.import_strength:
-            brightness_curve = adapter.extract(musical_part, "brightness")
-            if brightness_curve is not None:
-                for event in brightness_curve.events:
-                    params.strength.points.append(Point(x=event.pos + offset, y=event.value))
+        if (
+            self.options.import_strength
+            and (brightness_curve := adapter.extract(musical_part, "brightness")) is not None
+        ):
+            params.strength.points.extend(
+                convert_vocaloid_curve_to_param_points(brightness_curve, offset)
+            )
 
     def parse_instrumental_tracks(
         self,

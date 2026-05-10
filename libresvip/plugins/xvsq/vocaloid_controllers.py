@@ -15,24 +15,38 @@ class XvsqControllerAdapter:
     XVSQ_PARAM_MAP: ClassVar[dict[str, str]] = {
         "dyn": "dynamics",
         "bre": "breathiness",
-        "bri": "strength",
+        "bri": "brightness",
         "gen": "gender",
+    }
+    XVSQ_PARAM_DEFAULTS: ClassVar[dict[str, tuple[int, int, int]]] = {
+        "dynamics": (64, 0, 127),
+        "breathiness": (0, 0, 127),
+        "brightness": (0, 0, 127),
+        "gender": (64, 0, 127),
     }
 
     def __init__(self, tick_prefix: int = 0) -> None:
         self.tick_prefix = tick_prefix
 
-    def extract(self, meta_text: VsqMetaText, param_name: str) -> ControllerCurve | None:
+    def _get_param_metadata(self, param_name: str) -> tuple[int, int, int] | None:
+        if param_name in self.XVSQ_PARAM_DEFAULTS:
+            return self.XVSQ_PARAM_DEFAULTS[param_name]
+
         param_def = get_param_def(param_name)
         if param_def is None:
             return None
+        return param_def.default_value, param_def.min_value, param_def.max_value
 
-        xvsq_param_name = None
-        for xname, pname in self.XVSQ_PARAM_MAP.items():
-            if pname == param_name:
-                xvsq_param_name = xname
-                break
+    def extract(self, meta_text: VsqMetaText, param_name: str) -> ControllerCurve | None:
+        param_metadata = self._get_param_metadata(param_name)
+        if param_metadata is None:
+            return None
+        default_value, min_value, max_value = param_metadata
 
+        xvsq_param_name = next(
+            (xname for xname, pname in self.XVSQ_PARAM_MAP.items() if pname == param_name),
+            None,
+        )
         if xvsq_param_name is None:
             return None
 
@@ -54,9 +68,9 @@ class XvsqControllerAdapter:
         return ControllerCurve(
             name=param_name,
             events=events,
-            default_value=param_def.default_value,
-            min_value=param_def.min_value,
-            max_value=param_def.max_value,
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
         )
 
     def create_bplist(
@@ -66,19 +80,17 @@ class XvsqControllerAdapter:
         if curve.is_empty():
             return None
 
-        xvsq_param_name = None
-        for xname, pname in self.XVSQ_PARAM_MAP.items():
-            if pname == curve.name:
-                xvsq_param_name = xname
-                break
-
+        xvsq_param_name = next(
+            (xname for xname, pname in self.XVSQ_PARAM_MAP.items() if pname == curve.name),
+            None,
+        )
         if xvsq_param_name is None:
             return None
 
-        param_def = get_param_def(curve.name)
-        default_value = param_def.default_value if param_def else 0
-        min_value = param_def.min_value if param_def else 0
-        max_value = param_def.max_value if param_def else 127
+        param_metadata = self._get_param_metadata(curve.name)
+        if param_metadata is None:
+            return None
+        default_value, min_value, max_value = param_metadata
 
         from .model import VibratoBPPair
 

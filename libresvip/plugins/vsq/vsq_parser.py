@@ -17,8 +17,10 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.model.point import Point
 from libresvip.model.vocaloid import ControllerCurve, VocaloidPitchHandler
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_vocaloid_curve_to_param_points,
+)
 from libresvip.utils.binary.midi import MIDIFile, MIDITrack, tempo2bpm
 
 from .options import BreathOption, InputOptions
@@ -220,26 +222,26 @@ class VsqParser:
         if self.options.import_volume:
             dynamics_curve = adapter.extract(vsq_track, "dynamics")
             if dynamics_curve is not None:
-                for event in dynamics_curve.events:
-                    params.volume.points.append(Point(x=event.pos, y=event.value))
+                params.volume.points.extend(convert_vocaloid_curve_to_param_points(dynamics_curve))
 
         if self.options.import_breath:
             breathiness_curve = adapter.extract(vsq_track, "breathiness")
             if breathiness_curve is not None:
-                for event in breathiness_curve.events:
-                    params.breath.points.append(Point(x=event.pos, y=event.value))
+                params.breath.points.extend(
+                    convert_vocaloid_curve_to_param_points(breathiness_curve)
+                )
 
         if self.options.import_gender:
             gender_curve = adapter.extract(vsq_track, "gender")
             if gender_curve is not None:
-                for event in gender_curve.events:
-                    params.gender.points.append(Point(x=event.pos, y=event.value))
+                params.gender.points.extend(convert_vocaloid_curve_to_param_points(gender_curve))
 
         if self.options.import_strength:
             brightness_curve = adapter.extract(vsq_track, "brightness")
             if brightness_curve is not None:
-                for event in brightness_curve.events:
-                    params.strength.points.append(Point(x=event.pos, y=event.value))
+                params.strength.points.extend(
+                    convert_vocaloid_curve_to_param_points(brightness_curve)
+                )
 
     def parse_notes(self, vsq_track: configparser.ConfigParser, tick_prefix: int) -> list[Note]:
         notes = []

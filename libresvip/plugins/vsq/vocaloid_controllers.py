@@ -11,22 +11,32 @@ from libresvip.model.vocaloid.controller_registry import (
 
 
 class VsqControllerAdapter:
-    VSQ_PARAM_SECTIONS: ClassVar[dict[str, str]] = {
-        "PitchBendBPList": "pitch_bend",
-        "PitchBendSensBPList": "pitch_bend_sens",
-        "DynamicsBPList": "dynamics",
-        "GenderFactorBPList": "gender",
-        "EpRResidualBPList": "breathiness",
-        "EpRESlopeBPList": "strength",
+    VSQ_PARAM_SECTIONS: ClassVar[dict[str, tuple[str, ...]]] = {
+        "pitch_bend": ("PitchBendBPList",),
+        "pitch_bend_sens": ("PitchBendSensBPList",),
+        "dynamics": ("DynamicsBPList",),
+        "gender": ("GenderFactorBPList",),
+        "breathiness": ("BreathinessBPList", "EpRResidualBPList"),
+        "brightness": ("BrightnessBPList", "EpRESlopeBPList"),
     }
 
     def __init__(self, tick_prefix: int = 0) -> None:
         self.tick_prefix = tick_prefix
 
+    def _find_section(self, vsq_track: configparser.ConfigParser, param_name: str) -> str | None:
+        return next(
+            (
+                section_name
+                for section_name in self.VSQ_PARAM_SECTIONS.get(param_name, ())
+                if vsq_track.has_section(section_name)
+            ),
+            None,
+        )
+
     def extract_all(self, vsq_track: configparser.ConfigParser) -> list[ControllerCurve]:
         curves = []
-        for section_name, param_name in self.VSQ_PARAM_SECTIONS.items():
-            if vsq_track.has_section(section_name):
+        for param_name in self.VSQ_PARAM_SECTIONS:
+            if (section_name := self._find_section(vsq_track, param_name)) is not None:
                 curve = self._extract_from_section(vsq_track, section_name, param_name)
                 if curve and not curve.is_empty():
                     curves.append(curve)
@@ -35,13 +45,8 @@ class VsqControllerAdapter:
     def extract(
         self, vsq_track: configparser.ConfigParser, param_name: str
     ) -> ControllerCurve | None:
-        section_name = None
-        for sec, pname in self.VSQ_PARAM_SECTIONS.items():
-            if pname == param_name:
-                section_name = sec
-                break
-
-        if section_name is None or not vsq_track.has_section(section_name):
+        section_name = self._find_section(vsq_track, param_name)
+        if section_name is None:
             return None
 
         return self._extract_from_section(vsq_track, section_name, param_name)
@@ -82,14 +87,9 @@ class VsqControllerAdapter:
         if curve.is_empty():
             return None
 
-        section_name = None
-        for sec, pname in self.VSQ_PARAM_SECTIONS.items():
-            if pname == curve.name:
-                section_name = sec
-                break
-
-        if section_name is None:
-            section_name = f"{curve.name.capitalize()}BPList"
+        section_name = self.VSQ_PARAM_SECTIONS.get(
+            curve.name, (f"{curve.name.capitalize()}BPList",)
+        )[0]
 
         if not vsq_track.has_section(section_name):
             vsq_track.add_section(section_name)

@@ -24,6 +24,9 @@ from libresvip.model.base import (
     TimeSignature,
 )
 from libresvip.model.vocaloid import VocaloidPitchHandler
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_param_points_to_vocaloid_curve,
+)
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -55,6 +58,7 @@ from .model import (
 )
 from .models.enums import VocaloidLanguage
 from .options import OutputOptions
+from .vocaloid_controllers import VsqxControllerAdapter
 
 
 @dataclasses.dataclass
@@ -288,62 +292,23 @@ class Vsq4Generator:
         tick_prefix: int,
     ) -> list[Vsq4MCtrl]:
         music_controls: list[Vsq4MCtrl] = []
-
-        music_controls.extend(
-            [
-                Vsq4MCtrl(
-                    pos_tick=point.x + tick_prefix,
-                    attr=Vsq4TypeParamAttr(
-                        type_param_attr_id=Vsq4ParameterNames.DYN.value,
-                        value=point.y,
+        adapter = VsqxControllerAdapter(param_names=Vsq4ParameterNames)
+        for point_list, param_name in (
+            (params.volume.points.root, "dynamics"),
+            (params.breath.points.root, "breathiness"),
+            (params.gender.points.root, "gender"),
+            (params.strength.points.root, "brightness"),
+        ):
+            music_controls.extend(
+                adapter.create_mctrl_list(
+                    convert_param_points_to_vocaloid_curve(
+                        point_list,
+                        param_name,
+                        position_offset=tick_prefix,
                     ),
+                    Vsq4MCtrl,
                 )
-                for point in params.volume.points.root
-                if point.y >= 0
-            ]
-        )
-
-        music_controls.extend(
-            [
-                Vsq4MCtrl(
-                    pos_tick=point.x + tick_prefix,
-                    attr=Vsq4TypeParamAttr(
-                        type_param_attr_id=Vsq4ParameterNames.BRE.value,
-                        value=point.y,
-                    ),
-                )
-                for point in params.breath.points.root
-                if point.y >= 0
-            ]
-        )
-
-        music_controls.extend(
-            [
-                Vsq4MCtrl(
-                    pos_tick=point.x + tick_prefix,
-                    attr=Vsq4TypeParamAttr(
-                        type_param_attr_id=Vsq4ParameterNames.GEN.value,
-                        value=point.y,
-                    ),
-                )
-                for point in params.gender.points.root
-                if point.y >= 0
-            ]
-        )
-
-        music_controls.extend(
-            [
-                Vsq4MCtrl(
-                    pos_tick=point.x + tick_prefix,
-                    attr=Vsq4TypeParamAttr(
-                        type_param_attr_id=Vsq4ParameterNames.BRI.value,
-                        value=point.y,
-                    ),
-                )
-                for point in params.strength.points.root
-                if point.y >= 0
-            ]
-        )
+            )
 
         music_controls.sort(key=operator.attrgetter("pos_tick"))
         return music_controls

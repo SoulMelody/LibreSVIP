@@ -21,6 +21,9 @@ from libresvip.model.base import (
 )
 from libresvip.model.reset_time_axis import limit_bars
 from libresvip.model.vocaloid import VocaloidPitchHandler
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_param_points_to_vocaloid_curve,
+)
 from libresvip.utils.binary.midi import bpm2tempo
 
 from .constants import DEFAULT_PHONEME
@@ -330,32 +333,44 @@ class VsqGenerator:
     ) -> list[str]:
         result = []
 
-        if params.volume.points.root:
+        volume_curve = convert_param_points_to_vocaloid_curve(
+            params.volume.points.root,
+            "dynamics",
+        )
+        if not volume_curve.is_empty():
             result.append("[DynamicsBPList]")
             result.extend(
-                [
-                    f"{point.x + tick_prefix}={point.y}"
-                    for point in params.volume.points.root
-                    if point.y >= 0
-                ]
+                [f"{event.pos + tick_prefix}={event.value}" for event in volume_curve.events]
             )
 
-        if params.breath.points.root:
+        breath_curve = convert_param_points_to_vocaloid_curve(
+            params.breath.points.root,
+            "breathiness",
+        )
+        if not breath_curve.is_empty():
             result.append("[BreathinessBPList]")
             result.extend(
-                [f"{point.x + tick_prefix}={point.y}" for point in params.breath.points.root]
+                [f"{event.pos + tick_prefix}={event.value}" for event in breath_curve.events]
             )
 
-        if params.gender.points.root:
+        gender_curve = convert_param_points_to_vocaloid_curve(
+            params.gender.points.root,
+            "gender",
+        )
+        if not gender_curve.is_empty():
             result.append("[GenderFactorBPList]")
             result.extend(
-                [f"{point.x + tick_prefix}={point.y}" for point in params.gender.points.root]
+                [f"{event.pos + tick_prefix}={event.value}" for event in gender_curve.events]
             )
 
-        if params.strength.points.root:
+        brightness_curve = convert_param_points_to_vocaloid_curve(
+            params.strength.points.root,
+            "brightness",
+        )
+        if not brightness_curve.is_empty():
             result.append("[BrightnessBPList]")
             result.extend(
-                [f"{point.x + tick_prefix}={point.y}" for point in params.strength.points.root]
+                [f"{event.pos + tick_prefix}={event.value}" for event in brightness_curve.events]
             )
 
         return result

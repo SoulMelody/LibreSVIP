@@ -12,8 +12,10 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.model.vocaloid.controller_models import ControllerCurve, ControllerEvent
 from libresvip.model.vocaloid.pitch_handler import generate_for_vocaloid
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_param_points_to_vocaloid_curve,
+)
 from libresvip.utils.binary.midi import bpm2tempo
 
 from .model import (
@@ -211,73 +213,15 @@ class CadenciiGenerator:
         tick_prefix: int,
     ) -> None:
         adapter = XvsqControllerAdapter(tick_prefix=tick_prefix)
-
-        if params.volume.points.root:
-            volume_events = [
-                ControllerEvent(pos=point.x, value=point.y)
-                for point in params.volume.points.root
-                if point.y >= 0
-            ]
-            if volume_events:
-                volume_curve = ControllerCurve(
-                    name="dynamics",
-                    events=volume_events,
-                    default_value=64,
-                    min_value=0,
-                    max_value=127,
-                )
-                result = adapter.create_bplist(volume_curve)
-                if result:
-                    param_name, bplist = result
-                    setattr(meta_text, param_name, bplist)
-
-        if params.breath.points.root:
-            breath_events = [
-                ControllerEvent(pos=point.x, value=point.y) for point in params.breath.points.root
-            ]
-            if breath_events:
-                breath_curve = ControllerCurve(
-                    name="breathiness",
-                    events=breath_events,
-                    default_value=0,
-                    min_value=0,
-                    max_value=127,
-                )
-                result = adapter.create_bplist(breath_curve)
-                if result:
-                    param_name, bplist = result
-                    setattr(meta_text, param_name, bplist)
-
-        if params.gender.points.root:
-            gender_events = [
-                ControllerEvent(pos=point.x, value=point.y) for point in params.gender.points.root
-            ]
-            if gender_events:
-                gender_curve = ControllerCurve(
-                    name="gender",
-                    events=gender_events,
-                    default_value=64,
-                    min_value=0,
-                    max_value=127,
-                )
-                result = adapter.create_bplist(gender_curve)
-                if result:
-                    param_name, bplist = result
-                    setattr(meta_text, param_name, bplist)
-
-        if params.strength.points.root:
-            brightness_events = [
-                ControllerEvent(pos=point.x, value=point.y) for point in params.strength.points.root
-            ]
-            if brightness_events:
-                brightness_curve = ControllerCurve(
-                    name="brightness",
-                    events=brightness_events,
-                    default_value=0,
-                    min_value=0,
-                    max_value=127,
-                )
-                result = adapter.create_bplist(brightness_curve)
-                if result:
-                    param_name, bplist = result
-                    setattr(meta_text, param_name, bplist)
+        for point_list, param_name in (
+            (params.volume.points.root, "dynamics"),
+            (params.breath.points.root, "breathiness"),
+            (params.gender.points.root, "gender"),
+            (params.strength.points.root, "brightness"),
+        ):
+            result = adapter.create_bplist(
+                convert_param_points_to_vocaloid_curve(point_list, param_name)
+            )
+            if result:
+                controller_name, bplist = result
+                setattr(meta_text, controller_name, bplist)
