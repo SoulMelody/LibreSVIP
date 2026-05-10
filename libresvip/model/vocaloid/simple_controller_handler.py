@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from libresvip.model.point import Point
-from libresvip.utils.music_math import clamp, linear_interpolation
+from libresvip.utils.music_math import clamp
 
 from .controller_models import ControllerCurve, ControllerEvent
 from .controller_registry import get_param_def
@@ -24,15 +24,13 @@ class SimpleControllerHandler:
         if curve.is_empty():
             return []
 
-        points = []
+        points: list[Point] = []
+        previous_value = round(curve.default_value * value_scale + value_offset)
 
-        for i, event in enumerate(curve.events):
-            converted_value = event.value * value_scale + value_offset
-
-            if i > 0 and event.pos > curve.events[i - 1].pos + 1:
-                points.append(Point(x=event.pos, y=round(converted_value)))
-            else:
-                points.append(Point(x=event.pos, y=round(converted_value)))
+        for event in curve.events:
+            current_value = round(event.value * value_scale + value_offset)
+            self._append_step_points(points, event.pos, previous_value, current_value)
+            previous_value = current_value
 
         return points
 
@@ -73,19 +71,26 @@ class SimpleControllerHandler:
     ) -> list[Point]:
         if curve.is_empty():
             return []
-        return [
-            Point(
-                x=event.pos + position_offset,
-                y=self._map_external_to_internal(
-                    event.value,
-                    curve.default_value,
-                    curve.min_value,
-                    curve.max_value,
-                    reverse=reverse_value,
-                ),
+        points: list[Point] = []
+        previous_value = self._map_external_to_internal(
+            curve.default_value,
+            curve.default_value,
+            curve.min_value,
+            curve.max_value,
+            reverse=reverse_value,
+        )
+        for event in curve.events:
+            current_pos = event.pos + position_offset
+            current_value = self._map_external_to_internal(
+                event.value,
+                curve.default_value,
+                curve.min_value,
+                curve.max_value,
+                reverse=reverse_value,
             )
-            for event in curve.events
-        ]
+            self._append_step_points(points, current_pos, previous_value, current_value)
+            previous_value = current_value
+        return points
 
     def convert_param_points_to_vocaloid_curve(
         self,
@@ -122,6 +127,8 @@ class SimpleControllerHandler:
         real_points = [point for point in points if self._is_real_point(point)]
         if self.simplify and len(real_points) > 2:
             real_points = self._simplify_points(real_points, self.simplify_threshold)
+        else:
+            real_points = self._collapse_step_points(real_points)
         events = [
             ControllerEvent(
                 pos=point.x + position_offset,
@@ -147,25 +154,7 @@ class SimpleControllerHandler:
         if len(points) <= 2:
             return points
 
-        result = [points[0]]
-
-        for i in range(1, len(points) - 1):
-            prev = result[-1]
-            curr = points[i]
-            next_point = points[i + 1]
-
-            if next_point.x > prev.x:
-                interpolated_y = linear_interpolation(
-                    curr.x, (prev.x, prev.y), (next_point.x, next_point.y)
-                )
-
-                if abs(curr.y - interpolated_y) > threshold:
-                    result.append(curr)
-            else:
-                result.append(curr)
-
-        result.append(points[-1])
-        return result
+        return self._collapse_step_points(points)
 
     def interpolate_curve(
         self,
@@ -261,25 +250,48 @@ class SimpleControllerHandler:
     def _is_real_point(point: Point) -> bool:
         return point.x not in {Point.start_point().x, Point.end_point().x}
 
+    @staticmethod
+    def _append_step_points(
+        points: list[Point],
+        current_pos: int,
+        previous_value: int,
+        current_value: int,
+    ) -> None:
+        boundary_pos = current_pos - 1
+        if current_value != previous_value and boundary_pos >= 0:
+            boundary_point = Point(x=boundary_pos, y=previous_value)
+            if not points or points[-1] != boundary_point:
+                points.append(boundary_point)
+        current_point = Point(x=current_pos, y=current_value)
+        if not points or points[-1] != current_point:
+            points.append(current_point)
 
-def convert_dynamics_to_points(curve: ControllerCurve) -> list[Point]:
-    handler = SimpleControllerHandler()
-    return handler.convert_to_points(curve)
+    @staticmethod
+    def _collapse_step_points(points: list[Point]) -> list[Point]:
+        if len(points) <= 2:
+            return points
 
-
-def convert_breathiness_to_points(curve: ControllerCurve) -> list[Point]:
-    handler = SimpleControllerHandler()
-    return handler.convert_to_points(curve)
-
-
-def convert_brightness_to_points(curve: ControllerCurve) -> list[Point]:
-    handler = SimpleControllerHandler()
-    return handler.convert_to_points(curve)
-
-
-def convert_gender_to_points(curve: ControllerCurve) -> list[Point]:
-    handler = SimpleControllerHandler()
-    return handler.convert_to_points(curve)
+        result: list[Point] = []
+        i = 0
+        while i < len(points):
+            point = points[i]
+            next_point = points[i + 1] if i + 1 < len(points) else None
+            if (
+                next_point is not None
+                and next_point.x == point.x + 1
+                and next_point.y != point.y
+                and (
+                    (i == 0 and point.y == 0)
+                    or any(previous_point.y == point.y for previous_point in result)
+                )
+            ):
+                result.append(next_point)
+                i += 2
+                continue
+            if not result or result[-1] != point:
+                result.append(point)
+            i += 1
+        return result
 
 
 def convert_vocaloid_curve_to_param_points(

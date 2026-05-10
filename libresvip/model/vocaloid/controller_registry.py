@@ -30,7 +30,7 @@ VOCALOID_PARAMETERS: dict[str, VocaloidParameterDef] = {
         display_name="Pitch Bend Sensitivity",
         vpr_name="pitchBendSens",
         vsq_name="PBS",
-        min_value=0,
+        min_value=1,
         max_value=24,
         default_value=2,
         is_complex=True,
@@ -47,7 +47,7 @@ VOCALOID_PARAMETERS: dict[str, VocaloidParameterDef] = {
     "breathiness": VocaloidParameterDef(
         name="breathiness",
         display_name="Breathiness",
-        vpr_name="air",
+        vpr_name="breathiness",
         vsq_name="BRE",
         min_value=0,
         max_value=127,
