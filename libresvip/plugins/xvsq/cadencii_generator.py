@@ -6,11 +6,14 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.vocaloid.controller_models import ControllerCurve, ControllerEvent
+from libresvip.model.vocaloid.pitch_handler import generate_for_vocaloid
 from libresvip.utils.binary.midi import bpm2tempo
 
 from .model import (
@@ -31,7 +34,7 @@ from .model import (
     VsqTrack,
 )
 from .options import OutputOptions
-from .vocaloid_pitch import generate_for_vocaloid
+from .vocaloid_controllers import XvsqControllerAdapter
 
 
 @dataclasses.dataclass
@@ -170,6 +173,7 @@ class CadenciiGenerator:
                 self.generate_notes(track.note_list, tick_prefix)
             )
             self.generate_pitch(track.edited_params.pitch, track.note_list, meta_text, tick_prefix)
+            self.generate_params(track.edited_params, meta_text, tick_prefix)
             vsq_track = VsqTrack(meta_text=meta_text)
             mixer_entry = VsqMixerEntry(
                 solo=1 if track.solo else 0,
@@ -199,3 +203,81 @@ class CadenciiGenerator:
                 )
                 for pit_event in pitch_raw_data.pit
             ]
+
+    def generate_params(
+        self,
+        params: Params,
+        meta_text: VsqMetaText,
+        tick_prefix: int,
+    ) -> None:
+        adapter = XvsqControllerAdapter(tick_prefix=tick_prefix)
+
+        if params.volume.points.root:
+            volume_events = [
+                ControllerEvent(pos=point.x, value=point.y)
+                for point in params.volume.points.root
+                if point.y >= 0
+            ]
+            if volume_events:
+                volume_curve = ControllerCurve(
+                    name="dynamics",
+                    events=volume_events,
+                    default_value=64,
+                    min_value=0,
+                    max_value=127,
+                )
+                result = adapter.create_bplist(volume_curve)
+                if result:
+                    param_name, bplist = result
+                    setattr(meta_text, param_name, bplist)
+
+        if params.breath.points.root:
+            breath_events = [
+                ControllerEvent(pos=point.x, value=point.y) for point in params.breath.points.root
+            ]
+            if breath_events:
+                breath_curve = ControllerCurve(
+                    name="breathiness",
+                    events=breath_events,
+                    default_value=0,
+                    min_value=0,
+                    max_value=127,
+                )
+                result = adapter.create_bplist(breath_curve)
+                if result:
+                    param_name, bplist = result
+                    setattr(meta_text, param_name, bplist)
+
+        if params.gender.points.root:
+            gender_events = [
+                ControllerEvent(pos=point.x, value=point.y) for point in params.gender.points.root
+            ]
+            if gender_events:
+                gender_curve = ControllerCurve(
+                    name="gender",
+                    events=gender_events,
+                    default_value=64,
+                    min_value=0,
+                    max_value=127,
+                )
+                result = adapter.create_bplist(gender_curve)
+                if result:
+                    param_name, bplist = result
+                    setattr(meta_text, param_name, bplist)
+
+        if params.strength.points.root:
+            brightness_events = [
+                ControllerEvent(pos=point.x, value=point.y) for point in params.strength.points.root
+            ]
+            if brightness_events:
+                brightness_curve = ControllerCurve(
+                    name="brightness",
+                    events=brightness_events,
+                    default_value=0,
+                    min_value=0,
+                    max_value=127,
+                )
+                result = adapter.create_bplist(brightness_curve)
+                if result:
+                    param_name, bplist = result
+                    setattr(meta_text, param_name, bplist)

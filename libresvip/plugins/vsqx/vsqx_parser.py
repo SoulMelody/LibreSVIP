@@ -106,7 +106,7 @@ class VsqxParser:
         measure_diff = measure_prefix - measure
         tick_prefix += measure_diff * round(time_signature_list[-1].bar_length())
         self.first_bar_length = round(time_signature_list[0].bar_length())
-        return int(tick_prefix), skip_beat_list(time_signature_list, measure_prefix)
+        return tick_prefix, skip_beat_list(time_signature_list, measure_prefix)
 
     def parse_tempos(self, tempos: VsqxTempoList, tick_prefix: int) -> list[SongTempo]:
         tempo_list = [
@@ -277,7 +277,6 @@ class VsqxParser:
         vibrato_depth_interval_dict: PiecewiseIntervalDict,
         tick_offset: int,
     ) -> ParamCurve | None:
-        # 使用新的适配器和处理器
         adapter = VsqxControllerAdapter(param_names=self.param_names)
         pitch_handler = VocaloidPitchHandler(
             synchronizer=self.synchronizer,

@@ -16,7 +16,8 @@ class VsqControllerAdapter:
         "PitchBendSensBPList": "pitch_bend_sens",
         "DynamicsBPList": "dynamics",
         "GenderFactorBPList": "gender",
-        "PortamentoTimingBPList": "portamento",
+        "EpRResidualBPList": "breathiness",
+        "EpRESlopeBPList": "strength",
     }
 
     def __init__(self, tick_prefix: int = 0) -> None:
