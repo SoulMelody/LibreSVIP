@@ -19,6 +19,7 @@ from libresvip.utils.audio import audio_track_info
 from .constants import (
     DEFAULT_VOLUME,
     MIN_SEGMENT_LENGTH,
+    NOTE_UNKNOWN_DATA_BLOCK,
 )
 from .deepvocal_pitch import convert_note_key, generate_for_dv
 from .model import (
@@ -244,6 +245,7 @@ class DeepVocalGenerator:
                 timbre=-1,
                 cross_lyric="",
                 cross_timbre=-1,
+                unknown=NOTE_UNKNOWN_DATA_BLOCK,
             )
             for note in notes
         ]

@@ -1,10 +1,9 @@
 import dataclasses
-import re
 from importlib.resources import files
 
 from bidict import bidict
 
-from libresvip.core.compat import json
+from libresvip.core.compat import json, prefix_match
 
 from .msnrbf.xstudio_models import (
     XSNoteHeadTagEnum,
@@ -23,12 +22,12 @@ class OpenSvipSingers:
     def get_name(self, id_: str) -> str:
         if id_ in self.singers:
             return self.singers[id_]
-        return f"$({id_})" if re.match(r"[FM]\d+", id_) is not None else ""
+        return f"$({id_})" if prefix_match(r"[FM]\d+", id_) is not None else ""
 
     def get_id(self, name: str) -> str:
         if name in self.singers.inverse:
             return self.singers.inverse[name]
-        return name[2:-1] if re.match(r"\$\([FM]\d+\)", name) is not None else ""
+        return name[2:-1] if prefix_match(r"\$\([FM]\d+\)", name) is not None else ""
 
 
 opensvip_singers = OpenSvipSingers()

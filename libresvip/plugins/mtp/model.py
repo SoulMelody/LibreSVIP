@@ -106,7 +106,7 @@ class MutaSongTrackData(DataclassMixin):
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     singer_name: list[int] = csfield(Int16ul[258])
-    unknown_1: int = csfield(Int32ul)
+    speaker_id: int = csfield(Int32ul)
     notes: list[MutaNote] = csfield(muta_prefixed_array(MutaNote))
     params: MutaParams = csfield(DataclassStruct(MutaParams))
 
@@ -142,7 +142,7 @@ class MutaTalkTrackData(DataclassMixin):
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     talker_name: list[int] = csfield(Int16ul[258])
-    unknown_1: int = csfield(Int32ul)
+    speaker_id: int = csfield(Int32ul)
     line_break2: bytes = csfield(LineBreak)
     text: MutaText = csfield(DataclassStruct(MutaText))
 

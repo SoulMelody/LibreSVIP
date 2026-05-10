@@ -88,13 +88,13 @@ class VocalShifterParser:
                 track = self.parse_instrumental_track(
                     pattern_metadata,
                     pattern_data,
-                    vshp_proj.track_metadatas[pattern_metadata.track_index - 1],
+                    vshp_proj.track_metadatas[pattern_metadata.track_num],
                 )
             else:
                 track = self.parse_singing_track(
                     pattern_metadata,
                     pattern_data,
-                    vshp_proj.track_metadatas[pattern_metadata.track_index - 1],
+                    vshp_proj.track_metadatas[pattern_metadata.track_num],
                 )
             track_list.append(track)
         return track_list
@@ -106,7 +106,7 @@ class VocalShifterParser:
         track_metadata: Annotated[Container, VocalShifterTrackMetadata],
     ) -> InstrumentalTrack:
         sample_rate = pattern_data.header.sample_rate
-        sample_offset = pattern_metadata.offset_samples + pattern_metadata.offset_correction
+        sample_offset = pattern_metadata.offset + pattern_metadata.offset_add
         offset_in_seconds = sample_offset / sample_rate
         offset_in_ticks = self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds)
         return InstrumentalTrack(
@@ -132,7 +132,7 @@ class VocalShifterParser:
             volume=track_metadata.volume,
             pan=track_metadata.pan,
         )
-        sample_offset = pattern_metadata.offset_samples + pattern_metadata.offset_correction
+        sample_offset = pattern_metadata.offset + pattern_metadata.offset_add
         offset_in_seconds = sample_offset / pattern_data.header.sample_rate
         offset_in_ticks = int(self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds))
         track.note_list = self.parse_note_list(

@@ -1,10 +1,10 @@
-msgid "TuneLab Legacy"
+msgid "TuneLab"
 msgstr ""
 
-msgid "TuneLab legacy project file"
+msgid "TuneLab project file"
 msgstr ""
 
-msgid "Conversion plugin for TuneLab legacy project file"
+msgid "Conversion plugin for TuneLab project file"
 msgstr ""
 
 msgid "LiuYunPlayer"

@@ -1,6 +1,7 @@
 import enum
 import io
 import pathlib
+import re
 import traceback
 from collections.abc import Coroutine
 from dataclasses import dataclass
@@ -29,6 +30,7 @@ from textual.widgets import (
     Button,
     Collapsible,
     ContentSwitcher,
+    DataTable,
     Footer,
     Header,
     Input,
@@ -54,7 +56,15 @@ from textual_fspicker import FileOpen, SelectDirectory
 from upath import UPath
 
 import libresvip
-from libresvip.core.config import DarkMode, Language, save_settings, settings
+from libresvip.core.config import (
+    LYRIC_REPLACE_MODE_PREFIX_SUFFIX,
+    DarkMode,
+    Language,
+    LyricsReplacement,
+    LyricsReplaceMode,
+    save_settings,
+    settings,
+)
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
@@ -387,6 +397,254 @@ class TaskRow(Right):
     def handle_view_log(self, event: Button.Pressed) -> None:
         if self.log_text:
             self.app.push_screen(TaskLogScreen(self.log_text))
+
+
+class LyricsRuleEditScreen(Screen[LyricsReplacement | None]):
+    def __init__(self, rule: LyricsReplacement | None = None) -> None:
+        self.rule = rule
+        super().__init__()
+
+    def compose(self) -> ComposeResult:
+        yield Header(icon="☰")
+        yield Footer()
+        with Vertical():
+            yield Label(
+                _("Edit Rule") if self.rule else _("Add Rule"),
+                classes="title",
+            )
+            with Horizontal():
+                yield Label(_("Mode"), classes="text-middle")
+                yield Select(
+                    [
+                        (_("Full match"), LyricsReplaceMode.FULL.value),
+                        (_("Alphabetic"), LyricsReplaceMode.ALPHABETIC.value),
+                        (_("Non-alphabetic"), LyricsReplaceMode.NON_ALPHABETIC.value),
+                        (_("Regex"), LyricsReplaceMode.REGEX.value),
+                    ],
+                    value=self.rule.mode.value if self.rule else LyricsReplaceMode.FULL.value,
+                    allow_blank=False,
+                    id="rule_mode",
+                    classes="fill-width",
+                )
+            with Horizontal():
+                yield Label(_("Pattern"), classes="text-middle")
+                yield Input(
+                    value=self.rule.pattern_main if self.rule else "",
+                    id="rule_pattern",
+                    classes="fill-width",
+                )
+            with Horizontal():
+                yield Label(_("Prefix"), classes="text-middle")
+                yield Input(
+                    value=self.rule.pattern_prefix if self.rule else "",
+                    id="rule_prefix",
+                    classes="fill-width",
+                    disabled=self.rule.mode != LyricsReplaceMode.REGEX if self.rule else True,
+                )
+            with Horizontal():
+                yield Label(_("Suffix"), classes="text-middle")
+                yield Input(
+                    value=self.rule.pattern_suffix if self.rule else "",
+                    id="rule_suffix",
+                    classes="fill-width",
+                    disabled=self.rule.mode != LyricsReplaceMode.REGEX if self.rule else True,
+                )
+            with Horizontal():
+                yield Label(_("Replacement"), classes="text-middle")
+                yield Input(
+                    value=self.rule.replacement if self.rule else "",
+                    id="rule_replacement",
+                    classes="fill-width",
+                )
+            with Horizontal():
+                yield Label(_("Flags"), classes="text-middle")
+                yield Select(
+                    [
+                        (_("Ignore case"), re.IGNORECASE.value),
+                        (_("Case sensitive"), re.UNICODE.value),
+                    ],
+                    value=self.rule.flags.value if self.rule else re.IGNORECASE.value,
+                    allow_blank=False,
+                    id="rule_flags",
+                    classes="fill-width",
+                )
+            with Horizontal():
+                yield Label("", classes="fill-width")
+                yield Button(_("Cancel"), id="cancel_rule", variant="default")
+                yield Button(_("Confirm"), id="confirm_rule", variant="success")
+
+    def _update_prefix_suffix(self, mode_value: str) -> None:
+        prefix_input = self.query_one("#rule_prefix", Input)
+        suffix_input = self.query_one("#rule_suffix", Input)
+        if mode_value in LYRIC_REPLACE_MODE_PREFIX_SUFFIX:
+            prefix, suffix = LYRIC_REPLACE_MODE_PREFIX_SUFFIX[mode_value]
+            prefix_input.value = prefix
+            suffix_input.value = suffix
+            prefix_input.disabled = True
+            suffix_input.disabled = True
+        else:
+            prefix_input.disabled = False
+            suffix_input.disabled = False
+
+    def on_mount(self) -> None:
+        mode_value = self.rule.mode.value if self.rule else LyricsReplaceMode.FULL.value
+        self._update_prefix_suffix(mode_value)
+
+    @on(Select.Changed, "#rule_mode")
+    def handle_mode_changed(self, event: Select.Changed) -> None:
+        self._update_prefix_suffix(event.value)
+
+    @on(Button.Pressed, "#cancel_rule")
+    def handle_cancel(self, event: Button.Pressed) -> None:
+        self.dismiss(None)
+
+    @on(Button.Pressed, "#confirm_rule")
+    def handle_confirm(self, event: Button.Pressed) -> None:
+        mode = LyricsReplaceMode(self.query_one("#rule_mode", Select).value)
+        rule = LyricsReplacement(
+            mode=mode,
+            pattern_main=self.query_one("#rule_pattern", Input).value,
+            pattern_prefix=self.query_one("#rule_prefix", Input).value,
+            pattern_suffix=self.query_one("#rule_suffix", Input).value,
+            replacement=self.query_one("#rule_replacement", Input).value,
+            flags=re.RegexFlag(self.query_one("#rule_flags", Select).value),
+        )
+        self.dismiss(rule)
+
+
+class LyricsRulesPanel(Vertical):
+    current_group: str = "default"
+
+    def _get_group_choices(self) -> list[tuple[str, str]]:
+        return [(name, name) for name in settings.lyric_replace_rules]
+
+    def compose(self) -> ComposeResult:
+        with Horizontal(classes="row"):
+            yield Label(_("Preset"), classes="text-middle")
+            yield Select(
+                self._get_group_choices(),
+                value=self.current_group
+                if self.current_group in settings.lyric_replace_rules
+                else "default",
+                allow_blank=False,
+                id="lyric_group_select",
+                classes="fill-width",
+            )
+            yield Button("＋", id="add_group", tooltip=_("Add"))
+            yield Button("✕", id="delete_group", tooltip=_("Delete"))
+        yield DataTable(id="lyric_rules_table", classes="fill-height")
+        with Horizontal(classes="bottom-pane row"):
+            yield Button(_("Add"), id="add_rule", variant="primary")
+            yield Button(_("Edit"), id="edit_rule", variant="warning")
+            yield Button(_("Delete"), id="delete_rule", variant="error")
+
+    def on_mount(self) -> None:
+        self._refresh_table()
+
+    def _refresh_table(self) -> None:
+        table = self.query_one("#lyric_rules_table", DataTable)
+        table.clear(columns=True)
+        table.add_columns(
+            _("Mode"), _("Prefix"), _("Pattern"), _("Suffix"), _("Replacement"), _("Flags")
+        )
+        rules = settings.lyric_replace_rules.get(self.current_group, [])
+        for rule in rules:
+            table.add_row(
+                rule.mode.value,
+                rule.pattern_prefix,
+                rule.pattern_main,
+                rule.pattern_suffix,
+                rule.replacement,
+                rule.flags.name,
+            )
+
+    @on(Select.Changed, "#lyric_group_select")
+    def handle_group_changed(self, event: Select.Changed) -> None:
+        if event.value != Select.BLANK:
+            self.current_group = event.value
+            self._refresh_table()
+
+    @on(Button.Pressed, "#add_group")
+    @work
+    async def handle_add_group(self, event: Button.Pressed) -> None:
+        name_screen = GroupNameScreen()
+        group_name = await self.app.push_screen_wait(name_screen)
+        if group_name and settings.add_rules_group(group_name):
+            self.current_group = group_name
+            group_select = self.query_one("#lyric_group_select", Select)
+            group_select.set_options(self._get_group_choices())
+            group_select.value = group_name
+            self._refresh_table()
+
+    @on(Button.Pressed, "#delete_group")
+    def handle_delete_group(self, event: Button.Pressed) -> None:
+        if self.current_group == "default":
+            self.app.notify(_("Cannot delete the default group"), severity="warning")
+            return
+        settings.remove_rules_group(self.current_group)
+        self.current_group = "default"
+        group_select = self.query_one("#lyric_group_select", Select)
+        group_select.set_options(self._get_group_choices())
+        group_select.value = "default"
+        self._refresh_table()
+
+    @on(Button.Pressed, "#add_rule")
+    @work
+    async def handle_add_rule(self, event: Button.Pressed) -> None:
+        rule = await self.app.push_screen_wait(LyricsRuleEditScreen())
+        if rule is not None:
+            settings.lyric_replace_rules.setdefault(self.current_group, []).append(rule)
+            self._refresh_table()
+
+    @on(Button.Pressed, "#edit_rule")
+    @work
+    async def handle_edit_rule(self, event: Button.Pressed) -> None:
+        table = self.query_one("#lyric_rules_table", DataTable)
+        if table.cursor_row is None or table.cursor_row < 0:
+            return
+        rules = settings.lyric_replace_rules.get(self.current_group, [])
+        row_idx = table.cursor_row
+        if row_idx >= len(rules):
+            return
+        rule = await self.app.push_screen_wait(LyricsRuleEditScreen(rules[row_idx]))
+        if rule is not None:
+            rules[row_idx] = rule
+            self._refresh_table()
+
+    @on(Button.Pressed, "#delete_rule")
+    def handle_delete_rule(self, event: Button.Pressed) -> None:
+        table = self.query_one("#lyric_rules_table", DataTable)
+        if table.cursor_row is None or table.cursor_row < 0:
+            return
+        rules = settings.lyric_replace_rules.get(self.current_group, [])
+        row_idx = table.cursor_row
+        if row_idx < len(rules):
+            settings.remove_rule(self.current_group, row_idx)
+            self._refresh_table()
+
+
+class GroupNameScreen(Screen[str | None]):
+    def compose(self) -> ComposeResult:
+        yield Header(icon="☰")
+        yield Footer()
+        with Vertical():
+            yield Label(_("Add"), classes="title")
+            with Horizontal():
+                yield Label(_("Name"), classes="text-middle")
+                yield Input(id="group_name_input", classes="fill-width")
+            with Horizontal():
+                yield Label("", classes="fill-width")
+                yield Button(_("Cancel"), id="cancel_group_name", variant="default")
+                yield Button(_("Confirm"), id="confirm_group_name", variant="success")
+
+    @on(Button.Pressed, "#cancel_group_name")
+    def handle_cancel(self, event: Button.Pressed) -> None:
+        self.dismiss(None)
+
+    @on(Button.Pressed, "#confirm_group_name")
+    def handle_confirm(self, event: Button.Pressed) -> None:
+        name = self.query_one("#group_name_input", Input).value.strip()
+        self.dismiss(name if name else None)
 
 
 class TUIApp(App[None]):
@@ -804,11 +1062,14 @@ class TUIApp(App[None]):
                         yield Button(
                             "🗀", id="change_output_directory", tooltip=_("Change Output Directory")
                         )
-            with TabPane(_("Other Settings")), Horizontal():
+            with TabPane(_("Lyric Replace Rules")):
+                yield LyricsRulesPanel(classes="card")
+            with TabPane(_("Other Settings")), Vertical():
                 with Vertical(classes="card"):
                     yield Label(_("Appearance"), classes="title")
-                    with Horizontal():
+                    with Horizontal(classes="row"):
                         yield Label(_("Switch Language"), classes="text-middle")
+                        yield Label("", classes="fill-width")
                         yield Select(
                             [
                                 ("简体中文", "zh_CN"),
@@ -821,8 +1082,9 @@ class TUIApp(App[None]):
                             allow_blank=False,
                             id="language_select",
                         )
-                    with Horizontal():
+                    with Horizontal(classes="row"):
                         yield Label(_("Switch Theme"), classes="text-middle")
+                        yield Label("", classes="fill-width")
                         yield Select(
                             [
                                 (_("Light"), 0),
@@ -835,16 +1097,19 @@ class TUIApp(App[None]):
                         )
                 with Vertical(classes="card"):
                     yield Label(_("Choose Plugins"), classes="title")
-                    yield SelectionList(
-                        *(
-                            Selection(
-                                f"{plugin.info.name} ({plugin.version})",
-                                plugin_id,
-                                plugin_id not in settings.disabled_plugins,
+                    with VerticalScroll():
+                        yield SelectionList(
+                            *(
+                                Selection(
+                                    f"{plugin.info.name} ({plugin.version})",
+                                    plugin_id,
+                                    plugin_id not in settings.disabled_plugins,
+                                )
+                                for plugin_id, plugin in plugin_manager.plugins.get(
+                                    "svs", {}
+                                ).items()
                             )
-                            for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                         )
-                    )
             with TabPane(_("About")), Vertical():
                 yield Link(
                     "LibreSVIP 𝅘𝅥𝅮",

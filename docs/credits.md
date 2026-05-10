@@ -56,3 +56,4 @@
 | jyutping                | Python tool to convert Chinese characters to Jyutping.                                                                       | MIT License                                         |
 | qasync                  | Python library for using asyncio in Qt-based applications.                                                                   | BSD License                                         |
 | soundfile               | An audio library based on libsndfile, CFFI and NumPy                                                                         | BSD License                                         |
+| that-depends            | Simple Dependency injection framework for Python                                                                            | MIT License                                         |

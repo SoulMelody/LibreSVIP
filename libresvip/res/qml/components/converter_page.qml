@@ -1088,7 +1088,7 @@ Page {
                         children: getOptionFields(inputContainer)
                         Connections {
                             target: taskManager
-                            onInput_fields_changed: {
+                            function onInput_fields_changed() {
                                 inputContainer.children = getOptionFields(inputContainer);
                             }
                         }
@@ -1392,7 +1392,7 @@ Page {
                         children: getOptionFields(outputContainer)
                         Connections {
                             target: taskManager
-                            onOutput_fields_changed: {
+                            function onOutput_fields_changed() {
                                 outputContainer.children = getOptionFields(outputContainer);
                             }
                         }

@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING, Any
 
 import yaml
 
+from libresvip.core.compat import prefix_match
+
 from .common import hash_key, set_yaml_grammar
 
 if TYPE_CHECKING:
@@ -46,7 +48,7 @@ def get_dumper(
             if use_annotations and isinstance(k, str):
                 if k == "__yq_alias__":
                     continue
-                value_annotation = yaml_value_annotation_re.match(k)
+                value_annotation = prefix_match(yaml_value_annotation_re, k)
                 if value_annotation and value_annotation.group("type") == "style":
                     custom_styles[value_annotation.group("key")] = v
                     continue
@@ -71,7 +73,7 @@ def get_dumper(
         raw_list, custom_styles, custom_tags = [], {}, {}
         for v in data:
             if use_annotations and isinstance(v, str):
-                annotation = yaml_item_annotation_re.match(v)
+                annotation = prefix_match(yaml_item_annotation_re, v)
                 if annotation and annotation.group("type") == "style":
                     custom_styles[annotation.group("key")] = annotation.group("value")
                     continue

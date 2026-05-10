@@ -40,12 +40,15 @@ class RelativePitchCurve:
             cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
             if (base_key := pitch_simulator.pitch_at_ticks(pos)) is None:
                 y = None
+                rel_y = None
             elif not to_absolute and point.y == -100:
                 if point.x in [-192000, 1073741823]:
                     continue
                 y = 0.0
+                rel_y = y
             else:
-                y = point.y + (base_key if to_absolute else -base_key)
+                rel_y = float(point.y) if to_absolute else point.y - base_key
+                y = rel_y + base_key if to_absolute else rel_y
             if (
                 y is not None
                 and prev_x is not None
@@ -60,7 +63,7 @@ class RelativePitchCurve:
                             if self.is_staircase:
                                 interpolated_rel_y = prev_y
                             else:
-                                interpolated_rel_y = prev_y + (y - prev_y) * (tick - prev_x) / (
+                                interpolated_rel_y = prev_y + (rel_y - prev_y) * (tick - prev_x) / (
                                     cur_x - prev_x
                                 )
                             converted_data.append(
@@ -82,7 +85,7 @@ class RelativePitchCurve:
                 converted_data.append(cur_point)
                 if to_absolute:
                     if point.y:
-                        prev_y = point.y
+                        prev_y = rel_y
                     else:
                         converted_data.append(Point(x=cur_x, y=-100))
                         prev_y = None
