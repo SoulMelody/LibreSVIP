@@ -13,7 +13,6 @@ DEFAULT_VIBRATO_PHASE: Final[float] = 0.0
 DEFAULT_VIBRATO_JITTER: Final[float] = 1.0
 SYSTEM_PITCH_PORTAMENTO: Final[float] = 0.1
 SYSTEM_PITCH_DEPTH: Final[float] = 0.0
-MAX_BREAK: Final[float] = 0.01
 DEFAULT_PHONE_RATIO: Final[float] = 1.8
 DEFAULT_DURATIONS = SimpleNamespace(
     stop=0.10,
@@ -26,5 +25,3 @@ DEFAULT_DURATIONS = SimpleNamespace(
     semivowel=0.055,
     diphthong=0.0,
 )
-PORTAMENTO_HALFWIDTH_RATIO: Final[float] = 0.3
-HALFWIDTH_FLOOR_SECS: Final[float] = 1.0 / 256

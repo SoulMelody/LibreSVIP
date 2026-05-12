@@ -1,4 +1,8 @@
 import dataclasses
+import math
+import sys
+
+import more_itertools
 
 from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -12,13 +16,12 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
-from libresvip.model.portamento import PortamentoPitch
-from libresvip.model.relative_pitch_curve import RelativePitchCurve
+from libresvip.model.synthv_pitch import NoteStruct, SynthVPitchSimulator
 from libresvip.utils.music_math import ratio_to_db
 
 from .model import (
+    S5pDbDefaults,
     S5pInstrumental,
     S5pMeterItem,
     S5pMixer,
@@ -96,6 +99,7 @@ class SynthVEditorGenerator:
         tracks = []
         for i, track in enumerate(track_list):
             if isinstance(track, SingingTrack):
+                s5p_notes = self.generate_notes(track.note_list)
                 track_mixer = S5pTrackMixer(
                     solo=track.solo,
                     muted=track.mute,
@@ -107,12 +111,12 @@ class SynthVEditorGenerator:
                     display_order=i,
                     name=track.title,
                     db_name=track.ai_singer_name,
-                    notes=self.generate_notes(track.note_list),
+                    notes=s5p_notes,
                     mixer=track_mixer,
                 )
                 if track.edited_params is not None:
                     s5p_track.parameters = self.generate_parameters(
-                        track.edited_params, track.note_list
+                        track.edited_params, s5p_notes, s5p_track.db_defaults
                     )
                 tracks.append(s5p_track)
         if not tracks:
@@ -131,7 +135,6 @@ class SynthVEditorGenerator:
                 onset=note.start_pos * TICK_RATE,
                 duration=note.length * TICK_RATE,
                 pitch=note.key_number,
-                d_f0_vbr=0,
             )
             for note in note_list
         ]
@@ -147,30 +150,94 @@ class SynthVEditorGenerator:
             instrumental_muted=track.mute,
         )
 
-    def generate_parameters(self, edited_params: Params, note_list: list[Note]) -> S5pParameters:
+    def generate_parameters(
+        self, edited_params: Params, note_list: list[S5pNote], db_defaults: S5pDbDefaults
+    ) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
-        pitch_simulator = PitchSimulator(
+        pitch_simulator = SynthVPitchSimulator(
             synchronizer=self.synchronizer,
-            portamento=PortamentoPitch.no_portamento(),
-            note_list=note_list,
-            time_signature_list=self.time_signatures,
+            _note_list=[self.note_to_note_struct(note, db_defaults) for note in note_list],
         )
-        rel_pitch_points = RelativePitchCurve(
-            self.first_bar_length, is_staircase=False
-        ).from_absolute(edited_params.pitch.points.root, pitch_simulator)
         return S5pParameters(
-            pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),
+            pitch_delta=self.generate_pitch_delta(
+                edited_params.pitch.points.root,
+                pitch_simulator,
+                interval,
+            ),
             interval=interval,
         )
 
-    def generate_pitch_delta(self, pitch: list[Point], interval: int) -> S5pPoints:
-        return S5pPoints(
-            root=[
-                S5pPoint(
-                    offset=round(point.x / (interval / TICK_RATE)),
-                    value=point.y,
-                )
-                for point in pitch
-                if point.y != -100
-            ]
+    def note_to_note_struct(self, note: S5pNote, db_defaults: S5pDbDefaults) -> NoteStruct:
+        onset = round(note.onset / TICK_RATE)
+        end_pos = onset + round(note.duration / TICK_RATE)
+        return NoteStruct(
+            key=note.pitch,
+            start=self.synchronizer.get_actual_secs_from_ticks(onset),
+            end=self.synchronizer.get_actual_secs_from_ticks(end_pos),
+            portamento_offset=note.t_f0_offset or 0.0,
+            portamento_left=note.t_f0_left if note.t_f0_left is not None else db_defaults.t_f0_left,
+            portamento_right=(
+                note.t_f0_right if note.t_f0_right is not None else db_defaults.t_f0_right
+            ),
+            depth_left=note.d_f0_left if note.d_f0_left is not None else db_defaults.d_f0_left,
+            depth_right=note.d_f0_right if note.d_f0_right is not None else db_defaults.d_f0_right,
+            vibrato_start=(
+                note.t_f0_vbr_start
+                if note.t_f0_vbr_start is not None
+                else db_defaults.t_f0_vbr_start
+            ),
+            vibrato_left=(
+                note.t_f0_vbr_left if note.t_f0_vbr_left is not None else db_defaults.t_f0_vbr_left
+            ),
+            vibrato_right=(
+                note.t_f0_vbr_right
+                if note.t_f0_vbr_right is not None
+                else db_defaults.t_f0_vbr_right
+            ),
+            vibrato_depth=(
+                (note.d_f0_vbr if note.d_f0_vbr is not None else db_defaults.d_f0_vbr) * 40
+            ),
+            vibrato_frequency=(
+                note.f_f0_vbr if note.f_f0_vbr is not None else db_defaults.f_f0_vbr
+            ),
+            vibrato_phase=math.pi
+            * (note.p_f0_vbr if note.p_f0_vbr is not None else db_defaults.p_f0_vbr),
         )
+
+    def generate_pitch_delta(
+        self, pitch: list[Point], pitch_simulator: SynthVPitchSimulator, interval: int
+    ) -> S5pPoints:
+        relative_points = [
+            S5pPoint(
+                offset=round((point.x - self.first_bar_length) / (interval / TICK_RATE)),
+                value=point.y - pitch_simulator.pitch_at_ticks(point.x - self.first_bar_length),
+            )
+            for point in pitch
+            if point.y != -100 and self.first_bar_length <= point.x < sys.maxsize // 2
+        ]
+        return S5pPoints(root=self.compress_pitch_delta(relative_points))
+
+    @staticmethod
+    def compress_pitch_delta(relative_points: list[S5pPoint]) -> list[S5pPoint]:
+        if not relative_points:
+            return []
+        compressed_points: list[S5pPoint] = []
+        tolerance = 1e-3
+        for point_group in more_itertools.split_when(
+            relative_points, lambda p1, p2: p2.offset > p1.offset + 1
+        ):
+            group = list(point_group)
+            if not group:
+                continue
+            nonzero_indexes = [
+                index for index, point in enumerate(group) if abs(point.value) > tolerance
+            ]
+            if not nonzero_indexes:
+                continue
+            if len(group) == 1:
+                compressed_points.extend((group[0], group[0]))
+                continue
+            start_index = max(0, nonzero_indexes[0] - 1)
+            end_index = min(len(group) - 1, nonzero_indexes[-1] + 1)
+            compressed_points.extend(group[start_index : end_index + 1])
+        return compressed_points

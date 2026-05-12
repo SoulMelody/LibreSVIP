@@ -55,7 +55,7 @@ class TuneLabAutomation(BaseModel):
     def validate_values(
         cls, values: list[float | TuneLabPoint], _info: ValidationInfo
     ) -> TuneLabPoints:
-        if _info.mode == "json":
+        if values and not isinstance(values[0], (tuple, TuneLabPoint)):
             return TuneLabPoints(root=[TuneLabPoint._make(each) for each in batched(values, 2)])
         return TuneLabPoints(root=values)
 
@@ -112,7 +112,7 @@ class TuneLabMidiPart(TuneLabBasePart):
         pitch: list[list[float]] | list[TuneLabPoints],
         _info: ValidationInfo,
     ) -> list[TuneLabPoints]:
-        if _info.mode == "json":
+        if pitch and not isinstance(pitch[0], TuneLabPoints):
             return [
                 TuneLabPoints(root=[TuneLabPoint._make(each) for each in batched(values, 2)])
                 for values in pitch

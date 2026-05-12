@@ -2,71 +2,74 @@ from __future__ import annotations
 
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import Field
+
+from libresvip.model.base import BaseModel
+from libresvip.utils.text import uuid_str
 
 
-class TimeSignature(BaseModel):
+class MsqTimeSignature(BaseModel):
     numerator: int
     denominator: int
 
 
-class BpmEvent(BaseModel):
+class MsqBpmEvent(BaseModel):
     position: int
     bpm: float
 
 
-class TimeSignatureEvent(BaseModel):
+class MsqTimeSignatureEvent(BaseModel):
     position: int
-    time_sig: TimeSignature
+    time_sig: MsqTimeSignature
 
 
-class Setup(BaseModel):
+class MsqSetup(BaseModel):
     ppq: float
     bpm: float
-    time_signature: TimeSignature
-    bpm_events: list[BpmEvent]
-    time_signature_events: list[TimeSignatureEvent]
+    time_signature: MsqTimeSignature
+    bpm_events: list[MsqBpmEvent]
+    time_signature_events: list[MsqTimeSignatureEvent]
 
 
-class Settings(BaseModel):
-    legacy_input: bool
+class MsqSettings(BaseModel):
+    legacy_input: bool = False
 
 
-class MainOut(BaseModel):
-    id: str
-    name: str
+class MsqMainOut(BaseModel):
+    id: str = Field(default_factory=uuid_str)
+    name: str = "Main Out"
 
 
-class Mixer(BaseModel):
+class MsqMixer(BaseModel):
     gain: float
     pan: float
     record_arm: bool
     solo: bool
     mute: bool
     output: str
-    bus: str
-    sends: list[Any]
+    bus: str = Field(default_factory=uuid_str)
+    sends: list[Any] = Field(default_factory=list)
 
 
 class MsqSinger(BaseModel):
     name: str
     id: str
-    primary_expression: str
-    loaded_expressions: list[str]
-    language: str
-    accent: str
-    phoneset: str
+    primary_expression: str = Field(default_factory=uuid_str)
+    loaded_expressions: list[str] = Field(default_factory=list)
+    language: str = "SingerDefault"
+    accent: str = "SingerDefault"
+    phoneset: str = "SingerDefault"
 
 
-class SingerInstrument(BaseModel):
+class MsqSingerInstrument(BaseModel):
     singer: MsqSinger = Field(..., alias="Singer")
 
 
-class Color(BaseModel):
+class MsqColor(BaseModel):
     track_color: str = Field(..., alias="TrackColor")
 
 
-class Phoneme(BaseModel):
+class MsqPhoneme(BaseModel):
     phoneme: str
     time: int
     velocity: int
@@ -74,33 +77,39 @@ class Phoneme(BaseModel):
 
 
 class MsqNote(BaseModel):
-    id: str
+    id: str = Field(default_factory=uuid_str)
     clip_id: str
     start: int
     length: int
     pitch: float
     lyric: str
-    phonemes: list[Phoneme]
+    phonemes: list[MsqPhoneme]
 
 
-class Parameter(BaseModel):
+class MsqPoint(BaseModel):
+    time: int
     value: float
 
 
-class Parameters(BaseModel):
-    breathiness: Parameter = Field(..., alias="Breathiness")
-    tension: Parameter = Field(..., alias="Tension")
-    pitch_transition: Parameter = Field(..., alias="PitchTransition")
-    vibrato_rate: Parameter = Field(..., alias="VibratoRate")
-    character: Parameter = Field(..., alias="Character")
-    vibrato_depth: Parameter = Field(..., alias="VibratoDepth")
-    pitch: Parameter = Field(..., alias="Pitch")
-    roughness: Parameter = Field(..., alias="Roughness")
-    stability: Parameter = Field(..., alias="Stability")
-    dynamics: Parameter = Field(..., alias="Dynamics")
+class MsqParameter(BaseModel):
+    value: float = 0.0
+    points: list[MsqPoint] = Field(default_factory=list)
 
 
-class Audio(BaseModel):
+class MsqParameters(BaseModel):
+    breathiness: MsqParameter = Field(default_factory=MsqParameter, alias="Breathiness")
+    tension: MsqParameter = Field(default_factory=MsqParameter, alias="Tension")
+    pitch_transition: MsqParameter = Field(default_factory=MsqParameter, alias="PitchTransition")
+    vibrato_rate: MsqParameter = Field(default_factory=MsqParameter, alias="VibratoRate")
+    character: MsqParameter = Field(default_factory=MsqParameter, alias="Character")
+    vibrato_depth: MsqParameter = Field(default_factory=MsqParameter, alias="VibratoDepth")
+    pitch: MsqParameter = Field(default_factory=MsqParameter, alias="Pitch")
+    roughness: MsqParameter = Field(default_factory=MsqParameter, alias="Roughness")
+    stability: MsqParameter = Field(default_factory=MsqParameter, alias="Stability")
+    dynamics: MsqParameter = Field(default_factory=MsqParameter, alias="Dynamics")
+
+
+class MsqAudio(BaseModel):
     path: str
     start: float
     speed: float
@@ -108,10 +117,11 @@ class Audio(BaseModel):
 
 
 class MsqBaseClip(BaseModel):
-    id: str
+    id: str = Field(default_factory=uuid_str)
+    clip_id: str | None = None
     track_id: str
     name: str
-    color: str | Color
+    color: str | MsqColor
     start: int
     length: int
 
@@ -119,33 +129,33 @@ class MsqBaseClip(BaseModel):
 class MsqSingerClip(MsqBaseClip):
     kind: Literal["Singer"] = "Singer"
     notes: list[MsqNote] | None = None
-    parameters: Parameters | None = None
+    parameters: MsqParameters | None = None
 
 
 class MsqAudioClip(MsqBaseClip):
     kind: Literal["Audio"] = "Audio"
-    audio: Audio | None = None
+    audio: MsqAudio | None = None
 
 
 class MsqBaseTrack(BaseModel):
-    id: str
-    mixer: Mixer
+    id: str = Field(default_factory=uuid_str)
+    mixer: MsqMixer
     name: str
     color: str
     index: int
     effects: Any | None = None
-    tracks: list[Any]
+    tracks: list[Any] = Field(default_factory=list)
 
 
 class MsqSingerTrack(MsqBaseTrack):
     track_type: Literal["Singer"] = "Singer"
-    instrument: SingerInstrument
+    instrument: MsqSingerInstrument
     clips: list[MsqSingerClip]
 
 
 class MsqAudioTrack(MsqBaseTrack):
     track_type: Literal["Audio"] = "Audio"
-    instrument: str
+    instrument: str = "AudioPlayer"
     clips: list[MsqAudioClip]
 
 
@@ -156,10 +166,10 @@ MsqTrack = Annotated[
 
 
 class MikotoStudioSequenceFormat(BaseModel):
-    id: str
-    version: int
-    setup: Setup
-    settings: Settings
-    main_out: MainOut
-    aux: list[Any]
-    tracks: list[MsqTrack]
+    id: str = Field(default_factory=uuid_str)
+    setup: MsqSetup
+    main_out: MsqMainOut
+    aux: list[Any] = Field(default_factory=list)
+    tracks: list[MsqTrack] = Field(default_factory=list)
+    settings: MsqSettings = Field(default_factory=MsqSettings)
+    version: int = 110

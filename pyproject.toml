@@ -33,7 +33,7 @@ dependencies = [
   "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
   "aristaproto<0.2.0,>=0.1.4",
-  "backports.zstd<1.4.1,>=1.4.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
+  "backports.zstd<1.5.1,>=1.5.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "bidict<0.23.2,>=0.23.1",
   "cbor2<6.0.2,>=6.0.1",
   "charset-normalizer<4.0.0,>=3.4.7",
@@ -90,8 +90,8 @@ desktop = [
 lxml = ["lxml>=6.1.0"]
 minijinja = ["minijinja>=2.19.0"]
 mobile = [
-  "flet[desktop]>=0.84.0,<0.90.0",
-  "flet-permission-handler>=0.84.0,<0.90.0",
+  "flet[desktop]>=0.85.0,<0.90.0",
+  "flet-permission-handler>=0.85.0,<0.90.0",
   "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 tui = [
@@ -103,7 +103,7 @@ webui = [
 ]
 yaml12 = [
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
-  "yaml-rs<0.1.1,>=0.1.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
+  "yaml-rs<0.1.2,>=0.1.1; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
 ]
 
 [dependency-groups]
@@ -124,11 +124,11 @@ code_gen = [
   "xsdata[cli]>=26.2",
 ]
 docs = [
-  "zensical>=0.0.40",
+  "zensical>=0.0.41",
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
-  "mypy>=2.0.0",
+  "mypy>=2.1.0",
   "prek>=0.3.13",
   "pyrefly>=0.64.1,<0.64.2",
   "pyside6<6.12.0,>=6.11.0",
@@ -136,11 +136,11 @@ linting = [
   "sortedcontainers-stubs>=2.4.3",
   "types-lxml>=2026.2.16",
   "types-pyinstaller>=6.20.0.20260508",
-  "types-pyyaml>=6.0.12.20260508",
+  "types-pyyaml>=6.0.12.20260510",
   "types-ujson>=5.10.0.20250822",
 ]
 packaging = [
-  "flet-cli>=0.84.0,<0.90.0",
+  "flet-cli>=0.85.0,<0.90.0",
   "pyinstaller>=6.20.0",
   "shellingham<2.0.0,>=1.5.4",
 ]

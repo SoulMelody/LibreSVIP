@@ -1,0 +1,9 @@
+[Core]
+name = Mikoto Studio
+
+[Documentation]
+Author = LibreSVIP
+Website = https://github.com/LibreSVIP/LibreSVIP
+Format = Mikoto Studio Project file
+Description = Conversion plugin for Mikoto Studio project file
+Suffix = msq
