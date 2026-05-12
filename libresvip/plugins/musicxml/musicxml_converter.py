@@ -1,8 +1,8 @@
 import io
 import pathlib
+import zipfile
 from importlib.resources import files
 
-from upath import UPath
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 from xsdata_pydantic.bindings import XmlParser, XmlSerializer
@@ -43,7 +43,7 @@ class MusicXMLConverter(plugin_base.SVSConverter):
         content = path.read_bytes()
         xml_parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=False))
         if content[:2] == b"PK":
-            zip_path = UPath("zip://", fo=io.BytesIO(content), mode="r")
+            zip_path = zipfile.Path(io.BytesIO(content))
             container_content = (zip_path / "META-INF/container.xml").read_bytes()
             container = xml_parser.from_bytes(container_content, Container)
             xml_bytes = (zip_path / container.rootfiles.rootfile[0].full_path).read_bytes()
