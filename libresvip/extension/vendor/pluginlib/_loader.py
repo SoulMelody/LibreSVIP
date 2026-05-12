@@ -109,7 +109,9 @@ def _recursive_path_import(path: pathlib.Path, prefix_package: str | None = None
 
         # Walk root and import modules
         # pylint: disable=unused-variable
-        for finder, name, is_pkg in pkgutil.walk_packages([root_path], prefix=prefix):
+        for finder, name, is_pkg in pkgutil.walk_packages(
+            [str(root_path) if sys.version_info < (3, 11) else root_path], prefix=prefix
+        ):
             logger.debug(f"Attempting to load module {name} from {getattr(finder, 'path', None)}")
             try:
                 spec = finder.find_spec(name)
