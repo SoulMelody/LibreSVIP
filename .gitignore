@@ -161,6 +161,14 @@ cython_debug/
 # Visual Studio Code
 .vscode/settings.json
 
+# Agents
+.claude/
+.codex/
+.kilocode/
+.opencode/
+.trae/
+openspec/
+
 assets/
 node_modules/
 tests/data/*
