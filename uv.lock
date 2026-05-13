@@ -1594,8 +1594,8 @@ all = [
     { name = "protobuf-protoc-bin", specifier = ">=34.1" },
     { name = "pyinstaller", specifier = ">=6.20.0" },
     { name = "pyrefly", specifier = ">=1.0.0,<1.0.1" },
-    { name = "pyside6", specifier = ">=6.11.0,<6.12.0" },
-    { name = "pyside6-addons", specifier = ">=6.11.0,<6.12.0" },
+    { name = "pyside6", specifier = ">=6.11.1,<6.12.0" },
+    { name = "pyside6-addons", specifier = ">=6.11.1,<6.12.0" },
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "pytest-run-parallel", specifier = ">=0.8.2" },
     { name = "ruff", specifier = ">=0.15.12" },
@@ -1614,7 +1614,7 @@ code-gen = [
     { name = "datamodel-code-generator", specifier = ">=0.57.0" },
     { name = "pbtk", specifier = ">=1.1.1.post1" },
     { name = "protobuf-protoc-bin", specifier = ">=34.1" },
-    { name = "pyside6-addons", specifier = ">=6.11.0,<6.12.0" },
+    { name = "pyside6-addons", specifier = ">=6.11.1,<6.12.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=26.2" },
 ]
 docs = [{ name = "zensical", specifier = ">=0.0.41" }]
@@ -1623,7 +1623,7 @@ linting = [
     { name = "mypy", specifier = ">=2.1.0" },
     { name = "prek", specifier = ">=0.3.13" },
     { name = "pyrefly", specifier = ">=1.0.0,<1.0.1" },
-    { name = "pyside6", specifier = ">=6.11.0,<6.12.0" },
+    { name = "pyside6", specifier = ">=6.11.1,<6.12.0" },
     { name = "ruff", specifier = ">=0.15.12" },
     { name = "sortedcontainers-stubs", specifier = ">=2.4.3" },
     { name = "types-lxml", specifier = ">=2026.2.16" },
