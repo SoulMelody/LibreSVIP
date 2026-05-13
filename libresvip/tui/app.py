@@ -66,14 +66,26 @@ from libresvip.core.config import (
     settings,
 )
 from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
-from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
+from libresvip.extension.base import ReadOnlyConverterMixin, SVSConverter, WriteOnlyConverterMixin
+from libresvip.extension.manager import (
+    get_svs_plugin_by_suffix,
+    get_translation,
+    middleware_manager,
+    plugin_manager,
+)
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
 from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 translation.singleton_translation = get_translation()
+
+
+def _format_selector_label(plugin: SVSConverter) -> str:
+    suffixes_str = "; ".join(f"*.{s}" for s in plugin.info.suffixes)
+    return f"{_(plugin.info.file_format)} ({suffixes_str})"
+
+
 readonly_plugin_ids = [
     identifier
     for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
@@ -112,7 +124,9 @@ class PluginInfoScreen(Screen[None]):
     def compose(self) -> ComposeResult:
         yield Header(icon="☰")
         yield Footer()
-        plugin = plugin_manager.plugins.get("svs", {})[self.plugin_id]
+        plugin = get_svs_plugin_by_suffix(self.plugin_id)
+        if plugin is None:
+            return
         with Vertical():
             yield Label(plugin.info.name, classes="title")
             yield Label(f"{_('Version: ')}{plugin.version}")
@@ -208,7 +222,7 @@ class SelectFormats(Vertical):
             yield Label(_("Import format"), classes="text-middle")
             yield Select(
                 [
-                    (f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})", plugin_id)
+                    (_format_selector_label(plugin), plugin_id)
                     for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                     if plugin_id not in writeonly_plugin_ids
                 ],
@@ -233,7 +247,7 @@ class SelectFormats(Vertical):
             yield Label(_("Export format"), classes="text-middle")
             yield Select(
                 [
-                    (f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})", plugin_id)
+                    (_format_selector_label(plugin), plugin_id)
                     for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                     if plugin_id not in readonly_plugin_ids
                 ],
@@ -725,11 +739,12 @@ class TUIApp(App[None]):
             tab_id = self.query_one("#task_list").current
             self.query_one(f"ListView#{tab_id}").clear()
         if event.value:
-            plugin_object = plugin_manager.plugins.get("svs", {})[event.value]
-            input_options = self.query_one("#input_options")
-            input_options.option_class = plugin_object.input_option_cls
-            input_options.option_dict = {}
-            await input_options.recompose()
+            plugin_object = get_svs_plugin_by_suffix(event.value)
+            if plugin_object is not None:
+                input_options = self.query_one("#input_options")
+                input_options.option_class = plugin_object.input_option_cls
+                input_options.option_dict = {}
+                await input_options.recompose()
 
     @on(SelectFormats.OutputFormatChanged)
     async def handle_output_format_change(self, event: SelectFormats.OutputFormatChanged) -> None:
@@ -740,11 +755,12 @@ class TUIApp(App[None]):
                 for node in task_list_view._nodes:
                     node.ext = event.value
                     node.query_one("#ext").update(f".{event.value}")
-            plugin_object = plugin_manager.plugins.get("svs", {})[event.value]
-            output_options = self.query_one("#output_options")
-            output_options.option_class = plugin_object.output_option_cls
-            output_options.option_dict = {}
-            await output_options.recompose()
+            plugin_object = get_svs_plugin_by_suffix(event.value)
+            if plugin_object is not None:
+                output_options = self.query_one("#output_options")
+                output_options.option_class = plugin_object.output_option_cls
+                output_options.option_dict = {}
+                await output_options.recompose()
 
     @on(Button.Pressed, "#add_task")
     @work
@@ -756,7 +772,7 @@ class TUIApp(App[None]):
         else:
             return
         ext = selected_path.suffix.removeprefix(".").lower()
-        if ext in plugin_manager.plugins.get("svs", {}) and settings.auto_detect_input_format:
+        if get_svs_plugin_by_suffix(ext) is not None and settings.auto_detect_input_format:
             settings.last_input_format = ext
             self.query_one("#input_format")._watch_value(ext)
         tab_id = self.query_one("#task_list").current
@@ -821,8 +837,8 @@ class TUIApp(App[None]):
                     output_path = output_path.with_suffix(
                         f".{settings.last_output_format}",
                     )
-                input_plugin = plugin_manager.plugins.get("svs", {})[settings.last_input_format]
-                output_plugin = plugin_manager.plugins.get("svs", {})[settings.last_output_format]
+                input_plugin = get_svs_plugin_by_suffix(settings.last_input_format)
+                output_plugin = get_svs_plugin_by_suffix(settings.last_output_format)
                 input_options = self.query_one("#input_options")
                 input_option = input_options.option_dict
                 if tab_id == "merge":

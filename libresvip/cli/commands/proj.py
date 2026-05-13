@@ -7,7 +7,7 @@ from rich.prompt import Confirm
 
 from libresvip.cli.prompt import prompt_fields
 from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
-from libresvip.extension.manager import middleware_manager, plugin_manager
+from libresvip.extension.manager import get_svs_plugin_by_suffix, middleware_manager, plugin_manager
 from libresvip.model.base import Project
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -18,7 +18,7 @@ def option_callback(ctx: typer.Context, value: pathlib.Path) -> pathlib.Path | N
     if ctx.resilient_parsing:
         return None
     ext = value.suffix.lstrip(".").lower()
-    if ext not in plugin_manager.plugins.get("svs", {}):
+    if get_svs_plugin_by_suffix(ext) is None:
         raise typer.BadParameter(
             _("Extension {} is not supported. Supported extensions are: {}").format(
                 ext, list(plugin_manager.plugins.get("svs", {}).keys())
@@ -40,10 +40,12 @@ def convert(
     Convert a file from one format to another.
     """
     input_ext = in_path.suffix.lstrip(".").lower()
-    input_plugin = plugin_manager.plugins.get("svs", {})[input_ext]
+    input_plugin = get_svs_plugin_by_suffix(input_ext)
+    assert input_plugin is not None
     assert not issubclass(input_plugin, WriteOnlyConverterMixin)
     output_ext = out_path.suffix.lstrip(".").lower()
-    output_plugin = plugin_manager.plugins.get("svs", {})[output_ext]
+    output_plugin = get_svs_plugin_by_suffix(output_ext)
+    assert output_plugin is not None
     assert not issubclass(output_plugin, ReadOnlyConverterMixin)
     input_option = input_plugin.input_option_cls
     output_option = output_plugin.output_option_cls
@@ -85,8 +87,8 @@ def split_project(
     max_track_count: Annotated[int, typer.Option(help=_("Maximum track count per file"))] = 1,
 ) -> None:
     input_ext = in_path.suffix.lstrip(".").lower()
-    input_plugin = plugin_manager.plugins.get("svs", {})[input_ext]
-    output_plugin = plugin_manager.plugins.get("svs", {})[output_ext]
+    input_plugin = get_svs_plugin_by_suffix(input_ext)
+    output_plugin = get_svs_plugin_by_suffix(output_ext)
     input_option = input_plugin.input_option_cls
     output_option = output_plugin.output_option_cls
     option_type, option_class = _("Input Options: "), input_option
@@ -164,7 +166,7 @@ def merge_projects(
     for in_path in in_paths:
         typer.echo(in_path)
         input_ext = in_path.suffix.lstrip(".").lower()
-        input_plugin = plugin_manager.plugins.get("svs", {})[input_ext]
+        input_plugin = get_svs_plugin_by_suffix(input_ext)
         input_option = input_plugin.input_option_cls
         option_type, option_class = _("Input Options: "), input_option
         option_kwargs = {}
@@ -180,7 +182,7 @@ def merge_projects(
         projects.append(project)
     output_ext = out_path.suffix.lstrip(".").lower()
     if projects:
-        output_plugin = plugin_manager.plugins.get("svs", {})[output_ext]
+        output_plugin = get_svs_plugin_by_suffix(output_ext)
         output_option = output_plugin.output_option_cls
         project = Project.merge_projects(projects)
         option_type, option_class = _("Output Options: "), output_option

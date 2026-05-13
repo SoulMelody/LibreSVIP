@@ -60,12 +60,15 @@ class BasePluginInfo(abc.ABC):
 class FormatProviderPluginInfo(BasePluginInfo):
     file_format: str = dataclasses.field(init=False)
     suffix: str = dataclasses.field(init=False)
+    suffixes: tuple[str, ...] = dataclasses.field(init=False)
     icon_base64: str | None = dataclasses.field(init=False)
 
     def __post_init__(self, _config: RawConfigParser) -> None:
         super().__post_init__(_config)
         self.file_format = _config.get("Documentation", "Format")
-        self.suffix = _config.get("Documentation", "Suffix")
+        raw_suffixes = _config.get("Documentation", "Suffix")
+        self.suffixes = tuple(part.strip().removeprefix(".") for part in raw_suffixes.split(","))
+        self.suffix = self.suffixes[0] if self.suffixes else ""
         self.icon_base64 = _config.get("Documentation", "IconBase64", fallback=None)
 
 

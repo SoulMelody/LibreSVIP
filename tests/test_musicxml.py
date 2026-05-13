@@ -6,7 +6,7 @@ from itertools import pairwise
 import pytest
 
 from libresvip.core.constants import DEFAULT_PHONEME
-from libresvip.extension.manager import plugin_manager
+from libresvip.extension.manager import get_svs_plugin_by_suffix, plugin_manager
 from libresvip.model.base import SingingTrack
 from libresvip.plugins.mid.midi_parser import cc11_to_db_change
 from libresvip.plugins.musicxml.dynamics import DYNAMIC_TO_VELOCITY
@@ -317,13 +317,20 @@ def test_v4_wedge_crescendo_anchors() -> None:
 
 
 def test_xml_extension_dispatch() -> None:
-    """An identical document opened via the .xml alias dispatcher returns the
-    same Project as opening it via .musicxml.
+    """MusicXML is registered once in the plugin list, and all three
+    suffixes resolve to the MusicXML converter through suffix lookup.
     """
     plugins = plugin_manager.plugins["svs"]
-    assert "xml" in plugins, "xml alias not registered"
-    assert "mxl" in plugins, "mxl alias not registered"
-    assert "musicxml" in plugins
+    assert "musicxml" in plugins, "musicxml not registered"
+    converter = plugins["musicxml"]
+    assert converter.info.suffixes == ("musicxml", "xml", "mxl"), (
+        f"Expected suffixes ('musicxml', 'xml', 'mxl'), got {converter.info.suffixes}"
+    )
+    for suffix in ("musicxml", "xml", "mxl"):
+        resolved = get_svs_plugin_by_suffix(suffix)
+        assert resolved is converter, (
+            f"suffix '{suffix}' should resolve to the same MusicXML converter"
+        )
 
 
 def test_mxl_extension_compressed(tmp_path: pathlib.Path) -> None:

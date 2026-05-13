@@ -18,7 +18,12 @@ from libresvip.extension.base import (
     SVSConverter,
     WriteOnlyConverterMixin,
 )
-from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
+from libresvip.extension.manager import (
+    get_svs_plugin_by_suffix,
+    get_translation,
+    middleware_manager,
+    plugin_manager,
+)
 from libresvip.model.base import Project
 from libresvip.utils.translation import gettext_lazy as _
 from libresvip.utils.translation import lazy_translation
@@ -185,7 +190,7 @@ class Conversion(ConversionBase):
                         website=_(plugin.info.website),
                         version=plugin.version,
                         file_format=_(plugin.info.file_format),
-                        suffixes=[plugin.info.suffix],
+                        suffixes=list(plugin.info.suffixes),
                         icon_base64=plugin.info.icon_base64 or "",
                         json_schema=json.dumps(model_json_schema(plugin.output_option_cls)),
                     )
@@ -206,7 +211,7 @@ class Conversion(ConversionBase):
                         website=plugin.info.website,
                         version=plugin.version,
                         file_format=_(plugin.info.file_format),
-                        suffixes=[plugin.info.suffix],
+                        suffixes=list(plugin.info.suffixes),
                         icon_base64=plugin.info.icon_base64 or "",
                         json_schema=json.dumps(model_json_schema(plugin.input_option_cls)),
                     )
@@ -217,8 +222,15 @@ class Conversion(ConversionBase):
     async def convert(self, conversion_request: ConversionRequest) -> ConversionResponse:
         group_id2results = {}
         futures = []
-        input_plugin = plugin_manager.plugins.get("svs", {})[conversion_request.input_format]
-        output_plugin = plugin_manager.plugins.get("svs", {})[conversion_request.output_format]
+        svs_plugins = plugin_manager.plugins.get("svs", {})
+        input_plugin = svs_plugins.get(
+            conversion_request.input_format,
+            get_svs_plugin_by_suffix(conversion_request.input_format),
+        )
+        output_plugin = svs_plugins.get(
+            conversion_request.output_format,
+            get_svs_plugin_by_suffix(conversion_request.output_format),
+        )
         try:
             input_options = input_plugin.input_option_cls.model_validate_json(
                 conversion_request.input_options

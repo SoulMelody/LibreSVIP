@@ -28,8 +28,13 @@ from libresvip.core.config import (
 )
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
-from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
+from libresvip.extension.base import ReadOnlyConverterMixin, SVSConverter, WriteOnlyConverterMixin
+from libresvip.extension.manager import (
+    get_svs_plugin_by_suffix,
+    get_translation,
+    middleware_manager,
+    plugin_manager,
+)
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
@@ -98,6 +103,11 @@ def get_default_font_unix() -> str | None:
 
     for font in fontconfig.query(where="", select=("family",)):
         return font["family"]
+
+
+def _format_selector_label(plugin: SVSConverter) -> str:
+    suffixes_str = "; ".join(f"*.{s}" for s in plugin.info.suffixes)
+    return f"{_(plugin.info.file_format)} ({suffixes_str})"
 
 
 async def main(page: ft.Page) -> None:
@@ -271,8 +281,7 @@ async def main(page: ft.Page) -> None:
         return fields
 
     def build_input_options(value: str | None) -> list[ft.Control]:
-        if value in plugin_manager.plugins.get("svs", {}):
-            input_plugin = plugin_manager.plugins.get("svs", {})[value]
+        if value is not None and (input_plugin := get_svs_plugin_by_suffix(value)) is not None:
             return build_options(input_plugin.input_option_cls)
         return []
 
@@ -283,8 +292,7 @@ async def main(page: ft.Page) -> None:
         return []
 
     def build_output_options(value: str | None) -> list[ft.Control]:
-        if value in plugin_manager.plugins.get("svs", {}):
-            output_plugin = plugin_manager.plugins.get("svs", {})[value]
+        if value is not None and (output_plugin := get_svs_plugin_by_suffix(value)) is not None:
             return build_options(output_plugin.output_option_cls)
         return []
 
@@ -380,7 +388,7 @@ async def main(page: ft.Page) -> None:
                 if (
                     suffix != last_input_format
                     and auto_detect_input_format
-                    and suffix in plugin_manager.plugins.get("svs", {})
+                    and get_svs_plugin_by_suffix(suffix) is not None
                 ):
                     await set_last_input_format(suffix)
                 task_list_view.current.controls.append(
@@ -682,7 +690,7 @@ async def main(page: ft.Page) -> None:
         if (
             suffix != last_input_format
             and auto_detect_input_format
-            and suffix in plugin_manager.plugins.get("svs", {})
+            and get_svs_plugin_by_suffix(suffix) is not None
         ):
             await set_last_input_format(suffix)
         task_list_view.current.controls.append(
@@ -835,8 +843,8 @@ async def main(page: ft.Page) -> None:
                     output_path = output_path.with_suffix(
                         f".{output_format}",
                     )
-                input_plugin = plugin_manager.plugins.get("svs", {})[input_format]
-                output_plugin = plugin_manager.plugins.get("svs", {})[output_format]
+                input_plugin = get_svs_plugin_by_suffix(input_format)
+                output_plugin = get_svs_plugin_by_suffix(output_format)
                 input_option = {
                     control.data: control.value
                     for control in input_options.current.controls
@@ -1107,7 +1115,7 @@ async def main(page: ft.Page) -> None:
 
         def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
             if control.current.value:
-                plugin_obj = plugin_manager.plugins.get("svs", {})[control.current.value]
+                plugin_obj = get_svs_plugin_by_suffix(control.current.value)
                 page.views.append(
                     ft.View(
                         route="/plugin_info",
@@ -1159,7 +1167,7 @@ async def main(page: ft.Page) -> None:
                                             ),
                                             ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
                                             ft.Text(
-                                                f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
+                                                _format_selector_label(plugin_obj),
                                                 col=11,
                                             ),
                                         ],
@@ -1197,7 +1205,7 @@ async def main(page: ft.Page) -> None:
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
-                                            f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
+                                            _format_selector_label(plugin_obj),
                                         )
                                         for plugin_id, plugin_obj in plugin_manager.plugins.get(
                                             "svs", {}
@@ -1229,7 +1237,7 @@ async def main(page: ft.Page) -> None:
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
-                                            f"{_(plugin_obj.info.file_format)} (*.{plugin_obj.info.suffix})",
+                                            _format_selector_label(plugin_obj),
                                         )
                                         for plugin_id, plugin_obj in plugin_manager.plugins.get(
                                             "svs", {}

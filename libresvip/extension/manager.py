@@ -14,6 +14,7 @@ from libresvip.extension.vendor import pluginlib
 
 if TYPE_CHECKING:
     from libresvip.core.compat import Traversable
+    from libresvip.extension.base import SVSConverter
 
 plugin_manager = pluginlib.PluginLoader(
     paths=[str(pkg_dir / "plugins"), str(app_dir.user_config_path / "plugins")],
@@ -30,6 +31,39 @@ middleware_manager = pluginlib.PluginLoader(
 )
 middleware_manager.load_modules()
 middleware_manager.loaded = True
+
+
+_svs_suffix_map: dict[str, type[SVSConverter]] | None = None
+_svs_suffix_map_built = False
+
+
+def _build_svs_suffix_map() -> dict[str, type[SVSConverter]]:
+    global _svs_suffix_map, _svs_suffix_map_built
+    if _svs_suffix_map_built and _svs_suffix_map is not None:
+        return _svs_suffix_map
+    suffix_map: dict[str, type[SVSConverter]] = {}
+    for plugin in plugin_manager.plugins.get("svs", {}).values():
+        for suffix in plugin.info.suffixes:
+            if suffix in suffix_map:
+                logger.warning(
+                    f"Duplicate suffix '{suffix}' declared by plugins '{suffix_map[suffix].__name__}' and '{plugin.__name__}'"
+                )
+            suffix_map[suffix] = plugin
+    _svs_suffix_map = suffix_map
+    _svs_suffix_map_built = True
+    return suffix_map
+
+
+def get_svs_plugin_by_suffix(suffix: str) -> type[SVSConverter] | None:
+    return _build_svs_suffix_map().get(suffix)
+
+
+def get_duplicate_suffixes() -> dict[str, list[str]]:
+    suffix_to_plugins: dict[str, list[str]] = {}
+    for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items():
+        for suffix in plugin.info.suffixes:
+            suffix_to_plugins.setdefault(suffix, []).append(plugin_id)
+    return {suffix: plugins for suffix, plugins in suffix_to_plugins.items() if len(plugins) > 1}
 
 
 def merge_translation(

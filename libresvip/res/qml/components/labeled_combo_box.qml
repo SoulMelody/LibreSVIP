@@ -7,17 +7,32 @@ ComboBox {
     id: combo
     property string hint
     property var choices
+    property string suffixesRole: "suffixes"
+    property string currentSuffixes: ""
 
     height: 40
     model: choices
     textRole: "text"
     valueRole: "value"
-    displayText: qsTr(currentText) + " (*." + currentValue + ")"
+    displayText: qsTr(currentText) + (currentSuffixes ? " (" + currentSuffixes + ")" : "")
+
+    onCurrentIndexChanged: updateSuffixes()
+    onModelChanged: updateSuffixes()
+    Component.onCompleted: updateSuffixes()
+
+    function updateSuffixes() {
+        if (model && currentIndex >= 0) {
+            var item = typeof model.get === "function" ? model.get(currentIndex) : model[currentIndex];
+            currentSuffixes = item && item[suffixesRole] ? item[suffixesRole] : "";
+        } else {
+            currentSuffixes = "";
+        }
+    }
 
     delegate: MenuItem {
         width: ListView.view.width
         contentItem: Label {
-            text: combo.textRole ? (qsTr(Array.isArray(combo.model) ? modelData[combo.textRole] : model[combo.textRole])) + " (*." + (Array.isArray(combo.model) ? modelData[combo.valueRole] : model[combo.valueRole]) + ")" : qsTr(modelData)
+            text: qsTr(model[combo.textRole]) + (model[combo.suffixesRole] ? " (" + model[combo.suffixesRole] + ")" : "")
             color: combo.highlightedIndex === index ? Material.accentColor : window.Material.foreground
         }
         highlighted: combo.highlightedIndex === index

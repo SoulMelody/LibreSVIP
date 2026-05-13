@@ -359,7 +359,8 @@ Page {
                         } else {
                             this.currentIndex = 0;
                         }
-                        dialogs.openDialog.nameFilters[0] = qsTr(currentText) + " (*." + currentValue + ")";
+                        let format_name = currentText.replace(/\s*\(.*\)$/, "");
+                        dialogs.openDialog.nameFilters[0] = format_name + " (*." + currentValue + ")";
                         taskManager.input_format_changed.connect(input_format => {
                             let new_index = indexOfValue(input_format);
                             if (new_index < 0) {
@@ -369,7 +370,8 @@ Page {
                                 if (new_index != currentIndex) {
                                     currentIndex = new_index;
                                 }
-                                let name_filter = qsTr(currentText) + " (*." + currentValue + ")";
+                                let format_name = currentText.replace(/\s*\(.*\)$/, "");
+                                let name_filter = format_name + " (*." + currentValue + ")";
                                 if (name_filter != dialogs.openDialog.nameFilters[0]) {
                                     dialogs.openDialog.nameFilters[0] = name_filter;
                                 }

@@ -90,8 +90,8 @@ desktop = [
 lxml = ["lxml>=6.1.0"]
 minijinja = ["minijinja>=2.19.0"]
 mobile = [
-  "flet[desktop]>=0.85.0,<0.90.0",
-  "flet-permission-handler>=0.85.0,<0.90.0",
+  "flet[desktop]>=0.85.1,<0.90.0",
+  "flet-permission-handler>=0.85.1,<0.90.0",
   "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 tui = [
@@ -140,7 +140,7 @@ linting = [
   "types-ujson>=5.10.0.20250822",
 ]
 packaging = [
-  "flet-cli>=0.85.0,<0.90.0",
+  "flet-cli>=0.85.1,<0.90.0",
   "pyinstaller>=6.20.0",
   "shellingham<2.0.0,>=1.5.4",
 ]

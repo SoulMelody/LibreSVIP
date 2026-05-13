@@ -67,13 +67,3 @@ class MusicXMLConverter(plugin_base.SVSConverter):
             config=SerializerConfig(pretty_print=True), writer=MusicXMLWriter
         )
         path.write_bytes(xml_serializer.render(score).encode("utf-8"))
-
-
-class MusicXMLConverterXml(MusicXMLConverter):
-    _alias_ = "xml"
-    _version_ = "1.0.0"
-
-
-class MusicXMLConverterMxl(MusicXMLConverter):
-    _alias_ = "mxl"
-    _version_ = "1.0.0"

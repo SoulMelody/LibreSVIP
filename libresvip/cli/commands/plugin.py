@@ -59,7 +59,8 @@ def print_plugin_summary(
     for num, plugin in enumerate(plugins, start=1):
         if plugin.info is None:
             continue
-        format_desc = f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})"
+        suffixes_str = "; ".join(f"*.{s}" for s in plugin.info.suffixes)
+        format_desc = f"{_(plugin.info.file_format)} ({suffixes_str})"
         table.add_row(
             f"[{num}] ",
             plugin.info.name + margin,
@@ -85,7 +86,8 @@ def print_plugin_details(plugin: SVSConverter) -> None:
     )
     if plugin.info.website:
         typer.echo("\n" + _("Website: ") + plugin.info.website)
-    format_desc = f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})"
+    suffixes_str = "; ".join(f"*.{s}" for s in plugin.info.suffixes)
+    format_desc = f"{_(plugin.info.file_format)} ({suffixes_str})"
     typer.echo("\n" + f"{_('This plugin is applicable to')} {format_desc}.")
     typer.echo(
         _(
