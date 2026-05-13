@@ -2,9 +2,9 @@ altgraph==0.17.5
 annotated-types==0.7.0
 anyio==4.13.0
 aristaproto==0.1.4
-backports-zstd==1.4.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
+backports-zstd==1.5.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
 bidict==0.23.1
-cbor2==6.0.1
+cbor2==6.1.0
 certifi==2026.4.22
 cffi==2.0.0 ; (python_full_version < '3.12' and platform_python_implementation != 'PyPy') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32') or sys_platform == 'emscripten'
 charset-normalizer==3.4.7
@@ -22,7 +22,7 @@ hpack==4.1.0
 httpcore==1.0.9
 httpx==0.28.1
 hyperframe==6.1.0
-idna==3.14
+idna==3.15
 importlib-resources==7.1.0 ; python_full_version < '3.11'
 jinja2==3.1.6
 jyutping==0.3.4
@@ -53,7 +53,7 @@ pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download
 pyinstaller-hooks-contrib==2026.5
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.55.0
-pyside6-essentials==6.11.0
+pyside6-essentials==6.11.1
 pysubs2==1.8.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
@@ -68,7 +68,7 @@ ruamel-yaml-clib==0.2.15 ; sys_platform != 'darwin' and sys_platform != 'linux' 
 rubicon-objc==0.5.4 ; sys_platform == 'darwin'
 setuptools==82.0.1
 shellingham==1.5.4
-shiboken6==6.11.0
+shiboken6==6.11.1
 six==1.17.0
 sortedcontainers==2.4.0
 soundfile==0.13.1 ; sys_platform == 'emscripten'

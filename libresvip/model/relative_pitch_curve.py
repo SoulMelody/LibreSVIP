@@ -60,7 +60,7 @@ class RelativePitchCurve:
                     tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
                     if (tick_key := pitch_simulator.pitch_at_ticks(tick_pos)) is not None:
                         if to_absolute:
-                            if self.is_staircase:
+                            if self.is_staircase or rel_y is None:
                                 interpolated_rel_y = prev_y
                             else:
                                 interpolated_rel_y = prev_y + (rel_y - prev_y) * (tick - prev_x) / (

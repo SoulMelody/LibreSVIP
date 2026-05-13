@@ -10,7 +10,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/tombi-toml/tombi-pre-commit
-    rev: v0.11.0
+    rev: v0.11.3
     hooks:
       - id: tombi-format
         args: ["--offline"]
@@ -29,14 +29,14 @@ repos:
         args: ["--config", "pyproject.toml", "--exclude", "tests/"]
 
   - repo: https://github.com/facebook/pyrefly-pre-commit
-    rev: 0.64.1
+    rev: 1.0.0
     hooks:
       - id: pyrefly-check
         name: Pyrefly (type checking)
         pass_filenames: false
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.11.12
+    rev: 0.11.14
     hooks:
       - id: uv-lock
         args: ["--frozen"]

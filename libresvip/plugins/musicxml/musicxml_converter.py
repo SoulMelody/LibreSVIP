@@ -1,8 +1,8 @@
 import io
 import pathlib
+import zipfile
 from importlib.resources import files
 
-from upath import UPath
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 from xsdata_pydantic.bindings import XmlParser, XmlSerializer
@@ -16,6 +16,7 @@ from .models.mxml4 import ScorePartwise
 from .musicxml_generator import MusicXMLGenerator
 from .musicxml_parser import MusicXMLParser
 from .options import InputOptions, OutputOptions
+from .preprocessor import preprocess_for_v4
 
 
 class MusicXMLWriter(DefaultXmlWriter):
@@ -41,15 +42,22 @@ class MusicXMLConverter(plugin_base.SVSConverter):
         options_obj = cls.input_option_cls(**options)
         content = path.read_bytes()
         xml_parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=False))
-        if content[:2] == b"PK":  # TODO: support mxl file extension
-            zip_path = UPath("zip://", fo=io.BytesIO(content), mode="r")
+        if content[:2] == b"PK":
+            zip_path = zipfile.Path(io.BytesIO(content))
             container_content = (zip_path / "META-INF/container.xml").read_bytes()
             container = xml_parser.from_bytes(container_content, Container)
-            first_file = (zip_path / container.rootfiles.rootfile[0].full_path).read_bytes()
-            score = xml_parser.from_bytes(first_file, ScorePartwise)
+            xml_bytes = (zip_path / container.rootfiles.rootfile[0].full_path).read_bytes()
         else:
-            score = xml_parser.from_bytes(content, ScorePartwise)
-        return MusicXMLParser(options_obj).parse_project(score)
+            xml_bytes = content
+
+        head = xml_bytes[:4096].lstrip()
+        if b"<score-partwise" not in head and b"<score-timewise" not in head:
+            msg = f"{path}: not a MusicXML score (root must be score-partwise or score-timewise)"
+            raise ValueError(msg)
+
+        xml_bytes = preprocess_for_v4(xml_bytes)
+        score = xml_parser.from_bytes(xml_bytes, ScorePartwise)
+        return MusicXMLParser(options_obj, xml_bytes=xml_bytes).parse_project(score)
 
     @classmethod
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
@@ -59,3 +67,13 @@ class MusicXMLConverter(plugin_base.SVSConverter):
             config=SerializerConfig(pretty_print=True), writer=MusicXMLWriter
         )
         path.write_bytes(xml_serializer.render(score).encode("utf-8"))
+
+
+class MusicXMLConverterXml(MusicXMLConverter):
+    _alias_ = "xml"
+    _version_ = "1.0.0"
+
+
+class MusicXMLConverterMxl(MusicXMLConverter):
+    _alias_ = "mxl"
+    _version_ = "1.0.0"

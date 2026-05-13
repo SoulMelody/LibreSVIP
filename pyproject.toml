@@ -33,9 +33,9 @@ dependencies = [
   "PyYAML>=6.0.3,<7.0.0; python_version!='3.13' or sys_platform == \"emscripten\"",
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
   "aristaproto<0.2.0,>=0.1.4",
-  "backports.zstd<1.4.1,>=1.4.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
+  "backports.zstd<1.5.1,>=1.5.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "bidict<0.23.2,>=0.23.1",
-  "cbor2<6.0.2,>=6.0.1",
+  "cbor2<6.1.1,>=6.1.0",
   "charset-normalizer<4.0.0,>=3.4.7",
   "construct-typing<1.0.0,>=0.7.0",
   "importlib-resources<7.1.1,>=7.1.0; python_version < \"3.11\"",
@@ -81,7 +81,7 @@ crypto = [
   "pyzipper>=0.3.6",
 ]
 desktop = [
-  "pyside6-essentials<6.12.0,>=6.11.0",
+  "pyside6-essentials<6.12.0,>=6.11.1",
   "ttkbootstrap-icons-mat>=1.0.0",
   "httpx>=0.28.1",
   "desktop-notifier>=6.2.0",
@@ -99,7 +99,7 @@ tui = [
 ]
 ujson = ["ujson>=5.12.1"]
 webui = [
-  "nicegui>=3.11.1",
+  "nicegui>=3.12.0",
 ]
 yaml12 = [
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\")",
@@ -120,7 +120,7 @@ code_gen = [
   "datamodel-code-generator>=0.57.0",
   "pbtk>=1.1.1.post1",
   "protobuf-protoc-bin>=34.1",
-  "pyside6-addons<6.12.0,>=6.11.0",
+  "pyside6-addons<6.12.0,>=6.11.1",
   "xsdata[cli]>=26.2",
 ]
 docs = [
@@ -128,10 +128,10 @@ docs = [
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
-  "mypy>=2.0.0",
+  "mypy>=2.1.0",
   "prek>=0.3.13",
-  "pyrefly>=0.64.1,<0.64.2",
-  "pyside6<6.12.0,>=6.11.0",
+  "pyrefly>=1.0.0,<1.0.1",
+  "pyside6<6.12.0,>=6.11.1",
   "ruff>=0.15.12",
   "sortedcontainers-stubs>=2.4.3",
   "types-lxml>=2026.2.16",

@@ -1,9 +1,7 @@
 import io
 import pathlib
+import zipfile
 from importlib.resources import files
-from zipfile import ZipFile
-
-from upath import UPath
 
 from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
@@ -28,7 +26,7 @@ class VogenConverter(plugin_base.SVSConverter):
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.input_option_cls(**options)
-        zip_path = UPath("zip://", fo=io.BytesIO(path.read_bytes()), mode="r")
+        zip_path = zipfile.Path(io.BytesIO(path.read_bytes()))
         proj_text = (zip_path / "chart.json").read_bytes()
         vogen_project = VogenProject.model_validate_json(proj_text)
         return VogenParser(options_obj).parse_project(vogen_project)
@@ -41,6 +39,6 @@ class VogenConverter(plugin_base.SVSConverter):
         vogen_project = VogenGenerator(options_obj).generate_project(project)
         proj_text = json.dumps(vogen_project.model_dump(by_alias=True), separators=(",", ":"))
         buffer = io.BytesIO()
-        with ZipFile(buffer, "w") as zf:
+        with zipfile.ZipFile(buffer, "w") as zf:
             zf.writestr("chart.json", proj_text)
         path.write_bytes(buffer.getvalue())
