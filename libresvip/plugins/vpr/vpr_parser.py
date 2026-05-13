@@ -12,6 +12,7 @@ from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
@@ -19,25 +20,25 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
+from libresvip.model.vocaloid import PitchBendData, VocaloidPitchHandler
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_vocaloid_curve_to_param_points,
+)
 from libresvip.utils.translation import gettext_lazy as _
 
-from .constants import (
-    BPM_RATE,
-    PITCH_BEND_NAME,
-    PITCH_BEND_SENSITIVITY_NAME,
-)
+from .constants import BPM_RATE
 from .model import (
     VocaloidAudioTrack,
     VocaloidLanguage,
     VocaloidNotes,
-    VocaloidPartPitchData,
     VocaloidPoint,
     VocaloidProject,
     VocaloidTimeSig,
     VocaloidTracks,
+    VocaloidVoicePart,
 )
 from .options import InputOptions
-from .vocaloid_pitch import pitch_from_vocaloid_parts
+from .vocaloid_controllers import VprControllerAdapter, extract_pitch_data
 
 
 @dataclasses.dataclass
@@ -143,22 +144,25 @@ class VocaloidParser:
                             singing_track.edited_params.pitch.points.root.extend(
                                 direct_pitch_points
                             )
-                        elif (
-                            part_data := VocaloidPartPitchData(
-                                start_pos=part.pos,
-                                pit=part.get_controller_events(PITCH_BEND_NAME),
-                                pbs=part.get_controller_events(PITCH_BEND_SENSITIVITY_NAME),
+                        else:
+                            pitch_handler = VocaloidPitchHandler(
+                                synchronizer=self.synchronizer,
+                                note_list=singing_track.note_list,
+                                time_signature_list=self.time_signatures,
+                                first_bar_length=self.first_bar_length,
                             )
-                        ) and (
-                            part_pitch := pitch_from_vocaloid_parts(
-                                [part_data],
-                                self.synchronizer,
-                                singing_track.note_list,
-                                self.time_signatures,
-                                self.first_bar_length,
-                            )
-                        ) is not None:
-                            singing_track.edited_params.pitch = part_pitch
+
+                            pitch_tuple = extract_pitch_data(part)
+                            if pitch_tuple is not None:
+                                pit_curve, pbs_curve = pitch_tuple
+
+                                pitch_data = PitchBendData(pit=pit_curve, pbs=pbs_curve)
+                                part_pitch = pitch_handler.to_absolute_pitch(
+                                    [pitch_data], [part.pos]
+                                )
+                                if part_pitch is not None:
+                                    singing_track.edited_params.pitch = part_pitch
+                    self.parse_params(part, singing_track.edited_params, part.pos)
                     track_list.append(singing_track)
         return track_list
 
@@ -226,3 +230,49 @@ class VocaloidParser:
             pitch_points.insert(0, Point.start_point())
             pitch_points.append(Point.end_point())
         return note_list, pitch_points
+
+    def parse_params(
+        self,
+        part: VocaloidVoicePart,
+        params: Params,
+        offset: int,
+    ) -> None:
+        adapter = VprControllerAdapter()
+
+        if (
+            self.options.import_volume
+            and (dynamics_curve := adapter.extract(part, "dynamics")) is not None
+        ):
+            params.volume.points.extend(
+                convert_vocaloid_curve_to_param_points(
+                    dynamics_curve, offset + self.first_bar_length
+                )
+            )
+
+        if (
+            self.options.import_breath
+            and (breathiness_curve := adapter.extract(part, "breathiness")) is not None
+        ):
+            params.breath.points.extend(
+                convert_vocaloid_curve_to_param_points(
+                    breathiness_curve, offset + self.first_bar_length
+                )
+            )
+
+        if (
+            self.options.import_gender
+            and (gender_curve := adapter.extract(part, "gender")) is not None
+        ):
+            params.gender.points.extend(
+                convert_vocaloid_curve_to_param_points(gender_curve, offset + self.first_bar_length)
+            )
+
+        if (
+            self.options.import_strength
+            and (brightness_curve := adapter.extract(part, "brightness")) is not None
+        ):
+            params.strength.points.extend(
+                convert_vocaloid_curve_to_param_points(
+                    brightness_curve, offset + self.first_bar_length
+                )
+            )

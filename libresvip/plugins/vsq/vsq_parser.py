@@ -11,19 +11,20 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
     ParamCurve,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.vocaloid import ControllerCurve, PitchBendData, VocaloidPitchHandler
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_vocaloid_curve_to_param_points,
+)
 from libresvip.utils.binary.midi import MIDIFile, MIDITrack, tempo2bpm
 
 from .options import BreathOption, InputOptions
-from .vocaloid_pitch import (
-    ControllerEvent,
-    VocaloidPartPitchData,
-    pitch_from_vocaloid_parts,
-)
+from .vocaloid_controllers import VsqControllerAdapter
 
 BREATH_PATTERN = re.compile("br[1-5]")
 
@@ -173,6 +174,7 @@ class VsqParser:
             pitch := self.parse_pitch(vsq_track, singing_track.note_list, tick_prefix)
         ):
             singing_track.edited_params.pitch = pitch
+        self.parse_params(vsq_track, singing_track.edited_params, tick_prefix)
         return singing_track
 
     def parse_pitch(
@@ -181,37 +183,71 @@ class VsqParser:
         note_list: list[Note],
         tick_prefix: int,
     ) -> ParamCurve | None:
-        pit: list[ControllerEvent] = []
-        pbs: list[ControllerEvent] = []
-        if vsq_track.has_section("PitchBendBPList"):
-            pit.extend(
-                ControllerEvent(
-                    pos=int(key) - tick_prefix,
-                    value=int(value),
-                )
-                for key, value in vsq_track["PitchBendBPList"].items()
-            )
-        if vsq_track.has_section("PitchBendSensBPList"):
-            pbs.extend(
-                ControllerEvent(
-                    pos=int(key) - tick_prefix,
-                    value=int(value),
-                )
-                for key, value in vsq_track["PitchBendSensBPList"].items()
-            )
-        return pitch_from_vocaloid_parts(
-            [
-                VocaloidPartPitchData(
-                    start_pos=0,
-                    pit=pit,
-                    pbs=pbs,
-                )
-            ],
-            self.synchronizer,
-            note_list,
-            self.time_signatures,
-            self.first_bar_length,
+        adapter = VsqControllerAdapter(tick_prefix=tick_prefix)
+        pitch_handler = VocaloidPitchHandler(
+            synchronizer=self.synchronizer,
+            note_list=note_list,
+            time_signature_list=self.time_signatures,
+            first_bar_length=self.first_bar_length,
         )
+
+        pit_curve = adapter.extract(vsq_track, "pitch_bend")
+        pbs_curve = adapter.extract(vsq_track, "pitch_bend_sens")
+
+        if pit_curve is None:
+            return None
+
+        if pbs_curve is None:
+            pbs_curve = ControllerCurve(
+                name="pitch_bend_sens",
+                events=[],
+                default_value=2,
+                min_value=1,
+                max_value=24,
+            )
+
+        pitch_data = PitchBendData(pit=pit_curve, pbs=pbs_curve)
+        return pitch_handler.to_absolute_pitch([pitch_data])
+
+    def parse_params(
+        self,
+        vsq_track: configparser.ConfigParser,
+        params: "Params",
+        tick_prefix: int,
+    ) -> None:
+        adapter = VsqControllerAdapter(tick_prefix=tick_prefix)
+
+        if self.options.import_volume:
+            dynamics_curve = adapter.extract(vsq_track, "dynamics")
+            if dynamics_curve is not None:
+                params.volume.points.extend(
+                    convert_vocaloid_curve_to_param_points(dynamics_curve, self.first_bar_length)
+                )
+
+        if self.options.import_breath:
+            breathiness_curve = adapter.extract(vsq_track, "breathiness")
+            if breathiness_curve is not None:
+                params.breath.points.extend(
+                    convert_vocaloid_curve_to_param_points(breathiness_curve, self.first_bar_length)
+                )
+
+        if self.options.import_gender:
+            gender_curve = adapter.extract(vsq_track, "gender")
+            if gender_curve is not None:
+                params.gender.points.extend(
+                    convert_vocaloid_curve_to_param_points(
+                        gender_curve,
+                        self.first_bar_length,
+                        reverse_value=True,
+                    )
+                )
+
+        if self.options.import_strength:
+            brightness_curve = adapter.extract(vsq_track, "brightness")
+            if brightness_curve is not None:
+                params.strength.points.extend(
+                    convert_vocaloid_curve_to_param_points(brightness_curve, self.first_bar_length)
+                )
 
     def parse_notes(self, vsq_track: configparser.ConfigParser, tick_prefix: int) -> list[Note]:
         notes = []

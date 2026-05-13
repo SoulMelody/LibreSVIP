@@ -7,10 +7,19 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
+)
+from libresvip.model.vocaloid.controller_models import ControllerEvent
+from libresvip.model.vocaloid.pitch_handler import (
+    VocaloidPartPitchData,
+    pitch_from_vocaloid_parts,
+)
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_vocaloid_curve_to_param_points,
 )
 from libresvip.utils.binary.midi import tempo2bpm
 
@@ -25,11 +34,7 @@ from .model import (
     VsqTrack,
 )
 from .options import InputOptions
-from .vocaloid_pitch import (
-    ControllerEvent,
-    VocaloidPartPitchData,
-    pitch_from_vocaloid_parts,
-)
+from .vocaloid_controllers import XvsqControllerAdapter
 
 
 @dataclasses.dataclass
@@ -90,7 +95,7 @@ class CadenciiParser:
         measure_diff = measure_prefix - measure
         tick_prefix += measure_diff * round(time_signature_list[-1].bar_length())
         self.first_bar_length = int(time_signature_list[0].bar_length())
-        return int(tick_prefix), skip_beat_list(time_signature_list, measure_prefix)
+        return tick_prefix, skip_beat_list(time_signature_list, measure_prefix)
 
     def parse_notes(
         self,
@@ -141,6 +146,7 @@ class CadenciiParser:
                 pitch := self.parse_pitch(vsq_track, singing_track.note_list, tick_prefix)
             ):
                 singing_track.edited_params.pitch = pitch
+            self.parse_params(vsq_track, singing_track.edited_params, tick_prefix)
             singing_tracks.append(singing_track)
         return singing_tracks
 
@@ -180,6 +186,49 @@ class CadenciiParser:
             self.time_signatures,
             self.first_bar_length,
         )
+
+    def parse_params(
+        self,
+        vsq_track: VsqTrack,
+        params: Params,
+        tick_prefix: int,
+    ) -> None:
+        if vsq_track.meta_text is None:
+            return
+
+        adapter = XvsqControllerAdapter(tick_prefix=tick_prefix)
+
+        if self.options.import_volume:
+            dynamics_curve = adapter.extract(vsq_track.meta_text, "dynamics")
+            if dynamics_curve is not None:
+                params.volume.points.extend(
+                    convert_vocaloid_curve_to_param_points(dynamics_curve, self.first_bar_length)
+                )
+
+        if self.options.import_breath:
+            breathiness_curve = adapter.extract(vsq_track.meta_text, "breathiness")
+            if breathiness_curve is not None:
+                params.breath.points.extend(
+                    convert_vocaloid_curve_to_param_points(breathiness_curve, self.first_bar_length)
+                )
+
+        if self.options.import_gender:
+            gender_curve = adapter.extract(vsq_track.meta_text, "gender")
+            if gender_curve is not None:
+                params.gender.points.extend(
+                    convert_vocaloid_curve_to_param_points(
+                        gender_curve,
+                        self.first_bar_length,
+                        reverse_value=True,
+                    )
+                )
+
+        if self.options.import_strength:
+            brightness_curve = adapter.extract(vsq_track.meta_text, "brightness")
+            if brightness_curve is not None:
+                params.strength.points.extend(
+                    convert_vocaloid_curve_to_param_points(brightness_curve, self.first_bar_length)
+                )
 
     def parse_instrumental_tracks(
         self, bgm_files: list[BgmFile], tick_prefix: int

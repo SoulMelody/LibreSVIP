@@ -221,6 +221,12 @@ class SynthVGenerator:
                 0.0,
                 (1000.0).__rtruediv__,
             ),
+            gender=self.generate_param_curve(
+                parameters.gender.reduce_sample_rate(self.options.down_sample),
+                0,
+                0.0,
+                (-1000.0).__rtruediv__,
+            ),
         )
         if (
             self.options.version_compatibility.value

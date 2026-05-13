@@ -6,10 +6,15 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
+    Params,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
+)
+from libresvip.model.vocaloid.pitch_handler import generate_for_vocaloid
+from libresvip.model.vocaloid.simple_controller_handler import (
+    convert_param_points_to_vocaloid_curve,
 )
 from libresvip.utils.binary.midi import bpm2tempo
 
@@ -31,7 +36,7 @@ from .model import (
     VsqTrack,
 )
 from .options import OutputOptions
-from .vocaloid_pitch import generate_for_vocaloid
+from .vocaloid_controllers import XvsqControllerAdapter
 
 
 @dataclasses.dataclass
@@ -170,6 +175,7 @@ class CadenciiGenerator:
                 self.generate_notes(track.note_list, tick_prefix)
             )
             self.generate_pitch(track.edited_params.pitch, track.note_list, meta_text, tick_prefix)
+            self.generate_params(track.edited_params, meta_text, tick_prefix)
             vsq_track = VsqTrack(meta_text=meta_text)
             mixer_entry = VsqMixerEntry(
                 solo=1 if track.solo else 0,
@@ -199,3 +205,28 @@ class CadenciiGenerator:
                 )
                 for pit_event in pitch_raw_data.pit
             ]
+
+    def generate_params(
+        self,
+        params: Params,
+        meta_text: VsqMetaText,
+        tick_prefix: int,
+    ) -> None:
+        adapter = XvsqControllerAdapter(tick_prefix=tick_prefix)
+        for point_list, param_name in (
+            (params.volume.points.root, "dynamics"),
+            (params.breath.points.root, "breathiness"),
+            (params.gender.points.root, "gender"),
+            (params.strength.points.root, "brightness"),
+        ):
+            result = adapter.create_bplist(
+                convert_param_points_to_vocaloid_curve(
+                    point_list,
+                    param_name,
+                    position_offset=-self.first_bar_length,
+                    reverse_value=param_name == "gender",
+                )
+            )
+            if result:
+                controller_name, bplist = result
+                setattr(meta_text, controller_name, bplist)

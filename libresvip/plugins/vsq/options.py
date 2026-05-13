@@ -4,7 +4,13 @@ from typing import Annotated
 from pydantic import BaseModel, Field, create_model
 
 from libresvip.core.constants import TICKS_IN_BEAT
-from libresvip.model.option_mixins import EnablePitchImportationMixin
+from libresvip.model.option_mixins import (
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnablePitchImportationMixin,
+    EnableStrengthImportationMixin,
+    EnableVolumeImportationMixin,
+)
 from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -23,7 +29,14 @@ class BreathOption(Enum):
     KEEP = "keep"
 
 
-class InputOptions(EnablePitchImportationMixin, BaseModel):
+class InputOptions(
+    EnablePitchImportationMixin,
+    EnableVolumeImportationMixin,
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnableStrengthImportationMixin,
+    BaseModel,
+):
     lyric_encoding: str = Field(
         default="SHIFT_JIS",
         title=_("Lyric text encoding"),
