@@ -16,7 +16,6 @@ from .models.mxml4 import ScorePartwise
 from .musicxml_generator import MusicXMLGenerator
 from .musicxml_parser import MusicXMLParser
 from .options import InputOptions, OutputOptions
-from .preprocessor import preprocess_for_v4
 
 
 class MusicXMLWriter(DefaultXmlWriter):
@@ -55,7 +54,6 @@ class MusicXMLConverter(plugin_base.SVSConverter):
             msg = f"{path}: not a MusicXML score (root must be score-partwise or score-timewise)"
             raise ValueError(msg)
 
-        xml_bytes = preprocess_for_v4(xml_bytes)
         score = xml_parser.from_bytes(xml_bytes, ScorePartwise)
         return MusicXMLParser(options_obj, xml_bytes=xml_bytes).parse_project(score)
 

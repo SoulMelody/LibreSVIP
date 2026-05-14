@@ -177,7 +177,7 @@ class MusicXMLParser:
                 and len(measure_node.attributes[0].time)
                 and (time_signature_node := measure_node.attributes[0].time[0])
             ):
-                bar_index = int(time_signature_node.number or i)
+                bar_index = time_signature_node.number or i
                 numerator = int(time_signature_node.beats[0])
                 denominator = int(time_signature_node.beat_type[0])
                 current_time_signature = TimeSignature(
@@ -364,7 +364,7 @@ class MusicXMLParser:
                 assert pitch_node.octave is not None
                 alter_node = pitch_node.alter
                 alter = int(alter_node) if alter_node else 0
-                octave = int(pitch_node.octave)
+                octave = pitch_node.octave
                 key = note2midi(f"{step.value}{octave}") + alter
 
                 lyric_nodes = note_node.lyric

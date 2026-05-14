@@ -1763,9 +1763,10 @@ class BreathMark(BaseModel):
 
     model_config = ConfigDict(defer_build=True)
     value: BreathMarkValue = field(
+        default=BreathMarkValue.COMMA,
         metadata={
-            "required": True,
-        }
+            "required": False,
+        },
     )
     default_x: Decimal | None = field(
         default=None,
@@ -1845,9 +1846,10 @@ class Caesura(BaseModel):
 
     model_config = ConfigDict(defer_build=True)
     value: CaesuraValue = field(
+        default=CaesuraValue.NORMAL,
         metadata={
-            "required": True,
-        }
+            "required": False,
+        },
     )
     default_x: Decimal | None = field(
         default=None,
@@ -3820,9 +3822,10 @@ class Fermata(BaseModel):
 
     model_config = ConfigDict(defer_build=True)
     value: FermataShape = field(
+        default=FermataShape.NORMAL,
         metadata={
-            "required": True,
-        }
+            "required": False,
+        },
     )
     type_value: UprightInverted | None = field(
         default=None,
@@ -6624,10 +6627,11 @@ class NoteSize(BaseModel):
 
     model_config = ConfigDict(defer_build=True)
     value: Decimal = field(
+        default=Decimal("100"),
         metadata={
-            "required": True,
+            "required": False,
             "min_inclusive": Decimal("0"),
-        }
+        },
     )
     type_value: NoteSizeType = field(
         metadata={
