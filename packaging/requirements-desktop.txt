@@ -60,7 +60,7 @@ python-dotenv==1.2.2
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.3 ; python_full_version != '3.13.*' or sys_platform == 'emscripten'
 pyyaml-ft==8.0.0 ; python_full_version == '3.13.*' and sys_platform != 'emscripten'
-pyzipper==0.3.6
+pyzipper==0.4.0
 qasync==0.28.0
 retrie==0.3.1
 ruamel-yaml==0.19.1
