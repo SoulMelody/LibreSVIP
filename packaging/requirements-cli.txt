@@ -75,7 +75,8 @@ ujson==5.12.1
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 win32-setctime==1.2.0 ; sys_platform == 'win32'
-winloop==0.6.3 ; sys_platform == 'win32'
+winloop==0.6.3 ; platform_machine != 'WIN32' and sys_platform == 'win32'
+winloop @ git+https://ghfast.top/github.com/Vizonex/Winloop@bc6ed2cc000b1d0b7ace678681e8d069aa44f4f8 ; platform_machine == 'WIN32' and sys_platform == 'win32'
 xsdata==26.2
 xsdata-pydantic==24.5
 yaml-rs==0.1.2 ; sys_platform == 'darwin' or sys_platform == 'emscripten' or sys_platform == 'linux' or sys_platform == 'win32'
