@@ -4,16 +4,19 @@ from construct import (
     Byte,
     BytesInteger,
     Const,
+    Default,
     Float32l,
-    GreedyBytes,
     IfThenElse,
     Int8sl,
     PascalString,
     Prefixed,
     PrefixedArray,
+    Sequence,
     this,
 )
+from construct import Optional as CSOptional
 from construct_typed import (
+    Context,
     DataclassMixin,
     DataclassStruct,
     EnumBase,
@@ -21,11 +24,21 @@ from construct_typed import (
     csfield,
 )
 
+from libresvip.utils.binary import Null
+
 Int32ul = BytesInteger(4, swapped=True)
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 
 
-DvBytes = Prefixed(Int32ul, GreedyBytes)
+def _has_feature(ctx: Context, feature: str) -> bool:
+    feature_bytes = feature.encode("utf-8")
+    while ctx is not None:
+        if hasattr(ctx, "features"):
+            return feature_bytes in ctx.get("features")
+        ctx = ctx.get("_") if hasattr(ctx, "get") else None
+    return False
+
+
 DvStr = PascalString(Int32ul, "utf-8")
 
 
@@ -82,13 +95,25 @@ class DvNote(DataclassMixin):
     )
     unknown: tuple[float, ...] = csfield(Prefixed(Int32ul, PrefixedArray(Int32ul, Float32l)))
     phonemes: bytes = csfield(DataclassStruct(DvPhoneme))
-    ben_depth: int = csfield(Int32ul)
-    ben_length: int = csfield(Int32ul)
-    por_tail: int = csfield(Int32ul)
-    por_head: int = csfield(Int32ul)
-    timbre: int = csfield(Int32sl)
-    cross_lyric: str = csfield(DvStr)
-    cross_timbre: int = csfield(Int32sl)
+    ben_depth: int | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext2"), Int32ul, Null)
+    )
+    ben_length: int | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext2"), Int32ul, Null)
+    )
+    por_tail: int | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext2"), Int32ul, Null)
+    )
+    por_head: int | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext2"), Int32ul, Null)
+    )
+    timbre: int | None = csfield(IfThenElse(lambda this: _has_feature(this, "ext4"), Int32sl, Null))
+    cross_lyric: str | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext7"), DvStr, Null)
+    )
+    cross_timbre: int | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext7"), Int32sl, Null)
+    )
 
 
 @dataclasses.dataclass
@@ -102,11 +127,19 @@ class DvSegment(DataclassMixin):
     )
     volume_data: list[DvPoint] = csfield(DvParam)
     pitch_data: list[DvPoint] = csfield(DvParam)
-    unknown_1: list[DvPoint] = csfield(DvParam)
     breath_data: list[DvPoint] = csfield(DvParam)
-    gender_data: list[DvPoint] = csfield(DvParam)
-    unknown_2: list[DvPoint] = csfield(DvParam)
-    unknown_3: list[DvPoint] = csfield(DvParam)
+    ext3_data: list[DvPoint] | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext3"), DvParam, Null)
+    )
+    ext5_data: list[DvPoint] | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext5"), DvParam, Null)
+    )
+    ext6_data: list[DvPoint] | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext6"), DvParam, Null)
+    )
+    ext7_data: list[DvPoint] | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext7"), DvParam, Null)
+    )
 
 
 @dataclasses.dataclass
@@ -160,7 +193,17 @@ class DvTrack(DataclassMixin):
 
 @dataclasses.dataclass
 class DvInnerProject(DataclassMixin):
-    ext_string: bytes = csfield(Const(b"ext1ext2ext3ext4ext5ext6ext7"))
+    features: list[bytes | None] = csfield(
+        Sequence(
+            Default(CSOptional(Const(b"ext1")), b"ext1"),
+            Default(CSOptional(Const(b"ext2")), b"ext2"),
+            Default(CSOptional(Const(b"ext3")), b"ext3"),
+            Default(CSOptional(Const(b"ext4")), b"ext4"),
+            Default(CSOptional(Const(b"ext5")), b"ext5"),
+            Default(CSOptional(Const(b"ext6")), b"ext6"),
+            Default(CSOptional(Const(b"ext7")), b"ext7"),
+        )
+    )
     tempos: list[DvTempo] = csfield(
         Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvTempo)))
     )
@@ -172,7 +215,8 @@ class DvInnerProject(DataclassMixin):
 
 @dataclasses.dataclass
 class DvProject(DataclassMixin):
-    header: bytes = csfield(Const(b"SHARPKEY\x05\x00\x00\x00"))
+    magic: bytes = csfield(Const(b"SHARPKEY"))
+    version: int = csfield(Int32ul)
     inner_project: DvInnerProject = csfield(Prefixed(Int32ul, DataclassStruct(DvInnerProject)))
 
 

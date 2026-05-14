@@ -63,11 +63,12 @@ class DeepVocalGenerator:
             [track for track in project.track_list if isinstance(track, InstrumentalTrack)]
         )
         return DvProject(
+            version=5,
             inner_project=DvInnerProject(
                 tracks=singing_tracks + audio_tracks,
                 tempos=self.generate_tempos(project.song_tempo_list),
                 time_signatures=self.generate_time_signatures(project.time_signature_list),
-            )
+            ),
         )
 
     def generate_time_signatures(
@@ -156,23 +157,23 @@ class DeepVocalGenerator:
                     DvPoint(x=-1, y=-1),
                     DvPoint(x=307201, y=-1),
                 ],
-                unknown_1=[
-                    DvPoint(x=-1, y=128),
-                    DvPoint(x=307201, y=128),
-                ],
                 breath_data=[
                     DvPoint(x=-1, y=128),
                     DvPoint(x=307201, y=128),
                 ],
-                gender_data=[
+                ext3_data=[
                     DvPoint(x=-1, y=128),
                     DvPoint(x=307201, y=128),
                 ],
-                unknown_2=[
+                ext5_data=[
                     DvPoint(x=-1, y=128),
                     DvPoint(x=307201, y=128),
                 ],
-                unknown_3=[
+                ext6_data=[
+                    DvPoint(x=-1, y=128),
+                    DvPoint(x=307201, y=128),
+                ],
+                ext7_data=[
                     DvPoint(x=-1, y=128),
                     DvPoint(x=307201, y=128),
                 ],

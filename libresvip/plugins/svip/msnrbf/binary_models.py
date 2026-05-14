@@ -44,7 +44,7 @@ from construct import Path as CSPath
 from construct_typed import Context
 from typing_extensions import Never
 
-from libresvip.utils.binary import singleton
+from libresvip.utils.binary import Null, singleton
 
 Int32ul = BytesInteger(4, swapped=True)
 Int32sl = BytesInteger(4, swapped=True, signed=True)
@@ -88,18 +88,6 @@ class DateTimeAdapter(Adapter):
 
 
 DateTime = DateTimeAdapter(DateTimeBitStruct)
-
-
-@singleton
-class Null(Construct):
-    def _sizeof(self, context: Context, path: CSPath) -> int:
-        return 0
-
-    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> None:
-        return None
-
-    def _build(self, obj: Container, stream: BinaryIO, context: Context, path: CSPath) -> None:
-        pass
 
 
 @singleton
