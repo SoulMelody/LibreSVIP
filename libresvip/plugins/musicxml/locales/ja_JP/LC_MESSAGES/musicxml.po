@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-03-23 01:30\n"
+"PO-Revision-Date: 2026-05-13 06:41\n"
 
 msgid "MusicXML"
 msgstr ""
@@ -22,5 +22,14 @@ msgid "Conversion plugin for MusicXML Score file"
 msgstr ""
 
 msgid "Sder Colin"
+msgstr ""
+
+msgid "Import tempo changes"
+msgstr ""
+
+msgid "Import dynamics as volume curve"
+msgstr ""
+
+msgid "Extend fermata-bearing notes (matches MuseScore playback)"
 msgstr ""
 
