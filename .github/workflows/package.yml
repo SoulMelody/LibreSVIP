@@ -28,7 +28,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          vcpkg install libuv:x86-windows
+          vcpkg install libuv:x86-windows pthreads:x86-windows
           export INCLUDE="C:/vcpkg/installed/x86-windows/include${INCLUDE:+;$INCLUDE}"
           export LIB="C:/vcpkg/installed/x86-windows/lib${LIB:+;$LIB}"
           uv build --wheel
