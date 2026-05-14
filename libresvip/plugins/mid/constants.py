@@ -2,7 +2,6 @@ from enum import Enum
 from typing import Final
 
 VELOCITY_CONSTANT: Final[float] = 1.75
-EXPRESSION_CONSTANT: Final[float] = 2.0
 
 
 class ControlChange(Enum):

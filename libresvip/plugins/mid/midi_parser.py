@@ -34,6 +34,7 @@ from libresvip.utils.binary.midi import (
     PITCH_MAX_VALUE,
     MIDIFile,
     MIDITrack,
+    cc11_to_db_change,
     tempo2bpm,
 )
 from libresvip.utils.music_math import ratio_to_db
@@ -41,16 +42,11 @@ from libresvip.utils.text import LATIN_ALPHABET
 from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
-    EXPRESSION_CONSTANT,
     VELOCITY_CONSTANT,
     ControlChange,
 )
 from .note_overlap import overlapped_pos
 from .options import InputOptions, MultiChannelOption
-
-
-def cc11_to_db_change(value: float) -> float:
-    return ratio_to_db((value / 127) ** EXPRESSION_CONSTANT + 1e-6)
 
 
 def velocity_to_db_change(value: float) -> float:

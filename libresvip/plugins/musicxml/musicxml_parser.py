@@ -15,6 +15,7 @@ from libresvip.model.base import (
     TimeSignature,
 )
 from libresvip.model.point import Point
+from libresvip.utils.binary.midi import cc11_to_db_change
 from libresvip.utils.music_math import note2midi
 
 from .dynamics import dyn_label_to_volume, dynamics_label
@@ -443,6 +444,4 @@ class MusicXMLParser:
 
 
 def dyn_label_to_volume_from_velocity(velocity: int) -> int:
-    from libresvip.plugins.mid.midi_parser import cc11_to_db_change
-
     return round(cc11_to_db_change(velocity))

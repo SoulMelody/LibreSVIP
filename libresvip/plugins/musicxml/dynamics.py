@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from libresvip.plugins.mid.midi_parser import cc11_to_db_change
+from libresvip.utils.binary.midi import cc11_to_db_change
 
 # MusicXML dynamic markings to MIDI velocity (matches MuseScore 4 defaults).
 # Routed through cc11_to_db_change so values use the same scale as

@@ -33,6 +33,8 @@ from construct import Enum as CSEnum
 from construct import Path as CSPath
 from construct.lib import byte2int, integertypes
 
+from libresvip.utils.music_math import ratio_to_db
+
 from . import singleton
 
 if TYPE_CHECKING:
@@ -42,6 +44,11 @@ PITCH_MIN_VALUE: Final[int] = -8192
 PITCH_MAX_VALUE: Final[int] = 8191
 DEFAULT_PITCH_BEND_SENSITIVITY: Final[int] = 2
 MAX_PITCH_BEND_SENSITIVITY: Final[int] = 24
+EXPRESSION_CONSTANT: Final[float] = 2.0
+
+
+def cc11_to_db_change(value: float) -> float:
+    return ratio_to_db((value / 127) ** EXPRESSION_CONSTANT + 1e-6)
 
 
 @singleton
