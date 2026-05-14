@@ -50,7 +50,7 @@ class AcepAnchorPoints(PointList[AcepAnchorPoint], RootModel[list[AcepAnchorPoin
 class AcepParamCurve(BaseModel):
     curve_type: str = Field("data", alias="type")
     offset: int = 0
-    values: list[float] = Field(default_factory=list)
+    values: list[float | None] = Field(default_factory=list)
     points: AcepAnchorPoints | None = None
     points_vuv: list[float] | None = Field(None, alias="pointsVUV")
 

@@ -388,7 +388,7 @@ class AceParser:
                 for value in ace_curve.values:
                     if ace_curve.curve_type == "anchor":
                         curve.points.append(Point(pos + self.first_bar_ticks, round(value * 100)))
-                    elif not math.isnan(value):
+                    elif not (math.isnan(value) or value is None):
                         abs_semitone = (
                             base_pitch.semitone_value_at(
                                 self.synchronizer.get_actual_secs_from_ticks(pos)
@@ -419,7 +419,8 @@ class AceParser:
             pos = ace_curve.offset
             curve.points.append(Point(x=pos + self.first_bar_ticks, y=0))
             for value in ace_curve.values:
-                curve.points.append(Point(x=pos + self.first_bar_ticks, y=mapping_func(value)))
+                if value is not None:
+                    curve.points.append(Point(x=pos + self.first_bar_ticks, y=mapping_func(value)))
                 pos += 1
             curve.points.append(Point(x=pos - 1 + self.first_bar_ticks, y=0))
         curve.points.append(Point.end_point(0))
