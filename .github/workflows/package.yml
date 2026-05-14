@@ -38,6 +38,7 @@ jobs:
           cmake --install . --config Release
           export INCLUDE=C:/libuv/include:$INCLUDE
           export LIBRARY=C:/libuv/lib:$LIBRARY
+          cd ../..
           uv build --wheel
           uv venv --python cpython-3.14.5-windows-x86-none
           cd packaging
