@@ -28,6 +28,9 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
+          vcpkg install libuv:x86-windows
+          export INCLUDE=${VCPKG_ROOT}/installed/x86-windows/include:$INCLUDE
+          export LIBRARY=${VCPKG_ROOT}/installed/x86-windows/lib:$LIBRARY
           uv build --wheel
           uv venv --python cpython-3.14.5-windows-x86-none
           cd packaging

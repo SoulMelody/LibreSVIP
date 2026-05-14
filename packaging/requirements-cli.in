@@ -1,3 +1,0 @@
-
-winloop==0.6.3 ; sys_platform == 'win32' and platform_machine != 'WIN32'
-git+https://ghfast.top/github.com/Vizonex/Winloop ; sys_platform == 'win32' and platform_machine == 'WIN32'
