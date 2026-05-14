@@ -28,10 +28,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          vcpkg install libuv:x86-windows pthreads:x86-windows
-          cp C:/vcpkg/installed/x86-windows/lib/pthreadVC3.lib C:/vcpkg/installed/x86-windows/lib/pthread.lib
-          export INCLUDE="C:/vcpkg/installed/x86-windows/include${INCLUDE:+;$INCLUDE}"
-          export LIB="C:/vcpkg/installed/x86-windows/lib${LIB:+;$LIB}"
+          unset MINGW_PREFIX
           uv build --wheel
           uv venv --python cpython-3.14.5-windows-x86-none
           cd packaging
