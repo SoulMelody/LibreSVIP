@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-04-21 01:24\n"
+"PO-Revision-Date: 2026-05-14 01:32\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 #, python-brace-format
@@ -166,7 +166,7 @@ msgstr "转换中 ..."
 
 #: ../libresvip/cli/rpc/server.py:45
 msgid "title"
-msgstr ""
+msgstr "标题"
 
 #: ../libresvip/cli/rpc/server.py:47 ../libresvip/web/pages.py:347
 msgid "description"

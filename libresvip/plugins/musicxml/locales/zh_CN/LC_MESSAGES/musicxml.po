@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-04-21 01:24\n"
+"PO-Revision-Date: 2026-05-14 01:32\n"
 
 msgid "MusicXML"
 msgstr ""
@@ -23,4 +23,13 @@ msgstr "MusicXML 乐谱文件转换插件"
 
 msgid "Sder Colin"
 msgstr "科林"
+
+msgid "Import tempo changes"
+msgstr "导入节拍变化"
+
+msgid "Import dynamics as volume curve"
+msgstr "将动态导入为音量曲线"
+
+msgid "Extend fermata-bearing notes (matches MuseScore playback)"
+msgstr "应用延音记号 (匹配MuseScore的播放行为)"
 
