@@ -36,8 +36,8 @@ jobs:
           cmake .. -DCMAKE_INSTALL_PREFIX=C:/libuv
           cmake --build . --config Release
           cmake --install . --config Release
-          export INCLUDE=C:/libuv/include:$INCLUDE
-          export LIBRARY=C:/libuv/lib:$LIBRARY
+          export INCLUDE="C:\libuv\include:$INCLUDE"
+          export LIBRARY="C:\libuv\lib:$LIBRARY"
           cd ../..
           uv build --wheel
           uv venv --python cpython-3.14.5-windows-x86-none
