@@ -25,20 +25,12 @@ jobs:
         uses: astral-sh/setup-uv@v8.1.0
         with:
           version: "latest"
-      - uses: lukka/get-cmake@latest
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          git clone https://github.com/libuv/libuv.git
-          cd libuv
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX=C:/libuv
-          cmake --build . --config Release
-          cmake --install . --config Release
-          export INCLUDE="C:\libuv\include:$INCLUDE"
-          export LIBRARY="C:\libuv\lib:$LIBRARY"
-          cd ../..
+          vcpkg install libuv:x86-windows
+          export INCLUDE="C:/vcpkg/installed/x86-windows/include${INCLUDE:+;$INCLUDE}"
+          export LIB="C:/vcpkg/installed/x86-windows/lib${LIB:+;$LIB}"
           uv build --wheel
           uv venv --python cpython-3.14.5-windows-x86-none
           cd packaging
