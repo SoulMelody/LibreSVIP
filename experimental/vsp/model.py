@@ -1,7 +1,6 @@
 from construct import (
     Array,
     Byte,
-    Bytes,
     BytesInteger,
     Const,
     ExprAdapter,
@@ -34,11 +33,11 @@ Utf16LeString = PascalString(Int16ul, "utf-16-le")
 
 PackedValue = ExprAdapter(
     Int32ul,
-    encoder=lambda obj, ctx: obj["value"] | (obj["note_index"] << 12) | (obj["track_index"] << 16),
+    encoder=lambda obj, ctx: obj["low"] | (obj["mid"] << 12) | (obj["high"] << 16),
     decoder=lambda obj, ctx: {
-        "value": obj & 0xFFF,
-        "note_index": (obj >> 12) & 0xF,
-        "track_index": (obj >> 16) & 0xF,
+        "low": obj & 0xFFF,
+        "mid": (obj >> 12) & 0xF,
+        "high": (obj >> 16) & 0xFFFF,
     },
 )
 
@@ -154,47 +153,29 @@ VocalinaStudioTracks = Struct(
     ),
 )
 
-Sub46E4D0Block = Prefixed(
+NoteControlPoint = Struct(
+    "position" / Byte,
+    "value" / Byte,
+    "shape" / Byte,
+)
+
+NoteParameters = Prefixed(
     SubSize,
     Struct(
-        "word_50" / Int16ul,
+        "param_0" / Int16ul,
         "zero" / Int16ul,
-        "byte_82" / Byte,
-        "array_1"
-        / PrefixedArray(
-            Int16ul,
-            Struct(
-                "byte_0" / Byte,
-                "byte_4" / Byte,
-                "byte_6" / Byte,
-            ),
-        ),
-        "array_2"
-        / PrefixedArray(
-            Int16ul,
-            Struct(
-                "byte_0" / Byte,
-                "byte_4" / Byte,
-                "byte_6" / Byte,
-            ),
-        ),
-        "array_3"
-        / PrefixedArray(
-            Int16ul,
-            Struct(
-                "byte_0" / Byte,
-                "byte_4" / Byte,
-                "byte_6" / Byte,
-            ),
-        ),
-        "word_132" / Int16ul,
-        "byte_134" / Byte,
-        "byte_136" / Byte,
-        "byte_138" / Byte,
-        "byte_80" / Byte,
-        "word_52" / Int16ul,
-        "word_54" / Int16ul,
-        "word_138" / Int16ul,
+        "vibrato" / Byte,
+        "intensity_envelope" / PrefixedArray(Int16ul, NoteControlPoint),
+        "vibrato_envelope_1" / PrefixedArray(Int16ul, NoteControlPoint),
+        "vibrato_envelope_0" / PrefixedArray(Int16ul, NoteControlPoint),
+        "tail_word_0" / Int16ul,
+        "tail_byte_0" / Byte,
+        "tail_byte_1" / Byte,
+        "tail_byte_2" / Byte,
+        "intensity" / Byte,
+        "param_6" / Int16ul,
+        "param_17" / Int16ul,
+        "tail_word_1" / Int16ul,
     ),
 )
 
@@ -202,14 +183,14 @@ NoteEntry = Prefixed(
     SubSize,
     Struct(
         "track_index" / Int16ul,
-        "packed_1" / Int32ul,
-        "packed_2" / Int32ul,
-        "note_on_type" / Byte,
-        "raw_data" / Bytes(2),
-        "sub_46E4D0" / Sub46E4D0Block,
+        "packed_start" / PackedValue,
+        "packed_end" / PackedValue,
+        "note_number" / Byte,
+        "velocity" / Int16ul,
+        "params" / NoteParameters,
         "lyrics" / Utf16LeString,
-        "vibrato_depth" / Byte,
-        "vibrato_length" / Byte,
+        "flags" / Byte,
+        "flags2" / Byte,
     ),
 )
 
