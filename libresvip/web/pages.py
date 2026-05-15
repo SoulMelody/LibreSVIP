@@ -64,6 +64,7 @@ from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.base import ReadOnlyConverterMixin, SVSConverter, WriteOnlyConverterMixin
 from libresvip.extension.manager import (
     get_svs_plugin_by_suffix,
+    get_svs_plugin_by_value,
     get_translation,
     middleware_manager,
     plugin_manager,
@@ -167,6 +168,11 @@ def _format_suffixes(plugin: SVSConverter) -> str:
     return f"({suffixes_str})"
 
 
+def _format_suffix_filter(plugin: SVSConverter) -> str:
+    suffixes_str = " ".join(f"*.{s}" for s in plugin.info.suffixes)
+    return f"({suffixes_str})"
+
+
 plugin_details = {
     identifier: {
         "name": plugin.info.name,
@@ -175,7 +181,7 @@ plugin_details = {
         "description": plugin.info.description,
         "version": plugin.version,
         "suffix": _format_suffixes(plugin),
-        "suffix_filter": f"(*.{plugin.info.suffix})",
+        "suffix_filter": _format_suffix_filter(plugin),
         "file_format": plugin.info.file_format,
         "icon_base64": plugin.info.icon_base64,
     }
@@ -389,7 +395,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
         @context_vars_wrapper
         def options_form(attr_prefix: str, method: str) -> None:
             attr = getattr(selected_formats, attr_prefix + "_format")
-            conversion_plugin = get_svs_plugin_by_suffix(attr)
+            conversion_plugin = get_svs_plugin_by_value(attr)
             if method == "load":
                 option_class = conversion_plugin.input_option_cls
             elif method == "dump":
@@ -661,10 +667,14 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 self.tasks_container.refresh()
 
             def filter_input_ext(self) -> None:
+                input_plugin = get_svs_plugin_by_value(self.input_format)
+                suffixes = (
+                    input_plugin.info.suffixes if input_plugin is not None else (self.input_format,)
+                )
                 self.files_to_convert = {
                     name: info
                     for name, info in self.files_to_convert.items()
-                    if info.upload_path.suffix == f".{self.input_format}"
+                    if info.upload_path.suffix.removeprefix(".").lower() in suffixes
                 }
                 self.tasks_container.refresh()
 
@@ -809,11 +819,10 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
             ) -> None:
                 if settings.auto_detect_input_format:
                     cur_suffix = name.rpartition(".")[-1].lower()
-                    if (
-                        get_svs_plugin_by_suffix(cur_suffix) is not None
-                        and cur_suffix != self.input_format
-                    ):
-                        self.input_format = cur_suffix
+                    detected_plugin = get_svs_plugin_by_suffix(cur_suffix)
+                    current_plugin = get_svs_plugin_by_value(self.input_format)
+                    if detected_plugin is not None and detected_plugin is not current_plugin:
+                        self.input_format = detected_plugin.info.suffix
                 if isinstance(content, pathlib.Path):
                     upload_path = content
                 else:
@@ -857,8 +866,8 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 task.running = True
                 try:
                     with CatchWarnings() as w:
-                        input_plugin = get_svs_plugin_by_suffix(self.input_format)
-                        output_plugin = get_svs_plugin_by_suffix(self.output_format)
+                        input_plugin = get_svs_plugin_by_value(self.input_format)
+                        output_plugin = get_svs_plugin_by_value(self.output_format)
                         if self._conversion_mode == ConversionMode.MERGE:
                             child_projects = [
                                 input_plugin.load(
@@ -1041,8 +1050,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                         (function() {{
                         if (window.showOpenFilePicker) {{
                             let format_desc = get_element({select_input.id}).modelValue.label
-                            let suffix_match = format_desc.match(/\(\*(\.\w+)/)
-                            let suffix = suffix_match ? suffix_match[1] : ''
+                            let suffixes = Array.from(format_desc.matchAll(/\*(\.\w+)/g), match => match[1])
                             let bracket_index = format_desc.lastIndexOf('(')
                             let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
                             window.showOpenFilePicker(
@@ -1051,7 +1059,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         {{
                                             description: file_format,
                                             accept: {{
-                                                '*/*': [suffix],
+                                                '*/*': suffixes,
                                             }}
                                         }}
                                     ],

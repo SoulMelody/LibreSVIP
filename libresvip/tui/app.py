@@ -69,6 +69,7 @@ from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.base import ReadOnlyConverterMixin, SVSConverter, WriteOnlyConverterMixin
 from libresvip.extension.manager import (
     get_svs_plugin_by_suffix,
+    get_svs_plugin_by_value,
     get_translation,
     middleware_manager,
     plugin_manager,
@@ -124,7 +125,7 @@ class PluginInfoScreen(Screen[None]):
     def compose(self) -> ComposeResult:
         yield Header(icon="☰")
         yield Footer()
-        plugin = get_svs_plugin_by_suffix(self.plugin_id)
+        plugin = get_svs_plugin_by_value(self.plugin_id)
         if plugin is None:
             return
         with Vertical():
@@ -739,7 +740,7 @@ class TUIApp(App[None]):
             tab_id = self.query_one("#task_list").current
             self.query_one(f"ListView#{tab_id}").clear()
         if event.value:
-            plugin_object = get_svs_plugin_by_suffix(event.value)
+            plugin_object = get_svs_plugin_by_value(event.value)
             if plugin_object is not None:
                 input_options = self.query_one("#input_options")
                 input_options.option_class = plugin_object.input_option_cls
@@ -755,7 +756,7 @@ class TUIApp(App[None]):
                 for node in task_list_view._nodes:
                     node.ext = event.value
                     node.query_one("#ext").update(f".{event.value}")
-            plugin_object = get_svs_plugin_by_suffix(event.value)
+            plugin_object = get_svs_plugin_by_value(event.value)
             if plugin_object is not None:
                 output_options = self.query_one("#output_options")
                 output_options.option_class = plugin_object.output_option_cls
@@ -772,9 +773,19 @@ class TUIApp(App[None]):
         else:
             return
         ext = selected_path.suffix.removeprefix(".").lower()
-        if get_svs_plugin_by_suffix(ext) is not None and settings.auto_detect_input_format:
-            settings.last_input_format = ext
-            self.query_one("#input_format")._watch_value(ext)
+        detected_plugin = get_svs_plugin_by_suffix(ext)
+        current_plugin = (
+            get_svs_plugin_by_value(settings.last_input_format)
+            if settings.last_input_format is not None
+            else None
+        )
+        if (
+            detected_plugin is not None
+            and settings.auto_detect_input_format
+            and detected_plugin is not current_plugin
+        ):
+            settings.last_input_format = detected_plugin.info.suffix
+            self.query_one("#input_format")._watch_value(detected_plugin.info.suffix)
         tab_id = self.query_one("#task_list").current
         task_list_view = self.query_one(f"ListView#{tab_id}")
         task_count = len(task_list_view)
@@ -837,8 +848,8 @@ class TUIApp(App[None]):
                     output_path = output_path.with_suffix(
                         f".{settings.last_output_format}",
                     )
-                input_plugin = get_svs_plugin_by_suffix(settings.last_input_format)
-                output_plugin = get_svs_plugin_by_suffix(settings.last_output_format)
+                input_plugin = get_svs_plugin_by_value(settings.last_input_format)
+                output_plugin = get_svs_plugin_by_value(settings.last_output_format)
                 input_options = self.query_one("#input_options")
                 input_option = input_options.option_dict
                 if tab_id == "merge":

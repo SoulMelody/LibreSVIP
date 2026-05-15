@@ -32,7 +32,13 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 from libresvip.core.config import ConversionMode, settings
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.base import ReadOnlyConverterMixin, SVSConverter, WriteOnlyConverterMixin
-from libresvip.extension.manager import get_svs_plugin_by_suffix, middleware_manager, plugin_manager
+from libresvip.extension.manager import (
+    get_svs_plugin_by_suffix,
+    get_svs_plugin_by_value,
+    get_svs_plugin_suffixes,
+    middleware_manager,
+    plugin_manager,
+)
 from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
 from libresvip.gui.models.table_models import PluginCadidatesTableModel
@@ -85,8 +91,8 @@ class ConversionWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = get_svs_plugin_by_suffix(self.input_format)
-                output_plugin = get_svs_plugin_by_suffix(self.output_format)
+                input_plugin = get_svs_plugin_by_value(self.input_format)
+                output_plugin = get_svs_plugin_by_value(self.output_format)
                 project = input_plugin.load(
                     pathlib.Path(self.input_path),
                     self.input_options,
@@ -150,8 +156,8 @@ class SplitWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = get_svs_plugin_by_suffix(self.input_format)
-                output_plugin = get_svs_plugin_by_suffix(self.output_format)
+                input_plugin = get_svs_plugin_by_value(self.input_format)
+                output_plugin = get_svs_plugin_by_value(self.output_format)
                 project = input_plugin.load(
                     pathlib.Path(self.input_path),
                     self.input_options,
@@ -215,8 +221,8 @@ class MergeWorker(QRunnable):
         result_kwargs: dict[str, Any] = {"running": False}
         try:
             with CatchWarnings() as w:
-                input_plugin = plugin_manager.plugins.get("svs", {})[self.input_format]
-                output_plugin = plugin_manager.plugins.get("svs", {})[self.output_format]
+                input_plugin = get_svs_plugin_by_value(self.input_format)
+                output_plugin = get_svs_plugin_by_value(self.output_format)
                 child_projects = [
                     input_plugin.load(
                         pathlib.Path(input_path),
@@ -278,8 +284,12 @@ class TaskManager(QObject):
         self.tasks = ModelProxy(dataclasses.asdict(BaseTask()))
         self.tasks.rowsInserted.connect(self._on_tasks_changed)
         self.tasks.rowsRemoved.connect(self._on_tasks_changed)
-        self.input_formats = ModelProxy({"value": "", "text": "", "suffixes": ""})
-        self.output_formats = ModelProxy({"value": "", "text": "", "suffixes": ""})
+        self.input_formats = ModelProxy(
+            {"value": "", "text": "", "suffixes": "", "suffix_values": []}
+        )
+        self.output_formats = ModelProxy(
+            {"value": "", "text": "", "suffixes": "", "suffix_values": []}
+        )
         self._input_fields = ModelProxy(
             {
                 "index": 0,
@@ -427,6 +437,7 @@ class TaskManager(QObject):
                     "text": plugin.info.file_format,
                     "value": plugin.info.suffix,
                     "suffixes": _format_suffixes_display(plugin),
+                    "suffix_values": list(plugin.info.suffixes),
                 }
                 for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                 if plugin_id not in writeonly_plugin_ids
@@ -440,6 +451,7 @@ class TaskManager(QObject):
                     "text": plugin.info.file_format,
                     "value": plugin.info.suffix,
                     "suffixes": _format_suffixes_display(plugin),
+                    "suffix_values": list(plugin.info.suffixes),
                 }
                 for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                 if plugin_id not in readonly_plugin_ids
@@ -692,7 +704,9 @@ class TaskManager(QObject):
         if input_format:
             self.input_format = input_format
             self._input_fields.clear()
-            plugin_input = plugin_manager.plugins.get("svs", {})[self.input_format]
+            plugin_input = get_svs_plugin_by_value(self.input_format)
+            if plugin_input is None:
+                return
             input_fields = self.inspect_fields(plugin_input.input_option_cls)
             if input_fields:
                 self._input_fields.append_many(input_fields)
@@ -707,7 +721,9 @@ class TaskManager(QObject):
         if output_format:
             self.output_format = output_format
             self._output_fields.clear()
-            plugin_output = plugin_manager.plugins.get("svs", {})[self.output_format]
+            plugin_output = get_svs_plugin_by_value(self.output_format)
+            if plugin_output is None:
+                return
             output_fields = self.inspect_fields(plugin_output.output_option_cls)
             if output_fields:
                 self._output_fields.append_many(output_fields)
@@ -719,7 +735,7 @@ class TaskManager(QObject):
     def plugin_info(self, name: str) -> dict[str, str]:
         assert name in {"input_format", "output_format"}
         if suffix := getattr(self, name):
-            plugin = get_svs_plugin_by_suffix(suffix)
+            plugin = get_svs_plugin_by_value(suffix)
             if plugin is not None:
                 suffixes_str = "; ".join(f"*.{s}" for s in plugin.info.suffixes)
                 return {
@@ -767,10 +783,16 @@ class TaskManager(QObject):
         if (
             settings.auto_detect_input_format
             and path_obj is not None
-            and (suffix := path_obj.suffix[1:])
-            and get_svs_plugin_by_suffix(suffix) is not None
+            and (suffix := path_obj.suffix[1:].lower())
         ):
-            self.set_str("input_format", suffix)
+            detected_plugin = get_svs_plugin_by_suffix(suffix)
+            current_plugin = (
+                get_svs_plugin_by_value(self.input_format)
+                if self.input_format is not None
+                else None
+            )
+            if detected_plugin is not None and detected_plugin is not current_plugin:
+                self.set_str("input_format", detected_plugin.info.suffix)
 
     @Property("QVariant", notify=input_fields_changed)
     def input_fields(self) -> ModelProxy:
@@ -796,6 +818,7 @@ class TaskManager(QObject):
     @Slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
+        suffixes = get_svs_plugin_suffixes(value) or (value,)
         if (
             name == "input_format"
             and settings.reset_tasks_on_input_change
@@ -804,7 +827,9 @@ class TaskManager(QObject):
                 delete_len := more_itertools.ilen(
                     more_itertools.rstrip(
                         self.tasks,
-                        lambda task: task["path"].lower().endswith(f".{value}"),
+                        lambda task: any(
+                            task["path"].lower().endswith(f".{suffix}") for suffix in suffixes
+                        ),
                     )
                 )
             )

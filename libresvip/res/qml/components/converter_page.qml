@@ -913,11 +913,18 @@ Page {
                                 }
                                 onClicked: {
                                     if (startConversionBtn.enabled) {
-                                        // TODO
                                         for (var i = 0; i < taskListView.count; i++) {
                                             var task = taskListView.model.get(i);
-                                            let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : "";
-                                            if (extension != inputFormat.currentValue) {
+                                            let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1).toLowerCase() : "";
+                                            let suffixes = inputFormat.currentSuffixValues.length > 0 ? inputFormat.currentSuffixValues : [inputFormat.currentValue];
+                                            let matched = false;
+                                            for (var suffixIndex = 0; suffixIndex < suffixes.length; suffixIndex++) {
+                                                if (extension === String(suffixes[suffixIndex]).toLowerCase()) {
+                                                    matched = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!matched) {
                                                 taskListView.model.delete(i);
                                                 i--;
                                             }

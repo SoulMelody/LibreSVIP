@@ -58,6 +58,17 @@ def get_svs_plugin_by_suffix(suffix: str) -> type[SVSConverter] | None:
     return _build_svs_suffix_map().get(suffix)
 
 
+def get_svs_plugin_by_value(value: str) -> type[SVSConverter] | None:
+    return plugin_manager.plugins.get("svs", {}).get(value) or get_svs_plugin_by_suffix(value)
+
+
+def get_svs_plugin_suffixes(value: str) -> tuple[str, ...]:
+    plugin = get_svs_plugin_by_value(value)
+    if plugin is None:
+        return ()
+    return plugin.info.suffixes
+
+
 def get_duplicate_suffixes() -> dict[str, list[str]]:
     suffix_to_plugins: dict[str, list[str]] = {}
     for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items():

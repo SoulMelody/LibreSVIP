@@ -9,6 +9,7 @@ ComboBox {
     property var choices
     property string suffixesRole: "suffixes"
     property string currentSuffixes: ""
+    property var currentSuffixValues: []
 
     height: 40
     model: choices
@@ -24,8 +25,10 @@ ComboBox {
         if (model && currentIndex >= 0) {
             var item = typeof model.get === "function" ? model.get(currentIndex) : model[currentIndex];
             currentSuffixes = item && item[suffixesRole] ? item[suffixesRole] : "";
+            currentSuffixValues = item && item["suffix_values"] ? item["suffix_values"] : [];
         } else {
             currentSuffixes = "";
+            currentSuffixValues = [];
         }
     }
 

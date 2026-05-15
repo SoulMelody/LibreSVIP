@@ -31,6 +31,7 @@ from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.base import ReadOnlyConverterMixin, SVSConverter, WriteOnlyConverterMixin
 from libresvip.extension.manager import (
     get_svs_plugin_by_suffix,
+    get_svs_plugin_by_value,
     get_translation,
     middleware_manager,
     plugin_manager,
@@ -281,7 +282,7 @@ async def main(page: ft.Page) -> None:
         return fields
 
     def build_input_options(value: str | None) -> list[ft.Control]:
-        if value is not None and (input_plugin := get_svs_plugin_by_suffix(value)) is not None:
+        if value is not None and (input_plugin := get_svs_plugin_by_value(value)) is not None:
             return build_options(input_plugin.input_option_cls)
         return []
 
@@ -292,7 +293,7 @@ async def main(page: ft.Page) -> None:
         return []
 
     def build_output_options(value: str | None) -> list[ft.Control]:
-        if value is not None and (output_plugin := get_svs_plugin_by_suffix(value)) is not None:
+        if value is not None and (output_plugin := get_svs_plugin_by_value(value)) is not None:
             return build_options(output_plugin.output_option_cls)
         return []
 
@@ -376,7 +377,9 @@ async def main(page: ft.Page) -> None:
         if files := await file_picker.pick_files(
             _("Select files to convert"), allow_multiple=True, with_data=True
         ):
-            auto_detect_input_format = await shared_preferences.get("auto_detect_input_format")
+            auto_detect_input_format = ensure_bool(
+                await shared_preferences.get("auto_detect_input_format")
+            )
             if page.web:
                 for file in files:
                     await on_upload_progress(file)
@@ -385,12 +388,18 @@ async def main(page: ft.Page) -> None:
                 last_input_format = await shared_preferences.get("last_input_format")
                 file_path = pathlib.Path(file.path)
                 suffix = file_path.suffix.lower().removeprefix(".")
+                detected_plugin = get_svs_plugin_by_suffix(suffix)
+                current_plugin = (
+                    get_svs_plugin_by_value(last_input_format)
+                    if last_input_format is not None
+                    else None
+                )
                 if (
-                    suffix != last_input_format
-                    and auto_detect_input_format
-                    and get_svs_plugin_by_suffix(suffix) is not None
+                    auto_detect_input_format
+                    and detected_plugin is not None
+                    and detected_plugin is not current_plugin
                 ):
-                    await set_last_input_format(suffix)
+                    await set_last_input_format(detected_plugin.info.suffix)
                 task_list_view.current.controls.append(
                     ft.ListTile(
                         leading=ft.Stack(
@@ -687,12 +696,16 @@ async def main(page: ft.Page) -> None:
         file_path = temp_path / f.name
         file_path.write_bytes(f.bytes)
         suffix = file_path.suffix.lower().removeprefix(".")
+        detected_plugin = get_svs_plugin_by_suffix(suffix)
+        current_plugin = (
+            get_svs_plugin_by_value(last_input_format) if last_input_format is not None else None
+        )
         if (
-            suffix != last_input_format
-            and auto_detect_input_format
-            and get_svs_plugin_by_suffix(suffix) is not None
+            auto_detect_input_format
+            and detected_plugin is not None
+            and detected_plugin is not current_plugin
         ):
-            await set_last_input_format(suffix)
+            await set_last_input_format(detected_plugin.info.suffix)
         task_list_view.current.controls.append(
             ft.ListTile(
                 leading=ft.Stack(
@@ -843,8 +856,8 @@ async def main(page: ft.Page) -> None:
                     output_path = output_path.with_suffix(
                         f".{output_format}",
                     )
-                input_plugin = get_svs_plugin_by_suffix(input_format)
-                output_plugin = get_svs_plugin_by_suffix(output_format)
+                input_plugin = get_svs_plugin_by_value(input_format)
+                output_plugin = get_svs_plugin_by_value(output_format)
                 input_option = {
                     control.data: control.value
                     for control in input_options.current.controls
@@ -1115,7 +1128,7 @@ async def main(page: ft.Page) -> None:
 
         def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
             if control.current.value:
-                plugin_obj = get_svs_plugin_by_suffix(control.current.value)
+                plugin_obj = get_svs_plugin_by_value(control.current.value)
                 page.views.append(
                     ft.View(
                         route="/plugin_info",
