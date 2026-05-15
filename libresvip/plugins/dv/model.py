@@ -94,7 +94,9 @@ class DvNote(DataclassMixin):
         Prefixed(Int32ul, DataclassStruct(DvNoteParameter))
     )
     unknown: tuple[float, ...] = csfield(Prefixed(Int32ul, PrefixedArray(Int32ul, Float32l)))
-    phonemes: bytes = csfield(DataclassStruct(DvPhoneme))
+    phonemes: DvPhoneme | None = csfield(
+        IfThenElse(lambda this: _has_feature(this, "ext1"), DataclassStruct(DvPhoneme), Null)
+    )
     ben_depth: int | None = csfield(
         IfThenElse(lambda this: _has_feature(this, "ext2"), Int32ul, Null)
     )
