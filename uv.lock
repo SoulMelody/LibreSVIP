@@ -1589,7 +1589,7 @@ all = [
     { name = "datamodel-code-generator", specifier = ">=0.57.0" },
     { name = "flet-cli", specifier = ">=0.85.1,<0.90.0" },
     { name = "mypy", specifier = ">=2.1.0" },
-    { name = "pbtk", specifier = ">=1.1.1.post1" },
+    { name = "pbtk", specifier = ">=1.1.2" },
     { name = "prek", specifier = ">=0.4.0" },
     { name = "protobuf-protoc-bin", specifier = ">=34.1" },
     { name = "pyinstaller", specifier = ">=6.20.0" },
@@ -1612,7 +1612,7 @@ all = [
 code-gen = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
     { name = "datamodel-code-generator", specifier = ">=0.57.0" },
-    { name = "pbtk", specifier = ">=1.1.1.post1" },
+    { name = "pbtk", specifier = ">=1.1.2" },
     { name = "protobuf-protoc-bin", specifier = ">=34.1" },
     { name = "pyside6-addons", specifier = ">=6.11.1,<6.12.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=26.2" },
@@ -2504,7 +2504,7 @@ wheels = [
 
 [[package]]
 name = "pbtk"
-version = "1.1.1.post1"
+version = "1.1.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "protobuf" },
@@ -2513,9 +2513,9 @@ dependencies = [
     { name = "system-pyside6", marker = "sys_platform == 'linux'" },
     { name = "websocket-client" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d0/b5/f8032da807e0242b6df7c19c3a95752d438f75df2a20c9b887880b52dcf9/pbtk-1.1.1.post1.tar.gz", hash = "sha256:6d561dd447fc721be68e313aea331c9b97535b2441b96913cc6ddc834a70dff5", size = 8297459, upload-time = "2026-03-27T01:53:15.795Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/11/69/8be52068f160fdaa4f0c92564fc40ca8a84d9bce58822fba25d2eefda4da/pbtk-1.1.2.tar.gz", hash = "sha256:3c10e4082ba53df03c1016b7b3f5c7c7f14679f5ef909c1a902655cf5bf9150f", size = 25025709, upload-time = "2026-05-16T04:33:03.381Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/34/3c/2c301441f85c04f789c0fc5ee494147d45ff5e7e297609e344c2c395c9ad/pbtk-1.1.1.post1-py3-none-any.whl", hash = "sha256:7fc0695bb6fae41c19a69d3f62cbdc61d615695b61f3d3b98a564fe79c57ebf1", size = 8348275, upload-time = "2026-03-27T01:53:13.631Z" },
+    { url = "https://files.pythonhosted.org/packages/ec/f8/211e6aa923bc1e122c541afbb389c03948001c3411939ae1c536c91d14cc/pbtk-1.1.2-py3-none-any.whl", hash = "sha256:8f897b99e7e6f8d28f380ad8a3f71c4160553cd0cf8b3f630abaafd350945c43", size = 25076631, upload-time = "2026-05-16T04:33:00.091Z" },
 ]
 
 [[package]]
