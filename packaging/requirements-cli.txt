@@ -30,7 +30,7 @@ minijinja==2.19.0
 more-itertools==11.0.2
 multidict==6.7.1
 numpy==2.2.6 ; python_full_version < '3.11' and sys_platform == 'emscripten'
-numpy==2.4.4 ; python_full_version >= '3.11' and sys_platform == 'emscripten'
+numpy==2.4.5 ; python_full_version >= '3.11' and sys_platform == 'emscripten'
 packaging==26.2
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
