@@ -9,11 +9,11 @@ from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.extension.manager import get_svs_plugin_by_suffix, plugin_manager
 from libresvip.model.base import SingingTrack
 from libresvip.plugins.musicxml.dynamics import DYNAMIC_TO_VELOCITY
-from libresvip.plugins.musicxml.musicxml_converter import MusicXMLConverter
 from libresvip.utils.binary.midi import cc11_to_db_change
 
 musicxml_test_base_path = pathlib.Path(__file__).parent / "files" / "musicxml"
 musicxml_v4_path = musicxml_test_base_path / "v4"
+MusicXMLConverter = plugin_manager.plugins["svs"]["musicxml"]
 
 
 def assert_legato(track: SingingTrack) -> None:
