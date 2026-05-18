@@ -129,7 +129,7 @@ class PluginInfoScreen(Screen[None]):
         if plugin is None:
             return
         with Vertical():
-            yield Label(plugin.info.name, classes="title")
+            yield Label(_(plugin.info.name), classes="title")
             yield Label(f"{_('Version: ')}{plugin.version}")
             yield Link(f"{_('Author: ')}{_(plugin.info.author)}", url=plugin.info.website)
             yield Label(_("Introduction"))

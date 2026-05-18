@@ -4,7 +4,7 @@ import copy
 import gettext
 import itertools
 from importlib.resources import files
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from loguru import logger
 
@@ -13,28 +13,80 @@ from libresvip.core.constants import app_dir, pkg_dir, res_dir
 from libresvip.extension.vendor import pluginlib
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from libresvip.core.compat import Traversable
     from libresvip.extension.base import SVSConverter
 
-plugin_manager = pluginlib.PluginLoader(
-    paths=[str(pkg_dir / "plugins"), str(app_dir.user_config_path / "plugins")],
-    type_filter=["svs"],
-    prefix_package="libresvip",
-    blacklist=[("svs", each) for each in settings.disabled_plugins],
-)
-plugin_manager.load_modules()
-plugin_manager.loaded = True
-middleware_manager = pluginlib.PluginLoader(
-    paths=[str(pkg_dir / "middlewares"), str(app_dir.user_config_path / "middlewares")],
-    type_filter=["middleware"],
-    prefix_package="libresvip",
-)
-middleware_manager.load_modules()
-middleware_manager.loaded = True
+_PluginLoaderT = TypeVar("_PluginLoaderT", bound=pluginlib.PluginLoader)
+
+
+def _build_plugin_manager() -> pluginlib.PluginLoader:
+    pm = pluginlib.PluginLoader(
+        paths=[str(pkg_dir / "plugins"), str(app_dir.user_config_path / "plugins")],
+        type_filter=["svs"],
+        prefix_package="libresvip",
+        blacklist=[("svs", each) for each in settings.disabled_plugins],
+    )
+    pm.load_modules()
+    pm.loaded = True
+    return pm
+
+
+def _build_middleware_manager() -> pluginlib.PluginLoader:
+    mm = pluginlib.PluginLoader(
+        paths=[str(pkg_dir / "middlewares"), str(app_dir.user_config_path / "middlewares")],
+        type_filter=["middleware"],
+        prefix_package="libresvip",
+    )
+    mm.load_modules()
+    mm.loaded = True
+    return mm
+
+
+class _LazyLoader(Generic[_PluginLoaderT]):
+    """Proxy that defers plugin loader construction until first use."""
+
+    def __init__(self, builder: Callable[[], _PluginLoaderT]) -> None:
+        object.__setattr__(self, "_builder", builder)
+        object.__setattr__(self, "_real", None)
+
+    def _ensure_loaded(self) -> _PluginLoaderT:
+        if self._real is None:
+            object.__setattr__(self, "_real", self._builder())
+        return self._real
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._ensure_loaded(), name)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        if name.startswith("_"):
+            object.__setattr__(self, name, value)
+        else:
+            setattr(self._ensure_loaded(), name, value)
+
+    @property
+    def loaded(self) -> bool:
+        return self._real is not None and self._real.loaded
+
+    def __repr__(self) -> str:
+        if self._real is None:
+            return f"<{self.__class__.__name__} (not yet loaded)>"
+        return repr(self._real)
+
+
+plugin_manager = _LazyLoader(_build_plugin_manager)
+middleware_manager = _LazyLoader(_build_middleware_manager)
 
 
 _svs_suffix_map: dict[str, type[SVSConverter]] | None = None
 _svs_suffix_map_built = False
+
+
+def invalidate_plugin_caches() -> None:
+    global _svs_suffix_map, _svs_suffix_map_built
+    _svs_suffix_map = None
+    _svs_suffix_map_built = False
 
 
 def _build_svs_suffix_map() -> dict[str, type[SVSConverter]]:
@@ -96,12 +148,25 @@ def merge_translation(
     return ori_translation
 
 
-def get_translation(lang: str | None = None) -> gettext.NullTranslations:
+def get_core_translation(lang: str | None = None) -> gettext.NullTranslations:
     if lang is None:
         ui_settings = get_settings()
         lang = ui_settings.language.value
     translation = gettext.NullTranslations()
-    translation = merge_translation(translation, res_dir, lang)
+    return merge_translation(translation, res_dir, lang)
+
+
+def get_translation(
+    lang: str | None = None,
+    *,
+    include_plugins: bool = True,
+) -> gettext.NullTranslations:
+    if lang is None:
+        ui_settings = get_settings()
+        lang = ui_settings.language.value
+    translation = get_core_translation(lang)
+    if not include_plugins:
+        return translation
     for plugin in itertools.chain(
         plugin_manager.plugins.get("svs", {}).values(),
         middleware_manager.plugins.get("middleware", {}).values(),

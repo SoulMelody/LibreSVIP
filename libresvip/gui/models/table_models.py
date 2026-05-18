@@ -35,36 +35,37 @@ class PluginCadidatesTableModel(QAbstractTableModel, metaclass=AutoCaseObject):
             "On/Off",
         ]
         self.plugin_candidates: list[dict[int, str]] = []
-        self.reload_formats()
 
     def reload_formats(self) -> None:
-        self.begin_remove_rows(QModelIndex(), 0, len(self.plugin_candidates) - 1)
-        self.plugin_candidates.clear()
-        self.end_remove_rows()
-        self.begin_insert_rows(QModelIndex(), 0, len(plugin_manager.plugins.get("svs", {})) - 1)
-        self.plugin_candidates = [
-            *(
-                {
-                    0: plugin.info.file_format,
-                    1: plugin.info.author,
-                    2: plugin.version,
-                    3: "checkbox-marked"
-                    if plugin_id not in settings.disabled_plugins
-                    else "checkbox-blank-outline",
-                }
-                for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
-            ),
-            *(
-                {
-                    0: plugin_id,
-                    1: "?",
-                    2: "?",
-                    3: "checkbox-blank-outline",
-                }
-                for plugin_id in settings.disabled_plugins
-            ),
-        ]
-        self.end_insert_rows()
+        self.set_rows(
+            [
+                *(
+                    {
+                        0: plugin.info.file_format,
+                        1: plugin.info.author,
+                        2: plugin.version,
+                        3: "checkbox-marked"
+                        if plugin_id not in settings.disabled_plugins
+                        else "checkbox-blank-outline",
+                    }
+                    for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                ),
+                *(
+                    {
+                        0: plugin_id,
+                        1: "?",
+                        2: "?",
+                        3: "checkbox-blank-outline",
+                    }
+                    for plugin_id in settings.disabled_plugins
+                ),
+            ]
+        )
+
+    def set_rows(self, rows: list[dict[int, str]]) -> None:
+        self.begin_reset_model()
+        self.plugin_candidates = rows
+        self.end_reset_model()
 
     def row_count(self, parent: QModelIndex | QPersistentModelIndex = ...) -> int:  # type: ignore[assignment]
         return len(self.plugin_candidates)

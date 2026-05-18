@@ -15,15 +15,32 @@ import platform
 
 from .application import app, app_close_event, event_loop, qml_engine
 from .clipboard import Clipboard
-from .config_items import ConfigItems
 from .font_loader import IconicFontLoader
 from .frameless_helper import FramelessHelper
-from .locale_switcher import LocaleSwitcher
 from .log_handler import enable_log_handler
-from .task_manager import TaskManager
+
+
+def __getattr__(name: str) -> type:
+    if name == "ConfigItems":
+        from .config_items import ConfigItems
+
+        return ConfigItems
+    if name == "LocaleSwitcher":
+        from .locale_switcher import LocaleSwitcher
+
+        return LocaleSwitcher
+    if name == "TaskManager":
+        from .task_manager import TaskManager
+
+        return TaskManager
+    if name == "Notifier":
+        from .notifier import Notifier
+
+        return Notifier
+    msg = f"module {__name__!r} has no attribute {name!r}"
+    raise AttributeError(msg)
+
 
 enable_log_handler()
 if platform.python_implementation() == "CPython":
     __all__ += ["Notifier"]
-
-    from .notifier import Notifier

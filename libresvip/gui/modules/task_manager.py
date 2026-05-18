@@ -36,6 +36,7 @@ from libresvip.extension.manager import (
     get_svs_plugin_by_suffix,
     get_svs_plugin_by_value,
     get_svs_plugin_suffixes,
+    invalidate_plugin_caches,
     middleware_manager,
     plugin_manager,
 )
@@ -47,16 +48,130 @@ from libresvip.utils.text import supported_charset_names, uuid_str
 
 from .url_opener import open_path
 
-readonly_plugin_ids = [
-    identifier
-    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
-    if issubclass(plugin, ReadOnlyConverterMixin)
-]
-writeonly_plugin_ids = [
-    identifier
-    for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
-    if issubclass(plugin, WriteOnlyConverterMixin)
-]
+readonly_plugin_ids: list[str] | None = None
+writeonly_plugin_ids: list[str] | None = None
+
+
+def _get_readonly_plugin_ids() -> list[str]:
+    global readonly_plugin_ids
+    if readonly_plugin_ids is None:
+        readonly_plugin_ids = [
+            identifier
+            for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+            if issubclass(plugin, ReadOnlyConverterMixin)
+        ]
+    return readonly_plugin_ids
+
+
+def _get_writeonly_plugin_ids() -> list[str]:
+    global writeonly_plugin_ids
+    if writeonly_plugin_ids is None:
+        writeonly_plugin_ids = [
+            identifier
+            for identifier, plugin in plugin_manager.plugins.get("svs", {}).items()
+            if issubclass(plugin, WriteOnlyConverterMixin)
+        ]
+    return writeonly_plugin_ids
+
+
+def _new_middleware_field_model() -> ModelProxy:
+    return ModelProxy(
+        {
+            "name": "",
+            "title": "",
+            "description": "",
+            "default": "",
+            "type": "",
+            "value": "",
+            "choices": [],
+        }
+    )
+
+
+class StartupSnapshotSignals(QObject):
+    result = Signal(dict)
+    error = Signal(str)
+
+
+class StartupSnapshotWorker(QRunnable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.signals = StartupSnapshotSignals()
+
+    @Slot()
+    def run(self) -> None:
+        try:
+            self.signals.result.emit(self.build_snapshot())
+        except Exception:
+            self.signals.error.emit(traceback.format_exc())
+
+    @staticmethod
+    def build_snapshot() -> dict[str, Any]:
+        _readonly = _get_readonly_plugin_ids()
+        _writeonly = _get_writeonly_plugin_ids()
+        middleware_states: list[dict[str, Any]] = []
+        middleware_fields: dict[str, list[dict[str, Any]]] = {}
+        for middleware_id, middleware in middleware_manager.plugins.get("middleware", {}).items():
+            middleware_fields[middleware_id] = TaskManager.inspect_fields(
+                middleware.process_option_cls
+            )
+            middleware_states.append(
+                {
+                    "index": len(middleware_states),
+                    "identifier": middleware_id,
+                    "name": middleware.info.name,
+                    "description": middleware.info.description,
+                    "value": False,
+                }
+            )
+        return {
+            "readonly_plugin_ids": list(_readonly),
+            "writeonly_plugin_ids": list(_writeonly),
+            "input_formats": [
+                {
+                    "text": plugin.info.file_format,
+                    "value": plugin.info.suffix,
+                    "suffixes": _format_suffixes_display(plugin),
+                    "suffix_values": list(plugin.info.suffixes),
+                }
+                for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                if plugin_id not in _writeonly
+            ],
+            "output_formats": [
+                {
+                    "text": plugin.info.file_format,
+                    "value": plugin.info.suffix,
+                    "suffixes": _format_suffixes_display(plugin),
+                    "suffix_values": list(plugin.info.suffixes),
+                }
+                for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                if plugin_id not in _readonly
+            ],
+            "plugin_candidates": [
+                *(
+                    {
+                        0: plugin.info.file_format,
+                        1: plugin.info.author,
+                        2: plugin.version,
+                        3: "checkbox-marked"
+                        if plugin_id not in settings.disabled_plugins
+                        else "checkbox-blank-outline",
+                    }
+                    for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+                ),
+                *(
+                    {
+                        0: plugin_id,
+                        1: "?",
+                        2: "?",
+                        3: "checkbox-blank-outline",
+                    }
+                    for plugin_id in settings.disabled_plugins
+                ),
+            ],
+            "middleware_states": middleware_states,
+            "middleware_fields": middleware_fields,
+        }
 
 
 class ConversionWorkerSignals(QObject):
@@ -276,6 +391,7 @@ class TaskManager(QObject):
     task_count_changed = Signal(int)
     busy_changed = Signal(bool)
     middleware_options_updated = Signal()
+    startup_ready_changed = Signal(bool)
     _start_conversion = Signal()
 
     def __init__(self, parent: QObject | None = None) -> None:
@@ -326,11 +442,14 @@ class TaskManager(QObject):
             }
         )
         self.middleware_fields: dict[str, ModelProxy] = {}
-        self.init_middleware_options()
-        self.reload_formats()
+        self._startup_ready = False
+        self._startup_worker: StartupSnapshotWorker | None = None
+        self._startup_thread_pool = QThreadPool()
+        self._startup_thread_pool.max_thread_count = 1
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
         self.output_format_changed.connect(self.reset_output_ext)
+        self.middleware_options_updated.connect(self.reload_middleware_options)
         self._start_conversion.connect(self.start)
         self.timer = QTimer()
         self.timer.interval = 100
@@ -344,6 +463,7 @@ class TaskManager(QObject):
 
     @Slot(int)
     def toggle_plugin(self, index: int) -> None:
+        global readonly_plugin_ids, writeonly_plugin_ids
         plugin_ids = list(plugin_manager.plugins.get("svs", {}))
         if index < len(plugin_ids):
             key = plugin_ids[index]
@@ -358,6 +478,9 @@ class TaskManager(QObject):
         plugin_manager.blacklist = [
             pluginlib.BlacklistEntry("svs", each) for each in settings.disabled_plugins
         ]
+        invalidate_plugin_caches()
+        readonly_plugin_ids = None
+        writeonly_plugin_ids = None
         self.plugin_candidates.reload_formats()
         self.reload_formats()
 
@@ -394,8 +517,30 @@ class TaskManager(QObject):
     def count(self) -> int:
         return len(self.tasks)
 
+    @Property(bool, notify=startup_ready_changed)
+    def startup_ready(self) -> bool:
+        return self._startup_ready
+
+    def set_startup_ready(self, ready: bool) -> None:
+        if self._startup_ready != ready:
+            self._startup_ready = ready
+            self.startup_ready_changed.emit(ready)
+
+    @Slot()
+    def deferred_initialize(self) -> None:
+        if self.startup_ready or self._startup_worker is not None:
+            return
+        worker = StartupSnapshotWorker()
+        worker.signals.result.connect(self.apply_startup_snapshot)
+        worker.signals.error.connect(self.handle_startup_snapshot_error)
+        self._startup_worker = worker
+        self._startup_thread_pool.start(worker)
+
     def init_middleware_options(self) -> None:
+        self.middleware_states.clear()
+        self.middleware_fields.clear()
         for middleware_id, middleware in middleware_manager.plugins.get("middleware", {}).items():
+            self.middleware_fields[middleware_id] = _new_middleware_field_model()
             self.middleware_states.append(
                 {
                     "index": len(self.middleware_states),
@@ -405,31 +550,67 @@ class TaskManager(QObject):
                     "value": False,
                 }
             )
-            self.middleware_fields[middleware_id] = ModelProxy(
-                {
-                    "name": "",
-                    "title": "",
-                    "description": "",
-                    "default": "",
-                    "type": "",
-                    "value": "",
-                    "choices": [],
-                }
-            )
         self.reload_middleware_options()
-        self.middleware_options_updated.connect(self.reload_middleware_options)
 
     def reload_middleware_options(self) -> None:
         for middleware_id, middleware_cls in middleware_manager.plugins.get(
             "middleware", {}
         ).items():
+            if middleware_id not in self.middleware_fields:
+                self.middleware_fields[middleware_id] = _new_middleware_field_model()
             option_class = middleware_cls.process_option_cls
             self.middleware_fields[middleware_id].clear()
             middleware_fields = self.inspect_fields(option_class)
             self.middleware_fields[middleware_id].append_many(middleware_fields)
 
+    @Slot(dict)
+    def apply_startup_snapshot(self, snapshot: dict[str, Any]) -> None:
+        global readonly_plugin_ids, writeonly_plugin_ids
+        readonly_plugin_ids = snapshot["readonly_plugin_ids"]
+        writeonly_plugin_ids = snapshot["writeonly_plugin_ids"]
+
+        self.middleware_states.clear()
+        self.middleware_fields.clear()
+        for middleware_id, fields in snapshot["middleware_fields"].items():
+            model = _new_middleware_field_model()
+            if fields:
+                model.append_many(fields)
+            self.middleware_fields[middleware_id] = model
+        if snapshot["middleware_states"]:
+            self.middleware_states.append_many(snapshot["middleware_states"])
+
+        self.input_formats.clear()
+        if snapshot["input_formats"]:
+            self.input_formats.append_many(snapshot["input_formats"])
+        self.output_formats.clear()
+        if snapshot["output_formats"]:
+            self.output_formats.append_many(snapshot["output_formats"])
+        self.plugin_candidates.set_rows(snapshot["plugin_candidates"])
+
+        input_value = self._restored_format_value(self.input_formats, self.input_format)
+        output_value = self._restored_format_value(self.output_formats, self.output_format)
+        self.input_format_changed.emit(input_value)
+        self.output_format_changed.emit(output_value)
+        self._startup_worker = None
+        self.set_startup_ready(True)
+
+    @Slot(str)
+    def handle_startup_snapshot_error(self, error: str) -> None:
+        logger.error(error)
+        self._startup_worker = None
+
+    @staticmethod
+    def _restored_format_value(model: ModelProxy, current_value: str | None) -> str:
+        if current_value and any(item["value"] == current_value for item in model):
+            return current_value
+        if len(model):
+            return model[0]["value"]
+        return ""
+
     @Slot(result=None)
     def reload_formats(self) -> None:
+        _readonly = _get_readonly_plugin_ids()
+        _writeonly = _get_writeonly_plugin_ids()
         self.input_formats.clear()
         self.input_formats.append_many(
             [
@@ -440,7 +621,7 @@ class TaskManager(QObject):
                     "suffix_values": list(plugin.info.suffixes),
                 }
                 for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
-                if plugin_id not in writeonly_plugin_ids
+                if plugin_id not in _writeonly
             ],
         )
         self.input_format_changed.emit("")
@@ -454,7 +635,7 @@ class TaskManager(QObject):
                     "suffix_values": list(plugin.info.suffixes),
                 }
                 for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
-                if plugin_id not in readonly_plugin_ids
+                if plugin_id not in _readonly
             ],
         )
         self.output_format_changed.emit("")
@@ -493,6 +674,8 @@ class TaskManager(QObject):
     @Slot(result=bool)
     def start_conversion(self) -> bool:
         if self.busy:
+            return False
+        if not self.startup_ready:
             return False
         self._start_conversion.emit()
         return True
@@ -808,7 +991,7 @@ class TaskManager(QObject):
 
     @Slot(str, result=QAbstractListModel)
     def get_middleware_fields(self, name: str) -> Any:
-        return self.middleware_fields[name]
+        return self.middleware_fields.get(name, _new_middleware_field_model())
 
     @Slot(str, result=str)
     def get_str(self, name: str) -> str:
@@ -818,6 +1001,8 @@ class TaskManager(QObject):
     @Slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
+        if not self.startup_ready:
+            return
         suffixes = get_svs_plugin_suffixes(value) or (value,)
         if (
             name == "input_format"
@@ -866,6 +1051,8 @@ class TaskManager(QObject):
 
     @Slot()
     def start(self) -> None:
+        if not self.startup_ready:
+            return
         if self.input_format is None or self.output_format is None:
             error_message = "Please select input and output formats first."
             for i in range(len(self.tasks)):

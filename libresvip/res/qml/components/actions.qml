@@ -39,17 +39,12 @@ Item {
     }
     property QtObject openAbout: Action {
         shortcut: "Ctrl+A"
-        onTriggered: dialogs.aboutDialog.open()
+        onTriggered: dialogs.open_about_dialog()
     }
     property QtObject openOptions: Action {
         shortcut: "Alt+O"
         onTriggered: {
-            if (dialogs.settingsDialog.visibility === Window.Hidden) {
-                dialogs.settingsDialog.show();
-            } else {
-                dialogs.settingsDialog.raise();
-                dialogs.settingsDialog.requestActivate();
-            }
+            dialogs.show_settings_dialog();
         }
     }
     property QtObject openConvertMenu: Action {

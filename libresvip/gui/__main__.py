@@ -2,18 +2,13 @@ import contextlib
 import sys
 from typing import TYPE_CHECKING
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QIcon, QPixmap
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.constants import res_dir
 from libresvip.gui.modules import (
-    Clipboard,
-    ConfigItems,
-    IconicFontLoader,
-    LocaleSwitcher,
-    TaskManager,
     app,
     app_close_event,
     event_loop,
@@ -28,23 +23,44 @@ def startup() -> None:
     qml_engine.load(":/qml/main.qml")
     if not qml_engine.root_objects():
         sys.exit(-1)
+
+    def on_startup_ready(ready: bool) -> None:
+        if ready:
+            locale_switcher.load_plugin_translations()
+            task_manager.startup_ready_changed.disconnect(on_startup_ready)
+
+    def complete_deferred_startup() -> None:
+        task_manager.deferred_initialize()
+
+    task_manager.startup_ready_changed.connect(on_startup_ready)
+    QTimer.single_shot(0, complete_deferred_startup)
     with contextlib.suppress(RuntimeError), event_loop:
         event_loop.run_until_complete(app_close_event.wait())
 
 
 def run() -> None:
+    from libresvip.gui.modules import (
+        Clipboard,
+        ConfigItems,
+        IconicFontLoader,
+        LocaleSwitcher,
+        TaskManager,
+    )
+
+    global locale_switcher, task_manager
     locale_switcher = LocaleSwitcher()
+    task_manager = TaskManager()
     initial_properties: dict[str, QObject] = {
         "clipboard": Clipboard(),
         "configItems": ConfigItems(),
         "iconicFontLoader": IconicFontLoader(),
         "localeSwitcher": locale_switcher,
-        "taskManager": TaskManager(),
+        "taskManager": task_manager,
     }
     with contextlib.suppress(ImportError):
         from libresvip.gui.modules import Notifier
 
-        initial_properties["notifier"] = Notifier()
+        initial_properties["notifier"] = Notifier()  # pyrefly: ignore[not-callable]
     icon_pixmap = QPixmap()
     icon_pixmap.load_from_data((res_dir / "libresvip.ico").read_bytes())
     app.application_name = "LibreSVIP"
@@ -53,7 +69,7 @@ def run() -> None:
     app.set_attribute(Qt.ApplicationAttribute.AA_DontUseNativeMenuBar, True)
     qml_engine.set_initial_properties(initial_properties)
     locale_switcher.translator_initialized.connect(startup)
-    locale_switcher.switch_language(locale_switcher.get_language())
+    locale_switcher.initialize()
 
 
 if __name__ == "__main__":

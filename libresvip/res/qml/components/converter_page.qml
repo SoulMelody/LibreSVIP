@@ -16,6 +16,9 @@ Page {
 
     function getOptionFields(container) {
         var result = [];
+        if (!container.actualChildren || typeof container.actualChildren.rowCount !== "function") {
+            return result;
+        }
         for (var i = 0; i < container.actualChildren.rowCount(); ++i) {
             let modelData = container.actualChildren.get(i);
             if (modelData !== null) {
@@ -329,22 +332,58 @@ Page {
             }
             Switch {
                 id: resetTasksOnInputChange
+                visible: taskManager.startup_ready
                 height: 40
                 text: qsTr("Reset Tasks When Changing Input")
+                enabled: taskManager.startup_ready
                 checked: configItems.reset_tasks_on_input_change
                 onClicked: {
                     configItems.reset_tasks_on_input_change = checked;
                 }
             }
         }
+        Rectangle {
+            visible: !taskManager.startup_ready
+            Layout.fillWidth: true
+            radius: 10
+            color: Qt.rgba(1, 0.34, 0.13, 0.08)
+            border.width: 1
+            border.color: Qt.rgba(1, 0.34, 0.13, 0.18)
+            implicitHeight: 56
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 14
+                anchors.rightMargin: 14
+                spacing: 12
+                BusyIndicator {
+                    running: true
+                    width: 24
+                    height: 24
+                }
+                ColumnLayout {
+                    spacing: 2
+                    Label {
+                        text: qsTr("Preparing format providers")
+                        font.pixelSize: 14
+                        font.bold: true
+                    }
+                    Label {
+                        text: qsTr("The window is ready. Formats and middleware will appear in a moment.")
+                        color: Material.color(Material.Grey, Material.Shade700)
+                        font.pixelSize: 12
+                    }
+                }
+            }
+        }
         ColumnLayout {
+            visible: taskManager.startup_ready
             Layout.fillWidth: true
             RowLayout {
                 Layout.fillWidth: true
                 LabeledComboBox {
                     id: inputFormat
                     Layout.fillWidth: true
-                    enabled: !taskManager.busy
+                    enabled: taskManager.startup_ready && !taskManager.busy
                     hint: qsTr("Input Format: ")
                     onActivated: index => {
                         if (resetTasksOnInputChange.checked && taskManager.get_str("input_format") != currentValue) {
@@ -446,12 +485,24 @@ Page {
                         x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
-                            info: taskManager.plugin_info("input_format")
+                            info: ({
+                                    "name": "",
+                                    "author": "",
+                                    "website": "",
+                                    "description": "",
+                                    "version": "",
+                                    "file_format": "",
+                                    "suffix": "(*.*)",
+                                    "icon_base64": ""
+                                })
                             Component.onCompleted: {
                                 taskManager.input_format_changed.connect(input_format => {
                                     info = taskManager.plugin_info("input_format");
                                 });
                             }
+                        }
+                        onOpened: {
+                            contentItem.info = taskManager.plugin_info("input_format");
                         }
                     }
                 }
@@ -473,7 +524,7 @@ Page {
                     id: swapInputOutput
                     icon_name: "mdi7.swap-vertical"
                     diameter: 38
-                    enabled: inputFormat.enabled && outputFormat.enabled
+                    enabled: taskManager.startup_ready && inputFormat.enabled && outputFormat.enabled
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Swap Input and Output")
                     onClicked: {
@@ -493,7 +544,7 @@ Page {
                 LabeledComboBox {
                     id: outputFormat
                     Layout.fillWidth: true
-                    enabled: !taskManager.busy
+                    enabled: taskManager.startup_ready && !taskManager.busy
                     hint: qsTr("Output Format: ")
                     onActivated: index => {
                         taskManager.set_str("output_format", currentValue);
@@ -583,12 +634,24 @@ Page {
                         x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
-                            info: taskManager.plugin_info("output_format")
+                            info: ({
+                                    "name": "",
+                                    "author": "",
+                                    "website": "",
+                                    "description": "",
+                                    "version": "",
+                                    "file_format": "",
+                                    "suffix": "(*.*)",
+                                    "icon_base64": ""
+                                })
                             Component.onCompleted: {
                                 taskManager.output_format_changed.connect(output_format => {
                                     info = taskManager.plugin_info("output_format");
                                 });
                             }
+                        }
+                        onOpened: {
+                            contentItem.info = taskManager.plugin_info("output_format");
                         }
                     }
                 }
@@ -1114,15 +1177,24 @@ Page {
                             height: 25
                             Layout.fillWidth: true
                             Switch {
+                                id: middlewareSwitch
+                                checked: false
                                 Layout.fillHeight: true
                                 anchors.verticalCenter: parent.verticalCenter
                                 background: Rectangle {
                                     color: "transparent"
                                 }
+                                Component.onCompleted: {
+                                    middlewareContainer.expanded = modelData.value;
+                                    checked = modelData.value;
+                                }
                                 onToggled: {
-                                    middlewareContainer.expanded = !middlewareContainer.expanded;
+                                    middlewareContainer.expanded = checked;
+                                    if (checked && middlewareContainer.children.length === 0) {
+                                        middlewareFields.rebuildFields();
+                                    }
                                     taskManager.qget("middleware_states").update(modelData.index, {
-                                        "value": middlewareContainer.expanded
+                                        "value": checked
                                     });
                                 }
                             }
@@ -1223,9 +1295,9 @@ Page {
                             id: middlewareFields
                             model: taskManager.get_middleware_fields(modelData.identifier)
                             function rebuildFields() {
+                                middlewareContainer.children.length = 0;
                                 for (var i = 0; i < model.rowCount(); i++) {
                                     let middleware_state = model.get(i);
-                                    let separator_item = separatorItem.createObject(middlewareContainer);
                                     let item = null;
                                     switch (middleware_state.type) {
                                     case "bool":
@@ -1265,12 +1337,27 @@ Page {
                                             break;
                                         }
                                     }
+                                    if (i < model.rowCount() - 1) {
+                                        separatorItem.createObject(middlewareContainer);
+                                    }
                                 }
                             }
                             delegate: Column {
                                 Component.onCompleted: {
                                     if (index == 0) {
-                                        middlewareContainer.children.length = 0;
+                                        middlewareFields.rebuildFields();
+                                    }
+                                }
+                            }
+                            Connections {
+                                target: middlewareFields.model
+                                function onRowsInserted(parent, first, last) {
+                                    if (middlewareContainer.expanded) {
+                                        middlewareFields.rebuildFields();
+                                    }
+                                }
+                                function onModelReset() {
+                                    if (middlewareContainer.expanded) {
                                         middlewareFields.rebuildFields();
                                     }
                                 }

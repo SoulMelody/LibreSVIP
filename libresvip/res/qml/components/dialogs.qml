@@ -158,6 +158,7 @@ Item {
     }
 
     property QtObject folderPresetsDialog: QQC2.Dialog {
+        id: folderPresetsDialog
         x: window.width / 2 - width / 2
         y: window.height / 2 - height / 2
         width: 700
@@ -309,6 +310,10 @@ Item {
         }
     }
 
+    function open_folder_presets_dialog() {
+        folderPresetsDialog.open();
+    }
+
     property QtObject colorDialog: ColorDialog {
         property var accept_callback: value => {}
         onAccepted: {
@@ -321,75 +326,102 @@ Item {
         }
     }
 
-    property QtObject aboutDialog: QQC2.Dialog {
-        title: qsTr("About")
-        x: window.width / 2 - width / 2
-        y: window.height / 2 - height / 2
-        standardButtons: QQC2.Dialog.Ok
-        Overlay.modal: Rectangle {
-            anchors.fill: parent
-            anchors.topMargin: toolbar.height
-            color: Material.backgroundDimColor
-        }
+    Component {
+        id: aboutDialogComponent
+        QQC2.Dialog {
+            title: qsTr("About")
+            x: window.width / 2 - width / 2
+            y: window.height / 2 - height / 2
+            standardButtons: QQC2.Dialog.Ok
+            Overlay.modal: Rectangle {
+                anchors.fill: parent
+                anchors.topMargin: toolbar.height
+                color: Material.backgroundDimColor
+            }
 
-        ColumnLayout {
-            QQC2.Label {
-                Layout.alignment: Qt.AlignHCenter
-                text: qsTr("LibreSVIP")
-                font.pixelSize: 48
-                font.bold: true
-            }
-            QQC2.Label {
-                Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Version: ") + configItems.version
-            }
-            QQC2.Label {
-                Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Author: SoulMelody")
-            }
-            RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                QQC2.Button {
-                    contentItem: RowLayout {
-                        QQC2.Label {
-                            text: iconicFontLoader.icon("mdi7.television-classic")
-                            font.family: "Material Design Icons"
+            ColumnLayout {
+                QQC2.Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("LibreSVIP")
+                    font.pixelSize: 48
+                    font.bold: true
+                }
+                QQC2.Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Version: ") + configItems.version
+                }
+                QQC2.Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Author: SoulMelody")
+                }
+                RowLayout {
+                    Layout.alignment: Qt.AlignHCenter
+                    QQC2.Button {
+                        contentItem: RowLayout {
+                            QQC2.Label {
+                                text: iconicFontLoader.icon("mdi7.television-classic")
+                                font.family: "Material Design Icons"
+                            }
+                            QQC2.Label {
+                                text: qsTr("Author's Profile")
+                            }
                         }
-                        QQC2.Label {
-                            text: qsTr("Author's Profile")
+                        onClicked: {
+                            Qt.openUrlExternally("https://space.bilibili.com/175862486");
                         }
                     }
-                    onClicked: {
-                        Qt.openUrlExternally("https://space.bilibili.com/175862486");
+                    QQC2.Button {
+                        contentItem: RowLayout {
+                            QQC2.Label {
+                                text: iconicFontLoader.icon("mdi7.github")
+                                font.family: "Material Design Icons"
+                            }
+                            QQC2.Label {
+                                text: qsTr("Repo URL")
+                            }
+                        }
+                        onClicked: {
+                            Qt.openUrlExternally("https://github.com/SoulMelody/LibreSVIP");
+                        }
                     }
                 }
-                QQC2.Button {
-                    contentItem: RowLayout {
-                        QQC2.Label {
-                            text: iconicFontLoader.icon("mdi7.github")
-                            font.family: "Material Design Icons"
-                        }
-                        QQC2.Label {
-                            text: qsTr("Repo URL")
-                        }
-                    }
-                    onClicked: {
-                        Qt.openUrlExternally("https://github.com/SoulMelody/LibreSVIP");
-                    }
+                QQC2.Label {
+                    Layout.preferredWidth: parent.width
+                    text: qsTr("LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.")
+                    wrapMode: Text.WordWrap
                 }
-            }
-            QQC2.Label {
-                Layout.preferredWidth: parent.width
-                text: qsTr("LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.")
-                wrapMode: Text.WordWrap
-            }
-            QQC2.Label {
-                Layout.preferredWidth: parent.width
-                text: qsTr("All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.")
-                wrapMode: Text.WordWrap
+                QQC2.Label {
+                    Layout.preferredWidth: parent.width
+                    text: qsTr("All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.")
+                    wrapMode: Text.WordWrap
+                }
             }
         }
     }
 
+    Loader {
+        id: aboutDialogLoader
+        active: false
+        sourceComponent: aboutDialogComponent
+    }
+
+    function open_about_dialog() {
+        if (!aboutDialogLoader.active) {
+            aboutDialogLoader.active = true;
+        }
+        if (aboutDialogLoader.item !== null) {
+            aboutDialogLoader.item.open();
+        }
+    }
+
     property QtObject settingsDialog: SettingsDialog {}
+
+    function show_settings_dialog() {
+        if (settingsDialog.visibility === Window.Hidden) {
+            settingsDialog.show();
+        } else {
+            settingsDialog.raise();
+            settingsDialog.requestActivate();
+        }
+    }
 }

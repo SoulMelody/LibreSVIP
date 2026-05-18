@@ -379,7 +379,7 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("Manage Folders Presets")
                     onClicked: {
-                        dialogs.folderPresetsDialog.open();
+                        dialogs.open_folder_presets_dialog();
                     }
                 }
             }
@@ -437,6 +437,7 @@ ApplicationWindow {
                 id: pluginsTableView
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                enabled: taskManager.startup_ready
                 columnSpacing: 0
                 rowSpacing: 0
                 clip: true
@@ -520,6 +521,31 @@ ApplicationWindow {
                                 }
                             }
                         }
+                    }
+                }
+            }
+            Rectangle {
+                visible: !taskManager.startup_ready
+                Layout.alignment: Qt.AlignHCenter
+                radius: 10
+                color: Qt.rgba(1, 0.34, 0.13, 0.08)
+                border.width: 1
+                border.color: Qt.rgba(1, 0.34, 0.13, 0.18)
+                implicitWidth: 320
+                implicitHeight: 52
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 14
+                    anchors.rightMargin: 14
+                    spacing: 10
+                    BusyIndicator {
+                        running: true
+                        width: 22
+                        height: 22
+                    }
+                    Label {
+                        text: qsTr("Loading format provider plugins...")
+                        font.pixelSize: 13
                     }
                 }
             }
@@ -1031,7 +1057,7 @@ ApplicationWindow {
                             text: qsTr("Format Provider Plugins")
                         }
                     }
-                    enabled: !taskManager.busy
+                    enabled: taskManager.startup_ready && !taskManager.busy
                     anchors.top: savePathSettingsBtn.bottom
                     anchors.topMargin: parent.spacing
                     onClicked: {
