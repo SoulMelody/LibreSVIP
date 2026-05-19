@@ -106,9 +106,13 @@ def get_default_font_unix() -> str | None:
         return font["family"]
 
 
-def _format_selector_label(plugin: SVSConverter) -> str:
+def _format_input_selector_label(plugin: SVSConverter) -> str:
     suffixes_str = "; ".join(f"*.{s}" for s in plugin.info.suffixes)
     return f"{_(plugin.info.file_format)} ({suffixes_str})"
+
+
+def _format_output_selector_label(plugin: SVSConverter) -> str:
+    return f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})"
 
 
 async def main(page: ft.Page) -> None:
@@ -1129,6 +1133,11 @@ async def main(page: ft.Page) -> None:
         def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
             if control.current.value:
                 plugin_obj = get_svs_plugin_by_value(control.current.value)
+                format_label = (
+                    _format_input_selector_label(plugin_obj)
+                    if control is input_select
+                    else _format_output_selector_label(plugin_obj)
+                )
                 page.views.append(
                     ft.View(
                         route="/plugin_info",
@@ -1180,7 +1189,7 @@ async def main(page: ft.Page) -> None:
                                             ),
                                             ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
                                             ft.Text(
-                                                _format_selector_label(plugin_obj),
+                                                format_label,
                                                 col=11,
                                             ),
                                         ],
@@ -1218,7 +1227,7 @@ async def main(page: ft.Page) -> None:
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
-                                            _format_selector_label(plugin_obj),
+                                            _format_input_selector_label(plugin_obj),
                                         )
                                         for plugin_id, plugin_obj in plugin_manager.plugins.get(
                                             "svs", {}
@@ -1250,7 +1259,7 @@ async def main(page: ft.Page) -> None:
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
-                                            _format_selector_label(plugin_obj),
+                                            _format_output_selector_label(plugin_obj),
                                         )
                                         for plugin_id, plugin_obj in plugin_manager.plugins.get(
                                             "svs", {}

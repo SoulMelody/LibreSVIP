@@ -163,14 +163,13 @@ class ConversionTask:
                 self.output_path.unlink()
 
 
-def _format_suffixes(plugin: SVSConverter) -> str:
+def _format_input_suffixes(plugin: SVSConverter) -> str:
     suffixes_str = "; ".join(f"*.{s}" for s in plugin.info.suffixes)
     return f"({suffixes_str})"
 
 
-def _format_suffix_filter(plugin: SVSConverter) -> str:
-    suffixes_str = " ".join(f"*.{s}" for s in plugin.info.suffixes)
-    return f"({suffixes_str})"
+def _format_output_suffix(plugin: SVSConverter) -> str:
+    return f"(*.{plugin.info.suffix})"
 
 
 plugin_details = {
@@ -180,8 +179,9 @@ plugin_details = {
         "website": plugin.info.website,
         "description": plugin.info.description,
         "version": plugin.version,
-        "suffix": _format_suffixes(plugin),
-        "suffix_filter": _format_suffix_filter(plugin),
+        "suffix": _format_input_suffixes(plugin),
+        "suffix_filter": _format_output_suffix(plugin),
+        "input_suffix_filter": _format_input_suffixes(plugin),
         "file_format": plugin.info.file_format,
         "icon_base64": plugin.info.icon_base64,
     }
@@ -1035,7 +1035,7 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     file_paths = await app.native.main_window.create_file_dialog(
                         allow_multiple=True,
                         file_types=[
-                            " " + plugin_details[select_input.value]["suffix_filter"],
+                            " " + plugin_details[select_input.value]["input_suffix_filter"],
                             _("All files (*.*)"),
                         ],
                     )

@@ -82,9 +82,13 @@ from libresvip.utils.translation import gettext_lazy as _
 translation.singleton_translation = get_translation()
 
 
-def _format_selector_label(plugin: SVSConverter) -> str:
+def _format_input_selector_label(plugin: SVSConverter) -> str:
     suffixes_str = "; ".join(f"*.{s}" for s in plugin.info.suffixes)
     return f"{_(plugin.info.file_format)} ({suffixes_str})"
+
+
+def _format_output_selector_label(plugin: SVSConverter) -> str:
+    return f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})"
 
 
 readonly_plugin_ids = [
@@ -223,7 +227,7 @@ class SelectFormats(Vertical):
             yield Label(_("Import format"), classes="text-middle")
             yield Select(
                 [
-                    (_format_selector_label(plugin), plugin_id)
+                    (_format_input_selector_label(plugin), plugin_id)
                     for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                     if plugin_id not in writeonly_plugin_ids
                 ],
@@ -248,7 +252,7 @@ class SelectFormats(Vertical):
             yield Label(_("Export format"), classes="text-middle")
             yield Select(
                 [
-                    (_format_selector_label(plugin), plugin_id)
+                    (_format_output_selector_label(plugin), plugin_id)
                     for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                     if plugin_id not in readonly_plugin_ids
                 ],

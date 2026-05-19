@@ -190,7 +190,7 @@ class Conversion(ConversionBase):
                         website=_(plugin.info.website),
                         version=plugin.version,
                         file_format=_(plugin.info.file_format),
-                        suffixes=list(plugin.info.suffixes),
+                        suffixes=[plugin.info.suffix],
                         icon_base64=plugin.info.icon_base64 or "",
                         json_schema=json.dumps(model_json_schema(plugin.output_option_cls)),
                     )

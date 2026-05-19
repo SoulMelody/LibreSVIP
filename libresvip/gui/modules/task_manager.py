@@ -141,8 +141,7 @@ class StartupSnapshotWorker(QRunnable):
                 {
                     "text": plugin.info.file_format,
                     "value": plugin.info.suffix,
-                    "suffixes": _format_suffixes_display(plugin),
-                    "suffix_values": list(plugin.info.suffixes),
+                    "suffixes": _format_suffix_display(plugin),
                 }
                 for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                 if plugin_id not in _readonly
@@ -382,6 +381,12 @@ def _format_suffixes_display(plugin: SVSConverter) -> str:
     return "; ".join(f"*.{s}" for s in plugin.info.suffixes)
 
 
+def _format_suffix_display(plugin: SVSConverter) -> str:
+    if plugin.info is None:
+        return ""
+    return f"*.{plugin.info.suffix}"
+
+
 class TaskManager(QObject):
     conversion_mode_changed = Signal(str)
     input_format_changed = Signal(str)
@@ -403,9 +408,7 @@ class TaskManager(QObject):
         self.input_formats = ModelProxy(
             {"value": "", "text": "", "suffixes": "", "suffix_values": []}
         )
-        self.output_formats = ModelProxy(
-            {"value": "", "text": "", "suffixes": "", "suffix_values": []}
-        )
+        self.output_formats = ModelProxy({"value": "", "text": "", "suffixes": ""})
         self._input_fields = ModelProxy(
             {
                 "index": 0,
@@ -631,8 +634,7 @@ class TaskManager(QObject):
                 {
                     "text": plugin.info.file_format,
                     "value": plugin.info.suffix,
-                    "suffixes": _format_suffixes_display(plugin),
-                    "suffix_values": list(plugin.info.suffixes),
+                    "suffixes": _format_suffix_display(plugin),
                 }
                 for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
                 if plugin_id not in _readonly
