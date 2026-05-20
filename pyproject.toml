@@ -119,7 +119,7 @@ code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
   "datamodel-code-generator>=0.57.0",
   "pbtk>=1.1.2",
-  "protobuf-protoc-bin>=34.1",
+  "protobuf-protoc-bin>=35.0",
   "pyside6-addons<6.12.0,>=6.11.1",
   "xsdata[cli]>=26.2",
 ]
