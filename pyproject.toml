@@ -88,7 +88,7 @@ desktop = [
   "qasync>=0.28.0",
 ]
 lxml = ["lxml>=6.1.1"]
-minijinja = ["minijinja>=2.19.0"]
+minijinja = ["minijinja>=2.20.0"]
 mobile = [
   "flet[desktop]>=0.85.1,<0.90.0",
   "flet-permission-handler>=0.85.1,<0.90.0",
