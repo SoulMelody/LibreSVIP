@@ -1567,7 +1567,7 @@ requires-dist = [
     { name = "soundfile", marker = "sys_platform == 'emscripten'" },
     { name = "svg-py", specifier = ">=1.10.0,<2.0.0" },
     { name = "tatsu-lts", specifier = ">=5.16.0,<6.0.0" },
-    { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=1.0.0" },
+    { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=1.0.1" },
     { name = "that-depends", specifier = ">=3.9.2" },
     { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.0" },
     { name = "typer", marker = "extra == 'cli'", specifier = ">=0.25.1,<1.0.0" },
@@ -3747,14 +3747,14 @@ wheels = [
 
 [[package]]
 name = "textual-fspicker"
-version = "1.0.0"
+version = "1.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "textual" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e8/fd/dc3160123af550838d50a4fa7f62e357d7ad2fc9b4220ead9160661bcd1b/textual_fspicker-1.0.0.tar.gz", hash = "sha256:462608dbe6a14edff679fc6116addcf288f4a79f8e4fffd240f9ce2caaf9e655", size = 16517, upload-time = "2026-02-18T20:02:16.547Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/34/1d/1c078f971363d6b2fcfcccf3008b3c6d98cb78ba92d4d6152051bfeec76e/textual_fspicker-1.0.1.tar.gz", hash = "sha256:58f7fa983ded7a5ed69b7279f66de57a0ef6fad0e3acb622f217682e85986c9c", size = 16538, upload-time = "2026-05-20T15:56:36.264Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/92/2f/bf13ae8a1f17186a122968c7ba0f18716d63d2fa67a9e6f905a20067c022/textual_fspicker-1.0.0-py3-none-any.whl", hash = "sha256:71c80258f8885a67abf85d68b42ac8defc8226281481717af722346cbc3e0305", size = 24932, upload-time = "2026-02-18T20:02:15.492Z" },
+    { url = "https://files.pythonhosted.org/packages/f7/f9/716c82823d1bd93b499a2ab42eaa8ca3c4d57211576c9b569b329a16e8e2/textual_fspicker-1.0.1-py3-none-any.whl", hash = "sha256:12ba71314790008c37f4bf9bb008e430b844bb63d9b615cd8738ca3c1fe1ebbb", size = 24949, upload-time = "2026-05-20T15:56:34.804Z" },
 ]
 
 [[package]]

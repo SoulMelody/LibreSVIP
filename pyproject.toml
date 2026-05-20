@@ -95,7 +95,7 @@ mobile = [
   "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 tui = [
-  "textual-fspicker>=1.0.0",
+  "textual-fspicker>=1.0.1",
 ]
 ujson = ["ujson>=5.12.1"]
 webui = [
