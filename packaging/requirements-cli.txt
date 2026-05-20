@@ -26,7 +26,7 @@ macholib==1.16.4 ; sys_platform == 'darwin'
 markdown-it-py==4.2.0
 markupsafe==3.0.3
 mdurl==0.1.2
-minijinja==2.19.0
+minijinja==2.20.0
 more-itertools==11.0.2
 multidict==6.7.1
 numpy==2.2.6 ; python_full_version < '3.11' and sys_platform == 'emscripten'
