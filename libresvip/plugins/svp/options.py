@@ -26,6 +26,9 @@ synthv_language_presets = {
     "english": SynthVLanguagePreset(language="english", phoneset="arpabet"),
     "spanish": SynthVLanguagePreset(language="spanish", phoneset="xsampa"),
     "korean": SynthVLanguagePreset(language="korean", phoneset="xsampa"),
+    "german": SynthVLanguagePreset(language="german", phoneset="xsampa"),
+    "french": SynthVLanguagePreset(language="french", phoneset="xsampa"),
+    "portuguese": SynthVLanguagePreset(language="portuguese", phoneset="xsampa"),
 }
 
 
@@ -63,6 +66,9 @@ class LanguageOption(Enum):
             ENGLISH=(str, Field(title=_("English"))),
             SPANISH=(str, Field(title=_("Spanish"))),
             KOREAN=(str, Field(title=_("Korean"))),
+            GERMAN=(str, Field(title=_("German"))),
+            FRENCH=(str, Field(title=_("French"))),
+            PORTUGUESE=(str, Field(title=_("Portuguese"))),
         ),
     ]
     MANDARIN = "mandarin"
@@ -71,6 +77,9 @@ class LanguageOption(Enum):
     ENGLISH = "english"
     SPANISH = "spanish"
     KOREAN = "korean"
+    GERMAN = "german"
+    FRENCH = "french"
+    PORTUGUESE = "portuguese"
 
 
 class BreathOption(Enum):
