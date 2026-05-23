@@ -53,10 +53,7 @@ def reset_time_axis(project: Project, tempo: float = DEFAULT_BPM) -> Project:
         if isinstance(track, InstrumentalTrack):
             new_track_list.append(
                 track.model_copy(
-                    deep=True,
-                    update={
-                        "offset": round(synchronizer.get_actual_ticks_from_ticks(track.offset))
-                    },
+                    update={"offset": round(synchronizer.get_actual_ticks_from_ticks(track.offset))}
                 )
             )
         elif isinstance(track, SingingTrack):
@@ -66,16 +63,11 @@ def reset_time_axis(project: Project, tempo: float = DEFAULT_BPM) -> Project:
                 note_start = round(synchronizer.get_actual_ticks_from_ticks(note.start_pos))
                 new_note_list.append(
                     note.model_copy(
-                        deep=True,
-                        update={
-                            "start_pos": note_start,
-                            "length": note_end - note_start,
-                        },
+                        update={"start_pos": note_start, "length": note_end - note_start}
                     )
                 )
             new_track_list.append(
                 track.model_copy(
-                    deep=True,
                     update={
                         "note_list": new_note_list,
                         "edited_params": Params(

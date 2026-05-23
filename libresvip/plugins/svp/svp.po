@@ -25,6 +25,15 @@ msgstr ""
 msgid "Korean"
 msgstr ""
 
+msgid "German"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
 msgid "Ignore all breath notes"
 msgstr ""
 

@@ -1,12 +1,10 @@
 import contextlib
-import encodings
 import functools
-import importlib
-import pkgutil
 import re
 import textwrap
 import uuid
 from collections.abc import Callable
+from encodings.aliases import aliases as encoding_aliases
 from typing import Any
 
 import charset_normalizer.constant
@@ -78,16 +76,14 @@ def to_unicode(content: bytes) -> str:
 @functools.cache
 def supported_charset_names() -> list[str]:
     encoding_names = set()
-    for module_info in pkgutil.walk_packages(encodings.__path__):
-        cp_name = module_info.name
-        with contextlib.suppress(ImportError):
-            sub_module = importlib.import_module(f"encodings.{cp_name}")
-            if not cp_name.endswith("_codec") and hasattr(sub_module, "getregentry"):
-                with contextlib.suppress(ValueError):
-                    iana_name = charset_normalizer.utils.iana_name(cp_name)
-                    encoding_names.add(
-                        charset_normalizer.constant.CHARDET_CORRESPONDENCE.get(iana_name, iana_name)
-                    )
+    for cp_name in set(encoding_aliases.values()):
+        if cp_name.endswith("_codec"):
+            continue
+        with contextlib.suppress(ValueError):
+            iana_name = charset_normalizer.utils.iana_name(cp_name)
+            encoding_names.add(
+                charset_normalizer.constant.CHARDET_CORRESPONDENCE.get(iana_name, iana_name)
+            )
     return sorted(encoding_names)
 
 

@@ -7,7 +7,8 @@ import os
 import pathlib
 import re
 import sys
-from typing import Annotated, Any, TypeVar
+import threading
+from typing import TYPE_CHECKING, Annotated, Any, TypeVar, cast
 
 import pydantic_settings
 from pydantic import (
@@ -30,6 +31,9 @@ try:
     from yaml import CSafeLoader as DefaultSafeLoader
 except ImportError:
     from yaml import SafeLoader as DefaultSafeLoader
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 E = TypeVar("E", bound=enum.Enum)
 YAML_BOOL_TYPES = [
@@ -434,20 +438,71 @@ class LibreSvipSettings(LibreSvipBaseUISettings):
 config_path = app_dir.user_config_path / "settings.yml"
 
 
-if config_path.exists():
-    settings = LibreSvipSettings.load(
-        app_dir.user_config_path, create_if_missing=True, raise_error_if_failed=False
-    )
-else:
-    settings = LibreSvipSettings.construct(app_dir.user_config_path)
-settings.lyric_replace_rules.setdefault("default", [])
+def _load_settings() -> LibreSvipSettings:
+    if config_path.exists():
+        settings_object = LibreSvipSettings.load(
+            app_dir.user_config_path, create_if_missing=True, raise_error_if_failed=False
+        )
+    else:
+        settings_object = LibreSvipSettings.construct(app_dir.user_config_path)
+    settings_object.lyric_replace_rules.setdefault("default", [])
+    return settings_object
+
+
+class _LazySettingsProxy:
+    def __init__(self, loader: Callable[[], LibreSvipSettings]) -> None:
+        object.__setattr__(self, "_loader", loader)
+        object.__setattr__(self, "_lock", threading.Lock())
+        object.__setattr__(self, "_real", None)
+
+    def _ensure_loaded(self) -> LibreSvipSettings:
+        real = object.__getattribute__(self, "_real")
+        if real is None:
+            with object.__getattribute__(self, "_lock"):
+                real = object.__getattribute__(self, "_real")
+                if real is None:
+                    real = object.__getattribute__(self, "_loader")()
+                    object.__setattr__(self, "_real", real)
+        return real
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._ensure_loaded(), name)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        if name.startswith("_"):
+            object.__setattr__(self, name, value)
+        else:
+            setattr(self._ensure_loaded(), name, value)
+
+    def __delattr__(self, name: str) -> None:
+        if name.startswith("_"):
+            object.__delattr__(self, name)
+        else:
+            delattr(self._ensure_loaded(), name)
+
+    def __bool__(self) -> bool:
+        return bool(self._ensure_loaded())
+
+    def __repr__(self) -> str:
+        real = object.__getattribute__(self, "_real")
+        if real is None:
+            return f"<{self.__class__.__name__} (not yet loaded)>"
+        return repr(real)
+
+
+_settings_proxy = _LazySettingsProxy(_load_settings)
+settings = cast("LibreSvipSettings", _settings_proxy)
+
+
+def _get_local_settings() -> LibreSvipSettings:
+    return _settings_proxy._ensure_loaded()
 
 
 class LibreSVIPSettingsContainer(BaseContainer):
     state: providers.State[LibreSvipBaseUISettings] = providers.State()
     settings = providers.Selector(
         lambda: os.getenv("LIBRESVIP_SETTINGS_BACKEND", "local"),
-        local=providers.Factory(lambda: settings),
+        local=providers.Factory(_get_local_settings),
         remote=providers.Factory(lambda x: x, state.cast),
     )
 
@@ -460,4 +515,4 @@ def get_settings(
 
 
 def save_settings() -> None:
-    settings.save()
+    _get_local_settings().save()

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import abc
 import itertools
-import sys
 from types import SimpleNamespace
 from typing import (
     Annotated,
@@ -88,96 +87,84 @@ class ParamCurve(BaseModel):
     def reduce_sample_rate(self, interval: int, interrupt_value: int = 0) -> ParamCurve:
         if interval <= 0:
             return self
-        points = self.points
+        points = self.points.root
         if len(points) <= 1:
             return self
-        result = []
-        x_sum = 0
-        y_sum = 0
-        merged_count = 0
-        prev_point = points[0]
+        result: list[Point] = []
         i = 0
-        prev_point_added = False
-        while i < len(points) - 1:
-            i += 1
-            prev_point_added = False
-            current_point = points[i]
-            if current_point[1] == interrupt_value:
-                result.append(prev_point)
-                prev_point = current_point
-                continue
-            elif prev_point[1] == interrupt_value:
-                result.extend((prev_point, current_point))
+        while i < len(points):
+            point = points[i]
+            if point.y == interrupt_value:
+                result.append(point)
                 i += 1
-                if i < len(points):
-                    prev_point = points[i]
-                prev_point_added = True
                 continue
-            pos = prev_point[0]
-            first_loop = True
-            while first_loop or (
-                i < len(points) and points[i].x < pos + interval and points[i].y != interrupt_value
-            ):
-                if first_loop:
-                    first_loop = False
-                current_point = points[i]
-                x_sum += prev_point.x
-                y_sum += prev_point.y
-                merged_count += 1
-                prev_point = current_point
+            run_start = i
+            while i < len(points) and points[i].y != interrupt_value:
                 i += 1
-            result.append(
-                Point(round(x_sum / merged_count), round(y_sum / merged_count)),
-            )
-            x_sum = 0
-            y_sum = 0
-            merged_count = 0
-            if i >= len(points):
-                break
-            i -= 1
-        if not prev_point_added:
-            result.append(prev_point)
+            run = points[run_start:i]
+            if run_start > 0 and points[run_start - 1].y == interrupt_value:
+                result.append(run[0])
+                run = run[1:]
+            if not run:
+                continue
+            if len(run) == 1:
+                result.append(run[0])
+                continue
+            tail_point = run[-1]
+            window_points = run[:-1]
+            j = 0
+            while j < len(window_points):
+                bucket_start = window_points[j].x
+                bucket = [window_points[j]]
+                j += 1
+                while j < len(window_points) and window_points[j].x < bucket_start + interval:
+                    bucket.append(window_points[j])
+                    j += 1
+                result.append(
+                    Point(
+                        round(sum(point.x for point in bucket) / len(bucket)),
+                        round(sum(point.y for point in bucket) / len(bucket)),
+                    )
+                )
+            result.append(tail_point)
         return ParamCurve(points=Points(root=result))
 
     def split_into_segments(self, interrupt_value: int = 0) -> list[list[Point]]:
+        end_point_x = Point.end_point().x
         segments: list[list[Point]] = []
-        if len(self.points) == 0:
+        points = self.points.root
+        if len(points) == 0:
             return segments
-        elif len(self.points) == 1:
-            point = self.points[0]
-            if point.x >= 0 and point.y != interrupt_value:
+        elif len(points) == 1:
+            point = points[0]
+            if 0 <= point.x < end_point_x and point.y != interrupt_value:
                 segments.append([point])
             return segments
         buffer: list[Point] = []
         if interrupt_value != 0:
-            for point in self.points.root:
-                if point.x >= 0 and point.y < sys.maxsize // 2:
+            for point in points:
+                if point.x >= 0 and point.y < end_point_x:
                     if point.y != interrupt_value:
                         buffer.append(point)
                     elif buffer:
                         segments.append(buffer.copy())
                         buffer.clear()
         else:
-            current_point = self.points[0]
-            i = 1
-            while i < len(self.points):
-                next_point = self.points[i]
+            for i, current_point in enumerate(points[:-1]):
+                next_point = points[i + 1]
                 if current_point.y != interrupt_value:
                     buffer.append(current_point)
                 elif next_point.y != interrupt_value:
-                    if current_point.x >= 0 and (i <= 1 or self.points[i - 2].y != interrupt_value):
+                    if current_point.x >= 0 and (i <= 0 or points[i - 1].y != interrupt_value):
                         buffer.append(current_point)
                 elif buffer:
                     segments.append(buffer.copy())
                     buffer.clear()
-                current_point = next_point
-                i += 1
-            if current_point.x < sys.maxsize // 2 and (
-                current_point.y != interrupt_value
-                or i <= 1
-                or self.points[i - 2].y != interrupt_value
+            last_point = points[-1]
+            if last_point.x < end_point_x and (
+                last_point.y != interrupt_value or points[-2].y != interrupt_value
             ):
-                buffer.append(current_point)
+                buffer.append(last_point)
         if buffer:
             segments.append(buffer.copy())
         return segments
@@ -279,7 +266,6 @@ class Project(BaseModel):
                     *itertools.chain.from_iterable(project.track_list for project in projects)
                 ]
             },
-            deep=True,
         )
 
     def split_tracks(self, max_track_count: int) -> list[Project]:
@@ -287,7 +273,7 @@ class Project(BaseModel):
             "No singing tracks found"
         )
         return [
-            self.model_copy(update={"track_list": track_chunk}, deep=True)
+            self.model_copy(update={"track_list": track_chunk})
             for track_chunk in more_itertools.chunked(
                 (track for track in self.track_list if isinstance(track, SingingTrack)),
                 max_track_count,

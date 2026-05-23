@@ -80,18 +80,16 @@ middleware_manager = _LazyLoader(_build_middleware_manager)
 
 
 _svs_suffix_map: dict[str, type[SVSConverter]] | None = None
-_svs_suffix_map_built = False
 
 
 def invalidate_plugin_caches() -> None:
-    global _svs_suffix_map, _svs_suffix_map_built
+    global _svs_suffix_map
     _svs_suffix_map = None
-    _svs_suffix_map_built = False
 
 
 def _build_svs_suffix_map() -> dict[str, type[SVSConverter]]:
-    global _svs_suffix_map, _svs_suffix_map_built
-    if _svs_suffix_map_built and _svs_suffix_map is not None:
+    global _svs_suffix_map
+    if _svs_suffix_map is not None:
         return _svs_suffix_map
     suffix_map: dict[str, type[SVSConverter]] = {}
     for plugin in plugin_manager.plugins.get("svs", {}).values():
@@ -102,7 +100,6 @@ def _build_svs_suffix_map() -> dict[str, type[SVSConverter]]:
                 )
             suffix_map[suffix] = plugin
     _svs_suffix_map = suffix_map
-    _svs_suffix_map_built = True
     return suffix_map
 
 

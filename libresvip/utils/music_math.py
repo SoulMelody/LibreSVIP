@@ -12,6 +12,19 @@ from libresvip.core.compat import prefix_match
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.model.point import Point
 
+NOTE2MIDI_PITCH_MAP = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
+NOTE2MIDI_ACC_MAP = {
+    "#": 1,
+    "": 0,
+    "b": -1,
+    "!": -1,
+    "♯": 1,
+    "𝄪": 2,
+    "♭": -1,
+    "𝄫": -2,
+    "♮": 0,
+}
+
 P = ParamSpec("P")
 NOTE_RE = re.compile(r"^(?P<note>[A-Ga-g])(?P<accidental>[#♯𝄪b!♭𝄫♮]*)(?P<octave>[+-]?\d+)?$")
 
@@ -38,30 +51,17 @@ def midi2note(midi: float) -> str:
 
 
 def note2midi(note: str) -> int:
-    pitch_map = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
-    acc_map = {
-        "#": 1,
-        "": 0,
-        "b": -1,
-        "!": -1,
-        "♯": 1,
-        "𝄪": 2,
-        "♭": -1,
-        "𝄫": -2,
-        "♮": 0,
-    }
-
     if (match := prefix_match(NOTE_RE, note)) is None:
         msg = f"Invalid note format: {note!r}"
         raise ValueError(msg)
 
     pitch = match["note"].upper()
-    offset = sum(acc_map[o] for o in match["accidental"])
+    offset = sum(NOTE2MIDI_ACC_MAP[o] for o in match["accidental"])
     octave = match["octave"]
 
     octave = int(octave) if octave else 0
 
-    note_value = KEY_IN_OCTAVE * (octave + 1) + pitch_map[pitch] + offset
+    note_value = KEY_IN_OCTAVE * (octave + 1) + NOTE2MIDI_PITCH_MAP[pitch] + offset
 
     return round(note_value)
 
@@ -91,6 +91,11 @@ def clamp(
     .. from boltons: https://boltons.readthedocs.io/en/latest/mathutils.html#boltons.mathutils.clamp
 
     """
+    if lower is not None and upper is not None:
+        if upper < lower:
+            msg = f"expected upper bound ({upper!r}) >= lower bound ({lower!r})"
+            raise ValueError(msg)
+        return min(max(x, lower), upper)
     if lower is None:
         lower = float("-inf")
     if upper is None:
@@ -220,6 +225,8 @@ class HermiteInterpolator:
         elif len(self.points) == 2:
             return [linear_interpolation(x, self.points[0], self.points[1]) for x in xs]
         point_index = 0
+        last_delta_index = -1
+        last_delta = 0.0
         ys = []
         for x in xs:
             while point_index < len(self.points) and self.points[point_index][0] < x:
@@ -230,7 +237,9 @@ class HermiteInterpolator:
                 ys.append(self.points[-1][1])
             else:
                 last_point = self.points[point_index - 1]
-                last_delta = self.slope_at(point_index - 1)
+                if point_index != last_delta_index:
+                    last_delta = self.slope_at(point_index - 1)
+                    last_delta_index = point_index
                 next_point = self.points[point_index]
                 next_delta = self.slope_at(point_index)
                 delta_1 = x - last_point[0]
