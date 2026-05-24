@@ -378,7 +378,7 @@ ToolBar {
                                 ButtonGroup {
                                     id: languageButtonGroup
                                     onClicked: {
-                                        dialogs.openDialog.nameFilters[0] = qsTr(converterPage.inputFormatComboBox.currentText) + " (" + converterPage.inputFormatComboBox.currentSuffixes.replace(/; /g, " ") + ")";
+                                        dialogs.setFormatFilter(qsTr(converterPage.inputFormatComboBox.currentText) + " (" + converterPage.inputFormatComboBox.currentSuffixes.replace(/; /g, " ") + ")");
                                     }
                                 }
                                 MenuItem {

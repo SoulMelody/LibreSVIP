@@ -399,7 +399,7 @@ Page {
                             this.currentIndex = 0;
                         }
                         let format_name = currentText.replace(/\s*\(.*\)$/, "");
-                        dialogs.openDialog.nameFilters[0] = qsTr(format_name) + " (" + currentSuffixes.replace(/; /g, " ") + ")";
+                        dialogs.setFormatFilter(qsTr(format_name) + " (" + currentSuffixes.replace(/; /g, " ") + ")");
                         taskManager.input_format_changed.connect(input_format => {
                             let new_index = indexOfValue(input_format);
                             if (new_index < 0) {
@@ -412,7 +412,7 @@ Page {
                                 let format_name = currentText.replace(/\s*\(.*\)$/, "");
                                 let name_filter = qsTr(format_name) + " (" + currentSuffixes.replace(/; /g, " ") + ")";
                                 if (name_filter != dialogs.openDialog.nameFilters[0]) {
-                                    dialogs.openDialog.nameFilters[0] = name_filter;
+                                    dialogs.setFormatFilter(name_filter);
                                 }
                             }
                         });

@@ -135,6 +135,10 @@ Item {
         }
     }
 
+    function setFormatFilter(name_filter) {
+        openDialog.nameFilters = [name_filter, qsTr("All Files (*.*)")];
+    }
+
     property QtObject saveDialog: FolderDialog {
         currentFolder: ""
         onAccepted: {
