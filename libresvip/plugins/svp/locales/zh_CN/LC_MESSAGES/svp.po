@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-05-14 01:32\n"
+"PO-Revision-Date: 2026-05-24 02:03\n"
 
 msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
 msgstr "与 SynthesizerV Studio 1.9.0 及以下版本兼容"
@@ -38,6 +38,15 @@ msgstr "西班牙语"
 
 msgid "Korean"
 msgstr "韩语"
+
+msgid "German"
+msgstr "德语"
+
+msgid "French"
+msgstr "法语"
+
+msgid "Portuguese"
+msgstr "葡萄牙语"
 
 msgid "Ignore all breath notes"
 msgstr "忽略所有换气音符"
