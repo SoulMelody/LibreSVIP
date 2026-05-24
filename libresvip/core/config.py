@@ -8,15 +8,17 @@ import pathlib
 import re
 import sys
 import threading
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Annotated, Any, TypeVar, cast
 
 import pydantic_settings
 from pydantic import (
     BaseModel,
     Field,
+    GetCoreSchemaHandler,
     ValidationError,
     model_validator,
 )
+from pydantic_core import core_schema
 from that_depends import BaseContainer, Provide, inject, providers
 from typing_extensions import Self
 
@@ -58,6 +60,35 @@ YAML_BOOL_TYPES = [
     "Off",
     "OFF",
 ]
+
+
+def pydantic_enum(enum_cls: type[E]) -> type[E]:
+    def _get_pydantic_core_schema_(
+        cls: type[E], source_type: Any, handler: GetCoreSchemaHandler
+    ) -> core_schema.WrapValidatorFunctionSchema:
+        assert source_type is cls
+
+        def get_enum(value: Any, validate_next: core_schema.ValidatorFunctionWrapHandler) -> E:
+            if isinstance(value, cls):
+                return value
+            name: str = validate_next(value)
+            return enum_cls[name]
+
+        def serialize(enum: E) -> str:
+            return enum.name
+
+        expected = [member.name for member in cls]
+        name_schema = core_schema.literal_schema(expected)
+
+        return core_schema.no_info_wrap_validator_function(
+            get_enum,
+            name_schema,
+            ref=getattr(cls, "__name__"),
+            serialization=core_schema.plain_serializer_function_ser_schema(serialize),
+        )
+
+    setattr(enum_cls, "__get_pydantic_core_schema__", classmethod(_get_pydantic_core_schema_))
+    return enum_cls
 
 
 def get_omega_conf_loader() -> DefaultSafeLoader:
@@ -172,9 +203,7 @@ def get_omega_conf_dumper() -> type[OmegaConfDumper]:
 
 
 class YamlSettings(pydantic_settings.BaseSettings):
-    model_config = pydantic_settings.SettingsConfigDict(
-        extra="allow", validate_assignment=True, use_enum_values=True
-    )
+    model_config = pydantic_settings.SettingsConfigDict(extra="allow", validate_assignment=True)
     _settings_dir: pathlib.Path
     __FILENAME__: str = "settings.yml"
 
@@ -256,8 +285,8 @@ class LyricsReplacement(BaseModel):
     pattern_main: str
     pattern_prefix: str = ""
     pattern_suffix: str = ""
-    flags: re.RegexFlag = re.IGNORECASE
-    mode: LyricsReplaceMode = LyricsReplaceMode.FULL
+    flags: Annotated[re.RegexFlag, pydantic_enum(re.RegexFlag)] = re.IGNORECASE
+    mode: Annotated[LyricsReplaceMode, pydantic_enum(LyricsReplaceMode)] = LyricsReplaceMode.FULL
 
     def __post_init__(self) -> None:
         if self.mode.value in LYRIC_REPLACE_MODE_PREFIX_SUFFIX:
@@ -340,10 +369,10 @@ class ConversionMode(enum.Enum):
 
 
 class LibreSvipBaseUISettings(YamlSettings):
-    language: Language = Field(default_factory=Language.auto)
+    language: Annotated[Language, pydantic_enum(Language)] = Field(default_factory=Language.auto)
     last_input_format: str | None = Field(default=None)
     last_output_format: str | None = Field(default=None)
-    dark_mode: DarkMode = Field(default=DarkMode.SYSTEM)
+    dark_mode: Annotated[DarkMode, pydantic_enum(DarkMode)] = Field(default=DarkMode.SYSTEM)
     auto_detect_input_format: bool = Field(default=True)
     reset_tasks_on_input_change: bool = Field(default=True)
     max_track_count: int = Field(default=1)
@@ -387,7 +416,9 @@ class LibreSvipSettings(LibreSvipBaseUISettings):
     # GUI Only
     save_folder: pathlib.Path = Field(default=pathlib.Path("./"))
     folder_presets: list[pathlib.Path] = Field(default_factory=list)
-    conflict_policy: ConflictPolicy = Field(default=ConflictPolicy.PROMPT)
+    conflict_policy: Annotated[ConflictPolicy, pydantic_enum(ConflictPolicy)] = Field(
+        default=ConflictPolicy.PROMPT
+    )
     multi_threaded_conversion: bool = Field(default=True)
     open_save_folder_on_completion: bool = Field(default=True)
     auto_set_output_extension: bool = Field(default=True)

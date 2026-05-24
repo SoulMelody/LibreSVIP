@@ -52,7 +52,7 @@ class LocaleSwitcher(QObject):
 
     @Slot(result=str)
     def get_language(self) -> str:
-        return settings.language
+        return settings.language.value
 
     def _apply_language(self, lang: str, *, include_plugins: bool) -> None:
         if lang:

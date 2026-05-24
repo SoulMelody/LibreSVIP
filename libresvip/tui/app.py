@@ -822,7 +822,7 @@ class TUIApp(App[None]):
 
     @on(Select.Changed, "#language_select")
     async def handle_language_changed(self, changed: Select.Changed) -> None:
-        if settings.language != changed.value:
+        if settings.language.value != changed.value:
             settings.language = Language(changed.value)
             translation.singleton_translation = get_translation()
             await self.recompose()
@@ -1001,7 +1001,7 @@ class TUIApp(App[None]):
         max_track_count_input.disabled = activated.tab.id != "split"
 
     def compose(self) -> ComposeResult:
-        if settings.dark_mode == DarkMode.LIGHT.value:
+        if settings.dark_mode == DarkMode.LIGHT:
             self.dark = False
         yield Header(icon="☰")
         yield Footer()
@@ -1108,7 +1108,7 @@ class TUIApp(App[None]):
                                 ("Deutsch", "de_DE"),
                                 # ("日本語", "ja_JP")
                             ],
-                            value=settings.language,
+                            value=settings.language.value,
                             prompt="",
                             allow_blank=False,
                             id="language_select",

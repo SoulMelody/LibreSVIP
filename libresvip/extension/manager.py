@@ -148,7 +148,7 @@ def merge_translation(
 def get_core_translation(lang: str | None = None) -> gettext.NullTranslations:
     if lang is None:
         ui_settings = get_settings()
-        lang = ui_settings.language
+        lang = ui_settings.language.value
     translation = gettext.NullTranslations()
     return merge_translation(translation, res_dir, lang)
 
@@ -160,7 +160,7 @@ def get_translation(
 ) -> gettext.NullTranslations:
     if lang is None:
         ui_settings = get_settings()
-        lang = ui_settings.language
+        lang = ui_settings.language.value
     translation = get_core_translation(lang)
     if not include_plugins:
         return translation
