@@ -3,115 +3,41 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import QtQuick.Shapes
+import QtQuick.Effects
 
 GridLayout {
     property var info
     rows: 10
     columns: 10
 
-    Image {
+    Rectangle {
         Layout.row: 0
         Layout.column: 0
         Layout.rowSpan: 3
         Layout.columnSpan: 3
-        sourceSize.width: 100
-        sourceSize.height: 100
-        source: info.icon_base64
-        fillMode: Image.PreserveAspectFit
-        Shape {
-            layer.enabled: true
-            layer.samples: 4
-            layer.smooth: true
+        width: 100
+        height: 100
+        radius: 50
+        Image {
+            id: logo
             anchors.fill: parent
-
-            ShapePath {
-                startX: 0
-                startY: 0
-                fillColor: window.Material.dialogColor
-                strokeColor: "transparent"
-                PathLine {
-                    x: 50
-                    y: 0
-                }
-                PathArc {
-                    x: 0
-                    y: 50
-                    radiusX: 50
-                    radiusY: 50
-                    direction: PathArc.Counterclockwise
-                }
-                PathLine {
-                    x: 0
-                    y: 0
-                }
-            }
-
-            ShapePath {
-                startX: 0
-                startY: 100
-                fillColor: window.Material.dialogColor
-                strokeColor: "transparent"
-                PathLine {
-                    x: 50
-                    y: 100
-                }
-                PathArc {
-                    x: 0
-                    y: 50
-                    radiusX: 50
-                    radiusY: 50
-                    direction: PathArc.Clockwise
-                }
-                PathLine {
-                    x: 0
-                    y: 100
-                }
-            }
-
-            ShapePath {
-                startX: 100
-                startY: 0
-                fillColor: window.Material.dialogColor
-                strokeColor: "transparent"
-                PathLine {
-                    x: 50
-                    y: 0
-                }
-                PathArc {
-                    x: 100
-                    y: 50
-                    radiusX: 50
-                    radiusY: 50
-                    direction: PathArc.Clockwise
-                }
-                PathLine {
-                    x: 100
-                    y: 0
-                }
-            }
-
-            ShapePath {
-                startX: 100
-                startY: 100
-                fillColor: window.Material.dialogColor
-                strokeColor: "transparent"
-                PathLine {
-                    x: 50
-                    y: 100
-                }
-                PathArc {
-                    x: 100
-                    y: 50
-                    radiusX: 50
-                    radiusY: 50
-                    direction: PathArc.Counterclockwise
-                }
-                PathLine {
-                    x: 100
-                    y: 100
-                }
-            }
+            source: info.icon_base64
+            visible: false
+        }
+        MultiEffect {
+            anchors.fill: logo
+            source: logo
+            maskEnabled: true
+            maskSource: maskRect
+        }
+        Rectangle {
+            id: maskRect
+            anchors.fill: parent
+            width: 100
+            height: 100
+            radius: 50
+            layer.enabled: true
+            visible: false
         }
     }
 
