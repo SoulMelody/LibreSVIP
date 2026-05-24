@@ -32,13 +32,50 @@ class RelativePitchCurve:
         pitch_simulator: PitchSimulator,
         to_absolute: bool = False,
     ) -> list[Point]:
+        all_tick_positions: list[int] = []
+        tick_pos_to_idx: dict[int, int] = {}
+
+        def _ensure_tick(tick_pos: int) -> None:
+            if tick_pos not in tick_pos_to_idx:
+                tick_pos_to_idx[tick_pos] = len(all_tick_positions)
+                all_tick_positions.append(tick_pos)
+
+        for point in points:
+            pos = point.x + (0 if to_absolute else -self.first_bar_length)
+            _ensure_tick(pos)
+
+        prev_x = None
+        prev_y_is_none = True
+        for point in points:
+            cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
+            # We don't know yet if base_key is None, but we optimistically collect
+            # interpolation ticks. We'll filter later.
+            if prev_x is not None and not prev_y_is_none and cur_x - prev_x > self.pitch_interval:
+                for tick in range(prev_x + self.pitch_interval, cur_x, self.pitch_interval):
+                    tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
+                    _ensure_tick(tick_pos)
+            prev_x = cur_x
+            # We can't fully determine prev_y_is_none without the pitch data,
+            # so we conservatively assume it might not be None.
+            # This means we may query a few extra ticks, but that's fine.
+            prev_y_is_none = False
+
+        # Phase 2: batch pitch lookup
+        pitch_values: list[float | None]
+        if all_tick_positions:
+            pitch_values = pitch_simulator.pitch_at_ticks_batch(all_tick_positions)
+        else:
+            pitch_values = []
+
+        # Phase 3: main conversion loop using pre-fetched pitch values
         converted_data: list[Point] = []
         prev_x = None
         prev_y: float | None = None
         for point in points:
             pos = point.x + (0 if to_absolute else -self.first_bar_length)
             cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
-            if (base_key := pitch_simulator.pitch_at_ticks(pos)) is None:
+            base_key = pitch_values[tick_pos_to_idx[pos]]
+            if base_key is None:
                 y = None
                 rel_y = None
             elif not to_absolute and point.y == -100:
@@ -58,7 +95,8 @@ class RelativePitchCurve:
             ):
                 for tick in range(prev_x + self.pitch_interval, cur_x, self.pitch_interval):
                     tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
-                    if (tick_key := pitch_simulator.pitch_at_ticks(tick_pos)) is not None:
+                    tick_key = pitch_values[tick_pos_to_idx[tick_pos]]
+                    if tick_key is not None:
                         if to_absolute:
                             if self.is_staircase or rel_y is None:
                                 interpolated_rel_y = prev_y

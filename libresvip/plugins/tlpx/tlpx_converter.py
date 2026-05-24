@@ -31,4 +31,6 @@ class TuneLabXConverter(plugin_base.SVSConverter):
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
         options_obj = cls.output_option_cls(**options)
         tlp_project = TuneLabGenerator(options_obj).generate_project(project)
-        path.write_bytes(cbor2.dumps(tlp_project.model_dump(mode="json", by_alias=True)))
+        path.write_bytes(
+            cbor2.dumps(tlp_project.model_dump(mode="json", by_alias=True, exclude_none=True))
+        )

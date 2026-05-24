@@ -7,7 +7,7 @@ import portion
 from libresvip.model.base import SongTempo, TimeSignature
 from libresvip.utils.search import find_last_index
 
-from .time_interval import PiecewiseIntervalDict
+from .time_interval import BisectIntervalMap
 
 
 def skip_tempo_list(tempo_list: list[SongTempo], skip_ticks: int) -> list[SongTempo]:
@@ -67,7 +67,7 @@ def calc_bar_index(tick: float, base_tick: float, beat: TimeSignature) -> int:
 
 def find_bar_index(beat_list: list[TimeSignature], ticks: int) -> int:
     tick = 0.0
-    ticks2beat_interval_dict = PiecewiseIntervalDict()
+    ticks2beat_interval_dict = BisectIntervalMap()
     next_tick: float
     for beat, next_beat in itertools.pairwise(beat_list):
         next_tick = tick + beat.bar_length() * (next_beat.bar_index - beat.bar_index)

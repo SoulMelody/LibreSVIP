@@ -89,3 +89,19 @@ class TimeSynchronizer:
 
     def get_actual_secs_from_ticks(self, ticks: int) -> float:
         return self.get_duration_secs_from_ticks(0, ticks)
+
+    def get_actual_secs_from_ticks_batch(self, ticks_list: list[int]) -> list[float]:
+        if not ticks_list:
+            return []
+        indexed = sorted(enumerate(ticks_list), key=lambda x: x[1])
+        results: list[float] = [0.0] * len(ticks_list)
+        seg_idx = 0
+        n = len(self._positions)
+        for orig_idx, ticks in indexed:
+            while seg_idx + 1 < n and self._positions[seg_idx + 1] <= ticks:
+                seg_idx += 1
+            results[orig_idx] = (
+                self._cum_secs[seg_idx]
+                + (ticks - self._positions[seg_idx]) / self.tempo_list[seg_idx].bpm / 8
+            )
+        return results

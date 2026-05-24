@@ -251,7 +251,9 @@ class Project(BaseModel):
 
     @classmethod
     def merge_projects(cls, projects: list[Project]) -> Project:
-        assert len(projects) > 1, "No projects to merge"
+        if len(projects) <= 1:
+            msg = "No projects to merge"
+            raise ValueError(msg)
         sample_project = projects[0]
         if not all(
             project.time_signature_list == sample_project.time_signature_list
@@ -269,9 +271,9 @@ class Project(BaseModel):
         )
 
     def split_tracks(self, max_track_count: int) -> list[Project]:
-        assert any(isinstance(track, SingingTrack) for track in self.track_list), (
-            "No singing tracks found"
-        )
+        if not any(isinstance(track, SingingTrack) for track in self.track_list):
+            msg = "No singing tracks found"
+            raise ValueError(msg)
         return [
             self.model_copy(update={"track_list": track_chunk})
             for track_chunk in more_itertools.chunked(

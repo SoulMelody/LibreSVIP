@@ -1,3 +1,4 @@
+import bisect
 import dataclasses
 import functools
 import itertools
@@ -8,7 +9,7 @@ from typing import NamedTuple
 import portion
 
 from libresvip.core.exceptions import ParamsError
-from libresvip.core.time_interval import PiecewiseIntervalDict
+from libresvip.core.time_interval import BisectIntervalMap
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.utils.music_math import linear_interpolation
 from libresvip.utils.search import find_index
@@ -110,6 +111,8 @@ class BaseLayerGenerator:
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     note_list: list[NoteStruct] = dataclasses.field(init=False)
     sigmoid_nodes: list[SigmoidNode] = dataclasses.field(default_factory=list)
+    _starts: list[float] = dataclasses.field(init=False, default_factory=list)
+    _ends: list[float] = dataclasses.field(init=False, default_factory=list)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         self.note_list = _note_list
@@ -138,11 +141,15 @@ class BaseLayerGenerator:
                     _key_right=next_note.key,
                 )
             )
+        self._starts = [node.start for node in self.sigmoid_nodes]
+        self._ends = [node.end for node in self.sigmoid_nodes]
 
     def pitch_at_secs(self, secs: float) -> float:
         if not self.note_list:
             return 0.0
-        query = [node for node in self.sigmoid_nodes if node.start <= secs < node.end]
+        left_index = bisect.bisect_right(self._ends, secs)
+        right_index = bisect.bisect_right(self._starts, secs)
+        query = self.sigmoid_nodes[left_index:right_index]
         if not query:
             on_note_index = find_index(self.note_list, lambda note: note.start <= secs < note.end)
             if on_note_index >= 0:
@@ -203,6 +210,8 @@ def _portamento_sigma(portamento: float) -> float:
 class GaussianLayerGenerator:
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
+    _starts: list[float] = dataclasses.field(init=False, default_factory=list)
+    _ends: list[float] = dataclasses.field(init=False, default_factory=list)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         if not _note_list:
@@ -265,13 +274,13 @@ class GaussianLayerGenerator:
                 depth=-last_note.depth_right * 100,
             )
         )
+        self._starts = [node.start for node in self.gaussian_nodes]
+        self._ends = [node.end for node in self.gaussian_nodes]
 
     def pitch_diff_at_secs(self, secs: float) -> float:
-        return sum(
-            node.value_at_secs(secs)
-            for node in self.gaussian_nodes
-            if node.start <= secs < node.end
-        )
+        left_index = bisect.bisect_right(self._ends, secs)
+        right_index = bisect.bisect_right(self._starts, secs)
+        return sum(node.value_at_secs(secs) for node in self.gaussian_nodes[left_index:right_index])
 
 
 @dataclasses.dataclass
@@ -312,6 +321,8 @@ class VibratoNode:
 class VibratoLayerGenerator:
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     vibrato_nodes: list[VibratoNode] = dataclasses.field(default_factory=list)
+    _starts: list[float] = dataclasses.field(init=False, default_factory=list)
+    _ends: list[float] = dataclasses.field(init=False, default_factory=list)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         for i in range(len(_note_list)):
@@ -339,17 +350,19 @@ class VibratoLayerGenerator:
                     phase=_note_list[i].vibrato_phase,
                 )
             )
+        self._starts = [node.start for node in self.vibrato_nodes]
+        self._ends = [node.end for node in self.vibrato_nodes]
 
     def pitch_diff_at_secs(self, secs: float) -> float:
-        return sum(
-            node.value_at_secs(secs) for node in self.vibrato_nodes if node.start <= secs < node.end
-        )
+        left_index = bisect.bisect_right(self._ends, secs)
+        right_index = bisect.bisect_right(self._starts, secs)
+        return sum(node.value_at_secs(secs) for node in self.vibrato_nodes[left_index:right_index])
 
 
 @dataclasses.dataclass
 class PitchControlLayerGenerator:
     _pitch_controls: dataclasses.InitVar[list[PitchControl]]
-    interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
+    interval_dict: BisectIntervalMap = dataclasses.field(default_factory=BisectIntervalMap)
 
     def __post_init__(self, _pitch_controls: list[PitchControl]) -> None:
         for pitch_control in _pitch_controls:
