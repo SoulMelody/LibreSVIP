@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-03-23 01:30\n"
+"PO-Revision-Date: 2026-05-24 01:43\n"
 
 msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
 msgstr ""
@@ -37,6 +37,15 @@ msgid "Spanish"
 msgstr ""
 
 msgid "Korean"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "Portuguese"
 msgstr ""
 
 msgid "Ignore all breath notes"
