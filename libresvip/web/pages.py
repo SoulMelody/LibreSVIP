@@ -1614,25 +1614,25 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                 def switch_language(
                                     event: ValueChangeEventArguments,
                                 ) -> None:
-                                    if event.value == Language.CHINESE:
+                                    if event.value == Language.CHINESE.value:
                                         ui.navigate.to(
                                             f"/?lang=zh_CN&dark_mode={dark_value2str(dark_toggler.value)}"
                                         )
-                                    elif event.value == Language.ENGLISH:
+                                    elif event.value == Language.ENGLISH.value:
                                         ui.navigate.to(
                                             f"/?lang=en_US&dark_mode={dark_value2str(dark_toggler.value)}"
                                         )
-                                    elif event.value == Language.GERMAN:
+                                    elif event.value == Language.GERMAN.value:
                                         ui.navigate.to(
                                             f"/?lang=de_DE&dark_mode={dark_value2str(dark_toggler.value)}"
                                         )
 
                                 ui.select(
                                     {
-                                        Language.CHINESE: "简体中文",
-                                        Language.ENGLISH: "English",
-                                        Language.JAPANESE: "日本語",
-                                        Language.GERMAN: "Deutsch",
+                                        Language.CHINESE.value: "简体中文",
+                                        Language.ENGLISH.value: "English",
+                                        Language.JAPANESE.value: "日本語",
+                                        Language.GERMAN.value: "Deutsch",
                                     },
                                 ).bind_value(
                                     settings,
@@ -2276,6 +2276,5 @@ def main() -> None:
             title="LibreSVIP",
             favicon=icon_path,
             show_welcome_message=False,
-            binding_refresh_interval=0.03,
             unocss="mini",
         )

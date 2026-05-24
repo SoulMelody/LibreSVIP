@@ -10,8 +10,6 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 import libresvip
 from libresvip.core.config import (
-    ConflictPolicy,
-    DarkMode,
     LibreSvipSettings,
     save_settings,
     settings,
@@ -96,11 +94,10 @@ class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
     save_folder = Property(str, get_save_folder, set_save_folder, notify=save_folder_changed)
 
     def get_conflict_policy(self) -> str:
-        return settings.conflict_policy.value
+        return settings.conflict_policy
 
     def set_conflict_policy(self, policy: str) -> None:
-        conflict_policy = ConflictPolicy(policy)
-        settings.conflict_policy = conflict_policy
+        settings.conflict_policy = policy
         self.conflict_policy_changed.emit(policy)
 
     conflict_policy = Property(
@@ -111,11 +108,10 @@ class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
     )
 
     def get_theme(self) -> str:
-        return settings.dark_mode.value
+        return settings.dark_mode
 
     def set_theme(self, theme: str) -> None:
-        dark_mode = DarkMode(theme)
-        settings.dark_mode = dark_mode
+        settings.dark_mode = theme
         self.theme_changed.emit(theme)
 
     theme = Property(str, get_theme, set_theme, notify=theme_changed)
