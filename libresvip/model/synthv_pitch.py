@@ -9,7 +9,7 @@ from typing import NamedTuple
 import portion
 
 from libresvip.core.exceptions import ParamsError
-from libresvip.core.time_interval import BisectIntervalMap
+from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.utils.music_math import linear_interpolation
 from libresvip.utils.search import find_index
@@ -149,8 +149,15 @@ class BaseLayerGenerator:
             return 0.0
         left_index = bisect.bisect_right(self._ends, secs)
         right_index = bisect.bisect_right(self._starts, secs)
-        query = self.sigmoid_nodes[left_index:right_index]
-        if not query:
+        query_count = right_index - left_index
+        if query_count <= 0:
+            if self.sigmoid_nodes:
+                next_index = bisect.bisect_right(self._starts, secs)
+                if next_index == 0:
+                    return self.sigmoid_nodes[0].key_left * 100
+                if next_index >= len(self.sigmoid_nodes):
+                    return self.sigmoid_nodes[-1].key_right * 100
+                return self.sigmoid_nodes[next_index - 1].key_right * 100
             on_note_index = find_index(self.note_list, lambda note: note.start <= secs < note.end)
             if on_note_index >= 0:
                 return self.note_list[on_note_index].key * 100
@@ -161,17 +168,20 @@ class BaseLayerGenerator:
                 ).key
                 * 100
             )
-        if len(query) == 1:
-            return query[0].value_at_secs(secs)
-        if len(query) <= 3:
-            first = query[0]
-            last = query[-1]
+        if query_count == 1:
+            return self.sigmoid_nodes[left_index].value_at_secs(secs)
+        if query_count <= 3:
+            first = self.sigmoid_nodes[left_index]
+            last = self.sigmoid_nodes[right_index - 1]
             width = first.end - last.start
             bottom = first.value_at_secs(last.start)
             top = last.value_at_secs(first.end)
             diff1 = first.slope_at_secs(last.start)
             diff2 = last.slope_at_secs(first.end)
-            return self.cubic_bezier(width, bottom, top, diff1, diff2)(secs - last.start)
+            x = secs - last.start
+            a = (2 * (bottom - top) + (diff1 + diff2) * width) / width**3
+            b = (3 * (top - bottom) - 2 * diff1 * width - diff2 * width) / width**2
+            return a * x**3 + b * x**2 + diff1 * x + bottom
         msg = "More than three sigmoid nodes overlapped"
         raise ParamsError(msg)
 
@@ -280,7 +290,10 @@ class GaussianLayerGenerator:
     def pitch_diff_at_secs(self, secs: float) -> float:
         left_index = bisect.bisect_right(self._ends, secs)
         right_index = bisect.bisect_right(self._starts, secs)
-        return sum(node.value_at_secs(secs) for node in self.gaussian_nodes[left_index:right_index])
+        return sum(
+            self.gaussian_nodes[index].value_at_secs(secs)
+            for index in range(left_index, right_index)
+        )
 
 
 @dataclasses.dataclass
@@ -356,13 +369,16 @@ class VibratoLayerGenerator:
     def pitch_diff_at_secs(self, secs: float) -> float:
         left_index = bisect.bisect_right(self._ends, secs)
         right_index = bisect.bisect_right(self._starts, secs)
-        return sum(node.value_at_secs(secs) for node in self.vibrato_nodes[left_index:right_index])
+        return sum(
+            self.vibrato_nodes[index].value_at_secs(secs)
+            for index in range(left_index, right_index)
+        )
 
 
 @dataclasses.dataclass
 class PitchControlLayerGenerator:
     _pitch_controls: dataclasses.InitVar[list[PitchControl]]
-    interval_dict: BisectIntervalMap = dataclasses.field(default_factory=BisectIntervalMap)
+    interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
 
     def __post_init__(self, _pitch_controls: list[PitchControl]) -> None:
         for pitch_control in _pitch_controls:
@@ -410,9 +426,32 @@ class SynthVPitchSimulator:
     def pitch_at_ticks(self, ticks: int) -> float:
         return self.pitch_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks), ticks)
 
+    def pitch_at_ticks_batch(self, ticks_list: list[int]) -> list[float]:
+        if not ticks_list:
+            return []
+        secs_list = self.synchronizer.get_actual_secs_from_ticks_batch(ticks_list)
+        return self.pitch_at_secs_batch(secs_list, ticks_list)
+
+    def pitch_at_secs_batch(
+        self, secs_list: list[float], ticks_list: list[int] | None = None
+    ) -> list[float]:
+        if not secs_list:
+            return []
+        if ticks_list is None:
+            ticks_list = [
+                round(self.synchronizer.get_actual_ticks_from_secs(secs)) for secs in secs_list
+            ]
+        return [
+            self._pitch_from_aligned_secs_and_ticks(secs, ticks)
+            for secs, ticks in zip(secs_list, ticks_list)
+        ]
+
     def pitch_at_secs(self, secs: float, ticks: int | None = None) -> float:
         if ticks is None:
             ticks = round(self.synchronizer.get_actual_ticks_from_secs(secs))
+        return self._pitch_from_aligned_secs_and_ticks(secs, ticks)
+
+    def _pitch_from_aligned_secs_and_ticks(self, secs: float, ticks: int) -> float:
         if self.pitch_control_layer is not None:
             pitch_control_value = self.pitch_control_layer.value_at_ticks(ticks)
             if pitch_control_value is not None:

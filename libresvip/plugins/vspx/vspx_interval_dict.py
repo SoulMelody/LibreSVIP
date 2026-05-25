@@ -6,7 +6,7 @@ import math
 import more_itertools
 import portion
 
-from libresvip.core.time_interval import BisectIntervalMap, PiecewiseIntervalDict
+from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.utils.music_math import cosine_easing_in_out_interpolation
 
@@ -41,7 +41,9 @@ class BasePitchCurve:
     note_track: dataclasses.InitVar[VocalSharpNoteTrack]
     default_trill: dataclasses.InitVar[VocalSharpDefaultTrill | None]
     synchronizer: TimeSynchronizer
-    key_interval_dict: BisectIntervalMap = dataclasses.field(default_factory=BisectIntervalMap)
+    key_interval_dict: PiecewiseIntervalDict = dataclasses.field(
+        default_factory=PiecewiseIntervalDict
+    )
     vibrato_value_interval_dict: PiecewiseIntervalDict = dataclasses.field(
         default_factory=PiecewiseIntervalDict
     )

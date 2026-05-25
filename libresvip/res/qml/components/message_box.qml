@@ -7,6 +7,7 @@ MessageDialog {
     property var message: ""
     property var onOk: null
     property var onCancel: null
+    flags: Qt.Dialog | Qt.FramelessWindowHint
     text: body
     informativeText: message
     buttons: {
