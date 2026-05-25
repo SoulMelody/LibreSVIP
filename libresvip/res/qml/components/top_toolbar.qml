@@ -201,7 +201,7 @@ ToolBar {
                                 id: importFormatMenu
                                 width: 300
                                 title: qsTr("Input Format (&I)")
-                                enabled: taskManager.startup_ready && !taskManager.busy
+                                enabled: !taskManager.busy
                                 ButtonGroup {
                                     id: inputFormatButtonGroup
                                 }
@@ -259,7 +259,7 @@ ToolBar {
                                 id: exportFormatMenu
                                 width: 300
                                 title: qsTr("Output Format (&E)")
-                                enabled: taskManager.startup_ready && !taskManager.busy
+                                enabled: !taskManager.busy
                                 ButtonGroup {
                                     id: exportFormatButtonGroup
                                 }

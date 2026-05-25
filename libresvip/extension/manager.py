@@ -4,7 +4,7 @@ import copy
 import gettext
 import itertools
 from importlib.resources import files
-from typing import TYPE_CHECKING, Any, Generic, TypeVar
+from typing import TYPE_CHECKING
 
 from loguru import logger
 
@@ -13,12 +13,8 @@ from libresvip.core.constants import app_dir, pkg_dir, res_dir
 from libresvip.extension.vendor import pluginlib
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from libresvip.core.compat import Traversable
     from libresvip.extension.base import SVSConverter
-
-_PluginLoaderT = TypeVar("_PluginLoaderT", bound=pluginlib.PluginLoader)
 
 
 def _build_plugin_manager() -> pluginlib.PluginLoader:
@@ -44,39 +40,8 @@ def _build_middleware_manager() -> pluginlib.PluginLoader:
     return mm
 
 
-class _LazyLoader(Generic[_PluginLoaderT]):
-    """Proxy that defers plugin loader construction until first use."""
-
-    def __init__(self, builder: Callable[[], _PluginLoaderT]) -> None:
-        object.__setattr__(self, "_builder", builder)
-        object.__setattr__(self, "_real", None)
-
-    def _ensure_loaded(self) -> _PluginLoaderT:
-        if self._real is None:
-            object.__setattr__(self, "_real", self._builder())
-        return self._real
-
-    def __getattr__(self, name: str) -> Any:
-        return getattr(self._ensure_loaded(), name)
-
-    def __setattr__(self, name: str, value: Any) -> None:
-        if name.startswith("_"):
-            object.__setattr__(self, name, value)
-        else:
-            setattr(self._ensure_loaded(), name, value)
-
-    @property
-    def loaded(self) -> bool:
-        return self._real is not None and self._real.loaded
-
-    def __repr__(self) -> str:
-        if self._real is None:
-            return f"<{self.__class__.__name__} (not yet loaded)>"
-        return repr(self._real)
-
-
-plugin_manager = _LazyLoader(_build_plugin_manager)
-middleware_manager = _LazyLoader(_build_middleware_manager)
+plugin_manager = _build_plugin_manager()
+middleware_manager = _build_middleware_manager()
 
 
 _svs_suffix_map: dict[str, type[SVSConverter]] | None = None

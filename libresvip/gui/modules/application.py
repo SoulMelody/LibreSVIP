@@ -2,9 +2,9 @@ import asyncio
 import os
 import platform
 
-from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuickControls2 import QQuickStyle
+from PySide6.QtWidgets import QApplication
 from qasync import QEventLoop
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
@@ -19,7 +19,7 @@ __all__ = [
 if platform.system() == "Windows":
     os.environ["QT_QPA_PLATFORM"] = "windows:nodirectwrite"
 os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
-app = QGuiApplication()
+app = QApplication()
 qml_engine = QQmlApplicationEngine()
 QQuickStyle.set_style("Material")
 

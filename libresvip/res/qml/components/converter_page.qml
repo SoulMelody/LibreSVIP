@@ -14,58 +14,17 @@ Page {
     property alias outputFormatComboBox: outputFormat
     property alias swapInputOutputButton: swapInputOutput
 
-    function getOptionFields(container) {
-        var result = [];
-        if (!container.actualChildren || typeof container.actualChildren.rowCount !== "function") {
-            return result;
+    function optionFieldComponent(fieldType) {
+        switch (fieldType) {
+        case "bool":
+            return switchItem;
+        case "enum":
+            return comboBoxItem;
+        case "color":
+            return colorPickerItem;
+        default:
+            return textFieldItem;
         }
-        for (var i = 0; i < container.actualChildren.rowCount(); ++i) {
-            let modelData = container.actualChildren.get(i);
-            if (modelData !== null) {
-                switch (modelData.type) {
-                case "bool":
-                    {
-                        result.push(switchItem.createObject(container, {
-                            "field": modelData,
-                            "index": modelData.index,
-                            "list_model": container.actualChildren
-                        }));
-                        break;
-                    }
-                case "enum":
-                    {
-                        result.push(comboBoxItem.createObject(container, {
-                            "field": modelData,
-                            "index": modelData.index,
-                            "list_model": container.actualChildren
-                        }));
-                        break;
-                    }
-                case "color":
-                    {
-                        result.push(colorPickerItem.createObject(container, {
-                            "field": modelData,
-                            "index": modelData.index,
-                            "list_model": container.actualChildren
-                        }));
-                        break;
-                    }
-                default:
-                    {
-                        result.push(textFieldItem.createObject(container, {
-                            "field": modelData,
-                            "index": modelData.index,
-                            "list_model": container.actualChildren
-                        }));
-                        break;
-                    }
-                }
-            }
-            if (i < container.actualChildren.rowCount() - 1) {
-                result.push(separatorItem.createObject(container));
-            }
-        }
-        return result;
     }
 
     Component {
@@ -332,58 +291,22 @@ Page {
             }
             Switch {
                 id: resetTasksOnInputChange
-                visible: taskManager.startup_ready
                 height: 40
                 text: qsTr("Reset Tasks When Changing Input")
-                enabled: taskManager.startup_ready
                 checked: configItems.reset_tasks_on_input_change
                 onClicked: {
                     configItems.reset_tasks_on_input_change = checked;
                 }
             }
         }
-        Rectangle {
-            visible: !taskManager.startup_ready
-            Layout.fillWidth: true
-            radius: 10
-            color: Qt.rgba(1, 0.34, 0.13, 0.08)
-            border.width: 1
-            border.color: Qt.rgba(1, 0.34, 0.13, 0.18)
-            implicitHeight: 56
-            RowLayout {
-                anchors.fill: parent
-                anchors.leftMargin: 14
-                anchors.rightMargin: 14
-                spacing: 12
-                BusyIndicator {
-                    running: true
-                    width: 24
-                    height: 24
-                }
-                ColumnLayout {
-                    spacing: 2
-                    Label {
-                        text: qsTr("Preparing format providers")
-                        font.pixelSize: 14
-                        font.bold: true
-                    }
-                    Label {
-                        text: qsTr("The window is ready. Formats and middleware will appear in a moment.")
-                        color: Material.color(Material.Grey, Material.Shade700)
-                        font.pixelSize: 12
-                    }
-                }
-            }
-        }
         ColumnLayout {
-            visible: taskManager.startup_ready
             Layout.fillWidth: true
             RowLayout {
                 Layout.fillWidth: true
                 LabeledComboBox {
                     id: inputFormat
                     Layout.fillWidth: true
-                    enabled: taskManager.startup_ready && !taskManager.busy
+                    enabled: !taskManager.busy
                     hint: qsTr("Input Format: ")
                     onActivated: index => {
                         if (resetTasksOnInputChange.checked && taskManager.get_str("input_format") != currentValue) {
@@ -524,7 +447,7 @@ Page {
                     id: swapInputOutput
                     icon_name: "mdi7.swap-vertical"
                     diameter: 38
-                    enabled: taskManager.startup_ready && inputFormat.enabled && outputFormat.enabled
+                    enabled: inputFormat.enabled && outputFormat.enabled
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Swap Input and Output")
                     onClicked: {
@@ -544,7 +467,7 @@ Page {
                 LabeledComboBox {
                     id: outputFormat
                     Layout.fillWidth: true
-                    enabled: taskManager.startup_ready && !taskManager.busy
+                    enabled: !taskManager.busy
                     hint: qsTr("Output Format: ")
                     onActivated: index => {
                         taskManager.set_str("output_format", currentValue);
@@ -1039,7 +962,7 @@ Page {
                 Layout.minimumWidth: advancedSettingsArea.availableWidth
                 Row {
                     height: 30
-                    visible: inputContainer.children.length > 0
+                    visible: inputFieldsRepeater.count > 0
                     Layout.fillWidth: true
                     RoundButton {
                         Layout.fillHeight: true
@@ -1155,13 +1078,29 @@ Page {
                                 }
                             }
                         ]
+                        Repeater {
+                            id: inputFieldsRepeater
+                            model: taskManager.input_fields
+                            delegate: ColumnLayout {
+                                required property var modelData
+                                Layout.fillWidth: true
 
-                        default property var actualChildren: taskManager.input_fields
-                        children: getOptionFields(inputContainer)
-                        Connections {
-                            target: taskManager
-                            function onInput_fields_changed() {
-                                inputContainer.children = getOptionFields(inputContainer);
+                                Loader {
+                                    Layout.fillWidth: true
+                                    sourceComponent: optionFieldComponent(modelData.type)
+                                    onLoaded: {
+                                        if (item !== null) {
+                                            item.field = modelData;
+                                            item.index = index;
+                                            item.list_model = inputFieldsRepeater.model;
+                                        }
+                                    }
+                                }
+                                Loader {
+                                    Layout.fillWidth: true
+                                    active: index < inputFieldsRepeater.count - 1
+                                    sourceComponent: separatorItem
+                                }
                             }
                         }
                     }
@@ -1190,9 +1129,6 @@ Page {
                                 }
                                 onToggled: {
                                     middlewareContainer.expanded = checked;
-                                    if (checked && middlewareContainer.children.length === 0) {
-                                        middlewareFields.rebuildFields();
-                                    }
                                     taskManager.qget("middleware_states").update(modelData.index, {
                                         "value": checked
                                     });
@@ -1286,88 +1222,41 @@ Page {
                                         }
                                     }
                                 ]
+                                Repeater {
+                                    id: middlewareFieldsRepeater
+                                    model: middlewareContainer.expanded ? taskManager.get_middleware_fields(modelData.identifier) : null
+                                    delegate: ColumnLayout {
+                                        required property var modelData
+                                        Layout.fillWidth: true
+
+                                        Loader {
+                                            Layout.fillWidth: true
+                                            sourceComponent: optionFieldComponent(modelData.type)
+                                            onLoaded: {
+                                                if (item !== null) {
+                                                    item.field = modelData;
+                                                    item.index = index;
+                                                    item.list_model = middlewareFieldsRepeater.model;
+                                                }
+                                            }
+                                        }
+                                        Loader {
+                                            Layout.fillWidth: true
+                                            active: index < middlewareFieldsRepeater.count - 1
+                                            sourceComponent: separatorItem
+                                        }
+                                    }
+                                }
                             }
                             Rectangle {
                                 width: 20
-                            }
-                        }
-                        ListView {
-                            id: middlewareFields
-                            model: taskManager.get_middleware_fields(modelData.identifier)
-                            function rebuildFields() {
-                                middlewareContainer.children.length = 0;
-                                for (var i = 0; i < model.rowCount(); i++) {
-                                    let middleware_state = model.get(i);
-                                    let item = null;
-                                    switch (middleware_state.type) {
-                                    case "bool":
-                                        {
-                                            item = switchItem.createObject(middlewareContainer, {
-                                                "field": middleware_state,
-                                                "index": i,
-                                                "list_model": middlewareFields.model
-                                            });
-                                            break;
-                                        }
-                                    case "enum":
-                                        {
-                                            item = comboBoxItem.createObject(middlewareContainer, {
-                                                "field": middleware_state,
-                                                "index": i,
-                                                "list_model": middlewareFields.model
-                                            });
-                                            break;
-                                        }
-                                    case "color":
-                                        {
-                                            item = colorPickerItem.createObject(middlewareContainer, {
-                                                "field": middleware_state,
-                                                "index": i,
-                                                "list_model": middlewareFields.model
-                                            });
-                                            break;
-                                        }
-                                    default:
-                                        {
-                                            item = textFieldItem.createObject(middlewareContainer, {
-                                                "field": middleware_state,
-                                                "index": i,
-                                                "list_model": middlewareFields.model
-                                            });
-                                            break;
-                                        }
-                                    }
-                                    if (i < model.rowCount() - 1) {
-                                        separatorItem.createObject(middlewareContainer);
-                                    }
-                                }
-                            }
-                            delegate: Column {
-                                Component.onCompleted: {
-                                    if (index == 0) {
-                                        middlewareFields.rebuildFields();
-                                    }
-                                }
-                            }
-                            Connections {
-                                target: middlewareFields.model
-                                function onRowsInserted(parent, first, last) {
-                                    if (middlewareContainer.expanded) {
-                                        middlewareFields.rebuildFields();
-                                    }
-                                }
-                                function onModelReset() {
-                                    if (middlewareContainer.expanded) {
-                                        middlewareFields.rebuildFields();
-                                    }
-                                }
                             }
                         }
                     }
                 }
                 Row {
                     height: 30
-                    visible: outputContainer.children.length > 0
+                    visible: outputFieldsRepeater.count > 0
                     Layout.fillWidth: true
                     RoundButton {
                         Layout.fillHeight: true
@@ -1483,13 +1372,29 @@ Page {
                                 }
                             }
                         ]
+                        Repeater {
+                            id: outputFieldsRepeater
+                            model: taskManager.output_fields
+                            delegate: ColumnLayout {
+                                required property var modelData
+                                Layout.fillWidth: true
 
-                        default property var actualChildren: taskManager.output_fields
-                        children: getOptionFields(outputContainer)
-                        Connections {
-                            target: taskManager
-                            function onOutput_fields_changed() {
-                                outputContainer.children = getOptionFields(outputContainer);
+                                Loader {
+                                    Layout.fillWidth: true
+                                    sourceComponent: optionFieldComponent(modelData.type)
+                                    onLoaded: {
+                                        if (item !== null) {
+                                            item.field = modelData;
+                                            item.index = index;
+                                            item.list_model = outputFieldsRepeater.model;
+                                        }
+                                    }
+                                }
+                                Loader {
+                                    Layout.fillWidth: true
+                                    active: index < outputFieldsRepeater.count - 1
+                                    sourceComponent: separatorItem
+                                }
                             }
                         }
                     }
