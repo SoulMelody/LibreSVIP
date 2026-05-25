@@ -47,7 +47,7 @@ VocalinaStudioProjectFileMetadata = Struct(
     / Prefixed(
         VocalinaSectionSize,
         Struct(
-            "version" / Int32ul,
+            "file_size" / Int32ul,
             "is_vocalina2" / Byte,
             "is_vocalina2_pro" / Byte,
             "is_trial" / Byte,
@@ -57,7 +57,7 @@ VocalinaStudioProjectFileMetadata = Struct(
 )
 
 TempoEntry = Struct(
-    "tick" / Int16ul,
+    "tick" / Int32ul,
     "tempo_value" / Int16ul,
 )
 
@@ -74,7 +74,7 @@ VocalinaStudioTempos = Struct(
 )
 
 TimeSignatureEntry = Struct(
-    "tick" / Int16ul,
+    "tick" / Int32ul,
     "numerator" / Byte,
     "denominator" / Byte,
 )
@@ -131,10 +131,10 @@ TrackParamBlock = Struct(
 TrackEntry = Struct(
     "track_name" / Utf16LeString,
     "singer_name" / Utf16LeString,
-    "field_16" / Byte,
+    "volume" / Byte,
     "const_1" / Const(1, Byte),
     "param_block" / Prefixed(SubSize, TrackParamBlock),
-    "field_18" / Byte,
+    "pan" / Byte,
     "field_20" / Int16ul,
     "field_12" / Byte,
 )
@@ -162,7 +162,7 @@ NoteControlPoint = Struct(
 NoteParameters = Prefixed(
     SubSize,
     Struct(
-        "param_0" / Int16ul,
+        "velocity" / Int16ul,
         "zero" / Int16ul,
         "vibrato" / Byte,
         "intensity_envelope" / PrefixedArray(Int16ul, NoteControlPoint),
@@ -186,7 +186,7 @@ NoteEntry = Prefixed(
         "packed_start" / PackedValue,
         "packed_end" / PackedValue,
         "note_number" / Byte,
-        "velocity" / Int16ul,
+        "lyric_char" / Int16ul,
         "params" / NoteParameters,
         "lyrics" / Utf16LeString,
         "flags" / Byte,
@@ -200,7 +200,7 @@ VocalinaStudioNotes = Struct(
     / Prefixed(
         VocalinaSectionSize,
         Struct(
-            "track_count" / Int16ul,
+            "total_measures" / Int16ul,
             "notes" / PrefixedArray(Int16ul, NoteEntry),
         ),
     ),
