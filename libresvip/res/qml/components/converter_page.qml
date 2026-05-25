@@ -27,16 +27,29 @@ Page {
         }
     }
 
+    function updateOptionField(listModel, itemIndex, patch) {
+        if (listModel && itemIndex >= 0 && typeof listModel.update === "function") {
+            listModel.update(itemIndex, patch);
+        }
+    }
+
+    function getOptionField(listModel, itemIndex) {
+        if (listModel && itemIndex >= 0 && typeof listModel.get === "function") {
+            return listModel.get(itemIndex);
+        }
+        return null;
+    }
+
     Component {
         id: colorPickerItem
         RowLayout {
-            property var field: {}
-            property int index
-            property QtObject list_model
+            property var field: ({})
+            property int index: -1
+            property var list_model: null
             height: 40
             Layout.fillWidth: true
             Label {
-                text: qsTr(field.title) + "："
+                text: qsTr((field && field.title) || "") + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -46,9 +59,9 @@ Page {
             TextField {
                 id: colorField
                 Layout.fillWidth: true
-                text: field.value
+                text: (field && field.value) || ""
                 onEditingFinished: {
-                    list_model.update(index, {
+                    updateOptionField(list_model, index, {
                         value: text
                     });
                 }
@@ -60,7 +73,7 @@ Page {
                 onClicked: {
                     dialogs.colorDialog.bind_color(colorField.text, color => {
                         colorField.text = color;
-                        list_model.update(index, {
+                        updateOptionField(list_model, index, {
                             value: colorField.text
                         });
                     });
@@ -71,11 +84,11 @@ Page {
                 diameter: 30
                 new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
-                visible: field.description != ""
+                visible: !!(field && field.description)
                 ToolTip {
                     y: parent.y - parent.height
                     visible: parent.hovered
-                    text: qsTr(field.description)
+                    text: qsTr((field && field.description) || "")
                 }
             }
         }
@@ -84,13 +97,13 @@ Page {
     Component {
         id: switchItem
         RowLayout {
-            property var field: {}
-            property int index
-            property QtObject list_model
+            property var field: ({})
+            property int index: -1
+            property var list_model: null
             height: 40
             Layout.fillWidth: true
             Label {
-                text: qsTr(field.title) + "："
+                text: qsTr((field && field.title) || "") + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -99,12 +112,12 @@ Page {
             }
             Switch {
                 Component.onCompleted: {
-                    this.checked = field.value;
+                    this.checked = !!(field && field.value);
                 }
                 onCheckedChanged: {
-                    let new_field = list_model.get(index);
-                    if (field.title === new_field.title) {
-                        list_model.update(index, {
+                    let new_field = getOptionField(list_model, index);
+                    if (field && new_field && field.title === new_field.title) {
+                        updateOptionField(list_model, index, {
                             value: this.checked
                         });
                     }
@@ -120,11 +133,11 @@ Page {
                 diameter: 30
                 new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
-                visible: field.description != ""
+                visible: !!(field && field.description)
                 ToolTip {
                     y: parent.y - parent.height
                     visible: parent.hovered
-                    text: qsTr(field.description)
+                    text: qsTr((field && field.description) || "")
                 }
             }
         }
@@ -134,13 +147,13 @@ Page {
         id: comboBoxItem
         RowLayout {
             id: comboBoxRow
-            property var field: {}
-            property int index
-            property QtObject list_model
+            property var field: ({})
+            property int index: -1
+            property var list_model: null
             height: 40
             Layout.fillWidth: true
             Label {
-                text: qsTr(field.title) + "："
+                text: qsTr((field && field.title) || "") + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -169,7 +182,7 @@ Page {
                 popup: Popup {
                     y: comboBox.height
                     width: comboBox.width
-                    implicitHeight: Math.min(field.choices.length * 35, 400)
+                    implicitHeight: Math.min((((field && field.choices) || []).length) * 35, 400)
                     padding: 1
 
                     contentItem: ListView {
@@ -183,25 +196,25 @@ Page {
                 }
 
                 Component.onCompleted: {
-                    this.currentIndex = indexOfValue(field.value);
+                    this.currentIndex = indexOfValue(field ? field.value : "");
                 }
                 onActivated: selected => {
-                    list_model.update(index, {
+                    updateOptionField(list_model, index, {
                         value: this.currentValue
                     });
                 }
-                model: field.choices
+                model: (field && field.choices) || []
             }
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
                 new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
-                visible: field.description != ""
+                visible: !!(field && field.description)
                 ToolTip {
                     y: parent.y - parent.height
                     visible: parent.hovered
-                    text: qsTr(field.description)
+                    text: qsTr((field && field.description) || "")
                 }
             }
         }
@@ -210,14 +223,14 @@ Page {
     Component {
         id: textFieldItem
         RowLayout {
-            property var field: {}
-            property int index
-            property QtObject list_model
+            property var field: ({})
+            property int index: -1
+            property var list_model: null
             height: 40
             Layout.fillWidth: true
             Label {
                 Layout.alignment: Qt.AlignVCenter
-                text: qsTr(field.title) + "："
+                text: qsTr((field && field.title) || "") + "："
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
                 wrapMode: Text.Wrap
@@ -225,9 +238,9 @@ Page {
             }
             TextField {
                 Layout.fillWidth: true
-                text: field.value
+                text: (field && field.value) || ""
                 Component.onCompleted: {
-                    switch (field.type) {
+                    switch (field ? field.type : "") {
                     case "int":
                         validator = Qt.createQmlObject('import QtQuick; IntValidator {}', this);
                         break;
@@ -239,7 +252,7 @@ Page {
                     }
                 }
                 onEditingFinished: {
-                    list_model.update(index, {
+                    updateOptionField(list_model, index, {
                         value: text
                     });
                 }
@@ -249,11 +262,11 @@ Page {
                 diameter: 30
                 new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
-                visible: field.description != ""
+                visible: !!(field && field.description)
                 ToolTip {
                     y: parent.y - parent.height
                     visible: parent.hovered
-                    text: qsTr(field.description)
+                    text: qsTr((field && field.description) || "")
                 }
             }
         }
@@ -1027,7 +1040,6 @@ Page {
                                     target: inputContainer
                                     Layout.maximumHeight: inputContainer.implicitHeight
                                     opacity: 1
-                                    y: 0
                                     visible: true
                                 }
                             },
@@ -1037,7 +1049,6 @@ Page {
                                     target: inputContainer
                                     Layout.maximumHeight: 0
                                     opacity: 0
-                                    y: -inputContainer.implicitHeight
                                     visible: false
                                 }
                             }
@@ -1051,7 +1062,7 @@ Page {
                                 SequentialAnimation {
                                     PropertyAnimation {
                                         target: inputContainer
-                                        properties: "y,opacity,Layout.maximumHeight"
+                                        properties: "opacity,Layout.maximumHeight"
                                         duration: 300
                                         easing.type: Easing.InOutQuad
                                     }
@@ -1071,7 +1082,7 @@ Page {
                                     }
                                     PropertyAnimation {
                                         target: inputContainer
-                                        properties: "y,opacity,Layout.maximumHeight"
+                                        properties: "opacity,Layout.maximumHeight"
                                         duration: 300
                                         easing.type: Easing.InOutQuad
                                     }
@@ -1082,12 +1093,14 @@ Page {
                             id: inputFieldsRepeater
                             model: taskManager.input_fields
                             delegate: ColumnLayout {
+                                required property int index
                                 required property var modelData
                                 Layout.fillWidth: true
 
                                 Loader {
                                     Layout.fillWidth: true
-                                    sourceComponent: optionFieldComponent(modelData.type)
+                                    active: !!modelData
+                                    sourceComponent: modelData ? optionFieldComponent(modelData.type) : null
                                     onLoaded: {
                                         if (item !== null) {
                                             item.field = modelData;
@@ -1098,7 +1111,7 @@ Page {
                                 }
                                 Loader {
                                     Layout.fillWidth: true
-                                    active: index < inputFieldsRepeater.count - 1
+                                    active: modelData && index < inputFieldsRepeater.count - 1
                                     sourceComponent: separatorItem
                                 }
                             }
@@ -1171,7 +1184,6 @@ Page {
                                             target: middlewareContainer
                                             Layout.maximumHeight: middlewareContainer.implicitHeight
                                             opacity: 1
-                                            y: 0
                                             visible: true
                                         }
                                     },
@@ -1181,7 +1193,6 @@ Page {
                                             target: middlewareContainer
                                             Layout.maximumHeight: 0
                                             opacity: 0
-                                            y: -middlewareContainer.implicitHeight
                                             visible: false
                                         }
                                     }
@@ -1195,7 +1206,7 @@ Page {
                                         SequentialAnimation {
                                             PropertyAnimation {
                                                 target: middlewareContainer
-                                                properties: "y,opacity,Layout.maximumHeight"
+                                                properties: "opacity,Layout.maximumHeight"
                                                 duration: 300
                                                 easing.type: Easing.InOutQuad
                                             }
@@ -1215,7 +1226,7 @@ Page {
                                             }
                                             PropertyAnimation {
                                                 target: middlewareContainer
-                                                properties: "y,opacity,Layout.maximumHeight"
+                                                properties: "opacity,Layout.maximumHeight"
                                                 duration: 300
                                                 easing.type: Easing.InOutQuad
                                             }
@@ -1224,14 +1235,16 @@ Page {
                                 ]
                                 Repeater {
                                     id: middlewareFieldsRepeater
-                                    model: middlewareContainer.expanded ? taskManager.get_middleware_fields(modelData.identifier) : null
+                                    model: taskManager.get_middleware_fields(modelData.identifier)
                                     delegate: ColumnLayout {
+                                        required property int index
                                         required property var modelData
                                         Layout.fillWidth: true
 
                                         Loader {
                                             Layout.fillWidth: true
-                                            sourceComponent: optionFieldComponent(modelData.type)
+                                            active: !!modelData
+                                            sourceComponent: modelData ? optionFieldComponent(modelData.type) : null
                                             onLoaded: {
                                                 if (item !== null) {
                                                     item.field = modelData;
@@ -1242,7 +1255,7 @@ Page {
                                         }
                                         Loader {
                                             Layout.fillWidth: true
-                                            active: index < middlewareFieldsRepeater.count - 1
+                                            active: modelData && index < middlewareFieldsRepeater.count - 1
                                             sourceComponent: separatorItem
                                         }
                                     }
@@ -1321,7 +1334,6 @@ Page {
                                     target: outputContainer
                                     Layout.maximumHeight: outputContainer.implicitHeight
                                     opacity: 1
-                                    y: 0
                                     visible: true
                                 }
                             },
@@ -1331,7 +1343,6 @@ Page {
                                     target: outputContainer
                                     Layout.maximumHeight: 0
                                     opacity: 0
-                                    y: -outputContainer.implicitHeight
                                     visible: false
                                 }
                             }
@@ -1345,7 +1356,7 @@ Page {
                                 SequentialAnimation {
                                     PropertyAnimation {
                                         target: outputContainer
-                                        properties: "y,opacity,Layout.maximumHeight"
+                                        properties: "opacity,Layout.maximumHeight"
                                         duration: 300
                                         easing.type: Easing.InOutQuad
                                     }
@@ -1365,7 +1376,7 @@ Page {
                                     }
                                     PropertyAnimation {
                                         target: outputContainer
-                                        properties: "y,opacity,Layout.maximumHeight"
+                                        properties: "opacity,Layout.maximumHeight"
                                         duration: 300
                                         easing.type: Easing.InOutQuad
                                     }
@@ -1376,12 +1387,14 @@ Page {
                             id: outputFieldsRepeater
                             model: taskManager.output_fields
                             delegate: ColumnLayout {
+                                required property int index
                                 required property var modelData
                                 Layout.fillWidth: true
 
                                 Loader {
                                     Layout.fillWidth: true
-                                    sourceComponent: optionFieldComponent(modelData.type)
+                                    active: !!modelData
+                                    sourceComponent: modelData ? optionFieldComponent(modelData.type) : null
                                     onLoaded: {
                                         if (item !== null) {
                                             item.field = modelData;
@@ -1392,7 +1405,7 @@ Page {
                                 }
                                 Loader {
                                     Layout.fillWidth: true
-                                    active: index < outputFieldsRepeater.count - 1
+                                    active: modelData && index < outputFieldsRepeater.count - 1
                                     sourceComponent: separatorItem
                                 }
                             }

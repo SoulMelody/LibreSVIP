@@ -4,7 +4,7 @@ import sys
 from typing import TYPE_CHECKING
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QFont, QIcon, QPainter, QPixmap
+from PySide6.QtGui import QColor, QFont, QIcon, QKeyEvent, QMouseEvent, QPainter, QPixmap
 from PySide6.QtWidgets import QSplashScreen
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
@@ -24,6 +24,26 @@ if TYPE_CHECKING:
 
 splash_screen: QSplashScreen | None = None
 splash_translation: gettext.NullTranslations | None = None
+
+
+class StartupSplashScreen(QSplashScreen):
+    def mouse_press_event(self, event: QMouseEvent) -> None:  # type: ignore[override]
+        event.accept()
+
+    def mouse_release_event(self, event: QMouseEvent) -> None:  # type: ignore[override]
+        event.accept()
+
+    def mouse_double_click_event(self, event: QMouseEvent) -> None:  # type: ignore[override]
+        event.accept()
+
+    def mouse_move_event(self, event: QMouseEvent) -> None:  # type: ignore[override]
+        event.accept()
+
+    def key_press_event(self, event: QKeyEvent) -> None:  # type: ignore[override]
+        event.accept()
+
+    def key_release_event(self, event: QKeyEvent) -> None:  # type: ignore[override]
+        event.accept()
 
 
 def _(text: str) -> str:
@@ -117,9 +137,10 @@ def run() -> None:
     if not config_path.exists():
         settings.language = Language.auto()
     splash_translation = _load_splash_translation(settings.language.value)
-    splash_screen = QSplashScreen(_build_splash_pixmap(icon_pixmap))
+    splash_screen = StartupSplashScreen(_build_splash_pixmap(icon_pixmap))
     splash_screen.show()
     splash_screen.raise_()
+    splash_screen.cursor = Qt.CursorShape.WaitCursor
     _set_splash_message(_("Loading format providers..."))
 
     from libresvip.gui.modules import (
