@@ -90,8 +90,8 @@ desktop = [
 lxml = ["lxml>=6.1.1"]
 minijinja = ["minijinja>=2.20.0"]
 mobile = [
-  "flet[desktop]>=0.85.1,<0.90.0",
-  "flet-permission-handler>=0.85.1,<0.90.0",
+  "flet[desktop]>=0.85.2,<0.90.0",
+  "flet-permission-handler>=0.85.2,<0.90.0",
   "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 tui = [
