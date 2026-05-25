@@ -1,13 +1,8 @@
-import functools
 import itertools
 import math
 
-import portion
-
 from libresvip.model.base import SongTempo, TimeSignature
 from libresvip.utils.search import find_last_index
-
-from .time_interval import BisectIntervalMap
 
 
 def skip_tempo_list(tempo_list: list[SongTempo], skip_ticks: int) -> list[SongTempo]:
@@ -66,17 +61,14 @@ def calc_bar_index(tick: float, base_tick: float, beat: TimeSignature) -> int:
 
 
 def find_bar_index(beat_list: list[TimeSignature], ticks: int) -> int:
+    if not beat_list:
+        msg = "beat_list must not be empty"
+        raise ValueError(msg)
     tick = 0.0
-    ticks2beat_interval_dict = BisectIntervalMap()
     next_tick: float
     for beat, next_beat in itertools.pairwise(beat_list):
         next_tick = tick + beat.bar_length() * (next_beat.bar_index - beat.bar_index)
-        ticks2beat_interval_dict[portion.closedopen(tick, next_tick)] = functools.partial(
-            calc_bar_index, base_tick=tick, beat=beat
-        )
+        if ticks < next_tick:
+            return calc_bar_index(ticks, tick, beat)
         tick = next_tick
-    if len(beat_list):
-        ticks2beat_interval_dict[portion.closedopen(tick, portion.inf)] = functools.partial(
-            calc_bar_index, base_tick=tick, beat=beat_list[-1]
-        )
-    return ticks2beat_interval_dict[ticks]  # type: ignore[return-value]
+    return calc_bar_index(ticks, tick, beat_list[-1])

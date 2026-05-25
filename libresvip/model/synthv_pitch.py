@@ -380,23 +380,48 @@ class PitchControlLayerGenerator:
     _pitch_controls: dataclasses.InitVar[list[PitchControl]]
     interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
 
+    @staticmethod
+    def _overlay_interval(
+        segments: list[tuple[portion.Interval, Callable[[int | float], float] | int | float]],
+        interval: portion.Interval,
+        value: Callable[[int | float], float] | float,
+    ) -> None:
+        remaining_segments: list[
+            tuple[portion.Interval, Callable[[int | float], float] | int | float]
+        ] = []
+        for existing_interval, existing_value in segments:
+            remaining_segments.extend(
+                (atomic_interval, existing_value)
+                for atomic_interval in existing_interval - interval
+                if not atomic_interval.empty
+            )
+        remaining_segments.append((interval, value))
+        segments[:] = remaining_segments
+
     def __post_init__(self, _pitch_controls: list[PitchControl]) -> None:
+        segments: list[tuple[portion.Interval, Callable[[int | float], float] | int | float]] = []
         for pitch_control in _pitch_controls:
             if pitch_control.type_ == "curve" and len(pitch_control.points):
                 prev_point = pitch_control.points[0]
                 prev_ticks = prev_point.offset + pitch_control.pos
                 prev_value = (pitch_control.pitch + prev_point.value) * 100
-                self.interval_dict[portion.singleton(prev_ticks)] = prev_value
+                self._overlay_interval(segments, portion.singleton(prev_ticks), prev_value)
                 for point in pitch_control.points[1:]:
                     ticks = point.offset + pitch_control.pos
                     value = (pitch_control.pitch + point.value) * 100
-                    self.interval_dict[portion.openclosed(prev_ticks, ticks)] = functools.partial(
-                        linear_interpolation,  # type: ignore[call-arg]
-                        start=(prev_ticks, prev_value),
-                        end=(ticks, value),
+                    self._overlay_interval(
+                        segments,
+                        portion.openclosed(prev_ticks, ticks),
+                        functools.partial(  # type: ignore[call-arg]
+                            linear_interpolation,
+                            start=(prev_ticks, prev_value),
+                            end=(ticks, value),
+                        ),
                     )
                     prev_ticks = ticks
                     prev_value = value
+        for interval, value in segments:
+            self.interval_dict[interval] = value
 
     def value_at_ticks(self, ticks: int) -> float | None:
         return self.interval_dict.get(ticks)

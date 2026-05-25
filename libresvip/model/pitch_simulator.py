@@ -8,7 +8,7 @@ import portion
 from libresvip.core.constants import MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS
 from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.tick_counter import find_bar_index
-from libresvip.core.time_interval import BisectIntervalMap
+from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, TimeSignature
 from libresvip.model.portamento import PortamentoPitch
@@ -22,8 +22,8 @@ class PitchSimulator:
     portamento: PortamentoPitch
     note_list: dataclasses.InitVar[list[Note]]
     time_signature_list: dataclasses.InitVar[list[TimeSignature]]
-    interval_dict: BisectIntervalMap = dataclasses.field(default_factory=BisectIntervalMap)
-    pitch_interval_dict: BisectIntervalMap | None = dataclasses.field(default=None)
+    interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
+    pitch_interval_dict: PiecewiseIntervalDict | None = dataclasses.field(default=None)
 
     def __post_init__(
         self, note_list: list[Note], time_signature_list: list[TimeSignature]
@@ -125,7 +125,7 @@ class PitchSimulator:
         )
 
     def merge_pitch_curve(self, pitch_curve: ParamCurve, first_bar_length: int) -> None:
-        self.pitch_interval_dict = BisectIntervalMap()
+        self.pitch_interval_dict = PiecewiseIntervalDict()
         for point_part in more_itertools.split_at(
             pitch_curve.points.root, lambda point: point.y == -100
         ):
