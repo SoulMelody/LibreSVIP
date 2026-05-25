@@ -40,12 +40,22 @@ Page {
         return null;
     }
 
+    function fieldText(field) {
+        if (!field || field.value === undefined || field.value === null) {
+            return "";
+        }
+        return String(field.value);
+    }
+
     Component {
         id: colorPickerItem
         RowLayout {
             property var field: ({})
             property int index: -1
             property var list_model: null
+            onFieldChanged: {
+                colorField.text = (field && field.value) || "";
+            }
             height: 40
             Layout.fillWidth: true
             Label {
@@ -111,10 +121,12 @@ Page {
                 Layout.preferredWidth: 150
             }
             Switch {
-                Component.onCompleted: {
-                    this.checked = !!(field && field.value);
-                }
+                id: switchControl
+                checked: !!(field && field.value)
                 onCheckedChanged: {
+                    if (!list_model || index < 0) {
+                        return;
+                    }
                     let new_field = getOptionField(list_model, index);
                     if (field && new_field && field.title === new_field.title) {
                         updateOptionField(list_model, index, {
@@ -166,6 +178,7 @@ Page {
                 textRole: "text"
                 valueRole: "value"
                 displayText: qsTr(currentText)
+                currentIndex: indexOfValue(field ? field.value : "")
                 delegate: MenuItem {
                     width: ListView.view.width
                     contentItem: Label {
@@ -195,10 +208,10 @@ Page {
                     }
                 }
 
-                Component.onCompleted: {
-                    this.currentIndex = indexOfValue(field ? field.value : "");
-                }
                 onActivated: selected => {
+                    if (!list_model || index < 0) {
+                        return;
+                    }
                     updateOptionField(list_model, index, {
                         value: this.currentValue
                     });
@@ -237,21 +250,23 @@ Page {
                 Layout.preferredWidth: 150
             }
             TextField {
+                id: textField
                 Layout.fillWidth: true
-                text: (field && field.value) || ""
-                Component.onCompleted: {
+                text: fieldText(field)
+                validator: {
                     switch (field ? field.type : "") {
                     case "int":
-                        validator = Qt.createQmlObject('import QtQuick; IntValidator {}', this);
-                        break;
+                        return Qt.createQmlObject('import QtQuick; IntValidator {}', textField);
                     case "float":
-                        validator = Qt.createQmlObject('import QtQuick; DoubleValidator {}', this);
-                        break;
+                        return Qt.createQmlObject('import QtQuick; DoubleValidator {}', textField);
                     default:
-                        break;
+                        return null;
                     }
                 }
                 onEditingFinished: {
+                    if (!list_model || index < 0) {
+                        return;
+                    }
                     updateOptionField(list_model, index, {
                         value: text
                     });
