@@ -34,13 +34,11 @@ class RelativePitchCurve:
         pitch_simulator: PitchSimulator,
         to_absolute: bool = False,
     ) -> list[Point]:
-        pitch_value_map: dict[int, float | None] = {}
-        point_tick_positions = list(
-            {point.x + (0 if to_absolute else -self.first_bar_length) for point in points}
-        )
-        if point_tick_positions:
-            pitch_values = pitch_simulator.pitch_at_ticks_batch(point_tick_positions)
-            pitch_value_map.update(zip(point_tick_positions, pitch_values))
+        pitch_offset = -self.first_bar_length if not to_absolute else 0
+        converted_offset = self.first_bar_length if to_absolute else -self.first_bar_length
+        point_tick_positions = [point.x + pitch_offset for point in points]
+        pitch_values = pitch_simulator.pitch_at_ticks_batch(point_tick_positions)
+        pitch_value_map: dict[int, float | None] = dict(zip(point_tick_positions, pitch_values))
 
         def get_pitch_value(tick_pos: int) -> float | None:
             if tick_pos not in pitch_value_map:
@@ -48,27 +46,17 @@ class RelativePitchCurve:
             return pitch_value_map[tick_pos]
 
         def iter_interpolated_pitches(
-            start_tick: int,
-            end_tick: int,
-            batch_size: int = 1024,
+            start_tick: int, end_tick: int
         ) -> Iterator[tuple[int, float | None]]:
-            tick = start_tick + self.pitch_interval
-            while tick < end_tick:
-                tick_positions: list[int] = []
-                batch_ticks: list[int] = []
-                while tick < end_tick and len(tick_positions) < batch_size:
-                    tick_positions.append(tick)
-                    batch_ticks.append(tick + (-self.first_bar_length if to_absolute else 0))
-                    tick += self.pitch_interval
-                batch_values = pitch_simulator.pitch_at_ticks_batch(batch_ticks)
-                yield from zip(tick_positions, batch_values)
+            for tick in range(start_tick + self.pitch_interval, end_tick, self.pitch_interval):
+                yield tick, get_pitch_value(tick - self.first_bar_length if to_absolute else tick)
 
         converted_data: list[Point] = []
         prev_x = None
         prev_y: float | None = None
         for point in points:
-            pos = point.x + (0 if to_absolute else -self.first_bar_length)
-            cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
+            pos = point.x + pitch_offset
+            cur_x = point.x + converted_offset
             base_key = get_pitch_value(pos)
             if base_key is None:
                 y = None
@@ -89,26 +77,23 @@ class RelativePitchCurve:
                 and cur_x - prev_x > self.pitch_interval
             ):
                 for tick, tick_key in iter_interpolated_pitches(prev_x, cur_x):
-                    if tick_key is not None:
-                        if to_absolute:
-                            if self.is_staircase or rel_y is None:
-                                interpolated_rel_y = prev_y
-                            else:
-                                interpolated_rel_y = prev_y + (rel_y - prev_y) * (tick - prev_x) / (
-                                    cur_x - prev_x
-                                )
-                            converted_data.append(
-                                Point(x=tick, y=round(interpolated_rel_y + tick_key))
+                    if tick_key is None:
+                        break
+                    if to_absolute:
+                        if self.is_staircase or rel_y is None:
+                            interpolated_rel_y = prev_y
+                        else:
+                            interpolated_rel_y = prev_y + (rel_y - prev_y) * (tick - prev_x) / (
+                                cur_x - prev_x
                             )
-                        elif not (self.is_staircase and prev_y == y):
-                            converted_data.append(
-                                Point(
-                                    x=tick,
-                                    y=round(
-                                        prev_y + (y - prev_y) * (tick - prev_x) / (cur_x - prev_x)
-                                    ),
-                                )
+                        converted_data.append(Point(x=tick, y=round(interpolated_rel_y + tick_key)))
+                    elif not (self.is_staircase and prev_y == y):
+                        converted_data.append(
+                            Point(
+                                x=tick,
+                                y=round(prev_y + (y - prev_y) * (tick - prev_x) / (cur_x - prev_x)),
                             )
+                        )
             if y is not None:
                 if to_absolute and prev_y is None:
                     converted_data.append(Point(x=cur_x, y=-100))

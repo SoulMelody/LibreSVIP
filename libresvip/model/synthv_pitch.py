@@ -9,7 +9,6 @@ import portion
 
 from libresvip.core.exceptions import ParamsError
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.utils.search import find_index
 
 MAX_BREAK = 0.01
 PORTAMENTO_HALFWIDTH_RATIO = 0.3
@@ -80,18 +79,42 @@ class PitchControlCurve:
 class PitchControlIntervalMap:
     curves: list[PitchControlCurve] = dataclasses.field(default_factory=list)
     _domain: portion.Interval = dataclasses.field(default_factory=portion.empty)
+    _curve_starts: list[int] = dataclasses.field(default_factory=list)
+    _curve_ends: list[int] = dataclasses.field(default_factory=list)
+    _last_curve_index: int | None = None
 
     def append_curve(self, curve: PitchControlCurve) -> None:
         if not curve.ticks:
             return
         self.curves.append(curve)
         self._domain |= curve.domain()
+        self._curve_starts.append(curve.ticks[0])
+        self._curve_ends.append(curve.ticks[-1])
+        self._last_curve_index = None
 
     def get(self, ticks: int) -> float | None:
-        for curve in reversed(self.curves):
+        if (cached_index := self._last_curve_index) is not None:
+            cached_curve = self.curves[cached_index]
+            if (
+                cached_curve.ticks[0] <= ticks <= cached_curve.ticks[-1]
+                and (cached_value := cached_curve.value_at_ticks(ticks)) is not None
+            ):
+                return cached_value
+        candidate_indexes = self._candidate_curve_indexes(ticks)
+        for index in reversed(candidate_indexes):
+            curve = self.curves[index]
             if (value := curve.value_at_ticks(ticks)) is not None:
+                self._last_curve_index = index
                 return value
+        self._last_curve_index = None
         return None
+
+    def _candidate_curve_indexes(self, ticks: int) -> range:
+        right = bisect.bisect_right(self._curve_starts, ticks)
+        left = bisect.bisect_left(self._curve_ends, ticks)
+        if left >= right:
+            return range(0)
+        return range(left, right)
 
     def domain(self) -> portion.Interval:
         return self._domain
@@ -161,6 +184,9 @@ class BaseLayerGenerator:
     sigmoid_nodes: list[SigmoidNode] = dataclasses.field(default_factory=list)
     _starts: list[float] = dataclasses.field(init=False, default_factory=list)
     _ends: list[float] = dataclasses.field(init=False, default_factory=list)
+    _note_starts: list[float] = dataclasses.field(init=False, default_factory=list)
+    _note_ends: list[float] = dataclasses.field(init=False, default_factory=list)
+    _last_note_index: int | None = dataclasses.field(init=False, default=None)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         self.note_list = _note_list
@@ -191,6 +217,8 @@ class BaseLayerGenerator:
             )
         self._starts = [node.start for node in self.sigmoid_nodes]
         self._ends = [node.end for node in self.sigmoid_nodes]
+        self._note_starts = [note.start for note in self.note_list]
+        self._note_ends = [note.end for note in self.note_list]
 
     def pitch_at_secs(self, secs: float) -> float:
         if not self.note_list:
@@ -199,23 +227,10 @@ class BaseLayerGenerator:
         right_index = bisect.bisect_right(self._starts, secs)
         query_count = right_index - left_index
         if query_count <= 0:
-            if self.sigmoid_nodes:
-                next_index = bisect.bisect_right(self._starts, secs)
-                if next_index == 0:
-                    return self.sigmoid_nodes[0].key_left * 100
-                if next_index >= len(self.sigmoid_nodes):
-                    return self.sigmoid_nodes[-1].key_right * 100
-                return self.sigmoid_nodes[next_index - 1].key_right * 100
-            on_note_index = find_index(self.note_list, lambda note: note.start <= secs < note.end)
-            if on_note_index >= 0:
-                return self.note_list[on_note_index].key * 100
-            return (
-                min(
-                    self.note_list,
-                    key=lambda note: min(abs(note.start - secs), abs(secs - note.end)),
-                ).key
-                * 100
-            )
+            note_index = self._find_note_index(secs)
+            if note_index is not None:
+                return self.note_list[note_index].key * 100
+            return self.note_list[self._nearest_note_index(secs)].key * 100
         if query_count == 1:
             return self.sigmoid_nodes[left_index].value_at_secs(secs)
         if query_count <= 3:
@@ -232,6 +247,47 @@ class BaseLayerGenerator:
             return a * x**3 + b * x**2 + diff1 * x + bottom
         msg = "More than three sigmoid nodes overlapped"
         raise ParamsError(msg)
+
+    def _find_note_index(self, secs: float) -> int | None:
+        if (last_index := self._last_note_index) is not None:
+            note = self.note_list[last_index]
+            if note.start <= secs < note.end:
+                return last_index
+            next_index = last_index + 1
+            if next_index < len(self.note_list):
+                next_note = self.note_list[next_index]
+                if next_note.start <= secs < next_note.end:
+                    self._last_note_index = next_index
+                    return next_index
+            prev_index = last_index - 1
+            if prev_index >= 0:
+                prev_note = self.note_list[prev_index]
+                if prev_note.start <= secs < prev_note.end:
+                    self._last_note_index = prev_index
+                    return prev_index
+        index = bisect.bisect_right(self._note_starts, secs) - 1
+        if index >= 0 and secs < self._note_ends[index]:
+            self._last_note_index = index
+            return index
+        self._last_note_index = None
+        return None
+
+    def _nearest_note_index(self, secs: float) -> int:
+        insert_index = bisect.bisect_left(self._note_starts, secs)
+        candidates: list[int] = []
+        if insert_index < len(self.note_list):
+            candidates.append(insert_index)
+        if insert_index > 0:
+            candidates.append(insert_index - 1)
+        if not candidates:
+            return 0
+        return min(
+            candidates,
+            key=lambda index: min(
+                abs(self.note_list[index].start - secs),
+                abs(secs - self.note_list[index].end),
+            ),
+        )
 
     @staticmethod
     def cubic_bezier(
@@ -270,6 +326,7 @@ class GaussianLayerGenerator:
     gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
     _starts: list[float] = dataclasses.field(init=False, default_factory=list)
     _ends: list[float] = dataclasses.field(init=False, default_factory=list)
+    _last_range: tuple[int, int] | None = dataclasses.field(init=False, default=None)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         if not _note_list:
@@ -336,12 +393,28 @@ class GaussianLayerGenerator:
         self._ends = [node.end for node in self.gaussian_nodes]
 
     def pitch_diff_at_secs(self, secs: float) -> float:
-        left_index = bisect.bisect_right(self._ends, secs)
-        right_index = bisect.bisect_right(self._starts, secs)
+        left_index, right_index = self._active_range(secs)
         return sum(
             self.gaussian_nodes[index].value_at_secs(secs)
             for index in range(left_index, right_index)
         )
+
+    def _active_range(self, secs: float) -> tuple[int, int]:
+        if (last_range := self._last_range) is not None:
+            left_index, right_index = last_range
+            if self._range_matches(secs, left_index, right_index):
+                return last_range
+        left_index = bisect.bisect_right(self._ends, secs)
+        right_index = bisect.bisect_right(self._starts, secs)
+        self._last_range = (left_index, right_index)
+        return left_index, right_index
+
+    def _range_matches(self, secs: float, left_index: int, right_index: int) -> bool:
+        left_boundary = self._ends[left_index - 1] if left_index > 0 else float("-inf")
+        right_boundary = (
+            self._starts[right_index] if right_index < len(self._starts) else float("inf")
+        )
+        return left_boundary < secs <= right_boundary
 
 
 @dataclasses.dataclass
@@ -384,6 +457,7 @@ class VibratoLayerGenerator:
     vibrato_nodes: list[VibratoNode] = dataclasses.field(default_factory=list)
     _starts: list[float] = dataclasses.field(init=False, default_factory=list)
     _ends: list[float] = dataclasses.field(init=False, default_factory=list)
+    _last_range: tuple[int, int] | None = dataclasses.field(init=False, default=None)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         for i in range(len(_note_list)):
@@ -415,12 +489,28 @@ class VibratoLayerGenerator:
         self._ends = [node.end for node in self.vibrato_nodes]
 
     def pitch_diff_at_secs(self, secs: float) -> float:
-        left_index = bisect.bisect_right(self._ends, secs)
-        right_index = bisect.bisect_right(self._starts, secs)
+        left_index, right_index = self._active_range(secs)
         return sum(
             self.vibrato_nodes[index].value_at_secs(secs)
             for index in range(left_index, right_index)
         )
+
+    def _active_range(self, secs: float) -> tuple[int, int]:
+        if (last_range := self._last_range) is not None:
+            left_index, right_index = last_range
+            if self._range_matches(secs, left_index, right_index):
+                return last_range
+        left_index = bisect.bisect_right(self._ends, secs)
+        right_index = bisect.bisect_right(self._starts, secs)
+        self._last_range = (left_index, right_index)
+        return left_index, right_index
+
+    def _range_matches(self, secs: float, left_index: int, right_index: int) -> bool:
+        left_boundary = self._ends[left_index - 1] if left_index > 0 else float("-inf")
+        right_boundary = (
+            self._starts[right_index] if right_index < len(self._starts) else float("inf")
+        )
+        return left_boundary < secs <= right_boundary
 
 
 @dataclasses.dataclass

@@ -23,8 +23,12 @@ class PiecewiseIntervalDict(portion.IntervalDict):
     ) -> None:
         super().__init__(mapping_or_iterable=mapping_or_iterable)
         self._last_index = 0
+        self._last_key: float | None = None
 
     def _get_func(self, x: float) -> UnaryFunctionOrConstant | None:
+        if self._last_key is not None and x < self._last_key:
+            self._last_index = 0
+        self._last_key = x
         _last_index = self._last_index
         while _last_index < len(self._storage._list):
             boundary, func = self._storage.peekitem(_last_index)
