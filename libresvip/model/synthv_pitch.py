@@ -1,6 +1,5 @@
 import bisect
 import dataclasses
-import functools
 import itertools
 import math
 from collections.abc import Callable
@@ -9,9 +8,7 @@ from typing import NamedTuple
 import portion
 
 from libresvip.core.exceptions import ParamsError
-from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.utils.music_math import linear_interpolation
 from libresvip.utils.search import find_index
 
 MAX_BREAK = 0.01
@@ -47,6 +44,57 @@ class PitchControl:
     pitch: float
     type_: str = "curve"
     points: list[PitchControlPoint] = dataclasses.field(default_factory=list)
+
+
+@dataclasses.dataclass(frozen=True)
+class PitchControlCurve:
+    ticks: list[int]
+    values: list[float]
+
+    def value_at_ticks(self, ticks: int) -> float | None:
+        index = bisect.bisect_right(self.ticks, ticks) - 1
+        if index < 0:
+            return None
+        current_tick = self.ticks[index]
+        current_value = self.values[index]
+        if current_tick == ticks:
+            return current_value
+        next_index = index + 1
+        if next_index >= len(self.ticks):
+            return None
+        next_tick = self.ticks[next_index]
+        if ticks > next_tick:
+            return None
+        next_value = self.values[next_index]
+        return current_value + (next_value - current_value) * (ticks - current_tick) / (
+            next_tick - current_tick
+        )
+
+    def domain(self) -> portion.Interval:
+        if not self.ticks:
+            return portion.empty()
+        return portion.closed(self.ticks[0], self.ticks[-1])
+
+
+@dataclasses.dataclass
+class PitchControlIntervalMap:
+    curves: list[PitchControlCurve] = dataclasses.field(default_factory=list)
+    _domain: portion.Interval = dataclasses.field(default_factory=portion.empty)
+
+    def append_curve(self, curve: PitchControlCurve) -> None:
+        if not curve.ticks:
+            return
+        self.curves.append(curve)
+        self._domain |= curve.domain()
+
+    def get(self, ticks: int) -> float | None:
+        for curve in reversed(self.curves):
+            if (value := curve.value_at_ticks(ticks)) is not None:
+                return value
+        return None
+
+    def domain(self) -> portion.Interval:
+        return self._domain
 
 
 @dataclasses.dataclass
@@ -378,50 +426,24 @@ class VibratoLayerGenerator:
 @dataclasses.dataclass
 class PitchControlLayerGenerator:
     _pitch_controls: dataclasses.InitVar[list[PitchControl]]
-    interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
-
-    @staticmethod
-    def _overlay_interval(
-        segments: list[tuple[portion.Interval, Callable[[int | float], float] | int | float]],
-        interval: portion.Interval,
-        value: Callable[[int | float], float] | float,
-    ) -> None:
-        remaining_segments: list[
-            tuple[portion.Interval, Callable[[int | float], float] | int | float]
-        ] = []
-        for existing_interval, existing_value in segments:
-            remaining_segments.extend(
-                (atomic_interval, existing_value)
-                for atomic_interval in existing_interval - interval
-                if not atomic_interval.empty
-            )
-        remaining_segments.append((interval, value))
-        segments[:] = remaining_segments
+    interval_dict: PitchControlIntervalMap = dataclasses.field(
+        default_factory=PitchControlIntervalMap
+    )
 
     def __post_init__(self, _pitch_controls: list[PitchControl]) -> None:
-        segments: list[tuple[portion.Interval, Callable[[int | float], float] | int | float]] = []
         for pitch_control in _pitch_controls:
             if pitch_control.type_ == "curve" and len(pitch_control.points):
-                prev_point = pitch_control.points[0]
-                prev_ticks = prev_point.offset + pitch_control.pos
-                prev_value = (pitch_control.pitch + prev_point.value) * 100
-                self._overlay_interval(segments, portion.singleton(prev_ticks), prev_value)
-                for point in pitch_control.points[1:]:
-                    ticks = point.offset + pitch_control.pos
-                    value = (pitch_control.pitch + point.value) * 100
-                    self._overlay_interval(
-                        segments,
-                        portion.openclosed(prev_ticks, ticks),
-                        functools.partial(  # type: ignore[call-arg]
-                            linear_interpolation,
-                            start=(prev_ticks, prev_value),
-                            end=(ticks, value),
-                        ),
-                    )
-                    prev_ticks = ticks
-                    prev_value = value
-        for interval, value in segments:
-            self.interval_dict[interval] = value
+                ticks: list[int] = []
+                values: list[float] = []
+                for point in pitch_control.points:
+                    point_ticks = point.offset + pitch_control.pos
+                    point_value = (pitch_control.pitch + point.value) * 100
+                    if ticks and ticks[-1] == point_ticks:
+                        values[-1] = point_value
+                    else:
+                        ticks.append(point_ticks)
+                        values.append(point_value)
+                self.interval_dict.append_curve(PitchControlCurve(ticks=ticks, values=values))
 
     def value_at_ticks(self, ticks: int) -> float | None:
         return self.interval_dict.get(ticks)
