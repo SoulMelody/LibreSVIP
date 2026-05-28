@@ -1,10 +1,9 @@
 import contextlib
 import gettext
 import sys
-from typing import TYPE_CHECKING
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QFont, QIcon, QKeyEvent, QMouseEvent, QPainter, QPixmap
+from PySide6.QtCore import QEventLoop, QObject, Qt, QTimer
+from PySide6.QtGui import QColor, QFont, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import QSplashScreen
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
@@ -18,32 +17,9 @@ from libresvip.gui.modules import (
     qml_engine,
 )
 
-if TYPE_CHECKING:
-    from PySide6.QtCore import QObject
-
-
+locale_switcher: QObject | None = None
 splash_screen: QSplashScreen | None = None
 splash_translation: gettext.NullTranslations | None = None
-
-
-class StartupSplashScreen(QSplashScreen):
-    def mouse_press_event(self, event: QMouseEvent) -> None:  # type: ignore[override]
-        event.accept()
-
-    def mouse_release_event(self, event: QMouseEvent) -> None:  # type: ignore[override]
-        event.accept()
-
-    def mouse_double_click_event(self, event: QMouseEvent) -> None:  # type: ignore[override]
-        event.accept()
-
-    def mouse_move_event(self, event: QMouseEvent) -> None:  # type: ignore[override]
-        event.accept()
-
-    def key_press_event(self, event: QKeyEvent) -> None:  # type: ignore[override]
-        event.accept()
-
-    def key_release_event(self, event: QKeyEvent) -> None:  # type: ignore[override]
-        event.accept()
 
 
 def _(text: str) -> str:
@@ -101,7 +77,7 @@ def _set_splash_message(message: str) -> None:
         Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignBottom,
         QColor("#4b5563"),
     )
-    app.process_events()
+    app.process_events(QEventLoop.ProcessEventsFlag.ExcludeUserInputEvents)
 
 
 def _translate_splash(message: str) -> str:
@@ -110,18 +86,22 @@ def _translate_splash(message: str) -> str:
     return splash_translation.gettext(message)
 
 
+def _hide_splash_screen() -> None:
+    global splash_translation
+    if splash_screen is None:
+        return
+    splash_screen.hide()
+    splash_screen.clear_message()
+    splash_screen.unset_cursor()
+    splash_translation = None
+
+
 def startup() -> None:
-    global splash_screen, splash_translation
+    _set_splash_message(_("Opening window..."))
     qml_engine.load(":/qml/main.qml")
     if not qml_engine.root_objects():
         sys.exit(-1)
-    _set_splash_message(_("Loading translations..."))
-    locale_switcher.load_plugin_translations()
-    if splash_screen is not None:
-        app.process_events()
-        splash_screen.close()
-        splash_screen = None
-        splash_translation = None
+    QTimer.single_shot(0, _hide_splash_screen)
     with contextlib.suppress(RuntimeError), event_loop:
         event_loop.run_until_complete(app_close_event.wait())
 
@@ -137,7 +117,7 @@ def run() -> None:
     if not config_path.exists():
         settings.language = Language.auto()
     splash_translation = _load_splash_translation(settings.language.value)
-    splash_screen = StartupSplashScreen(_build_splash_pixmap(icon_pixmap))
+    splash_screen = QSplashScreen(_build_splash_pixmap(icon_pixmap))
     splash_screen.show()
     splash_screen.raise_()
     splash_screen.cursor = Qt.CursorShape.WaitCursor
@@ -152,7 +132,6 @@ def run() -> None:
     )
 
     locale_switcher = LocaleSwitcher()
-
     config_items = ConfigItems()
     task_manager = TaskManager()
     _set_splash_message(_("Building interface..."))
@@ -169,9 +148,9 @@ def run() -> None:
 
         initial_properties["notifier"] = Notifier()  # pyrefly: ignore[not-callable]
     qml_engine.set_initial_properties(initial_properties)
-    locale_switcher.translator_initialized.connect(startup)
-    _set_splash_message(_("Opening window..."))
-    locale_switcher.initialize()
+    _set_splash_message(_("Loading translations..."))
+    locale_switcher.switch_language(locale_switcher.get_language())
+    startup()
 
 
 if __name__ == "__main__":

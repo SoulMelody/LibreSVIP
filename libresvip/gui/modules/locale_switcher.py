@@ -38,12 +38,10 @@ class GettextTranslator(QTranslator):
 
 
 class LocaleSwitcher(QObject):
-    translator_initialized = Signal()
     plugin_translations_loaded = Signal()
 
     def __init__(self) -> None:
         super().__init__()
-        self._translator_initialized = False
         self._plugin_translations_loaded = False
         self.translator = GettextTranslator()
         if not config_path.exists():
@@ -67,9 +65,6 @@ class LocaleSwitcher(QObject):
     def initialize(self) -> None:
         self._plugin_translations_loaded = False
         self._apply_language(self.get_language(), include_plugins=False)
-        if not self._translator_initialized:
-            self._translator_initialized = True
-            self.translator_initialized.emit()
 
     @Slot(str)
     def switch_language(self, lang: str) -> None:
@@ -77,9 +72,6 @@ class LocaleSwitcher(QObject):
         self._apply_language(lang, include_plugins=True)
         self._plugin_translations_loaded = True
         self.plugin_translations_loaded.emit()
-        if not self._translator_initialized:
-            self._translator_initialized = True
-            self.translator_initialized.emit()
 
     @Slot()
     def load_plugin_translations(self) -> None:
