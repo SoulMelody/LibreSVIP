@@ -10,6 +10,7 @@ construct==2.10.70
 construct-typing==0.7.0
 flet==0.85.2
 flet-desktop==0.85.2
+flet-libcpp-shared==27.3.13750724
 flet-libxml2==2.15.3
 flet-libxslt==1.1.45
 flet-permission-handler==0.85.2
@@ -60,6 +61,7 @@ tatsu-lts==5.16.0
 that-depends==3.9.2
 typing-extensions==4.15.0
 typing-inspection==0.4.2
+ujson==5.12.1
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 xsdata==26.2
