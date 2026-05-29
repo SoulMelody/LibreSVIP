@@ -826,7 +826,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.58.0"
+version = "0.59.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -839,9 +839,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d4/7f/0e838be05fb64a088730bf5a3a510f4260e43ea9fbcea8b86d97aa31ca80/datamodel_code_generator-0.58.0.tar.gz", hash = "sha256:14b157b26ca85b8dfc2fdf2ada242f003937a130375892003067a4fdf046021c", size = 986860, upload-time = "2026-05-25T03:23:53.113Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8d/50/21488efdb515afc04039e19d876ee668d85a5c9590a3a4bb25b27f2b99c0/datamodel_code_generator-0.59.0.tar.gz", hash = "sha256:054e4d5568c27db5a993f6b3e1d34af53bd1f6d1b6c18b7166908b0f3dc04bd4", size = 1098070, upload-time = "2026-05-29T15:47:55.127Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0e/f6/992262b2f7845885899a6b57ff81f97f8506d443a20b7244ee8ea85247d8/datamodel_code_generator-0.58.0-py3-none-any.whl", hash = "sha256:73c4feb12bf773e280eb721b7968a5d5dbb953be2a700bf70995ba442abd0a57", size = 274532, upload-time = "2026-05-25T03:23:51.027Z" },
+    { url = "https://files.pythonhosted.org/packages/f6/ef/8e2479e3ba432bb3333d0f01d6bdc520cc7f765ccbfac134b015d806bc2b/datamodel_code_generator-0.59.0-py3-none-any.whl", hash = "sha256:c8c119ab618d24a619d635fef7aa9c96b69e069a4d287c9adfc148ae28368a69", size = 316232, upload-time = "2026-05-29T15:47:53.228Z" },
 ]
 
 [[package]]
@@ -1586,7 +1586,7 @@ provides-extras = ["cli", "crypto", "desktop", "lxml", "minijinja", "mobile", "t
 all = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
     { name = "babel", specifier = ">=2.18.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.58.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.59.0" },
     { name = "flet-cli", specifier = ">=0.85.2,<0.90.0" },
     { name = "mypy", specifier = ">=2.1.0" },
     { name = "pbtk", specifier = ">=1.1.2" },
@@ -1611,7 +1611,7 @@ all = [
 ]
 code-gen = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.58.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.59.0" },
     { name = "pbtk", specifier = ">=1.1.2" },
     { name = "protobuf-protoc-bin", specifier = ">=35.0" },
     { name = "pyside6-addons", specifier = ">=6.11.1,<6.12.0" },
