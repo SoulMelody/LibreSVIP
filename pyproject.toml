@@ -73,7 +73,7 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 
 [project.optional-dependencies]
 cli = [
-  "typer<1.0.0,>=0.26.3",
+  "typer<1.0.0,>=0.26.4",
   "winloop>=0.6.3; sys_platform == \"win32\"",
 ]
 crypto = [
