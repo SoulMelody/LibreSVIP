@@ -10,11 +10,13 @@ from construct import (
     Construct,
     Container,
     FixedSized,
+    FocusedSeq,
     GreedyBytes,
     GreedyRange,
     If,
     IfThenElse,
     Int16ul,
+    LazyBound,
     Mapping,
     PascalString,
     Prefixed,
@@ -111,6 +113,7 @@ PpsfVarIntCount = PpsfVarInt()
 
 
 def ppsf_prefixed_array(subcon: Subconstruct) -> Construct:
+    """Array prefixed with a PPSF LEB128 varint count."""
     return PrefixedArray(PpsfVarIntCount, subcon)
 
 
@@ -156,14 +159,18 @@ PpsfBPValue = Struct(
     "position" / Int16ul,
 )
 
-PpsfBPValueList = ppsf_prefixed_array(PpsfBPValue)
-PpsfExtension = Prefixed(PpsfVarIntCount, GreedyBytes)
+PpsfBPValueList = PrefixedArray(
+    PpsfVarIntCount,
+    PpsfBPValue,
+)
+
+PpsfVibratoBendPoint = PpsfBPValue
 
 PpsfVibratoHandle = Struct(
     "handle_id" / Int16ul,
-    "depth_data" / PpsfExtension,
+    "depth_data" / Prefixed(PpsfVarIntCount, GreedyBytes),
     "flag" / Byte,
-    "rate_data" / PpsfExtension,
+    "rate_data" / Prefixed(PpsfVarIntCount, GreedyBytes),
     "start_position" / Int16ul,
     "amplitude_bp" / PpsfBPValueList,
     "frequency_bp" / PpsfBPValueList,
@@ -266,6 +273,8 @@ PpsfEvent = Struct(
 
 PpsfEventIndexArray = ppsf_prefixed_array(Int32ul)
 
+PpsfExtension = Prefixed(PpsfVarIntCount, GreedyBytes)
+
 PpsfIClipBase = Struct(
     "field_4" / Int16ul,
     "field_6" / Byte,
@@ -317,8 +326,15 @@ PpsfAutomationClip = Struct(
     "field_4" / Int16ul,
     "field_6" / Byte,
     "event_indices" / PpsfEventIndexArray,
-    "data" / GreedyBytes,
+    "sub_event_indices" / Array(lambda ctx: ctx.field_4 - 1, PpsfEventIndexArray),
+    "padding" / Byte,
+    "marker" / Int16ul,
+    "plugin_index" / Int16ul,
 )
+
+V3_PARAM_PIT_INDEX = 6
+V3_PARAM_PBS_INDEX = 7
+
 
 PpsfVsqNoteClip = Struct(
     "noteclip" / PpsfNoteClipBase,
@@ -503,13 +519,22 @@ PpsfPluginParameterRecord = Struct(
     "marker" / Int32ul,
 )
 
+PpsfVfxcBlob = Prefixed(
+    PpsfVarIntCount,
+    Struct(
+        "magic" / Const(b"vfxc"),
+        "data" / Prefixed(Int32ul, GreedyBytes),
+    ),
+)
+
 PpsfEventControlPluginBody = Struct(
     "name" / PpsfVarIntString,
     "reserved" / Bytes(10),
     "flag" / Int16ul,
-    "parameters" / PrefixedArray(Byte, PpsfPluginParameterRecord),
+    "param_count" / Byte,
+    "parameters" / Array(this.param_count, PpsfPluginParameterRecord),
     "self_clip_idx" / Int16ul,
-    "vfxc_blob" / PpsfExtension,
+    "vfxc_blob" / PpsfVfxcBlob,
     "trailing" / GreedyBytes,
 )
 
@@ -646,7 +671,189 @@ PpsfEditorDataTags = Mapping(
         "EditorNoteData": b"ENOT",
         "EditorEventData": b"EEVT",
         "Marker": b"UMKR",
+        "VocalSynthQuantizeSyllable": b"VSQS",
+        "VocaloidEVECData": b"VSQA",
     },
+)
+
+PpsfVSQSyllableData = Struct(
+    "quantize_mode" / Int32ul,
+    "unknown_field_1" / Int32ul,
+    "unknown_field_2" / Int32ul,
+    "syllable_strings" / GreedyRange(PascalString(Byte, "utf-8")),
+)
+
+PpsfVocaloidEVECData = Struct(
+    "parameter_name" / PascalString(Byte, "utf-8"),
+    "unknown_int" / Int32ul,
+    "mode" / Byte,
+    "type_name" / PascalString(Byte, "ascii"),
+)
+
+PpsfEditorEventData = Struct(
+    "event_type" / Int32ul,
+)
+
+PpsfEditorNoteData = Struct(
+    "pos_tick" / Int32ul,
+    "dur_tick" / Int32ul,
+    "dur_tick_copy" / Int32ul,
+    "unknown_field" / Int16ul,
+    "phoneme_flag" / Int16ul,
+    "attack_flag" / Byte,
+    "release_flag" / Byte,
+    "vibrato_start" / Int32ul,
+    "vibrato_duration" / Int32ul,
+    "sub_array_1" / ppsf_prefixed_array(LazyBound(lambda: PpsfEditorData)),
+    "int32_array" / If(lambda ctx: _is_new_version(ctx, 1, 1), ppsf_prefixed_array(Int32ul)),
+    "sub_array_2"
+    / If(
+        lambda ctx: _is_new_version(ctx, 1, 1),
+        ppsf_prefixed_array(LazyBound(lambda: PpsfEditorData)),
+    ),
+)
+
+PpsfMarker = GreedyRange(
+    Struct(
+        "index" / Int32ul,
+        "tick" / Int32ul,
+    )
+)
+
+PpsfEditorData = Struct(
+    "magic" / PpsfEditorDataTags,
+    "size" / Int32ul,
+    "data"
+    / Switch(
+        this.magic,
+        {
+            "EditorEventData": FixedSized(this.size, PpsfEditorEventData),
+            "EditorNoteData": FixedSized(this.size, PpsfEditorNoteData),
+            "Marker": FixedSized(this.size, PpsfMarker),
+            "VocalSynthQuantizeSyllable": FixedSized(this.size, PpsfVSQSyllableData),
+            "VocaloidEVECData": FixedSized(this.size, PpsfVocaloidEVECData),
+        },
+        Bytes(this.size),
+    ),
+)
+
+PpsfEditorClipData = Struct(
+    "magic" / Const(b"ECLS"),
+    "size" / Int32ul,
+    "data"
+    / FixedSized(
+        this.size,
+        Struct(
+            "clip_type" / Int16ul,
+            "start_pos" / Int16ul,
+            "duration" / Int16ul,
+            "track_name" / PascalString(Byte, "utf-8"),
+            "color_index" / Int16ul,
+            "x_position" / Int16ul,
+            "y_position" / Int16ul,
+            "clip_flags" / Int16ul,
+            "clip_id" / Int32ul,
+            "sub_array" / ppsf_prefixed_array(PpsfEditorData),
+            "element_array" / ppsf_prefixed_array(PpsfEditorData),
+        ),
+    ),
+)
+
+PpsfEditorTrackData = Struct(
+    "magic" / Const(b"ETRS"),
+    "size" / Int32ul,
+    "data"
+    / FixedSized(
+        this.size,
+        Struct(
+            "track_type" / Int16ul,
+            "display_order" / Int16ul,
+            "total_height" / Int16ul,
+            "component_height" / Int16ul,
+            "track_color" / Int16ul,
+            "track_height" / Int16ul,
+            "selected_event_index" / Int16ul,
+            "selected_clip_index" / Int16ul,
+            "selected_sub_index" / Int16ul,
+            "state_flags" / Int16ul,
+            "track_width" / Int16ul,
+            "horizontal_scroll" / Int16ul,
+            "track_name" / PascalString(Byte, "utf-8"),
+            "zoom_level" / Int16ul,
+            "second_name" / PascalString(Byte, "utf-8"),
+            "collapse_state" / Int16ul,
+            "cursor_tick" / Int32ul,
+            "selection_start_tick" / Int32ul,
+            "selection_end_tick" / Int32ul,
+            "playback_tick" / Int32ul,
+            "raw_track_name" / PascalString(Byte, "utf-8"),
+            "raw_second_name" / PascalString(Byte, "utf-8"),
+            "editor_datas_1" / ppsf_prefixed_array(PpsfEditorData),
+            "editor_datas_2" / ppsf_prefixed_array(PpsfEditorData),
+            "editor_datas_3" / ppsf_prefixed_array(PpsfEditorData),
+            "clip_datas" / ppsf_prefixed_array(PpsfEditorClipData),
+            "event_datas" / ppsf_prefixed_array(PpsfEditorData),
+        ),
+    ),
+)
+
+PpsfEditorDatasRectFooter = Struct(
+    "magic" / Const(b"RECT"),
+    "size" / Int32ul,
+    "data" / Bytes(this.size),
+)
+
+PpsfEditorDatasHeader = Struct(
+    "version_code" / Int32ul,
+    "flags" / Int32ul,
+    "reserved_08" / Int32ul,
+    "version_major" / Byte,
+    "version_str" / Bytes(9),
+    "version_minor" / Byte,
+    "version_minor_ch" / Byte,
+    "version_revision" / Byte,
+    "version_revision_ch" / Byte,
+    "editor_hscroll" / Int32ul,
+    "sampling_related" / Int16ul,
+    "reserved_32" / Int16ul,
+    "reserved_34" / Int32ul,
+    "editor_track_count" / Int32ul,
+    "sentinel_42" / Int32ul,
+    "sentinel_46" / Int32ul,
+    "sentinel_50" / Int32ul,
+    "sentinel_54" / Int32ul,
+    "time_position" / Int32ul,
+    "sentinel_62" / Int32ul,
+    "sentinel_66" / Int32ul,
+    "trailing_zero" / Int16ul,
+    "trailing_flag" / Byte,
+)
+
+PpsfEditorDatas = Struct(
+    "version_flag" / Int32ul,
+    "window_rect"
+    / Struct(
+        "magic" / Const(b"RECT"),
+        "size" / Int32ul,
+        "left" / Int32ul,
+        "top" / Int32ul,
+        "right" / Int32ul,
+        "bottom" / Int32ul,
+    ),
+    "header" / PpsfEditorDatasHeader,
+    "version"
+    / Computed(
+        lambda ctx: (
+            ctx.header.version_major,
+            ctx.header.version_minor,
+            ctx.header.version_revision,
+        )
+    ),
+    "track_datas" / GreedyRange(PpsfEditorTrackData),
+    "footer_rect1_pad" / Const(b"\x00"),
+    "footer_rect1" / PpsfEditorDatasRectFooter,
+    "footer_rect2" / PpsfEditorDatasRectFooter,
+    "footer_rest" / Bytes(12),
 )
 
 PpsfChunkTags = Mapping(
@@ -786,6 +993,7 @@ PpsfChunk = Struct(
                 "Clips": PpsfClips,
                 "Events": ppsf_prefixed_array(PpsfEvent),
                 "Plugins": PpsfPlugins,
+                "EditorDatas": PpsfEditorDatas,
             },
             Bytes(this.size),
         ),
@@ -793,10 +1001,16 @@ PpsfChunk = Struct(
 )
 
 
-PpsfLegacyProject = Struct(
+PpsfLegacyProject = FocusedSeq(
+    "data",
     "magic" / Const(b"PPSF"),
-    "size" / Int32ul,
-    "version_string" / PascalString(Int16ul, "ascii"),
-    "version" / Computed(lambda ctx: _parse_version(ctx.version_string)),
-    "chunks" / GreedyRange(PpsfChunk),
+    "data"
+    / Prefixed(
+        Int32ul,
+        Struct(
+            "version_string" / PascalString(Int16ul, "ascii"),
+            "version" / Computed(lambda ctx: _parse_version(ctx.version_string)),
+            "chunks" / GreedyRange(PpsfChunk),
+        ),
+    ),
 )

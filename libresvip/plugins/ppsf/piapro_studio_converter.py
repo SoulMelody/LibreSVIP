@@ -12,6 +12,7 @@ from .legacy_model import PpsfLegacyProject
 from .model import PpsfProject
 from .options import InputOptions, OutputOptions
 from .piapro_studio_generator import PiaproStudioGenerator
+from .piapro_studio_legacy_generator import PiaproStudioLegacyGenerator
 from .piapro_studio_legacy_parser import PiaproStudioLegacyParser
 from .piapro_studio_nt_parser import PiaproStudioNTParser
 
@@ -44,6 +45,9 @@ class PiaproStudioConverter(plugin_base.SVSConverter):
     @classmethod
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:
         options_obj = cls.output_option_cls(**options)
+        if options_obj.use_legacy_format:
+            path.write_bytes(PiaproStudioLegacyGenerator(options_obj).generate_project(project))
+            return
         ppsf_project = PiaproStudioGenerator(options_obj).generate_project(project)
         proj_text = json.dumps(
             ppsf_project.model_dump(
