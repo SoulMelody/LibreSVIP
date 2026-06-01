@@ -67,7 +67,7 @@ soundfile==0.13.1 ; sys_platform == 'emscripten'
 svg-py==1.10.0
 tatsu-lts==5.16.0
 that-depends==3.9.2
-typer==0.26.4
+typer==0.26.5
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 ujson==5.12.1
