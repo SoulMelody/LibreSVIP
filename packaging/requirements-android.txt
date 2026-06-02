@@ -13,6 +13,7 @@ flet-desktop==0.85.2
 flet-libcpp-shared==27.3.13750724
 flet-libxml2==2.15.3
 flet-libxslt==1.1.45
+flet-libyaml==0.2.5
 flet-permission-handler==0.85.2
 fsspec==2026.4.0
 grpclib==0.4.9
@@ -22,7 +23,7 @@ hpack==4.1.0
 httpcore==1.0.9
 httpx==0.28.1
 hyperframe==6.1.0
-idna==3.17
+idna==3.18
 jinja2==3.1.6
 jyutping==0.3.4
 ko-pron==1.3
