@@ -139,13 +139,14 @@ class TuneLabGenerator:
                 root=[
                     TuneLabPoint(
                         pos=point.x - self.first_bar_length,
-                        value=point.y / 100,
+                        value=point.y / 100 if point.y != -100 else math.nan,
                     )
                     for point in point_part
                 ]
             )
-            for point_part in more_itertools.split_at(
-                pitch.points.root, lambda point: point.y == -100
+            for point_part in more_itertools.split_when(
+                pitch.points.root,
+                lambda a, b: (a.y == -100 and b.y != -100) or (a.y != -100 and b.y == -100),
             )
             if len(point_part)
         ]
