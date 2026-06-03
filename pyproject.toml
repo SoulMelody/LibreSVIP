@@ -117,7 +117,7 @@ all = [
 ]
 code_gen = [
   "aristaproto[compiler]>=0.1.4,<0.2.0",
-  "datamodel-code-generator>=0.59.0",
+  "datamodel-code-generator>=0.59.1",
   "pbtk>=1.1.2",
   "protobuf-protoc-bin>=35.0",
   "pyside6-addons<6.12.0,>=6.11.1",
@@ -144,7 +144,7 @@ packaging = [
   "pyinstaller>=6.20.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-test = ["pytest>=9.0.3", "pytest-run-parallel>=0.9.0", "textual-dev>=1.8.0"]
+test = ["pytest>=9.0.3", "pytest-run-parallel>=0.9.1", "textual-dev>=1.8.0"]
 
 [project.scripts]
 libresvip-cli = "libresvip.cli.__main__:app"
