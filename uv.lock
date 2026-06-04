@@ -828,22 +828,22 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.59.0"
+version = "0.59.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
-    { name = "black" },
+    { name = "black", marker = "sys_platform != 'emscripten'" },
     { name = "genson" },
     { name = "inflect" },
-    { name = "isort" },
+    { name = "isort", marker = "sys_platform != 'emscripten'" },
     { name = "jinja2" },
     { name = "pydantic" },
     { name = "pyyaml" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8d/50/21488efdb515afc04039e19d876ee668d85a5c9590a3a4bb25b27f2b99c0/datamodel_code_generator-0.59.0.tar.gz", hash = "sha256:054e4d5568c27db5a993f6b3e1d34af53bd1f6d1b6c18b7166908b0f3dc04bd4", size = 1098070, upload-time = "2026-05-29T15:47:55.127Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e5/5a/cee8c4d30de3e9b561b677d22929d7b3485d7888b0425b9611310826554d/datamodel_code_generator-0.59.1.tar.gz", hash = "sha256:aef5794f58d2e85b7a603862a922985417d6610458a8f927b1660bd0d3955df1", size = 1130871, upload-time = "2026-06-03T18:58:37.367Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f6/ef/8e2479e3ba432bb3333d0f01d6bdc520cc7f765ccbfac134b015d806bc2b/datamodel_code_generator-0.59.0-py3-none-any.whl", hash = "sha256:c8c119ab618d24a619d635fef7aa9c96b69e069a4d287c9adfc148ae28368a69", size = 316232, upload-time = "2026-05-29T15:47:53.228Z" },
+    { url = "https://files.pythonhosted.org/packages/c1/70/546f4c655614bb48fb9a7b4bc8a138f3c90c17f53797c9840d6a8bc57d7d/datamodel_code_generator-0.59.1-py3-none-any.whl", hash = "sha256:8b9391a14986a853c4b129ca3e3fd8b905fac26d1801f82f2f79a46e3e29d75f", size = 333504, upload-time = "2026-06-03T18:58:35.487Z" },
 ]
 
 [[package]]
@@ -1607,7 +1607,7 @@ provides-extras = ["cli", "crypto", "desktop", "lxml", "minijinja", "mobile", "t
 all = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
     { name = "babel", specifier = ">=2.18.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.59.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.59.1" },
     { name = "flet-cli", specifier = ">=0.85.2,<0.90.0" },
     { name = "mypy", specifier = ">=2.1.0" },
     { name = "pbtk", specifier = ">=1.1.2" },
@@ -1618,7 +1618,7 @@ all = [
     { name = "pyside6", specifier = ">=6.11.1,<6.12.0" },
     { name = "pyside6-addons", specifier = ">=6.11.1,<6.12.0" },
     { name = "pytest", specifier = ">=9.0.3" },
-    { name = "pytest-run-parallel", specifier = ">=0.9.0" },
+    { name = "pytest-run-parallel", specifier = ">=0.9.1" },
     { name = "ruff", specifier = ">=0.15.15" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
     { name = "sortedcontainers-stubs", specifier = ">=2.4.3" },
@@ -1632,7 +1632,7 @@ all = [
 ]
 code-gen = [
     { name = "aristaproto", extras = ["compiler"], specifier = ">=0.1.4,<0.2.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.59.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.59.1" },
     { name = "pbtk", specifier = ">=1.1.2" },
     { name = "protobuf-protoc-bin", specifier = ">=35.0" },
     { name = "pyside6-addons", specifier = ">=6.11.1,<6.12.0" },
@@ -1659,7 +1659,7 @@ packaging = [
 ]
 test = [
     { name = "pytest", specifier = ">=9.0.3" },
-    { name = "pytest-run-parallel", specifier = ">=0.9.0" },
+    { name = "pytest-run-parallel", specifier = ">=0.9.1" },
     { name = "textual-dev", specifier = ">=1.8.0" },
 ]
 
@@ -3239,14 +3239,14 @@ wheels = [
 
 [[package]]
 name = "pytest-run-parallel"
-version = "0.9.0"
+version = "0.9.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6e/30/93e117c777ff035affc62f7693a8265cd092ffd4e3179df2a29269e6e924/pytest_run_parallel-0.9.0.tar.gz", hash = "sha256:653b1f946d4c525588c3bde1a9ba56ec3176bf96c5df5649e57bfa3173534247", size = 65939, upload-time = "2026-05-27T15:33:37.136Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e9/c2/e94d5db442c975425ec7da0f66d29e191371a3aad4f4d9872bfeaf506cf7/pytest_run_parallel-0.9.1.tar.gz", hash = "sha256:9972ad8e66340a83819abae9cb3cefd7b3ca7b69b884d19521137767c6a69b58", size = 66001, upload-time = "2026-06-03T20:14:11.678Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4c/a1/b80c7db9830cc02019bcc4e54f72ba52248c0169892d83c5a8dfa782c125/pytest_run_parallel-0.9.0-py3-none-any.whl", hash = "sha256:ada1021b87895be857a8b181601dbfea24e460c7b5a5622ea040ea777f52740f", size = 19476, upload-time = "2026-05-27T15:33:35.834Z" },
+    { url = "https://files.pythonhosted.org/packages/19/88/b09e7e1be1847e61f0602fe691cefb3363dc45bb08564568999a23e484c4/pytest_run_parallel-0.9.1-py3-none-any.whl", hash = "sha256:623d1fc7f7a2bec5487addf791f559e7814de5b135c43434e1740fd63eff3c7f", size = 19506, upload-time = "2026-06-03T20:14:10.328Z" },
 ]
 
 [[package]]
