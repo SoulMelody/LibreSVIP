@@ -359,7 +359,7 @@ class GaussianLayerGenerator:
                     )
                 )
                 continue
-            center = (current_note.end + next_note.start) / 2 + next_note.portamento_offset
+            center = (current_note.end + next_note.start) / 2 + current_note.portamento_offset
             depth_left = current_note.depth_right * 100
             depth_right = next_note.depth_left * 100
             if next_note.key <= current_note.key:

@@ -162,6 +162,7 @@ Page {
             property var field: ({})
             property int index: -1
             property var list_model: null
+            onFieldChanged: comboBox.syncCurrentIndex()
             height: 40
             Layout.fillWidth: true
             Label {
@@ -177,8 +178,58 @@ Page {
                 Layout.fillWidth: true
                 textRole: "text"
                 valueRole: "value"
-                displayText: qsTr(currentText)
-                currentIndex: indexOfValue(field ? field.value : "")
+                displayText: ""
+                function choiceAt(choiceIndex) {
+                    var choices = [];
+                    if (field && field.choices) {
+                        choices = field.choices;
+                    }
+                    if (choiceIndex < 0 || choiceIndex >= choices.length) {
+                        return null;
+                    }
+                    return choices[choiceIndex];
+                }
+                function choiceValue(choice) {
+                    if (choice) {
+                        return choice["value"];
+                    }
+                    return null;
+                }
+                function choiceText(choice) {
+                    if (choice && choice["text"]) {
+                        return choice["text"];
+                    }
+                    return "";
+                }
+                function indexOfChoiceValue(targetValue) {
+                    var choices = [];
+                    if (field && field.choices) {
+                        choices = field.choices;
+                    }
+                    for (var i = 0; i < choices.length; i++) {
+                        if (choiceValue(choices[i]) == targetValue) {
+                            return i;
+                        }
+                    }
+                    return -1;
+                }
+                function syncDisplayText() {
+                    displayText = qsTr(choiceText(choiceAt(currentIndex)));
+                }
+                function syncCurrentIndex() {
+                    var fieldValue = null;
+                    if (field) {
+                        fieldValue = field.value;
+                    }
+                    var nextIndex = indexOfChoiceValue(fieldValue);
+                    if (currentIndex != nextIndex) {
+                        currentIndex = nextIndex;
+                    }
+                    syncDisplayText();
+                }
+                onCurrentIndexChanged: syncDisplayText()
+                onModelChanged: syncCurrentIndex()
+                Component.onCompleted: syncCurrentIndex()
                 delegate: MenuItem {
                     width: ListView.view.width
                     contentItem: Label {
@@ -212,8 +263,9 @@ Page {
                     if (!list_model || index < 0) {
                         return;
                     }
+                    let choice = choiceAt(selected);
                     updateOptionField(list_model, index, {
-                        value: this.currentValue
+                        value: choiceValue(choice)
                     });
                 }
                 model: (field && field.choices) || []
