@@ -411,10 +411,15 @@ class GaussianLayerGenerator:
 
     def _range_matches(self, secs: float, left_index: int, right_index: int) -> bool:
         left_boundary = self._ends[left_index - 1] if left_index > 0 else float("-inf")
-        right_boundary = (
-            self._starts[right_index] if right_index < len(self._starts) else float("inf")
-        )
-        return left_boundary < secs <= right_boundary
+        if right_index > left_index:
+            right_boundary = (
+                self._ends[left_index] if left_index < len(self._ends) else float("inf")
+            )
+        else:
+            right_boundary = (
+                self._starts[right_index] if right_index < len(self._starts) else float("inf")
+            )
+        return left_boundary < secs < right_boundary
 
 
 @dataclasses.dataclass
@@ -507,10 +512,15 @@ class VibratoLayerGenerator:
 
     def _range_matches(self, secs: float, left_index: int, right_index: int) -> bool:
         left_boundary = self._ends[left_index - 1] if left_index > 0 else float("-inf")
-        right_boundary = (
-            self._starts[right_index] if right_index < len(self._starts) else float("inf")
-        )
-        return left_boundary < secs <= right_boundary
+        if right_index > left_index:
+            right_boundary = (
+                self._ends[left_index] if left_index < len(self._ends) else float("inf")
+            )
+        else:
+            right_boundary = (
+                self._starts[right_index] if right_index < len(self._starts) else float("inf")
+            )
+        return left_boundary < secs < right_boundary
 
 
 @dataclasses.dataclass
