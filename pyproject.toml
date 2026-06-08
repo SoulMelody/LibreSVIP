@@ -140,7 +140,7 @@ linting = [
   "types-ujson>=5.10.0.20250822",
 ]
 packaging = [
-  "flet-cli>=0.85.2,<0.90.0",
+  "flet-cli>=0.85.3,<0.90.0",
   "pyinstaller>=6.20.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
