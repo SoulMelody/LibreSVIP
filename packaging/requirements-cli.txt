@@ -63,7 +63,7 @@ setuptools==82.0.1
 shellingham==1.5.4
 six==1.17.0
 sortedcontainers==2.4.0
-soundfile==0.13.1 ; sys_platform == 'emscripten'
+soundfile==0.14.0 ; sys_platform == 'emscripten'
 svg-py==1.10.0
 tatsu-lts==5.16.0
 that-depends==3.9.2
