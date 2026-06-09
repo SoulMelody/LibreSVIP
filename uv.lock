@@ -1564,7 +1564,7 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aristaproto", specifier = ">=0.1.4,<0.2.0" },
+    { name = "aristaproto", specifier = ">=0.1.5,<0.2.0" },
     { name = "backports-zstd", marker = "(python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')", specifier = ">=1.5.0,<1.5.1" },
     { name = "bidict", specifier = ">=0.23.1,<0.23.2" },
     { name = "cbor2", specifier = ">=6.1.2,<6.1.3" },
