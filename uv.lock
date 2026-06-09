@@ -244,16 +244,16 @@ wheels = [
 
 [[package]]
 name = "aristaproto"
-version = "0.1.4"
+version = "0.1.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "grpclib" },
     { name = "python-dateutil" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b3/fa/8882490c7bd8d94b365c46a42c0354d50f42389ae2e962c1dc2e8f82deca/aristaproto-0.1.4.tar.gz", hash = "sha256:5bf873057baf5e6c0a9d840e7adf29e19e5ab81ce6ec3f3b3f3dbef5771355cf", size = 99926, upload-time = "2025-06-02T06:21:59.846Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/98/c0/047f36de53b8afe910157dcc959ab82cf0b6831c16c5f4b561e79524ec74/aristaproto-0.1.5.tar.gz", hash = "sha256:8e736b3739bdc74989e6df5a146168570473a05ea150469cba45705be69c177f", size = 99608, upload-time = "2026-06-09T10:53:09.86Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/75/23/91fd0b5bb708ebd40e4dc77060f85cc960deb2b1220d2d7a022cf180e42e/aristaproto-0.1.4-py3-none-any.whl", hash = "sha256:f25b6cfb7a19e51ec80c4122f561b3ffdebbe97336bd6ca5a02a4166a817db8d", size = 104342, upload-time = "2025-06-02T06:21:56.548Z" },
+    { url = "https://files.pythonhosted.org/packages/fb/70/3625c7060da2947fb54a88e1f894a9cb2347e8217ed7221a0ad449b65293/aristaproto-0.1.5-py3-none-any.whl", hash = "sha256:2d7473097550b382538e1cec04b9c38c000f5f1fb2ce7eae2e3ebfcbc152599c", size = 104420, upload-time = "2026-06-09T10:53:11.522Z" },
 ]
 
 [package.optional-dependencies]
@@ -1564,7 +1564,7 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aristaproto", specifier = ">=0.1.4,<0.2.0" },
+    { name = "aristaproto", specifier = ">=0.1.5,<0.2.0" },
     { name = "backports-zstd", marker = "(python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')", specifier = ">=1.5.0,<1.5.1" },
     { name = "bidict", specifier = ">=0.23.1,<0.23.2" },
     { name = "cbor2", specifier = ">=6.1.2,<6.1.3" },
