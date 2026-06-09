@@ -116,7 +116,7 @@ all = [
   { include-group = "test" }
 ]
 code_gen = [
-  "aristaproto[compiler]>=0.1.4,<0.2.0",
+  "aristaproto[compiler]>=0.1.5,<0.2.0",
   "datamodel-code-generator>=0.61.0",
   "pbtk>=1.1.2",
   "protobuf-protoc-bin>=35.0",
@@ -124,7 +124,7 @@ code_gen = [
   "xsdata[cli]>=26.2",
 ]
 docs = [
-  "zensical>=0.0.44",
+  "zensical>=0.0.45",
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
