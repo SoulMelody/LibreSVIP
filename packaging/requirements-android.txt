@@ -59,7 +59,7 @@ six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.10.0
 tatsu-lts==5.16.0
-that-depends==3.9.2
+that-depends==4.0.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
 ujson==5.12.1
