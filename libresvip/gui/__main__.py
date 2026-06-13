@@ -116,6 +116,7 @@ def run() -> None:
     app.set_attribute(Qt.ApplicationAttribute.AA_DontUseNativeMenuBar, True)
     if not config_path.exists():
         settings.language = Language.auto()
+    app.process_events(QEventLoop.ProcessEventsFlag.ExcludeUserInputEvents)
     splash_translation = _load_splash_translation(settings.language.value)
     splash_screen = QSplashScreen(_build_splash_pixmap(icon_pixmap))
     splash_screen.show()
