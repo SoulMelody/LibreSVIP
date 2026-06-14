@@ -37,7 +37,7 @@ oauthlib==3.3.1
 packaging==26.2
 pathlib-abc==0.5.2
 platformdirs==4.10.0
-portion==2.6.1
+portion==2.6.2
 pycparser==3.0
 pycryptodomex==3.23.0
 pydantic==2.13.3
