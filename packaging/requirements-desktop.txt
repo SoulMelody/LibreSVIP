@@ -79,7 +79,7 @@ ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0
 typing-extensions==4.15.0
 typing-inspection==0.4.2
-ujson==5.12.1
+ujson==5.13.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 win32-setctime==1.2.0 ; sys_platform == 'win32'
