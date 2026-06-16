@@ -1,8 +1,8 @@
-cffi==1.17.1
-lxml==6.1.0
+cffi==2.0.0
+lxml==6.1.1
 pydantic==2.13.3
 pydantic-core==2.46.3
-pyyaml==6.0.2
+pyyaml==6.0.3
 ruamel-yaml-clib==0.2.12
 ujson==5.12.1
-zstandard==0.23.0
+zstandard==0.25.0
