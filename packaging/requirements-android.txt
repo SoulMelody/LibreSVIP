@@ -3,7 +3,7 @@ anyio==4.14.0
 aristaproto==0.1.5
 bidict==0.23.1
 cbor2==6.1.2
-certifi==2026.5.20
+certifi==2026.6.17
 cffi==2.0.0
 charset-normalizer==3.4.7
 construct==2.10.70
