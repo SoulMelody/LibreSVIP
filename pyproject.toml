@@ -130,7 +130,7 @@ i18n = ["babel>=2.18.0"]
 linting = [
   "mypy>=2.1.0",
   "prek>=0.4.5",
-  "pyrefly>=1.0.0,<1.0.1",
+  "pyrefly>=1.1.0,<1.1.1",
   "pyside6<6.12.0,>=6.11.1",
   "ruff>=0.15.17",
   "sortedcontainers-stubs>=2.4.3",
