@@ -20,7 +20,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -57,7 +57,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -93,7 +93,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -129,7 +129,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -164,7 +164,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -199,7 +199,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install Rosetta
         shell: bash
         run: |
@@ -243,7 +243,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -278,7 +278,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -311,7 +311,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
@@ -354,7 +354,7 @@ jobs:
         uses: pozetroninc/github-action-get-latest-release@master
         with:
           repository: MediaArea/MediaInfo
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
@@ -396,7 +396,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -432,7 +432,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -468,7 +468,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install Rosetta
         shell: bash
         run: |
@@ -513,7 +513,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
@@ -550,7 +550,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up uv
         uses: astral-sh/setup-uv@v8.2.0
         with:
