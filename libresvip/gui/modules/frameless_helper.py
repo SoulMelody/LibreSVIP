@@ -17,6 +17,7 @@ from PySide6.QtCore import (
 from PySide6.QtGui import QCursor, QMouseEvent
 from PySide6.QtQml import QmlElement, QPyQmlParserStatus
 from PySide6.QtQuick import QQuickItem, QQuickWindow
+from typing_extensions import Self
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -198,7 +199,7 @@ if sys.platform == "win32":
     class WindowsNativeEventFilter(QAbstractNativeEventFilter):
         _instance = None
 
-        def __new__(cls) -> "WindowsNativeEventFilter":  # noqa: PYI034
+        def __new__(cls) -> Self:
             if cls._instance is None:
                 cls._instance = super().__new__(cls)
             return cls._instance
