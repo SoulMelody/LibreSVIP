@@ -43,7 +43,7 @@ pycryptodomex==3.23.0
 pydantic==2.13.3
 pydantic-core==2.46.3
 pydantic-extra-types==2.11.1
-pydantic-settings==2.14.1
+pydantic-settings==2.14.2
 pymediainfo==7.0.1
 pypinyin==0.55.0
 pysubs2==1.8.1
