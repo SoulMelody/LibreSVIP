@@ -16,7 +16,7 @@ repos:
         args: ["--offline"]
 
   - repo: https://github.com/rvben/rumdl-pre-commit
-    rev: v0.2.19
+    rev: v0.2.20
     hooks:
       - id: rumdl-fmt
 
@@ -36,7 +36,7 @@ repos:
         pass_filenames: false
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.11.22
+    rev: 0.11.23
     hooks:
       - id: uv-lock
         args: ["--frozen"]
