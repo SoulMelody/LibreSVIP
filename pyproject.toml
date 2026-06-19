@@ -144,7 +144,7 @@ packaging = [
   "pyinstaller>=6.21.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-test = ["pytest>=9.1.0", "pytest-run-parallel>=0.9.1", "textual-dev>=1.8.0"]
+test = ["pytest>=9.1.1", "pytest-run-parallel>=0.9.1", "textual-dev>=1.8.0"]
 
 [project.scripts]
 libresvip-cli = "libresvip.cli.__main__:app"
