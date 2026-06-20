@@ -104,23 +104,36 @@ class AceParser:
             ace_note_list = []
             ace_params = AcepParams()
             for pattern in sorted(ace_track.patterns, key=operator.attrgetter("clip_pos")):
-                ace_notes = [
-                    note
-                    for note in pattern.notes
-                    if note.pos + pattern.pos >= 0
-                    and pattern.clip_pos <= note.pos < pattern.clip_pos + pattern.clip_dur
-                ]
+                pattern_pos = int(pattern.pos)
+                clip_pos = int(pattern.clip_pos)
+                clip_end = int(pattern.clip_pos + pattern.clip_dur)
+                ace_notes = []
+                for note in pattern.notes:
+                    note_start = note.pos
+                    note_end = note.pos + note.dur
+                    clipped_start = max(note_start, clip_pos)
+                    clipped_end = min(note_end, clip_end)
+                    if clipped_start >= clipped_end:
+                        continue
+                    visible_pos = clipped_start - clip_pos + pattern_pos
+                    if visible_pos < 0:
+                        clipped_start -= visible_pos
+                        visible_pos = 0
+                        if clipped_start >= clipped_end:
+                            continue
+                    ace_notes.append(
+                        note.model_copy(
+                            deep=True,
+                            update={
+                                "pos": int(visible_pos),
+                                "dur": int(clipped_end - clipped_start),
+                            },
+                        )
+                    )
                 if not ace_notes:
                     continue
                 prev_ace_note = None
                 for ace_note in ace_notes:
-                    ace_note.dur = int(
-                        min(
-                            ace_note.dur,
-                            pattern.clip_pos + pattern.clip_dur - ace_note.pos,
-                        )
-                    )
-                    ace_note.pos += int(pattern.pos)
                     if (
                         prev_ace_note is not None
                         and prev_ace_note.pos + prev_ace_note.dur > ace_note.pos
@@ -130,19 +143,30 @@ class AceParser:
                 ace_note_list.extend(ace_notes)
 
                 def merge_curves(src: AcepParamCurveList, dst: AcepParamCurveList) -> None:
-                    ace_curves = [
-                        curve
-                        for curve in src.root
-                        if curve.offset + pattern.pos >= -self.first_bar_ticks
-                        and curve.offset + len(curve.values) > pattern.clip_pos
-                        and curve.offset < pattern.clip_pos + pattern.clip_dur
-                    ]
-                    for ace_curve in ace_curves:
-                        max_length = int(pattern.clip_pos + pattern.clip_dur - ace_curve.offset)
-                        if max_length < len(ace_curve.values):
-                            ace_curve.values = ace_curve.values[:max_length]
-                        ace_curve.offset += int(pattern.pos)
-                    dst.root.extend(ace_curves)
+                    for ace_curve in src.root:
+                        curve_start = ace_curve.offset
+                        curve_end = ace_curve.offset + len(ace_curve.values)
+                        clipped_start = max(curve_start, clip_pos)
+                        clipped_end = min(curve_end, clip_end)
+                        if clipped_start >= clipped_end:
+                            continue
+                        dst_offset = clipped_start - clip_pos + pattern_pos
+                        if dst_offset < -self.first_bar_ticks:
+                            clipped_start += -self.first_bar_ticks - dst_offset
+                            dst_offset = -self.first_bar_ticks
+                        if clipped_start >= clipped_end:
+                            continue
+                        start_index = int(clipped_start - curve_start)
+                        end_index = int(clipped_end - curve_start)
+                        dst.root.append(
+                            ace_curve.model_copy(
+                                deep=True,
+                                update={
+                                    "offset": int(dst_offset),
+                                    "values": ace_curve.values[start_index:end_index],
+                                },
+                            )
+                        )
 
                 merge_curves(pattern.parameters.pitch_delta, ace_params.pitch_delta)
                 merge_curves(pattern.parameters.breathiness, ace_params.breathiness)
@@ -388,7 +412,7 @@ class AceParser:
                 for value in ace_curve.values:
                     if ace_curve.curve_type == "anchor":
                         curve.points.append(Point(pos + self.first_bar_ticks, round(value * 100)))
-                    elif not (math.isnan(value) or value is None):
+                    elif value is not None and not math.isnan(value):
                         abs_semitone = (
                             base_pitch.semitone_value_at(
                                 self.synchronizer.get_actual_secs_from_ticks(pos)
