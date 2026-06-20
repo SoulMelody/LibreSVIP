@@ -3,28 +3,32 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, BinaryIO, Final
 
 from construct import (
-    Array,
     Byte,
     BytesInteger,
     Computed,
     Const,
+    ConstError,
     Construct,
+    Container,
     ExprAdapter,
+    ExprValidator,
     FocusedSeq,
     GreedyBytes,
     GreedyRange,
     IfThenElse,
+    Int8sb,
     Int8ub,
     Int16sb,
     Int16ub,
     Int32ub,
     IntegerError,
+    ListContainer,
     Peek,
     Prefixed,
-    Rebuild,
+    SizeofError,
+    StreamError,
     Struct,
     Switch,
-    len_,
     stream_read,
     stream_write,
     this,
@@ -45,6 +49,9 @@ PITCH_MAX_VALUE: Final[int] = 8191
 DEFAULT_PITCH_BEND_SENSITIVITY: Final[int] = 2
 MAX_PITCH_BEND_SENSITIVITY: Final[int] = 24
 EXPRESSION_CONSTANT: Final[float] = 2.0
+MIDI_HEADER_CHUNK: Final[bytes] = b"MThd"
+MIDI_TRACK_CHUNK: Final[bytes] = b"MTrk"
+MIDI_HEADER_DATA_LENGTH: Final[int] = 6
 
 
 def cc11_to_db_change(value: float) -> float:
@@ -92,6 +99,22 @@ def remember_last(obj: int, ctx: Context) -> None:
     Adapted from https://github.com/mik3y/pymidi/blob/main/pymidi/packets.py
     """
     setattr(ctx._root, "_last_status", obj)
+
+
+PitchBend = ExprValidator(
+    ExprAdapter(
+        Struct(
+            lsb=Int8ub,
+            msb=Int8ub,
+        ),
+        encoder=lambda obj, context: {
+            "lsb": (obj - PITCH_MIN_VALUE) & 0x7F,
+            "msb": (obj - PITCH_MIN_VALUE) >> 7,
+        },
+        decoder=lambda obj, context: ((obj.msb << 7) | obj.lsb) + PITCH_MIN_VALUE,
+    ),
+    lambda obj, context: PITCH_MIN_VALUE <= obj <= PITCH_MAX_VALUE,
+)
 
 
 # bpm conversion functions from mido
@@ -200,8 +223,10 @@ MIDIMessage = Struct(
                             0x54: Struct(
                                 type=Computed("smpte_offset"),
                                 _frame_rate_and_hours=Int8ub,
-                                frame_rate=Computed(lambda ctx: ctx._frame_rate_and_hours >> 6),
-                                hours=Computed(lambda ctx: ctx._frame_rate_and_hours & 0x3F),
+                                frame_rate=Computed(
+                                    lambda ctx: (ctx._frame_rate_and_hours >> 5) & 0x03
+                                ),
+                                hours=Computed(lambda ctx: ctx._frame_rate_and_hours & 0x1F),
                                 minutes=Int8ub,
                                 seconds=Int8ub,
                                 frames=Int8ub,
@@ -220,7 +245,7 @@ MIDIMessage = Struct(
                             ),
                             0x59: Struct(
                                 type=Computed("key_signature"),
-                                key=Int8ub,
+                                key=Int8sb,
                                 scale=Int8ub,
                             ),
                             0x7F: Struct(
@@ -276,11 +301,7 @@ MIDIMessage = Struct(
                     ),
                     0xE0: Struct(
                         type=Computed("pitchwheel"),
-                        pitch=ExprAdapter(
-                            Int16ub,
-                            encoder=lambda obj, context: obj - PITCH_MIN_VALUE,
-                            decoder=lambda obj, context: obj + PITCH_MIN_VALUE,
-                        ),
+                        pitch=PitchBend,
                     ),
                 },
             ),
@@ -289,14 +310,62 @@ MIDIMessage = Struct(
 )
 MIDITrack = FocusedSeq(
     "messages",
-    magic=Const(b"MTrk"),
+    magic=Const(MIDI_TRACK_CHUNK),
     messages=Prefixed(Int32ub, GreedyRange(MIDIMessage)),
 )
-MIDIFile = Struct(
-    magic=Const(b"MThd"),
-    header_length=Const(6, Int32ub),
-    type=MIDITypeEnum,
-    track_count=Rebuild(Int16ub, len_(this.tracks)),
-    ticks_per_beat=Int16sb,
-    tracks=Array(this.track_count, MIDITrack),
-)
+
+
+@singleton
+class MIDIFileStruct(Construct):
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> Container:
+        magic = stream_read(stream, 4, path)
+        if magic != MIDI_HEADER_CHUNK:
+            msg = f"parsing expected {MIDI_HEADER_CHUNK!r} but parsed {magic!r}"
+            raise ConstError(msg, path=path)
+        header_length = Int32ub._parsereport(stream, context, path)
+        if header_length < MIDI_HEADER_DATA_LENGTH:
+            msg = f"MIDI header length must be at least {MIDI_HEADER_DATA_LENGTH}"
+            raise StreamError(msg, path=path)
+        header = stream_read(stream, header_length, path)
+        track_count = Int16ub.parse(header[2:4])
+        tracks = ListContainer()
+        while len(tracks) < track_count:
+            chunk_magic = stream_read(stream, 4, path)
+            chunk_length = Int32ub._parsereport(stream, context, path)
+            chunk_data = stream_read(stream, chunk_length, path)
+            if chunk_magic == MIDI_TRACK_CHUNK:
+                tracks.append(
+                    MIDITrack.parse(
+                        chunk_magic + Int32ub.build(chunk_length) + chunk_data,
+                    )
+                )
+        return Container(
+            _io=stream,
+            magic=magic,
+            header_length=header_length,
+            type=MIDITypeEnum.parse(header[:2]),
+            track_count=track_count,
+            ticks_per_beat=Int16sb.parse(header[4:6]),
+            tracks=tracks,
+        )
+
+    def _build(self, obj: Container, stream: BinaryIO, context: Context, path: CSPath) -> Container:
+        tracks = obj["tracks"]
+        header = (
+            MIDITypeEnum.build(obj["type"])
+            + Int16ub.build(len(tracks))
+            + Int16sb.build(obj["ticks_per_beat"])
+        )
+        stream_write(stream, MIDI_HEADER_CHUNK, 4, path)
+        stream_write(stream, Int32ub.build(MIDI_HEADER_DATA_LENGTH), 4, path)
+        stream_write(stream, header, MIDI_HEADER_DATA_LENGTH, path)
+        for track in tracks:
+            track_data = MIDITrack.build(track)
+            stream_write(stream, track_data, len(track_data), path)
+        return obj
+
+    def _sizeof(self, context: Context, path: CSPath) -> int:
+        raise SizeofError(path=path)
+
+
+MIDIFile = MIDIFileStruct

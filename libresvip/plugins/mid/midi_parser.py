@@ -250,36 +250,28 @@ class MidiParser:
                         )
                     )
                 elif event.detail.data.type == "control_change":
+                    control = event.detail.data.control
+                    value = event.detail.data.value
                     if self.options.import_pitch:
                         if (
-                            event.detail.data.control == ControlChange.DATA_ENTRY
+                            control == ControlChange.DATA_ENTRY.value
                             and len(pitchbend_range_changed[event.time]) >= 2
                         ):
-                            pitch_bend_sensitivity = event.value
-                        elif (
-                            event.detail.data.control == ControlChange.RPN_MSB
-                            and event.detail.data.value == 0
-                        ) or (
-                            event.detail.data.control == ControlChange.RPN_LSB
-                            and event.detail.data.value == 0
+                            pitch_bend_sensitivity = value
+                        elif (control == ControlChange.RPN_MSB.value and value == 0) or (
+                            control == ControlChange.RPN_LSB.value and value == 0
                         ):
-                            pitchbend_range_changed[event.time].append(event.detail.data.value)
+                            pitchbend_range_changed[event.time].append(value)
                     if self.options.import_volume:
-                        if (
-                            event.detail.data.control == ControlChange.EXPRESSION
-                            and event.detail.data.value
-                        ):
+                        if control == ControlChange.EXPRESSION.value and value:
                             expression.points.append(
                                 Point(
                                     round(event.time * self.tick_rate),
-                                    round(volume_base + cc11_to_db_change(event.detail.data.value)),
+                                    round(volume_base + cc11_to_db_change(value)),
                                 )
                             )
-                        elif (
-                            event.detail.data.control == ControlChange.VOLUME
-                            and event.detail.data.value
-                        ):
-                            volume_base = velocity_to_db_change(event.detail.data.value)
+                        elif control == ControlChange.VOLUME.value and value:
+                            volume_base = velocity_to_db_change(value)
             if (pos := overlapped_pos(notes)) is not None:
                 msg = _("Notes overlapped near bar {}").format(
                     find_bar_index(self.time_signatures, pos)
