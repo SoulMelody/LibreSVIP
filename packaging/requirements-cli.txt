@@ -13,7 +13,7 @@ construct-typing==0.7.0
 fsspec==2026.6.0
 grpclib==0.4.9
 h2==4.3.0
-hpack==4.1.0
+hpack==4.2.0
 hyperframe==6.1.0
 importlib-resources==7.1.0 ; python_full_version < '3.11'
 jinja2==3.1.6
