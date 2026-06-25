@@ -53,7 +53,7 @@ cli_a = Analysis(
         "minijinja",
         "tatsu",
         "portion",
-        "aristaproto.lib.pydantic.google.protobuf",
+        "protobuf.wkt.any_pb",
         "pypinyin",
         "pysubs2",
         "pyzipper",

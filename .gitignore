@@ -168,6 +168,7 @@ cython_debug/
 .opencode/
 .trae/
 openspec/
+.slim/deepwork/
 
 assets/
 node_modules/

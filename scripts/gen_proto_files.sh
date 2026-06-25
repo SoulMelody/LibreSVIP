@@ -1,1 +1,2 @@
-protoc --python_aristaproto_opt=pydantic_dataclasses --python_aristaproto_out=. -I ../libresvip/res/protos/ libresvip.proto
+cd libresvip/res/protos
+uv run -- buf generate

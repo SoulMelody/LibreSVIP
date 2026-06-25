@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package xstudio.proto;
+
+import "google/protobuf/any.proto";
+
+enum TrackType {
+  Track_None = 0;
+  Audio_Track = 1;
+  Singing_Track = 2;
+}
+
+enum PatternType {
+  Pattern_None = 0;
+  Audio_Pattern = 1;
+  Singing_Pattern = 2;
+}
+
+enum Svip3NoteLengthValidateTag {
+  NONE = 0;
+  TOO_LONG = 1;
+  TOO_SHORT = 2;
+}
+
+message Svip3SongTempo {
+  int32 pos = 1;
+  int32 tempo = 2;
+}
+
+message Svip3SongBeat {
+  int32 pos = 1;
+  Svip3BeatSize beat_size = 2;
+}
+
+message SongTone {
+  int32 pos = 1;
+  string tone = 2;
+}
+
+message Svip3BeatSize {
+  int32 numerator = 1;
+  int32 denominator = 2;
+}
+
+message Master {
+  float volume = 1;
+}
+
+message Svip3SingingTrack {
+  float volume = 1;
+  float pan = 2;
+  bool mute = 3;
+  string name = 4;
+  bool solo = 5;
+  string color = 6;
+  TrackType type = 7;
+  repeated Svip3SingingPattern pattern_list = 8;
+  string ai_singer_id = 9;
+  bool is_reverb_open = 10;
+  int32 reverb_type = 11;
+  float reverb_db = 12;
+  bool is_rap_track = 13;
+}
+
+message Svip3AudioTrack {
+  float volume = 1;
+  float pan = 2;
+  bool mute = 3;
+  string name = 4;
+  bool solo = 5;
+  string color = 6;
+  TrackType type = 7;
+  repeated Svip3AudioPattern pattern_list = 8;
+}
+
+message Svip3AudioPattern {
+  string name = 1;
+  PatternType type = 2;
+  int32 real_pos = 3;
+  int32 real_dur = 4;
+  int32 play_pos = 5;
+  int32 play_dur = 6;
+  bool is_mute = 7;
+  string audio_file_path = 8;
+  float rising_falling_tone = 9;
+}
+
+message Svip3SingingPattern {
+  string name = 1;
+  PatternType type = 2;
+  int32 real_pos = 3;
+  int32 real_dur = 4;
+  int32 play_pos = 5;
+  int32 play_dur = 6;
+  bool is_mute = 7;
+  repeated Svip3Note note_list = 8;
+  repeated Svip3LineParamNode edited_pitch_line = 9;
+  repeated Svip3LineParamNode edited_volume_line = 10;
+  repeated Svip3LineParamNode edited_power_line = 11;
+  repeated Svip3LineParamNode merge_pitch_line = 12;
+  repeated Svip3LineParamNode merge_power_line = 13;
+  repeated Svip3LineParamNode edited_spec_trans_coef_line = 14;
+  repeated Svip3LineParamNode edited_ap_coef_line = 15;
+  repeated Svip3LineParamNode edited_energy_value_line = 16;
+  repeated Svip3LineParamNode merge_energy_value_line = 17;
+  int32 rap_type = 18;
+  string singing_method_id = 19;
+}
+
+message Svip3Vibrato {
+  float frequency = 1;
+  float amplitude = 2;
+  float phase = 3;
+  float start = 4;
+  float end = 5;
+  float attack_x = 6;
+  float attack_y = 7;
+  float release_x = 8;
+  float release_y = 9;
+}
+
+message Svip3Note {
+  int32 start_pos = 1;
+  int32 width_pos = 2;
+  int32 key_index = 3;
+  string lyric = 4;
+  string pronouncing = 5;
+  int32 consonant_len = 6;
+  bool has_consonant = 7;
+  int32 user_consonant_len = 8;
+  int32 sp_len = 9;
+  int32 sil_len = 10;
+  Svip3NoteLengthValidateTag length_validate_tag = 11;
+  Svip3Vibrato vibrato = 12;
+  int32 user_sp_len = 13;
+  int32 tone = 14;
+  float left_pitch = 15;
+  float right_pitch = 16;
+}
+
+message Svip3VibratoStyle {
+  bool is_anti_phase = 1;
+  repeated Svip3LineParamNode amp_line = 2;
+  repeated Svip3LineParamNode freq_line = 3;
+}
+
+message Svip3VibratoPercentInfo {
+  float start_percent = 1;
+  float end_percent = 2;
+}
+
+message Svip3LineParamNode {
+  sint32 pos = 1;
+  float value = 2;
+}
+
+message Svip3SongMark {
+  int32 pos = 1;
+  string mark = 2;
+}
+
+message Svip3Project {
+  string project_file_path = 1;
+  string version = 2;
+  int32 duration = 3;
+  repeated Svip3SongTempo tempo_list = 4;
+  repeated Svip3SongBeat beat_list = 5;
+  repeated google.protobuf.Any track_list = 6;
+  Master master = 7;
+  string current_tone = 8;
+  int32 piano_cells = 9;
+  int32 loop_start = 10;
+  int32 loop_end = 11;
+  bool is_open_adsorb = 12;
+  int32 params_version = 13;
+  repeated SongTone tone_list = 14;
+  bool is_triplets = 15;
+  bool is_loop = 16;
+  bool is_last_play = 17;
+  repeated Svip3SongMark mark_list = 18;
+}

@@ -4,7 +4,7 @@ import operator
 from collections.abc import MutableSequence
 from urllib.parse import urljoin
 
-import aristaproto.lib.pydantic.google.protobuf as any_pb2
+from protobuf.wkt import Any
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.tick_counter import shift_tempo_list
@@ -61,8 +61,8 @@ class Svip3Parser:
         return [
             TimeSignature(
                 bar_index=beat.pos,
-                numerator=beat.beat_size.numerator,
-                denominator=beat.beat_size.denominator,
+                numerator=beat.beat_size.numerator if beat.beat_size is not None else 0,
+                denominator=beat.beat_size.denominator if beat.beat_size is not None else 4,
             )
             for beat in beat_list
         ]
@@ -79,16 +79,16 @@ class Svip3Parser:
             self.first_bar_length,
         )
 
-    def parse_tracks(self, track_list: MutableSequence[any_pb2.Any]) -> list[Track]:
+    def parse_tracks(self, track_list: MutableSequence[Any]) -> list[Track]:
         tracks = []
         for track in track_list:
             if track.type_url == urljoin(TYPE_URL_BASE, Svip3TrackType.SINGING_TRACK):
-                singing_track = Svip3SingingTrack().parse(track.value)
+                singing_track = Svip3SingingTrack.from_binary(track.value)
                 tracks.append(self.parse_singing_track(singing_track))
             elif self.options.import_instrumental_track and track.type_url == urljoin(
                 TYPE_URL_BASE, Svip3TrackType.AUDIO_TRACK
             ):
-                audio_track = Svip3AudioTrack().parse(track.value)
+                audio_track = Svip3AudioTrack.from_binary(track.value)
                 if xstudio_audio_track := self.parse_audio_track(audio_track):
                     tracks.append(xstudio_audio_track)
         return tracks

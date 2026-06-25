@@ -29,7 +29,7 @@ from libresvip.utils.translation import gettext_lazy as _
 from libresvip.utils.translation import lazy_translation
 
 from .conversion_grpc import ConversionBase
-from .messages import (
+from .libresvip_pb import (
     ConversionGroup,
     ConversionMode,
     ConversionRequest,
@@ -217,7 +217,7 @@ class Conversion(ConversionBase):
                     )
                     for identifier, plugin in plugins.items()
                 )
-        return PluginInfosResponse(plugin_infos)
+        return PluginInfosResponse(values=plugin_infos)
 
     async def convert(self, conversion_request: ConversionRequest) -> ConversionResponse:
         group_id2results = {}
@@ -260,7 +260,7 @@ class Conversion(ConversionBase):
         for future in asyncio.as_completed(futures):
             group_id, result = await future
             group_id2results[group_id] = result
-        return ConversionResponse(group_id2results)
+        return ConversionResponse(group_results=group_id2results)
 
 
 async def run_grpc_server(*, host: str = "127.0.0.1", port: int = 15150) -> None:

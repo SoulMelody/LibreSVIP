@@ -1,0 +1,8 @@
+version: v2
+inputs:
+  - directory: ../../../
+    exclude_paths:
+      - .venv
+plugins:
+  - local: protoc-gen-py
+    out: ../../../

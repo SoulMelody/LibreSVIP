@@ -1,10 +1,10 @@
 import dataclasses
 import re
-from typing import Any
+from typing import Any as TypingAny
 from urllib.parse import urljoin
 
-import aristaproto.lib.pydantic.google.protobuf as any_pb2
 import pypinyin
+from protobuf.wkt import Any
 
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.tick_counter import skip_tempo_list
@@ -94,7 +94,7 @@ class Svip3Generator:
             for song_tempo in song_tempo_list
         ]
 
-    def generate_tracks(self, track_list: list[Track]) -> list[any_pb2.Any]:
+    def generate_tracks(self, track_list: list[Track]) -> list[Any]:
         svip3_track_list = []
         for track in track_list:
             color = random_color()
@@ -106,9 +106,9 @@ class Svip3Generator:
                 type_url = urljoin(TYPE_URL_BASE, Svip3TrackType.AUDIO_TRACK)
             else:
                 continue
-            svip3_track_container = any_pb2.Any(
+            svip3_track_container = Any(
                 type_url=type_url,
-                value=bytes(svip3_track),
+                value=svip3_track.to_binary(),
             )
             svip3_track_list.append(svip3_track_container)
         return svip3_track_list
@@ -133,7 +133,7 @@ class Svip3Generator:
         return pan * 10.0
 
     def generate_audio_patterns(self, track: InstrumentalTrack) -> list[Svip3AudioPattern]:
-        kwargs: dict[str, Any] = {}
+        kwargs: dict[str, TypingAny] = {}
         if (track_info := audio_track_info(track.audio_file_path)) is not None:
             audio_duration_in_ticks = round(
                 self.synchronizer.get_actual_ticks_from_secs(track_info.duration)
