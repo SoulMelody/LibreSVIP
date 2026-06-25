@@ -1,6 +1,5 @@
 annotated-types==0.7.0
 anyio==4.14.1
-aristaproto==0.1.5
 bidict==0.23.1
 cbor2==6.1.2
 certifi==2026.6.17
@@ -16,13 +15,9 @@ flet-libxslt==1.1.45
 flet-libyaml==0.2.5
 flet-permission-handler==0.85.3
 fsspec==2026.6.0
-grpclib==0.4.9
 h11==0.16.0
-h2==4.3.0
-hpack==4.2.0
 httpcore==1.0.9
 httpx==0.28.1
-hyperframe==6.1.0
 idna==3.18
 jinja2==3.1.6
 jyutping==0.3.4
@@ -32,12 +27,12 @@ lxml==6.1.1
 markupsafe==3.0.3
 more-itertools==11.1.0
 msgpack==1.1.2
-multidict==6.7.1
 oauthlib==3.3.1
 packaging==26.2
 pathlib-abc==0.5.2
 platformdirs==4.10.0
 portion==2.6.2
+protobuf-py==0.1.1
 pycparser==3.0
 pycryptodomex==3.23.0
 pydantic==2.13.3
@@ -47,7 +42,6 @@ pydantic-settings==2.14.2
 pymediainfo==7.0.1
 pypinyin==0.55.0
 pysubs2==1.8.1
-python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 pyyaml==6.0.3
 pyzipper==0.4.0
