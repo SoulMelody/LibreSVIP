@@ -267,7 +267,12 @@ class Conversion(ConversionServicer):
 
 
 async def run_grpc_server(*, host: str = "127.0.0.1", port: int = 15150) -> None:
-    grpc_server = server()
+    grpc_server = server(
+        options=[
+            ("grpc.max_send_message_length", -1),
+            ("grpc.max_receive_message_length", -1),
+        ]
+    )
     Conversion().add_to_server(grpc_server)
     grpc_server.add_insecure_port(f"{host}:{port}")
     await grpc_server.start()
