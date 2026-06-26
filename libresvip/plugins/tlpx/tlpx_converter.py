@@ -1,8 +1,7 @@
 import pathlib
 from importlib.resources import files
 
-import cbor2
-
+from libresvip.core.compat import cbor2
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 

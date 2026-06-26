@@ -12,6 +12,11 @@ except ImportError:
         json._default_encoder.item_separator = ","
         json._default_encoder.key_separator = ":"
 
+try:
+    import cbor2
+except ImportError:
+    import cbor2pure as cbor2
+
 with contextlib.suppress(ImportError):
     sys.modules["yaml"] = __import__("yaml_ft")
 
@@ -33,7 +38,7 @@ except ImportError:
 
 jinja_env = JinjaEnvironment()
 
-__all__ = ["Traversable", "jinja_env", "json", "prefix_match"]
+__all__ = ["Traversable", "cbor2", "jinja_env", "json", "prefix_match"]
 
 if sys.version_info < (3, 11):
     from importlib_resources.abc import Traversable

@@ -5,7 +5,6 @@ import pathlib
 import sys
 from typing import Any
 
-import cbor2
 from construct import (
     Byte,
     Bytes,
@@ -21,7 +20,7 @@ from construct import (
 )
 from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
 
-from libresvip.core.compat import json
+from libresvip.core.compat import cbor2, json
 from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
 from libresvip.utils.translation import gettext_lazy as _
