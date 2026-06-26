@@ -74,7 +74,7 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 [project.optional-dependencies]
 cli = [
   "grpcio>=1.81.1; (platform_machine != 'ARM64' or sys_platform != 'win32')",
-  "typer<1.0.0,>=0.26.7",
+  "typer<1.0.0,>=0.26.8",
 ]
 crypto = [
   "cffi>=2.0.0; platform_python_implementation != \"PyPy\" and (sys_platform != \"win32\" or python_version <= \"3.11\")",
