@@ -1,7 +1,6 @@
 annotated-types==0.7.0
 anyio==4.14.1
 bidict==0.23.1
-cbor2==6.1.2
 cbor2pure==5.8.0
 certifi==2026.6.17
 cffi==2.0.0
@@ -64,3 +63,6 @@ xsdata==26.2
 xsdata-pydantic==24.5
 zhon==2.1.1
 zstandard==0.25.0
+
+# The following packages were excluded from the output:
+# cbor2
