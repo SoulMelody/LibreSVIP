@@ -1,8 +1,11 @@
 version: v2
 inputs:
-  - directory: ../../../
+  - directory: .
     exclude_paths:
       - .venv
 plugins:
   - local: protoc-gen-py
-    out: ../../../
+    out: .
+  - local: protoc-gen-grpc-py
+    out: .
+    opt: io=async

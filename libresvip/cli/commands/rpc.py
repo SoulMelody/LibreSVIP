@@ -1,5 +1,4 @@
 import asyncio
-import sys
 
 import typer
 
@@ -14,8 +13,4 @@ def server(
     port: int = 15150,
 ) -> None:
     run_kwargs = {}
-    if sys.platform == "win32":
-        import winloop
-
-        run_kwargs["loop_factory"] = winloop.new_event_loop
     asyncio.run(run_grpc_server(host=host, port=port), **run_kwargs)

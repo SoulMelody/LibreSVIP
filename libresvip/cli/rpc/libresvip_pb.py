@@ -9,6 +9,10 @@ from __future__ import annotations
 from typing import Literal, TYPE_CHECKING, TypeAlias
 
 from protobuf import Enum, Message
+from protobuf._codegen import file_desc
+
+if TYPE_CHECKING:
+    from protobuf import DescFile
 
 
 _PluginInfoFields: TypeAlias = Literal["identifier", "name", "version", "description", "author", "website", "json_schema", "file_format", "suffixes", "icon_base64"]
@@ -183,3 +187,25 @@ class ConversionMode(Enum):
     DIRECT = 0
     SPLIT = 1
     MERGE = 2
+
+
+_DESC = file_desc(
+    b'\n\x0flibresvip.proto\x12\tLibreSVIP"\xad\x02\n\nPluginInfo\x12\x1e\n\nidentifier\x18\x01 \x01(\tR\nidentifier\x12\x12\n\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n\x07version\x18\x03 \x01(\tR\x07version\x12 \n\x0bdescription\x18\x04 \x01(\tR\x0bdescription\x12\x16\n\x06author\x18\x05 \x01(\tR\x06author\x12\x18\n\x07website\x18\x06 \x01(\tR\x07website\x12\x1f\n\x0bjson_schema\x18\x07 \x01(\tR\njsonSchema\x12\x1f\n\x0bfile_format\x18\x08 \x01(\tR\nfileFormat\x12\x1a\n\x08suffixes\x18\t \x03(\tR\x08suffixes\x12\x1f\n\x0bicon_base64\x18\n \x01(\tR\niconBase64"g\n\x12PluginInfosRequest\x125\n\x08category\x18\x01 \x01(\x0e2\x19.LibreSVIP.PluginCategoryR\x08category\x12\x1a\n\x08language\x18\x02 \x01(\tR\x08language"D\n\x13PluginInfosResponse\x12-\n\x06values\x18\x01 \x03(\x0b2\x15.LibreSVIP.PluginInfoR\x06values"Q\n\x0fConversionGroup\x12\x19\n\x08group_id\x18\x01 \x01(\tR\x07groupId\x12#\n\rfile_contents\x18\x02 \x03(\x0cR\x0cfileContents"\xdc\x03\n\x11ConversionRequest\x12!\n\x0cinput_format\x18\x01 \x01(\tR\x0binputFormat\x12#\n\routput_format\x18\x02 \x01(\tR\x0coutputFormat\x12-\n\x04mode\x18\x03 \x01(\x0e2\x19.LibreSVIP.ConversionModeR\x04mode\x12&\n\x0fmax_track_count\x18\x04 \x01(\x05R\rmaxTrackCount\x122\n\x06groups\x18\x05 \x03(\x0b2\x1a.LibreSVIP.ConversionGroupR\x06groups\x12#\n\rinput_options\x18\x06 \x01(\tR\x0cinputOptions\x12%\n\x0eoutput_options\x18\x07 \x01(\tR\routputOptions\x12b\n\x12middleware_options\x18\x08 \x03(\x0b23.LibreSVIP.ConversionRequest.MiddlewareOptionsEntryR\x11middlewareOptions\x1aD\n\x16MiddlewareOptionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n\x05value\x18\x02 \x01(\tR\x05value:\x028\x01"\xa7\x01\n\x16SingleConversionResult\x12\x18\n\x07success\x18\x01 \x01(\x08R\x07success\x12#\n\rfile_contents\x18\x02 \x03(\x0cR\x0cfileContents\x12#\n\rerror_message\x18\x03 \x01(\tR\x0cerrorMessage\x12)\n\x10warning_messages\x18\x04 \x03(\tR\x0fwarningMessages"\xce\x01\n\x12ConversionResponse\x12T\n\rgroup_results\x18\x01 \x03(\x0b2/.LibreSVIP.ConversionResponse.GroupResultsEntryR\x0cgroupResults\x1ab\n\x11GroupResultsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x127\n\x05value\x18\x02 \x01(\x0b2!.LibreSVIP.SingleConversionResultR\x05value:\x028\x01*7\n\x0ePluginCategory\x12\t\n\x05INPUT\x10\x00\x12\n\n\x06OUTPUT\x10\x01\x12\x0e\n\nMIDDLEWARE\x10\x02*2\n\x0eConversionMode\x12\n\n\x06DIRECT\x10\x00\x12\t\n\x05SPLIT\x10\x01\x12\t\n\x05MERGE\x10\x022\xa2\x01\n\nConversion\x12L\n\x0bPluginInfos\x12\x1d.LibreSVIP.PluginInfosRequest\x1a\x1e.LibreSVIP.PluginInfosResponse\x12F\n\x07Convert\x12\x1c.LibreSVIP.ConversionRequest\x1a\x1d.LibreSVIP.ConversionResponseb\x06proto3',
+    [],
+    {
+        "PluginInfo": PluginInfo,
+        "PluginInfosRequest": PluginInfosRequest,
+        "PluginInfosResponse": PluginInfosResponse,
+        "ConversionGroup": ConversionGroup,
+        "ConversionRequest": ConversionRequest,
+        "SingleConversionResult": SingleConversionResult,
+        "ConversionResponse": ConversionResponse,
+        "PluginCategory": PluginCategory,
+        "ConversionMode": ConversionMode,
+    },
+)
+
+
+def desc() -> DescFile:
+    """Returns the descriptor for the file `libresvip.proto`."""
+    return _DESC

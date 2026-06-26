@@ -2,8 +2,7 @@ import asyncio
 import traceback
 
 import rich
-from grpclib.server import Server
-from grpclib.utils import graceful_exit
+from grpc.aio import ServicerContext, server
 from pydantic import BaseModel, ValidationError
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
@@ -28,7 +27,6 @@ from libresvip.model.base import Project
 from libresvip.utils.translation import gettext_lazy as _
 from libresvip.utils.translation import lazy_translation
 
-from .conversion_grpc import ConversionBase
 from .libresvip_pb import (
     ConversionGroup,
     ConversionMode,
@@ -40,6 +38,7 @@ from .libresvip_pb import (
     PluginInfosResponse,
     SingleConversionResult,
 )
+from .libresvip_pb_grpc import ConversionServicer
 
 
 class GettextGenerateJsonSchema(GenerateJsonSchema):
@@ -153,11 +152,13 @@ def convert_one_group(
     return group.group_id, result
 
 
-class Conversion(ConversionBase):
+class Conversion(ConversionServicer):
     def __init__(self) -> None:
         self._fs = UPath("memory://")
 
-    async def plugin_infos(self, plugin_infos_request: PluginInfosRequest) -> PluginInfosResponse:
+    async def plugin_infos(
+        self, plugin_infos_request: PluginInfosRequest, context: ServicerContext
+    ) -> PluginInfosResponse:
         lazy_translation.set(get_translation(plugin_infos_request.language))
         plugin_infos: list[PluginInfo] = []
         match plugin_infos_request.category:
@@ -219,7 +220,9 @@ class Conversion(ConversionBase):
                 )
         return PluginInfosResponse(values=plugin_infos)
 
-    async def convert(self, conversion_request: ConversionRequest) -> ConversionResponse:
+    async def convert(
+        self, conversion_request: ConversionRequest, context: ServicerContext
+    ) -> ConversionResponse:
         group_id2results = {}
         futures = []
         svs_plugins = plugin_manager.plugins.get("svs", {})
@@ -264,8 +267,9 @@ class Conversion(ConversionBase):
 
 
 async def run_grpc_server(*, host: str = "127.0.0.1", port: int = 15150) -> None:
-    server = Server([Conversion()])
-    with graceful_exit([server]):
-        await server.start(host, port)
-        rich.print(f"Serving on {host}:{port}")
-        await server.wait_closed()
+    grpc_server = server()
+    Conversion().add_to_server(grpc_server)
+    grpc_server.add_insecure_port(f"{host}:{port}")
+    await grpc_server.start()
+    rich.print(f"Serving on {host}:{port}")
+    await grpc_server.wait_for_termination()

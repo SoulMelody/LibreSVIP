@@ -9,8 +9,11 @@ from __future__ import annotations
 from typing import Literal, TYPE_CHECKING, TypeAlias
 
 from protobuf import Enum, Message
+from protobuf._codegen import file_desc
+from protobuf.wkt import any_pb
 
 if TYPE_CHECKING:
+    from protobuf import DescFile
     from protobuf.wkt import Any
 
 
@@ -491,3 +494,37 @@ class Svip3NoteLengthValidateTag(Enum):
     NONE = 0
     TOO_LONG = 1
     TOO_SHORT = 2
+
+
+_DESC = file_desc(
+    b'\n\x0bsvip3.proto\x12\rxstudio.proto\x1a\x19google/protobuf/any.proto"8\n\x0eSvip3SongTempo\x12\x10\n\x03pos\x18\x01 \x01(\x05R\x03pos\x12\x14\n\x05tempo\x18\x02 \x01(\x05R\x05tempo"\\\n\rSvip3SongBeat\x12\x10\n\x03pos\x18\x01 \x01(\x05R\x03pos\x129\n\tbeat_size\x18\x02 \x01(\x0b2\x1c.xstudio.proto.Svip3BeatSizeR\x08beatSize"0\n\x08SongTone\x12\x10\n\x03pos\x18\x01 \x01(\x05R\x03pos\x12\x12\n\x04tone\x18\x02 \x01(\tR\x04tone"O\n\rSvip3BeatSize\x12\x1c\n\tnumerator\x18\x01 \x01(\x05R\tnumerator\x12 \n\x0bdenominator\x18\x02 \x01(\x05R\x0bdenominator" \n\x06Master\x12\x16\n\x06volume\x18\x01 \x01(\x02R\x06volume"\xac\x03\n\x11Svip3SingingTrack\x12\x16\n\x06volume\x18\x01 \x01(\x02R\x06volume\x12\x10\n\x03pan\x18\x02 \x01(\x02R\x03pan\x12\x12\n\x04mute\x18\x03 \x01(\x08R\x04mute\x12\x12\n\x04name\x18\x04 \x01(\tR\x04name\x12\x12\n\x04solo\x18\x05 \x01(\x08R\x04solo\x12\x14\n\x05color\x18\x06 \x01(\tR\x05color\x12,\n\x04type\x18\x07 \x01(\x0e2\x18.xstudio.proto.TrackTypeR\x04type\x12E\n\x0cpattern_list\x18\x08 \x03(\x0b2".xstudio.proto.Svip3SingingPatternR\x0bpatternList\x12 \n\x0cai_singer_id\x18\t \x01(\tR\naiSingerId\x12$\n\x0eis_reverb_open\x18\n \x01(\x08R\x0cisReverbOpen\x12\x1f\n\x0breverb_type\x18\x0b \x01(\x05R\nreverbType\x12\x1b\n\treverb_db\x18\x0c \x01(\x02R\x08reverbDb\x12 \n\x0cis_rap_track\x18\r \x01(\x08R\nisRapTrack"\x80\x02\n\x0fSvip3AudioTrack\x12\x16\n\x06volume\x18\x01 \x01(\x02R\x06volume\x12\x10\n\x03pan\x18\x02 \x01(\x02R\x03pan\x12\x12\n\x04mute\x18\x03 \x01(\x08R\x04mute\x12\x12\n\x04name\x18\x04 \x01(\tR\x04name\x12\x12\n\x04solo\x18\x05 \x01(\x08R\x04solo\x12\x14\n\x05color\x18\x06 \x01(\tR\x05color\x12,\n\x04type\x18\x07 \x01(\x0e2\x18.xstudio.proto.TrackTypeR\x04type\x12C\n\x0cpattern_list\x18\x08 \x03(\x0b2 .xstudio.proto.Svip3AudioPatternR\x0bpatternList"\xb4\x02\n\x11Svip3AudioPattern\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\x12.\n\x04type\x18\x02 \x01(\x0e2\x1a.xstudio.proto.PatternTypeR\x04type\x12\x19\n\x08real_pos\x18\x03 \x01(\x05R\x07realPos\x12\x19\n\x08real_dur\x18\x04 \x01(\x05R\x07realDur\x12\x19\n\x08play_pos\x18\x05 \x01(\x05R\x07playPos\x12\x19\n\x08play_dur\x18\x06 \x01(\x05R\x07playDur\x12\x17\n\x07is_mute\x18\x07 \x01(\x08R\x06isMute\x12&\n\x0faudio_file_path\x18\x08 \x01(\tR\raudioFilePath\x12.\n\x13rising_falling_tone\x18\t \x01(\x02R\x11risingFallingTone"\xce\x08\n\x13Svip3SingingPattern\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\x12.\n\x04type\x18\x02 \x01(\x0e2\x1a.xstudio.proto.PatternTypeR\x04type\x12\x19\n\x08real_pos\x18\x03 \x01(\x05R\x07realPos\x12\x19\n\x08real_dur\x18\x04 \x01(\x05R\x07realDur\x12\x19\n\x08play_pos\x18\x05 \x01(\x05R\x07playPos\x12\x19\n\x08play_dur\x18\x06 \x01(\x05R\x07playDur\x12\x17\n\x07is_mute\x18\x07 \x01(\x08R\x06isMute\x125\n\tnote_list\x18\x08 \x03(\x0b2\x18.xstudio.proto.Svip3NoteR\x08noteList\x12M\n\x11edited_pitch_line\x18\t \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x0feditedPitchLine\x12O\n\x12edited_volume_line\x18\n \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x10editedVolumeLine\x12M\n\x11edited_power_line\x18\x0b \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x0feditedPowerLine\x12K\n\x10merge_pitch_line\x18\x0c \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x0emergePitchLine\x12K\n\x10merge_power_line\x18\r \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x0emergePowerLine\x12_\n\x1bedited_spec_trans_coef_line\x18\x0e \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x17editedSpecTransCoefLine\x12P\n\x13edited_ap_coef_line\x18\x0f \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x10editedApCoefLine\x12Z\n\x18edited_energy_value_line\x18\x10 \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x15editedEnergyValueLine\x12X\n\x17merge_energy_value_line\x18\x11 \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x14mergeEnergyValueLine\x12\x19\n\x08rap_type\x18\x12 \x01(\x05R\x07rapType\x12*\n\x11singing_method_id\x18\x13 \x01(\tR\x0fsingingMethodId"\xf8\x01\n\x0cSvip3Vibrato\x12\x1c\n\tfrequency\x18\x01 \x01(\x02R\tfrequency\x12\x1c\n\tamplitude\x18\x02 \x01(\x02R\tamplitude\x12\x14\n\x05phase\x18\x03 \x01(\x02R\x05phase\x12\x14\n\x05start\x18\x04 \x01(\x02R\x05start\x12\x10\n\x03end\x18\x05 \x01(\x02R\x03end\x12\x19\n\x08attack_x\x18\x06 \x01(\x02R\x07attackX\x12\x19\n\x08attack_y\x18\x07 \x01(\x02R\x07attackY\x12\x1b\n\trelease_x\x18\x08 \x01(\x02R\x08releaseX\x12\x1b\n\trelease_y\x18\t \x01(\x02R\x08releaseY"\xc8\x04\n\tSvip3Note\x12\x1b\n\tstart_pos\x18\x01 \x01(\x05R\x08startPos\x12\x1b\n\twidth_pos\x18\x02 \x01(\x05R\x08widthPos\x12\x1b\n\tkey_index\x18\x03 \x01(\x05R\x08keyIndex\x12\x14\n\x05lyric\x18\x04 \x01(\tR\x05lyric\x12 \n\x0bpronouncing\x18\x05 \x01(\tR\x0bpronouncing\x12#\n\rconsonant_len\x18\x06 \x01(\x05R\x0cconsonantLen\x12#\n\rhas_consonant\x18\x07 \x01(\x08R\x0chasConsonant\x12,\n\x12user_consonant_len\x18\x08 \x01(\x05R\x10userConsonantLen\x12\x15\n\x06sp_len\x18\t \x01(\x05R\x05spLen\x12\x17\n\x07sil_len\x18\n \x01(\x05R\x06silLen\x12Y\n\x13length_validate_tag\x18\x0b \x01(\x0e2).xstudio.proto.Svip3NoteLengthValidateTagR\x11lengthValidateTag\x125\n\x07vibrato\x18\x0c \x01(\x0b2\x1b.xstudio.proto.Svip3VibratoR\x07vibrato\x12\x1e\n\x0buser_sp_len\x18\r \x01(\x05R\tuserSpLen\x12\x12\n\x04tone\x18\x0e \x01(\x05R\x04tone\x12\x1d\n\nleft_pitch\x18\x0f \x01(\x02R\tleftPitch\x12\x1f\n\x0bright_pitch\x18\x10 \x01(\x02R\nrightPitch"\xb5\x01\n\x11Svip3VibratoStyle\x12"\n\ris_anti_phase\x18\x01 \x01(\x08R\x0bisAntiPhase\x12<\n\x08amp_line\x18\x02 \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x07ampLine\x12>\n\tfreq_line\x18\x03 \x03(\x0b2!.xstudio.proto.Svip3LineParamNodeR\x08freqLine"_\n\x17Svip3VibratoPercentInfo\x12#\n\rstart_percent\x18\x01 \x01(\x02R\x0cstartPercent\x12\x1f\n\x0bend_percent\x18\x02 \x01(\x02R\nendPercent"<\n\x12Svip3LineParamNode\x12\x10\n\x03pos\x18\x01 \x01(\x11R\x03pos\x12\x14\n\x05value\x18\x02 \x01(\x02R\x05value"5\n\rSvip3SongMark\x12\x10\n\x03pos\x18\x01 \x01(\x05R\x03pos\x12\x12\n\x04mark\x18\x02 \x01(\tR\x04mark"\xe5\x05\n\x0cSvip3Project\x12*\n\x11project_file_path\x18\x01 \x01(\tR\x0fprojectFilePath\x12\x18\n\x07version\x18\x02 \x01(\tR\x07version\x12\x1a\n\x08duration\x18\x03 \x01(\x05R\x08duration\x12<\n\ntempo_list\x18\x04 \x03(\x0b2\x1d.xstudio.proto.Svip3SongTempoR\ttempoList\x129\n\tbeat_list\x18\x05 \x03(\x0b2\x1c.xstudio.proto.Svip3SongBeatR\x08beatList\x123\n\ntrack_list\x18\x06 \x03(\x0b2\x14.google.protobuf.AnyR\ttrackList\x12-\n\x06master\x18\x07 \x01(\x0b2\x15.xstudio.proto.MasterR\x06master\x12!\n\x0ccurrent_tone\x18\x08 \x01(\tR\x0bcurrentTone\x12\x1f\n\x0bpiano_cells\x18\t \x01(\x05R\npianoCells\x12\x1d\n\nloop_start\x18\n \x01(\x05R\tloopStart\x12\x19\n\x08loop_end\x18\x0b \x01(\x05R\x07loopEnd\x12$\n\x0eis_open_adsorb\x18\x0c \x01(\x08R\x0cisOpenAdsorb\x12%\n\x0eparams_version\x18\r \x01(\x05R\rparamsVersion\x124\n\ttone_list\x18\x0e \x03(\x0b2\x17.xstudio.proto.SongToneR\x08toneList\x12\x1f\n\x0bis_triplets\x18\x0f \x01(\x08R\nisTriplets\x12\x17\n\x07is_loop\x18\x10 \x01(\x08R\x06isLoop\x12 \n\x0cis_last_play\x18\x11 \x01(\x08R\nisLastPlay\x129\n\tmark_list\x18\x12 \x03(\x0b2\x1c.xstudio.proto.Svip3SongMarkR\x08markList*?\n\tTrackType\x12\x0e\n\nTrack_None\x10\x00\x12\x0f\n\x0bAudio_Track\x10\x01\x12\x11\n\rSinging_Track\x10\x02*G\n\x0bPatternType\x12\x10\n\x0cPattern_None\x10\x00\x12\x11\n\rAudio_Pattern\x10\x01\x12\x13\n\x0fSinging_Pattern\x10\x02*C\n\x1aSvip3NoteLengthValidateTag\x12\x08\n\x04NONE\x10\x00\x12\x0c\n\x08TOO_LONG\x10\x01\x12\r\n\tTOO_SHORT\x10\x02b\x06proto3',
+    [
+        any_pb.desc(),
+    ],
+    {
+        "Svip3SongTempo": Svip3SongTempo,
+        "Svip3SongBeat": Svip3SongBeat,
+        "SongTone": SongTone,
+        "Svip3BeatSize": Svip3BeatSize,
+        "Master": Master,
+        "Svip3SingingTrack": Svip3SingingTrack,
+        "Svip3AudioTrack": Svip3AudioTrack,
+        "Svip3AudioPattern": Svip3AudioPattern,
+        "Svip3SingingPattern": Svip3SingingPattern,
+        "Svip3Vibrato": Svip3Vibrato,
+        "Svip3Note": Svip3Note,
+        "Svip3VibratoStyle": Svip3VibratoStyle,
+        "Svip3VibratoPercentInfo": Svip3VibratoPercentInfo,
+        "Svip3LineParamNode": Svip3LineParamNode,
+        "Svip3SongMark": Svip3SongMark,
+        "Svip3Project": Svip3Project,
+        "TrackType": TrackType,
+        "PatternType": PatternType,
+        "Svip3NoteLengthValidateTag": Svip3NoteLengthValidateTag,
+    },
+)
+
+
+def desc() -> DescFile:
+    """Returns the descriptor for the file `svip3.proto`."""
+    return _DESC
