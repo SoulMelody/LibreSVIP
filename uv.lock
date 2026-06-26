@@ -1474,7 +1474,7 @@ dependencies = [
 
 [package.optional-dependencies]
 cli = [
-    { name = "grpcio" },
+    { name = "grpcio", marker = "platform_machine != 'ARM64' or sys_platform != 'win32'" },
     { name = "typer" },
 ]
 crypto = [
@@ -1593,7 +1593,7 @@ requires-dist = [
     { name = "flet", extras = ["desktop"], marker = "extra == 'mobile'", specifier = ">=0.85.3,<0.90.0" },
     { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.85.3,<0.90.0" },
     { name = "fontconfig-py", marker = "(sys_platform == 'darwin' and extra == 'mobile') or (sys_platform == 'linux' and extra == 'mobile')", specifier = ">=1.0.1" },
-    { name = "grpcio", marker = "extra == 'cli'", specifier = ">=1.81.1" },
+    { name = "grpcio", marker = "(platform_machine != 'ARM64' and extra == 'cli') or (sys_platform != 'win32' and extra == 'cli')", specifier = ">=1.81.1" },
     { name = "httpx", marker = "extra == 'desktop'", specifier = ">=0.28.1" },
     { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=7.1.0,<7.1.1" },
     { name = "jinja2", specifier = ">=3.1.6,<4.0.0" },
