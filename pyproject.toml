@@ -74,7 +74,7 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 
 [project.optional-dependencies]
 cli = [
-  "grpclib>=0.4.7",
+  "grpclib>=0.4.9",
   "typer<1.0.0,>=0.26.8",
   "winloop>=0.6.3; sys_platform == \"win32\"",
 ]
