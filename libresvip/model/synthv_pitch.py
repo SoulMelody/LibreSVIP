@@ -289,16 +289,6 @@ class BaseLayerGenerator:
             ),
         )
 
-    @staticmethod
-    def cubic_bezier(
-        width: float, bottom: float, top: float, diff1: float, diff2: float
-    ) -> Callable[[float], float]:
-        a = (2 * (bottom - top) + (diff1 + diff2) * width) / width**3
-        b = (3 * (top - bottom) - 2 * diff1 * width - diff2 * width) / width**2
-        c = diff1
-        d = bottom
-        return lambda x: a * x**3 + b * x**2 + c * x + d
-
 
 @dataclasses.dataclass
 class GaussianNode:
@@ -321,12 +311,38 @@ def _portamento_sigma(portamento: float) -> float:
 
 
 @dataclasses.dataclass
-class GaussianLayerGenerator:
-    _note_list: dataclasses.InitVar[list[NoteStruct]]
-    gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
+class _ActiveRangeMixin:
     _starts: list[float] = dataclasses.field(init=False, default_factory=list)
     _ends: list[float] = dataclasses.field(init=False, default_factory=list)
     _last_range: tuple[int, int] | None = dataclasses.field(init=False, default=None)
+
+    def _active_range(self, secs: float) -> tuple[int, int]:
+        if (last_range := self._last_range) is not None:
+            left_index, right_index = last_range
+            if self._range_matches(secs, left_index, right_index):
+                return last_range
+        left_index = bisect.bisect_right(self._ends, secs)
+        right_index = bisect.bisect_right(self._starts, secs)
+        self._last_range = (left_index, right_index)
+        return left_index, right_index
+
+    def _range_matches(self, secs: float, left_index: int, right_index: int) -> bool:
+        left_boundary = self._ends[left_index - 1] if left_index > 0 else float("-inf")
+        if right_index > left_index:
+            right_boundary = (
+                self._ends[left_index] if left_index < len(self._ends) else float("inf")
+            )
+        else:
+            right_boundary = (
+                self._starts[right_index] if right_index < len(self._starts) else float("inf")
+            )
+        return left_boundary < secs < right_boundary
+
+
+@dataclasses.dataclass
+class GaussianLayerGenerator(_ActiveRangeMixin):
+    _note_list: dataclasses.InitVar[list[NoteStruct]]
+    gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         if not _note_list:
@@ -343,7 +359,7 @@ class GaussianLayerGenerator:
         for current_note, next_note in itertools.pairwise(_note_list):
             sigma_l = _portamento_sigma(current_note.portamento_right)
             sigma_r = _portamento_sigma(next_note.portamento_left)
-            if next_note.start - current_note.end >= MAX_BREAK:
+            if next_note.start - current_note.end > MAX_BREAK:
                 self.gaussian_nodes.append(
                     GaussianNode(
                         origin=current_note.end - 1.5 * sigma_l,
@@ -359,7 +375,7 @@ class GaussianLayerGenerator:
                     )
                 )
                 continue
-            center = (current_note.end + next_note.start) / 2 + current_note.portamento_offset
+            center = (current_note.end + next_note.start) / 2 + next_note.portamento_offset
             depth_left = current_note.depth_right * 100
             depth_right = next_note.depth_left * 100
             if next_note.key <= current_note.key:
@@ -399,28 +415,6 @@ class GaussianLayerGenerator:
             for index in range(left_index, right_index)
         )
 
-    def _active_range(self, secs: float) -> tuple[int, int]:
-        if (last_range := self._last_range) is not None:
-            left_index, right_index = last_range
-            if self._range_matches(secs, left_index, right_index):
-                return last_range
-        left_index = bisect.bisect_right(self._ends, secs)
-        right_index = bisect.bisect_right(self._starts, secs)
-        self._last_range = (left_index, right_index)
-        return left_index, right_index
-
-    def _range_matches(self, secs: float, left_index: int, right_index: int) -> bool:
-        left_boundary = self._ends[left_index - 1] if left_index > 0 else float("-inf")
-        if right_index > left_index:
-            right_boundary = (
-                self._ends[left_index] if left_index < len(self._ends) else float("inf")
-            )
-        else:
-            right_boundary = (
-                self._starts[right_index] if right_index < len(self._starts) else float("inf")
-            )
-        return left_boundary < secs < right_boundary
-
 
 @dataclasses.dataclass
 class VibratoNode:
@@ -433,21 +427,25 @@ class VibratoNode:
     phase: float
 
     def value_at_secs(self, secs: float) -> float:
-        if self.end - self.start >= self.fade_left + self.fade_left:
-            if secs < self.start + self.fade_left:
+        if self.end - self.start >= self.fade_left + self.fade_right:
+            if self.fade_left > 0 and secs < self.start + self.fade_left:
                 zoom = (secs - self.start) / self.fade_left
-            elif secs > self.end - self.fade_right:
+            elif self.fade_right > 0 and secs > self.end - self.fade_right:
                 zoom = (self.end - secs) / self.fade_right
             else:
                 zoom = 1.0
         else:
-            mid = (self.start * self.fade_right + self.end * self.fade_left) / (
-                self.fade_left + self.fade_right
-            )
-            if secs < mid:
-                zoom = (secs - self.start) / self.fade_left
+            fade_sum = self.fade_left + self.fade_right
+            if fade_sum <= 0:
+                mid = self.start
             else:
+                mid = (self.start * self.fade_right + self.end * self.fade_left) / fade_sum
+            if self.fade_left > 0 and secs < mid:
+                zoom = (secs - self.start) / self.fade_left
+            elif self.fade_right > 0:
                 zoom = (self.end - secs) / self.fade_right
+            else:
+                zoom = 1.0
         return (
             self.amplitude
             * zoom
@@ -457,12 +455,9 @@ class VibratoNode:
 
 
 @dataclasses.dataclass
-class VibratoLayerGenerator:
+class VibratoLayerGenerator(_ActiveRangeMixin):
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     vibrato_nodes: list[VibratoNode] = dataclasses.field(default_factory=list)
-    _starts: list[float] = dataclasses.field(init=False, default_factory=list)
-    _ends: list[float] = dataclasses.field(init=False, default_factory=list)
-    _last_range: tuple[int, int] | None = dataclasses.field(init=False, default=None)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         for i in range(len(_note_list)):
@@ -471,7 +466,7 @@ class VibratoLayerGenerator:
                 continue
             if i < len(_note_list) - 1 and _note_list[i + 1].start - end < MAX_BREAK:
                 end += min(
-                    _note_list[i + 1].portamento_offset,
+                    max(0.0, _note_list[i + 1].portamento_offset),
                     min(
                         _note_list[i + 1].vibrato_start,
                         _note_list[i + 1].end - _note_list[i + 1].start,
@@ -499,28 +494,6 @@ class VibratoLayerGenerator:
             self.vibrato_nodes[index].value_at_secs(secs)
             for index in range(left_index, right_index)
         )
-
-    def _active_range(self, secs: float) -> tuple[int, int]:
-        if (last_range := self._last_range) is not None:
-            left_index, right_index = last_range
-            if self._range_matches(secs, left_index, right_index):
-                return last_range
-        left_index = bisect.bisect_right(self._ends, secs)
-        right_index = bisect.bisect_right(self._starts, secs)
-        self._last_range = (left_index, right_index)
-        return left_index, right_index
-
-    def _range_matches(self, secs: float, left_index: int, right_index: int) -> bool:
-        left_boundary = self._ends[left_index - 1] if left_index > 0 else float("-inf")
-        if right_index > left_index:
-            right_boundary = (
-                self._ends[left_index] if left_index < len(self._ends) else float("inf")
-            )
-        else:
-            right_boundary = (
-                self._starts[right_index] if right_index < len(self._starts) else float("inf")
-            )
-        return left_boundary < secs < right_boundary
 
 
 @dataclasses.dataclass
@@ -572,26 +545,6 @@ class SynthVPitchSimulator:
 
     def pitch_at_ticks(self, ticks: int) -> float:
         return self.pitch_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks), ticks)
-
-    def pitch_at_ticks_batch(self, ticks_list: list[int]) -> list[float]:
-        if not ticks_list:
-            return []
-        secs_list = self.synchronizer.get_actual_secs_from_ticks_batch(ticks_list)
-        return self.pitch_at_secs_batch(secs_list, ticks_list)
-
-    def pitch_at_secs_batch(
-        self, secs_list: list[float], ticks_list: list[int] | None = None
-    ) -> list[float]:
-        if not secs_list:
-            return []
-        if ticks_list is None:
-            ticks_list = [
-                round(self.synchronizer.get_actual_ticks_from_secs(secs)) for secs in secs_list
-            ]
-        return [
-            self._pitch_from_aligned_secs_and_ticks(secs, ticks)
-            for secs, ticks in zip(secs_list, ticks_list)
-        ]
 
     def pitch_at_secs(self, secs: float, ticks: int | None = None) -> float:
         if ticks is None:
