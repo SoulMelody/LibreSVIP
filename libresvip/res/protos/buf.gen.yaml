@@ -6,6 +6,3 @@ inputs:
 plugins:
   - local: protoc-gen-py
     out: .
-  - local: protoc-gen-grpc-py
-    out: .
-    opt: io=async

@@ -2,7 +2,8 @@ import asyncio
 import traceback
 
 import rich
-from grpc.aio import ServicerContext, server
+from grpclib.server import Server
+from grpclib.utils import graceful_exit
 from pydantic import BaseModel, ValidationError
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
@@ -38,7 +39,7 @@ from .libresvip_pb import (
     PluginInfosResponse,
     SingleConversionResult,
 )
-from .libresvip_pb_grpc import ConversionServicer
+from .libresvip_pb_grpc import ConversionBase, ProtobufPyCodec
 
 
 class GettextGenerateJsonSchema(GenerateJsonSchema):
@@ -152,13 +153,11 @@ def convert_one_group(
     return group.group_id, result
 
 
-class Conversion(ConversionServicer):
+class Conversion(ConversionBase):
     def __init__(self) -> None:
         self._fs = UPath("memory://")
 
-    async def plugin_infos(
-        self, plugin_infos_request: PluginInfosRequest, context: ServicerContext
-    ) -> PluginInfosResponse:
+    async def plugin_infos(self, plugin_infos_request: PluginInfosRequest) -> PluginInfosResponse:
         lazy_translation.set(get_translation(plugin_infos_request.language))
         plugin_infos: list[PluginInfo] = []
         match plugin_infos_request.category:
@@ -220,9 +219,7 @@ class Conversion(ConversionServicer):
                 )
         return PluginInfosResponse(values=plugin_infos)
 
-    async def convert(
-        self, conversion_request: ConversionRequest, context: ServicerContext
-    ) -> ConversionResponse:
+    async def convert(self, conversion_request: ConversionRequest) -> ConversionResponse:
         group_id2results = {}
         futures = []
         svs_plugins = plugin_manager.plugins.get("svs", {})
@@ -267,14 +264,8 @@ class Conversion(ConversionServicer):
 
 
 async def run_grpc_server(*, host: str = "127.0.0.1", port: int = 15150) -> None:
-    grpc_server = server(
-        options=[
-            ("grpc.max_send_message_length", -1),
-            ("grpc.max_receive_message_length", -1),
-        ]
-    )
-    Conversion().add_to_server(grpc_server)
-    grpc_server.add_insecure_port(f"{host}:{port}")
-    await grpc_server.start()
-    rich.print(f"Serving on {host}:{port}")
-    await grpc_server.wait_for_termination()
+    grpc_server = Server([Conversion()], codec=ProtobufPyCodec())
+    with graceful_exit([grpc_server]):
+        await grpc_server.start(host, port)
+        rich.print(f"Serving on {host}:{port}")
+        await grpc_server.wait_closed()
