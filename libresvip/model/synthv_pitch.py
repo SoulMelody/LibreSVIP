@@ -7,12 +7,16 @@ from typing import NamedTuple
 
 import portion
 
-from libresvip.core.exceptions import ParamsError
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 
 MAX_BREAK = 0.01
 PORTAMENTO_HALFWIDTH_RATIO = 0.3
 HALFWIDTH_FLOOR_SECS = 1.0 / 256
+SIGMOID_EDGE_RESIDUAL_CENTS = 1.0
+SMART_ANCHOR_SMOOTHNESS_OFFSET = 0.25
+SMART_ANCHOR_SMOOTHNESS_LIMIT = 4.0
+SMART_ANCHOR_BLEND_FALLOFF = 10.0
 
 
 class NoteStruct(NamedTuple):
@@ -144,13 +148,14 @@ class SigmoidNode:
         _key_right: int,
     ) -> None:
         self.center = _center
-        self.start = _center - _half_left
-        self.end = _center + _half_right
         self.key_left = _key_left
         self.key_right = _key_right
         h = (_key_right - _key_left) * 100
         base = _key_left * 100
         k = 3.0 / (_half_left + _half_right)
+        margin = math.log(max(abs(h) / SIGMOID_EDGE_RESIDUAL_CENTS - 1.0, 1.0)) / k
+        self.start = _center - margin
+        self.end = _center + margin
 
         def _logistic(x: float) -> float:
             arg = k * (x - self.center)
@@ -233,20 +238,17 @@ class BaseLayerGenerator:
             return self.note_list[self._nearest_note_index(secs)].key * 100
         if query_count == 1:
             return self.sigmoid_nodes[left_index].value_at_secs(secs)
-        if query_count <= 3:
-            first = self.sigmoid_nodes[left_index]
-            last = self.sigmoid_nodes[right_index - 1]
-            width = first.end - last.start
-            bottom = first.value_at_secs(last.start)
-            top = last.value_at_secs(first.end)
-            diff1 = first.slope_at_secs(last.start)
-            diff2 = last.slope_at_secs(first.end)
-            x = secs - last.start
-            a = (2 * (bottom - top) + (diff1 + diff2) * width) / width**3
-            b = (3 * (top - bottom) - 2 * diff1 * width - diff2 * width) / width**2
-            return a * x**3 + b * x**2 + diff1 * x + bottom
-        msg = "More than three sigmoid nodes overlapped"
-        raise ParamsError(msg)
+        first = self.sigmoid_nodes[left_index]
+        last = self.sigmoid_nodes[right_index - 1]
+        width = first.end - last.start
+        bottom = first.value_at_secs(last.start)
+        top = last.value_at_secs(first.end)
+        diff1 = first.slope_at_secs(last.start)
+        diff2 = last.slope_at_secs(first.end)
+        x = secs - last.start
+        a = (2 * (bottom - top) + (diff1 + diff2) * width) / width**3
+        b = (3 * (top - bottom) - 2 * diff1 * width - diff2 * width) / width**2
+        return a * x**3 + b * x**2 + diff1 * x + bottom
 
     def _find_note_index(self, secs: float) -> int | None:
         if (last_index := self._last_note_index) is not None:
@@ -496,14 +498,97 @@ class VibratoLayerGenerator(_ActiveRangeMixin):
         )
 
 
+def _hermite_interpolate(t: float, p0: float, p1: float, m0: float, m1: float) -> float:
+    t2 = t * t
+    t3 = t2 * t
+    return (
+        (2 * t3 - 3 * t2 + 1) * p0
+        + (-2 * t3 + 3 * t2) * p1
+        + (t3 - 2 * t2 + t) * m0
+        + (t3 - t2) * m1
+    )
+
+
+def _smart_anchor_tangent(
+    prev_anchor: tuple[int, float] | None,
+    curr_anchor: tuple[int, float],
+    next_anchor: tuple[int, float],
+    next_next_anchor: tuple[int, float] | None,
+    is_start_tangent: bool,
+) -> float:
+    time_span = next_anchor[0] - curr_anchor[0]
+    if is_start_tangent:
+        if prev_anchor is None:
+            return next_anchor[1] - curr_anchor[1]
+        slope_left = (curr_anchor[1] - prev_anchor[1]) / (curr_anchor[0] - prev_anchor[0])
+        slope_right = (next_anchor[1] - curr_anchor[1]) / time_span
+    else:
+        if next_next_anchor is None:
+            return next_anchor[1] - curr_anchor[1]
+        slope_left = (next_anchor[1] - curr_anchor[1]) / time_span
+        slope_right = (next_next_anchor[1] - next_anchor[1]) / (
+            next_next_anchor[0] - next_anchor[0]
+        )
+    smoothness = max(time_span / TICKS_IN_BEAT - SMART_ANCHOR_SMOOTHNESS_OFFSET, 0.0)
+    if smoothness <= SMART_ANCHOR_SMOOTHNESS_LIMIT:
+        blend_factor = 1.0 / (smoothness * SMART_ANCHOR_BLEND_FALLOFF + 1.0)
+    else:
+        blend_factor = 0.0
+    tangent_slope = blend_factor * slope_right + (1.0 - blend_factor) * slope_left
+    return tangent_slope * time_span
+
+
+@dataclasses.dataclass(frozen=True)
+class PitchControlAnchorCurve:
+    ticks: list[int]
+    values: list[float]
+
+    def value_at_ticks(self, ticks: int) -> float | None:
+        index = bisect.bisect_right(self.ticks, ticks) - 1
+        if index < 0:
+            return None
+        if self.ticks[index] == ticks:
+            return self.values[index]
+        next_index = index + 1
+        if next_index >= len(self.ticks):
+            return None
+        start_tick = self.ticks[index]
+        end_tick = self.ticks[next_index]
+        if ticks > end_tick:
+            return None
+        curr_anchor = (start_tick, self.values[index])
+        next_anchor = (end_tick, self.values[next_index])
+        prev_anchor = (self.ticks[index - 1], self.values[index - 1]) if index > 0 else None
+        next_next_anchor = (
+            (self.ticks[next_index + 1], self.values[next_index + 1])
+            if next_index + 1 < len(self.ticks)
+            else None
+        )
+        m0 = _smart_anchor_tangent(
+            prev_anchor, curr_anchor, next_anchor, next_next_anchor, is_start_tangent=True
+        )
+        m1 = _smart_anchor_tangent(
+            prev_anchor, curr_anchor, next_anchor, next_next_anchor, is_start_tangent=False
+        )
+        t = (ticks - start_tick) / (end_tick - start_tick)
+        return _hermite_interpolate(t, curr_anchor[1], next_anchor[1], m0, m1)
+
+    def domain(self) -> portion.Interval:
+        if not self.ticks:
+            return portion.empty()
+        return portion.closed(self.ticks[0], self.ticks[-1])
+
+
 @dataclasses.dataclass
 class PitchControlLayerGenerator:
     _pitch_controls: dataclasses.InitVar[list[PitchControl]]
     interval_dict: PitchControlIntervalMap = dataclasses.field(
         default_factory=PitchControlIntervalMap
     )
+    anchor_curve: PitchControlAnchorCurve | None = dataclasses.field(init=False, default=None)
 
     def __post_init__(self, _pitch_controls: list[PitchControl]) -> None:
+        anchors: list[tuple[int, float]] = []
         for pitch_control in _pitch_controls:
             if pitch_control.type_ == "curve" and len(pitch_control.points):
                 ticks: list[int] = []
@@ -517,9 +602,36 @@ class PitchControlLayerGenerator:
                         ticks.append(point_ticks)
                         values.append(point_value)
                 self.interval_dict.append_curve(PitchControlCurve(ticks=ticks, values=values))
+            elif pitch_control.type_ == "point":
+                anchors.append((pitch_control.pos, pitch_control.pitch * 100))
+        if len(anchors) >= 2:
+            anchors.sort()
+            anchor_ticks: list[int] = []
+            anchor_values: list[float] = []
+            for anchor_pos, anchor_value in anchors:
+                if anchor_ticks and anchor_ticks[-1] == anchor_pos:
+                    anchor_values[-1] = anchor_value
+                else:
+                    anchor_ticks.append(anchor_pos)
+                    anchor_values.append(anchor_value)
+            if len(anchor_ticks) >= 2:
+                self.anchor_curve = PitchControlAnchorCurve(
+                    ticks=anchor_ticks, values=anchor_values
+                )
 
     def value_at_ticks(self, ticks: int) -> float | None:
-        return self.interval_dict.get(ticks)
+        value = self.interval_dict.get(ticks)
+        if value is not None:
+            return value
+        if self.anchor_curve is not None:
+            return self.anchor_curve.value_at_ticks(ticks)
+        return None
+
+    def domain(self) -> portion.Interval:
+        result = self.interval_dict.domain()
+        if self.anchor_curve is not None:
+            result |= self.anchor_curve.domain()
+        return result
 
 
 @dataclasses.dataclass

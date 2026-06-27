@@ -394,7 +394,7 @@ class SynthVParser:
             if master_pitch_diff is not None:
                 param_edited_range |= master_pitch_diff.edited_range()
             if generator.pitch_control_layer is not None:
-                param_edited_range.interval |= generator.pitch_control_layer.interval_dict.domain()
+                param_edited_range.interval |= generator.pitch_control_layer.domain()
             if master_vibrato_env is not None:
                 param_edited_range |= master_vibrato_env.edited_range(1.0)
             interval &= note_edited_range | param_edited_range
