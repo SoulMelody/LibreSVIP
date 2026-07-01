@@ -34,7 +34,7 @@ numpy==2.5.0 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
 packaging==26.2
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
-pillow==12.2.0 ; sys_platform == 'darwin'
+pillow==12.3.0 ; sys_platform == 'darwin'
 platformdirs==4.10.0
 portion==2.6.2
 protobuf-py==0.1.1
@@ -67,7 +67,7 @@ sortedcontainers==2.4.0
 soundfile==0.14.0 ; sys_platform == 'emscripten'
 svg-py==1.10.0
 tatsu-lts==5.16.0
-that-depends==4.0.0
+that-depends==4.0.1
 typer==0.26.8
 typing-extensions==4.15.0
 typing-inspection==0.4.2
