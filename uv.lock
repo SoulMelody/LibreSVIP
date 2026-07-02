@@ -1620,7 +1620,7 @@ requires-dist = [
     { name = "svg-py", specifier = ">=1.10.0,<2.0.0" },
     { name = "tatsu-lts", specifier = ">=5.16.0,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=1.0.1" },
-    { name = "that-depends", specifier = ">=4.0.1" },
+    { name = "that-depends", specifier = ">=4.0.2" },
     { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.0" },
     { name = "typer", marker = "extra == 'cli'", specifier = ">=0.26.8,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.13.0" },
@@ -3898,11 +3898,11 @@ wheels = [
 
 [[package]]
 name = "that-depends"
-version = "4.0.1"
+version = "4.0.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ce/1c/d1fb8c036fa78d42624f53a19e13d477479decfe90ee685ddec9d3df31bc/that_depends-4.0.1.tar.gz", hash = "sha256:70604d05dfa75d001a6d0614acefda4f00a637f038b4d24751efb1665ff22eb4", size = 31304, upload-time = "2026-07-01T20:52:54.641Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b1/51/c906b7c3681a58b43a35f8cf93d6263f1dda5cb0500663763531b5ba5898/that_depends-4.0.2.tar.gz", hash = "sha256:9f3092eb1c88aa66e7ff0f12dfcb180293ea7885f1bccbab9bc72a7dc2b04a3f", size = 31342, upload-time = "2026-07-02T09:27:49.675Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/54/5d/5490dea03534a41092aa8bdf85181cf5fedc79c129037a8aaf235b8cba7d/that_depends-4.0.1-py3-none-any.whl", hash = "sha256:55c62efd50ef6e18b92eb77d04b4bd379a2ac0a8bee653cc0336aa0618cf0762", size = 44142, upload-time = "2026-07-01T20:52:53.478Z" },
+    { url = "https://files.pythonhosted.org/packages/1e/98/9dcfef5cfe2d98fda01bf5154013c0f3187973682738885bfd62e8cbee01/that_depends-4.0.2-py3-none-any.whl", hash = "sha256:2b05f29a2f3425e249c1e96c886f7084faa4a870d70002c0a91fbc851b4d0837", size = 44192, upload-time = "2026-07-02T09:27:48.58Z" },
 ]
 
 [[package]]
