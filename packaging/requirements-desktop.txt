@@ -62,7 +62,7 @@ qasync==0.28.0
 retrie==0.3.1
 ruamel-yaml==0.19.1
 ruamel-yaml-clib==0.2.15 ; sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32'
-rubicon-objc==0.5.4 ; sys_platform == 'darwin'
+rubicon-objc==0.5.6 ; sys_platform == 'darwin'
 setuptools==82.0.1
 shellingham==1.5.4
 shiboken6==6.11.1
@@ -70,10 +70,10 @@ sortedcontainers==2.4.0
 soundfile==0.14.0 ; sys_platform == 'emscripten'
 svg-py==1.10.0
 tatsu-lts==5.16.0
-that-depends==4.0.1
+that-depends==4.0.2
 ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0
-typing-extensions==4.15.0
+typing-extensions==4.16.0
 typing-inspection==0.4.2
 ujson==5.13.0
 universal-pathlib==0.3.10
