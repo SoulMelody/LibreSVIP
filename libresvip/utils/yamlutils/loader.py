@@ -111,11 +111,25 @@ def get_loader(
         elif isinstance(node, yaml.nodes.MappingNode):
             return construct_mapping(loader, node)
 
+    def construct_yaml_1_2_int(loader: yaml.SafeLoader, node: yaml.nodes.Node) -> int:
+        value = loader.construct_scalar(node).replace("_", "")
+        sign = +1
+        if value[0] == "-":
+            sign = -1
+        if value[0] in "+-":
+            value = value[1:]
+        if value.startswith("0o"):
+            return sign * int(value[2:], 8)
+        if value.startswith("0x"):
+            return sign * int(value[2:], 16)
+        return sign * int(value, 10)
+
     loader_class = DefaultSafeLoader if expand_aliases else CustomLoader
     loader_class.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, construct_mapping)
     loader_class.add_constructor(
         yaml.resolver.BaseResolver.DEFAULT_SEQUENCE_TAG, construct_sequence
     )
+    loader_class.add_constructor("tag:yaml.org,2002:int", construct_yaml_1_2_int)
     loader_class.add_multi_constructor("", parse_unknown_tags)
     try:
         constructor_registry = loader_class.constructor_registry
