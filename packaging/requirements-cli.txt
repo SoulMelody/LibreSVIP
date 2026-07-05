@@ -30,7 +30,7 @@ more-itertools==11.1.0
 multidict==6.7.1
 numpy==2.2.6 ; python_full_version < '3.11' and sys_platform == 'emscripten'
 numpy==2.4.6 ; python_full_version == '3.11.*' and sys_platform == 'emscripten'
-numpy==2.5.0 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
+numpy==2.5.1 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
 packaging==26.2
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
@@ -61,7 +61,7 @@ retrie==0.3.1
 rich==15.0.0
 ruamel-yaml==0.19.1
 ruamel-yaml-clib==0.2.15 ; sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32'
-setuptools==82.0.1
+setuptools==83.0.0
 shellingham==1.5.4
 sortedcontainers==2.4.0
 soundfile==0.14.0 ; sys_platform == 'emscripten'
