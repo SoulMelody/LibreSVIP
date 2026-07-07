@@ -25,6 +25,15 @@ with contextlib.suppress(Exception):
 
 here = pathlib.Path(".")
 
+extra_binaries = []
+mediainfo_dll = os.environ.get("LIBRESVIP_MEDIAINFO_DLL")
+if mediainfo_dll:
+    mediainfo_dll_path = pathlib.Path(mediainfo_dll)
+    if not mediainfo_dll_path.is_file():
+        raise FileNotFoundError(f"LIBRESVIP_MEDIAINFO_DLL does not exist: {mediainfo_dll_path}")
+    extra_binaries.append((str(mediainfo_dll_path), "pymediainfo"))
+
+
 zstd_backends = []
 if platform.python_version_tuple() >= ("3", "14"):
     pass
@@ -40,7 +49,7 @@ gui_a = Analysis(
         os.path.join(os.__file__, os.pardir),
         os.path.join(PySide6.__path__[0], os.pardir)
     ],
-    binaries=[],
+    binaries=extra_binaries,
     datas=collect_data_files("desktop_notifier") + collect_data_files("ttkbootstrap_icons_mat") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_data_files("qasync", include_py_files=True) + collect_entry_point("xsdata.plugins.class_types")[0] + collect_entry_point("ttkbootstrap_icons_mat")[0],
     hiddenimports=[
         *zstd_backends,

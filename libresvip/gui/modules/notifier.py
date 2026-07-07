@@ -1,5 +1,4 @@
 import asyncio
-import fnmatch
 import platform
 import time
 from collections.abc import Sequence
@@ -20,6 +19,7 @@ from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.utils.translation import gettext_lazy as _
 
 from .application import app, event_loop
+from .release_asset import match_release_asset
 from .url_opener import open_path, open_url
 
 if TYPE_CHECKING:
@@ -103,7 +103,6 @@ class Notifier(QObject):
                     remote_version = Version(data["tag_name"].removeprefix("v"))
                     if remote_version > local_version:
                         uname = platform.uname()
-                        arch = uname.machine.lower()
                         buttons = [
                             Button(
                                 _("Open in Browser"),
@@ -113,80 +112,23 @@ class Notifier(QObject):
                                 ),
                             )
                         ]
-                        if arch.endswith("64"):
-                            asset = None
-                            if "aarch" in arch and uname.system != "Linux":
-                                pass
-                            elif uname.system == "Windows":
-                                python_compiler = platform.python_compiler()
-                                if python_compiler.startswith("GCC") and "arm" not in arch:
-                                    asset = next(
-                                        (
-                                            asset
-                                            for asset in data["assets"]
-                                            if fnmatch.fnmatch(
-                                                asset["name"],
-                                                "LibreSVIP-*.msys2-*.7z",
-                                            )
-                                        ),
-                                        None,
-                                    )
-                                else:
-                                    asset = next(
-                                        (
-                                            asset
-                                            for asset in data["assets"]
-                                            if fnmatch.fnmatch(
-                                                asset["name"],
-                                                f"LibreSVIP-*.win-{arch}.*",
-                                            )
-                                            or fnmatch.fnmatch(
-                                                asset["name"],
-                                                f"LibreSVIP-*-{arch}.exe",
-                                            )
-                                        ),
-                                        None,
-                                    )
-                            elif uname.system == "Linux":
-                                asset = next(
-                                    (
-                                        asset
-                                        for asset in data["assets"]
-                                        if fnmatch.fnmatch(
+                        asset = match_release_asset(
+                            data["assets"],
+                            uname,
+                            platform.python_compiler(),
+                        )
+                        if asset:
+                            buttons.append(
+                                Button(
+                                    _("Download"),
+                                    lambda: asyncio.create_task(
+                                        self.download_release(
+                                            asset["browser_download_url"],
                                             asset["name"],
-                                            f"LibreSVIP-*.linux-{arch}.tar.gz",
-                                        )
-                                        or fnmatch.fnmatch(
-                                            asset["name"],
-                                            f"LibreSVIP-*-{arch}.AppImage",
-                                        )
-                                    ),
-                                    None,
-                                )
-                            elif uname.system == "Darwin":
-                                asset = next(
-                                    (
-                                        asset
-                                        for asset in data["assets"]
-                                        if fnmatch.fnmatch(
-                                            asset["name"],
-                                            f"LibreSVIP-*.macos-{arch}.dmg",
-                                        )
-                                    ),
-                                    None,
-                                )
-                            if asset:
-                                buttons.append(
-                                    Button(
-                                        _("Download"),
-                                        lambda: asyncio.create_task(
-                                            self.download_release(
-                                                asset["browser_download_url"],
-                                                asset["name"],
-                                            ),
                                         ),
                                     ),
-                                )
+                                ),
+                            )
                         await self.notify_async(
                             title=_("Update Available"),
                             message=_("New version {} is available.").format(remote_version),

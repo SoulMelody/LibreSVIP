@@ -327,18 +327,15 @@ jobs:
           install: >-
             mingw-w64-ucrt-x86_64-python-pip
             mingw-w64-ucrt-x86_64-uv
-            p7zip
-      - name: Build with pyinstaller
+            mingw-w64-ucrt-x86_64-nsis
+      - name: Build with pydeploy
         shell: msys2 {0}
         run: |
           uv build --wheel
           cd packaging
           python mingw_install.py
           python -m pip install ../dist/*.whl --no-deps
-          pyinstaller libresvip-gui.spec
-          cd dist
-          7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z libresvip-gui
-          rm -rf libresvip-gui
+          pydeploy libresvip-gui.spec --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico --nsis libresvip-desktop.nsi --makensis /ucrt64/bin/makensis.exe -y -f LibreSVIP
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
@@ -350,7 +347,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z
+            ./packaging/dist/*.exe
 
   release_windows_arm64:
     runs-on: windows-11-arm
@@ -369,35 +366,30 @@ jobs:
         with:
           version: "latest"
           cache-suffix: desktop-windows-arm64
-      - name: Build with pyinstaller
+      - name: Build with pydeploy
         shell: bash -el {0}
         run: |
           uv build --wheel
           uv venv --python 3.14
+          export MEDIAINFO_VERSION=${{ steps.mediainfo_version.outputs.release }}
+          curl -L -o MediaInfo_GUI_Windows_ARM64_WithoutInstaller.7z https://mediaarea.net/download/binary/mediainfo-gui/${MEDIAINFO_VERSION#v}/MediaInfo_GUI_${MEDIAINFO_VERSION#v}_Windows_ARM64_WithoutInstaller.7z
+          7z x MediaInfo_GUI_Windows_ARM64_WithoutInstaller.7z -omediainfo-arm64
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
-          uv run pyinstaller libresvip-gui.spec
-          mkdir archive
-          cd dist
-          export MEDIAINFO_VERSION=${{ steps.mediainfo_version.outputs.release }}
-          curl -O https://mediaarea.net/download/binary/mediainfo-gui/${MEDIAINFO_VERSION#v}/MediaInfo_GUI_${MEDIAINFO_VERSION#v}_Windows_ARM64_WithoutInstaller.7z
-          7z x MediaInfo_GUI_${MEDIAINFO_VERSION#v}_Windows_ARM64_WithoutInstaller.7z
-          mkdir -p libresvip-gui/_internal/pymediainfo
-          cp MediaInfo.dll libresvip-gui/_internal/pymediainfo
-          7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip-gui
+          LIBRESVIP_MEDIAINFO_DLL=../mediainfo-arm64/MediaInfo.dll uv run pydeploy libresvip-gui.spec --venv ../.venv --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico --nsis libresvip-desktop.nsi -y -f LibreSVIP
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
           name: libresvip-win-arm64.zip
-          path: ./packaging/archive/
+          path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v3
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z
+            ./packaging/dist/*.exe
 
   release_linux_x86_64:
     runs-on: ubuntu-latest

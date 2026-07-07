@@ -29,7 +29,7 @@ SetCompressor lzma
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
 !define MULTIUSER_INSTALLMODE_INSTDIR "${APPNAME}"
-!if ${ARCH} == "AMD64"
+!if ${ARCH} == "AMD64" || ${ARCH} == "ARM64" || ${ARCH} == "x86_64" || ${ARCH} == "aarch64"
     !define MULTIUSER_INSTALLMODE_FUNCTION correctProgramFiles
 !endif
 !include MultiUser.nsh
@@ -84,7 +84,7 @@ Section -SETTINGS
 SectionEnd
 
 Section "!${APPNAME}" sec_app
-    !if ${ARCH} == "AMD64"
+    !if ${ARCH} == "AMD64" || ${ARCH} == "ARM64" || ${ARCH} == "x86_64" || ${ARCH} == "aarch64"
         SetRegView 64
     !else
         SetRegView 32
@@ -139,7 +139,7 @@ Section "!${APPNAME}" sec_app
 SectionEnd
 
 Section "Uninstall"
-    !if ${ARCH} == "AMD64"
+    !if ${ARCH} == "AMD64" || ${ARCH} == "ARM64" || ${ARCH} == "x86_64" || ${ARCH} == "aarch64"
         SetRegView 64
     !else
         SetRegView 32
