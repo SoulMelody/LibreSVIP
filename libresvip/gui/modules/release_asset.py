@@ -28,17 +28,21 @@ def match_release_asset(
         return None
 
     if uname.system == "Windows":
-        arch_aliases = _windows_arch_aliases(arch)
-        windows_patterns = [
-            pattern
-            for arch_alias in arch_aliases
-            for pattern in (
-                f"LibreSVIP-*.win-{arch_alias}.*",
-                f"LibreSVIP-*-{arch_alias}.exe",
-            )
-        ]
         if python_compiler.startswith("GCC") and "arm" not in arch:
-            windows_patterns.append("LibreSVIP-*.msys2-*.7z")
+            windows_patterns = [
+                "LibreSVIP-msys2-*-*.exe",
+                "LibreSVIP-*.msys2-*.7z",
+            ]
+        else:
+            arch_aliases = _windows_arch_aliases(arch)
+            windows_patterns = [
+                pattern
+                for arch_alias in arch_aliases
+                for pattern in (
+                    f"LibreSVIP-*.win-{arch_alias}.*",
+                    f"LibreSVIP-*-{arch_alias}.exe",
+                )
+            ]
         return next(
             (
                 asset

@@ -335,7 +335,7 @@ jobs:
           cd packaging
           python mingw_install.py
           python -m pip install ../dist/*.whl --no-deps
-          pydeploy libresvip-gui.spec --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico --nsis libresvip-desktop.nsi --makensis /ucrt64/bin/makensis.exe -y -f LibreSVIP
+          pydeploy libresvip-gui.spec --appv ${{ needs.make-outputs.outputs.VERSION }} -a LibreSVIP --id org.soulmelody.libresvip -l ../LICENSE -i ../libresvip/res/libresvip.ico --nsis libresvip-desktop.nsi --makensis /ucrt64/bin/makensis.exe -y -f LibreSVIP-msys2-ucrt64
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
