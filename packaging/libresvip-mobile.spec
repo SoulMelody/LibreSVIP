@@ -32,6 +32,7 @@ a = Analysis(
         "backports.zstd",
         "bidict",
         "cbor2",
+        "cbor2pure",
         "construct_typed",
         "Cryptodome.Util.Padding",
         "svg",
