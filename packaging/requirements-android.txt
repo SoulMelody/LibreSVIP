@@ -63,6 +63,3 @@ xsdata==26.2
 xsdata-pydantic==24.5
 zhon==2.1.1
 zstandard==0.25.0
-
-# The following packages were excluded from the output:
-# cbor2

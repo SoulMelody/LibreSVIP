@@ -123,7 +123,7 @@ def install_mingw_deps() -> None:
                         ]
                     )
             elif requirement_str.startswith("cbor2=="):
-                new_requirements.append("cbor2pure")
+                new_requirements.append("cbor2<6.0")
             else:
                 new_requirements.append(requirement_str)
     requirements_path.write_text("\n".join(new_requirements))

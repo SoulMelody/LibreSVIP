@@ -567,18 +567,6 @@ wheels = [
 ]
 
 [[package]]
-name = "cbor2pure"
-version = "5.8.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "cbor2" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/c2/d9/9cdd06e55593e0b2c5f008f714f3ec5b266bf697b4b07682503a746226a6/cbor2pure-5.8.0.tar.gz", hash = "sha256:e03fb87dceb338518f2b4e613f3bc712286c46e3b57d83d4b0ba3b60d1a79932", size = 105377, upload-time = "2026-02-28T03:51:17.428Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/7c/cc/46725fe4751b9dfe1df3dcc499ab06c7379c09b17793c9f47da534a50589/cbor2pure-5.8.0-py3-none-any.whl", hash = "sha256:1d76fce7ca2398e97ec6f4995858bd379e262b3e0dcc5ee0a366ea1c124cf41b", size = 22869, upload-time = "2026-02-28T03:51:16.102Z" },
-]
-
-[[package]]
 name = "certifi"
 version = "2026.6.17"
 source = { registry = "https://pypi.org/simple" }
@@ -950,7 +938,7 @@ name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
 wheels = [
@@ -1420,8 +1408,7 @@ source = { editable = "." }
 dependencies = [
     { name = "backports-zstd", marker = "(python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')" },
     { name = "bidict" },
-    { name = "cbor2", marker = "sys_platform == 'darwin' or sys_platform == 'linux' or sys_platform == 'win32'" },
-    { name = "cbor2pure", marker = "sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'" },
+    { name = "cbor2" },
     { name = "charset-normalizer" },
     { name = "construct-typing" },
     { name = "importlib-resources", marker = "python_full_version < '3.11'" },
@@ -1565,8 +1552,7 @@ test = [
 requires-dist = [
     { name = "backports-zstd", marker = "(python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')", specifier = ">=1.6.0,<1.6.1" },
     { name = "bidict", specifier = ">=0.23.1,<0.23.2" },
-    { name = "cbor2", marker = "sys_platform == 'darwin' or sys_platform == 'linux' or sys_platform == 'win32'", specifier = ">=6.1.3,<6.1.4" },
-    { name = "cbor2pure", marker = "sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'", specifier = ">=5.8.0,<6.0.0" },
+    { name = "cbor2", specifier = ">=6.1.3,<7.0.0" },
     { name = "cffi", marker = "(python_full_version < '3.12' and platform_python_implementation != 'PyPy' and extra == 'crypto') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32' and extra == 'crypto')", specifier = ">=2.1.0" },
     { name = "charset-normalizer", specifier = ">=3.4.9,<4.0.0" },
     { name = "construct-typing", specifier = ">=0.7.0,<1.0.0" },
@@ -3729,11 +3715,11 @@ name = "soundfile"
 version = "0.14.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cffi" },
+    { name = "cffi", marker = "python_full_version != '3.13.*' or sys_platform == 'emscripten'" },
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
-    { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
-    { name = "typing-extensions" },
+    { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version == '3.12.*' and sys_platform != 'emscripten') or (python_full_version >= '3.14' and sys_platform != 'emscripten') or (python_full_version >= '3.12' and sys_platform == 'emscripten')" },
+    { name = "typing-extensions", marker = "python_full_version != '3.13.*' or sys_platform == 'emscripten'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/d2/db/949331952a6fb1c5b12e9de80fd08747966c2039d1a61db4764fbd3981c2/soundfile-0.14.0.tar.gz", hash = "sha256:ba1c1a2d618bca5c406647c83b89f07cc8810fa506a50622a6993ba130c1de11", size = 47842, upload-time = "2026-06-06T08:58:47.869Z" }
 wheels = [
