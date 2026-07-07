@@ -36,6 +36,7 @@ def install_mingw_deps() -> None:
         "pillow": "python-pillow",
         "platformdirs": "python-platformdirs",
         "protobuf": "python-protobuf",
+        "protobuf-py-ext": None,
         "pycryptodomex": "python-pycryptodomex",
         "pydantic": "python-pydantic",
         "pydantic-core": "python-pydantic-core",
@@ -91,15 +92,6 @@ def install_mingw_deps() -> None:
                 "--noconfirm",
             ]
         )
-    install_msys2_requirements(
-        [
-            "pacman",
-            "-S",
-            f"{mingw_arch}-rust",
-            "--noconfirm",
-            "--needed",
-        ]
-    )
 
     requirements_path = cwd / "requirements-desktop.txt"
     for requirement_str in requirements_path.read_text().splitlines():
@@ -130,6 +122,8 @@ def install_mingw_deps() -> None:
                             "--needed",
                         ]
                     )
+            elif requirement_str.startswith("cbor2=="):
+                new_requirements.append("cbor2pure")
             else:
                 new_requirements.append(requirement_str)
     requirements_path.write_text("\n".join(new_requirements))
