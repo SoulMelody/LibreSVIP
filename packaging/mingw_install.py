@@ -36,6 +36,7 @@ def install_mingw_deps() -> None:
         "pillow": "python-pillow",
         "platformdirs": "python-platformdirs",
         "protobuf": "python-protobuf",
+        "protobuf-py-ext": None,
         "pycryptodomex": "python-pycryptodomex",
         "pydantic": "python-pydantic",
         "pydantic-core": "python-pydantic-core",
