@@ -118,7 +118,7 @@ all = [
 ]
 code_gen = [
   "buf-bin>=1.71.0",
-  "datamodel-code-generator>=0.68.0",
+  "datamodel-code-generator>=0.68.1",
   "pbtk>=1.1.2",
   "protoc-gen-py>=0.1.1",
   "pyside6-addons<6.12.0,>=6.11.1",
@@ -129,7 +129,7 @@ docs = [
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
-  "mypy>=2.1.0",
+  "mypy>=2.2.0",
   "prek>=0.4.8",
   "pyrefly>=1.1.1,<1.1.2",
   "pyside6<6.12.0,>=6.11.1",
