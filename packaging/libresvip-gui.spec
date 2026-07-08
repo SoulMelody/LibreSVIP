@@ -55,7 +55,6 @@ gui_a = Analysis(
         *zstd_backends,
         "bidict",
         "cbor2",
-        "cbor2pure",
         "construct_typed",
         "Cryptodome.Util.Padding",
         "svg",
