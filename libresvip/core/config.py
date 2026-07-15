@@ -16,6 +16,8 @@ from pydantic import (
     Field,
     GetCoreSchemaHandler,
     ValidationError,
+    ValidationInfo,
+    field_validator,
     model_validator,
 )
 from pydantic_core import core_schema
@@ -377,6 +379,21 @@ class LibreSvipBaseUISettings(YamlSettings):
     reset_tasks_on_input_change: bool = Field(default=True)
     max_track_count: int = Field(default=1)
     lyric_replace_rules: dict[str, list[LyricsReplacement]] = Field(default_factory=dict)
+
+    @field_validator("language", mode="before")
+    @classmethod
+    def load_language(
+        cls,
+        language: str | Language,
+        _info: ValidationInfo,
+    ) -> Language:
+        if isinstance(language, str):
+            points = language.strip().upper()
+            if points in Language.__members__:
+                return Language[points]
+            else:
+                return Language.from_locale(points)
+        return language
 
     @property
     def lyric_replace_rules_groups(self) -> list[str]:

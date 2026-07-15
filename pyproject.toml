@@ -252,6 +252,7 @@ select = [
 ignore = [
   "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
   "E501",  # Line too long
+  "EXE002",  # The file is executable but no shebang is present
   "RUF001",  # String contains ambiguous symbol
   "RUF006",  # Store a reference to the return value of `asyncio.create_task`
   "RUF009",  # Do not perform function call in dataclass defaults

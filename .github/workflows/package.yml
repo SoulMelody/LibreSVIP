@@ -565,32 +565,34 @@ jobs:
       - name: Install Dependencies
         run: |
           uv build --wheel
-          uv venv --python 3.12
+          uv venv --python 3.14
           uv sync --extra mobile --group packaging
+      - name: Prepare Android signing key
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        run: |
+          umask 077
+          printf '%s' "$SIGNING_KEY" | base64 --decode > "$RUNNER_TEMP/libresvip-upload.jks"
       - name: Flet Build APK
+        env:
+          FLET_ANDROID_SIGNING_KEY_STORE: ${{ runner.temp }}/libresvip-upload.jks
+          FLET_ANDROID_SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
+          FLET_ANDROID_SIGNING_KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          FLET_ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           cd packaging
           bash install_mobile_requirements.sh android_24_arm64_v8a arm64-v8a
           bash install_mobile_requirements.sh android_24_armeabi_v7a armeabi-v7a
           bash install_mobile_requirements.sh android_24_x86_64 x86_64
           bash build_apk.sh
-          mv build/apk/LibreSVIP.apk build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
           cd ..
-
-      - uses: ilharp/sign-android-release@v2
-        name: Sign app APK
-        id: sign_app
-        with:
-          releaseDir: ./packaging/build/apk
-          signingKey: ${{ secrets.SIGNING_KEY }}
-          keyAlias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v7
         with:
-          path: ${{steps.sign_app.outputs.signedFile}}
+          name: libresvip-android-apks
+          path: ./packaging/build/apk/*.apk
+          if-no-files-found: error
 
       - name: Create Release
         uses: softprops/action-gh-release@v3
@@ -598,5 +600,4 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ${{steps.sign_app.outputs.signedFile}}
-
+            ./packaging/build/apk/*.apk

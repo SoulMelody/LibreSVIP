@@ -37,8 +37,8 @@ portion==2.6.2
 protobuf-py==0.2.0
 pycparser==3.0
 pycryptodomex==3.23.0
-pydantic==2.13.3
-pydantic-core==2.46.3
+pydantic==2.13.4
+pydantic-core==2.46.4
 pydantic-extra-types==2.11.1
 pydantic-settings==2.14.2
 pygments==2.20.0
@@ -52,7 +52,7 @@ repath==0.9.0
 retrie==0.3.1
 rich==15.0.0
 ruamel-yaml==0.19.1
-ruamel-yaml-clib==0.2.12
+ruamel-yaml-clib==0.2.15
 six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.10.0
@@ -66,4 +66,3 @@ wanakana-python==1.2.2
 xsdata==26.2
 xsdata-pydantic==24.5
 zhon==2.1.1
-zstandard==0.25.0
