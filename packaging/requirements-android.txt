@@ -60,7 +60,7 @@ tatsu-lts==5.16.0
 that-depends==4.0.2
 typing-extensions==4.16.0
 typing-inspection==0.4.2
-ujson==5.12.1
+ujson==5.13.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 xsdata==26.2
