@@ -10,11 +10,12 @@
 | `dv/sk`         | DeepVocal/Sharpkey                    | 自定义二进制格式 |                                   |                                                            | 疑似暂停 |
 | `gj`            | 歌叽歌叽                              | 标准序列化格式   | 基于json                          |                                                            | 停止维护 |
 | `json`          | OpenSVIP                              | 标准序列化格式   | 基于json                          |                                                            | 尚在维护 |
-| `nn`            | 袅袅虚拟歌手                          | 自定义文本格式   |                                   |                                                            | 停止开发 |
 | `mid/midi`      | 众多音序器/DAW                        | 标准二进制格式   | 标准MIDI(SMF)格式                 |                                                            | 尚在维护 |
 | `msq`           | Mikoto Studio                         | 标准序列化格式   | 基于json                          |                                                            | 活跃开发 |
 | `mtp`           | MUTA 2                                | 自定义二进制格式 |                                   |                                                            | 停止开发 |
 | `MusicXML`      | MuseScore、Sibelius、Finale等打谱软件 | 标准序列化格式   | 基于xml                           |                                                            | 活跃开发 |
+| `nep`           | NNSVS N-Editor                        | 标准序列化格式   | 基于json，并使用zip压缩           |                            | 活跃开发 |
+| `nn`            | 袅袅虚拟歌手                          | 自定义文本格式   |                                   |                                                            | 停止开发 |
 | `ppsf` (旧版)   | Piapro Studio (VOCALOID)              | 自定义二进制格式 |                                   |                                                            | 尚在维护 |
 | `ppsf` (NT版本) | Piapro Studio NT                      | 标准序列化格式   | 基于json，并使用zip压缩           |                                                            | 尚在维护 |
 | `ps_project`    | Pocket Singer                         | 标准序列化格式   | 基于json，并使用zip压缩           | 需要解压密码                                               | 活跃开发 |
