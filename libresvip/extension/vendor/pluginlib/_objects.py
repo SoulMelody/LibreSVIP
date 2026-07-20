@@ -23,7 +23,7 @@ from libresvip.extension.vendor.pluginlib._util import OPERATORS, CachingDict, D
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from libresvip.extension.vendor.pluginlib._parent import Parent
+    from libresvip.extension.vendor.pluginlib._parent import PluginType
 
 
 class BlacklistEntry:
@@ -199,7 +199,7 @@ class TypeDict(GroupDict):
     _bl_skip_attrs = ("version",)
     _bl_empty = None  # Not callable, but never called since _skip_empty is True
 
-    def __init__(self, parent: Parent, *args: object, **kwargs: object) -> None:
+    def __init__(self, parent: PluginType, *args: object, **kwargs: object) -> None:
         super().__init__(*args, **kwargs)
         self._parent = parent
 

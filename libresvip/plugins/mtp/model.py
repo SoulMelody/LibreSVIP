@@ -22,6 +22,7 @@ from construct_typed import (
     EnumBase,
     TEnum,
     csfield,
+    csfield_const,
 )
 
 Int32ul = BytesInteger(4, swapped=True)
@@ -57,7 +58,7 @@ class MutaTimeSignature(DataclassMixin):
 
 @dataclasses.dataclass
 class MutaAudioTrackData(DataclassMixin):
-    line_break: bytes = csfield(LineBreak)
+    line_break: bytes = csfield_const(Bytes(1), b"\n")
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     file_path: str = csfield(PascalString(Int32ul, "utf-8"))
@@ -102,7 +103,7 @@ class MutaParams(DataclassMixin):
 
 @dataclasses.dataclass
 class MutaSongTrackData(DataclassMixin):
-    line_break: bytes = csfield(LineBreak)
+    line_break: bytes = csfield_const(Bytes(1), b"\n")
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     singer_name: list[int] = csfield(Int16ul[258])
@@ -124,7 +125,7 @@ class MutaPhoneme(DataclassMixin):
 @dataclasses.dataclass
 class MutaText(DataclassMixin):
     text: bytes = csfield(Prefixed(Int32ul, GreedyBytes))
-    line_break: bytes = csfield(LineBreak)
+    line_break: bytes = csfield_const(Bytes(1), b"\n")
     volume: int = csfield(Byte)
     speed: int = csfield(Byte)
     tone: int = csfield(Byte)
@@ -138,12 +139,12 @@ class MutaText(DataclassMixin):
 
 @dataclasses.dataclass
 class MutaTalkTrackData(DataclassMixin):
-    line_break1: bytes = csfield(LineBreak)
+    line_break1: bytes = csfield_const(Bytes(1), b"\n")
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     talker_name: list[int] = csfield(Int16ul[258])
     speaker_id: int = csfield(Int32ul)
-    line_break2: bytes = csfield(LineBreak)
+    line_break2: bytes = csfield_const(Bytes(1), b"\n")
     text: MutaText = csfield(DataclassStruct(MutaText))
 
 
@@ -151,7 +152,7 @@ class MutaTalkTrackData(DataclassMixin):
 class MutaTrack(DataclassMixin):
     track_type: MutaTrackType = csfield(TEnum(Int32ul, MutaTrackType))
     seq_count: int = csfield(Int32ul)
-    line_break: bytes = csfield(LineBreak)
+    line_break: bytes = csfield_const(Bytes(1), b"\n")
     mute: int = csfield(Int32ul)
     solo: int = csfield(Int32ul)
     volume: int = csfield(Int32ul)
@@ -184,7 +185,7 @@ class MutaProject(DataclassMixin):
     tempos: list[MutaTempo] = csfield(muta_prefixed_array(MutaTempo))
     time_signatures: list[MutaTimeSignature] = csfield(muta_prefixed_array(MutaTimeSignature))
     tracks: list[MutaTrack] = csfield(muta_prefixed_array(MutaTrack))
-    line_break: bytes = csfield(LineBreak)
+    line_break: bytes = csfield_const(Bytes(1), b"\n")
 
 
 muta_project_struct = DataclassStruct(MutaProject)

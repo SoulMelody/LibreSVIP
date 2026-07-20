@@ -2,6 +2,7 @@ import dataclasses
 
 from construct import (
     Byte,
+    Bytes,
     BytesInteger,
     Const,
     Default,
@@ -22,6 +23,8 @@ from construct_typed import (
     EnumBase,
     TEnum,
     csfield,
+    csfield_const,
+    csfield_noinit,
 )
 
 from libresvip.utils.binary import Null
@@ -195,7 +198,7 @@ class DvTrack(DataclassMixin):
 
 @dataclasses.dataclass
 class DvInnerProject(DataclassMixin):
-    features: list[bytes | None] = csfield(
+    features: list[bytes | None] | None = csfield_noinit(
         Sequence(
             Default(CSOptional(Const(b"ext1")), b"ext1"),
             Default(CSOptional(Const(b"ext2")), b"ext2"),
@@ -217,7 +220,7 @@ class DvInnerProject(DataclassMixin):
 
 @dataclasses.dataclass
 class DvProject(DataclassMixin):
-    magic: bytes = csfield(Const(b"SHARPKEY"))
+    magic: bytes = csfield_const(Bytes(8), b"SHARPKEY")
     version: int = csfield(Int32ul)
     inner_project: DvInnerProject = csfield(Prefixed(Int32ul, DataclassStruct(DvInnerProject)))
 
