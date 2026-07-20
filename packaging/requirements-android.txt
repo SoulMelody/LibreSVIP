@@ -1,12 +1,13 @@
 annotated-types==0.7.0
 anyio==4.14.2
+arrow==1.4.0
 bidict==0.23.1
 cbor2==5.9.0
 certifi==2026.6.17
 cffi==2.0.0
 charset-normalizer==3.4.9
 construct==2.10.70
-construct-typing==0.7.0
+construct-typing==0.8.0
 flet==0.86.1
 flet-desktop==0.86.1
 flet-libcpp-shared==27.3.13750724
@@ -45,6 +46,7 @@ pygments==2.20.0
 pymediainfo==7.0.1
 pypinyin==0.55.0
 pysubs2==1.8.1
+python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 pyyaml==6.0.3
 pyzipper==0.4.0
@@ -60,6 +62,7 @@ tatsu-lts==5.16.0
 that-depends==4.0.2
 typing-extensions==4.16.0
 typing-inspection==0.4.2
+tzdata==2026.3
 ujson==5.12.1
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
