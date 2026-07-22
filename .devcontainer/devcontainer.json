@@ -7,8 +7,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"bufbuild.vscode-buf",
 				"charliermarsh.ruff",
-				"DrBlury.protobuf-vsc",
 				"hbenl.vscode-test-explorer",
 				"littlefoxteam.vscode-python-test-adapter",
 				"meta.pyrefly",
