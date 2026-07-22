@@ -35,7 +35,7 @@ packaging==26.2
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.3.0 ; sys_platform == 'darwin'
-platformdirs==4.10.1
+platformdirs==4.11.0
 portion==2.6.2
 protobuf-py==0.2.0
 protobuf-py-ext==0.2.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
