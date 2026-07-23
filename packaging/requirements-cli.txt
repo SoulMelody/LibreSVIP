@@ -9,7 +9,7 @@ cffi==2.1.0 ; (python_full_version < '3.12' and platform_python_implementation !
 charset-normalizer==3.4.9
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.70
-construct-typing==0.8.0
+construct-typing==0.8.1
 fsspec==2026.6.0
 grpclib==0.4.9
 h2==4.3.0
