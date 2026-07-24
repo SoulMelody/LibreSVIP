@@ -6,14 +6,16 @@ import QtQuick.Shapes
 Shape {
     id: shape
     property var radius: 0
-    property var strokeWidth: 4
+    property color strokeColor: Material.primary
+    property color fillColor: 'transparent'
+    property real strokeWidth: 4
     property var dashLength: 3
     property var dashOffset: 0
 
     ShapePath {
-        strokeColor: Material.primary
+        strokeColor: shape.strokeColor
         strokeWidth: shape.strokeWidth
-        fillColor: 'transparent'
+        fillColor: shape.fillColor
         strokeStyle: ShapePath.DashLine
         dashPattern: [dashLength, dashLength]
         dashOffset: shape.dashOffset

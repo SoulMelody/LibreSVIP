@@ -6,6 +6,8 @@ Dialogs 1.0 dialogs.qml
 
 MessageBox 1.0 message_box.qml
 
+TaskDetailDialog 1.0 task_detail_dialog.qml
+
 Actions 1.0 actions.qml
 
 SettingsDialog 1.0 settings_dialog.qml
@@ -21,5 +23,15 @@ LabeledComboBox 1.0 labeled_combo_box.qml
 PluginInfo 1.0 plugin_info.qml
 
 DashedRectangle 1.0 dashed_rectangle.qml
+
+singleton Theme 1.0 theme.qml
+
+ExpandableSection 1.0 expandable_section.qml
+
+ConflictPolicyComboBox 1.0 conflict_policy_combo_box.qml
+
+FormatInfoPopup 1.0 format_info_popup.qml
+
+FieldDelegate 1.0 field_delegate.qml
 
 ConverterPage 1.0 converter_page.qml

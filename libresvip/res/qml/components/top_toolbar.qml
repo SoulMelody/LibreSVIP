@@ -28,7 +28,7 @@ ToolBar {
         implicitHeight: 32
         color: window.Material.background
         border.width: 1
-        border.color: Material.color(Material.Grey, Material.Shade300)
+        border.color: Theme.colorBorder
 
         layer.enabled: toolBar.Material.elevation > 0
         layer.effect: ElevationEffect {
@@ -58,21 +58,22 @@ ToolBar {
             layoutDirection: Qt.RightToLeft
 
             RowLayout {
-                implicitHeight: 24
+                implicitHeight: Theme.minClickSize
                 spacing: 0
                 Button {
+                    Accessible.name: qsTr("Minimize")
+                    Accessible.role: Accessible.Button
                     Material.roundedScale: Material.NotRounded
                     Material.background: pressed ? window.Material.background : "transparent"
                     Material.elevation: 0
                     Layout.fillHeight: true
+                    focusPolicy: Qt.StrongFocus
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
                     bottomInset: 0
                     implicitWidth: 46
-                    implicitHeight: 24
-                    background.implicitWidth: implicitWidth
-                    background.implicitHeight: implicitHeight
+                    implicitHeight: Theme.minClickSize
                     text: iconicFontLoader.icon("mdi7.window-minimize")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize
@@ -81,18 +82,19 @@ ToolBar {
 
                 Button {
                     id: maximizeButton
+                    Accessible.name: qsTr("Maximize or Restore")
+                    Accessible.role: Accessible.Button
                     Material.roundedScale: Material.NotRounded
                     Material.background: pressed ? window.Material.background : "transparent"
                     Material.elevation: 0
                     Layout.fillHeight: true
+                    focusPolicy: Qt.StrongFocus
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
                     bottomInset: 0
                     implicitWidth: 46
-                    implicitHeight: 24
-                    background.implicitWidth: implicitWidth
-                    background.implicitHeight: implicitHeight
+                    implicitHeight: Theme.minClickSize
                     text: window.visibility == Window.Maximized ? iconicFontLoader.icon("mdi7.window-restore") : iconicFontLoader.icon("mdi7.window-maximize")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize
@@ -100,19 +102,20 @@ ToolBar {
                 }
 
                 Button {
+                    Accessible.name: qsTr("Close")
+                    Accessible.role: Accessible.Button
                     Material.roundedScale: Material.NotRounded
                     Material.background: pressed ? Material.color(Material.Red, Material.Shade300) : (hovered ? Material.color(Material.Red, Material.Shade700) : "transparent")
                     Material.elevation: 0
                     Layout.fillHeight: true
                     hoverEnabled: true
+                    focusPolicy: Qt.StrongFocus
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
                     bottomInset: 0
                     implicitWidth: 46
-                    implicitHeight: 24
-                    background.implicitWidth: implicitWidth
-                    background.implicitHeight: implicitHeight
+                    implicitHeight: Theme.minClickSize
                     text: hovered ? "<font color='white'>" + iconicFontLoader.icon("mdi7.close") + "</font>" : iconicFontLoader.icon("mdi7.close")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize
@@ -156,7 +159,7 @@ ToolBar {
                     }
                     MenuBarItem {
                         implicitHeight: 30
-                        padding: 10
+                        padding: Theme.spacingS
                         verticalPadding: 0
                         text: qsTr("Convert (&C)")
                         menu: Menu {
@@ -191,7 +194,7 @@ ToolBar {
                     }
                     MenuBarItem {
                         implicitHeight: 30
-                        padding: 10
+                        padding: Theme.spacingS
                         verticalPadding: 0
                         text: qsTr("Formats (&F)")
                         menu: Menu {
@@ -317,7 +320,7 @@ ToolBar {
                     }
                     MenuBarItem {
                         implicitHeight: 30
-                        padding: 10
+                        padding: Theme.spacingS
                         verticalPadding: 0
                         text: qsTr("Settings (&S)")
                         menu: Menu {
@@ -417,9 +420,9 @@ ToolBar {
                                     } else if (currentLanguage === "ja_JP") {
                                         jaJPMenuItem.checked = true;
                                     } else if (currentLanguage === "en_US") {
-                                        deDEMenuItem.checked = true;
-                                    } else {
                                         enUSMenuItem.checked = true;
+                                    } else {
+                                        deDEMenuItem.checked = true;
                                     }
                                 }
                             }
@@ -427,7 +430,7 @@ ToolBar {
                     }
                     MenuBarItem {
                         implicitHeight: 30
-                        padding: 10
+                        padding: Theme.spacingS
                         verticalPadding: 0
                         text: qsTr("Help (&H)")
                         menu: Menu {

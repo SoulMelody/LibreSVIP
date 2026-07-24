@@ -7,12 +7,18 @@ import QtQuick.Controls.Material.impl
 RoundButton {
     id: iconButton
     property string icon_name: ""
+    property string accessibleName: ""
+    property string accessibleDescription: ""
     property double diameter: 36
     property int new_padding: 12
     property int cursor_shape: Qt.PointingHandCursor
 
-    width: diameter
-    height: diameter
+    Accessible.role: Accessible.Button
+    Accessible.name: iconButton.accessibleName
+    Accessible.description: iconButton.accessibleDescription
+
+    width: Math.max(diameter, Theme.minClickSize)
+    height: Math.max(diameter, Theme.minClickSize)
     padding: enabled ? new_padding : new_padding + 1
 
     contentItem: Label {

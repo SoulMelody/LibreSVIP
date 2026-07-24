@@ -54,6 +54,8 @@ GridLayout {
         Layout.row: 1
         Layout.column: 3
         Layout.columnSpan: 3
+        Accessible.name: qsTr("Version")
+        Accessible.role: Accessible.Button
         background: Rectangle {
             color: "transparent"
         }
@@ -77,6 +79,8 @@ GridLayout {
         Layout.row: 1
         Layout.column: 6
         Layout.columnSpan: 4
+        Accessible.name: qsTr("Plugin Website")
+        Accessible.role: Accessible.Button
         background: Rectangle {
             color: "transparent"
         }
@@ -127,8 +131,8 @@ GridLayout {
         Layout.columnSpan: 10
         Layout.fillWidth: true
         height: 1
-        color: Material.color(Material.Gray, Material.Shade0)
-        border.color: Material.color(Material.Black, Material.Shade0)
+        color: Theme.colorBorder
+        border.color: Theme.colorBorder
         border.width: 1
     }
 
@@ -136,7 +140,7 @@ GridLayout {
         Layout.row: 4
         Layout.column: 0
         Layout.columnSpan: 10
-        spacing: 10
+        spacing: Theme.spacingS
         Label {
             text: qsTr("Introduction")
             font.bold: true

@@ -35,6 +35,7 @@ ApplicationWindow {
             return Material.System;
         }
     }
+    Material.onThemeChanged: syncThemeTokens()
 
     FramelessHelper {
         id: framelessHelper
@@ -66,19 +67,32 @@ ApplicationWindow {
         Components.MessageBox {}
     }
 
+    function syncThemeTokens() {
+        let resolvedColorScheme = Application.styleHints.colorScheme;
+        if (configItems.theme === "Dark") {
+            resolvedColorScheme = Qt.ColorScheme.Dark;
+        } else if (configItems.theme === "Light") {
+            resolvedColorScheme = Qt.ColorScheme.Light;
+        }
+        Components.Theme.darkMode = resolvedColorScheme === Qt.ColorScheme.Dark;
+    }
+
     function handleThemeChange(theme) {
         switch (theme) {
         case "Light":
             window.Material.theme = Material.Light;
             configItems.theme = "Light";
+            syncThemeTokens();
             break;
         case "Dark":
             window.Material.theme = Material.Dark;
             configItems.theme = "Dark";
+            syncThemeTokens();
             break;
         case "System":
             window.Material.theme = Material.System;
             configItems.theme = "System";
+            syncThemeTokens();
             break;
         }
     }
@@ -101,6 +115,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        syncThemeTokens();
         if (configItems.auto_check_for_updates) {
             notifier.check_for_updates();
         }

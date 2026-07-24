@@ -33,10 +33,12 @@
         <translation>导入工程格式： </translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="351"/>
-        <location filename="../qml/components/converter_page.qml" line="500"/>
+        <location filename="../qml/components/converter_page.qml" line="128"/>
+        <location filename="../qml/components/converter_page.qml" line="131"/>
+        <location filename="../qml/components/converter_page.qml" line="258"/>
+        <location filename="../qml/components/converter_page.qml" line="261"/>
         <source>View Detail Information</source>
-        <translation type="unfinished"></translation>
+        <translation>查看详细信息</translation>
     </message>
     <message>
         <location filename="../qml/components/converter_page.qml" line="437"/>
@@ -64,19 +66,22 @@
         <translation>自动设置后缀名</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="668"/>
+        <location filename="../qml/components/converter_page.qml" line="423"/>
+        <location filename="../qml/components/converter_page.qml" line="428"/>
         <source>Direct Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>直接模式</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="681"/>
+        <location filename="../qml/components/converter_page.qml" line="438"/>
+        <location filename="../qml/components/converter_page.qml" line="443"/>
         <source>Singing Track Merging Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>演唱轨合并模式</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="694"/>
+        <location filename="../qml/components/converter_page.qml" line="453"/>
+        <location filename="../qml/components/converter_page.qml" line="458"/>
         <source>Singing Track Grouping Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>演唱轨分组模式</translation>
     </message>
     <message>
         <location filename="../qml/components/converter_page.qml" line="956"/>
@@ -195,6 +200,66 @@
         <source>Prompt</source>
         <translation>询问</translation>
     </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="1152"/>
+        <source>In/Out</source>
+        <translation>输入/输出</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="1159"/>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="1166"/>
+        <source>Tasks</source>
+        <translation>任务</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="376"/>
+        <source>Release to add files</source>
+        <translation>松开以添加文件</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="394"/>
+        <source>or</source>
+        <translation>或</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="400"/>
+        <source>Browse Files</source>
+        <translation>浏览文件</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="791"/>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/field_delegate.qml" line="53"/>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/field_delegate.qml" line="218"/>
+        <source>Choose Color</source>
+        <translation>选色</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="514"/>
+        <source>Expand or Collapse Task Toolbar</source>
+        <translation>展开或折叠任务工具栏</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="632"/>
+        <source>Reset Extensions</source>
+        <translation>重置扩展名</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/converter_page.qml" line="657"/>
+        <source>Remove Other Extensions</source>
+        <translation>移除其他扩展名</translation>
+    </message>
 </context>
 <context>
     <name>dialogs</name>
@@ -264,6 +329,26 @@
         <source>All people should have the right and freedom to choose. That&apos;s why we&apos;re committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.</source>
         <translation>所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。</translation>
     </message>
+    <message>
+        <location filename="../qml/components/dialogs.qml" line="31"/>
+        <source>Choose Folder</source>
+        <translation>选择文件夹</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/dialogs.qml" line="195"/>
+        <source>Close</source>
+        <translation>关闭</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/dialogs.qml" line="99"/>
+        <source>Delete Folder Preset</source>
+        <translation>删除文件夹预设</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/dialogs.qml" line="264"/>
+        <source>Add Folder Preset</source>
+        <translation>添加文件夹预设</translation>
+    </message>
 </context>
 <context>
     <name>plugin_info</name>
@@ -276,6 +361,11 @@
         <location filename="../qml/components/plugin_info.qml" line="141"/>
         <source>Introduction</source>
         <translation>简介</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/plugin_info.qml" line="58"/>
+        <source>Plugin Website</source>
+        <translation>插件网站</translation>
     </message>
 </context>
 <context>
@@ -451,6 +541,52 @@ Regex: for advanced users with knowledge of regular expressions.</source>
         <source>Updates Settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="909"/>
+        <source>Move Rule Up</source>
+        <translation>上移规则</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="919"/>
+        <source>Move Rule Down</source>
+        <translation>下移规则</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="932"/>
+        <location filename="../qml/components/settings_dialog.qml" line="934"/>
+        <source>Delete rule</source>
+        <translation>删除规则</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="1003"/>
+        <source>Minimize</source>
+        <translation>最小化</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="1026"/>
+        <source>Maximize or Restore</source>
+        <translation>最大化或还原</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="1043"/>
+        <source>Close</source>
+        <translation>关闭</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="407"/>
+        <source>Plugin Status Help</source>
+        <translation>插件状态帮助</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="573"/>
+        <source>Remove Current Preset</source>
+        <translation>移除当前预设</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/settings_dialog.qml" line="621"/>
+        <source>Lyric Rule Help</source>
+        <translation>歌词规则帮助</translation>
+    </message>
 </context>
 <context>
     <name>task_row</name>
@@ -481,9 +617,10 @@ Regex: for advanced users with knowledge of regular expressions.</source>
         <translation>已跳过</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="73"/>
+        <location filename="../qml/components/task_row.qml" line="142"/>
+        <location filename="../qml/components/task_row.qml" line="148"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../qml/components/task_row.qml" line="203"/>
@@ -510,6 +647,51 @@ Regex: for advanced users with knowledge of regular expressions.</source>
         <location filename="../qml/components/task_row.qml" line="347"/>
         <source>Do you want to overwrite the file?</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="280"/>
+        <source>Show warning details</source>
+        <translation>查看警告详情</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="306"/>
+        <source>Show error details</source>
+        <translation>查看错误详情</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="308"/>
+        <source>File failed to convert, click to view the error message</source>
+        <translation>文件转换失败，点击查看错误信息</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="335"/>
+        <source>Copy warning message</source>
+        <translation>复制警告信息</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="342"/>
+        <source>Converting</source>
+        <translation>转换中</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="342"/>
+        <source>Success</source>
+        <translation>成功</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="342"/>
+        <source>Skipped</source>
+        <translation>已跳过</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="342"/>
+        <source>Warning</source>
+        <translation>警告</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/task_row.qml" line="342"/>
+        <source>Error</source>
+        <translation>错误</translation>
     </message>
 </context>
 <context>
@@ -613,6 +795,43 @@ Regex: for advanced users with knowledge of regular expressions.</source>
         <location filename="../qml/components/top_toolbar.qml" line="128"/>
         <source>SVS Projects Converter</source>
         <translation>歌声合成工程文件转换器</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/top_toolbar.qml" line="64"/>
+        <source>Minimize</source>
+        <translation>最小化</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/top_toolbar.qml" line="98"/>
+        <source>Maximize or Restore</source>
+        <translation>最大化</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/top_toolbar.qml" line="131"/>
+        <source>Close</source>
+        <translation>关闭</translation>
+    </message>
+</context>
+<context>
+    <name>expandable_section</name>
+    <message>
+        <location filename="../qml/components/expandable_section.qml" line="44"/>
+        <source>Expand</source>
+        <translation>展开</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/expandable_section.qml" line="44"/>
+        <source>Collapse</source>
+        <translation>折叠</translation>
+    </message>
+</context>
+<context>
+    <name>task_detail_dialog</name>
+    <message>
+        <location filename="../qml/components/task_detail_dialog.qml" line="111"/>
+        <location filename="../qml/components/task_detail_dialog.qml" line="113"/>
+        <source>Close</source>
+        <translation>关闭</translation>
     </message>
 </context>
 </TS>

@@ -13,6 +13,12 @@
         <file>components/plugin_info.qml</file>
         <file>components/running_indicator.qml</file>
         <file>components/settings_dialog.qml</file>
+        <file>components/task_detail_dialog.qml</file>
+        <file>components/theme.qml</file>
+        <file>components/expandable_section.qml</file>
+        <file>components/conflict_policy_combo_box.qml</file>
+        <file>components/format_info_popup.qml</file>
+        <file>components/field_delegate.qml</file>
         <file>components/task_row.qml</file>
         <file>components/top_toolbar.qml</file>
     </qresource>

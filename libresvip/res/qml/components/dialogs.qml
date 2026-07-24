@@ -28,6 +28,7 @@ Item {
                 }
                 IconButton {
                     icon_name: "mdi7.folder"
+                    accessibleName: qsTr("Choose Folder")
                     diameter: 38
                     onClicked: {
                         chooseFolderDialog.choose_folder(model.path, folder => {
@@ -53,7 +54,7 @@ Item {
                     }
                     Rectangle {
                         anchors.left: parent.left
-                        anchors.leftMargin: 10
+                        anchors.leftMargin: Theme.spacingS
                         anchors.verticalCenter: parent.verticalCenter
                         visible: pathTextField.length == 0
                         Layout.fillWidth: true
@@ -67,7 +68,7 @@ Item {
                     }
                     Rectangle {
                         anchors.right: parent.right
-                        anchors.rightMargin: 10
+                        anchors.rightMargin: Theme.spacingS
                         anchors.verticalCenter: parent.verticalCenter
                         visible: pathTextField.length > 0 && (pathTextField.activeFocus || pathTextField.hovered)
                         width: 18
@@ -95,6 +96,7 @@ Item {
                 }
                 IconButton {
                     icon_name: "mdi7.trash-can-outline"
+                    accessibleName: qsTr("Delete Folder Preset")
                     diameter: 38
                     onClicked: {
                         folderPresetsListView.model.delete(index);
@@ -190,6 +192,7 @@ Item {
                 IconButton {
                     Layout.alignment: Qt.AlignRight
                     icon_name: "mdi7.close"
+                    accessibleName: qsTr("Close")
                     diameter: 30
                     new_padding: 6
                     onClicked: folderPresetsDialog.close()
@@ -203,7 +206,7 @@ Item {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: "#ccc"
+                color: Theme.colorBorder
             }
         }
         Rectangle {
@@ -258,6 +261,8 @@ Item {
                     QQC2.Button {
                         Layout.alignment: Qt.AlignHCenter
                         text: iconicFontLoader.icon("mdi7.plus")
+                        Accessible.name: qsTr("Add Folder Preset")
+                        Accessible.role: Accessible.Button
                         font.family: "Material Design Icons"
                         font.pixelSize: Qt.application.font.pixelSize
                         onClicked: {

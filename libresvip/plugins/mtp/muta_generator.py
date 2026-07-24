@@ -102,7 +102,7 @@ class MutaGenerator:
                         + self.first_bar_length,
                         singer_name=[ord(c) for c in self.options.default_singer_name]
                         + [0] * (258 - len(self.options.default_singer_name)),
-                        unknown_1=0,
+                        speaker_id=0,
                         notes=self.generate_notes(track.note_list),
                         params=MutaParams(
                             unknown_param=[],

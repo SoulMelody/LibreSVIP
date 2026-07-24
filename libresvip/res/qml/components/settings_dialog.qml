@@ -13,6 +13,8 @@ ApplicationWindow {
     title: qsTr("Options")
     width: 700
     height: 500
+    minimumWidth: 640
+    minimumHeight: 480
     transientParent: null
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
@@ -26,17 +28,32 @@ ApplicationWindow {
             return Material.System;
         }
     }
+    Material.onThemeChanged: syncThemeTokens()
+    Component.onCompleted: syncThemeTokens()
+
+    function syncThemeTokens() {
+        let resolvedColorScheme = Application.styleHints.colorScheme;
+        if (configItems.theme === "Dark") {
+            resolvedColorScheme = Qt.ColorScheme.Dark;
+        } else if (configItems.theme === "Light") {
+            resolvedColorScheme = Qt.ColorScheme.Light;
+        }
+        Theme.darkMode = resolvedColorScheme === Qt.ColorScheme.Dark;
+    }
 
     function handleThemeChange(theme) {
         switch (theme) {
         case "Light":
             settingsDialog.Material.theme = Material.Light;
+            syncThemeTokens();
             break;
         case "Dark":
             settingsDialog.Material.theme = Material.Dark;
+            syncThemeTokens();
             break;
         case "System":
             settingsDialog.Material.theme = Material.System;
+            syncThemeTokens();
             break;
         }
     }
@@ -81,7 +98,7 @@ ApplicationWindow {
     Component {
         id: basicSettingsPage
         ColumnLayout {
-            Layout.margins: 15
+            Layout.margins: Theme.spacingM
             GroupBox {
                 Layout.fillWidth: true
                 background: Rectangle {
@@ -163,7 +180,7 @@ ApplicationWindow {
             }
             Rectangle {
                 Layout.fillWidth: true
-                border.color: "lightgrey"
+                border.color: Theme.colorBorder
                 height: 1
             }
             GroupBox {
@@ -186,44 +203,10 @@ ApplicationWindow {
                         Row {
                             Layout.fillWidth: true
                         }
-                        ComboBox {
+                        ConflictPolicyComboBox {
                             id: conflictPolicyCombo
                             padding: 0
                             Layout.alignment: Qt.AlignRight
-                            textRole: "text"
-                            valueRole: "value"
-                            model: [
-                                {
-                                    value: "Overwrite",
-                                    text: qsTr("Overwrite")
-                                },
-                                {
-                                    value: "Skip",
-                                    text: qsTr("Skip")
-                                },
-                                {
-                                    value: "Prompt",
-                                    text: qsTr("Prompt")
-                                }
-                            ]
-                            onActivated: index => {
-                                configItems.conflict_policy = currentValue;
-                            }
-                            Connections {
-                                target: configItems
-                                function onConflict_policy_changed(value) {
-                                    switch (value) {
-                                    case "Overwrite":
-                                    case "Skip":
-                                    case "Prompt":
-                                        conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value);
-                                        break;
-                                    }
-                                }
-                            }
-                            Component.onCompleted: {
-                                currentIndex = indexOfValue(configItems.conflict_policy);
-                            }
                         }
                     }
                     RowLayout {
@@ -286,7 +269,7 @@ ApplicationWindow {
                 }
             }
             ColumnLayout {
-                Layout.margins: 15
+                Layout.margins: Theme.spacingM
                 GridLayout {
                     Layout.fillWidth: true
                     rows: 2
@@ -372,7 +355,7 @@ ApplicationWindow {
                 }
                 Rectangle {
                     Layout.fillWidth: true
-                    border.color: "lightgrey"
+                    border.color: Theme.colorBorder
                     height: 1
                 }
                 Button {
@@ -412,7 +395,7 @@ ApplicationWindow {
                 delegate: Rectangle {
                     implicitHeight: 50
                     border.width: 1
-                    border.color: window.Material.backgroundDimColor
+                    border.color: Theme.colorBorder
                     color: window.Material.dialogColor
 
                     RowLayout {
@@ -421,12 +404,16 @@ ApplicationWindow {
                         Label {
                             text: qsTr(display)
                             visible: index !== 3
+                            elide: Text.ElideRight
+                            Layout.fillWidth: true
                         }
                         IconButton {
+                            id: pluginEnabledHelpButton
                             icon_name: "mdi7.help-circle-outline"
+                            accessibleName: qsTr("Plugin Status Help")
                             diameter: 20
                             cursor_shape: Qt.WhatsThisCursor
-                            ToolTip.visible: hovered
+                            ToolTip.visible: pluginEnabledHelpButton.hovered
                             ToolTip.text: qsTr("Plugin is enabled or not (Click to enter editing mode)")
                             visible: index === 3
                         }
@@ -446,6 +433,22 @@ ApplicationWindow {
                 ScrollBar.vertical: ScrollBar {}
                 ScrollBar.horizontal: ScrollBar {}
 
+                // Phase 4.6: stretch plugin-name/identifier columns; keep action column compact.
+                columnWidthProvider: function (column) {
+                    switch (column) {
+                    case 0:
+                        return Math.max(220, pluginsTableView.width * 0.32);
+                    case 1:
+                        return Math.max(180, pluginsTableView.width * 0.28);
+                    case 2:
+                        return 60;
+                    case 3:
+                        return 80;
+                    default:
+                        return 60;
+                    }
+                }
+
                 delegate: DelegateChooser {
                     DelegateChoice {
                         column: 0
@@ -453,12 +456,23 @@ ApplicationWindow {
                             implicitWidth: 220
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
 
                             Label {
                                 text: qsTr(display)
                                 anchors.centerIn: parent
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.leftMargin: Theme.spacingXS
+                                anchors.rightMargin: Theme.spacingXS
+                                horizontalAlignment: Text.AlignLeft
+                                elide: Text.ElideRight
+                                HoverHandler {
+                                    id: pluginNameHoverHandler
+                                }
+                                ToolTip.visible: pluginNameHoverHandler.hovered && contentWidth > width
+                                ToolTip.text: qsTr(display)
                             }
                         }
                     }
@@ -468,12 +482,23 @@ ApplicationWindow {
                             implicitWidth: 120
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
 
                             Label {
                                 text: qsTr(display)
                                 anchors.centerIn: parent
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.leftMargin: Theme.spacingXS
+                                anchors.rightMargin: Theme.spacingXS
+                                horizontalAlignment: Text.AlignLeft
+                                elide: Text.ElideRight
+                                HoverHandler {
+                                    id: pluginAuthorHoverHandler
+                                }
+                                ToolTip.visible: pluginAuthorHoverHandler.hovered && contentWidth > width
+                                ToolTip.text: qsTr(display)
                             }
                         }
                     }
@@ -484,7 +509,7 @@ ApplicationWindow {
                             implicitHeight: 32
                             border.width: 1
                             clip: true
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
 
                             Label {
@@ -499,7 +524,7 @@ ApplicationWindow {
                             implicitWidth: 70
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
                             required property bool editing
 
@@ -536,7 +561,7 @@ ApplicationWindow {
                     editable: true
                     textRole: "display"
                     model: configItems.qget("lyric_replacement_presets")
-                    ToolTip.visible: hovered
+                    ToolTip.visible: lyricReplacementPresetsComboBox.hovered
                     ToolTip.text: qsTr("Preset")
                     onAccepted: {
                         if (find(editText) === -1) {
@@ -549,9 +574,11 @@ ApplicationWindow {
                     }
                 }
                 IconButton {
+                    id: lyricPresetRemoveButton
                     icon_name: "mdi7.minus"
+                    accessibleName: qsTr("Remove Current Preset")
                     diameter: 35
-                    ToolTip.visible: hovered
+                    ToolTip.visible: lyricPresetRemoveButton.hovered
                     ToolTip.text: qsTr("Remove current preset")
                     onClicked: {
                         if (lyricReplacementPresetsComboBox.currentText !== "default") {
@@ -595,10 +622,12 @@ ApplicationWindow {
                     }
                 }
                 IconButton {
+                    id: lyricRuleHelpButton
                     icon_name: "mdi7.help-circle-outline"
+                    accessibleName: qsTr("Lyric Rule Help")
                     diameter: 35
                     cursor_shape: Qt.WhatsThisCursor
-                    ToolTip.visible: hovered
+                    ToolTip.visible: lyricRuleHelpButton.hovered
                     ToolTip.text: qsTr("Alphabetic: Applies to alphabetic characters.\nNon-Alphabetic: For non-alphabetic characters and punctuation marks.\nRegex: for advanced users with knowledge of regular expressions.")
                 }
             }
@@ -611,7 +640,7 @@ ApplicationWindow {
                     implicitHeight: 50
                     implicitWidth: 70
                     border.width: 1
-                    border.color: window.Material.backgroundDimColor
+                    border.color: Theme.colorBorder
                     color: window.Material.dialogColor
 
                     RowLayout {
@@ -620,6 +649,8 @@ ApplicationWindow {
                         Label {
                             text: qsTr(display)
                             font.pixelSize: 10
+                            elide: Text.ElideRight
+                            Layout.fillWidth: true
                         }
                     }
                 }
@@ -637,6 +668,28 @@ ApplicationWindow {
                 ScrollBar.vertical: ScrollBar {}
                 ScrollBar.horizontal: ScrollBar {}
 
+                // Phase 4.6: stretch editable text columns; compact for actions/match-type/checkbox.
+                columnWidthProvider: function (column) {
+                    switch (column) {
+                    case 0:
+                        return 100;
+                    case 1:
+                        return Math.max(80, lyricReplacementRulesTableView.width * 0.18);
+                    case 2:
+                        return Math.max(80, lyricReplacementRulesTableView.width * 0.18);
+                    case 3:
+                        return Math.max(80, lyricReplacementRulesTableView.width * 0.18);
+                    case 4:
+                        return Math.max(80, lyricReplacementRulesTableView.width * 0.18);
+                    case 5:
+                        return 70;
+                    case 6:
+                        return 120;
+                    default:
+                        return 60;
+                    }
+                }
+
                 delegate: DelegateChooser {
                     DelegateChoice {
                         column: 0
@@ -644,7 +697,7 @@ ApplicationWindow {
                             implicitWidth: 100
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
 
                             Label {
@@ -660,7 +713,7 @@ ApplicationWindow {
                             implicitWidth: 60
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
                             required property bool editing
 
@@ -668,6 +721,17 @@ ApplicationWindow {
                                 text: display
                                 anchors.centerIn: parent
                                 visible: !editing
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.leftMargin: Theme.spacingXS
+                                anchors.rightMargin: Theme.spacingXS
+                                horizontalAlignment: Text.AlignLeft
+                                elide: Text.ElideRight
+                                HoverHandler {
+                                    id: lyricRulePrefixHoverHandler
+                                }
+                                ToolTip.visible: lyricRulePrefixHoverHandler.hovered && contentWidth > width
+                                ToolTip.text: display
                             }
 
                             TableView.editDelegate: TextField {
@@ -692,7 +756,7 @@ ApplicationWindow {
                             implicitWidth: 60
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
                             required property bool editing
 
@@ -700,6 +764,17 @@ ApplicationWindow {
                                 text: display
                                 anchors.centerIn: parent
                                 visible: !editing
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.leftMargin: Theme.spacingXS
+                                anchors.rightMargin: Theme.spacingXS
+                                horizontalAlignment: Text.AlignLeft
+                                elide: Text.ElideRight
+                                HoverHandler {
+                                    id: lyricRulePatternHoverHandler
+                                }
+                                ToolTip.visible: lyricRulePatternHoverHandler.hovered && contentWidth > width
+                                ToolTip.text: display
                             }
 
                             TableView.editDelegate: TextField {
@@ -724,7 +799,7 @@ ApplicationWindow {
                             implicitWidth: 50
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
                             required property bool editing
 
@@ -732,6 +807,17 @@ ApplicationWindow {
                                 text: display
                                 anchors.centerIn: parent
                                 visible: !editing
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.leftMargin: Theme.spacingXS
+                                anchors.rightMargin: Theme.spacingXS
+                                horizontalAlignment: Text.AlignLeft
+                                elide: Text.ElideRight
+                                HoverHandler {
+                                    id: lyricRuleSuffixHoverHandler
+                                }
+                                ToolTip.visible: lyricRuleSuffixHoverHandler.hovered && contentWidth > width
+                                ToolTip.text: display
                             }
 
                             TableView.editDelegate: TextField {
@@ -756,7 +842,7 @@ ApplicationWindow {
                             implicitWidth: 60
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
                             required property bool editing
 
@@ -764,6 +850,17 @@ ApplicationWindow {
                                 text: display
                                 anchors.centerIn: parent
                                 visible: !editing
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.leftMargin: Theme.spacingXS
+                                anchors.rightMargin: Theme.spacingXS
+                                horizontalAlignment: Text.AlignLeft
+                                elide: Text.ElideRight
+                                HoverHandler {
+                                    id: lyricRuleReplacementHoverHandler
+                                }
+                                ToolTip.visible: lyricRuleReplacementHoverHandler.hovered && contentWidth > width
+                                ToolTip.text: display
                             }
 
                             TableView.editDelegate: TextField {
@@ -787,7 +884,7 @@ ApplicationWindow {
                             implicitWidth: 70
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
                             required property bool editing
 
@@ -817,15 +914,16 @@ ApplicationWindow {
                             implicitWidth: 80
                             implicitHeight: 32
                             border.width: 1
-                            border.color: window.Material.backgroundDimColor
+                            border.color: Theme.colorBorder
                             color: window.Material.dialogColor
 
                             RowLayout {
                                 anchors.centerIn: parent
                                 IconButton {
                                     icon_name: "mdi7.arrow-up-circle-outline"
-                                    diameter: 20
-                                    new_padding: 4
+                                    accessibleName: qsTr("Move Rule Up")
+                                    diameter: 32
+                                    new_padding: 6
                                     visible: row > 0
                                     onClicked: {
                                         lyricReplacementRulesTableView.model.swap(row - 1, row);
@@ -833,17 +931,22 @@ ApplicationWindow {
                                 }
                                 IconButton {
                                     icon_name: "mdi7.arrow-down-circle-outline"
-                                    diameter: 20
-                                    new_padding: 4
+                                    accessibleName: qsTr("Move Rule Down")
+                                    diameter: 32
+                                    new_padding: 6
                                     visible: row < lyricReplacementRulesTableView.model.rowCount() - 1
                                     onClicked: {
                                         lyricReplacementRulesTableView.model.swap(row, row + 1);
                                     }
                                 }
                                 IconButton {
+                                    id: deleteRuleButton
                                     icon_name: "mdi7.minus"
-                                    diameter: 20
-                                    new_padding: 4
+                                    diameter: 32
+                                    new_padding: 6
+                                    accessibleName: qsTr("Delete rule")
+                                    ToolTip.visible: deleteRuleButton.hovered
+                                    ToolTip.text: qsTr("Delete rule")
                                     onClicked: {
                                         lyricReplacementRulesTableView.model.delete(row);
                                     }
@@ -859,7 +962,7 @@ ApplicationWindow {
     Component {
         id: updatesSettingsPage
         ColumnLayout {
-            Layout.margins: 15
+            Layout.margins: Theme.spacingM
             RowLayout {
                 Layout.fillWidth: true
                 Row {
@@ -902,6 +1005,14 @@ ApplicationWindow {
                 }
             }
             Button {
+                Accessible.name: qsTr("Minimize")
+                Accessible.role: Accessible.Button
+                focusPolicy: Qt.StrongFocus
+                implicitHeight: Theme.minClickSize
+                implicitWidth: Theme.minClickSize
+                background: Rectangle {
+                    color: "transparent"
+                }
                 Material.roundedScale: Material.NotRounded
                 Material.background: pressed ? settingsDialog.Material.background : "transparent"
                 Material.elevation: 0
@@ -910,16 +1021,38 @@ ApplicationWindow {
                 rightPadding: 0
                 topInset: 0
                 bottomInset: 0
-                implicitWidth: 46
-                implicitHeight: 24
-                background.implicitWidth: implicitWidth
-                background.implicitHeight: implicitHeight
                 text: iconicFontLoader.icon("mdi7.window-minimize")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize
                 onClicked: settingsFramelessHelper.show_minimized(settingsDialog)
             }
             Button {
+                Accessible.name: qsTr("Maximize or Restore")
+                Accessible.role: Accessible.Button
+                focusPolicy: Qt.StrongFocus
+                implicitHeight: Theme.minClickSize
+                implicitWidth: Theme.minClickSize
+                background: Rectangle {
+                    color: "transparent"
+                }
+                Material.roundedScale: Material.NotRounded
+                Material.background: pressed ? settingsDialog.Material.background : "transparent"
+                Material.elevation: 0
+                Layout.fillHeight: true
+                text: iconicFontLoader.icon(settingsDialog.visibility === Window.Maximized ? "mdi7.window-restore" : "mdi7.window-maximize")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize
+                onClicked: settingsDialog.visibility === Window.Maximized ? settingsDialog.showNormal() : settingsDialog.showMaximized()
+            }
+            Button {
+                Accessible.name: qsTr("Close")
+                Accessible.role: Accessible.Button
+                focusPolicy: Qt.StrongFocus
+                implicitHeight: Theme.minClickSize
+                implicitWidth: Theme.minClickSize
+                background: Rectangle {
+                    color: "transparent"
+                }
                 Material.roundedScale: Material.NotRounded
                 Material.background: pressed ? Material.color(Material.Red, Material.Shade300) : (hovered ? Material.color(Material.Red, Material.Shade700) : "transparent")
                 Material.elevation: 0
@@ -929,10 +1062,6 @@ ApplicationWindow {
                 rightPadding: 0
                 topInset: 0
                 bottomInset: 0
-                implicitWidth: 46
-                implicitHeight: 24
-                background.implicitWidth: implicitWidth
-                background.implicitHeight: implicitHeight
                 text: hovered ? "<font color='white'>" + iconicFontLoader.icon("mdi7.close") + "</font>" : iconicFontLoader.icon("mdi7.close")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize
@@ -942,7 +1071,7 @@ ApplicationWindow {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 1
-            color: "#ccc"
+            color: Theme.colorBorder
         }
         RowLayout {
             TabBar {
@@ -978,7 +1107,7 @@ ApplicationWindow {
                         }
                     }
                 }
-                spacing: 5
+                spacing: Theme.spacingXS
 
                 TabButton {
                     id: basicSettingsBtn
@@ -1082,7 +1211,7 @@ ApplicationWindow {
             Rectangle {
                 Layout.fillHeight: true
                 Layout.preferredWidth: 1
-                color: "lightgrey"
+                color: Theme.colorBorder
             }
             StackLayout {
                 id: settingsStack

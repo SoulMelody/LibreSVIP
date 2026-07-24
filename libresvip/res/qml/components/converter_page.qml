@@ -14,6 +14,11 @@ Page {
     property alias outputFormatComboBox: outputFormat
     property alias swapInputOutputButton: swapInputOutput
 
+    // Breakpoint selector: switch to stack-based small layout when the window
+    // is too narrow to host the split-based layout, or when the user has
+    // scaled the font large enough that the split panes would overflow.
+    readonly property bool compactLayout: window.width < 1000 || (selectFormatCard.implicitWidth + advancedSettingsArea.implicitWidth + 48) > window.width || Qt.application.font.pixelSize > 16
+
     function optionFieldComponent(fieldType) {
         switch (fieldType) {
         case "bool":
@@ -47,314 +52,8 @@ Page {
         return String(field.value);
     }
 
-    Component {
-        id: colorPickerItem
-        RowLayout {
-            property var field: ({})
-            property int index: -1
-            property var list_model: null
-            onFieldChanged: {
-                colorField.text = (field && field.value) || "";
-            }
-            height: 40
-            Layout.fillWidth: true
-            Label {
-                text: qsTr((field && field.title) || "") + "："
-                Layout.alignment: Qt.AlignVCenter
-                font.pixelSize: 12
-                fontSizeMode: Text.Fit
-                wrapMode: Text.Wrap
-                Layout.preferredWidth: 150
-            }
-            TextField {
-                id: colorField
-                Layout.fillWidth: true
-                text: (field && field.value) || ""
-                onEditingFinished: {
-                    updateOptionField(list_model, index, {
-                        value: text
-                    });
-                }
-            }
-            IconButton {
-                icon_name: "mdi7.eyedropper-variant"
-                diameter: 30
-                new_padding: 6
-                onClicked: {
-                    dialogs.colorDialog.bind_color(colorField.text, color => {
-                        colorField.text = color;
-                        updateOptionField(list_model, index, {
-                            value: colorField.text
-                        });
-                    });
-                }
-            }
-            IconButton {
-                icon_name: "mdi7.help-circle-outline"
-                diameter: 30
-                new_padding: 6
-                cursor_shape: Qt.WhatsThisCursor
-                visible: !!(field && field.description)
-                ToolTip {
-                    y: parent.y - parent.height
-                    visible: parent.hovered
-                    text: qsTr((field && field.description) || "")
-                }
-            }
-        }
-    }
-
-    Component {
-        id: switchItem
-        RowLayout {
-            property var field: ({})
-            property int index: -1
-            property var list_model: null
-            height: 40
-            Layout.fillWidth: true
-            Label {
-                text: qsTr((field && field.title) || "") + "："
-                Layout.alignment: Qt.AlignVCenter
-                font.pixelSize: 12
-                fontSizeMode: Text.Fit
-                wrapMode: Text.Wrap
-                Layout.preferredWidth: 150
-            }
-            Switch {
-                id: switchControl
-                checked: !!(field && field.value)
-                onCheckedChanged: {
-                    if (!list_model || index < 0) {
-                        return;
-                    }
-                    let new_field = getOptionField(list_model, index);
-                    if (field && new_field && field.title === new_field.title) {
-                        updateOptionField(list_model, index, {
-                            value: this.checked
-                        });
-                    }
-                }
-            }
-            Rectangle {
-                Layout.fillWidth: true
-                height: 1
-                color: "transparent"
-            }
-            IconButton {
-                icon_name: "mdi7.help-circle-outline"
-                diameter: 30
-                new_padding: 6
-                cursor_shape: Qt.WhatsThisCursor
-                visible: !!(field && field.description)
-                ToolTip {
-                    y: parent.y - parent.height
-                    visible: parent.hovered
-                    text: qsTr((field && field.description) || "")
-                }
-            }
-        }
-    }
-
-    Component {
-        id: comboBoxItem
-        RowLayout {
-            id: comboBoxRow
-            property var field: ({})
-            property int index: -1
-            property var list_model: null
-            onFieldChanged: comboBox.syncCurrentIndex()
-            height: 40
-            Layout.fillWidth: true
-            Label {
-                text: qsTr((field && field.title) || "") + "："
-                Layout.alignment: Qt.AlignVCenter
-                font.pixelSize: 12
-                fontSizeMode: Text.Fit
-                wrapMode: Text.Wrap
-                Layout.preferredWidth: 150
-            }
-            ComboBox {
-                id: comboBox
-                Layout.fillWidth: true
-                textRole: "text"
-                valueRole: "value"
-                displayText: ""
-                function choiceAt(choiceIndex) {
-                    var choices = [];
-                    if (field && field.choices) {
-                        choices = field.choices;
-                    }
-                    if (choiceIndex < 0 || choiceIndex >= choices.length) {
-                        return null;
-                    }
-                    return choices[choiceIndex];
-                }
-                function choiceValue(choice) {
-                    if (choice) {
-                        return choice["value"];
-                    }
-                    return null;
-                }
-                function choiceText(choice) {
-                    if (choice && choice["text"]) {
-                        return choice["text"];
-                    }
-                    return "";
-                }
-                function indexOfChoiceValue(targetValue) {
-                    var choices = [];
-                    if (field && field.choices) {
-                        choices = field.choices;
-                    }
-                    for (var i = 0; i < choices.length; i++) {
-                        if (choiceValue(choices[i]) == targetValue) {
-                            return i;
-                        }
-                    }
-                    return -1;
-                }
-                function syncDisplayText() {
-                    displayText = qsTr(choiceText(choiceAt(currentIndex)));
-                }
-                function syncCurrentIndex() {
-                    var fieldValue = null;
-                    if (field) {
-                        fieldValue = field.value;
-                    }
-                    var nextIndex = indexOfChoiceValue(fieldValue);
-                    if (currentIndex != nextIndex) {
-                        currentIndex = nextIndex;
-                    }
-                    syncDisplayText();
-                }
-                onCurrentIndexChanged: syncDisplayText()
-                onModelChanged: syncCurrentIndex()
-                Component.onCompleted: syncCurrentIndex()
-                delegate: MenuItem {
-                    width: ListView.view.width
-                    contentItem: Label {
-                        text: comboBox.textRole ? qsTr((comboBox.textRole in modelData) ? modelData[comboBox.textRole] : model[comboBox.textRole]) : qsTr(modelData)
-                        color: comboBox.highlightedIndex === index ? Material.accentColor : window.Material.foreground
-                        ToolTip.visible: hovered && modelData["desc"]
-                        ToolTip.text: qsTr(modelData["desc"] || "")
-                        ToolTip.delay: 500
-                    }
-                    highlighted: comboBox.highlightedIndex === index
-                    hoverEnabled: comboBox.hoverEnabled
-                }
-
-                popup: Popup {
-                    y: comboBox.height
-                    width: comboBox.width
-                    implicitHeight: Math.min((((field && field.choices) || []).length) * 35, 400)
-                    padding: 1
-
-                    contentItem: ListView {
-                        clip: true
-                        implicitHeight: contentHeight
-                        model: comboBox.popup.visible ? comboBox.delegateModel : null
-                        currentIndex: comboBox.highlightedIndex
-
-                        ScrollIndicator.vertical: ScrollIndicator {}
-                    }
-                }
-
-                onActivated: selected => {
-                    if (!list_model || index < 0) {
-                        return;
-                    }
-                    let choice = choiceAt(selected);
-                    updateOptionField(list_model, index, {
-                        value: choiceValue(choice)
-                    });
-                }
-                model: (field && field.choices) || []
-            }
-            IconButton {
-                icon_name: "mdi7.help-circle-outline"
-                diameter: 30
-                new_padding: 6
-                cursor_shape: Qt.WhatsThisCursor
-                visible: !!(field && field.description)
-                ToolTip {
-                    y: parent.y - parent.height
-                    visible: parent.hovered
-                    text: qsTr((field && field.description) || "")
-                }
-            }
-        }
-    }
-
-    Component {
-        id: textFieldItem
-        RowLayout {
-            property var field: ({})
-            property int index: -1
-            property var list_model: null
-            height: 40
-            Layout.fillWidth: true
-            Label {
-                Layout.alignment: Qt.AlignVCenter
-                text: qsTr((field && field.title) || "") + "："
-                font.pixelSize: 12
-                fontSizeMode: Text.Fit
-                wrapMode: Text.Wrap
-                Layout.preferredWidth: 150
-            }
-            TextField {
-                id: textField
-                Layout.fillWidth: true
-                text: fieldText(field)
-                validator: {
-                    switch (field ? field.type : "") {
-                    case "int":
-                        return Qt.createQmlObject('import QtQuick; IntValidator {}', textField);
-                    case "float":
-                        return Qt.createQmlObject('import QtQuick; DoubleValidator {}', textField);
-                    default:
-                        return null;
-                    }
-                }
-                onEditingFinished: {
-                    if (!list_model || index < 0) {
-                        return;
-                    }
-                    updateOptionField(list_model, index, {
-                        value: text
-                    });
-                }
-            }
-            IconButton {
-                icon_name: "mdi7.help-circle-outline"
-                diameter: 30
-                new_padding: 6
-                cursor_shape: Qt.WhatsThisCursor
-                visible: !!(field && field.description)
-                ToolTip {
-                    y: parent.y - parent.height
-                    visible: parent.hovered
-                    text: qsTr((field && field.description) || "")
-                }
-            }
-        }
-    }
-
-    Component {
-        id: separatorItem
-        RowLayout {
-            Layout.fillWidth: true
-            Label {
-                text: iconicFontLoader.icon("mdi7.tune-variant")
-                font.family: "Material Design Icons"
-                font.pixelSize: 12
-            }
-            Rectangle {
-                Layout.fillWidth: true
-                color: Material.color(Material.Grey, Material.Shade300)
-                height: 1
-            }
-        }
-    }
+    property bool inputSectionExpanded: true
+    property bool outputSectionExpanded: true
 
     ColumnLayout {
         id: selectFormatCard
@@ -426,6 +125,7 @@ Page {
                 }
                 IconButton {
                     icon_name: "mdi7.information-outline"
+                    accessibleName: qsTr("View Detail Information")
                     diameter: 38
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("View Detail Information")
@@ -438,7 +138,7 @@ Page {
                         height: width
                         radius: width / 2
                         anchors.centerIn: parent
-                        color: Material.color(Material.Grey, Material.Shade400)
+                        color: Theme.colorMutedText
                         SequentialAnimation {
                             id: inputInfoPowerAnimation
                             running: false
@@ -482,31 +182,10 @@ Page {
                             }
                         }
                     }
-                    Popup {
+                    FormatInfoPopup {
                         id: inputFormatInfo
-                        y: 45
+                        format_type: "input_format"
                         x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
-                        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-                        contentItem: PluginInfo {
-                            info: ({
-                                    "name": "",
-                                    "author": "",
-                                    "website": "",
-                                    "description": "",
-                                    "version": "",
-                                    "file_format": "",
-                                    "suffix": "(*.*)",
-                                    "icon_base64": ""
-                                })
-                            Component.onCompleted: {
-                                taskManager.input_format_changed.connect(input_format => {
-                                    info = taskManager.plugin_info("input_format");
-                                });
-                            }
-                        }
-                        onOpened: {
-                            contentItem.info = taskManager.plugin_info("input_format");
-                        }
                     }
                 }
             }
@@ -526,6 +205,7 @@ Page {
                 IconButton {
                     id: swapInputOutput
                     icon_name: "mdi7.swap-vertical"
+                    accessibleName: qsTr("Swap Input and Output")
                     diameter: 38
                     enabled: inputFormat.enabled && outputFormat.enabled
                     ToolTip.visible: hovered
@@ -575,6 +255,7 @@ Page {
                 }
                 IconButton {
                     icon_name: "mdi7.information-outline"
+                    accessibleName: qsTr("View Detail Information")
                     diameter: 38
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("View Detail Information")
@@ -587,7 +268,7 @@ Page {
                         height: width
                         radius: width / 2
                         anchors.centerIn: parent
-                        color: Material.color(Material.Grey, Material.Shade400)
+                        color: Theme.colorMutedText
                         SequentialAnimation {
                             id: outputInfoPowerAnimation
                             running: false
@@ -631,31 +312,10 @@ Page {
                             }
                         }
                     }
-                    Popup {
+                    FormatInfoPopup {
                         id: outputFormatInfo
-                        y: 45
+                        format_type: "output_format"
                         x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
-                        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-                        contentItem: PluginInfo {
-                            info: ({
-                                    "name": "",
-                                    "author": "",
-                                    "website": "",
-                                    "description": "",
-                                    "version": "",
-                                    "file_format": "",
-                                    "suffix": "(*.*)",
-                                    "icon_base64": ""
-                                })
-                            Component.onCompleted: {
-                                taskManager.output_format_changed.connect(output_format => {
-                                    info = taskManager.plugin_info("output_format");
-                                });
-                            }
-                        }
-                        onOpened: {
-                            contentItem.info = taskManager.plugin_info("output_format");
-                        }
                     }
                 }
             }
@@ -686,31 +346,36 @@ Page {
             }
         }
         DashedRectangle {
+            id: emptyState
             anchors.fill: parent
-            anchors.margins: 12
+            anchors.margins: Theme.spacingS
             radius: 8
             visible: taskManager.count == 0
+            strokeColor: taskListArea.containsDrag ? Material.accentColor : Theme.colorBorder
+            strokeWidth: taskListArea.containsDrag ? 3 : 1
+            fillColor: taskListArea.containsDrag ? Qt.rgba(Material.accentColor.r, Material.accentColor.g, Material.accentColor.b, 0.08) : "transparent"
+            Behavior on strokeColor {
+                ColorAnimation {
+                    duration: 150
+                }
+            }
+            Behavior on fillColor {
+                ColorAnimation {
+                    duration: 150
+                }
+            }
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onEntered: {
-                    if (taskManager.count == 0) {
-                        parent.opacity = 0.5;
-                    }
-                }
-                onExited: {
-                    if (parent.opacity < 1) {
-                        parent.opacity = 1;
-                    }
-                }
                 onClicked: {
-                    if (taskManager.count == 0) {
+                    if (taskManager.count == 0 && !taskListArea.containsDrag) {
                         actions.openFile.trigger();
                     }
                 }
                 Column {
                     anchors.centerIn: parent
+                    spacing: Theme.spacingXS
                     Label {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: iconicFontLoader.icon("mdi7.tray-arrow-up")
@@ -718,15 +383,28 @@ Page {
                         font.pixelSize: 100
                     }
                     Label {
-                        text: qsTr("Drag and drop files here")
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: taskListArea.containsDrag ? qsTr("Release to add files") : qsTr("Drag and drop files here")
                         font.pixelSize: 30
+                    }
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: qsTr("or")
+                        font.pixelSize: 14
+                        color: Theme.colorMutedText
+                    }
+                    Button {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: qsTr("Browse Files")
+                        icon.name: "mdi7.folder-open-outline"
+                        onClicked: actions.openFile.trigger()
                     }
                 }
             }
         }
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 15
+            anchors.margins: Theme.spacingM
             visible: taskManager.count > 0
             RowLayout {
                 Layout.fillWidth: true
@@ -742,6 +420,8 @@ Page {
                     TabButton {
                         width: 50
                         text: iconicFontLoader.icon("mdi7.file-arrow-left-right-outline")
+                        Accessible.name: qsTr("Direct Mode")
+                        Accessible.role: Accessible.Button
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
                         enabled: !taskManager.busy
@@ -755,6 +435,8 @@ Page {
                     TabButton {
                         width: 50
                         text: iconicFontLoader.icon("mdi7.set-merge")
+                        Accessible.name: qsTr("Singing Track Merging Mode")
+                        Accessible.role: Accessible.Button
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
                         enabled: !taskManager.busy
@@ -768,6 +450,8 @@ Page {
                     TabButton {
                         width: 50
                         text: iconicFontLoader.icon("mdi7.set-split")
+                        Accessible.name: qsTr("Singing Track Grouping Mode")
+                        Accessible.role: Accessible.Button
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
                         enabled: !taskManager.busy
@@ -794,7 +478,7 @@ Page {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: "lightgrey"
+                color: Theme.colorBorder
             }
             ScrollView {
                 Layout.fillHeight: true
@@ -827,6 +511,8 @@ Page {
                     }
                     RoundButton {
                         id: toggleTaskToolbarButton
+                        Accessible.name: qsTr("Expand or Collapse Task Toolbar")
+                        Accessible.role: Accessible.Button
                         states: [
                             State {
                                 name: "expanded"
@@ -894,6 +580,8 @@ Page {
                         Row {
                             RoundButton {
                                 id: addTaskButton
+                                Accessible.name: qsTr("Continue Adding files")
+                                Accessible.role: Accessible.Button
                                 text: iconicFontLoader.icon("mdi7.plus")
                                 background: Rectangle {
                                     radius: this.height / 2
@@ -915,6 +603,8 @@ Page {
                             }
                             RoundButton {
                                 id: clearTaskButton
+                                Accessible.name: qsTr("Clear Task List")
+                                Accessible.role: Accessible.Button
                                 text: iconicFontLoader.icon("mdi7.refresh")
                                 background: Rectangle {
                                     radius: this.height / 2
@@ -939,6 +629,8 @@ Page {
                             }
                             RoundButton {
                                 id: resetExtensionButton
+                                Accessible.name: qsTr("Reset Extensions")
+                                Accessible.role: Accessible.Button
                                 text: iconicFontLoader.icon("mdi7.form-textbox")
                                 background: Rectangle {
                                     radius: this.height / 2
@@ -962,6 +654,8 @@ Page {
                             }
                             RoundButton {
                                 id: removeOtherExtensionButton
+                                Accessible.name: qsTr("Remove Other Extensions")
+                                Accessible.role: Accessible.Button
                                 text: iconicFontLoader.icon("mdi7.filter-minus-outline")
                                 background: Rectangle {
                                     radius: this.height / 2
@@ -1023,7 +717,7 @@ Page {
             anchors.fill: parent
             color: "transparent"
             border.width: 1
-            border.color: Material.color(Material.Grey, Material.Shade300)
+            border.color: Theme.colorBorder
         }
     }
 
@@ -1040,152 +734,38 @@ Page {
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.minimumWidth: advancedSettingsArea.availableWidth
-                Row {
-                    height: 30
+                ExpandableSection {
+                    id: inputSection
+                    Layout.fillWidth: true
                     visible: inputFieldsRepeater.count > 0
-                    Layout.fillWidth: true
-                    RoundButton {
-                        Layout.fillHeight: true
-                        radius: this.height / 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        contentItem: Label {
-                            text: iconicFontLoader.icon("mdi7.chevron-right")
-                            font.family: "Material Design Icons"
-                            font.pixelSize: 16
-                            rotation: inputContainer.expanded ? 45 : 0
-                            Behavior on rotation {
-                                RotationAnimation {
-                                    duration: 300
-                                    easing.type: Easing.InOutQuad
-                                }
+                    title: qsTr("Input Options")
+                    subtitle: qsTr("[Import as ") + qsTr(input_format_name) + "]"
+                    expanded: inputSectionExpanded
+                    onExpandedChanged: inputSectionExpanded = expanded
+                    property string input_format_name: ""
+                    Component.onCompleted: {
+                        let plugin_info = taskManager.plugin_info("input_format");
+                        input_format_name = plugin_info.file_format;
+                        taskManager.input_format_changed.connect(input_format => {
+                            let info = taskManager.plugin_info("input_format");
+                            input_format_name = info.file_format;
+                        });
+                    }
+                    Repeater {
+                        id: inputFieldsRepeater
+                        model: taskManager.input_fields
+                        delegate: FieldDelegate {
+                            Layout.fillWidth: true
+                            required property int index
+                            required property var modelData
+                            field: modelData
+                            showSeparator: index < inputFieldsRepeater.count - 1
+                            onValueChanged: value => {
+                                updateOptionField(inputFieldsRepeater.model, index, {
+                                    value: value
+                                });
                             }
                         }
-                        background: Rectangle {
-                            color: "transparent"
-                        }
-                        onClicked: {
-                            inputContainer.expanded = !inputContainer.expanded;
-                        }
-                    }
-                    Label {
-                        text: qsTr("Input Options")
-                        font.pixelSize: 22
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    Rectangle {
-                        width: 20
-                        height: 1
-                        color: "transparent"
-                    }
-                    Label {
-                        property string input_format_name: ""
-                        text: qsTr("[Import as ") + qsTr(input_format_name) + "]"
-                        color: Material.color(Material.Grey)
-                        font.pixelSize: 20
-                        anchors.verticalCenter: parent.verticalCenter
-                        Component.onCompleted: {
-                            taskManager.input_format_changed.connect(input_format => {
-                                let plugin_info = taskManager.plugin_info("input_format");
-                                input_format_name = plugin_info.file_format;
-                            });
-                        }
-                    }
-                }
-                RowLayout {
-                    Layout.fillWidth: true
-                    Rectangle {
-                        width: 40
-                    }
-                    ColumnLayout {
-                        id: inputContainer
-                        property bool expanded: true
-                        Layout.fillWidth: true
-                        states: [
-                            State {
-                                name: "expanded"
-                                PropertyChanges {
-                                    target: inputContainer
-                                    Layout.maximumHeight: inputContainer.implicitHeight
-                                    opacity: 1
-                                    visible: true
-                                }
-                            },
-                            State {
-                                name: "collapsed"
-                                PropertyChanges {
-                                    target: inputContainer
-                                    Layout.maximumHeight: 0
-                                    opacity: 0
-                                    visible: false
-                                }
-                            }
-                        ]
-                        state: expanded ? "expanded" : "collapsed"
-
-                        transitions: [
-                            Transition {
-                                from: "expanded"
-                                to: "collapsed"
-                                SequentialAnimation {
-                                    PropertyAnimation {
-                                        target: inputContainer
-                                        properties: "opacity,Layout.maximumHeight"
-                                        duration: 300
-                                        easing.type: Easing.InOutQuad
-                                    }
-                                    PropertyAction {
-                                        target: inputContainer
-                                        property: "visible"
-                                    }
-                                }
-                            },
-                            Transition {
-                                from: "collapsed"
-                                to: "expanded"
-                                SequentialAnimation {
-                                    PropertyAction {
-                                        target: inputContainer
-                                        property: "visible"
-                                    }
-                                    PropertyAnimation {
-                                        target: inputContainer
-                                        properties: "opacity,Layout.maximumHeight"
-                                        duration: 300
-                                        easing.type: Easing.InOutQuad
-                                    }
-                                }
-                            }
-                        ]
-                        Repeater {
-                            id: inputFieldsRepeater
-                            model: taskManager.input_fields
-                            delegate: ColumnLayout {
-                                required property int index
-                                required property var modelData
-                                Layout.fillWidth: true
-
-                                Loader {
-                                    Layout.fillWidth: true
-                                    active: !!modelData
-                                    sourceComponent: modelData ? optionFieldComponent(modelData.type) : null
-                                    onLoaded: {
-                                        if (item !== null) {
-                                            item.field = modelData;
-                                            item.index = index;
-                                            item.list_model = inputFieldsRepeater.model;
-                                        }
-                                    }
-                                }
-                                Loader {
-                                    Layout.fillWidth: true
-                                    active: modelData && index < inputFieldsRepeater.count - 1
-                                    sourceComponent: separatorItem
-                                }
-                            }
-                        }
-                    }
-                    Rectangle {
-                        width: 20
                     }
                 }
                 Repeater {
@@ -1226,6 +806,7 @@ Page {
                             }
                             IconButton {
                                 icon_name: "mdi7.help-circle-outline"
+                                accessibleName: qsTr("Help")
                                 anchors.verticalCenter: parent.verticalCenter
                                 diameter: 30
                                 new_padding: 7
@@ -1303,27 +884,16 @@ Page {
                                 Repeater {
                                     id: middlewareFieldsRepeater
                                     model: taskManager.get_middleware_fields(modelData.identifier)
-                                    delegate: ColumnLayout {
+                                    delegate: FieldDelegate {
+                                        Layout.fillWidth: true
                                         required property int index
                                         required property var modelData
-                                        Layout.fillWidth: true
-
-                                        Loader {
-                                            Layout.fillWidth: true
-                                            active: !!modelData
-                                            sourceComponent: modelData ? optionFieldComponent(modelData.type) : null
-                                            onLoaded: {
-                                                if (item !== null) {
-                                                    item.field = modelData;
-                                                    item.index = index;
-                                                    item.list_model = middlewareFieldsRepeater.model;
-                                                }
-                                            }
-                                        }
-                                        Loader {
-                                            Layout.fillWidth: true
-                                            active: modelData && index < middlewareFieldsRepeater.count - 1
-                                            sourceComponent: separatorItem
+                                        field: modelData
+                                        showSeparator: index < middlewareFieldsRepeater.count - 1
+                                        onValueChanged: value => {
+                                            updateOptionField(middlewareFieldsRepeater.model, index, {
+                                                value: value
+                                            });
                                         }
                                     }
                                 }
@@ -1334,152 +904,38 @@ Page {
                         }
                     }
                 }
-                Row {
-                    height: 30
+                ExpandableSection {
+                    id: outputSection
+                    Layout.fillWidth: true
                     visible: outputFieldsRepeater.count > 0
-                    Layout.fillWidth: true
-                    RoundButton {
-                        Layout.fillHeight: true
-                        radius: this.height / 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        contentItem: Label {
-                            text: iconicFontLoader.icon("mdi7.chevron-right")
-                            font.family: "Material Design Icons"
-                            font.pixelSize: 16
-                            rotation: outputContainer.expanded ? 45 : 0
-                            Behavior on rotation {
-                                RotationAnimation {
-                                    duration: 300
-                                    easing.type: Easing.InOutQuad
-                                }
+                    title: qsTr("Output Options")
+                    subtitle: qsTr("[Export to ") + qsTr(output_format_name) + "]"
+                    expanded: outputSectionExpanded
+                    onExpandedChanged: outputSectionExpanded = expanded
+                    property string output_format_name: ""
+                    Component.onCompleted: {
+                        let plugin_info = taskManager.plugin_info("output_format");
+                        output_format_name = plugin_info.file_format;
+                        taskManager.output_format_changed.connect(output_format => {
+                            let info = taskManager.plugin_info("output_format");
+                            output_format_name = info.file_format;
+                        });
+                    }
+                    Repeater {
+                        id: outputFieldsRepeater
+                        model: taskManager.output_fields
+                        delegate: FieldDelegate {
+                            Layout.fillWidth: true
+                            required property int index
+                            required property var modelData
+                            field: modelData
+                            showSeparator: index < outputFieldsRepeater.count - 1
+                            onValueChanged: value => {
+                                updateOptionField(outputFieldsRepeater.model, index, {
+                                    value: value
+                                });
                             }
                         }
-                        background: Rectangle {
-                            color: "transparent"
-                        }
-                        onClicked: {
-                            outputContainer.expanded = !outputContainer.expanded;
-                        }
-                    }
-                    Label {
-                        text: qsTr("Output Options")
-                        font.pixelSize: 22
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    Rectangle {
-                        width: 20
-                        height: 1
-                        color: "transparent"
-                    }
-                    Label {
-                        property string output_format_name: ""
-                        text: qsTr("[Export to ") + qsTr(output_format_name) + "]"
-                        font.pixelSize: 20
-                        color: Material.color(Material.Grey)
-                        anchors.verticalCenter: parent.verticalCenter
-                        Component.onCompleted: {
-                            taskManager.output_format_changed.connect(output_format => {
-                                let plugin_info = taskManager.plugin_info("output_format");
-                                output_format_name = plugin_info.file_format;
-                            });
-                        }
-                    }
-                }
-                RowLayout {
-                    Layout.fillWidth: true
-                    Rectangle {
-                        width: 40
-                    }
-                    ColumnLayout {
-                        id: outputContainer
-                        property bool expanded: true
-                        Layout.fillWidth: true
-                        states: [
-                            State {
-                                name: "expanded"
-                                PropertyChanges {
-                                    target: outputContainer
-                                    Layout.maximumHeight: outputContainer.implicitHeight
-                                    opacity: 1
-                                    visible: true
-                                }
-                            },
-                            State {
-                                name: "collapsed"
-                                PropertyChanges {
-                                    target: outputContainer
-                                    Layout.maximumHeight: 0
-                                    opacity: 0
-                                    visible: false
-                                }
-                            }
-                        ]
-                        state: expanded ? "expanded" : "collapsed"
-
-                        transitions: [
-                            Transition {
-                                from: "expanded"
-                                to: "collapsed"
-                                SequentialAnimation {
-                                    PropertyAnimation {
-                                        target: outputContainer
-                                        properties: "opacity,Layout.maximumHeight"
-                                        duration: 300
-                                        easing.type: Easing.InOutQuad
-                                    }
-                                    PropertyAction {
-                                        target: outputContainer
-                                        property: "visible"
-                                    }
-                                }
-                            },
-                            Transition {
-                                from: "collapsed"
-                                to: "expanded"
-                                SequentialAnimation {
-                                    PropertyAction {
-                                        target: outputContainer
-                                        property: "visible"
-                                    }
-                                    PropertyAnimation {
-                                        target: outputContainer
-                                        properties: "opacity,Layout.maximumHeight"
-                                        duration: 300
-                                        easing.type: Easing.InOutQuad
-                                    }
-                                }
-                            }
-                        ]
-                        Repeater {
-                            id: outputFieldsRepeater
-                            model: taskManager.output_fields
-                            delegate: ColumnLayout {
-                                required property int index
-                                required property var modelData
-                                Layout.fillWidth: true
-
-                                Loader {
-                                    Layout.fillWidth: true
-                                    active: !!modelData
-                                    sourceComponent: modelData ? optionFieldComponent(modelData.type) : null
-                                    onLoaded: {
-                                        if (item !== null) {
-                                            item.field = modelData;
-                                            item.index = index;
-                                            item.list_model = outputFieldsRepeater.model;
-                                        }
-                                    }
-                                }
-                                Loader {
-                                    Layout.fillWidth: true
-                                    active: modelData && index < outputFieldsRepeater.count - 1
-                                    sourceComponent: separatorItem
-                                }
-                            }
-                        }
-                    }
-                    Rectangle {
-                        width: 20
                     }
                 }
             }
@@ -1509,7 +965,7 @@ Page {
             Item {
                 Layout.fillHeight: true
                 Layout.minimumWidth: 150
-                Layout.margins: 15
+                Layout.margins: Theme.spacingM
                 RoundButton {
                     id: startConversionBtn
                     property color base_color: Material.color(Material.Indigo)
@@ -1577,6 +1033,7 @@ Page {
                 RowLayout {
                     IconButton {
                         icon_name: "mdi7.folder"
+                        accessibleName: qsTr("Choose Output Folder")
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Choose Output Folder")
                         onClicked: {
@@ -1603,42 +1060,9 @@ Page {
                         text: qsTr("Deal with Conflicts")
                         elide: Text.ElideRight
                     }
-                    ComboBox {
+                    ConflictPolicyComboBox {
                         id: conflictPolicyCombo
-                        textRole: "text"
-                        valueRole: "value"
-                        model: [
-                            {
-                                value: "Overwrite",
-                                text: qsTr("Overwrite")
-                            },
-                            {
-                                value: "Skip",
-                                text: qsTr("Skip")
-                            },
-                            {
-                                value: "Prompt",
-                                text: qsTr("Prompt")
-                            }
-                        ]
-                        onActivated: index => {
-                            configItems.conflict_policy = currentValue;
-                        }
-                        Connections {
-                            target: configItems
-                            function onConflict_policy_changed(value) {
-                                switch (value) {
-                                case "Overwrite":
-                                case "Skip":
-                                case "Prompt":
-                                    conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value);
-                                    break;
-                                }
-                            }
-                        }
-                        Component.onCompleted: {
-                            currentIndex = indexOfValue(configItems.conflict_policy);
-                        }
+                        Layout.fillWidth: true
                     }
                 }
             }
@@ -1647,6 +1071,7 @@ Page {
 
     SplitView {
         id: largeView
+        visible: !compactLayout
         anchors.fill: parent
         orientation: Qt.Horizontal
 
@@ -1664,12 +1089,12 @@ Page {
                 background: Rectangle {
                     color: "transparent"
                     border.width: 1
-                    border.color: Material.color(Material.Grey, Material.Shade300)
+                    border.color: Theme.colorBorder
                 }
 
                 LayoutItemProxy {
                     anchors.fill: parent
-                    anchors.margins: 20
+                    anchors.margins: Theme.spacingL
                     width: 550
                     target: selectFormatCard
                 }
@@ -1704,14 +1129,14 @@ Page {
                 background: Rectangle {
                     color: "transparent"
                     border.width: 1
-                    border.color: Material.color(Material.Grey, Material.Shade300)
+                    border.color: Theme.colorBorder
                 }
 
                 LayoutItemProxy {
                     anchors.fill: parent
-                    anchors.topMargin: 20
-                    anchors.leftMargin: 20
-                    anchors.rightMargin: 10
+                    anchors.topMargin: Theme.spacingL
+                    anchors.leftMargin: Theme.spacingL
+                    anchors.rightMargin: Theme.spacingS
                     Layout.fillWidth: true
                     target: advancedSettingsArea
                 }
@@ -1724,11 +1149,11 @@ Page {
                 background: Rectangle {
                     color: "transparent"
                     border.width: 1
-                    border.color: Material.color(Material.Grey, Material.Shade300)
+                    border.color: Theme.colorBorder
                 }
                 LayoutItemProxy {
                     anchors.fill: parent
-                    anchors.margins: 20
+                    anchors.margins: Theme.spacingL
                     target: outputSettingsCard
                 }
             }
@@ -1737,30 +1162,30 @@ Page {
 
     ColumnLayout {
         id: smallView
-        visible: false
+        visible: compactLayout
         anchors.fill: parent
-        anchors.margins: 10
+        anchors.margins: Theme.spacingS
         Layout.fillWidth: true
         TabBar {
             Layout.fillWidth: true
             Layout.preferredHeight: 50
 
             TabButton {
-                text: qsTr("Select File Formats")
+                text: qsTr("In/Out")
                 onClicked: {
                     smallViewStack.currentIndex = 0;
                 }
             }
 
             TabButton {
-                text: qsTr("Advanced Settings")
+                text: qsTr("Settings")
                 onClicked: {
                     smallViewStack.currentIndex = 1;
                 }
             }
 
             TabButton {
-                text: qsTr("Output Settings")
+                text: qsTr("Tasks")
                 onClicked: {
                     smallViewStack.currentIndex = 2;
                 }
@@ -1769,7 +1194,7 @@ Page {
         Rectangle {
             Layout.fillWidth: true
             width: 1
-            color: "lightgrey"
+            color: Theme.colorBorder
         }
         StackLayout {
             id: smallViewStack
@@ -1790,12 +1215,12 @@ Page {
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
-                        border.color: Material.color(Material.Grey, Material.Shade300)
+                        border.color: Theme.colorBorder
                     }
 
                     LayoutItemProxy {
                         anchors.fill: parent
-                        anchors.margins: 20
+                        anchors.margins: Theme.spacingL
                         width: 550
                         target: selectFormatCard
                     }
@@ -1825,14 +1250,14 @@ Page {
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
-                        border.color: Material.color(Material.Grey, Material.Shade300)
+                        border.color: Theme.colorBorder
                     }
 
                     LayoutItemProxy {
                         anchors.fill: parent
-                        anchors.topMargin: 20
-                        anchors.leftMargin: 20
-                        anchors.rightMargin: 10
+                        anchors.topMargin: Theme.spacingL
+                        anchors.leftMargin: Theme.spacingL
+                        anchors.rightMargin: Theme.spacingS
                         Layout.fillWidth: true
                         target: advancedSettingsArea
                     }
@@ -1861,11 +1286,11 @@ Page {
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
-                        border.color: Material.color(Material.Grey, Material.Shade300)
+                        border.color: Theme.colorBorder
                     }
                     LayoutItemProxy {
                         anchors.fill: parent
-                        anchors.margins: 20
+                        anchors.margins: Theme.spacingL
                         target: outputSettingsCard
                     }
                 }
@@ -1880,19 +1305,6 @@ Page {
                         target: taskListArea
                     }
                 }
-            }
-        }
-    }
-
-    Connections {
-        target: window
-        function onWidthChanged() {
-            if (window.width < 1000) {
-                smallView.visible = true;
-                largeView.visible = false;
-            } else {
-                smallView.visible = false;
-                largeView.visible = true;
             }
         }
     }
