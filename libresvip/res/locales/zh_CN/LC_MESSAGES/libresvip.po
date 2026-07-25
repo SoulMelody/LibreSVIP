@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-05-26 00:51\n"
+"PO-Revision-Date: 2026-07-25 09:17\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 #, python-brace-format
@@ -172,29 +172,29 @@ msgstr "标题"
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/gui/__main__.py:66 ../libresvip/web/pages.py:1176
+#: ../libresvip/gui/__main__.py:62 ../libresvip/web/pages.py:1176
 msgid "LibreSVIP"
 msgstr ""
 
-#: ../libresvip/gui/__main__.py:71
+#: ../libresvip/gui/__main__.py:67
 msgid "Preparing plugins and interface"
 msgstr "加载插件和界面"
 
-#: ../libresvip/gui/__main__.py:98
-msgid "Loading translations..."
-msgstr "正在载入翻译……"
+#: ../libresvip/gui/__main__.py:100
+msgid "Opening window..."
+msgstr "打开窗口中……"
 
-#: ../libresvip/gui/__main__.py:123
+#: ../libresvip/gui/__main__.py:125
 msgid "Loading format providers..."
 msgstr "正在加载格式插件……"
 
-#: ../libresvip/gui/__main__.py:137
+#: ../libresvip/gui/__main__.py:138
 msgid "Building interface..."
 msgstr "正在创建界面……"
 
 #: ../libresvip/gui/__main__.py:152
-msgid "Opening window..."
-msgstr "打开窗口中……"
+msgid "Loading translations..."
+msgstr "正在载入翻译……"
 
 #: ../libresvip/gui/models/table_models.py:32
 msgid "Applicable File Format"
@@ -262,37 +262,37 @@ msgstr "{} 文件下载失败，请稍后再试。"
 msgid "Checking for Updates"
 msgstr "检查更新中"
 
-#: ../libresvip/gui/modules/notifier.py:109
+#: ../libresvip/gui/modules/notifier.py:108
 msgid "Open in Browser"
 msgstr "在浏览器中打开"
 
-#: ../libresvip/gui/modules/notifier.py:181
+#: ../libresvip/gui/modules/notifier.py:123
 msgid "Download"
 msgstr "下载"
 
-#: ../libresvip/gui/modules/notifier.py:191
+#: ../libresvip/gui/modules/notifier.py:133
 msgid "Update Available"
 msgstr "更新可用"
 
-#: ../libresvip/gui/modules/notifier.py:192
+#: ../libresvip/gui/modules/notifier.py:134
 #, python-brace-format
 msgid "New version {} is available."
 msgstr "新版本{}已经可用。"
 
-#: ../libresvip/gui/modules/notifier.py:197
+#: ../libresvip/gui/modules/notifier.py:139
 msgid "No Updates"
 msgstr "未找到更新"
 
-#: ../libresvip/gui/modules/notifier.py:198
+#: ../libresvip/gui/modules/notifier.py:140
 #, python-brace-format
 msgid "You are using the latest version {}."
 msgstr "你正在使用最新版本 {}。"
 
-#: ../libresvip/gui/modules/notifier.py:209
+#: ../libresvip/gui/modules/notifier.py:151
 msgid "Error occurred while Checking for Updates"
 msgstr "检查更新时出现错误！"
 
-#: ../libresvip/gui/modules/notifier.py:210
+#: ../libresvip/gui/modules/notifier.py:152
 msgid "Failed to check for updates. Please try again later."
 msgstr "检查更新失败，请稍后再试。"
 
@@ -645,7 +645,7 @@ msgstr "解压音频文件"
 msgid "Extract audio from project file for later use if the path does not exist (this option has the side effect of writing additional files)"
 msgstr "若音频文件路径不存在，则从工程文件中解压以供后续使用 (此选项有写入额外文件的副作用)"
 
-#: ../libresvip/model/pitch_simulator.py:58
+#: ../libresvip/model/pitch_simulator.py:75
 #, python-brace-format
 msgid "Notes overlapped near bar {}"
 msgstr "在第{}小节处存在重叠音符"
@@ -680,8 +680,10 @@ msgctxt "converter_page"
 msgid "Input Format: "
 msgstr "导入工程格式： "
 
-#: ../libresvip/res/locales/libresvip_gui.ts:351
-#: ../libresvip/res/locales/libresvip_gui.ts:500
+#: ../libresvip/res/locales/libresvip_gui.ts:128
+#: ../libresvip/res/locales/libresvip_gui.ts:131
+#: ../libresvip/res/locales/libresvip_gui.ts:258
+#: ../libresvip/res/locales/libresvip_gui.ts:261
 msgctxt "converter_page"
 msgid "View Detail Information"
 msgstr "查看详细信息"
@@ -711,17 +713,20 @@ msgctxt "converter_page"
 msgid "Set Output File Extension Automatically"
 msgstr "自动设置后缀名"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:668
+#: ../libresvip/res/locales/libresvip_gui.ts:423
+#: ../libresvip/res/locales/libresvip_gui.ts:428
 msgctxt "converter_page"
 msgid "Direct Mode"
 msgstr "常规模式"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:681
+#: ../libresvip/res/locales/libresvip_gui.ts:438
+#: ../libresvip/res/locales/libresvip_gui.ts:443
 msgctxt "converter_page"
 msgid "Singing Track Merging Mode"
 msgstr "演唱轨合并模式"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:694
+#: ../libresvip/res/locales/libresvip_gui.ts:453
+#: ../libresvip/res/locales/libresvip_gui.ts:458
 msgctxt "converter_page"
 msgid "Singing Track Grouping Mode"
 msgstr "演唱轨分组模式"
@@ -770,7 +775,7 @@ msgstr "清空所有导入"
 #: ../libresvip/res/locales/libresvip_gui.ts:871
 msgctxt "converter_page"
 msgid "Reset Default Extension"
-msgstr "恢复默认命名"
+msgstr "恢复默认扩展名"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:894
 msgctxt "converter_page"
@@ -843,6 +848,62 @@ msgctxt "converter_page"
 msgid "Prompt"
 msgstr "询问"
 
+#: ../libresvip/res/locales/libresvip_gui.ts:1152
+msgctxt "converter_page"
+msgid "In/Out"
+msgstr "输入/输出"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1159
+msgctxt "converter_page"
+msgid "Settings"
+msgstr "设置"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1166
+msgctxt "converter_page"
+msgid "Tasks"
+msgstr "任务"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:376
+msgctxt "converter_page"
+msgid "Release to add files"
+msgstr "松开以添加文件"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:394
+msgctxt "converter_page"
+msgid "or"
+msgstr "或"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:400
+msgctxt "converter_page"
+msgid "Browse Files"
+msgstr "浏览文件"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:53
+#: ../libresvip/res/locales/libresvip_gui.ts:791
+msgctxt "converter_page"
+msgid "Help"
+msgstr "帮助"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:218
+msgctxt "converter_page"
+msgid "Choose Color"
+msgstr "选择颜色"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:514
+msgctxt "converter_page"
+msgid "Expand or Collapse Task Toolbar"
+msgstr "展开或收起任务工具栏"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:632
+msgctxt "converter_page"
+msgid "Reset Extensions"
+msgstr "重置后缀"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:657
+msgctxt "converter_page"
+msgid "Remove Other Extensions"
+msgstr "重置其它后缀"
+
 #: ../libresvip/res/locales/libresvip_gui.ts:130
 #: ../libresvip/res/locales/libresvip_gui.ts:139
 msgctxt "dialogs"
@@ -909,6 +970,26 @@ msgctxt "dialogs"
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
 msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
 
+#: ../libresvip/res/locales/libresvip_gui.ts:31
+msgctxt "dialogs"
+msgid "Choose Folder"
+msgstr "选择文件夹"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:195
+msgctxt "dialogs"
+msgid "Close"
+msgstr "关闭"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:99
+msgctxt "dialogs"
+msgid "Delete Folder Preset"
+msgstr "删除文件夹预设"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:264
+msgctxt "dialogs"
+msgid "Add Folder Preset"
+msgstr "添加文件夹预设"
+
 #: ../libresvip/res/locales/libresvip_gui.ts:72
 msgctxt "plugin_info"
 msgid "Version"
@@ -918,6 +999,11 @@ msgstr "版本"
 msgctxt "plugin_info"
 msgid "Introduction"
 msgstr "简介"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:58
+msgctxt "plugin_info"
+msgid "Plugin Website"
+msgstr "插件网站"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:13
 msgctxt "settings_dialog"
@@ -1092,6 +1178,52 @@ msgctxt "settings_dialog"
 msgid "Updates Settings"
 msgstr "更新设置"
 
+#: ../libresvip/res/locales/libresvip_gui.ts:909
+msgctxt "settings_dialog"
+msgid "Move Rule Up"
+msgstr "上移规则"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:919
+msgctxt "settings_dialog"
+msgid "Move Rule Down"
+msgstr "下移规则"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:932
+#: ../libresvip/res/locales/libresvip_gui.ts:934
+msgctxt "settings_dialog"
+msgid "Delete rule"
+msgstr "删除规则"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1003
+msgctxt "settings_dialog"
+msgid "Minimize"
+msgstr "最小化"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1026
+msgctxt "settings_dialog"
+msgid "Maximize or Restore"
+msgstr "最大化或还原"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1043
+msgctxt "settings_dialog"
+msgid "Close"
+msgstr "关闭"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:407
+msgctxt "settings_dialog"
+msgid "Plugin Status Help"
+msgstr "插件状态帮助"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:573
+msgctxt "settings_dialog"
+msgid "Remove Current Preset"
+msgstr "删除当前预设"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:621
+msgctxt "settings_dialog"
+msgid "Lyric Rule Help"
+msgstr "歌词规则帮助"
+
 #: ../libresvip/res/locales/libresvip_gui.ts:104
 msgctxt "task_row"
 msgid "File successfully converted"
@@ -1118,7 +1250,8 @@ msgctxt "task_row"
 msgid "File skipped due to conflict"
 msgstr "已跳过"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:73
+#: ../libresvip/res/locales/libresvip_gui.ts:142
+#: ../libresvip/res/locales/libresvip_gui.ts:148
 msgctxt "task_row"
 msgid "Remove"
 msgstr "移除"
@@ -1148,6 +1281,51 @@ msgstr "已复制"
 msgctxt "task_row"
 msgid "Do you want to overwrite the file?"
 msgstr "是否覆盖文件？"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:280
+msgctxt "task_row"
+msgid "Show warning details"
+msgstr "显示警告详细信息"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:306
+msgctxt "task_row"
+msgid "Show error details"
+msgstr "显示错误详细信息"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:308
+msgctxt "task_row"
+msgid "File failed to convert, click to view the error message"
+msgstr "文件转换失败，点击查看错误信息"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:335
+msgctxt "task_row"
+msgid "Copy warning message"
+msgstr "复制警告消息"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Converting"
+msgstr "转换中"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Success"
+msgstr "成功"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Skipped"
+msgstr "已跳过"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Warning"
+msgstr "警告"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Error"
+msgstr "错误"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:161
 msgctxt "top_toolbar"
@@ -1248,6 +1426,37 @@ msgstr "在线文档 (F1)"
 msgctxt "top_toolbar"
 msgid "SVS Projects Converter"
 msgstr "歌声合成工程文件转换器"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:64
+msgctxt "top_toolbar"
+msgid "Minimize"
+msgstr "最小化"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:98
+msgctxt "top_toolbar"
+msgid "Maximize or Restore"
+msgstr "最大化或还原"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:131
+msgctxt "top_toolbar"
+msgid "Close"
+msgstr "关闭"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:44
+msgctxt "expandable_section"
+msgid "Expand"
+msgstr "展开"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:44
+msgctxt "expandable_section"
+msgid "Collapse"
+msgstr "收起"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:111
+#: ../libresvip/res/locales/libresvip_gui.ts:113
+msgctxt "task_detail_dialog"
+msgid "Close"
+msgstr "关闭"
 
 #: ../libresvip/res/locales/qt_standard_buttons.ts
 msgctxt "QPlatformTheme"

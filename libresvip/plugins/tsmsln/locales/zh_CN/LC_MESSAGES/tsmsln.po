@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-05-26 00:51\n"
+"PO-Revision-Date: 2026-07-25 08:39\n"
 
 msgid "TSMSln"
 msgstr ""
@@ -26,7 +26,4 @@ msgstr "岁月静好_初心不忘"
 
 msgid "Unsupported lyric: "
 msgstr "不支持的歌词: "
-
-msgid "Pitch value is out of bounds"
-msgstr "音高值越界"
 

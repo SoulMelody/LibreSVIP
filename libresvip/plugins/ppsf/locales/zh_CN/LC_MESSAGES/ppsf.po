@@ -10,7 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-05-26 00:51\n"
+"PO-Revision-Date: 2026-07-25 09:17\n"
+
+msgid "Export as legacy format"
+msgstr "导出为旧版格式"
+
+msgid "Export in the legacy binary PPSF format instead of the newer ZIP-based JSON format"
+msgstr "导出旧式二进制PPSF格式，而不是基于NT版本较新的格式"
 
 msgid "Ppsf"
 msgstr ""
