@@ -115,7 +115,7 @@ class AceParser:
                     clipped_end = min(note_end, clip_end)
                     if clipped_start >= clipped_end:
                         continue
-                    visible_pos = clipped_start - clip_pos + pattern_pos
+                    visible_pos = clipped_start + pattern_pos
                     if visible_pos < 0:
                         clipped_start -= visible_pos
                         visible_pos = 0
@@ -150,7 +150,7 @@ class AceParser:
                         clipped_end = min(curve_end, clip_end)
                         if clipped_start >= clipped_end:
                             continue
-                        dst_offset = clipped_start - clip_pos + pattern_pos
+                        dst_offset = clipped_start + pattern_pos
                         if dst_offset < -self.first_bar_ticks:
                             clipped_start += -self.first_bar_ticks - dst_offset
                             dst_offset = -self.first_bar_ticks

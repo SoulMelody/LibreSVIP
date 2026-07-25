@@ -174,8 +174,16 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
         )
 
 
-class AcepMaster(BaseModel):
+class AcepTrackBase(BaseModel):
     gain: float = Field(default=0.0, le=6.0)
+
+
+class AcepEffectTrackBase(AcepTrackBase):
+    external_fx_chain: list[dict[str, Any]] = Field(default_factory=list, alias="externalFxChain")
+
+
+class AcepMaster(AcepEffectTrackBase):
+    pass
 
 
 class AcepTempo(BaseModel):
@@ -295,10 +303,9 @@ class AcepInstrumentPattern(AcepPattern):
     time_unit: str | None = Field("tick", alias="timeUnit")
 
 
-class AcepTrackProperties(BaseModel):
+class AcepTrackProperties(AcepEffectTrackBase):
     name: str = ""
     color: str = "#91bcdc"
-    gain: float = Field(0.0, le=6.0)
     pan: float = Field(0.0, le=10.0, ge=-10.0)
     mute: bool = False
     solo: bool = False
@@ -451,6 +458,9 @@ class AcepProject(BaseModel):
     piano_display_config: dict[str, Any] | None = Field(None, alias="pianoDisplayConfig")
     tempo_track_height: int | None = Field(0, alias="tempoTrackHeight")
     video_track: dict[str, Any] | None = Field(None, alias="videoTrack")
+    video_tracks: list[dict[str, Any]] = Field(default_factory=list, alias="videoTracks")
+    marker_tracks: list[dict[str, Any]] = Field(default_factory=list, alias="markerTracks")
+    canvas: dict[str, Any] | None = None
 
     @model_validator(mode="after")
     def migrate_time_signatures(self) -> Self:
@@ -462,4 +472,7 @@ class AcepProject(BaseModel):
                     denominator=4,
                 )
             )
+        if self.video_track is not None:
+            self.video_tracks.append(self.video_track)
+            self.video_track = None
         return self
