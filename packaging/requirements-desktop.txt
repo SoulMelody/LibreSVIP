@@ -5,7 +5,6 @@ arrow==1.4.0
 backports-zstd==1.6.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
 bidict==0.23.1
 cbor2==6.1.3
-certifi==2026.7.22
 cffi==2.1.0 ; (python_full_version < '3.12' and platform_python_implementation != 'PyPy') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32') or sys_platform == 'emscripten'
 charset-normalizer==3.4.9
 colorama==0.4.6 ; sys_platform == 'win32'
@@ -16,8 +15,8 @@ desktop-notifier==6.2.0
 exceptiongroup==1.3.1 ; python_full_version < '3.11'
 fsspec==2026.6.0
 h11==0.16.0
-httpcore==1.0.9
-httpx==0.28.1
+httpcore2==2.9.1
+httpx2==2.9.1
 idna==3.18
 importlib-resources==7.1.0 ; python_full_version < '3.11'
 jinja2==3.1.6
@@ -73,6 +72,7 @@ soundfile==0.14.0 ; sys_platform == 'emscripten'
 svg-py==1.10.0
 tatsu-lts==5.16.0
 that-depends==4.0.2
+truststore==0.10.4
 ttkbootstrap-icons==4.0.0
 ttkbootstrap-icons-mat==1.0.0
 typing-extensions==4.16.0
