@@ -809,7 +809,6 @@ Page {
                                 accessibleName: qsTr("Help")
                                 anchors.verticalCenter: parent.verticalCenter
                                 diameter: 30
-                                new_padding: 7
                                 cursor_shape: Qt.WhatsThisCursor
                                 visible: modelData.description != ""
                                 ToolTip.visible: hovered

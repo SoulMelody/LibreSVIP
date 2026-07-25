@@ -923,7 +923,6 @@ ApplicationWindow {
                                     icon_name: "mdi7.arrow-up-circle-outline"
                                     accessibleName: qsTr("Move Rule Up")
                                     diameter: 32
-                                    new_padding: 6
                                     visible: row > 0
                                     onClicked: {
                                         lyricReplacementRulesTableView.model.swap(row - 1, row);
@@ -933,7 +932,6 @@ ApplicationWindow {
                                     icon_name: "mdi7.arrow-down-circle-outline"
                                     accessibleName: qsTr("Move Rule Down")
                                     diameter: 32
-                                    new_padding: 6
                                     visible: row < lyricReplacementRulesTableView.model.rowCount() - 1
                                     onClicked: {
                                         lyricReplacementRulesTableView.model.swap(row, row + 1);
@@ -943,7 +941,6 @@ ApplicationWindow {
                                     id: deleteRuleButton
                                     icon_name: "mdi7.minus"
                                     diameter: 32
-                                    new_padding: 6
                                     accessibleName: qsTr("Delete rule")
                                     ToolTip.visible: deleteRuleButton.hovered
                                     ToolTip.text: qsTr("Delete rule")

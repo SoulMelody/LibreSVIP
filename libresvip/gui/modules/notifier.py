@@ -6,7 +6,7 @@ from functools import partial
 from importlib.resources import as_file
 from typing import TYPE_CHECKING
 
-import httpx
+import httpx2
 from desktop_notifier import Button, DesktopNotifier
 from loguru import logger
 from packaging.version import Version
@@ -53,7 +53,7 @@ class Notifier(QObject):
     async def download_release(self, url: str, filename: str) -> None:
         app_dir.user_downloads_path.mkdir(parents=True, exist_ok=True)
         notify_id = None
-        async with httpx.AsyncClient(follow_redirects=True, verify=False) as client:
+        async with httpx2.AsyncClient(follow_redirects=True, verify=False) as client:
             try:
                 await self.clear_all_messages_async()
                 notify_id = await self.notify_async(
@@ -68,7 +68,7 @@ class Notifier(QObject):
                             f.write(chunk)
                             f.flush()
                 open_path(app_dir.user_downloads_path)
-            except httpx.HTTPError:
+            except httpx2.HTTPError:
                 await self.notify_async(
                     title=_("Error occurred while Downloading"),
                     message=_("Failed to download file {}. Please try again later.").format(
@@ -84,7 +84,7 @@ class Notifier(QObject):
         failed = False
         logger.info("Checking for updates...")
         notify_id = None
-        async with httpx.AsyncClient(
+        async with httpx2.AsyncClient(
             follow_redirects=True, timeout=self.request_timeout, verify=False
         ) as client:
             try:
@@ -141,7 +141,7 @@ class Notifier(QObject):
                         )
                 else:
                     failed = True
-            except httpx.HTTPError:
+            except httpx2.HTTPError:
                 failed = True
             finally:
                 if notify_id:

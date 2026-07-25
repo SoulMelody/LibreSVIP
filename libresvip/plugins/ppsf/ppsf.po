@@ -1,3 +1,11 @@
+msgid "Export as legacy format"
+msgstr ""
+
+msgid ""
+"Export in the legacy binary PPSF format instead of the newer ZIP-based "
+"JSON format"
+msgstr ""
+
 msgid "Ppsf"
 msgstr ""
 

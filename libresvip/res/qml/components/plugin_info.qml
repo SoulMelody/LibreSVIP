@@ -15,6 +15,7 @@ GridLayout {
         Layout.column: 0
         Layout.rowSpan: 3
         Layout.columnSpan: 3
+        color: "transparent"
         width: 100
         height: 100
         radius: 50

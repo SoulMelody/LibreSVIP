@@ -51,8 +51,6 @@ ColumnLayout {
         IconButton {
             icon_name: "mdi7.help-circle-outline"
             accessibleName: qsTr("Help")
-            diameter: 30
-            new_padding: 6
             cursor_shape: Qt.WhatsThisCursor
             visible: !!(root.field && root.field.description)
             ToolTip {
@@ -216,8 +214,6 @@ ColumnLayout {
             IconButton {
                 icon_name: "mdi7.eyedropper-variant"
                 accessibleName: qsTr("Choose Color")
-                diameter: 30
-                new_padding: 6
                 onClicked: dialogs.colorDialog.bind_color(colorField.text, color => {
                     colorField.text = color;
                     root.emitValue(color);

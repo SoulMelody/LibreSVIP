@@ -15,6 +15,3 @@ msgstr ""
 msgid "SoulMelody"
 msgstr ""
 
-msgid "Pitch value is out of bounds"
-msgstr ""
-

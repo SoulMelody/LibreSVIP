@@ -194,7 +194,6 @@ Item {
                     icon_name: "mdi7.close"
                     accessibleName: qsTr("Close")
                     diameter: 30
-                    new_padding: 6
                     onClicked: folderPresetsDialog.close()
                 }
                 Rectangle {
