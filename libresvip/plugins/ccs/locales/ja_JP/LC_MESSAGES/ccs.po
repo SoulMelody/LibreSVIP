@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-03-23 01:30\n"
+"PO-Revision-Date: 2026-07-25 08:39\n"
 
 msgid "CeVIO"
 msgstr ""
@@ -25,9 +25,6 @@ msgid "Sder Colin"
 msgstr ""
 
 msgid "Unsupported lyric: "
-msgstr ""
-
-msgid "Pitch value is out of bounds"
 msgstr ""
 
 msgid "Default Singer Name"

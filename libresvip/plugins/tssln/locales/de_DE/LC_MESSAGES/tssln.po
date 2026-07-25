@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-03-23 01:36\n"
+"PO-Revision-Date: 2026-07-25 08:39\n"
 
 msgid "Unsupported project version"
 msgstr "Nicht unterstützte Projektversion"
@@ -26,7 +26,4 @@ msgstr "Konvertierungs-Plugin für VoiSona Projektdatei (nur Versionen 1.8.0 und
 
 msgid "SoulMelody"
 msgstr ""
-
-msgid "Pitch value is out of bounds"
-msgstr "Tonhöhenwert ist außerhalb des zulässigen Bereichs"
 

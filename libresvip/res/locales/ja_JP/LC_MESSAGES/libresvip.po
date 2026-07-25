@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-05-25 08:10\n"
+"PO-Revision-Date: 2026-07-25 08:39\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 #, python-brace-format
@@ -172,28 +172,28 @@ msgstr ""
 msgid "description"
 msgstr ""
 
-#: ../libresvip/gui/__main__.py:66 ../libresvip/web/pages.py:1176
+#: ../libresvip/gui/__main__.py:62 ../libresvip/web/pages.py:1176
 msgid "LibreSVIP"
 msgstr ""
 
-#: ../libresvip/gui/__main__.py:71
+#: ../libresvip/gui/__main__.py:67
 msgid "Preparing plugins and interface"
 msgstr ""
 
-#: ../libresvip/gui/__main__.py:98
-msgid "Loading translations..."
+#: ../libresvip/gui/__main__.py:100
+msgid "Opening window..."
 msgstr ""
 
-#: ../libresvip/gui/__main__.py:123
+#: ../libresvip/gui/__main__.py:125
 msgid "Loading format providers..."
 msgstr ""
 
-#: ../libresvip/gui/__main__.py:137
+#: ../libresvip/gui/__main__.py:138
 msgid "Building interface..."
 msgstr ""
 
 #: ../libresvip/gui/__main__.py:152
-msgid "Opening window..."
+msgid "Loading translations..."
 msgstr ""
 
 #: ../libresvip/gui/models/table_models.py:32
@@ -262,37 +262,37 @@ msgstr ""
 msgid "Checking for Updates"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:109
+#: ../libresvip/gui/modules/notifier.py:108
 msgid "Open in Browser"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:181
+#: ../libresvip/gui/modules/notifier.py:123
 msgid "Download"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:191
+#: ../libresvip/gui/modules/notifier.py:133
 msgid "Update Available"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:192
+#: ../libresvip/gui/modules/notifier.py:134
 #, python-brace-format
 msgid "New version {} is available."
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:197
+#: ../libresvip/gui/modules/notifier.py:139
 msgid "No Updates"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:198
+#: ../libresvip/gui/modules/notifier.py:140
 #, python-brace-format
 msgid "You are using the latest version {}."
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:209
+#: ../libresvip/gui/modules/notifier.py:151
 msgid "Error occurred while Checking for Updates"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:210
+#: ../libresvip/gui/modules/notifier.py:152
 msgid "Failed to check for updates. Please try again later."
 msgstr ""
 
@@ -645,7 +645,7 @@ msgstr ""
 msgid "Extract audio from project file for later use if the path does not exist (this option has the side effect of writing additional files)"
 msgstr ""
 
-#: ../libresvip/model/pitch_simulator.py:58
+#: ../libresvip/model/pitch_simulator.py:75
 #, python-brace-format
 msgid "Notes overlapped near bar {}"
 msgstr ""
@@ -680,8 +680,10 @@ msgctxt "converter_page"
 msgid "Input Format: "
 msgstr ""
 
-#: ../libresvip/res/locales/libresvip_gui.ts:351
-#: ../libresvip/res/locales/libresvip_gui.ts:500
+#: ../libresvip/res/locales/libresvip_gui.ts:128
+#: ../libresvip/res/locales/libresvip_gui.ts:131
+#: ../libresvip/res/locales/libresvip_gui.ts:258
+#: ../libresvip/res/locales/libresvip_gui.ts:261
 msgctxt "converter_page"
 msgid "View Detail Information"
 msgstr ""
@@ -711,17 +713,20 @@ msgctxt "converter_page"
 msgid "Set Output File Extension Automatically"
 msgstr ""
 
-#: ../libresvip/res/locales/libresvip_gui.ts:668
+#: ../libresvip/res/locales/libresvip_gui.ts:423
+#: ../libresvip/res/locales/libresvip_gui.ts:428
 msgctxt "converter_page"
 msgid "Direct Mode"
 msgstr ""
 
-#: ../libresvip/res/locales/libresvip_gui.ts:681
+#: ../libresvip/res/locales/libresvip_gui.ts:438
+#: ../libresvip/res/locales/libresvip_gui.ts:443
 msgctxt "converter_page"
 msgid "Singing Track Merging Mode"
 msgstr ""
 
-#: ../libresvip/res/locales/libresvip_gui.ts:694
+#: ../libresvip/res/locales/libresvip_gui.ts:453
+#: ../libresvip/res/locales/libresvip_gui.ts:458
 msgctxt "converter_page"
 msgid "Singing Track Grouping Mode"
 msgstr ""
@@ -843,6 +848,62 @@ msgctxt "converter_page"
 msgid "Prompt"
 msgstr ""
 
+#: ../libresvip/res/locales/libresvip_gui.ts:1152
+msgctxt "converter_page"
+msgid "In/Out"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1159
+msgctxt "converter_page"
+msgid "Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1166
+msgctxt "converter_page"
+msgid "Tasks"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:376
+msgctxt "converter_page"
+msgid "Release to add files"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:394
+msgctxt "converter_page"
+msgid "or"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:400
+msgctxt "converter_page"
+msgid "Browse Files"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:53
+#: ../libresvip/res/locales/libresvip_gui.ts:791
+msgctxt "converter_page"
+msgid "Help"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:218
+msgctxt "converter_page"
+msgid "Choose Color"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:514
+msgctxt "converter_page"
+msgid "Expand or Collapse Task Toolbar"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:632
+msgctxt "converter_page"
+msgid "Reset Extensions"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:657
+msgctxt "converter_page"
+msgid "Remove Other Extensions"
+msgstr ""
+
 #: ../libresvip/res/locales/libresvip_gui.ts:130
 #: ../libresvip/res/locales/libresvip_gui.ts:139
 msgctxt "dialogs"
@@ -909,6 +970,26 @@ msgctxt "dialogs"
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
 msgstr ""
 
+#: ../libresvip/res/locales/libresvip_gui.ts:31
+msgctxt "dialogs"
+msgid "Choose Folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:195
+msgctxt "dialogs"
+msgid "Close"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:99
+msgctxt "dialogs"
+msgid "Delete Folder Preset"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:264
+msgctxt "dialogs"
+msgid "Add Folder Preset"
+msgstr ""
+
 #: ../libresvip/res/locales/libresvip_gui.ts:72
 msgctxt "plugin_info"
 msgid "Version"
@@ -917,6 +998,11 @@ msgstr ""
 #: ../libresvip/res/locales/libresvip_gui.ts:141
 msgctxt "plugin_info"
 msgid "Introduction"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:58
+msgctxt "plugin_info"
+msgid "Plugin Website"
 msgstr ""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:13
@@ -1090,6 +1176,52 @@ msgctxt "settings_dialog"
 msgid "Updates Settings"
 msgstr ""
 
+#: ../libresvip/res/locales/libresvip_gui.ts:909
+msgctxt "settings_dialog"
+msgid "Move Rule Up"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:919
+msgctxt "settings_dialog"
+msgid "Move Rule Down"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:932
+#: ../libresvip/res/locales/libresvip_gui.ts:934
+msgctxt "settings_dialog"
+msgid "Delete rule"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1003
+msgctxt "settings_dialog"
+msgid "Minimize"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1026
+msgctxt "settings_dialog"
+msgid "Maximize or Restore"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1043
+msgctxt "settings_dialog"
+msgid "Close"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:407
+msgctxt "settings_dialog"
+msgid "Plugin Status Help"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:573
+msgctxt "settings_dialog"
+msgid "Remove Current Preset"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:621
+msgctxt "settings_dialog"
+msgid "Lyric Rule Help"
+msgstr ""
+
 #: ../libresvip/res/locales/libresvip_gui.ts:104
 msgctxt "task_row"
 msgid "File successfully converted"
@@ -1116,7 +1248,8 @@ msgctxt "task_row"
 msgid "File skipped due to conflict"
 msgstr ""
 
-#: ../libresvip/res/locales/libresvip_gui.ts:73
+#: ../libresvip/res/locales/libresvip_gui.ts:142
+#: ../libresvip/res/locales/libresvip_gui.ts:148
 msgctxt "task_row"
 msgid "Remove"
 msgstr ""
@@ -1145,6 +1278,51 @@ msgstr ""
 #: ../libresvip/res/locales/libresvip_gui.ts:347
 msgctxt "task_row"
 msgid "Do you want to overwrite the file?"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:280
+msgctxt "task_row"
+msgid "Show warning details"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:306
+msgctxt "task_row"
+msgid "Show error details"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:308
+msgctxt "task_row"
+msgid "File failed to convert, click to view the error message"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:335
+msgctxt "task_row"
+msgid "Copy warning message"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Converting"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Success"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Skipped"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Warning"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "task_row"
+msgid "Error"
 msgstr ""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:161
@@ -1245,6 +1423,37 @@ msgstr ""
 #: ../libresvip/res/locales/libresvip_gui.ts:128
 msgctxt "top_toolbar"
 msgid "SVS Projects Converter"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:64
+msgctxt "top_toolbar"
+msgid "Minimize"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:98
+msgctxt "top_toolbar"
+msgid "Maximize or Restore"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:131
+msgctxt "top_toolbar"
+msgid "Close"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:44
+msgctxt "expandable_section"
+msgid "Expand"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:44
+msgctxt "expandable_section"
+msgid "Collapse"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:111
+#: ../libresvip/res/locales/libresvip_gui.ts:113
+msgctxt "task_detail_dialog"
+msgid "Close"
 msgstr ""
 
 #: ../libresvip/res/locales/qt_standard_buttons.ts
