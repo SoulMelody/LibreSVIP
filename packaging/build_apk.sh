@@ -12,6 +12,7 @@ sed -i 's/cleanup_packages = self.get_bool_setting/cleanup_packages = False and 
 cp  ../libresvip/mobile/__main__.py main.py
 uv run flet build apk -v --yes --skip-flutter-doctor \
     --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
+    --android-extract-packages pypinyin jyutping \
     --org org.soulmelody \
     --project LibreSVIP \
     --build-version $LIBRESVIP_VERSION \
