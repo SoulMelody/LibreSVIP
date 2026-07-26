@@ -1224,6 +1224,7 @@ async def main(page: ft.Page) -> None:
                                     value=await shared_preferences.get("last_input_format"),
                                     label=_("Import format"),
                                     text_size=14,
+                                    menu_height=400,
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
@@ -1256,6 +1257,7 @@ async def main(page: ft.Page) -> None:
                                     value=await shared_preferences.get("last_output_format"),
                                     label=_("Export format"),
                                     text_size=14,
+                                    menu_height=400,
                                     options=[
                                         ft.DropdownOption(
                                             plugin_id,
