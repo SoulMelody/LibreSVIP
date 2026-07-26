@@ -54,6 +54,7 @@ def _import_module(name: str, path: str | None = None) -> ModuleType | None:
     try:
         mod = importlib.import_module(name)
     except Exception as e:
+        logger.error(f"PLUGIN_LOAD_FAIL: name={name!r} path={path!r} exc={type(e).__name__}: {e}")
         logger.exception(e)
     else:
         return mod
