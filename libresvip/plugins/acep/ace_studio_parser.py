@@ -125,8 +125,8 @@ class AceParser:
                         note.model_copy(
                             deep=True,
                             update={
-                                "pos": int(visible_pos),
-                                "dur": int(clipped_end - clipped_start),
+                                "pos": visible_pos,
+                                "dur": clipped_end - clipped_start,
                             },
                         )
                     )
@@ -156,13 +156,13 @@ class AceParser:
                             dst_offset = -self.first_bar_ticks
                         if clipped_start >= clipped_end:
                             continue
-                        start_index = int(clipped_start - curve_start)
-                        end_index = int(clipped_end - curve_start)
+                        start_index = clipped_start - curve_start
+                        end_index = clipped_end - curve_start
                         dst.root.append(
                             ace_curve.model_copy(
                                 deep=True,
                                 update={
-                                    "offset": int(dst_offset),
+                                    "offset": dst_offset,
                                     "values": ace_curve.values[start_index:end_index],
                                 },
                             )

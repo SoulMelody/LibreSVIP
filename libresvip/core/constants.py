@@ -21,5 +21,4 @@ MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS: Final[int] = TICKS_IN_BEAT
 
 app_dir = platformdirs.AppDirs(PACKAGE_NAME)
 
-pkg_dir = files(PACKAGE_NAME)
-res_dir = pkg_dir / "res"
+res_dir = files(PACKAGE_NAME) / "res"

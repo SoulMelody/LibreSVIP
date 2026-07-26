@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import gettext
+import importlib
 import itertools
 from importlib.resources import files
 from typing import TYPE_CHECKING
@@ -9,7 +10,7 @@ from typing import TYPE_CHECKING
 from loguru import logger
 
 from libresvip.core.config import get_settings, settings
-from libresvip.core.constants import app_dir, pkg_dir, res_dir
+from libresvip.core.constants import app_dir, res_dir
 from libresvip.extension.vendor import pluginlib
 
 if TYPE_CHECKING:
@@ -19,7 +20,8 @@ if TYPE_CHECKING:
 
 def _build_plugin_manager() -> pluginlib.PluginLoader:
     pm = pluginlib.PluginLoader(
-        paths=[str(pkg_dir / "plugins"), str(app_dir.user_config_path / "plugins")],
+        modules=["libresvip.plugins"],
+        paths=[str(app_dir.user_config_path / "plugins")],
         type_filter=["svs"],
         prefix_package="libresvip",
         blacklist=[("svs", each) for each in settings.disabled_plugins],
@@ -31,13 +33,21 @@ def _build_plugin_manager() -> pluginlib.PluginLoader:
 
 def _build_middleware_manager() -> pluginlib.PluginLoader:
     mm = pluginlib.PluginLoader(
-        paths=[str(pkg_dir / "middlewares"), str(app_dir.user_config_path / "middlewares")],
+        modules=["libresvip.middlewares"],
+        paths=[str(app_dir.user_config_path / "middlewares")],
         type_filter=["middleware"],
         prefix_package="libresvip",
     )
     mm.load_modules()
     mm.loaded = True
     return mm
+
+
+for _sub in ("libresvip.plugins", "libresvip.middlewares"):
+    try:
+        importlib.import_module(_sub)
+    except Exception as _exc:  # noqa: PERF203
+        logger.debug(f"Could not pre-import {_sub}: {_exc}")
 
 
 plugin_manager = _build_plugin_manager()
