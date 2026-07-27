@@ -97,10 +97,28 @@ class URendererSettings(BaseModel):
     wavtool: str | None = None
 
 
+class UMixFX(BaseModel):
+    enabled: bool = False
+    eq_preset: str
+    comp_preset: str
+    reverb_preset: str
+    eq_low_db: float
+    eq_mid_freq: float
+    eq_mid_db: float
+    eq_high_db: float
+    comp_threshold_db: float
+    comp_ratio: float
+    comp_makeup_db: float
+    reverb_size: float
+    reverb_damp: float
+    reverb_wet: float
+    reverb_pre_delay_ms: float
+
+
 class UTrack(BaseModel):
     track_name: str | None = None
     track_color: str | None = None
-    track_expressions: list[UExpression] | None = Field(default_factory=list)
+    track_expressions: list[UExpressionDescriptor] | None = Field(default_factory=list)
     voice_color_names: list[str] | None = None
     singer: str | None = None
     phonemizer: str | None = None
@@ -109,6 +127,7 @@ class UTrack(BaseModel):
     solo: bool = False
     volume: float = 0.0
     pan: float | None = None
+    mix_fx: UMixFX | None = None
 
 
 class UPitch(BaseModel):
