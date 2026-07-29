@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"PO-Revision-Date: 2026-07-29 00:00\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /libresvip/plugins/dspx/dspx.po\n"
+
+msgid "DSPX"
+msgstr "DSPX"
+
+msgid "DiffScope Project Exchange Format"
+msgstr "DiffScope 工程交换格式"
+
+msgid "Conversion plugin for DSPX project files"
+msgstr "DSPX 工程文件转换插件"
+
+msgid "OpenVPI"
+msgstr "OpenVPI"
+
+msgid "Import pitch curve"
+msgstr "导入音高参数"
+
+msgid "Pitch import mode"
+msgstr "音高导入模式"
+
+msgid "Edited and original pitch"
+msgstr "已编辑和原始音高"
+
+msgid "Edited pitch only"
+msgstr "仅已编辑音高"
+
+msgid "Bake tone shift into the pitch curve"
+msgstr "将音区偏移叠加到音高参数上"
+
+msgid "Vibrato import mode"
+msgstr "颤音导入模式"
+
+msgid "Do not import vibrato"
+msgstr "不导入颤音"
+
+msgid "Preserve vibrato information on notes"
+msgstr "在音符上保留颤音信息"
+
+msgid "Bake vibrato into the pitch curve"
+msgstr "将颤音叠加到音高参数上"
+
+msgid "Export pitch curve"
+msgstr "导出音高参数"
+
+msgid "Preserve vibrato"
+msgstr "保留颤音"
+
+msgid "Invalid DSPX project"
+msgstr "无效的 DSPX 工程文件"
+
+msgid "Unsupported project version"
+msgstr "不支持的工程版本"

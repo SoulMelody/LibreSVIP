@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"PO-Revision-Date: 2026-07-29 00:00\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /libresvip/plugins/dspx/dspx.po\n"
+
+msgid "DSPX"
+msgstr "DSPX"
+
+msgid "DiffScope Project Exchange Format"
+msgstr "DiffScope-Projektaustauschformat"
+
+msgid "Conversion plugin for DSPX project files"
+msgstr "Konvertierungs-Plugin für DSPX-Projektdateien"
+
+msgid "OpenVPI"
+msgstr "OpenVPI"
+
+msgid "Import pitch curve"
+msgstr "Tonhöhenparameter importieren"
+
+msgid "Pitch import mode"
+msgstr "Tonhöhen-Importmodus"
+
+msgid "Edited and original pitch"
+msgstr "Bearbeitete und ursprüngliche Tonhöhe"
+
+msgid "Edited pitch only"
+msgstr "Nur bearbeitete Tonhöhe"
+
+msgid "Bake tone shift into the pitch curve"
+msgstr "Tonlagenverschiebung in die Tonhöhenparameter einrechnen"
+
+msgid "Vibrato import mode"
+msgstr "Vibrato-Importmodus"
+
+msgid "Do not import vibrato"
+msgstr "Vibrato nicht importieren"
+
+msgid "Preserve vibrato information on notes"
+msgstr "Vibrato-Informationen in Noten beibehalten"
+
+msgid "Bake vibrato into the pitch curve"
+msgstr "Vibrato in die Tonhöhenparameter einrechnen"
+
+msgid "Export pitch curve"
+msgstr "Tonhöhenparameter exportieren"
+
+msgid "Preserve vibrato"
+msgstr "Vibrato beibehalten"
+
+msgid "Invalid DSPX project"
+msgstr "Ungültiges DSPX-Projekt"
+
+msgid "Unsupported project version"
+msgstr "Nicht unterstützte Projektversion"
