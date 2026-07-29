@@ -3,7 +3,6 @@ from __future__ import annotations
 import bisect
 import math
 from dataclasses import dataclass
-from itertools import pairwise
 from typing import TYPE_CHECKING, Callable
 
 from libresvip.model.base import ParamCurve as LibreParamCurve
