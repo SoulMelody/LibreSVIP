@@ -124,14 +124,44 @@ class VibratoSequence:
                     curve=VibratoCurve(note.vibrato, duration_secs),
                 )
             )
+        self.vibratos.sort(key=lambda note_vibrato: note_vibrato.start_tick)
+        self._start_ticks = [note_vibrato.start_tick for note_vibrato in self.vibratos]
+        self._active_vibratos: list[NoteVibrato] = []
+        self._next_vibrato_index = 0
+        self._last_tick: int | None = None
 
     def evaluate(self, relative_tick: int, clip_start: int) -> float:
         absolute_tick = relative_tick + clip_start
+        if self._last_tick is None or absolute_tick < self._last_tick:
+            self._next_vibrato_index = bisect.bisect_right(
+                self._start_ticks,
+                absolute_tick,
+            )
+            self._active_vibratos = [
+                note_vibrato
+                for note_vibrato in self.vibratos[: self._next_vibrato_index]
+                if note_vibrato.end_tick >= absolute_tick
+            ]
+        else:
+            self._active_vibratos = [
+                note_vibrato
+                for note_vibrato in self._active_vibratos
+                if note_vibrato.end_tick >= absolute_tick
+            ]
+            while (
+                self._next_vibrato_index < len(self.vibratos)
+                and self.vibratos[self._next_vibrato_index].start_tick <= absolute_tick
+            ):
+                self._active_vibratos.append(
+                    self.vibratos[self._next_vibrato_index],
+                )
+                self._next_vibrato_index += 1
+        self._last_tick = absolute_tick
+        if not self._active_vibratos:
+            return 0.0
+        seconds = self.synchronizer.get_actual_secs_from_ticks(absolute_tick)
         result = 0.0
-        for note_vibrato in self.vibratos:
-            if not note_vibrato.start_tick <= absolute_tick <= note_vibrato.end_tick:
-                continue
-            seconds = self.synchronizer.get_actual_secs_from_ticks(absolute_tick)
+        for note_vibrato in self._active_vibratos:
             position = (seconds - note_vibrato.start_secs) / note_vibrato.duration_secs
             result += note_vibrato.curve.evaluate(position)
         return result
