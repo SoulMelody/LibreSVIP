@@ -125,7 +125,7 @@ code_gen = [
   "xsdata[cli]>=26.2",
 ]
 docs = [
-  "zensical>=0.0.51",
+  "zensical>=0.0.52",
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
@@ -133,7 +133,7 @@ linting = [
   "prek>=0.4.11",
   "pyrefly>=1.1.1,<1.1.2",
   "pyside6<6.12.0,>=6.11.1",
-  "ruff>=0.16.0",
+  "ruff>=0.16.1",
   "sortedcontainers-stubs>=2.4.3",
   "types-lxml>=2026.2.16",
   "types-pyinstaller>=6.21.0.20260616",
