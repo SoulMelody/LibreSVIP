@@ -3,7 +3,7 @@ from __future__ import annotations
 import bisect
 import math
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 
 from libresvip.model.base import ParamCurve as LibreParamCurve
 from libresvip.model.base import Points
@@ -20,7 +20,7 @@ from .model_v1 import (
 from .options import PitchImportMode
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
 
 SAMPLE_INTERVAL = 5
 PITCH_BREAK_VALUE = -100
@@ -134,9 +134,7 @@ def _fritsch_butland(
         return 0.0
     weight_1 = 2 * right_width + left_width
     weight_2 = right_width + 2 * left_width
-    return (weight_1 + weight_2) / (
-        weight_1 / left_delta + weight_2 / right_delta
-    )
+    return (weight_1 + weight_2) / (weight_1 / left_delta + weight_2 / right_delta)
 
 
 def _hermite_value(nodes: list[AbsoluteAnchorNode], left_index: int, position: int) -> float:
@@ -188,15 +186,9 @@ class AnchorCurveEvaluator:
     def __init__(self, curves: list[ParamCurve]) -> None:
         anchor_curves = [curve for curve in curves if isinstance(curve, ParamCurveAnchor)]
         self.nodes = _deduplicate_anchor_nodes(
-            node
-            for curve in anchor_curves
-            for node in _absolute_nodes(curve, force_last_none=True)
+            node for curve in anchor_curves for node in _absolute_nodes(curve, force_last_none=True)
         )
-        self.bounds = (
-            (self.nodes[0].x, self.nodes[-1].x)
-            if self.nodes
-            else None
-        )
+        self.bounds = (self.nodes[0].x, self.nodes[-1].x) if self.nodes else None
 
     def evaluate(self, position: int) -> float | None:
         return _anchor_nodes_value(self.nodes, position)
@@ -273,11 +265,7 @@ def build_pitch_curve(
         sampled.append(
             (
                 relative_tick + coordinate_offset,
-                (
-                    round(clamp(value, PITCH_MIN, PITCH_MAX))
-                    if value is not None
-                    else None
-                ),
+                (round(clamp(value, PITCH_MIN, PITCH_MAX)) if value is not None else None),
             )
         )
     points: list[Point] = [Point.start_point()]

@@ -19,14 +19,14 @@ INT32_MAX = 2**31 - 1
 def _validate_json_int(value: Any) -> int:
     if isinstance(value, bool) or not isinstance(value, int):
         msg = "Input should be a JSON integer"
-        raise ValueError(msg)
+        raise TypeError(msg)
     return value
 
 
 def _validate_json_number(value: Any) -> float:
     if isinstance(value, bool) or not isinstance(value, int | float):
         msg = "Input should be a JSON number"
-        raise ValueError(msg)
+        raise TypeError(msg)
     result = float(value)
     if not math.isfinite(result):
         msg = "Input should be a finite JSON number"
@@ -47,7 +47,7 @@ Workspace = dict[str, dict[str, Any]]
 
 
 class DspxBaseModel(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True)
+    model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
 
 
 class DspxRootModel(RootModel[Any]):
@@ -65,8 +65,8 @@ class TrackControl(BusControl):
 
 
 class ClipTime(DspxBaseModel):
-    clipLen: NonNegativeInt32
-    clipStart: NonNegativeInt32
+    clip_len: NonNegativeInt32 = Field(alias="clipLen")
+    clip_start: NonNegativeInt32 = Field(alias="clipStart")
     length: NonNegativeInt32
     pos: NonNegativeInt32
 
@@ -111,8 +111,8 @@ class Phonemes(DspxBaseModel):
 class Note(DspxBaseModel):
     pos: NonNegativeInt32
     length: NonNegativeInt32
-    keyNum: MidiKey
-    centShift: CentShift
+    key_num: MidiKey = Field(alias="keyNum")
+    cent_shift: CentShift = Field(alias="centShift")
     language: str
     lyric: str
     pronunciation: Pronunciation
@@ -245,14 +245,14 @@ class Label(DspxBaseModel):
 class Timeline(DspxBaseModel):
     labels: list[Label]
     tempos: list[Tempo]
-    timeSignatures: list[TimeSignature]
+    time_signatures: list[TimeSignature] = Field(alias="timeSignatures")
 
 
 class Global(DspxBaseModel):
     author: str
-    centShift: CentShift
-    editorId: str
-    editorName: str
+    cent_shift: CentShift = Field(alias="centShift")
+    editor_id: str = Field(alias="editorId")
+    editor_name: str = Field(alias="editorName")
     name: str
 
 
@@ -278,4 +278,3 @@ class Model(DspxBaseModel):
 MixedSinger.model_rebuild()
 Sources.model_rebuild()
 Track.model_rebuild()
-

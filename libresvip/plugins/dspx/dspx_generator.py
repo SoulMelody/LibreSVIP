@@ -3,17 +3,26 @@ from __future__ import annotations
 import dataclasses
 import math
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
-    Note as LibreNote,
-    ParamCurve as LibreParamCurve,
     Project,
     SingingTrack,
     SongTempo,
+)
+from libresvip.model.base import (
+    Note as LibreNote,
+)
+from libresvip.model.base import (
+    ParamCurve as LibreParamCurve,
+)
+from libresvip.model.base import (
     TimeSignature as LibreTimeSignature,
+)
+from libresvip.model.base import (
     Track as LibreTrack,
 )
 from libresvip.model.point import Point
@@ -34,19 +43,21 @@ from .model_v1 import (
     Pronunciation,
     SingingClip,
     Tempo,
-    TimeSignature,
     Timeline,
+    TimeSignature,
     Track,
     TrackControl,
 )
-from .options import OutputOptions
 from .param_utils import export_pitch_param
 from .vibrato_utils import export_vibrato
+
+if TYPE_CHECKING:
+    from .options import OutputOptions
 
 VALID_DENOMINATORS = (1, 2, 4, 8, 16, 32, 64, 128)
 
 
-def _clamp_int32(value: int | float, *, lower: int = 0) -> int:
+def _clamp_int32(value: float, *, lower: int = 0) -> int:
     return round(clamp(round(value), lower, INT32_MAX))
 
 
@@ -83,16 +94,16 @@ class DspxGenerator:
             content=Content(
                 global_=Global(
                     author="",
-                    centShift=0,
-                    editorId="libresvip",
-                    editorName="LibreSVIP",
+                    cent_shift=0,
+                    editor_id="libresvip",
+                    editor_name="LibreSVIP",
                     name="",
                 ),
                 master=Master(control=BusControl(gain=0, mute=False, pan=0)),
                 timeline=Timeline(
                     labels=[],
                     tempos=tempos,
-                    timeSignatures=time_signatures,
+                    time_signatures=time_signatures,
                 ),
                 tracks=self.generate_tracks(project.track_list),
                 workspace={},
@@ -183,8 +194,8 @@ class DspxGenerator:
             time=ClipTime(
                 pos=pos,
                 length=duration,
-                clipStart=clip_start,
-                clipLen=max(duration - clip_start, 0),
+                clip_start=clip_start,
+                clip_len=max(duration - clip_start, 0),
             ),
             control=self.neutral_clip_control(),
             workspace={},
@@ -192,9 +203,7 @@ class DspxGenerator:
 
     def generate_singing_clip(self, track: SingingTrack) -> SingingClip:
         source_notes = [
-            note
-            for note in track.note_list
-            if note.length > 0 and bool(note.lyric.strip())
+            note for note in track.note_list if note.length > 0 and bool(note.lyric.strip())
         ]
         origin = self.find_clip_origin(source_notes, track.edited_params.pitch)
         clip_start = _clamp_int32(-origin)
@@ -222,8 +231,8 @@ class DspxGenerator:
             time=ClipTime(
                 pos=0,
                 length=length,
-                clipStart=clip_start,
-                clipLen=_clamp_int32(max_end),
+                clip_start=clip_start,
+                clip_len=_clamp_int32(max_end),
             ),
             control=self.neutral_clip_control(),
             notes=notes,
@@ -249,8 +258,7 @@ class DspxGenerator:
         positions = [
             point.x - self.first_bar_length
             for point in pitch.points.root
-            if point.x not in (Point.start_point().x, Point.end_point().x)
-            and point.y != -100
+            if point.x not in (Point.start_point().x, Point.end_point().x) and point.y != -100
         ]
         return max(positions) if positions else None
 
@@ -261,8 +269,8 @@ class DspxGenerator:
         return Note(
             pos=relative_pos,
             length=_clamp_int32(note.length, lower=1),
-            keyNum=round(clamp(note.key_number, 0, 127)),
-            centShift=0,
+            key_num=round(clamp(note.key_number, 0, 127)),
+            cent_shift=0,
             language="",
             lyric=note.lyric,
             pronunciation=Pronunciation(original="", edited=""),

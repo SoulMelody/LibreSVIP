@@ -2,15 +2,16 @@ from __future__ import annotations
 
 import contextlib
 import importlib
-from typing import Any
-
-from pydantic import BaseModel
+from typing import TYPE_CHECKING, Any
 
 from libresvip.core.compat import json
 from libresvip.core.exceptions import InvalidFileTypeError, UnsupportedProjectVersionError
 from libresvip.utils.translation import gettext_lazy as _
 
 from .model_v1 import Model
+
+if TYPE_CHECKING:
+    from pydantic import BaseModel
 
 ZSTD_MAGIC = b"\x28\xb5\x2f\xfd"
 
@@ -59,12 +60,12 @@ def load_model(data: bytes) -> Model:
         raise InvalidFileTypeError(msg)
     version = raw_data.get("version")
     if not isinstance(version, str) or version not in VERSION_MODELS:
-        msg = _("Unsupported project version")
-        raise UnsupportedProjectVersionError(f"{msg}: {version!r}")
+        msg = _("Unsupported project version") + f": {version!r}"
+        raise UnsupportedProjectVersionError(msg)
     model = VERSION_MODELS[version].model_validate(raw_data)
     if not isinstance(model, Model):
-        msg = _("Unsupported project version")
-        raise UnsupportedProjectVersionError(f"{msg}: {version!r}")
+        msg = _("Unsupported project version") + f": {version!r}"
+        raise UnsupportedProjectVersionError(msg)
     return model
 
 

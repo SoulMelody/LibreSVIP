@@ -15,4 +15,4 @@ jobs:
       - name: Install linting dependencies
         run: |
           uv sync --all-extras --group linting
-      - uses: j178/prek-action@v2
+      - uses: j178/prek-action@v3.0.0

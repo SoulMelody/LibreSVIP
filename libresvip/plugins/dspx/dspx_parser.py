@@ -2,18 +2,23 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
-from collections.abc import Callable
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
-    Note as LibreNote,
     Project,
     SingingTrack,
     SongTempo,
+)
+from libresvip.model.base import (
+    Note as LibreNote,
+)
+from libresvip.model.base import (
     TimeSignature as LibreTimeSignature,
+)
+from libresvip.model.base import (
     Track as LibreTrack,
 )
 from libresvip.utils.music_math import clamp, db_to_float
@@ -24,12 +29,14 @@ from .model_v1 import (
     Model,
     Note,
     SingingClip,
-    TimeSignature,
     Track,
 )
 from .options import InputOptions, VibratoImportMode
 from .param_utils import ResolvedParam, build_pitch_curve
 from .vibrato_utils import VibratoSequence, import_vibrato
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 T = TypeVar("T")
 
@@ -73,7 +80,7 @@ class DspxParser:
     @staticmethod
     def parse_time_signatures(model: Model) -> list[LibreTimeSignature]:
         source = _last_by_position(
-            model.content.timeline.timeSignatures,
+            model.content.timeline.time_signatures,
             lambda time_signature: time_signature.index,
         )
         time_signatures = [
@@ -130,16 +137,12 @@ class DspxParser:
         return InstrumentalTrack(
             **self.parse_common_track_fields(track, clip),
             audio_file_path=str(audio_path),
-            offset=clip.time.pos - clip.time.clipStart,
+            offset=clip.time.pos - clip.time.clip_start,
         )
 
     def parse_singing_clip(self, track: Track, clip: SingingClip) -> SingingTrack:
-        clip_start = clip.time.pos - clip.time.clipStart
-        source_notes = [
-            note
-            for note in clip.notes
-            if note.length > 0 and bool(note.lyric.strip())
-        ]
+        clip_start = clip.time.pos - clip.time.clip_start
+        source_notes = [note for note in clip.notes if note.length > 0 and bool(note.lyric.strip())]
         note_list = [self.parse_note(note, clip_start) for note in source_notes]
         singing_track = SingingTrack(
             **self.parse_common_track_fields(track, clip),
@@ -162,10 +165,13 @@ class DspxParser:
                     clip_start=clip_start,
                     synchronizer=self.synchronizer,
                 )
-                vibrato_value = lambda relative_tick: vibrato_sequence.evaluate(
-                    relative_tick,
-                    clip_start,
-                )
+
+                def vibrato_value(relative_tick: int) -> float:
+                    return vibrato_sequence.evaluate(
+                        relative_tick,
+                        clip_start,
+                    )
+
             singing_track.edited_params.pitch = build_pitch_curve(
                 pitch,
                 coordinate_offset=clip_start + self.first_bar_length,
@@ -183,7 +189,7 @@ class DspxParser:
         return LibreNote(
             start_pos=note.pos + clip_start,
             length=note.length,
-            key_number=note.keyNum,
+            key_number=note.key_num,
             lyric=note.lyric,
             vibrato=vibrato,
         )

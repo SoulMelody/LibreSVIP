@@ -3,13 +3,16 @@ from __future__ import annotations
 import bisect
 import math
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import ParamCurve, Points, VibratoParam
 from libresvip.model.point import Point
 from libresvip.utils.music_math import clamp
 
 from .model_v1 import ControlPoint, Note, Vibrato, VibratoPoints
+
+if TYPE_CHECKING:
+    from libresvip.core.time_sync import TimeSynchronizer
 
 VIBRATO_POSITION_SCALE = 100000
 VIBRATO_FREQUENCY_SCALE = 100
@@ -51,16 +54,16 @@ class ScaleCurve:
         while cursor < end:
             right_index = bisect.bisect_right(self.positions, cursor)
             next_position = (
-                min(end, self.positions[right_index])
-                if right_index < len(self.positions)
-                else end
+                min(end, self.positions[right_index]) if right_index < len(self.positions) else end
             )
             if cursor >= next_position:
                 cursor = next_position
                 continue
             result += (
-                self.value_at(cursor) + self.value_at(next_position)
-            ) * 0.5 * (next_position - cursor)
+                (self.value_at(cursor) + self.value_at(next_position))
+                * 0.5
+                * (next_position - cursor)
+            )
             cursor = next_position
         return result
 
@@ -76,9 +79,7 @@ class VibratoCurve:
         if position < self.vibrato.start or position > self.vibrato.end:
             return 0.0
         cycles = (
-            self.vibrato.freq
-            * self.note_length_secs
-            * self.frequency.integral_from_zero(position)
+            self.vibrato.freq * self.note_length_secs * self.frequency.integral_from_zero(position)
         )
         phase = 2 * 3.141592653589793 * (cycles + self.vibrato.phase)
         return (
@@ -209,8 +210,7 @@ def _export_control_points(curve: ParamCurve) -> list[ControlPoint]:
             y=point.y,
         )
         for point in curve.points.root
-        if point.x not in (Point.start_point().x, Point.end_point().x)
-        and point.y != -100
+        if point.x not in (Point.start_point().x, Point.end_point().x) and point.y != -100
     ]
 
 
