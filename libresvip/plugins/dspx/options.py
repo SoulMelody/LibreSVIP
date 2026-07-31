@@ -61,4 +61,3 @@ class OutputOptions(BaseModel):
         default=True,
         title=_("Preserve vibrato"),
     )
-
