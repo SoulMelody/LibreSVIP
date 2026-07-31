@@ -1,5 +1,5 @@
 altgraph==0.17.5
-annotated-doc==0.0.4
+annotated-doc==0.0.5
 annotated-types==0.8.0
 arrow==1.4.0
 backports-zstd==1.6.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
@@ -10,7 +10,7 @@ charset-normalizer==3.4.9
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.70
 construct-typing==0.8.1
-fsspec==2026.6.0
+fsspec==2026.7.0
 grpclib==0.4.9
 h2==4.4.0
 hpack==4.2.0
