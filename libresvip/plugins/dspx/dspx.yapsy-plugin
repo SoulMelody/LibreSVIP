@@ -1,0 +1,9 @@
+[Core]
+name = DSPX
+
+[Documentation]
+Author = OpenVPI
+Website = https://dspx.diffscope.org/
+Format = DiffScope Project Exchange Format
+Description = Conversion plugin for DSPX project files
+Suffix = dspx

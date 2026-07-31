@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"PO-Revision-Date: 2026-07-29 00:00\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /libresvip/plugins/dspx/dspx.po\n"
+
+msgid "DSPX"
+msgstr "DSPX"
+
+msgid "DiffScope Project Exchange Format"
+msgstr "DiffScope プロジェクト交換形式"
+
+msgid "Conversion plugin for DSPX project files"
+msgstr "DSPX プロジェクトファイル変換プラグイン"
+
+msgid "OpenVPI"
+msgstr "OpenVPI"
+
+msgid "Import pitch curve"
+msgstr "ピッチパラメータをインポート"
+
+msgid "Pitch import mode"
+msgstr "ピッチインポートモード"
+
+msgid "Edited and original pitch"
+msgstr "編集済みおよび元のピッチ"
+
+msgid "Edited pitch only"
+msgstr "編集済みピッチのみ"
+
+msgid "Bake tone shift into the pitch curve"
+msgstr "音域シフトをピッチパラメータに適用"
+
+msgid "Vibrato import mode"
+msgstr "ビブラートインポートモード"
+
+msgid "Do not import vibrato"
+msgstr "ビブラートをインポートしない"
+
+msgid "Preserve vibrato information on notes"
+msgstr "ノートにビブラート情報を保持"
+
+msgid "Bake vibrato into the pitch curve"
+msgstr "ビブラートをピッチパラメータに適用"
+
+msgid "Export pitch curve"
+msgstr "ピッチパラメータをエクスポート"
+
+msgid "Preserve vibrato"
+msgstr "ビブラートを保持"
+
+msgid "Invalid DSPX project"
+msgstr "無効な DSPX プロジェクト"
+
+msgid "Unsupported project version"
+msgstr "サポートされていないプロジェクトバージョン"

@@ -1,0 +1,50 @@
+msgid "DSPX"
+msgstr ""
+
+msgid "DiffScope Project Exchange Format"
+msgstr ""
+
+msgid "Conversion plugin for DSPX project files"
+msgstr ""
+
+msgid "OpenVPI"
+msgstr ""
+
+msgid "Import pitch curve"
+msgstr ""
+
+msgid "Pitch import mode"
+msgstr ""
+
+msgid "Edited and original pitch"
+msgstr ""
+
+msgid "Edited pitch only"
+msgstr ""
+
+msgid "Bake tone shift into the pitch curve"
+msgstr ""
+
+msgid "Vibrato import mode"
+msgstr ""
+
+msgid "Do not import vibrato"
+msgstr ""
+
+msgid "Preserve vibrato information on notes"
+msgstr ""
+
+msgid "Bake vibrato into the pitch curve"
+msgstr ""
+
+msgid "Export pitch curve"
+msgstr ""
+
+msgid "Preserve vibrato"
+msgstr ""
+
+msgid "Invalid DSPX project"
+msgstr ""
+
+msgid "Unsupported project version"
+msgstr ""
