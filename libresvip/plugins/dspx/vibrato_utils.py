@@ -140,13 +140,13 @@ class VibratoSequence:
             self._active_vibratos = [
                 note_vibrato
                 for note_vibrato in self.vibratos[: self._next_vibrato_index]
-                if note_vibrato.end_tick >= absolute_tick
+                if note_vibrato.end_tick > absolute_tick
             ]
         else:
             self._active_vibratos = [
                 note_vibrato
                 for note_vibrato in self._active_vibratos
-                if note_vibrato.end_tick >= absolute_tick
+                if note_vibrato.end_tick > absolute_tick
             ]
             while (
                 self._next_vibrato_index < len(self.vibratos)

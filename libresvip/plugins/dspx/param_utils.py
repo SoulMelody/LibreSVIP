@@ -323,11 +323,14 @@ def _deduplicate_points(points: list[Point]) -> list[Point]:
     return sorted(result.values(), key=lambda point: point.x)
 
 
-def _linear_value(points: list[Point], position: int) -> float | None:
+def _linear_value(
+    points: list[Point],
+    point_positions: list[int],
+    position: int,
+) -> float | None:
     if not points:
         return None
-    positions = [point.x for point in points]
-    right_index = bisect.bisect_left(positions, position)
+    right_index = bisect.bisect_left(point_positions, position)
     if right_index < len(points) and points[right_index].x == position:
         return float(points[right_index].y)
     if right_index == 0 or right_index == len(points):
@@ -362,10 +365,11 @@ def export_pitch_param(
             sample_position = _round_to_interval(points[0].x)
             sampled_values = [(sample_position, points[0].y)]
         else:
+            point_positions = [point.x for point in points]
             sampled_values = [
                 (position, round(clamp(value, PITCH_MIN, PITCH_MAX)))
                 for position in range(start, end + 1, SAMPLE_INTERVAL)
-                if (value := _linear_value(points, position)) is not None
+                if (value := _linear_value(points, point_positions, position)) is not None
             ]
         if sampled_values:
             free_curves.append(
