@@ -1,5 +1,7 @@
 import asyncio
+import os
 import traceback
+from typing import get_args, get_type_hints
 
 import rich
 from grpclib.server import Server
@@ -7,10 +9,12 @@ from grpclib.utils import graceful_exit
 from pydantic import BaseModel, ValidationError
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
+from pydantic_core import core_schema
 from typing_extensions import override
 from upath import UPath
 
 from libresvip.core.compat import json
+from libresvip.core.config import LibreSVIPSettingsContainer, settings
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.base import (
     OptionsDict,
@@ -43,6 +47,22 @@ from .libresvip_pb_grpc import ConversionBase, ProtobufPyCodec
 
 
 class GettextGenerateJsonSchema(GenerateJsonSchema):
+    @override
+    def enum_schema(self, schema: core_schema.EnumSchema) -> JsonSchemaValue:
+        json_schema = super().enum_schema(schema)
+        type_hints = get_type_hints(schema["cls"], include_extras=True)
+        if (value_hint := type_hints.get("_value_")) is not None:
+            value_args = get_args(value_hint)
+            if len(value_args) >= 2 and hasattr(value_args[1], "model_fields"):
+                member_fields = value_args[1].model_fields
+                if meta_enum := {
+                    str(member.value): _(member_fields[member.name].title)
+                    for member in schema["members"]
+                    if member.name in member_fields and member_fields[member.name].title is not None
+                }:
+                    json_schema["meta:enum"] = meta_enum
+        return json_schema
+
     @override
     def generate_inner(self, schema: CoreSchemaOrField) -> JsonSchemaValue:
         json_schema = super().generate_inner(schema)
@@ -263,9 +283,21 @@ class Conversion(ConversionBase):
         return ConversionResponse(group_results=group_id2results)
 
 
+def _warmup_json_schemas() -> None:
+    for plugin in plugin_manager.plugins.get("svs", {}).values():
+        if not issubclass(plugin, WriteOnlyConverterMixin):
+            model_json_schema(plugin.input_option_cls)
+        if not issubclass(plugin, ReadOnlyConverterMixin):
+            model_json_schema(plugin.output_option_cls)
+    for middleware in middleware_manager.plugins.get("middleware", {}).values():
+        model_json_schema(middleware.process_option_cls)
+
+
 async def run_grpc_server(*, host: str = "127.0.0.1", port: int = 15150) -> None:
+    os.environ["LIBRESVIP_SETTINGS_BACKEND"] = "remote"
+    _warmup_json_schemas()
     grpc_server = Server([Conversion()], codec=ProtobufPyCodec())
-    with graceful_exit([grpc_server]):
+    with LibreSVIPSettingsContainer.state.init(settings), graceful_exit([grpc_server]):
         await grpc_server.start(host, port)
         rich.print(f"Serving on {host}:{port}")
         await grpc_server.wait_closed()
