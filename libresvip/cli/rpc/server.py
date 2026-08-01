@@ -55,12 +55,19 @@ class GettextGenerateJsonSchema(GenerateJsonSchema):
             value_args = get_args(value_hint)
             if len(value_args) >= 2 and hasattr(value_args[1], "model_fields"):
                 member_fields = value_args[1].model_fields
-                if meta_enum := {
-                    str(member.value): _(member_fields[member.name].title)
+                member_titles = {
+                    member.name: title
                     for member in schema["members"]
-                    if member.name in member_fields and member_fields[member.name].title is not None
-                }:
-                    json_schema["meta:enum"] = meta_enum
+                    if member.name in member_fields
+                    and (title := member_fields[member.name].title) is not None
+                }
+                if member_titles:
+                    json_schema["oneOf"] = [
+                        {"const": member.value, "title": _(title)}
+                        if (title := member_titles.get(member.name)) is not None
+                        else {"const": member.value}
+                        for member in schema["members"]
+                    ]
         return json_schema
 
     @override
