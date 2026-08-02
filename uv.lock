@@ -1626,7 +1626,7 @@ requires-dist = [
     { name = "tatsu-lts", specifier = ">=5.16.0,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=1.0.1" },
     { name = "that-depends", specifier = ">=4.0.2" },
-    { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.0" },
+    { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.1" },
     { name = "typer", marker = "extra == 'cli'", specifier = ">=0.27.0,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.13.0" },
     { name = "universal-pathlib", specifier = ">=0.3.10,<1.0.0" },
@@ -3987,15 +3987,15 @@ wheels = [
 
 [[package]]
 name = "ttkbootstrap-icons-mat"
-version = "1.0.0"
+version = "1.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
     { name = "ttkbootstrap-icons" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6c/0a/cf2c24a632c56684628adb58da8dfbf630f5488b99fad465da300be60cc0/ttkbootstrap_icons_mat-1.0.0.tar.gz", hash = "sha256:4963cee4bd67af06116e3a9f21dbcafc6bb45adc1b02341e5d79c3a9b519f118", size = 694497, upload-time = "2025-11-02T06:03:04.671Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/89/62/b5602dc656e25671b7da039ac47d4ab0b1f54eac517dca898b1022159793/ttkbootstrap_icons_mat-1.0.1.tar.gz", hash = "sha256:15e317f7267fbacd3323d296fc8e7be226d9fceb0df18107562eed9a87f5f366", size = 696128, upload-time = "2026-08-02T20:29:45.974Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e2/0a/ebfcf0087be8d0d2eba6c68999c06c36be6566d7d5089189374de3d73f51/ttkbootstrap_icons_mat-1.0.0-py3-none-any.whl", hash = "sha256:09c79a3d79738569fda9ee71fe8ea65bd53e72ec2480fb0fc367c0391fcdd813", size = 698216, upload-time = "2025-11-02T06:03:03.118Z" },
+    { url = "https://files.pythonhosted.org/packages/08/63/c1e7f822b7f0da00779fa1deb42c1a88633c943064f4e7482cfe443757db/ttkbootstrap_icons_mat-1.0.1-py3-none-any.whl", hash = "sha256:9cac45f11fc43fc9d70fb4c37d1a96aa85499e1792d0a98e56c80927348566cf", size = 699226, upload-time = "2026-08-02T20:29:29.153Z" },
 ]
 
 [[package]]
