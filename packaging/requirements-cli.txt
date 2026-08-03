@@ -12,7 +12,7 @@ construct==2.10.70
 construct-typing==0.8.1
 fsspec==2026.7.0
 grpclib==0.4.9
-h2==4.4.0
+h2==4.4.1
 hpack==4.2.0
 hyperframe==6.1.0
 importlib-resources==7.1.0 ; python_full_version < '3.11'
@@ -70,7 +70,7 @@ soundfile==0.14.0 ; sys_platform == 'emscripten'
 svg-py==1.10.0
 tatsu-lts==5.16.0
 that-depends==4.0.2
-typer==0.27.0
+typer==0.27.1
 typing-extensions==4.16.0
 typing-inspection==0.4.2
 tzdata==2026.3
