@@ -74,7 +74,7 @@ tatsu-lts==5.16.0
 that-depends==4.0.2
 truststore==0.10.4
 ttkbootstrap-icons==4.0.0
-ttkbootstrap-icons-mat==1.0.0
+ttkbootstrap-icons-mat==1.0.1
 typing-extensions==4.16.0
 typing-inspection==0.4.2
 tzdata==2026.3
