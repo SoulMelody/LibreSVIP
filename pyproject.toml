@@ -78,7 +78,7 @@ cli = [
   "winloop>=0.6.3; sys_platform == \"win32\"",
 ]
 crypto = [
-  "cffi>=2.1.0; platform_python_implementation != \"PyPy\" and (sys_platform != \"win32\" or python_version <= \"3.11\")",
+  "cffi>=2.1.1; platform_python_implementation != \"PyPy\" and (sys_platform != \"win32\" or python_version <= \"3.11\")",
   "pyzipper>=0.4.0",
 ]
 desktop = [
