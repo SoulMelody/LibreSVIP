@@ -118,14 +118,14 @@ all = [
 ]
 code_gen = [
   "buf-bin>=1.72.0",
-  "datamodel-code-generator>=0.72.0",
+  "datamodel-code-generator>=0.72.1",
   "pbtk>=1.1.2",
   "protoc-gen-py>=0.2.0",
   "pyside6-addons<6.12.0,>=6.11.1",
   "xsdata[cli]>=26.2",
 ]
 docs = [
-  "zensical>=0.0.52",
+  "zensical>=0.0.53",
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
@@ -145,7 +145,7 @@ packaging = [
   "pyinstaller>=6.21.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-test = ["pytest>=9.1.1", "pytest-run-parallel>=0.9.1", "textual-dev>=1.8.0"]
+test = ["pytest>=9.1.1", "pytest-run-parallel>=0.10.0", "textual-dev>=1.8.0"]
 
 [project.scripts]
 libresvip-cli = "libresvip.cli.__main__:app"
