@@ -50,7 +50,7 @@ gui_a = Analysis(
         os.path.join(PySide6.__path__[0], os.pardir)
     ],
     binaries=extra_binaries,
-    datas=collect_data_files("desktop_notifier") + collect_data_files("ttkbootstrap_icons_mat") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_data_files("qasync", include_py_files=True) + collect_entry_point("xsdata.plugins.class_types")[0] + collect_entry_point("ttkbootstrap_icons_mat")[0],
+    datas=collect_data_files("desktop_notifier") + collect_data_files("tkinter_icons_mat") + collect_data_files("jyutping") + collect_data_files("xsdata") + collect_data_files("qasync", include_py_files=True) + collect_entry_point("xsdata.plugins.class_types")[0] + collect_entry_point("tkinter_icons.providers")[0],
     hiddenimports=[
         *zstd_backends,
         "bidict",

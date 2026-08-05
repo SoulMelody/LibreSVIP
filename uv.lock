@@ -236,11 +236,11 @@ wheels = [
 
 [[package]]
 name = "argcomplete"
-version = "3.7.0"
+version = "3.7.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/95/c0/c8e94135e66fabf89a120d9b4b123fe6993506beca6c1938a74c24cfa5fd/argcomplete-3.7.0.tar.gz", hash = "sha256:afde224f753f874807b1dc1414e883ab8fe0cda9c04807b6047dcb8e1ac23913", size = 73284, upload-time = "2026-06-30T22:28:22.249Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/40/8a867253c9b8afa296ac22e426a157eebbe41dcac66f7f50bbbef931afed/argcomplete-3.7.1.tar.gz", hash = "sha256:6926a3a70ae70dce1f3dfb5cf1fc984278cd163e78ec18ad2ed7fa4fabd8f281", size = 74457, upload-time = "2026-08-04T15:03:59.399Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/12/f6/5b8ec087cd9cfa9449491ec83f76fb6b7006b4dff57d2ba8aaab330fe8e4/argcomplete-3.7.0-py3-none-any.whl", hash = "sha256:d8f0f22d2a8a7caa383be1e22b6caf1ecaf0ebd10d8f83cc125e36540c95830c", size = 42575, upload-time = "2026-06-30T22:28:20.547Z" },
+    { url = "https://files.pythonhosted.org/packages/11/56/1935d0692656f0bfc0c2336d4ce599dcf166abe4ec786ce1abdaefa19589/argcomplete-3.7.1-py3-none-any.whl", hash = "sha256:0bed095030f295599b1018a622a53ea22f4f253e134b87be396b51e59ee00954", size = 43301, upload-time = "2026-08-04T15:03:58.02Z" },
 ]
 
 [[package]]
@@ -939,7 +939,7 @@ name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
 wheels = [
@@ -1203,15 +1203,15 @@ wheels = [
 
 [[package]]
 name = "h2"
-version = "4.4.0"
+version = "4.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "hpack" },
     { name = "hyperframe" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/30/d4/a7d6fb3f58be99d65cbf2d3f766896217a2921d0f3ab10711c45dc1519ee/h2-4.4.0.tar.gz", hash = "sha256:46b551bdcdc7e83cf5c04d0bf93badb8a939bd2287d9fee1abb23a445b9e0580", size = 2156691, upload-time = "2026-07-23T19:14:19.442Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e7/85/7c366e69d84c17bb778fe41419e1fbcce3033d5b7ce29bbffff0a98b859f/h2-4.4.1.tar.gz", hash = "sha256:4e866ffb1a869ae14dd9b5e6beb5c24a13da0495ad72b65925ded182521c1516", size = 2157281, upload-time = "2026-08-03T11:45:09.509Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f6/df/5b14a118322d6097cb9bb30ec6bacad268e546a8ecfcb1f6d0de618dac2f/h2-4.4.0-py3-none-any.whl", hash = "sha256:6acffe1aeab79098d7eb0f8385c1add11f2c7a94815f6fa2b7060eeddee3d87c", size = 62368, upload-time = "2026-07-23T19:14:16.143Z" },
+    { url = "https://files.pythonhosted.org/packages/7e/22/e85faf23bd72a92d1921e37d674ca56eb298a3c8be31fdecef0ff2b3aaac/h2-4.4.1-py3-none-any.whl", hash = "sha256:0e25f1462b23c9cb82d9eb02e28bc706dac2a68cb457c6a0d74d63c8a2a5d0e6", size = 62636, upload-time = "2026-08-03T11:44:59.164Z" },
 ]
 
 [[package]]
@@ -1489,7 +1489,7 @@ desktop = [
     { name = "httpx2" },
     { name = "pyside6-essentials" },
     { name = "qasync" },
-    { name = "ttkbootstrap-icons-mat" },
+    { name = "tkinter-icons-mat" },
 ]
 lxml = [
     { name = "lxml" },
@@ -1626,7 +1626,7 @@ requires-dist = [
     { name = "tatsu-lts", specifier = ">=5.16.0,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=1.0.1" },
     { name = "that-depends", specifier = ">=4.0.2" },
-    { name = "ttkbootstrap-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.0.1" },
+    { name = "tkinter-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.1.0" },
     { name = "typer", marker = "extra == 'cli'", specifier = ">=0.27.1,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.13.0" },
     { name = "universal-pathlib", specifier = ">=0.3.10,<1.0.0" },
@@ -3748,11 +3748,11 @@ name = "soundfile"
 version = "0.14.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cffi" },
+    { name = "cffi", marker = "python_full_version != '3.13.*' or sys_platform == 'emscripten'" },
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
-    { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
-    { name = "typing-extensions" },
+    { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version == '3.12.*' and sys_platform != 'emscripten') or (python_full_version >= '3.14' and sys_platform != 'emscripten') or (python_full_version >= '3.12' and sys_platform == 'emscripten')" },
+    { name = "typing-extensions", marker = "python_full_version != '3.13.*' or sys_platform == 'emscripten'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/d2/db/949331952a6fb1c5b12e9de80fd08747966c2039d1a61db4764fbd3981c2/soundfile-0.14.0.tar.gz", hash = "sha256:ba1c1a2d618bca5c406647c83b89f07cc8810fa506a50622a6993ba130c1de11", size = 47842, upload-time = "2026-06-06T08:58:47.869Z" }
 wheels = [
@@ -3901,6 +3901,32 @@ wheels = [
 ]
 
 [[package]]
+name = "tkinter-icons"
+version = "5.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pillow" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/31/10/eecae2878b8bb017b0dea4d4ea7c0178ff7c6d09c38c308b48c97f1d9e92/tkinter_icons-5.0.0.tar.gz", hash = "sha256:4c87aed07731e3b3e98a33cfa09d93d855e3403eedc30ab3556803e92d1b766c", size = 52719, upload-time = "2026-08-04T13:48:32.866Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e0/11/08a34b0237e746bf5fc6d1eae599f9f34f8cfadf8789fd23579615d6ab08/tkinter_icons-5.0.0-py3-none-any.whl", hash = "sha256:815dddf8ef28b572e278bedfe06d274cdda311734232edf9c5be5b8154ee2624", size = 51329, upload-time = "2026-08-04T13:48:31.579Z" },
+]
+
+[[package]]
+name = "tkinter-icons-mat"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pillow" },
+    { name = "tkinter-icons" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/3f/89/c34bc3bb023bd4c77459d70dbaf269f874583d8730fc5dd5884a1ecaa40a/tkinter_icons_mat-1.1.0.tar.gz", hash = "sha256:e141c919ad358b2fa5e38cfab65a9e110e619632106cf000df0cb611ea55d155", size = 808904, upload-time = "2026-08-04T13:48:42.778Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/17/0a/8b8e2aee7206fccfdb9f275ae6a26ed3df3174a9e3f98f0ff66a5431c04a/tkinter_icons_mat-1.1.0-py3-none-any.whl", hash = "sha256:aa10cda939206cb80d32dbcdfef0c65de94ae1d57be79385bee2d5f55dffc074", size = 814292, upload-time = "2026-08-04T13:48:41.342Z" },
+]
+
+[[package]]
 name = "tomli"
 version = "2.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -3970,32 +3996,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/53/a3/1585216310e344e8102c22482f6060c7a6ea0322b63e026372e6dcefcfd6/truststore-0.10.4.tar.gz", hash = "sha256:9d91bd436463ad5e4ee4aba766628dd6cd7010cf3e2461756b3303710eebc301", size = 26169, upload-time = "2025-08-12T18:49:02.73Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/19/97/56608b2249fe206a67cd573bc93cd9896e1efb9e98bce9c163bcdc704b88/truststore-0.10.4-py3-none-any.whl", hash = "sha256:adaeaecf1cbb5f4de3b1959b42d41f6fab57b2b1666adb59e89cb0b53361d981", size = 18660, upload-time = "2025-08-12T18:49:01.46Z" },
-]
-
-[[package]]
-name = "ttkbootstrap-icons"
-version = "4.0.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pillow" },
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a6/ac/19312258e408ba8c708256fd948bc78ab7d1d944991adfaf4044d56b7c78/ttkbootstrap_icons-4.0.0.tar.gz", hash = "sha256:4d3045e053fa57ce1cc6524d8cd721715595114803cc362616d7cdc8a2a9c416", size = 90441, upload-time = "2025-12-05T04:34:15.909Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b0/7e/f610e3d08fc64c419ff6a0c6d0b168e0fe15ad181f45f51ef37ea3f434b7/ttkbootstrap_icons-4.0.0-py3-none-any.whl", hash = "sha256:75ac2a2205be559a348bc6df037976f02e9a0cf4058e3ed037ddf2520dfa8cfd", size = 33743, upload-time = "2025-12-05T04:34:14.708Z" },
-]
-
-[[package]]
-name = "ttkbootstrap-icons-mat"
-version = "1.0.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pillow" },
-    { name = "ttkbootstrap-icons" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/89/62/b5602dc656e25671b7da039ac47d4ab0b1f54eac517dca898b1022159793/ttkbootstrap_icons_mat-1.0.1.tar.gz", hash = "sha256:15e317f7267fbacd3323d296fc8e7be226d9fceb0df18107562eed9a87f5f366", size = 696128, upload-time = "2026-08-02T20:29:45.974Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/63/c1e7f822b7f0da00779fa1deb42c1a88633c943064f4e7482cfe443757db/ttkbootstrap_icons_mat-1.0.1-py3-none-any.whl", hash = "sha256:9cac45f11fc43fc9d70fb4c37d1a96aa85499e1792d0a98e56c80927348566cf", size = 699226, upload-time = "2026-08-02T20:29:29.153Z" },
 ]
 
 [[package]]

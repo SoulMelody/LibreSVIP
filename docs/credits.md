@@ -43,7 +43,7 @@
 | universal_pathlib       | pathlib api extended to use fsspec backends                                                                                  | MIT License                                         |
 | nicegui                 | Create web-based user interfaces with Python. The nice way.                                                                  | MIT License                                         |
 | PySide6                 | Python bindings for the Qt cross-platform application and UI framework                                                       | GNU Library or Lesser General Public License (LGPL) |
-| ttkbootstrap-icons-mat  | Material Icons (font-based) provider for ttkbootstrap-icons                                                                  | MIT License                                         |
+| tkinter-icons-mat       | Material Icons (font-based) provider for tkinter-icons                                                                       | MIT License                                         |
 | httpx                   | The next generation HTTP client.                                                                                             | BSD License                                         |
 | desktop-notifier        | Python library for cross-platform desktop notifications                                                                      | MIT License                                         |
 | ruamel.yaml             | ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order | MIT License                                         |

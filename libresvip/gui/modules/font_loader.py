@@ -7,7 +7,7 @@ from PySide6.QtGui import QFontDatabase
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 
-PACKAGE_FILES = files("ttkbootstrap_icons_mat")
+PACKAGE_FILES = files("tkinter_icons_mat")
 
 
 class IconicFontLoader(QObject):
