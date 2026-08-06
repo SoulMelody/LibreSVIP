@@ -193,7 +193,7 @@ class DspxGenerator:
             path=str(Path(track.audio_file_path)),
             time=ClipTime(
                 pos=pos,
-                length=duration,
+                length=0,
                 clip_start=clip_start,
                 clip_len=max(duration - clip_start, 0),
             ),
@@ -224,13 +224,12 @@ class DspxGenerator:
         pitch_end = self.pitch_end(track.edited_params.pitch)
         if pitch_end is not None:
             max_end = max(max_end, pitch_end)
-        length = _clamp_int32(max_end - origin)
         return SingingClip(
             type="singing",
             name=track.title,
             time=ClipTime(
                 pos=0,
-                length=length,
+                length=0,
                 clip_start=clip_start,
                 clip_len=_clamp_int32(max_end),
             ),
