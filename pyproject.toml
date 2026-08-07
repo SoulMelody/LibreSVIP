@@ -118,9 +118,9 @@ all = [
 ]
 code_gen = [
   "buf-bin>=1.72.0",
-  "datamodel-code-generator>=0.72.1",
+  "datamodel-code-generator>=0.72.2",
   "pbtk>=1.1.2",
-  "protoc-gen-py>=0.2.0",
+  "protoc-gen-py>=0.3.0",
   "pyside6-addons<6.12.0,>=6.11.1",
   "xsdata[cli]>=26.2",
 ]
