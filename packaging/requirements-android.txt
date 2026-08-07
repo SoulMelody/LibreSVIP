@@ -35,7 +35,7 @@ packaging==26.3
 pathlib-abc==0.5.2
 platformdirs==4.11.0
 portion==2.6.2
-protobuf-py==0.2.0
+protobuf-py==0.3.0
 pycparser==3.0
 pycryptodomex==3.23.0
 pydantic==2.13.4
@@ -59,7 +59,7 @@ six==1.17.0
 sortedcontainers==2.4.0
 svg-py==1.10.0
 tatsu-lts==5.16.0
-that-depends==4.0.2
+that-depends==4.1.0
 typing-extensions==4.16.0
 typing-inspection==0.4.2
 tzdata==2026.3
