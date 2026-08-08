@@ -63,7 +63,7 @@ retrie==0.3.1
 ruamel-yaml==0.19.1
 ruamel-yaml-clib==0.2.15 ; sys_platform != 'darwin' and sys_platform != 'emscripten' and sys_platform != 'linux' and sys_platform != 'win32'
 rubicon-objc==0.5.6 ; sys_platform == 'darwin'
-setuptools==83.0.0
+setuptools==84.0.0
 shellingham==1.5.4
 shiboken6==6.11.1
 six==1.17.0
@@ -72,8 +72,8 @@ soundfile==0.14.0 ; sys_platform == 'emscripten'
 svg-py==1.10.0
 tatsu-lts==5.16.0
 that-depends==4.1.0
-tkinter-icons==5.0.0
-tkinter-icons-mat==1.1.0
+tkinter-icons==5.0.1
+tkinter-icons-mat==1.1.1
 truststore==0.10.4
 typing-extensions==4.16.0
 typing-inspection==0.4.2
