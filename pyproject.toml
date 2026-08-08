@@ -142,7 +142,7 @@ linting = [
 ]
 packaging = [
   "flet-cli>=0.86.5,<0.90.0",
-  "pyinstaller>=6.21.0",
+  "pyinstaller>=6.22.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 test = ["pytest>=9.1.1", "pytest-run-parallel>=0.10.0", "textual-dev>=1.8.0"]
