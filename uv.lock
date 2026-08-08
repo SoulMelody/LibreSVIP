@@ -1626,7 +1626,7 @@ requires-dist = [
     { name = "tatsu-lts", specifier = ">=5.16.0,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=1.0.1" },
     { name = "that-depends", specifier = ">=4.1.0" },
-    { name = "tkinter-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.1.0" },
+    { name = "tkinter-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.1.1" },
     { name = "typer", marker = "extra == 'cli'", specifier = ">=0.27.1,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.13.0" },
     { name = "universal-pathlib", specifier = ">=0.3.10,<1.0.0" },
@@ -3915,15 +3915,15 @@ wheels = [
 
 [[package]]
 name = "tkinter-icons-mat"
-version = "1.1.0"
+version = "1.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
     { name = "tkinter-icons" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3f/89/c34bc3bb023bd4c77459d70dbaf269f874583d8730fc5dd5884a1ecaa40a/tkinter_icons_mat-1.1.0.tar.gz", hash = "sha256:e141c919ad358b2fa5e38cfab65a9e110e619632106cf000df0cb611ea55d155", size = 808904, upload-time = "2026-08-04T13:48:42.778Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/88/12/79944aae290353deeb0ed28812b6e4bd3ae3f3f27870a3a30826509315f5/tkinter_icons_mat-1.1.1.tar.gz", hash = "sha256:21fc9c5096789b713af2a43f0ae3cbc1736f73150139ef77948a1a568b0e8332", size = 806332, upload-time = "2026-08-08T20:06:09.095Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/17/0a/8b8e2aee7206fccfdb9f275ae6a26ed3df3174a9e3f98f0ff66a5431c04a/tkinter_icons_mat-1.1.0-py3-none-any.whl", hash = "sha256:aa10cda939206cb80d32dbcdfef0c65de94ae1d57be79385bee2d5f55dffc074", size = 814292, upload-time = "2026-08-04T13:48:41.342Z" },
+    { url = "https://files.pythonhosted.org/packages/71/78/59d1738bb1f1ae4689fbcd4877969e8e32e08f927f6c02078bbd57bdc246/tkinter_icons_mat-1.1.1-py3-none-any.whl", hash = "sha256:64e5279488b5269a8b943ebbaabde92efb2778e7392cecaa990487f8b258ebb5", size = 811097, upload-time = "2026-08-08T20:05:46.686Z" },
 ]
 
 [[package]]
