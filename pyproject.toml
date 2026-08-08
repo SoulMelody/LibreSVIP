@@ -83,7 +83,7 @@ crypto = [
 ]
 desktop = [
   "pyside6-essentials<6.12.0,>=6.11.1",
-  "tkinter-icons-mat>=1.1.0",
+  "tkinter-icons-mat>=1.1.1",
   "httpx2>=2.9.1",
   "desktop-notifier>=6.2.0",
   "qasync>=0.28.0",
