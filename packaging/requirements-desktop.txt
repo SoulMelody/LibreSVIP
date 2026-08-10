@@ -77,7 +77,7 @@ tkinter-icons==5.0.1
 tkinter-icons-mat==1.1.1
 truststore==0.10.4 ; sys_platform != 'emscripten'
 typing-extensions==4.16.0
-typing-inspection==0.4.2
+typing-inspection==0.4.3
 tzdata==2026.3
 ujson==5.13.0
 universal-pathlib==0.3.10
