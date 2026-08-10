@@ -136,7 +136,7 @@ linting = [
   "ruff>=0.16.2",
   "sortedcontainers-stubs>=2.4.3",
   "types-lxml>=2026.2.16",
-  "types-pyinstaller>=6.21.0.20260616",
+  "types-pyinstaller>=6.21.0.20260810",
   "types-pyyaml>=6.0.12.20260724",
   "types-ujson>=5.10.0.20250822",
 ]
