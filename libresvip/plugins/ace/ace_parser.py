@@ -33,8 +33,10 @@ class AceMobileParser:
     path: pathlib.Path
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
+    project_version: int = dataclasses.field(init=False)
 
     def parse_project(self, ace_project: AceProject) -> Project:
+        self.project_version = ace_project.version
         bpm = self.select_bpm(ace_project)
         tempos = [SongTempo(position=0, bpm=bpm)]
         time_signatures = [
@@ -96,6 +98,7 @@ class AceMobileParser:
         notes = []
         pitch_points = []
         for ace_note in sorted(ace_notes, key=lambda note: note.start_time):
+            real_pitch = ace_note.pitch - 12 if self.project_version < 3 else ace_note.pitch
             start_pos = round(self.synchronizer.get_actual_ticks_from_secs(ace_note.start_time))
             end_pos = round(self.synchronizer.get_actual_ticks_from_secs(ace_note.end_time))
             if end_pos <= start_pos:
@@ -105,7 +108,7 @@ class AceMobileParser:
             note = Note(
                 lyric=lyric,
                 pronunciation=pinyin if pinyin and lyric != pinyin else None,
-                key_number=ace_note.pitch,
+                key_number=real_pitch,
                 start_pos=start_pos,
                 length=end_pos - start_pos,
                 head_tag="V" if ace_note.br else None,
@@ -115,17 +118,18 @@ class AceMobileParser:
                     else None
                 ),
             )
-            if self.options.import_pitch and ace_note.pitch_bends:
+            source_pitch = ace_note.user_pitch or ace_note.pitch_bends
+            if self.options.import_pitch and source_pitch:
                 note_pitch_points = [
                     Point(
                         x=round(
                             self.synchronizer.get_actual_ticks_from_secs(pitch_bend.time)
                             + self.first_bar_length
                         ),
-                        y=round((ace_note.pitch + pitch_bend.pitch) * 100),
+                        y=round((real_pitch + pitch_bend.pitch) * 100),
                     )
-                    for pitch_bend in ace_note.pitch_bends
-                    if ace_note.start_time <= pitch_bend.time <= ace_note.end_time
+                    for pitch_bend in source_pitch
+                    if pitch_bend.time <= ace_note.end_time
                 ]
                 if note_pitch_points:
                     note_pitch_points.sort(key=lambda point: point.x)

@@ -1,4 +1,5 @@
-from pydantic import AliasChoices, Field, field_validator
+from pydantic import AliasChoices, Field, field_validator, model_validator
+from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
 
@@ -31,6 +32,7 @@ class AceNote(AceTimedItem):
     word: str = ""
     pinyin: str = ""
     pitch_bends: list[AcePitchBend] = Field(default_factory=list, alias="pitchBends")
+    user_pitch: list[AcePitchBend] | None = None
     br: bool = False
     config: str | None = None
     consonant_time_abs: float | None = None
@@ -132,6 +134,12 @@ class AceProject(BaseModel):
     def normalize_null_tracks(cls, value: object) -> object:
         # Some legacy mobile projects contain an explicit `"tracks": null`.
         return [] if value is None else value
+
+    @model_validator(mode="after")
+    def mark_legacy_project_version(self) -> Self:
+        if self.notes:
+            self.version = 1
+        return self
 
     def singing_tracks(self) -> list[AceTrack]:
         if self.tracks:

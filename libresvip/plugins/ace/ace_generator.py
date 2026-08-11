@@ -121,7 +121,7 @@ class AceMobileGenerator:
             end_time=end_time,
             key=self.options.key,
             pinyin=pinyin,
-            pitch=note.key_number,
+            pitch=note.key_number + 12,
             pitchBends=pitch_bends,
             scale=DEFAULT_SCALE,
             start_time=start_time,

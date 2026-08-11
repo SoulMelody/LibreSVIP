@@ -54,9 +54,9 @@ def test_ace_mobile_loads_legacy_root_notes(tmp_path: pathlib.Path) -> None:
     assert track.volume == 0.75
     assert len(track.note_list) == 1
     note = track.note_list[0]
-    assert (note.start_pos, note.length, note.key_number) == (720, 720, 60)
+    assert (note.start_pos, note.length, note.key_number) == (720, 720, 48)
     assert (note.lyric, note.pronunciation) == ("chao", None)
-    assert Point(3000, 6050) in track.edited_params.pitch.points.root
+    assert Point(3000, 4850) in track.edited_params.pitch.points.root
 
 
 def test_ace_mobile_uses_modified_pinyin_as_lyric(tmp_path: pathlib.Path) -> None:
@@ -139,6 +139,7 @@ def test_ace_mobile_round_trip_new_schema(tmp_path: pathlib.Path) -> None:
     assert raw["song_info"]["name"] == "roundtrip"
     assert raw["tracks"][0]["role_info"] == {"name": "Mobile Singer", "role_id": 7}
     assert len(parsed_model.tracks[0].notes[0].pitch_bends) == 2
+    assert [note.pitch for note in parsed_model.tracks[0].notes] == [72, 74]
 
     restored = AceMobileConverter.load(
         ace_path,
@@ -154,3 +155,76 @@ def test_ace_mobile_round_trip_new_schema(tmp_path: pathlib.Path) -> None:
         (480, 240, 62, "好"),
     ]
     assert Point(2160, 6025) in restored_track.edited_params.pitch.points.root
+
+
+def test_ace_mobile_prefers_precise_user_pitch(tmp_path: pathlib.Path) -> None:
+    ace_path = tmp_path / "precise.ace"
+    ace_path.write_text(
+        json.dumps(
+            {
+                "version": 2,
+                "song_info": {"bpm": 120},
+                "tracks": [
+                    {
+                        "notes": [
+                            {
+                                "start_time": 1.0,
+                                "end_time": 2.0,
+                                "pitch": 72,
+                                "word": "la",
+                                "pitchBends": [
+                                    {"time": 1.0, "pitch": 0.0},
+                                    {"time": 1.5, "pitch": 0.0},
+                                ],
+                                "user_pitch": [
+                                    {"time": 0.9, "pitch": 0.25},
+                                    {"time": 1.5, "pitch": -0.5},
+                                ],
+                            }
+                        ]
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    project = AceMobileConverter.load(ace_path, {"import_instrumental_track": False})
+
+    track = project.track_list[0]
+    assert isinstance(track, SingingTrack)
+    assert track.note_list[0].key_number == 60
+    assert Point(2784, 6025) in track.edited_params.pitch.points.root
+    assert Point(3360, 5950) in track.edited_params.pitch.points.root
+    assert Point(2880, 7200) not in track.edited_params.pitch.points.root
+
+
+def test_ace_mobile_version_3_uses_midi_pitch(tmp_path: pathlib.Path) -> None:
+    ace_path = tmp_path / "version-3.ace"
+    ace_path.write_text(
+        json.dumps(
+            {
+                "version": 3,
+                "song_info": {"bpm": 120},
+                "tracks": [
+                    {
+                        "notes": [
+                            {
+                                "start_time": 0.0,
+                                "end_time": 0.5,
+                                "pitch": 60,
+                                "word": "la",
+                            }
+                        ]
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    project = AceMobileConverter.load(ace_path, {"import_instrumental_track": False})
+
+    track = project.track_list[0]
+    assert isinstance(track, SingingTrack)
+    assert track.note_list[0].key_number == 60
