@@ -5,6 +5,7 @@ import re
 from typing import TYPE_CHECKING
 
 from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -100,9 +101,10 @@ class AceMobileParser:
             if end_pos <= start_pos:
                 end_pos = start_pos + 1
             lyric = self.select_lyric(ace_note)
+            pinyin = ace_note.pinyin.strip()
             note = Note(
                 lyric=lyric,
-                pronunciation=ace_note.pinyin or None,
+                pronunciation=pinyin if pinyin and lyric != pinyin else None,
                 key_number=ace_note.pitch,
                 start_pos=start_pos,
                 length=end_pos - start_pos,
@@ -139,11 +141,16 @@ class AceMobileParser:
     @staticmethod
     def select_lyric(note: AceNote) -> str:
         word = note.word.strip()
+        pinyin = note.pinyin.strip()
+        if word and re.search(r"[\u3400-\u9fff]", word) and pinyin:
+            default_pinyin = get_pinyin_series([word])[0]
+            if pinyin.casefold() != default_pinyin.casefold():
+                return pinyin
         if word and (
             word.isascii() or re.search(r"[\u3400-\u9fff\u3040-\u30ff\uac00-\ud7af]", word)
         ):
             return word
-        return note.pinyin or word or "la"
+        return pinyin or word or "la"
 
     def parse_instrumental_tracks(self, ace_project: AceProject) -> list[InstrumentalTrack]:
         if not self.options.import_instrumental_track or hasattr(self.path, "protocol"):

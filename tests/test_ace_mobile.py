@@ -55,8 +55,50 @@ def test_ace_mobile_loads_legacy_root_notes(tmp_path: pathlib.Path) -> None:
     assert len(track.note_list) == 1
     note = track.note_list[0]
     assert (note.start_pos, note.length, note.key_number) == (720, 720, 60)
-    assert (note.lyric, note.pronunciation) == ("chao", "chao")
+    assert (note.lyric, note.pronunciation) == ("chao", None)
     assert Point(3000, 6050) in track.edited_params.pitch.points.root
+
+
+def test_ace_mobile_uses_modified_pinyin_as_lyric(tmp_path: pathlib.Path) -> None:
+    ace_path = tmp_path / "polyphonic.ace"
+    ace_path.write_text(
+        json.dumps(
+            {
+                "song_info": {"bpm": 120},
+                "role_info": {"name": "singer", "role_id": 2},
+                "notes": [
+                    {
+                        "start_time": 0.0,
+                        "end_time": 0.5,
+                        "pitch": 60,
+                        "word": "谁",
+                        "pinyin": "shei",
+                    },
+                    {
+                        "start_time": 0.5,
+                        "end_time": 1.0,
+                        "pitch": 62,
+                        "word": "水",
+                        "pinyin": "shui",
+                    },
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    project = AceMobileConverter.load(
+        ace_path,
+        {"import_instrumental_track": False},
+    )
+
+    track = project.track_list[0]
+    assert isinstance(track, SingingTrack)
+    assert [(note.lyric, note.pronunciation) for note in track.note_list] == [
+        ("shei", None),
+        ("水", "shui"),
+    ]
 
 
 def test_ace_mobile_round_trip_new_schema(tmp_path: pathlib.Path) -> None:
