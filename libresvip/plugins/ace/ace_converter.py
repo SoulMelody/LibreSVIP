@@ -1,6 +1,8 @@
 import pathlib
 from importlib.resources import files
 
+from pydantic_core import from_json
+
 from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
@@ -23,7 +25,14 @@ class AceMobileConverter(plugin_base.SVSConverter):
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.input_option_cls.model_validate(options)
-        ace_project = AceProject.model_validate_json(path.read_bytes())
+        content = path.read_bytes()
+        try:
+            raw_project = from_json(content)
+        except ValueError as error:
+            if "trailing characters" not in str(error):
+                raise
+            raw_project = from_json(content, allow_partial=True)
+        ace_project = AceProject.model_validate(raw_project)
         return AceMobileParser(options_obj, path).parse_project(ace_project)
 
     @classmethod

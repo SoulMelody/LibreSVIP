@@ -1,10 +1,13 @@
 import json
 import pathlib
+from itertools import pairwise
 
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
 from libresvip.model.point import Point
 from libresvip.plugins.ace.ace_converter import AceMobileConverter
 from libresvip.plugins.ace.model import AceProject
+from libresvip.plugins.acep.ace_studio_generator import AceGenerator
+from libresvip.plugins.acep.options import OutputOptions as AcepOutputOptions
 
 
 def test_ace_mobile_plugin_metadata() -> None:
@@ -228,3 +231,91 @@ def test_ace_mobile_version_3_uses_midi_pitch(tmp_path: pathlib.Path) -> None:
     track = project.track_list[0]
     assert isinstance(track, SingingTrack)
     assert track.note_list[0].key_number == 60
+
+
+def test_ace_mobile_ignores_truncated_trailing_fragment(tmp_path: pathlib.Path) -> None:
+    ace_path = tmp_path / "trailing-fragment.ace"
+    valid_project = json.dumps(
+        {
+            "version": 2,
+            "song_info": {"bpm": 120},
+            "tracks": [
+                {
+                    "notes": [
+                        {
+                            "start_time": 0.0,
+                            "end_time": 0.5,
+                            "pitch": 72,
+                            "word": "la",
+                        }
+                    ]
+                }
+            ],
+        }
+    )
+    ace_path.write_text(
+        valid_project + '9565309618098},{"pitch":0.0,"time":1.0}],"st',
+        encoding="utf-8",
+    )
+
+    project = AceMobileConverter.load(ace_path, {"import_instrumental_track": False})
+
+    track = project.track_list[0]
+    assert isinstance(track, SingingTrack)
+    assert track.note_list[0].key_number == 60
+
+
+def test_acep_pitch_segments_do_not_overlap_at_note_boundaries() -> None:
+    project = Project(
+        song_tempo_list=[SongTempo(position=0, bpm=120)],
+        time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
+        track_list=[
+            SingingTrack(
+                note_list=[
+                    Note(start_pos=0, length=480, key_number=60, lyric="a"),
+                    Note(start_pos=480, length=480, key_number=62, lyric="b"),
+                ]
+            )
+        ],
+    )
+    track = project.track_list[0]
+    assert isinstance(track, SingingTrack)
+    track.edited_params.pitch.points.root = [
+        Point.start_point(),
+        Point(1920, 6000),
+        Point(2400, 6000),
+        Point(2400, -100),
+        Point(2400, 6200),
+        Point(2880, 6200),
+        Point(2880, -100),
+        Point.end_point(),
+    ]
+
+    ace_project = AceGenerator(AcepOutputOptions()).generate_project(project)
+    pattern = ace_project.tracks[0].patterns[0]
+    curves = pattern.parameters.pitch_delta.root
+
+    assert [(curve.offset, len(curve.values)) for curve in curves] == [(0, 480), (480, 480)]
+    assert all(left.offset + len(left.values) <= right.offset for left, right in pairwise(curves))
+    assert all(curve.offset + len(curve.values) <= pattern.dur for curve in curves)
+
+
+def test_acep_default_output_preserves_breath_adjacent_note_lengths() -> None:
+    project = Project(
+        song_tempo_list=[SongTempo(position=0, bpm=158)],
+        time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
+        track_list=[
+            SingingTrack(
+                note_list=[
+                    Note(start_pos=0, length=240, key_number=60, lyric="a"),
+                    Note(start_pos=240, length=240, key_number=62, lyric="b", head_tag="V"),
+                ]
+            )
+        ],
+    )
+
+    ace_project = AceGenerator(AcepOutputOptions()).generate_project(project)
+    notes = ace_project.tracks[0].patterns[0].notes
+
+    assert AcepOutputOptions().breath == 0
+    assert [note.dur for note in notes] == [240, 240]
