@@ -1,10 +1,10 @@
-msgid "ACE Mobile"
+msgid "ACE Virtual Singer"
 msgstr ""
 
-msgid "ACE Virtual Singer mobile project"
+msgid "ACE Virtual Singer project"
 msgstr ""
 
-msgid "Conversion plugin for the raw JSON project files used by ACE Virtual Singer mobile"
+msgid "Conversion plugin for the raw JSON project files used by ACE Virtual Singer"
 msgstr ""
 
 msgid "BPM source"
@@ -25,14 +25,23 @@ msgstr ""
 msgid "Musical key"
 msgstr ""
 
-msgid "Default mobile singer ID"
+msgid "Default singer ID"
 msgstr ""
 
-msgid "Default mobile singer name"
+msgid "Default singer name"
 msgstr ""
 
 msgid "Song name"
 msgstr ""
 
 msgid "vocoder712"
+msgstr ""
+
+msgid "Import instrumental tracks"
+msgstr ""
+
+msgid "Import pitch curve"
+msgstr ""
+
+msgid "Import strength envelope"
 msgstr ""

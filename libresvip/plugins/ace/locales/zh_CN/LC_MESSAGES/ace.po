@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "ACE Virtual Singer"
+msgstr "ACE虚拟歌姬"
+
+msgid "ACE Virtual Singer project"
+msgstr "ACE虚拟歌姬工程"
+
+msgid "Conversion plugin for the raw JSON project files used by ACE Virtual Singer"
+msgstr "用于转换 ACE虚拟歌姬原始 JSON 工程文件的插件"
+
+msgid "BPM source"
+msgstr "BPM 来源"
+
+msgid "Use the accompaniment BPM when it is present, or fall back to the song BPM."
+msgstr "存在伴奏 BPM 时优先使用，否则使用歌曲 BPM。"
+
+msgid "Author"
+msgstr "作者"
+
+msgid "Export pitch curve"
+msgstr "导出音高曲线"
+
+msgid "Indent JSON"
+msgstr "缩进 JSON"
+
+msgid "Musical key"
+msgstr "调性"
+
+msgid "Default singer ID"
+msgstr "默认歌手 ID"
+
+msgid "Default singer name"
+msgstr "默认歌手名称"
+
+msgid "Song name"
+msgstr "歌曲名称"
+
+msgid "vocoder712"
+msgstr ""
+
+msgid "Import instrumental tracks"
+msgstr "导入伴奏轨道"
+
+msgid "Import pitch curve"
+msgstr "导入音高曲线"
+
+msgid "Import strength envelope"
+msgstr "导入力度曲线"

@@ -1,9 +1,9 @@
 [Core]
-name = ACE Mobile
+name = ACE Virtual Singer
 
 [Documentation]
 Author = vocoder712
-Website = https://github.com/vocoder712/LibreSVIP
-Format = ACE Virtual Singer mobile project
-Description = Conversion plugin for the raw JSON project files used by ACE Virtual Singer mobile
+Website = https://github.com/SoulMelody/LibreSVIP
+Format = ACE Virtual Singer project
+Description = Conversion plugin for the raw JSON project files used by ACE Virtual Singer
 Suffix = ace

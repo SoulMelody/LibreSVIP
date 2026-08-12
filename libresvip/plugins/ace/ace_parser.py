@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import dataclasses
+import math
 import re
 from typing import TYPE_CHECKING
 
@@ -23,7 +24,7 @@ from .options import BpmSource
 if TYPE_CHECKING:
     import pathlib
 
-    from .model import AceBgmTrack, AceNote, AceProject, AceTrack
+    from .model import AceBgmTrack, AceBreathNote, AceNote, AceProject, AceTrack
     from .options import InputOptions
 
 
@@ -76,7 +77,9 @@ class AceMobileParser:
     def parse_singing_tracks(self, ace_tracks: list[AceTrack]) -> list[SingingTrack]:
         tracks = []
         for ace_track in ace_tracks:
-            notes, pitch_points = self.parse_notes(ace_track.notes)
+            notes, pitch_points, strength_points = self.parse_notes(
+                ace_track.notes, ace_track.br_notes
+            )
             track = SingingTrack(
                 title=ace_track.role_info.name,
                 mute=ace_track.mute,
@@ -91,12 +94,21 @@ class AceMobileParser:
                 pitch_points.insert(0, Point.start_point())
                 pitch_points.append(Point.end_point())
                 track.edited_params.pitch.points.root = pitch_points
+            if self.options.import_strength and strength_points:
+                strength_points.sort(key=lambda point: point.x)
+                strength_points.insert(0, Point.start_point(0))
+                strength_points.append(Point.end_point(0))
+                track.edited_params.strength.points.root = strength_points
             tracks.append(track)
         return tracks
 
-    def parse_notes(self, ace_notes: list[AceNote]) -> tuple[list[Note], list[Point]]:
+    def parse_notes(
+        self, ace_notes: list[AceNote], breath_notes: list[AceBreathNote]
+    ) -> tuple[list[Note], list[Point], list[Point]]:
         notes = []
         pitch_points = []
+        strength_points: dict[int, Point] = {}
+        breath_end_times = [breath.end_time for breath in breath_notes]
         for ace_note in sorted(ace_notes, key=lambda note: note.start_time):
             real_pitch = ace_note.pitch - 12 if self.project_version < 3 else ace_note.pitch
             start_pos = round(self.synchronizer.get_actual_ticks_from_secs(ace_note.start_time))
@@ -111,7 +123,20 @@ class AceMobileParser:
                 key_number=real_pitch,
                 start_pos=start_pos,
                 length=end_pos - start_pos,
-                head_tag="V" if ace_note.br else None,
+                head_tag=(
+                    "V"
+                    if ace_note.br
+                    or any(
+                        math.isclose(
+                            ace_note.start_time,
+                            end_time,
+                            rel_tol=0.0,
+                            abs_tol=1e-6,
+                        )
+                        for end_time in breath_end_times
+                    )
+                    else None
+                ),
                 edited_phones=(
                     Phones(head_length_in_secs=ace_note.consonant_time_abs)
                     if ace_note.consonant_time_abs is not None
@@ -139,8 +164,26 @@ class AceMobileParser:
                     note_pitch_points.insert(0, Point(note_pitch_points[0].x, -100))
                     note_pitch_points.append(Point(note_end_x, -100))
                     pitch_points.extend(note_pitch_points)
+            if self.options.import_strength and ace_note.energy_envolope:
+                note_strength_points = [
+                    Point(
+                        x=round(
+                            self.synchronizer.get_actual_ticks_from_secs(envelope_point.time)
+                            + self.first_bar_length
+                        ),
+                        y=max(-1000, min(1000, round((envelope_point.envolope - 1) * 1000))),
+                    )
+                    for envelope_point in ace_note.energy_envolope
+                ]
+                note_strength_points.sort(key=lambda point: point.x)
+                first_x = note_strength_points[0].x
+                last_x = note_strength_points[-1].x
+                strength_points.setdefault(first_x - 1, Point(first_x - 1, 0))
+                for point in note_strength_points:
+                    strength_points[point.x] = point
+                strength_points.setdefault(last_x + 1, Point(last_x + 1, 0))
             notes.append(note)
-        return notes, pitch_points
+        return notes, pitch_points, list(strength_points.values())
 
     @staticmethod
     def select_lyric(note: AceNote) -> str:
