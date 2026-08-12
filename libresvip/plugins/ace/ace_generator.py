@@ -142,10 +142,14 @@ class AceMobileGenerator:
             start_time = self.synchronizer.get_actual_secs_from_ticks(track.offset)
             track_info = audio_track_info(path)
             duration = track_info.duration if track_info is not None else 0.0
+            md5 = hashlib.md5()
+            with path.open("rb") as audio_file:
+                for chunk in iter(lambda: audio_file.read(1024 * 1024), b""):
+                    md5.update(chunk)
             bgm_tracks.append(
                 AceBgmTrack(
                     end_time=start_time + duration,
-                    file_md5=hashlib.md5(path.read_bytes()).hexdigest(),
+                    file_md5=md5.hexdigest(),
                     file_name=path.stem,
                     file_type=path.suffix.lstrip(".").lower(),
                     position=start_time,
