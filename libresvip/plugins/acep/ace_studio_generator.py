@@ -301,7 +301,7 @@ class AceGenerator:
         left_bound = max(0, self.pattern_start + self.ace_note_list[0].pos - 240)
         right_bound = max(
             0,
-            self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120,
+            self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur,
         )
 
         segments = []
@@ -341,11 +341,12 @@ class AceGenerator:
                 tick += tick_step
             tick = max(self.first_bar_ticks, tick)
             tick_step = (end_point.x - tick) / (curve_end - ace_curve.offset)
-            while tick < left_bound:
+            while tick - self.first_bar_ticks < left_bound:
                 ace_curve.offset += 1
                 tick += tick_step
             pos = ace_curve.offset
-            while pos <= min(right_bound, curve_end):
+            curve_limit = min(right_bound - self.pattern_start, curve_end)
+            while pos < curve_limit:
                 second = self.synchronizer.get_actual_secs_from_ticks(
                     round(tick - self.first_bar_ticks)
                 )
@@ -365,7 +366,7 @@ class AceGenerator:
         left_bound = max(0, self.pattern_start + self.ace_note_list[0].pos - 240)
         right_bound = max(
             0,
-            self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120,
+            self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur,
         )
         segments = []
         for seg in curve.split_into_segments(-100):
@@ -401,11 +402,12 @@ class AceGenerator:
                 tick += tick_step
             tick = max(self.first_bar_ticks, tick)
             tick_step = (end_point.x - tick) / (curve_end - ace_curve.offset)
-            while tick < left_bound:
+            while tick - self.first_bar_ticks < left_bound:
                 ace_curve.offset += 1
                 tick += tick_step
             pos = ace_curve.offset
-            while pos <= min(right_bound, curve_end):
+            curve_limit = min(right_bound - self.pattern_start, curve_end)
+            while pos < curve_limit:
                 ace_curve.values.append(mapping_func(self.get_value_from_segment(segment, tick)))
                 pos += 1
                 tick += tick_step

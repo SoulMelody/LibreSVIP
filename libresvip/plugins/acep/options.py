@@ -245,7 +245,7 @@ class OutputOptions(BaseModel):
         description=_("Please input the complete and correct singer name"),
     )
     breath: int = Field(
-        default=600,
+        default=0,
         title=_("Default breath length (ms)"),
         description=_(
             "This option is used to set the default breath length when the breath mark is converted to a breath parameter. The actual breath length may be less than the default value due to the small gap between notes; some notes may be shortened due to the insertion of breath marks. Setting to 0 or a negative value means ignoring all breath marks."

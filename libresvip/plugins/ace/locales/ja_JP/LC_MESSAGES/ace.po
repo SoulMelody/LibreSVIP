@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "ACE Virtual Singer"
+msgstr "ACEバーチャルシンガー"
+
+msgid "ACE Virtual Singer project"
+msgstr "ACEバーチャルシンガーのプロジェクト"
+
+msgid "Conversion plugin for the raw JSON project files used by ACE Virtual Singer"
+msgstr "ACEバーチャルシンガーの raw JSON プロジェクトファイルを変換するプラグイン"
+
+msgid "BPM source"
+msgstr "BPM の参照元"
+
+msgid "Use the accompaniment BPM when it is present, or fall back to the song BPM."
+msgstr "伴奏の BPM がある場合はそれを使用し、ない場合は曲の BPM を使用します。"
+
+msgid "Author"
+msgstr "作者"
+
+msgid "Export pitch curve"
+msgstr "ピッチカーブをエクスポート"
+
+msgid "Indent JSON"
+msgstr "JSON をインデント"
+
+msgid "Musical key"
+msgstr "キー"
+
+msgid "Default singer ID"
+msgstr "既定の歌手 ID"
+
+msgid "Default singer name"
+msgstr "既定の歌手名"
+
+msgid "Song name"
+msgstr "曲名"
+
+msgid "vocoder712"
+msgstr ""
+
+msgid "Import instrumental tracks"
+msgstr "伴奏トラックをインポート"
+
+msgid "Import pitch curve"
+msgstr "ピッチカーブをインポート"
+
+msgid "Import strength envelope"
+msgstr "強弱カーブをインポート"
