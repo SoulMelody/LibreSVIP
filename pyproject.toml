@@ -35,7 +35,7 @@ dependencies = [
   "backports.zstd<1.6.1,>=1.6.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "bidict<0.23.2,>=0.23.1",
   "cbor2<7.0.0,>=6.1.4",
-  "charset-normalizer<4.0.0,>=3.4.9",
+  "charset-normalizer<4.0.0,>=3.5.0",
   "construct-typing<1.0.0,>=0.8.1",
   "importlib-resources<7.1.1,>=7.1.0; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
@@ -83,7 +83,7 @@ crypto = [
 ]
 desktop = [
   "pyside6-essentials<6.12.0,>=6.11.1",
-  "tkinter-icons-mat>=1.1.1",
+  "tkinter-icons-mat>=1.1.2",
   "httpx2>=2.10.0",
   "desktop-notifier>=6.2.0",
   "qasync>=0.28.0",
@@ -100,7 +100,7 @@ tui = [
 ]
 ujson = ["ujson>=5.13.0"]
 webui = [
-  "nicegui>=3.15.0",
+  "nicegui>=3.16.0",
 ]
 yaml12 = [
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\" and sys_platform != \"emscripten\")",
