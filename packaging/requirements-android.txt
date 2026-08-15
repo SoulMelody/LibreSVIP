@@ -5,7 +5,7 @@ bidict==0.23.1
 cbor2==5.9.0
 certifi==2026.7.22
 cffi==2.0.0
-charset-normalizer==3.5.0
+charset-normalizer==3.5.1
 construct==2.10.70
 construct-typing==0.8.1
 flet==0.86.5

@@ -6,7 +6,7 @@ backports-zstd==1.6.0 ; (python_full_version < '3.14' and platform_python_implem
 bidict==0.23.1
 cbor2==6.1.4
 cffi==2.1.1 ; (python_full_version < '3.12' and platform_python_implementation != 'PyPy') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32') or sys_platform == 'emscripten'
-charset-normalizer==3.5.0
+charset-normalizer==3.5.1
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.70
 construct-typing==0.8.1
