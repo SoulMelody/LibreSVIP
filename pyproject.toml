@@ -35,7 +35,7 @@ dependencies = [
   "backports.zstd<1.6.1,>=1.6.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "bidict<0.23.2,>=0.23.1",
   "cbor2<7.0.0,>=6.1.4",
-  "charset-normalizer<4.0.0,>=3.5.0",
+  "charset-normalizer<4.0.0,>=3.5.1",
   "construct-typing<1.0.0,>=0.8.1",
   "importlib-resources<7.1.1,>=7.1.0; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.6",
