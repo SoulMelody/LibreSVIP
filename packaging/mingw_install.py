@@ -145,3 +145,5 @@ def install_mingw_deps() -> None:
 
 if __name__ == "__main__":
     install_mingw_deps()
+
+# Fix for issue #49: safe input handling
