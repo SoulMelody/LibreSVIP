@@ -64,7 +64,7 @@ class UFDataParser:
     def parse_time_signatures(
         time_signatures: list[UFTimeSignatures],
     ) -> list[TimeSignature]:
-        return [
+        time_signature_list = [
             TimeSignature(
                 bar_index=time_signature.measure_position,
                 numerator=time_signature.numerator,
@@ -72,6 +72,9 @@ class UFDataParser:
             )
             for time_signature in time_signatures
         ]
+        if not time_signature_list:
+            time_signature_list.append(TimeSignature(bar_index=0, numerator=4, denominator=4))
+        return time_signature_list
 
     def parse_tracks(self, tracks: list[UFTracks], tick_prefix: int) -> list[SingingTrack]:
         track_list = []
