@@ -1,10 +1,16 @@
 msgid ""
 msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /libresvip/plugins/ace/ace.po\n"
+"X-Crowdin-File-ID: 569\n"
 "Project-Id-Version: libresvip\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"PO-Revision-Date: 2026-08-17 06:16\n"
 
 msgid "ACE Virtual Singer"
 msgstr "ACEバーチャルシンガー"
@@ -25,7 +31,7 @@ msgid "Author"
 msgstr "作者"
 
 msgid "Export pitch curve"
-msgstr "ピッチカーブをエクスポート"
+msgstr "ピッチパラメータをエクスポート"
 
 msgid "Indent JSON"
 msgstr "JSON をインデント"
@@ -53,3 +59,4 @@ msgstr "ピッチカーブをインポート"
 
 msgid "Import strength envelope"
 msgstr "強弱カーブをインポート"
+

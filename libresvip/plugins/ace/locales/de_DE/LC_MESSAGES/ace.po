@@ -1,62 +1,62 @@
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
-"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-Language: de\n"
 "X-Crowdin-File: /libresvip/plugins/ace/ace.po\n"
 "X-Crowdin-File-ID: 569\n"
 "Project-Id-Version: libresvip\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Chinese Simplified\n"
-"Language: zh_CN\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2026-08-13 05:26\n"
 
 msgid "ACE Virtual Singer"
-msgstr "ACE虚拟歌姬"
+msgstr ""
 
 msgid "ACE Virtual Singer project"
-msgstr "ACE虚拟歌姬工程"
+msgstr ""
 
 msgid "Conversion plugin for the raw JSON project files used by ACE Virtual Singer"
-msgstr "用于转换 ACE虚拟歌姬原始 JSON 工程文件的插件"
+msgstr ""
 
 msgid "BPM source"
-msgstr "BPM 来源"
+msgstr ""
 
 msgid "Use the accompaniment BPM when it is present, or fall back to the song BPM."
-msgstr "存在伴奏 BPM 时优先使用，否则使用歌曲 BPM。"
+msgstr ""
 
 msgid "Author"
-msgstr "作者"
+msgstr "Autor"
 
 msgid "Export pitch curve"
-msgstr "导出音高参数"
+msgstr "Tonhöhenparameter exportieren"
 
 msgid "Indent JSON"
-msgstr "缩进 JSON"
+msgstr ""
 
 msgid "Musical key"
-msgstr "调性"
+msgstr ""
 
 msgid "Default singer ID"
-msgstr "默认歌手 ID"
+msgstr ""
 
 msgid "Default singer name"
-msgstr "默认歌手名称"
+msgstr ""
 
 msgid "Song name"
-msgstr "歌曲名称"
+msgstr ""
 
 msgid "vocoder712"
 msgstr ""
 
 msgid "Import instrumental tracks"
-msgstr "导入伴奏轨"
+msgstr "Instrumentalspuren importieren"
 
 msgid "Import pitch curve"
-msgstr "导入音高曲线"
+msgstr "Tonhöhenkurve importieren"
 
 msgid "Import strength envelope"
-msgstr "导入力度包络"
+msgstr "Stärkehüllkurve importieren"
 

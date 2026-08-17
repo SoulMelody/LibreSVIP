@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-08-17 06:16\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 #, python-brace-format
@@ -59,7 +59,7 @@ msgstr ""
 #: ../libresvip/cli/commands/plugin.py:56
 #: ../libresvip/gui/models/table_models.py:33 ../libresvip/web/pages.py:340
 msgid "Author"
-msgstr ""
+msgstr "作者"
 
 #: ../libresvip/cli/commands/plugin.py:57
 msgid "Identifier"
@@ -599,11 +599,11 @@ msgstr ""
 
 #: ../libresvip/model/option_mixins.py:10
 msgid "Import instrumental tracks"
-msgstr ""
+msgstr "伴奏トラックをインポート"
 
 #: ../libresvip/model/option_mixins.py:14
 msgid "Import pitch curve"
-msgstr ""
+msgstr "ピッチカーブをインポート"
 
 #: ../libresvip/model/option_mixins.py:18
 msgid "Import dynamics envelope"
@@ -619,7 +619,7 @@ msgstr ""
 
 #: ../libresvip/model/option_mixins.py:30
 msgid "Import strength envelope"
-msgstr ""
+msgstr "強弱カーブをインポート"
 
 #: ../libresvip/model/option_mixins.py:36
 msgid "Constant tempo"
