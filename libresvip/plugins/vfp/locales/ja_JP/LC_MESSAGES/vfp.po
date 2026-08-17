@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-08-17 06:06\n"
 
 msgid "VOX Factory"
 msgstr ""
