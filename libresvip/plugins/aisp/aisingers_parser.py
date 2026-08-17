@@ -111,7 +111,7 @@ class AiSingersParser:
                 lyric=ais_note.lyric,
                 pronunciation=ais_note.pinyin,
             )
-            if self.options.import_pitch:
+            if self.options.import_pitch and ais_note.pit:
                 tick_step = note.length / len(ais_note.pit)
                 pitch_points.append(Point(x=note.start_pos + self.first_bar_length, y=-100))
                 for i in range(len(ais_note.pit)):
