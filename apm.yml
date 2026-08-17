@@ -9,9 +9,9 @@ targets:
 dependencies:
   apm:
     - TheQtCompanyRnD/agent-skills/skills/qt-qml
-    - astral-sh/claude-code-plugins
+    - astral-sh/claude-code-plugins/plugins/astral
     - pydantic/skills/skills/pydantic
-    - bufbuild/claude-plugins
+    - bufbuild/claude-plugins/plugins/protobuf
   mcp:
     - io.github.upstash/context7
   lsp:
