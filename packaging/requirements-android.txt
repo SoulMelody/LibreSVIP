@@ -42,7 +42,7 @@ pydantic==2.13.4
 pydantic-core==2.46.4
 pydantic-extra-types==2.11.1
 pydantic-settings==2.15.0
-pygments==2.20.0
+pygments==2.21.0
 pymediainfo==7.0.1
 pypinyin==0.55.0
 pysubs2==1.9.0
