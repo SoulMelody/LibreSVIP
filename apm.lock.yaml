@@ -1,0 +1,255 @@
+lockfile_version: '1'
+generated_at: '2026-08-17T02:34:42.331080+00:00'
+apm_version: 0.28.0
+dependencies:
+- repo_url: astral-sh/claude-code-plugins
+  name: claude-code-plugins
+  host: github.com
+  resolved_commit: f3ce88a7ba830f53afd6d944c1d0278ed318e142
+  version: f3ce88a
+  package_type: marketplace_plugin
+  content_hash: sha256:5f4a720d60632baa4ad8a8d153ece7d10482a9be4ed039f69d9d4cab39ca353d
+- repo_url: bufbuild/claude-plugins
+  name: claude-plugins
+  host: github.com
+  resolved_commit: c4766e5fff1b52283f38bd61122103efe58c60fd
+  version: c4766e5
+  package_type: marketplace_plugin
+  content_hash: sha256:fa40742822213b41757a9fe586a13af8ce06452361b3c9c7d5f2e8a4c6737cf1
+- repo_url: pydantic/skills
+  name: pydantic
+  host: github.com
+  resolved_commit: e5f7cb13d01561fe3735040ed37596abd9b83976
+  version: unknown
+  virtual_path: skills/pydantic
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/pydantic
+  - .agents/skills/pydantic/SKILL.md
+  - .claude/skills/pydantic
+  - .claude/skills/pydantic/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/pydantic/SKILL.md: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
+    .claude/skills/pydantic/SKILL.md: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
+  content_hash: sha256:2f523749fc2edc5cb3b73435a282373cd69209682be7992b6cde333f30d59254
+- repo_url: theqtcompanyrnd/agent-skills
+  materialization_repo_url: TheQtCompanyRnD/agent-skills
+  name: qt-qml
+  host: github.com
+  resolved_commit: 71d6c10da78b9a764468ae11c86ab3bc4ca4921f
+  version: unknown
+  virtual_path: skills/qt-qml
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/qt-qml
+  - .agents/skills/qt-qml/LICENSE.txt
+  - .agents/skills/qt-qml/README.md
+  - .agents/skills/qt-qml/SKILL.md
+  - .agents/skills/qt-qml/platforms/windsurf.md
+  - .claude/skills/qt-qml
+  - .claude/skills/qt-qml/LICENSE.txt
+  - .claude/skills/qt-qml/README.md
+  - .claude/skills/qt-qml/SKILL.md
+  - .claude/skills/qt-qml/platforms/windsurf.md
+  deployed_file_hashes:
+    .agents/skills/qt-qml/LICENSE.txt: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
+    .agents/skills/qt-qml/README.md: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
+    .agents/skills/qt-qml/SKILL.md: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+    .agents/skills/qt-qml/platforms/windsurf.md: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
+    .claude/skills/qt-qml/LICENSE.txt: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
+    .claude/skills/qt-qml/README.md: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
+    .claude/skills/qt-qml/SKILL.md: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+    .claude/skills/qt-qml/platforms/windsurf.md: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
+  content_hash: sha256:cd773b5c6546edc8372d41f8286cef72fc1c8857a9bc7dcd039d5355f66380ff
+deployments:
+- kind: project-relative
+  target: agents
+  value: .agents/skills/pydantic
+  runtime: null
+  scope: project
+  owners:
+  - pydantic/skills/skills/pydantic
+  active_owner: pydantic/skills/skills/pydantic
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/pydantic/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - pydantic/skills/skills/pydantic
+  active_owner: pydantic/skills/skills/pydantic
+  content_hash: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
+- kind: project-relative
+  target: agents
+  value: .agents/skills/qt-qml
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/qt-qml/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
+- kind: project-relative
+  target: agents
+  value: .agents/skills/qt-qml/README.md
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
+- kind: project-relative
+  target: agents
+  value: .agents/skills/qt-qml/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+- kind: project-relative
+  target: agents
+  value: .agents/skills/qt-qml/platforms/windsurf.md
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pydantic
+  runtime: null
+  scope: project
+  owners:
+  - pydantic/skills/skills/pydantic
+  active_owner: pydantic/skills/skills/pydantic
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pydantic/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - pydantic/skills/skills/pydantic
+  active_owner: pydantic/skills/skills/pydantic
+  content_hash: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
+- kind: project-relative
+  target: claude
+  value: .claude/skills/qt-qml
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/qt-qml/LICENSE.txt
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
+- kind: project-relative
+  target: claude
+  value: .claude/skills/qt-qml/README.md
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
+- kind: project-relative
+  target: claude
+  value: .claude/skills/qt-qml/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+- kind: project-relative
+  target: claude
+  value: .claude/skills/qt-qml/platforms/windsurf.md
+  runtime: null
+  scope: project
+  owners:
+  - theqtcompanyrnd/agent-skills/skills/qt-qml
+  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
+  content_hash: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
+- kind: uri
+  target: mcp
+  value: io.github.upstash/context7
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: io.github.upstash/context7
+  runtime: codex
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: io.github.upstash/context7
+  runtime: opencode
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+mcp_servers:
+- io.github.upstash/context7
+mcp_configs:
+  io.github.upstash/context7:
+    name: io.github.upstash/context7
+mcp_target_servers:
+  claude:
+  - io.github.upstash/context7
+  codex:
+  - io.github.upstash/context7
+  opencode:
+  - io.github.upstash/context7
+lsp_servers:
+- pyrefly
+- ruff
+lsp_configs:
+  pyrefly:
+    name: pyrefly
+    command: pyrefly
+    args:
+    - lsp
+    extensionToLanguage:
+      .py: python
+      .pyi: python
+    transport: stdio
+    startupTimeout: 10000
+  ruff:
+    name: ruff
+    command: ruff
+    args:
+    - server
+    extensionToLanguage:
+      .py: python
+      .pyi: python
+    transport: stdio
+    startupTimeout: 10000

@@ -1,0 +1,35 @@
+name: LibreSVIP
+version: 1.0.0
+description: APM project for LibreSVIP
+author: SoulMelody
+targets:
+  - claude
+  - codex
+  - opencode
+dependencies:
+  apm:
+    - TheQtCompanyRnD/agent-skills/skills/qt-qml
+    - astral-sh/claude-code-plugins
+    - pydantic/skills/skills/pydantic
+    - bufbuild/claude-plugins
+  mcp:
+    - io.github.upstash/context7
+  lsp:
+    - name: ruff
+      command: ruff
+      args: ["server"]
+      extensionToLanguage:
+        ".py": python
+        ".pyi": python
+      transport: stdio
+      startupTimeout: 10000
+    - name: pyrefly
+      command: pyrefly
+      args: ["lsp"]
+      extensionToLanguage:
+        ".py": python
+        ".pyi": python
+      transport: stdio
+      startupTimeout: 10000
+includes: auto
+scripts: {}

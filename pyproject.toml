@@ -110,12 +110,16 @@ yaml12 = [
 
 [dependency-groups]
 all = [
+  { include-group = "agents" },
   { include-group = "code_gen" },
   { include-group = "docs" },
   { include-group = "i18n" },
   { include-group = "linting" },
   { include-group = "packaging" },
   { include-group = "test" }
+]
+agents = [
+    "apm-cli>=0.28.0",
 ]
 code_gen = [
   "buf-bin>=1.72.0",

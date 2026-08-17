@@ -1,5 +1,5 @@
 cffi==2.0.0
-cbor2==5.9.0
+cbor2==6.1.4
 lxml==6.1.1
 pydantic==2.13.4
 pydantic-core==2.46.4

@@ -162,6 +162,7 @@ cython_debug/
 .vscode/settings.json
 
 # Agents
+.agents/
 .claude/
 .codex/
 .kilocode/
@@ -174,3 +175,7 @@ assets/
 node_modules/
 tests/data/*
 !tests/data/.gitkeep
+
+
+# APM dependencies
+apm_modules/
