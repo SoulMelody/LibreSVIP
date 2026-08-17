@@ -2,8 +2,8 @@ version = 1
 revision = 3
 requires-python = ">=3.10, <3.15"
 resolution-markers = [
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "python_full_version >= '3.14'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "(python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten') or (python_full_version == '3.12.*' and sys_platform != 'emscripten')",
     "python_full_version == '3.11.*'",
     "python_full_version < '3.11'",
@@ -1690,7 +1690,7 @@ requires-dist = [
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = "<=7.0.1" },
     { name = "pypinyin", specifier = ">=0.55.0,<1.0.0" },
     { name = "pyside6-essentials", marker = "extra == 'desktop'", specifier = ">=6.11.1,<6.12.0" },
-    { name = "pysubs2", marker = "python_full_version < '3.12'", specifier = "<=1.8.1" },
+    { name = "pysubs2", marker = "python_full_version < '3.12'", specifier = "<=1.9.0" },
     { name = "pysubs2", marker = "python_full_version >= '3.12'", specifier = ">=1.9.0,<2.0.0" },
     { name = "pyyaml", marker = "python_full_version != '3.13.*' or sys_platform == 'emscripten'", specifier = ">=6.0.3,<7.0.0" },
     { name = "pyyaml-ft", marker = "python_full_version == '3.13.*' and sys_platform != 'emscripten'", specifier = ">=8.0.0,<8.0.1" },
@@ -3360,8 +3360,8 @@ name = "pysubs2"
 version = "1.9.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "python_full_version >= '3.14'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "(python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten') or (python_full_version == '3.12.*' and sys_platform != 'emscripten')",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/f2/20/9071b8b0012d9102e90292c71fe3f1181c33e772e28cbabb4779c0087603/pysubs2-1.9.0.tar.gz", hash = "sha256:4592405e5d961e23cd39c81e2875fb85c30346ae37d100f144cd7fd8ec560e42", size = 1147418, upload-time = "2026-08-16T19:54:51.267Z" }
@@ -4674,8 +4674,8 @@ name = "websockets"
 version = "17.0.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "python_full_version >= '3.14'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "(python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten') or (python_full_version == '3.12.*' and sys_platform != 'emscripten')",
     "python_full_version == '3.11.*'",
 ]
