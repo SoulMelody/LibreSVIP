@@ -179,3 +179,5 @@ tests/data/*
 
 # APM dependencies
 apm_modules/
+
+.worktrees/
