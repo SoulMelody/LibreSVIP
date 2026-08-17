@@ -1,5 +1,6 @@
 | 格式后缀        | 适用引擎/软件                         | 基本类型         | 类型说明                          | 备注                                                       | 开发状态 |
 | --------------- | ------------------------------------- | ---------------- | --------------------------------- | ---------------------------------------------------------- | -------- |
+| `ace`           | ACE虚拟歌姬                           | 标准序列化格式   | 基于json                          |                                                            | 停止开发 |
 | `acep`(版本1)   | ACE Studio                            | 标准序列化格式   | 基于json；内容使用了zstandard压缩 | 公测期间曾更换过加密方法，最终于1.7.8版本移除              | 尚在维护 |
 | `acep`(版本2)   | ACE Studio                            | 自定义二进制格式 | 基于cbor；内容使用了zstandard压缩 | 文件头部仍存在加密区段                                     | 活跃开发 |
 | `ais`           | AISingers Web                         | 混合类型         | 将json头和自定义文本拼接而成      |                                                            | 暂停维护 |
@@ -11,19 +12,19 @@
 | `gj`            | 歌叽歌叽                              | 标准序列化格式   | 基于json                          |                                                            | 停止维护 |
 | `json`          | OpenSVIP                              | 标准序列化格式   | 基于json                          |                                                            | 尚在维护 |
 | `mid/midi`      | 众多音序器/DAW                        | 标准二进制格式   | 标准MIDI(SMF)格式                 |                                                            | 尚在维护 |
-| `msq`           | Mikoto Studio                         | 标准序列化格式   | 基于json                          |                                                            | 活跃开发 |
+| `msq`           | Mikoto Studio                         | 标准序列化格式   | 基于json                          |                                                            | 疑似暂停 |
 | `mtp`           | MUTA 2                                | 自定义二进制格式 |                                   |                                                            | 停止开发 |
 | `MusicXML`      | MuseScore、Sibelius、Finale等打谱软件 | 标准序列化格式   | 基于xml                           |                                                            | 活跃开发 |
-| `nep`           | NNSVS N-Editor                        | 标准序列化格式   | 基于json，并使用zip压缩           |                            | 活跃开发 |
+| `nep`           | NNSVS N-Editor                        | 标准序列化格式   | 基于json，并使用zip压缩           |                                                            | 活跃开发 |
 | `nn`            | 袅袅虚拟歌手                          | 自定义文本格式   |                                   |                                                            | 停止开发 |
 | `ppsf` (旧版)   | Piapro Studio (VOCALOID)              | 自定义二进制格式 |                                   |                                                            | 尚在维护 |
 | `ppsf` (NT版本) | Piapro Studio NT                      | 标准序列化格式   | 基于json，并使用zip压缩           |                                                            | 尚在维护 |
-| `ps_project`    | Pocket Singer                         | 标准序列化格式   | 基于json，并使用zip压缩           | 需要解压密码                                               | 活跃开发 |
+| `ps_project`    | Pocket Singer                         | 标准序列化格式   | 基于json，并使用zip压缩           | 需要解压密码                                               | 尚在维护 |
 | `s5p`           | Synthesizer V Editor                  | 标准序列化格式   | 基于json                          |                                                            | 停止开发 |
 | `svip`          | X Studio Singer 1/2                   | 标准二进制格式   | 基于.net framework的MS-NRBF格式   | 已过时                                                     | 停止开发 |
-| `svip3`         | X Studio 3/网易云音乐·X Studio        | 标准二进制格式   | 基于protobuf                      |                                                            | 活跃开发 |
+| `svip3`         | X Studio 3/网易云音乐·X Studio        | 标准二进制格式   | 基于protobuf                      |                                                           | 活跃开发 |
 | `svp`           | Synthesizer V Studio                  | 标准序列化格式   | 基于json                          |                                                            | 活跃开发 |
-| `tlp`           | TuneLab                               | 标准序列化格式   | 基于json                          |                                                            | 活跃开发 |
+| `tlp`           | TuneLab                               | 标准序列化格式   | 基于json                          |                                                            | 尚在维护 |
 | `tlpx`          | TuneLab                               | 标准序列化格式   | 基于cbor                          |                                                            | 活跃开发 |
 | `tssln/tssprj`  | VoiSona                               | 自定义二进制格式 | 基于JUCE框架的ValueTree数据结构   |                                                            | 活跃开发 |
 | `tsmsln`        | VoiSona Mobile                        | 自定义二进制格式 | 基于JUCE框架的ValueTree数据结构   |                                                            | 活跃开发 |
