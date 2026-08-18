@@ -11,6 +11,7 @@ from pydantic import (
     ValidationInfo,
     field_validator,
     model_serializer,
+    model_validator,
 )
 
 from libresvip.model.base import BaseModel
@@ -92,7 +93,21 @@ class TuneLabVibrato(BaseModel):
 class TuneLabBasePart(BaseModel):
     name: str
     pos: float
-    dur: float
+    start_offset: float = Field(alias="startOffset")
+    end_offset: float = Field(alias="endOffset")
+
+    @model_validator(mode="before")
+    @classmethod
+    def migrate_legacy_duration(cls, data: Any) -> Any:
+        if isinstance(data, dict) and "dur" in data:
+            data = dict(data)
+            data.setdefault("startOffset", 0)
+            data.setdefault("endOffset", data.pop("dur"))
+        return data
+
+    @property
+    def dur(self) -> float:
+        return self.end_offset - self.start_offset
 
 
 class TuneLabMidiPart(TuneLabBasePart):
@@ -167,3 +182,14 @@ class TuneLabProject(BaseModel):
     export_config: TuneLabExportConfig = Field(
         default_factory=TuneLabExportConfig, alias="exportConfig"
     )
+
+    @model_serializer(mode="wrap")
+    def serialize_project(self, handler: Any) -> dict[str, Any]:
+        data = handler(self)
+        if self.version == 0:
+            for track in data["tracks"]:
+                for part in track["parts"]:
+                    start_key = "startOffset" if "startOffset" in part else "start_offset"
+                    end_key = "endOffset" if "endOffset" in part else "end_offset"
+                    part["dur"] = part.pop(end_key) - part.pop(start_key)
+        return data

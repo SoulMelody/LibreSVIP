@@ -44,6 +44,7 @@ class TuneLabGenerator:
         tempo_list = self.generate_tempos(project.song_tempo_list)
         time_signature_list = self.generate_time_signatures(project.time_signature_list)
         return TuneLabProject(
+            version=self.options.version_compatibility.value,
             tempos=tempo_list,
             time_signatures=time_signature_list,
             tracks=self.generate_tracks(project.track_list),
