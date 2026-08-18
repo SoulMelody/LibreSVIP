@@ -1191,14 +1191,14 @@ wheels = [
 
 [[package]]
 name = "fontconfig-py"
-version = "1.0.1"
+version = "1.0.3"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6e/87/30fa0c484172f08187c0cca9125bf8733ca769c6f2bff4520deeda075dda/fontconfig_py-1.0.1-cp310-abi3-macosx_10_9_universal2.whl", hash = "sha256:b6f79ae351f38aade0883a01e739aaee328bf2943ab73ba17b403f9e5cd067d8", size = 1399288, upload-time = "2025-12-23T02:44:15.481Z" },
-    { url = "https://files.pythonhosted.org/packages/09/3c/272faeb1d59ba24bbaa2ee733b54dfb6941901026451d38d38ff7676496a/fontconfig_py-1.0.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:e5e4f23fdaed3d2bdc20a0b2f4402babe9ed37b949d3fdebe4c0387a4ea02359", size = 842156, upload-time = "2025-12-23T02:44:17.46Z" },
-    { url = "https://files.pythonhosted.org/packages/ab/cb/7eb9573fe8aa991ea3fce804c85f61cb57cc9be5a15979866dd8ac9e5011/fontconfig_py-1.0.1-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:4d405ed7ad3766a4a343d6667ceb499d903a5a63a633313fdf431311d819f3cd", size = 841790, upload-time = "2025-12-23T02:44:18.882Z" },
-    { url = "https://files.pythonhosted.org/packages/03/d3/70ce5ffbdaba3e53b33e27afa0be8df01e0ab92a89668e56491c75612bb7/fontconfig_py-1.0.1-cp310-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:79c7e9025fc8f2c4eb3369c64d177f612792ef06d0f9042b16d7bc459a1f5074", size = 904352, upload-time = "2025-12-23T02:44:20.138Z" },
-    { url = "https://files.pythonhosted.org/packages/8c/ee/955cdde98562159ad353a001251d92ae09e80401973cfca988b7a7fe7de9/fontconfig_py-1.0.1-cp310-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:25648e376da1bd503c1285feb406943b189cc2026a233bd8de2e5d34be61c520", size = 913862, upload-time = "2025-12-23T02:44:21.656Z" },
+    { url = "https://files.pythonhosted.org/packages/df/9b/99a8de63b4bbe83ea7206b0d306ed16ee0aae0d1ba6534dfd0cc450f496c/fontconfig_py-1.0.3-cp310-abi3-macosx_10_9_universal2.whl", hash = "sha256:9a12d8d9f88bd23de57424465c1aa4ad57b13f40fb31b8f01ae9d5b58cdb69d8", size = 1402059, upload-time = "2026-08-18T07:43:36.117Z" },
+    { url = "https://files.pythonhosted.org/packages/47/be/6292eeb1b1242b3900afcc2d4e25ed984c39491bc91d5454033a318d5e4f/fontconfig_py-1.0.3-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:0cc6d8b5552e6c90fae6056dd38ea8d57f77a45e786f406744fbfd3090a9477a", size = 845092, upload-time = "2026-08-18T07:43:37.707Z" },
+    { url = "https://files.pythonhosted.org/packages/f7/f0/3c1cd0505140128101abc4f08fd4ed50852dccb58309174895a5f9b303f1/fontconfig_py-1.0.3-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:56fa5304d2fa9e97abc6e11076e470dd4b795d978e5cc2fd4156e6db4359d607", size = 844366, upload-time = "2026-08-18T07:43:39.007Z" },
+    { url = "https://files.pythonhosted.org/packages/bc/b2/c11aef6d10c643739f521a0ce6218394a838fe984fc78fbded659d768ad9/fontconfig_py-1.0.3-cp310-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:32248cce4b707eaab5c0dd0df5f4b6795e846b8ef190e6a23010b4d76fdc0189", size = 907916, upload-time = "2026-08-18T07:43:40.647Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/7a/c66b33fa321ec09a94ce348066e8d4d491357d6b0e24cb4553db229b6bd5/fontconfig_py-1.0.3-cp310-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:723bdec4374207bee930fbeedcc0ee667cf25ef102b3237f7591f37c64134789", size = 917010, upload-time = "2026-08-18T07:43:42.427Z" },
 ]
 
 [[package]]
@@ -1423,15 +1423,15 @@ wheels = [
 
 [[package]]
 name = "httpcore2"
-version = "2.10.0"
+version = "2.12.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "h11" },
     { name = "truststore" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a9/83/a896fc59940fc5a6e2aff3a4be1d92fa890112936803b331cae75a993c34/httpcore2-2.10.0.tar.gz", hash = "sha256:13c0cc3d1919d4f28457f60cd2c2abe04113a8af184ccf1142811beba936f9dc", size = 67427, upload-time = "2026-08-09T09:11:32.123Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/be/ad/f4f0e57345f1870f3e8cb624e058d7eca6e5a27d33bcc3311d9b618734cd/httpcore2-2.12.0.tar.gz", hash = "sha256:9293522bba0aa7c4c8e9e3f040c16575bd8868e155a77fa30c7a9085a5eae648", size = 67548, upload-time = "2026-08-18T13:22:08.211Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/4f/d149104195a35e2853a2fc203a8e3477747e58c80e17dda686dace174383/httpcore2-2.10.0-py3-none-any.whl", hash = "sha256:7df06cfb34070cae4f7c89be69dc1095eca138e9704ceffb98d25c1912ab6f01", size = 83000, upload-time = "2026-08-09T09:11:29.555Z" },
+    { url = "https://files.pythonhosted.org/packages/d2/74/d370e55600d9bcfa0d9794b0166126d49291a3d2b20c268fc98c453a4948/httpcore2-2.12.0-py3-none-any.whl", hash = "sha256:7e04258ce01013d7d615e5b910a3b27fac937d7a95038227e79652b4ba3b4ceb", size = 83074, upload-time = "2026-08-18T13:22:05.854Z" },
 ]
 
 [[package]]
@@ -1501,7 +1501,7 @@ wheels = [
 
 [[package]]
 name = "httpx2"
-version = "2.10.0"
+version = "2.12.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio", marker = "sys_platform != 'emscripten'" },
@@ -1511,9 +1511,9 @@ dependencies = [
     { name = "truststore", marker = "sys_platform != 'emscripten'" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bd/3d/f9a8c07a3884f3e5b26205e8436a18b3af61c5d53192c3bea235574dbbec/httpx2-2.10.0.tar.gz", hash = "sha256:8741d7329fe2c7885fc9ceb61c8217acfb87a85f75723714b89ebf7ad7196338", size = 98749, upload-time = "2026-08-09T09:11:33.24Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7f/f8/579a8b51e42e38ee32647df9f08aa25643ae788e275cc625b199829c4671/httpx2-2.12.0.tar.gz", hash = "sha256:7631fe9887a8a2275f4a2540e053aa670fcc50742864a9ae7c66e609fdcf12cf", size = 100040, upload-time = "2026-08-18T13:22:09.086Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b9/6d/a637d52449d98a6892d9a4dc0262587afdb6a66f201871842dce5a97b1c1/httpx2-2.10.0-py3-none-any.whl", hash = "sha256:5e3194a432701e1cc6f69a8b1b2fa199ef907013fede8d9a09a2c5b7b8141a18", size = 94355, upload-time = "2026-08-09T09:11:30.882Z" },
+    { url = "https://files.pythonhosted.org/packages/c8/95/411ba65569158e862368917aaf56597f3e5fa3b91b0502919638465a08f3/httpx2-2.12.0-py3-none-any.whl", hash = "sha256:cc8b6eecb8661c146b8f89a60e97456ee086e91a784ed31ac450c3a9e613dd36", size = 95427, upload-time = "2026-08-18T13:22:06.834Z" },
 ]
 
 [[package]]
@@ -1899,9 +1899,9 @@ requires-dist = [
     { name = "desktop-notifier", marker = "extra == 'desktop'", specifier = ">=6.2.0" },
     { name = "flet", extras = ["desktop"], marker = "extra == 'mobile'", specifier = ">=0.86.5,<0.90.0" },
     { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=0.86.5,<0.90.0" },
-    { name = "fontconfig-py", marker = "(sys_platform == 'darwin' and extra == 'mobile') or (sys_platform == 'linux' and extra == 'mobile')", specifier = ">=1.0.1" },
+    { name = "fontconfig-py", marker = "(sys_platform == 'darwin' and extra == 'mobile') or (sys_platform == 'linux' and extra == 'mobile')", specifier = ">=1.0.3" },
     { name = "grpclib", marker = "extra == 'cli'", specifier = ">=0.4.9" },
-    { name = "httpx2", marker = "extra == 'desktop'", specifier = ">=2.10.0" },
+    { name = "httpx2", marker = "extra == 'desktop'", specifier = ">=2.12.0" },
     { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=7.1.0,<7.1.1" },
     { name = "jinja2", specifier = ">=3.1.6,<4.0.0" },
     { name = "jyutping", index = "https://www.piwheels.org/simple/" },
@@ -1920,7 +1920,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = ">=2.15.0,<3.0.0" },
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = "<=7.0.1" },
     { name = "pypinyin", specifier = ">=0.55.0,<1.0.0" },
-    { name = "pyside6-essentials", marker = "extra == 'desktop'", specifier = ">=6.11.1,<6.12.0" },
+    { name = "pyside6-essentials", marker = "extra == 'desktop'", specifier = ">=6.11.2,<6.12.0" },
     { name = "pysubs2", marker = "python_full_version < '3.12'", specifier = "<=1.9.0" },
     { name = "pysubs2", marker = "python_full_version >= '3.12'", specifier = ">=1.9.0,<2.0.0" },
     { name = "pyyaml", marker = "python_full_version != '3.13.*' or sys_platform == 'emscripten'", specifier = ">=6.0.3,<7.0.0" },
