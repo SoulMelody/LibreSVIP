@@ -126,18 +126,18 @@ code_gen = [
   "datamodel-code-generator>=0.74.0",
   "pbtk>=1.1.2",
   "protoc-gen-py>=0.3.0",
-  "pyside6-addons<6.12.0,>=6.11.1",
+  "pyside6-addons<6.12.0,>=6.11.2",
   "xsdata[cli]>=26.2",
 ]
 docs = [
-  "zensical>=0.0.55",
+  "zensical>=0.0.56",
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
   "mypy>=2.3.1",
   "prek>=0.4.14",
   "pyrefly>=1.2.0,<1.2.1",
-  "pyside6<6.12.0,>=6.11.1",
+  "pyside6<6.12.0,>=6.11.2",
   "ruff>=0.16.3",
   "sortedcontainers-stubs>=2.4.3",
   "types-lxml>=2026.2.16",
