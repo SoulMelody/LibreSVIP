@@ -41,7 +41,7 @@ log_methods = {
 
 def qt_log_handler(message_type: QtMsgType, ctx: QMessageLogContext, message: str) -> None:
     msg_type, file_name, function, line, msg = qFormatLogMessage(message_type, ctx, message).split(
-        "\n", maxsplit=5
+        "\n", maxsplit=4
     )
     message_prefix = (
         f"{file_name}:{line}" if function == "unknown" else f"{file_name}:{function}:{line}"
