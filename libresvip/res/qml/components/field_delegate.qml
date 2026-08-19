@@ -127,7 +127,7 @@ ColumnLayout {
             }
             Switch {
                 checked: !!(root.field && root.field.value)
-                onCheckedChanged: root.emitValue(checked)
+                onClicked: root.emitValue(checked)
             }
             Item {
                 Layout.fillWidth: true
