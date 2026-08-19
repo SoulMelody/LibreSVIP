@@ -83,9 +83,9 @@ crypto = [
   "pyzipper>=0.4.0",
 ]
 desktop = [
-  "pyside6-essentials<6.12.0,>=6.11.1",
+  "pyside6-essentials<6.12.0,>=6.11.2",
   "tkinter-icons-mat>=1.1.2",
-  "httpx2>=2.10.0",
+  "httpx2>=2.12.0",
   "desktop-notifier>=6.2.0",
   "qasync>=0.28.0",
 ]
@@ -94,7 +94,7 @@ minijinja = ["minijinja>=2.22.0"]
 mobile = [
   "flet[desktop]>=0.86.5,<0.90.0",
   "flet-permission-handler>=0.86.5,<0.90.0",
-  "fontconfig-py>=1.0.1; sys_platform == \"darwin\" or sys_platform == \"linux\"",
+  "fontconfig-py>=1.0.3; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
 tui = [
   "textual-fspicker>=1.0.1",
