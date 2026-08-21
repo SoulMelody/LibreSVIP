@@ -244,7 +244,6 @@ def build_pitch_curve(
     pitch: ResolvedParam,
     *,
     coordinate_offset: int,
-    tone_shift: ResolvedParam | None = None,
     vibrato_value: Callable[[int], float] | None = None,
 ) -> LibreParamCurve:
     if pitch.bounds is None:
@@ -256,10 +255,6 @@ def build_pitch_curve(
     sampled: list[tuple[int, int | None]] = []
     for relative_tick in range(start, end + 1, SAMPLE_INTERVAL):
         value = pitch.evaluate(relative_tick)
-        if value is not None and tone_shift is not None:
-            shift = tone_shift.evaluate(relative_tick)
-            if shift is not None:
-                value += shift
         if value is not None and vibrato_value is not None:
             value += vibrato_value(relative_tick)
         sampled.append(

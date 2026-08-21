@@ -42,10 +42,6 @@ class InputOptions(EnablePitchImportationMixin, BaseModel):
         default=PitchImportMode.EDITED_AND_ORIGINAL,
         title=_("Pitch import mode"),
     )
-    import_tone_shift: bool = Field(
-        default=True,
-        title=_("Bake tone shift into the pitch curve"),
-    )
     vibrato_import_mode: VibratoImportMode = Field(
         default=VibratoImportMode.PRESERVE,
         title=_("Vibrato import mode"),
