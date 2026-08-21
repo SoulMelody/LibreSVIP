@@ -36,9 +36,6 @@ msgstr "Bearbeitete und ursprüngliche Tonhöhe"
 msgid "Edited pitch only"
 msgstr "Nur bearbeitete Tonhöhe"
 
-msgid "Bake tone shift into the pitch curve"
-msgstr "Tonlagenverschiebung in die Tonhöhenparameter einrechnen"
-
 msgid "Vibrato import mode"
 msgstr "Vibrato-Importmodus"
 
@@ -62,4 +59,3 @@ msgstr "Ungültiges DSPX-Projekt"
 
 msgid "Unsupported project version"
 msgstr "Nicht unterstützte Projektversion"
-

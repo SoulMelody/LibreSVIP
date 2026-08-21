@@ -36,9 +36,6 @@ msgstr "編集済みおよび元のピッチ"
 msgid "Edited pitch only"
 msgstr "編集済みピッチのみ"
 
-msgid "Bake tone shift into the pitch curve"
-msgstr "音域シフトをピッチパラメータに適用"
-
 msgid "Vibrato import mode"
 msgstr "ビブラートインポートモード"
 
@@ -62,4 +59,3 @@ msgstr "無効な DSPX プロジェクト"
 
 msgid "Unsupported project version"
 msgstr ""
-

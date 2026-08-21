@@ -150,14 +150,6 @@ class DspxParser:
         )
         if self.options.import_pitch and (pitch_parameter := clip.params.get("pitch")):
             pitch = ResolvedParam(pitch_parameter, self.options.pitch_import_mode)
-            tone_shift = None
-            if self.options.import_tone_shift and (
-                tone_shift_parameter := clip.params.get("tone_shift")
-            ):
-                tone_shift = ResolvedParam(
-                    tone_shift_parameter,
-                    self.options.pitch_import_mode,
-                )
             vibrato_value = None
             if self.options.vibrato_import_mode == VibratoImportMode.BAKE_TO_PITCH:
                 vibrato_sequence = VibratoSequence(
@@ -175,7 +167,6 @@ class DspxParser:
             singing_track.edited_params.pitch = build_pitch_curve(
                 pitch,
                 coordinate_offset=clip_start + self.first_bar_length,
-                tone_shift=tone_shift,
                 vibrato_value=vibrato_value,
             )
         return singing_track
