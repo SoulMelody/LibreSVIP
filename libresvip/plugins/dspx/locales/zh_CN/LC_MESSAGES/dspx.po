@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-08-22 04:22\n"
 
 msgid "DSPX"
 msgstr "DSPX"
@@ -59,3 +59,4 @@ msgstr "无效的 DSPX 工程文件"
 
 msgid "Unsupported project version"
 msgstr "不支持的工程版本"
+
