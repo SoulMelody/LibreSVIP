@@ -35,7 +35,7 @@ packaging==26.3
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.3.0
-platformdirs==4.11.3
+platformdirs==4.11.4
 portion==2.6.2
 protobuf-py==0.3.0
 protobuf-py-ext==0.3.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
@@ -48,7 +48,7 @@ pydantic-settings==2.15.0
 pydeployment==1.3.15 ; sys_platform != 'darwin'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.21.0-py3-none-any.whl ; platform_machine != 'ARM64' and sys_platform == 'win32'
 pyinstaller==6.22.1 ; platform_machine == 'ARM64' or sys_platform != 'win32'
-pyinstaller-hooks-contrib==2026.6
+pyinstaller-hooks-contrib==2026.7
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.55.0
 pyside6-essentials==6.11.2
