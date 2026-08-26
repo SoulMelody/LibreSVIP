@@ -27,6 +27,7 @@ OPERATORS = {
     ">=": operator.ge,
 }
 
+
 class ClassProperty:
     """
     Property decorator for class methods
