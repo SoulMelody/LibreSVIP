@@ -3,7 +3,7 @@ annotated-doc==0.0.5
 annotated-types==0.8.0
 arrow==1.4.0
 backports-zstd==1.7.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
-bidict==0.23.1
+bidict==0.24.1
 cbor2==6.1.4
 cffi==2.1.1 ; (python_full_version < '3.12' and platform_python_implementation != 'PyPy') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32') or sys_platform == 'emscripten'
 charset-normalizer==3.5.1
@@ -15,7 +15,6 @@ grpclib==0.4.9
 h2==4.4.1
 hpack==4.2.0
 hyperframe==6.1.0
-importlib-resources==7.1.0 ; python_full_version < '3.11'
 jinja2==3.1.6
 jyutping==0.3.4
 ko-pron==1.3
@@ -28,8 +27,7 @@ mdurl==0.1.2
 minijinja==2.22.0
 more-itertools==11.1.0
 multidict==6.7.1
-numpy==2.2.6 ; python_full_version < '3.11' and sys_platform == 'emscripten'
-numpy==2.4.6 ; python_full_version == '3.11.*' and sys_platform == 'emscripten'
+numpy==2.4.6 ; python_full_version < '3.12' and sys_platform == 'emscripten'
 numpy==2.5.2 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
 packaging==26.3
 pathlib-abc==0.5.2
@@ -46,8 +44,8 @@ pydantic-core==2.46.4
 pydantic-extra-types==2.11.1
 pydantic-settings==2.15.0
 pygments==2.21.0
-pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.21.0-py3-none-any.whl ; platform_machine != 'ARM64' and sys_platform == 'win32'
-pyinstaller==6.22.1 ; platform_machine == 'ARM64' or sys_platform != 'win32'
+pyinstaller==6.22.2 ; platform_machine == 'ARM64' or sys_platform != 'win32'
+pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.22.2-py3-none-any.whl ; platform_machine != 'ARM64' and sys_platform == 'win32'
 pyinstaller-hooks-contrib==2026.7
 pymediainfo==7.0.1 ; sys_platform != 'emscripten'
 pypinyin==0.55.0
