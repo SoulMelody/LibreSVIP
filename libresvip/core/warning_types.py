@@ -1,9 +1,9 @@
 import atexit
 import io
 from contextlib import ExitStack
+from typing import Self
 
 from loguru import _logger
-from typing_extensions import Self
 
 warning_logger = _logger.Logger(
     core=_logger.Core(),

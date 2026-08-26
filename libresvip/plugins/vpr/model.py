@@ -1,9 +1,8 @@
 import enum
 from dataclasses import dataclass
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Self
 
 from pydantic import Field, ValidationInfo, create_model, model_validator
-from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
 from libresvip.utils.translation import gettext_lazy as _

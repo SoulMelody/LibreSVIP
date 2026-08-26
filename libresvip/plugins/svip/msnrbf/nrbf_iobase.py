@@ -3,9 +3,9 @@ from collections import ChainMap
 from collections.abc import MutableMapping
 from functools import cached_property
 from types import TracebackType
+from typing import Self
 
 from construct import Container
-from typing_extensions import Self
 
 from .binary_models import local_store
 

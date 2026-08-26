@@ -1,8 +1,7 @@
 import pathlib
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, Self
 
 from pydantic import Field, ValidationInfo, model_validator
-from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
 

@@ -46,7 +46,7 @@ def _build_middleware_manager() -> pluginlib.PluginLoader:
 for _sub in ("libresvip.plugins", "libresvip.middlewares"):
     try:
         importlib.import_module(_sub)
-    except Exception as _exc:  # noqa: PERF203
+    except Exception as _exc:
         logger.debug(f"Could not pre-import {_sub}: {_exc}")
 
 

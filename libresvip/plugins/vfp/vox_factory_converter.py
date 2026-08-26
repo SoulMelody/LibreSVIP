@@ -1,6 +1,5 @@
 import io
 import pathlib
-import sys
 import zipfile
 from importlib.resources import files
 
@@ -54,8 +53,7 @@ class VOXFactoryConverter(plugin_base.SVSConverter):
                     ensure_ascii=False,
                 ),
             )
-            if sys.version_info >= (3, 11):
-                archive_file.mkdir("resources")
+            archive_file.mkdir("resources")
             for audio_name, audio_path in generator.audio_paths.items():
                 archive_file.writestr(f"resources/{audio_name}", audio_path.read_bytes())
         path.write_bytes(buffer.getvalue())

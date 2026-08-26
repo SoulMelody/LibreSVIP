@@ -10,6 +10,7 @@ from typing import (
     Any,
     Literal,
     NamedTuple,
+    Self,
     cast,
 )
 
@@ -23,7 +24,6 @@ from pydantic import (
     field_validator,
     model_validator,
 )
-from typing_extensions import Self
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel

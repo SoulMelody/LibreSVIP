@@ -65,7 +65,7 @@ class VsqControllerAdapter:
                 pos = int(key) - self.tick_prefix
                 val = int(value)
                 events.append(ControllerEvent(pos=pos, value=val))
-            except (ValueError, TypeError):  # noqa: PERF203
+            except (ValueError, TypeError):
                 continue
 
         if not events:

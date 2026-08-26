@@ -1,6 +1,6 @@
 import math
 import struct
-from typing import Any, BinaryIO, TypeAlias, TypeVar
+from typing import Any, BinaryIO, Never, TypeAlias, TypeVar
 
 import more_itertools
 from construct import (
@@ -27,7 +27,6 @@ from construct import Enum as CSEnum
 from construct import Optional as CSOptional
 from construct import Path as CSPath
 from construct_typed import Context
-from typing_extensions import Never
 
 from . import singleton
 

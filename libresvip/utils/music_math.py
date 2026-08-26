@@ -4,9 +4,7 @@ import math
 import re
 from collections.abc import Callable
 from itertools import pairwise
-from typing import Concatenate
-
-from typing_extensions import ParamSpec
+from typing import Concatenate, ParamSpec
 
 from libresvip.core.compat import prefix_match
 from libresvip.core.constants import KEY_IN_OCTAVE

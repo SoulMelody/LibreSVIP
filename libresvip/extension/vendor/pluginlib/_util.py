@@ -27,10 +27,6 @@ OPERATORS = {
     ">=": operator.ge,
 }
 
-# types.NoneType isn't available until 3.10
-NoneType = type(None)
-
-
 class ClassProperty:
     """
     Property decorator for class methods

@@ -1,7 +1,6 @@
-from typing import Literal
+from typing import Literal, Self
 
 from pydantic import Field, ValidationInfo, model_validator
-from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
 

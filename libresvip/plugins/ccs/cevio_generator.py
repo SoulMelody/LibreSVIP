@@ -140,7 +140,7 @@ class CeVIOGenerator:
                     max_tick = track.note_list[-1].end_pos
                     max_secs = self.time_synchronizer.get_actual_secs_from_ticks(max_tick)
                     new_unit.duration = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(max_secs, tz=datetime.timezone.utc).time()
+                        datetime.datetime.fromtimestamp(max_secs, tz=datetime.UTC).time()
                     )
 
                 if log_f0 := self.generate_pitch(track.edited_params.pitch, tempo_list):
@@ -152,12 +152,12 @@ class CeVIOGenerator:
                 ) is not None:
                     start_secs = self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
                     start_time = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(start_secs, tz=datetime.timezone.utc).time()
+                        datetime.datetime.fromtimestamp(start_secs, tz=datetime.UTC).time()
                     )
                     end_time = XmlTime.from_time(
                         datetime.datetime.fromtimestamp(
                             track_info.duration,
-                            tz=datetime.timezone.utc,
+                            tz=datetime.UTC,
                         ).time()
                     )
                     new_group = CeVIOGroup(

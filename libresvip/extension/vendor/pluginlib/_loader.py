@@ -18,13 +18,13 @@ import pathlib
 import pkgutil
 import sys
 from collections.abc import Iterable
-from types import ModuleType
+from types import ModuleType, NoneType
 
 from loguru import logger
 
 from libresvip.extension.vendor.pluginlib._objects import BlacklistEntry
 from libresvip.extension.vendor.pluginlib._parent import Plugin, get_plugins
-from libresvip.extension.vendor.pluginlib._util import DictWithDotNotation, NoneType
+from libresvip.extension.vendor.pluginlib._util import DictWithDotNotation
 
 
 def _import_module(name: str, path: str | None = None) -> ModuleType | None:
@@ -109,9 +109,7 @@ def _recursive_path_import(path: pathlib.Path, prefix_package: str | None = None
 
         # Walk root and import modules
         # pylint: disable=unused-variable
-        for finder, name, is_pkg in pkgutil.walk_packages(
-            [str(root_path) if sys.version_info < (3, 11) else root_path], prefix=prefix
-        ):
+        for finder, name, is_pkg in pkgutil.walk_packages([root_path], prefix=prefix):
             if name in sys.modules:
                 continue
             logger.debug(f"Attempting to load module {name} from {getattr(finder, 'path', None)}")

@@ -3,9 +3,9 @@
 import abc
 import decimal
 import threading
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from functools import partial
-from typing import Any, BinaryIO
+from typing import Any, BinaryIO, Never
 
 from construct import (
     Adapter,
@@ -42,7 +42,6 @@ from construct import (
 from construct import Enum as CSEnum
 from construct import Path as CSPath
 from construct_typed import Context
-from typing_extensions import Never
 
 from libresvip.utils.binary import Null, singleton
 
@@ -74,15 +73,15 @@ class DateTimeAdapter(Adapter):
             kind = 1
         else:
             kind = 2
-        ticks = (obj - datetime(1, 1, 1, tzinfo=timezone.utc)).total_seconds() * 10000000
+        ticks = (obj - datetime(1, 1, 1, tzinfo=UTC)).total_seconds() * 10000000
         return DateTimeBitStruct.build({"ticks": ticks, "kind": kind})
 
     def _decode(self, obj: Container, context: Context, path: CSPath) -> datetime:
-        date_time = datetime(1, 1, 1, tzinfo=timezone.utc) + timedelta(microseconds=obj.ticks / 10)
+        date_time = datetime(1, 1, 1, tzinfo=UTC) + timedelta(microseconds=obj.ticks / 10)
         if obj.kind == 1:
-            date_time = date_time.replace(tzinfo=timezone.utc)
+            date_time = date_time.replace(tzinfo=UTC)
         elif obj.kind == 2:
-            local_timezone = datetime.now(tz=timezone.utc).astimezone().tzinfo
+            local_timezone = datetime.now(tz=UTC).astimezone().tzinfo
             date_time = date_time.replace(tzinfo=local_timezone)
         return date_time
 

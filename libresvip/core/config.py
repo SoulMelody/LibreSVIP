@@ -8,7 +8,7 @@ import pathlib
 import re
 import sys
 import threading
-from typing import TYPE_CHECKING, Annotated, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Annotated, Any, Self, TypeVar, cast
 
 import pydantic_settings
 from pydantic import (
@@ -22,7 +22,6 @@ from pydantic import (
 )
 from pydantic_core import core_schema
 from that_depends import BaseContainer, Provide, inject, providers
-from typing_extensions import Self
 
 from libresvip.core.constants import app_dir  # isort:skip
 from libresvip.core import compat  # noqa: F401 # isort:skip

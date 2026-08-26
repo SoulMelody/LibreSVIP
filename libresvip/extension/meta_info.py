@@ -4,11 +4,10 @@ import abc
 import contextlib
 import dataclasses
 from configparser import RawConfigParser
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Self
 
 from loguru import logger
 from packaging.specifiers import SpecifierSet
-from typing_extensions import Self
 
 if TYPE_CHECKING:
     from libresvip.core.compat import Traversable

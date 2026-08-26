@@ -22,6 +22,7 @@ from operator import not_
 from typing import (
     TYPE_CHECKING,
     Literal,
+    ParamSpec,
     SupportsFloat,
     TypeVar,
     get_args,
@@ -46,7 +47,6 @@ from pydantic import RootModel, create_model
 from pydantic.config import JsonValue
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
-from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip

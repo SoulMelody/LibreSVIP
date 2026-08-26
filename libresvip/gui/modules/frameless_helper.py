@@ -1,6 +1,6 @@
 # mypy: disable-error-code="arg-type"
 import sys
-from typing import SupportsInt
+from typing import Self, SupportsInt
 
 from PySide6.QtCore import (
     Property,
@@ -17,7 +17,6 @@ from PySide6.QtCore import (
 from PySide6.QtGui import QCursor, QMouseEvent
 from PySide6.QtQml import QmlElement, QPyQmlParserStatus
 from PySide6.QtQuick import QQuickItem, QQuickWindow
-from typing_extensions import Self
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 

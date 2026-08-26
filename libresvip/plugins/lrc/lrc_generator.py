@@ -68,7 +68,7 @@ class LrcGenerator:
                         minute=time_tag.minute,
                         second=time_tag.second,
                         microsecond=time_tag.milisecond * 1000,
-                        tzinfo=datetime.timezone.utc,
+                        tzinfo=datetime.UTC,
                     )
                     ori_time += datetime.timedelta(microseconds=-self.options.offset)
                     time_tag.minute = ori_time.minute
@@ -113,5 +113,5 @@ class LrcGenerator:
     def get_time_from_ticks(self, ticks: int) -> datetime.datetime:
         return datetime.datetime.fromtimestamp(
             self.synchronizer.get_actual_secs_from_ticks(ticks),
-            tz=datetime.timezone.utc,
+            tz=datetime.UTC,
         )

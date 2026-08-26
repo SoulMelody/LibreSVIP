@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
@@ -10,7 +10,7 @@ from libresvip.model.option_mixins import (
 from libresvip.utils.translation import gettext_lazy as _
 
 
-class BpmSource(str, Enum):
+class BpmSource(StrEnum):
     AUTOMATIC = "automatic"
     SONG_INFO = "song_info"
     BGM_INFO = "bgm_info"

@@ -1,6 +1,7 @@
 import contextlib
 import re
 import sys
+from importlib.resources.abc import Traversable
 from typing import Any
 
 try:
@@ -34,11 +35,6 @@ except ImportError:
 jinja_env = JinjaEnvironment()
 
 __all__ = ["Traversable", "jinja_env", "json", "prefix_match"]
-
-if sys.version_info < (3, 11):
-    from importlib_resources.abc import Traversable
-else:
-    from importlib.resources.abc import Traversable
 
 
 def prefix_match(

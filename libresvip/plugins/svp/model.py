@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 import sys
 from itertools import chain
-from typing import Annotated, Any, Literal, NamedTuple
+from typing import Annotated, Any, Literal, NamedTuple, Self
 
 import zhon
 from more_itertools import batched
@@ -17,7 +17,6 @@ from pydantic import (
     model_validator,
 )
 from retrie.retrie import Blacklist
-from typing_extensions import Self
 
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_interval import RangeInterval
