@@ -136,10 +136,10 @@ linting = [
   "prek>=0.5.0",
   "pyrefly>=1.2.0,<1.2.1",
   "pyside6<6.12.0,>=6.11.2",
-  "ruff>=0.16.4",
+  "ruff>=0.16.5",
   "sortedcontainers-stubs>=2.4.3",
   "types-lxml>=2026.2.16",
-  "types-pyinstaller>=6.22.0.20260812",
+  "types-pyinstaller>=6.22.1.20260827",
   "types-pyyaml>=6.0.12.20260815",
   "types-ujson>=5.10.0.20250822",
 ]
