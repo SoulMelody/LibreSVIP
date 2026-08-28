@@ -39,8 +39,8 @@ protobuf-py==0.3.0
 protobuf-py-ext==0.3.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
 pycparser==3.0 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32') or (implementation_name != 'PyPy' and sys_platform == 'emscripten')
 pycryptodomex==3.23.0
-pydantic==2.13.4
-pydantic-core==2.46.4
+pydantic==2.13.5
+pydantic-core==2.46.5
 pydantic-extra-types==2.11.1
 pydantic-settings==2.15.0
 pygments==2.21.0
@@ -69,7 +69,7 @@ soundfile==0.14.0 ; sys_platform == 'emscripten'
 svg-py==1.10.0
 tatsu-lts==5.16.0
 that-depends==4.1.0
-typer==0.27.1
+typer==0.27.2
 typing-extensions==4.16.0
 typing-inspection==0.4.4
 tzdata==2026.3
