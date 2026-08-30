@@ -117,7 +117,7 @@ all = [
   { include-group = "test" }
 ]
 agents = [
-    "apm-cli>=0.28.0",
+    "apm-cli>=0.29.0",
 ]
 code_gen = [
   "buf-bin>=1.72.0",
