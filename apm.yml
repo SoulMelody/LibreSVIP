@@ -5,13 +5,14 @@ author: SoulMelody
 targets:
   - claude
   - codex
+  - grok-build
   - opencode
 dependencies:
   apm:
-    - TheQtCompanyRnD/agent-skills/skills/qt-qml
-    - astral-sh/claude-code-plugins/plugins/astral
-    - pydantic/skills/skills/pydantic
-    - bufbuild/claude-plugins/plugins/protobuf
+    - TheQtCompanyRnD/agent-skills/skills/qt-qml#main
+    - astral-sh/claude-code-plugins/plugins/astral#main
+    - pydantic/skills/skills/pydantic#default
+    - bufbuild/claude-plugins/plugins/protobuf#main
   mcp:
     - io.github.upstash/context7
   lsp:
