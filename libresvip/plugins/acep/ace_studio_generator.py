@@ -56,7 +56,7 @@ class AceGenerator:
     options: OutputOptions
     first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
     first_bar_ticks: int = dataclasses.field(init=False)
-    ace_note_list: list[AcepNote] = dataclasses.field(init=False)
+    ace_note_list: list[AcepNote] = dataclasses.field(default_factory=list)
     pattern_start: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
@@ -201,7 +201,7 @@ class AceGenerator:
             pos=round(note.start_pos) - self.pattern_start,
             dur=note.length,
             pitch=note.key_number,
-            lyric=note.lyric,
+            lyric=note.lyric.lstrip("'"),
             language=self.options.lyric_language,
         )
 
