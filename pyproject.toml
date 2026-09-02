@@ -87,7 +87,7 @@ desktop = [
   "desktop-notifier>=6.2.0",
   "qasync>=0.28.0",
 ]
-lxml = ["lxml>=6.1.2"]
+lxml = ["lxml>=6.1.3"]
 minijinja = ["minijinja>=2.24.0"]
 mobile = [
   "flet[desktop]>=0.86.5,<0.90.0",
