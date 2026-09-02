@@ -121,7 +121,7 @@ agents = [
 ]
 code_gen = [
   "buf-bin>=1.72.0",
-  "datamodel-code-generator>=0.76.0",
+  "datamodel-code-generator>=0.76.1",
   "pbtk>=1.1.3",
   "protoc-gen-py>=0.4.0",
   "pyside6-addons<6.12.0,>=6.11.2",
