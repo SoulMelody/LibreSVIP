@@ -35,7 +35,7 @@ packaging==26.3
 pathlib-abc==0.5.2
 platformdirs==4.11.7
 portion==2.6.2
-protobuf-py==0.3.0
+protobuf-py==0.4.0
 pycparser==3.0
 pycryptodomex==3.23.0
 pydantic==2.13.4
