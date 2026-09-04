@@ -73,7 +73,7 @@ typer==0.27.2
 typing-extensions==4.16.0
 typing-inspection==0.4.4
 tzdata==2026.3
-ujson==5.13.0
+ujson==6.0.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 win32-setctime==1.2.0 ; sys_platform == 'win32'
