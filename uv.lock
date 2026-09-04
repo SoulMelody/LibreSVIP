@@ -880,7 +880,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.76.1"
+version = "0.76.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -892,9 +892,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4b/94/fad95512b15f4fea6c39ba1205a237049c9a0d7fe3211e34c235cd150679/datamodel_code_generator-0.76.1.tar.gz", hash = "sha256:6f9e94caa5c82be0e0c6f2cf87024920aef0a979897b668734a99d25db289b20", size = 2223271, upload-time = "2026-09-02T08:49:32.606Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c7/cd/97b5ce0bc7452199a06204e1252fe10ad63cc37c76c2e9f76146b766b708/datamodel_code_generator-0.76.2.tar.gz", hash = "sha256:c8c25e24b5b90c1c45fc40309fedd0a2f571425c7b6efae97efb317c03325c32", size = 2260230, upload-time = "2026-09-04T11:37:47.931Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/19/14/c1c4d7e96cf7e06c6036e0967a33866fd6e97649fab1788dac415d378a89/datamodel_code_generator-0.76.1-py3-none-any.whl", hash = "sha256:9670c48ac432762f8e14641d769c37a9e1558e35dd0400727fcc1def47f6f374", size = 653802, upload-time = "2026-09-02T08:49:30.739Z" },
+    { url = "https://files.pythonhosted.org/packages/b3/7a/00b736585a6fac1e9c94275a07d8e470a3accdaab37b54d13fdc1c985bc0/datamodel_code_generator-0.76.2-py3-none-any.whl", hash = "sha256:8cc2bffa5a7e81a4b5a1cfce28530eaf9be465f3591bb7cb53030eb0c956f6d9", size = 661183, upload-time = "2026-09-04T11:37:45.73Z" },
 ]
 
 [[package]]
@@ -1783,7 +1783,7 @@ all = [
     { name = "apm-cli", specifier = ">=0.29.0" },
     { name = "babel", specifier = ">=2.18.0" },
     { name = "buf-bin", specifier = ">=1.72.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.76.1" },
+    { name = "datamodel-code-generator", specifier = ">=0.76.2" },
     { name = "flet-cli", specifier = ">=0.86.5,<0.90.0" },
     { name = "mypy", specifier = ">=2.3.1" },
     { name = "pbtk", specifier = ">=1.1.3" },
@@ -1808,7 +1808,7 @@ all = [
 ]
 code-gen = [
     { name = "buf-bin", specifier = ">=1.72.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.76.1" },
+    { name = "datamodel-code-generator", specifier = ">=0.76.2" },
     { name = "pbtk", specifier = ">=1.1.3" },
     { name = "protoc-gen-py", specifier = ">=0.4.0" },
     { name = "pyside6-addons", specifier = ">=6.11.2,<6.12.0" },
