@@ -97,7 +97,7 @@ mobile = [
 tui = [
   "textual-fspicker>=1.0.1",
 ]
-ujson = ["ujson>=5.13.0"]
+ujson = ["ujson>=6.0.0"]
 webui = [
   "nicegui>=3.16.0",
 ]
