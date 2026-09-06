@@ -117,7 +117,7 @@ all = [
   { include-group = "test" }
 ]
 agents = [
-    "apm-cli>=0.29.0",
+    "apm-cli>=0.29.1",
 ]
 code_gen = [
   "buf-bin>=1.72.0",
@@ -140,7 +140,7 @@ linting = [
   "sortedcontainers-stubs>=2.4.3",
   "types-lxml>=2026.2.16",
   "types-pyinstaller>=6.22.1.20260827",
-  "types-pyyaml>=6.0.12.20260815",
+  "types-pyyaml>=6.0.12.20260906",
   "types-ujson>=5.10.0.20250822",
 ]
 packaging = [
