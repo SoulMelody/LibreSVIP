@@ -27,7 +27,7 @@ macholib==1.16.4 ; sys_platform == 'darwin'
 markupsafe==3.0.3
 more-itertools==11.1.0
 numpy==2.4.6 ; python_full_version < '3.12' and sys_platform == 'emscripten'
-numpy==2.5.2 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
+numpy==2.5.3 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
 packaging==26.3
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
