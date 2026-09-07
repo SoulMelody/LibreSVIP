@@ -215,7 +215,7 @@ wheels = [
 
 [[package]]
 name = "apm-cli"
-version = "0.29.1"
+version = "0.30.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -236,9 +236,9 @@ dependencies = [
     { name = "watchdog" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/20/b7/b0a29b923f3f423fb5d62ba629da1ec964c8720c1733176e4e6f9f8cf0b2/apm_cli-0.29.1.tar.gz", hash = "sha256:20c7db3a1147b103467cd19dac68d4a0f3b4fcebbc5ecf3eab3e1c86e6f51a6c", size = 1759569, upload-time = "2026-09-06T07:48:01.249Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/80/63/11eb297d227893a5418efe044d99f74390985ceb8730a7d007538372dc02/apm_cli-0.30.0.tar.gz", hash = "sha256:4f412c65aac6a19864c0552904199d85e8f1a286c60de48ebd3b1422eccb760f", size = 1763602, upload-time = "2026-09-07T09:54:19.728Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/44/af/3d1f3f0eff66006fbbba7aefa2bbaa13fc4382984d38c8935bb4f3549290/apm_cli-0.29.1-py3-none-any.whl", hash = "sha256:9471276f74223758c25bc40cfe37531a07f7fe404099c784f648066f43d07c98", size = 1917378, upload-time = "2026-09-06T07:47:59.035Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/68/b272b2fab8b7bf1a0518b3ebbbb13c66801b75bc7227d3fc8f9b8c97f7bc/apm_cli-0.30.0-py3-none-any.whl", hash = "sha256:3fca70dc0295b541f088aab2daabf4e4880e4ecac25b8918e1d9c43205459b5c", size = 1921758, upload-time = "2026-09-07T09:54:17.667Z" },
 ]
 
 [[package]]
@@ -1778,9 +1778,9 @@ requires-dist = [
 provides-extras = ["cli", "crypto", "desktop", "lxml", "minijinja", "mobile", "tui", "ujson", "webui", "yaml12"]
 
 [package.metadata.requires-dev]
-agents = [{ name = "apm-cli", specifier = ">=0.29.1" }]
+agents = [{ name = "apm-cli", specifier = ">=0.30.0" }]
 all = [
-    { name = "apm-cli", specifier = ">=0.29.1" },
+    { name = "apm-cli", specifier = ">=0.30.0" },
     { name = "babel", specifier = ">=2.18.0" },
     { name = "buf-bin", specifier = ">=1.72.0" },
     { name = "datamodel-code-generator", specifier = ">=0.76.2" },
