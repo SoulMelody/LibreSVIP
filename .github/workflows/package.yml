@@ -210,7 +210,7 @@ jobs:
         run: |
           softwareupdate --install-rosetta --agree-to-license
       - name: Set up rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v2
         with:
           cache: false
           target: x86_64-apple-darwin
@@ -477,7 +477,7 @@ jobs:
         run: |
           softwareupdate --install-rosetta --agree-to-license
       - name: Set up rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@v2
         with:
           cache: false
           target: x86_64-apple-darwin
