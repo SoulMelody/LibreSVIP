@@ -382,7 +382,17 @@ def test_musicxml_lyrics_ties_and_extensions_export_to_ustx(tmp_path: pathlib.Pa
     project = MusicXMLConverter.load(mxl_path, {})
     track = project.track_list[0]
     assert isinstance(track, SingingTrack)
-    expected_lyrics = ["Ooh", "+~", "+~", "agnus", "+"]
+    expected_lyrics = [
+        "Ooh",
+        "+~",
+        "+~",
+        DEFAULT_PHONEME,
+        "agnus",
+        "+",
+        "ah",
+        DEFAULT_PHONEME,
+        DEFAULT_PHONEME,
+    ]
     assert [note.lyric for note in track.note_list] == expected_lyrics
 
     ustx_project = UstxGenerator(UstxOutputOptions()).generate_project(project)

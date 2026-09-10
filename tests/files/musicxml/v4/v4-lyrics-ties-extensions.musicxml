@@ -35,6 +35,10 @@
     <measure number="3">
       <note>
         <pitch><step>G</step><octave>4</octave></pitch>
+        <duration>1</duration><type>eighth</type>
+      </note>
+      <note>
+        <pitch><step>G</step><octave>4</octave></pitch>
         <duration>3</duration><tie type="start"/><type>quarter</type><dot/>
         <lyric><syllabic>begin</syllabic><text>a</text></lyric>
       </note>
@@ -47,7 +51,23 @@
         <duration>1</duration><type>eighth</type>
         <lyric><syllabic>end</syllabic><text>gnus</text></lyric>
       </note>
-      <note><rest/><duration>2</duration><type>quarter</type></note>
+      <note><rest/><duration>1</duration><type>eighth</type></note>
+    </measure>
+    <measure number="4">
+      <note>
+        <pitch><step>B</step><octave>4</octave></pitch>
+        <duration>2</duration><type>quarter</type>
+        <lyric><syllabic>single</syllabic><text>ah</text><extend/></lyric>
+      </note>
+      <note>
+        <pitch><step>B</step><octave>4</octave></pitch>
+        <duration>2</duration><type>quarter</type>
+        <lyric><extend type="stop"/></lyric>
+      </note>
+      <note>
+        <pitch><step>B</step><octave>4</octave></pitch>
+        <duration>4</duration><type>half</type>
+      </note>
     </measure>
   </part>
 </score-partwise>

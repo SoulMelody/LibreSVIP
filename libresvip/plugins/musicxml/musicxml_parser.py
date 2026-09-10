@@ -357,6 +357,7 @@ class MusicXMLParser:
 
                 rest_nodes = note_node.rest
                 if rest_nodes:
+                    is_lyric_extension_active = False
                     tick_position += duration
                     continue
 
@@ -372,11 +373,13 @@ class MusicXMLParser:
                 lyric_nodes = note_node.lyric
                 lyric_node = lyric_nodes[0] if lyric_nodes else None
                 has_lyric_text = lyric_node is not None and bool(lyric_node.text)
-                has_lyric_extension = lyric_node is not None and bool(lyric_node.extend)
-                if has_lyric_text:
-                    is_lyric_extension_active = has_lyric_extension
-                elif has_lyric_extension:
-                    is_lyric_extension_active = True
+                if lyric_node is not None and lyric_node.extend:
+                    for extend in lyric_node.extend:
+                        is_lyric_extension_active = (
+                            extend.type_value != StartStopContinue.STOP
+                        )
+                elif has_lyric_text:
+                    is_lyric_extension_active = False
 
                 if not has_lyric_text and is_lyric_extension_active:
                     lyric = "+~"
