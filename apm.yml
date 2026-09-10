@@ -5,6 +5,7 @@ author: SoulMelody
 targets:
   - claude
   - codex
+  - copilot
   - grok-build
   - opencode
 dependencies:
@@ -15,6 +16,10 @@ dependencies:
     - bufbuild/claude-plugins/plugins/protobuf#main
   mcp:
     - io.github.upstash/context7
+    - name: qt-documentation
+      registry: false
+      transport: http
+      url: https://qt-docs-mcp.qt.io/mcp
   lsp:
     - name: ruff
       command: ruff

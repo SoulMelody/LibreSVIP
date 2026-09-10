@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-08-31T01:46:13.768381+00:00'
+generated_at: '2026-09-10T09:08:11.545206+00:00'
 apm_version: 0.29.0
 dependencies:
 - repo_url: astral-sh/claude-code-plugins
@@ -1202,8 +1202,44 @@ deployments:
   content_hash: null
 - kind: uri
   target: mcp
+  value: qt-documentation
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
   value: io.github.upstash/context7
   runtime: codex
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: qt-documentation
+  runtime: codex
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: io.github.upstash/context7
+  runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: qt-documentation
+  runtime: copilot
   scope: project
   owners:
   - .
@@ -1218,18 +1254,39 @@ deployments:
   - .
   active_owner: .
   content_hash: null
+- kind: uri
+  target: mcp
+  value: qt-documentation
+  runtime: opencode
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
 mcp_servers:
 - io.github.upstash/context7
+- qt-documentation
 mcp_configs:
   io.github.upstash/context7:
     name: io.github.upstash/context7
+  qt-documentation:
+    name: qt-documentation
+    transport: http
+    registry: false
+    url: https://qt-docs-mcp.qt.io/mcp
 mcp_target_servers:
   claude:
   - io.github.upstash/context7
+  - qt-documentation
   codex:
   - io.github.upstash/context7
+  - qt-documentation
+  copilot:
+  - io.github.upstash/context7
+  - qt-documentation
   opencode:
   - io.github.upstash/context7
+  - qt-documentation
 lsp_servers:
 - protobuf
 - pyrefly

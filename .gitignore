@@ -165,8 +165,10 @@ cython_debug/
 .agents/
 .claude/
 .codex/
+.grok/
 .kilocode/
 .opencode/
+.pi/
 .trae/
 openspec/
 .slim/deepwork/
