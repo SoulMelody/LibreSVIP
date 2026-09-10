@@ -1,0 +1,7 @@
+[Core]
+name = Remove numbers and punctuation
+
+[Documentation]
+Author = SoulMelody
+Website = https://space.bilibili.com/175862486
+Description = Remove Unicode decimal digits and punctuation from note lyrics while preserving structural lyric markers.
