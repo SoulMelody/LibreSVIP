@@ -12,7 +12,7 @@
       </attributes>
       <note>
         <pitch><step>A</step><octave>4</octave></pitch>
-        <duration>6</duration><type>half</type>
+        <duration>6</duration><type>half</type><dot/>
         <lyric><syllabic>single</syllabic><text>Ooh</text><extend/></lyric>
       </note>
       <note>
