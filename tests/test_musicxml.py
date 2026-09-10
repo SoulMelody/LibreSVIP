@@ -9,6 +9,8 @@ from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.extension.manager import get_svs_plugin_by_suffix, plugin_manager
 from libresvip.model.base import SingingTrack
 from libresvip.plugins.musicxml.dynamics import DYNAMIC_TO_VELOCITY
+from libresvip.plugins.ustx.options import OutputOptions as UstxOutputOptions
+from libresvip.plugins.ustx.ustx_generator import UstxGenerator
 from libresvip.utils.binary.midi import cc11_to_db_change
 
 musicxml_test_base_path = pathlib.Path(__file__).parent / "files" / "musicxml"
@@ -357,6 +359,34 @@ def test_mxl_extension_compressed(tmp_path: pathlib.Path) -> None:
     project = MusicXMLConverter.load(mxl_path, {})
     assert len(project.song_tempo_list) >= 2
     assert project.song_tempo_list[1].position == 1920 + 960
+
+
+def test_musicxml_lyrics_ties_and_extensions_export_to_ustx(tmp_path: pathlib.Path) -> None:
+    source = (musicxml_v4_path / "v4-lyrics-ties-extensions.musicxml").read_bytes()
+    mxl_path = tmp_path / "lyrics.mxl"
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(
+            "META-INF/container.xml",
+            (
+                '<?xml version="1.0" encoding="UTF-8"?>'
+                "<container>"
+                '<rootfiles><rootfile full-path="score.musicxml" '
+                'media-type="application/vnd.recordare.musicxml+xml"/></rootfiles>'
+                "</container>"
+            ),
+        )
+        zf.writestr("score.musicxml", source)
+    mxl_path.write_bytes(buf.getvalue())
+
+    project = MusicXMLConverter.load(mxl_path, {})
+    track = project.track_list[0]
+    assert isinstance(track, SingingTrack)
+    expected_lyrics = ["Ooh", "+~", "+~", "agnus", "+"]
+    assert [note.lyric for note in track.note_list] == expected_lyrics
+
+    ustx_project = UstxGenerator(UstxOutputOptions()).generate_project(project)
+    assert [note.lyric for note in ustx_project.voice_parts[0].notes] == expected_lyrics
 
 
 def test_xml_content_sniff_rejects_foreign_xml(tmp_path: pathlib.Path) -> None:

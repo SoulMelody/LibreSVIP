@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 4.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="4.0">
+  <part-list>
+    <score-part id="P1"><part-name>Voice</part-name></score-part>
+  </part-list>
+  <part id="P1">
+    <measure number="1">
+      <attributes>
+        <divisions>2</divisions>
+        <time><beats>4</beats><beat-type>4</beat-type></time>
+      </attributes>
+      <note>
+        <pitch><step>A</step><octave>4</octave></pitch>
+        <duration>6</duration><type>half</type>
+        <lyric><syllabic>single</syllabic><text>Ooh</text><extend/></lyric>
+      </note>
+      <note>
+        <pitch><step>A</step><alter>1</alter><octave>4</octave></pitch>
+        <duration>2</duration><tie type="start"/><type>quarter</type>
+      </note>
+    </measure>
+    <measure number="2">
+      <note>
+        <pitch><step>A</step><alter>1</alter><octave>4</octave></pitch>
+        <duration>4</duration><tie type="stop"/><tie type="start"/><type>half</type>
+      </note>
+      <note>
+        <pitch><step>A</step><alter>1</alter><octave>4</octave></pitch>
+        <duration>1</duration><tie type="stop"/><type>eighth</type>
+        <notations><slur type="stop" number="1"/></notations>
+      </note>
+      <note><rest/><duration>3</duration><type>quarter</type><dot/></note>
+    </measure>
+    <measure number="3">
+      <note>
+        <pitch><step>G</step><octave>4</octave></pitch>
+        <duration>3</duration><tie type="start"/><type>quarter</type><dot/>
+        <lyric><syllabic>begin</syllabic><text>a</text></lyric>
+      </note>
+      <note>
+        <pitch><step>G</step><octave>4</octave></pitch>
+        <duration>2</duration><tie type="stop"/><type>quarter</type>
+      </note>
+      <note>
+        <pitch><step>G</step><octave>4</octave></pitch>
+        <duration>1</duration><type>eighth</type>
+        <lyric><syllabic>end</syllabic><text>gnus</text></lyric>
+      </note>
+      <note><rest/><duration>2</duration><type>quarter</type></note>
+    </measure>
+  </part>
+</score-partwise>
