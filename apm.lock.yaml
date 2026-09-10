@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-09-10T09:08:11.545206+00:00'
+generated_at: '2026-09-10T09:16:00.379094+00:00'
 apm_version: 0.29.0
 dependencies:
 - repo_url: astral-sh/claude-code-plugins
@@ -1192,6 +1192,87 @@ deployments:
   active_owner: astral-sh/claude-code-plugins/plugins/astral
   content_hash: sha256:6553a22dbe4251ec851e0d1952d11e801c07a8a6d9bab21e86aa8e6764d147db
 - kind: uri
+  target: lsp
+  value: protobuf
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: pyrefly
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: ruff
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: ty
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: protobuf
+  runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: pyrefly
+  runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: ruff
+  runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: ty
+  runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: flet
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
   target: mcp
   value: io.github.upstash/context7
   runtime: claude
@@ -1204,6 +1285,15 @@ deployments:
   target: mcp
   value: qt-documentation
   runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: flet
+  runtime: codex
   scope: project
   owners:
   - .
@@ -1229,6 +1319,15 @@ deployments:
   content_hash: null
 - kind: uri
   target: mcp
+  value: flet
+  runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
   value: io.github.upstash/context7
   runtime: copilot
   scope: project
@@ -1240,6 +1339,15 @@ deployments:
   target: mcp
   value: qt-documentation
   runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: flet
+  runtime: opencode
   scope: project
   owners:
   - .
@@ -1264,9 +1372,17 @@ deployments:
   active_owner: .
   content_hash: null
 mcp_servers:
+- flet
 - io.github.upstash/context7
 - qt-documentation
 mcp_configs:
+  flet:
+    name: flet
+    transport: stdio
+    args:
+    - mcp
+    registry: false
+    command: flet
   io.github.upstash/context7:
     name: io.github.upstash/context7
   qt-documentation:
@@ -1276,15 +1392,19 @@ mcp_configs:
     url: https://qt-docs-mcp.qt.io/mcp
 mcp_target_servers:
   claude:
+  - flet
   - io.github.upstash/context7
   - qt-documentation
   codex:
+  - flet
   - io.github.upstash/context7
   - qt-documentation
   copilot:
+  - flet
   - io.github.upstash/context7
   - qt-documentation
   opencode:
+  - flet
   - io.github.upstash/context7
   - qt-documentation
 lsp_servers:
@@ -1330,3 +1450,19 @@ lsp_configs:
     extensionToLanguage:
       .py: python
       .pyi: python
+lsp_target_servers:
+  claude:
+  - protobuf
+  - pyrefly
+  - ruff
+  - ty
+  copilot:
+  - protobuf
+  - pyrefly
+  - ruff
+  - ty
+lsp_config_provenance:
+  protobuf: package:bufbuild/claude-plugins/plugins/protobuf
+  pyrefly: project:.
+  ruff: project:.
+  ty: package:astral-sh/claude-code-plugins/plugins/astral

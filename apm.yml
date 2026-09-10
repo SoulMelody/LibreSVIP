@@ -20,6 +20,11 @@ dependencies:
       registry: false
       transport: http
       url: https://qt-docs-mcp.qt.io/mcp
+    - name: flet
+      registry: false
+      transport: stdio
+      command: flet
+      args: ["mcp"]
   lsp:
     - name: ruff
       command: ruff
