@@ -325,7 +325,8 @@ class MusicXMLParser:
         measure_nodes = part_node.measure
         tick_position = 0
         previous_tick_position = 0
-        incomplete_lyric_note: Note | None = None
+        incomplete_lyric_note_index: int | None = None
+        is_lyric_extension_active = False
         duration: int | None = None
         for measure_node in measure_nodes:
             for note_node in measure_node.content:
@@ -356,6 +357,7 @@ class MusicXMLParser:
 
                 rest_nodes = note_node.rest
                 if rest_nodes:
+                    is_lyric_extension_active = False
                     tick_position += duration
                     continue
 
@@ -369,14 +371,24 @@ class MusicXMLParser:
                 key = note2midi(f"{step.value}{octave}") + alter
 
                 lyric_nodes = note_node.lyric
-                if any(
+                lyric_node = lyric_nodes[0] if lyric_nodes else None
+                has_lyric_text = lyric_node is not None and bool(lyric_node.text)
+                if lyric_node is not None and lyric_node.extend:
+                    for extend in lyric_node.extend:
+                        is_lyric_extension_active = extend.type_value != StartStopContinue.STOP
+                elif has_lyric_text:
+                    is_lyric_extension_active = False
+
+                if not has_lyric_text and is_lyric_extension_active:
+                    lyric = "+~"
+                elif any(
                     slur.type_value in [StartStopContinue.CONTINUE, StartStopContinue.STOP]
                     for notation in note_node.notations
                     for slur in notation.slur
                 ):
                     lyric = "-"
-                elif len(lyric_nodes) and len(lyric_nodes[0].text):
-                    lyric = lyric_nodes[0].text[0].value
+                elif has_lyric_text:
+                    lyric = lyric_node.text[0].value
                 else:
                     lyric = DEFAULT_PHONEME
 
@@ -393,19 +405,21 @@ class MusicXMLParser:
                         start_pos=tick_position,
                         length=duration,
                     )
+                    note_index = len(notes)
+                    notes.append(note)
                     if len(lyric_nodes):
                         syllabic = self.syllabic_status(lyric_nodes[0])
                         if syllabic == Syllabic.BEGIN:
-                            incomplete_lyric_note = note
-                        elif syllabic == Syllabic.END and incomplete_lyric_note is not None:
-                            incomplete_lyric_note.lyric += lyric
-                            incomplete_lyric_note = None
+                            incomplete_lyric_note_index = note_index
+                        elif syllabic == Syllabic.END and incomplete_lyric_note_index is not None:
+                            notes[incomplete_lyric_note_index].lyric += lyric
+                            incomplete_lyric_note_index = None
                             note.lyric = "+"
-                        elif syllabic == Syllabic.MIDDLE and incomplete_lyric_note is not None:
-                            incomplete_lyric_note.lyric += lyric
+                        elif (
+                            syllabic == Syllabic.MIDDLE and incomplete_lyric_note_index is not None
+                        ):
+                            notes[incomplete_lyric_note_index].lyric += lyric
                             note.lyric = "+"
-                    notes.append(note)
-                    note_index = len(notes) - 1
                     fermata_shape = next(
                         (
                             (f.value.value if f.value else "")
