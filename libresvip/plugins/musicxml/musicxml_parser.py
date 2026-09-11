@@ -375,9 +375,7 @@ class MusicXMLParser:
                 has_lyric_text = lyric_node is not None and bool(lyric_node.text)
                 if lyric_node is not None and lyric_node.extend:
                     for extend in lyric_node.extend:
-                        is_lyric_extension_active = (
-                            extend.type_value != StartStopContinue.STOP
-                        )
+                        is_lyric_extension_active = extend.type_value != StartStopContinue.STOP
                 elif has_lyric_text:
                     is_lyric_extension_active = False
 
@@ -417,7 +415,9 @@ class MusicXMLParser:
                             notes[incomplete_lyric_note_index].lyric += lyric
                             incomplete_lyric_note_index = None
                             note.lyric = "+"
-                        elif syllabic == Syllabic.MIDDLE and incomplete_lyric_note_index is not None:
+                        elif (
+                            syllabic == Syllabic.MIDDLE and incomplete_lyric_note_index is not None
+                        ):
                             notes[incomplete_lyric_note_index].lyric += lyric
                             note.lyric = "+"
                     fermata_shape = next(
