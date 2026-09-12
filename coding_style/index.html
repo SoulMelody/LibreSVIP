@@ -18,25 +18,25 @@
         <link rel="prev" href="../contributing/">
       
       
-        <link rel="next" href="../project_formats/">
+        <link rel="next" href="../best_practices/">
       
       
         
       
       
       <link rel="icon" href="../images/libresvip.svg">
-      <meta name="generator" content="zensical-0.0.57">
+      <meta name="generator" content="zensical-0.0.61">
     
     
       
-        <title>Coding style - LibreSVIP</title>
+        <title>代码规范 - LibreSVIP</title>
       
     
     
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.5da3a30f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.ce62732f.min.css">
       
         
           
@@ -80,7 +80,8 @@
     <label class="md-overlay" for="__drawer" aria-label="导航栏"></label>
     <div data-md-component="skip">
       
-        <a href="#__skip" class="md-skip">
+        
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -114,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Coding style
+              代码规范
             
           </span>
         </div>
@@ -555,6 +556,25 @@
       
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  代码规范
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="././" class="md-nav__link md-nav__link--active">
         
@@ -572,6 +592,97 @@
 
       </a>
       
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        类型检查
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lint" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Lint
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        pydantic 模型约定
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        验证习惯
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  格式解析最佳实践
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -651,6 +762,13 @@
                     
                     
                     
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
                     
                   
                   <div class="md-sidebar__inner">
@@ -661,6 +779,60 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        类型检查
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lint" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Lint
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        pydantic 模型约定
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        验证习惯
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -678,9 +850,38 @@
   
 
 
-  <h1 id="__skip">Coding style</h1>
-
-
+<h1 id="_1">代码规范</h1>
+<h2 id="_2">类型检查</h2>
+<p>默认类型检查器是 <strong>pyrefly</strong>（<code>.pre-commit-config.yaml</code> 中的 <code>pyrefly-check</code> 钩子即门禁）：</p>
+<p><code>bash
+uv run pyrefly check .</code></p>
+<p>mypy（含 pydantic.mypy 插件）已降级为遗留工具——慢且明显更严，不要把它的输出当作通过/失败标准，也不要为满足它去改代码。</p>
+<p><code>pyproject.toml</code> 中 <code>[tool.pyrefly.errors]</code> / <code>[tool.ty.rules]</code> 忽略了一批调用形状错误，这是有意为之：</p>
+<p>本仓库 pydantic 模型密集（<code>libresvip/model/base.py</code> 与各插件），其 <code>__init__</code> 由 dataclass_transform 合成。pyright / basedpyright / ty 等静态检查器解析不了它，会对普通的模型构造大量误报"参数不存在 / missing argument / unexpected keyword"（包括从未改动的文件）。遇到这类报错时：</p>
+<ul>
+<li>不要加 <code># type: ignore</code>、不要改写正常工作的 pydantic 代码来消音；</li>
+<li>IDE / 语言服务器里几十条此类错误属于工具噪音，不是代码问题；</li>
+<li>判断标准只有一个：<code>uv run pyrefly check .</code> 零错误。</li>
+</ul>
+<h2 id="lint">Lint</h2>
+<p>Lint 与格式化统一用 <a href="https://docs.astral.sh/ruff/">ruff</a>（pre-commit 的 <code>ruff-check</code> / <code>ruff-format</code> 钩子即门禁，规则配置在 <code>pyproject.toml</code> 的 <code>[tool.ruff]</code>）：</p>
+<p><code>bash
+uv run ruff check --fix .              # lint，可自动修复的会直接改
+uv run ruff format --config pyproject.toml --exclude tests/ .   # 格式化</code></p>
+<p>要点：</p>
+<ul>
+<li>行宽 100、<code>fix = true</code>——直接跑 <code>ruff check</code> 就会顺手修掉可修的，不要绕过；</li>
+<li>选用了较严格的规则族（<code>ANN</code> 注解、<code>TC</code> 类型导入块、<code>PTH</code> 用 pathlib 不用 os.path、<code>T20</code> 禁 print、<code>INT</code> gettext 用法、<code>I</code> 导入排序等），import 排序按 <code>known-first-party = ["libresvip", "tests"]</code> 区分；</li>
+<li>个别规则已全局忽略（如 <code>E501</code> 行长在格式化兜底、<code>PLC0415</code> 允许函数内 import），完整清单见 <code>pyproject.toml</code>，不要在代码里随手 <code># noqa</code>——全仓目前只有约 20 处，均为刻意豁免（如 PySide6 的 <code>__feature__</code> 导入）。</li>
+</ul>
+<h2 id="pydantic">pydantic 模型约定</h2>
+<ul>
+<li>外部格式字段一律使用 camelCase 别名：<code>Field(alias="startOffset")</code>，序列化时 <code>by_alias=True</code></li>
+<li>旧字段一律转为可选并给默认值，不要让 <code>load</code> 对某个格式版本直接抛异常</li>
+<li>兼容旧版本格式时：读侧用 <code>model_validator(mode="before")</code> 迁移旧键，写侧用 <code>model_serializer(mode="wrap")</code> 按版本输出</li>
+</ul>
+<h2 id="_3">验证习惯</h2>
+<p>改插件前后，用目标格式的真实文件端到端跑一遍 converter 的 load/dump，而不是只做模型验证——序列化/反序列化路径才会暴露别名与字段可选性问题。</p>
 
 
 
@@ -729,13 +930,13 @@
         
         
           
-          <a href="../project_formats/" class="md-footer__link md-footer__link--next" aria-label="下一页: 歌声合成工程格式一览">
+          <a href="../best_practices/" class="md-footer__link md-footer__link--next" aria-label="下一页: 格式解析最佳实践">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                歌声合成工程格式一览
+                格式解析最佳实践
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -814,10 +1015,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.49251538.min.js"></script>
+      <script src="../assets/javascripts/bundle.df5d1f2b.min.js"></script>
       
     
   </body>

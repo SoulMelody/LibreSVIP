@@ -25,18 +25,18 @@
       
       
       <link rel="icon" href="../images/libresvip.svg">
-      <meta name="generator" content="zensical-0.0.57">
+      <meta name="generator" content="zensical-0.0.61">
     
     
       
-        <title>Setup - LibreSVIP</title>
+        <title>环境搭建 - LibreSVIP</title>
       
     
     
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.5da3a30f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.ce62732f.min.css">
       
         
           
@@ -80,7 +80,8 @@
     <label class="md-overlay" for="__drawer" aria-label="导航栏"></label>
     <div data-md-component="skip">
       
-        <a href="#__skip" class="md-skip">
+        
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -114,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Setup
+              环境搭建
             
           </span>
         </div>
@@ -501,6 +502,25 @@
       
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  环境搭建
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="././" class="md-nav__link md-nav__link--active">
         
@@ -517,6 +537,59 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        安装开发依赖
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        常用命令
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Git 钩子
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -565,6 +638,33 @@
     
   
   代码规范
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  格式解析最佳实践
 
     
   </span>
@@ -651,6 +751,13 @@
                     
                     
                     
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
                     
                   
                   <div class="md-sidebar__inner">
@@ -661,6 +768,49 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        安装开发依赖
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        常用命令
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Git 钩子
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -678,9 +828,50 @@
   
 
 
-  <h1 id="__skip">Setup</h1>
-
-
+<h1 id="_1">环境搭建</h1>
+<p>LibreSVIP 使用 <a href="https://docs.astral.sh/uv/">uv</a> 管理依赖，要求 Python 3.11+。</p>
+<h2 id="_2">安装开发依赖</h2>
+<p><code>bash
+uv sync --all-extras --group linting</code></p>
+<h2 id="_3">常用命令</h2>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类型检查</td>
+<td><code>uv run pyrefly check .</code></td>
+</tr>
+<tr>
+<td>Lint 并自动修复</td>
+<td><code>uv run ruff check --fix .</code></td>
+</tr>
+<tr>
+<td>格式化</td>
+<td><code>uv run ruff format --config pyproject.toml --exclude tests/ .</code></td>
+</tr>
+<tr>
+<td>测试</td>
+<td><code>uv run pytest tests/ -v</code></td>
+</tr>
+<tr>
+<td>全部钩子（与 CI 相同入口）</td>
+<td><code>uv run prek run --all-files</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="git">Git 钩子</h2>
+<p>仓库使用 <a href="https://github.com/j178/prek">prek</a> 管理 pre-commit 钩子，提交前会自动执行：</p>
+<ul>
+<li>换行统一为 LF、清理行尾空白；</li>
+<li>JSON / YAML 语法检查；</li>
+<li>TOML 由 <a href="https://tombi-toml.github.io/">tombi</a> 格式化，Markdown 由 <a href="https://github.com/rvben/rumdl">rumdl</a> 格式化——不要手工对齐表格。</li>
+</ul>
+<p><code>.mo</code> 编译目录、Qt 资源（<code>resources.rcc</code>）与 <code>packaging/requirements-*.txt</code> 由 CI 的 compile-files 工作流在 push 到 main 时自动编译并回提交，正常情况下不需要手工产出这些文件（相关脚本在 <code>scripts/</code>）。</p>
 
 
 
@@ -814,10 +1005,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.49251538.min.js"></script>
+      <script src="../assets/javascripts/bundle.df5d1f2b.min.js"></script>
       
     
   </body>

@@ -12,11 +12,13 @@
         <meta name="author" content="SoulMelody">
       
       
-        <link rel="canonical" href="https://soulmelody.github.io/LibreSVIP/faq/">
+        <link rel="canonical" href="https://soulmelody.github.io/LibreSVIP/best_practices/">
       
       
-        <link rel="prev" href="../project_formats/">
+        <link rel="prev" href="../coding_style/">
       
+      
+        <link rel="next" href="../project_formats/">
       
       
         
@@ -27,7 +29,7 @@
     
     
       
-        <title>常见问题 - LibreSVIP</title>
+        <title>格式解析最佳实践 - LibreSVIP</title>
       
     
     
@@ -79,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vocaloid1-midi" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -113,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              常见问题
+              格式解析最佳实践
             
           </span>
         </div>
@@ -217,13 +219,15 @@
   
   
   
+    
+  
   
     
       
     
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../setup/" class="md-tabs__link">
           
   
@@ -239,11 +243,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="././" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../faq/" class="md-tabs__link">
         
   
   常见问题
@@ -438,24 +440,29 @@
       
   
   
+    
   
   
+  
     
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -472,7 +479,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -567,10 +574,36 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../best_practices/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  格式解析最佳实践
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
         
   
   
@@ -585,6 +618,110 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        常见序列化格式：pydantic 验证
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xmlxsdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        XML：xsdata
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tatsu-jinja2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        自定义文本格式：tatsu 文法 + jinja2 模板
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protobufbuf-protobuf-py" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Protobuf：buf 生成 + protobuf-py 运行时
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Protobuf：buf 生成 + protobuf-py 运行时">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proto-pbtk" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        从闭源软件提取 proto 定义：pbtk
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#construct" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        自定义二进制格式：construct
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        逆向与辅助工具速查
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -628,34 +765,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  常见问题
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="././" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
         
   
   
@@ -670,36 +783,6 @@
   
 
       </a>
-      
-        
-
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#vocaloid1-midi" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        是否支持Vocaloid1 MIDI格式?
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -718,6 +801,8 @@
                     
                     
                     
+                      
+                    
                     
                       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
                       <div class="md-sidebar-button__wrapper">
@@ -733,6 +818,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -741,10 +828,82 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#vocaloid1-midi" class="md-nav__link">
+  <a href="#pydantic" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        是否支持Vocaloid1 MIDI格式?
+        常见序列化格式：pydantic 验证
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xmlxsdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        XML：xsdata
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tatsu-jinja2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        自定义文本格式：tatsu 文法 + jinja2 模板
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protobufbuf-protobuf-py" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Protobuf：buf 生成 + protobuf-py 运行时
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Protobuf：buf 生成 + protobuf-py 运行时">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proto-pbtk" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        从闭源软件提取 proto 定义：pbtk
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#construct" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        自定义二进制格式：construct
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        逆向与辅助工具速查
       </span>
     </span>
   </a>
@@ -769,11 +928,122 @@
   
 
 
-  <h1 id="__skip">常见问题</h1>
-
-<h2 id="vocaloid1-midi">是否支持Vocaloid1 MIDI格式?</h2>
-<p>Vocaloid1 MIDI格式在具体内容方面与Vocaloid2的vsq格式基本一致，主要区别只是文件后缀不同。因此，实际上也是可以支持的，只是需要几项手动调整的步骤。</p>
-<p>在导入时，可以关闭"切换格式时重置列表"及"自动检测导入格式"两个开关，再手动选择导入格式为vsq格式；在导出时，可以关闭"自动设置后缀名"这个开关，再选择导出格式为vsq格式，最后给导出文件名末尾加入.mid后缀。</p>
+<h1 id="_1">最佳实践</h1>
+<p>为一个新的歌声合成工程格式编写插件时，按目标格式的类型选择解析与生成技术。下表是本仓库的选型速查，每一行都给出可直接参考的现有插件：</p>
+<table>
+<thead>
+<tr>
+<th>格式类型</th>
+<th>解析 / 验证</th>
+<th>生成</th>
+<th>参考插件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON / CBOR / YAML 等标准序列化</td>
+<td>序列化库转 dict → pydantic 验证</td>
+<td>pydantic → 序列化库</td>
+<td><code>ace</code>、<code>ds</code>、<code>vpr</code>、<code>tlpx</code>、<code>acep</code>、<code>ustx</code></td>
+</tr>
+<tr>
+<td>XML</td>
+<td>xsdata（<code>xsdata-pydantic</code>）</td>
+<td>xsdata XmlSerializer</td>
+<td><code>vsqx</code>、<code>ccs</code>、<code>musicxml</code>、<code>vspx</code>、<code>xvsq</code></td>
+</tr>
+<tr>
+<td>自定义文本格式</td>
+<td>tatsu PEG 文法</td>
+<td>jinja2 模板</td>
+<td><code>ust</code>、<code>nn</code></td>
+</tr>
+<tr>
+<td>Protobuf</td>
+<td><code>protobuf-py</code> 运行时</td>
+<td>同左</td>
+<td><code>svip3</code></td>
+</tr>
+<tr>
+<td>自定义二进制</td>
+<td>construct</td>
+<td>construct</td>
+<td><code>dv</code>、<code>mid</code>、<code>mtp</code>、<code>ppsf</code>、<code>svip</code>、<code>vshp</code>、<code>vsq</code>、<code>vxf</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="pydantic">常见序列化格式：pydantic 验证</h2>
+<p>这类格式的分层很清晰：序列化库（<code>json</code> / <code>cbor2</code> / <code>yamlutils.load_yaml_1_2</code> 等）只负责字节 ↔ dict，结构验证全部交给 pydantic——<code>model.py</code> 是一棵 pydantic 模型树，parser 里 <code>FormatModel.model_validate(已反序列化的 dict)</code> 一步完成（YAML 格式参考 <code>ustx</code>，CBOR 参考 <code>tlpx</code>）。</p>
+<p>初版模型不必手写：用 <a href="https://github.com/koxudaxi/datamodel-code-generator">datamodel-code-generator</a>（在 <code>code_gen</code> 依赖组，命令名叫 <code>datamodel-codegen</code>）从一份真实样例文件生成：</p>
+<p><code>bash
+uv run --group code_gen datamodel-codegen \
+  --input 样例文件.json \
+  --output libresvip/plugins/&lt;format&gt;/model_gen.py \
+  --output-model-type pydantic_v2.BaseModel \
+  --base-class libresvip.model.base.BaseModel \
+  --snake-case-field --disable-timestamp</code></p>
+<p><code>--snake-case-field</code> 会把 camelCase 键转成 snake_case 字段并<strong>自动保留原始键名作为别名</strong>（生成 <code>full_name: str = Field(..., alias='fullName')</code>），正好对齐本仓库“snake_case 字段 + camelCase 别名 + <code>by_alias=True</code> 序列化”的约定，省掉最机械的手写工作；<code>--base-class</code> 让模型直接继承仓库的 <code>BaseModel</code>；<code>--disable-timestamp</code> 保证重复生成不产生无谓 diff。生成结果仍是初版——之后照<a href="../coding_style/">代码规范</a>清理：把必填改成可选并给默认值、删掉转换用不到的冗余字段。</p>
+<h2 id="xmlxsdata">XML：xsdata</h2>
+<p>XML 格式统一用 <a href="https://xsdata.readthedocs.io/">xsdata</a> 处理，仓库用的是它的 pydantic 集成 <code>xsdata-pydantic</code>（<code>XmlParser</code> / <code>XmlSerializer</code>）。生成的模型放进插件目录的 <code>models/</code> 子包（参考 <code>vsqx</code>：<code>models/vsqx3.py</code>、<code>models/vsqx4.py</code>）：</p>
+<p><code>bash
+uv run --group code_gen xsdata generate --output xsdata_pydantic 样例文件或xsd -o libresvip/plugins/&lt;format&gt;/models/</code></p>
+<p><code>scripts/ts_model.py</code> 是同一个套路应用在 Qt Linguist <code>.ts</code> 文件上的例子——为"格式本身没有官方 schema"的情况提供了参照：拿一份样例文件生成模型，再手工修整。</p>
+<h2 id="tatsu-jinja2">自定义文本格式：tatsu 文法 + jinja2 模板</h2>
+<p>解析侧用 <a href="https://tatsu.readthedocs.io/">tatsu</a>（仓库锁定 <code>tatsu-lts</code>），PEG 文法直接以字符串内嵌在 <code>model.py</code> 顶部，<code>tatsu.compile(...)</code> 编译后用 <code>NodeWalker</code> 遍历语法树（完整范例见 <code>nn</code> 与 <code>ust</code> 插件的 <code>model.py</code>）。不要用正则拼自定义文本解析器——文法写一次，后续遇到边角格式（引号、转义、可选段）时改一行文法即可。</p>
+<p>生成侧不要手写字符串拼接。仓库封装了统一的 jinja2 环境 <code>libresvip.core.compat.jinja_env</code>：在插件的 <code>template.py</code> 里用 <code>add_template("格式名", "模板字符串")</code> 注册，再 <code>render_template("格式名", **上下文)</code> 渲染（参考 <code>ust</code>、<code>lrc</code>、<code>nn</code> 的 <code>template.py</code>）。</p>
+<h2 id="protobufbuf-protobuf-py">Protobuf：buf 生成 + protobuf-py 运行时</h2>
+<p><code>.proto</code> 文件统一放在 <code>libresvip/res/protos/</code>（现有 <code>libresvip.proto</code>、<code>svip3.proto</code>）。生成流程：</p>
+<p><code>bash
+./scripts/gen_proto_files.sh   # 内部执行 cd libresvip/res/protos &amp;&amp; uv run -- buf generate</code></p>
+<p><code>buf.gen.yaml</code> 使用本仓库的 <code>protoc-gen-py</code> 插件，生成的 <code>*_pb.py</code>（内嵌序列化的 file descriptor）<strong>直接提交进仓库</strong>，运行时用 <a href="https://github.com/soulmelodycn/protobuf-py">protobuf-py</a> 而非 google 官方 protobuf 包（API 为 <code>from protobuf import Message</code> / <code>protobuf.wkt</code>）。</p>
+<h3 id="proto-pbtk">从闭源软件提取 proto 定义：pbtk</h3>
+<p>目标软件没有公开 schema 时（如 X Studio 的 svip3），用 <a href="https://github.com/vaitekoo/pbtk">pbtk</a>（在 <code>code_gen</code> 依赖组）从其二进制可执行文件中提取内嵌的 protobuf descriptor，导出成 <code>.proto</code> 后放进 <code>libresvip/res/protos/</code> 再走上面的生成流程。<code>svip3.proto</code>（<code>package xstudio.proto</code>）就是这么来的。</p>
+<h2 id="construct">自定义二进制格式：construct</h2>
+<p>自定义二进制结构用 <a href="https://construct.readthedocs.io/">construct</a>（仓库用 <code>construct-typing</code> 提供类型标注）声明式描述，解析与生成共用同一个结构定义。参考 <code>dv/model.py</code>、<code>mid/midi_parser.py</code>、<code>ppsf/legacy_model.py</code>。</p>
+<p>经验法则：</p>
+<ul>
+<li>结构体写成模块级常量（<code>Struct(...)</code> / <code>Padded(...)</code> / <code>Array(...)</code> 嵌套），不要在函数里现拼；</li>
+<li>整个文件的容错（加密区段、版本分支、头部魔数）放在 construct 结构之外，用普通 Python 处理（参考 <code>acep</code> 的加密区段处理）；</li>
+<li>大端/小端、对齐与字符串编码在结构定义里显式声明。</li>
+</ul>
+<h2 id="_2">逆向与辅助工具速查</h2>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+<th>所在依赖组</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>datamodel-code-generator</td>
+<td>从样例 JSON/YAML 生成 pydantic 模型初版</td>
+<td><code>code_gen</code></td>
+</tr>
+<tr>
+<td>xsdata CLI</td>
+<td>从 XSD / 样例 XML 生成模型</td>
+<td><code>code_gen</code></td>
+</tr>
+<tr>
+<td>pbtk</td>
+<td>从二进制可执行文件提取 protobuf 定义</td>
+<td><code>code_gen</code></td>
+</tr>
+<tr>
+<td>buf + protoc-gen-py</td>
+<td>从 <code>.proto</code> 生成 Python 绑定</td>
+<td><code>code_gen</code>（脚本 <code>scripts/gen_proto_files.sh</code>）</td>
+</tr>
+<tr>
+<td>babel（<code>scripts/extract_messages.py</code>、<code>batch_compile_catalog.py</code>）</td>
+<td>抽取与编译翻译目录</td>
+<td><code>i18n</code> / CI</td>
+</tr>
+</tbody>
+</table>
+<p><code>scripts/</code> 下其余脚本与格式插件无关：<code>gen_snake_case_pyi.sh</code> 生成 PySide6 的 snake_case stub（GUI 开发用），<code>ts_model.py</code> 是 Qt <code>.ts</code> 翻译文件的 xsdata 模型（配合 <code>extract_messages.py</code> 把 Qt 翻译同步进 gettext 流程）。</p>
 
 
 
@@ -805,7 +1075,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../project_formats/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 歌声合成工程格式一览">
+          <a href="../coding_style/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 代码规范">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
@@ -815,11 +1085,27 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                歌声合成工程格式一览
+                代码规范
               </div>
             </div>
           </a>
         
+        
+          
+          <a href="../project_formats/" class="md-footer__link md-footer__link--next" aria-label="下一页: 歌声合成工程格式一览">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                歌声合成工程格式一览
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
         
       </nav>
     

@@ -25,18 +25,18 @@
       
       
       <link rel="icon" href="../images/libresvip.svg">
-      <meta name="generator" content="zensical-0.0.57">
+      <meta name="generator" content="zensical-0.0.61">
     
     
       
-        <title>Contributing - LibreSVIP</title>
+        <title>贡献代码 - LibreSVIP</title>
       
     
     
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.5da3a30f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.ce62732f.min.css">
       
         
           
@@ -80,7 +80,8 @@
     <label class="md-overlay" for="__drawer" aria-label="导航栏"></label>
     <div data-md-component="skip">
       
-        <a href="#__skip" class="md-skip">
+        
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -114,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Contributing
+              贡献代码
             
           </span>
         </div>
@@ -528,6 +529,25 @@
       
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  贡献代码
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="././" class="md-nav__link md-nav__link--active">
         
@@ -544,6 +564,37 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        项目结构
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -565,6 +616,33 @@
     
   
   代码规范
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  格式解析最佳实践
 
     
   </span>
@@ -651,6 +729,13 @@
                     
                     
                     
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
                     
                   
                   <div class="md-sidebar__inner">
@@ -661,6 +746,27 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        项目结构
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -678,9 +784,64 @@
   
 
 
-  <h1 id="__skip">Contributing</h1>
-
-
+<h1 id="_1">贡献代码</h1>
+<p>环境与常用命令见<a href="../setup/">环境搭建</a>，类型检查与 pydantic 约定见<a href="../coding_style/">代码规范</a>。</p>
+<h2 id="_2">项目结构</h2>
+<p>多个前端共享同一转换核心——<strong>格式转换逻辑永远写在 <code>libresvip</code> 核心与插件里，不要写进任何前端</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>入口</th>
+<th>技术</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>桌面 GUI</td>
+<td>PySide6 / QML</td>
+<td><code>libresvip/gui/</code>（界面在 <code>libresvip/res/</code> 的 QML，编译成 resources.rcc）</td>
+</tr>
+<tr>
+<td>TUI</td>
+<td>textual</td>
+<td><code>libresvip/tui/</code></td>
+</tr>
+<tr>
+<td>Web</td>
+<td>自研页面</td>
+<td><code>libresvip/web/</code></td>
+</tr>
+<tr>
+<td>移动端</td>
+<td>flet</td>
+<td><code>libresvip/mobile/</code></td>
+</tr>
+<tr>
+<td>CLI</td>
+<td>typer</td>
+<td><code>libresvip/cli/</code>（含 <code>rpc/</code>，入口 <code>libresvip-cli</code>）</td>
+</tr>
+</tbody>
+</table>
+<p>核心层：</p>
+<ul>
+<li><code>libresvip/model/</code> — 内部工程模型：<code>base.py</code>（全部模型的 pydantic 基类，<code>populate_by_name=True</code>），以及各类音高/曲线转换（<code>synthv_pitch</code>、<code>relative_pitch_curve</code>、<code>reset_time_axis</code>、<code>vocaloid/</code>…）</li>
+<li><code>libresvip/core/</code> — tick 换算（<code>tick_counter</code>）、时间同步（<code>time_sync</code>）、注音（<code>lyric_phoneme/</code>）、异常与警告类型</li>
+<li><code>libresvip/extension/</code> — 插件系统：<code>SVSConverter</code> 基类（<code>base.py</code>）、加载与元信息（<code>manager.py</code>）</li>
+<li><code>libresvip/middlewares/</code> — 转换前后处理管道（音高平移、缩放、去歌词符号、替换歌词…）</li>
+</ul>
+<p>格式插件 <code>libresvip/plugins/&lt;format&gt;/</code>（约 40 个格式，ace 至 y77）：</p>
+<ul>
+<li>固定角色：<code>model.py</code>（目标格式 pydantic 模型）、<code>&lt;format&gt;_parser.py</code>（格式 → 内部 <code>Project</code>）、<code>&lt;format&gt;_generator.py</code>（<code>Project</code> → 格式）、<code>&lt;format&gt;_converter.py</code>（<code>SVSConverter</code> 子类，load/dump 入口）、<code>options.py</code>（输入/输出选项）</li>
+<li>插件元信息在 <code>&lt;format&gt;.yapsy-plugin</code>，翻译在 <code>locales/&lt;lang&gt;/LC_MESSAGES/</code>（用户可见文案用 <code>gettext_lazy</code> 包 <code>_()</code>）；复杂插件可加常量/工具模块，但上述角色不变</li>
+</ul>
+<p>周边：</p>
+<ul>
+<li><code>scripts/</code> — 代码生成与编译（proto、snake_case pyi、Qt 资源、babel 编目）</li>
+<li><code>tests/</code> — 扁平 <code>test_*.py</code> + <code>data/</code>、<code>files/</code> 测试素材</li>
+<li><code>packaging/</code> — 各平台打包脚本；<code>deprecated/</code> 与 <code>experimental/</code> 存放旧实现与实验代码</li>
+</ul>
 
 
 
@@ -814,10 +975,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"redirect":null,"search":"../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.49251538.min.js"></script>
+      <script src="../assets/javascripts/bundle.df5d1f2b.min.js"></script>
       
     
   </body>
