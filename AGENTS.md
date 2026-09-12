@@ -7,16 +7,16 @@
 - Lint / format: `uv run ruff check --fix .`; `uv run ruff format --config pyproject.toml --exclude tests/ .`
 - Tests: `uv run pytest tests/ -v`
 - All hooks (same entry point as CI): `uv run prek run --all-files`
-  - LF line endings, no trailing whitespace; tombi formats TOML and rumdl formats Markdown — don't align tables by hand
+    - LF line endings, no trailing whitespace; tombi formats TOML and rumdl formats Markdown — don't align tables by hand
 
 ## ⚠️ The type checker is pyrefly, not mypy
 
 - The default type checker has moved from mypy to **pyrefly** (the `pyrefly-check` hook in `.pre-commit-config.yaml` is the gate). mypy (with the pydantic.mypy plugin) is still in the `linting` group, but it is slow and noticeably stricter — **do not treat its output as a pass/fail bar**, and do not change code just to satisfy it.
 - `[tool.pyrefly.errors]` / `[tool.ty.rules]` in `pyproject.toml` ignore a batch of call-shape errors — this is deliberate (see next bullet). Don't "fix" those ignore configs.
 - This repo is dense with pydantic models (`libresvip/model/base.py` and every plugin) whose `__init__` is synthesized via dataclass_transform. pyright / basedpyright / ty cannot resolve it and will flood ordinary model constructions with false "missing argument / unexpected keyword" errors (**including files you never touched**). When you see this noise:
-  - don't add `# type: ignore` or restructure working pydantic code to silence it;
-  - dozens of such errors from an IDE / LSP / AI probe (e.g. pi-lens' basedpyright) is tool noise, not a code problem;
-  - the one and only standard: `uv run pyrefly check .` reports zero errors.
+    - don't add `# type: ignore` or restructure working pydantic code to silence it;
+    - dozens of such errors from an IDE / LSP / AI probe (e.g. pi-lens' basedpyright) is tool noise, not a code problem;
+    - the one and only standard: `uv run pyrefly check .` reports zero errors.
 
 ## Project layout
 

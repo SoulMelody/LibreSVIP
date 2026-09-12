@@ -1,1 +1,2 @@
 flavor = "mkdocs"
+disable = ["MD013", "MD041"]
