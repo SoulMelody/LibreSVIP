@@ -45,6 +45,7 @@ class TuneLabTimeSignature(BaseModel):
 class TuneLabVoice(BaseModel):
     type_: str = Field("", alias="type")
     id_: str = Field("", alias="id")
+    kind: str | None = None
 
 
 class TuneLabAutomation(BaseModel):
@@ -62,9 +63,12 @@ class TuneLabAutomation(BaseModel):
 
 
 class TuneLabPhoneme(BaseModel):
-    start_time: float = Field(alias="startTime")
-    end_time: float = Field(alias="endTime")
+    start_time: float | None = Field(None, alias="startTime")
+    end_time: float | None = Field(None, alias="endTime")
     symbol: str
+    duration: float | None = None
+    stretch_weight: float | None = Field(None, alias="stretchWeight")
+    properties: dict[str, Any] | None = None
 
 
 class TuneLabNote(BaseModel):
@@ -74,6 +78,9 @@ class TuneLabNote(BaseModel):
     lyric: str
     pronunciation: str | None = None
     phonemes: list[TuneLabPhoneme] = Field(default_factory=list)
+    body_offset: float | None = Field(None, alias="bodyOffset")
+    leading_phonemes: list[TuneLabPhoneme] | None = Field(None, alias="leadingPhonemes")
+    body_phonemes: list[TuneLabPhoneme] | None = Field(None, alias="bodyPhonemes")
     properties: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -163,9 +170,11 @@ class TuneLabEditorInfo(BaseModel):
 class TuneLabExportConfig(BaseModel):
     export_path: str = Field("", alias="exportPath")
     file_name: str = Field("", alias="fileName")
-    master_export_channels: int = Field(2, alias="masterExportChannels")
     sample_rate: int = Field(44100, alias="sampleRate")
     bit_depth: int = Field(16, alias="bitDepth")
+    format: str | None = None
+    bitrate: int | None = None
+    master_export_channels: int = Field(2, alias="masterExportChannels")
     master_export_enabled: bool = Field(True, alias="masterExportEnabled")
 
 

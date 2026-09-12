@@ -58,6 +58,7 @@ repo = "material/github"
   { "环境搭建" = "setup.md" },
   { "贡献代码" = "contributing.md" },
   { "代码规范" = "coding_style.md" },
+  { "格式解析最佳实践" = "best_practices.md" },
   { "歌声合成工程格式一览" = "project_formats.md" },
 ]
 
