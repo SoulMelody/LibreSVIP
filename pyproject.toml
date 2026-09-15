@@ -90,7 +90,7 @@ desktop = [
 lxml = ["lxml>=6.1.3"]
 minijinja = ["minijinja>=2.24.0"]
 mobile = [
-  "flet[desktop]>=0.86.5,<0.90.0",
+  "flet[desktop]>=1.0.0,<1.0.1",
   "flet-permission-handler>=0.86.5,<0.90.0",
   "fontconfig-py>=1.0.3; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
