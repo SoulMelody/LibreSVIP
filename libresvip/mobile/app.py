@@ -102,8 +102,12 @@ def get_default_font_win32() -> str:
 def get_default_font_unix() -> str | None:
     import fontconfig
 
-    for font in fontconfig.query(where="", select=("family",)):
-        return font["family"]
+    if font := fontconfig.match("sans", select=("family",)):
+        family = font.get("family")
+        if isinstance(family, list):
+            family = family[0] if family else None
+        return family
+    return None
 
 
 def _format_input_selector_label(plugin: SVSConverter) -> str:
@@ -125,7 +129,6 @@ async def main(page: ft.Page) -> None:
     page.window.min_height = 720
     page.window.title_bar_hidden = True
     page.window.title_bar_buttons_hidden = True
-    page.splash = ft.Container(content=ft.ProgressRing(), alignment=ft.Alignment.CENTER)
 
     readonly_plugin_ids = [
         identifier
@@ -948,13 +951,13 @@ async def main(page: ft.Page) -> None:
             else:
                 save_path.write_bytes(buffer.getvalue())
             if w.output:
-                list_tile.leading.controls[0].name = ft.Icons.WARNING_OUTLINED
+                list_tile.leading.controls[0].icon = ft.Icons.WARNING_OUTLINED
                 list_tile.leading.controls[0].color = ft.Colors.YELLOW_400
             else:
-                list_tile.leading.controls[0].name = ft.Icons.CHECK_CIRCLE_OUTLINED
+                list_tile.leading.controls[0].icon = ft.Icons.CHECK_CIRCLE_OUTLINED
                 list_tile.leading.controls[0].color = ft.Colors.GREEN_400
         except Exception:
-            list_tile.leading.controls[0].name = ft.Icons.ERROR_OUTLINED
+            list_tile.leading.controls[0].icon = ft.Icons.ERROR_OUTLINED
             list_tile.leading.controls[0].color = ft.Colors.RED_400
             list_tile.data["log_text"] = traceback.format_exc()
         list_tile.leading.controls[0].visible = True
