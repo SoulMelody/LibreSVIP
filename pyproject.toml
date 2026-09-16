@@ -42,7 +42,7 @@ dependencies = [
   "loguru<1.0.0,>=0.7.3",
   "more-itertools<11.1.1,>=11.1.0",
   "packaging<26.4,>=26.3",
-  "platformdirs<5.0.0,>=4.11.8",
+  "platformdirs<5.0.0,>=4.11.9",
   "portion<3.0.0,>=2.6.2",
   "protobuf-py>=0.5.0",
   "pydantic<3.0.0,>=2.13.5",
@@ -99,7 +99,7 @@ tui = [
 ]
 ujson = ["ujson>=6.0.0"]
 webui = [
-  "nicegui>=3.16.0",
+  "nicegui>=3.17.0",
 ]
 yaml12 = [
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\" and sys_platform != \"emscripten\")",
