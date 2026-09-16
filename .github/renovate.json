@@ -11,7 +11,7 @@
     "recreateWhen": "never"
   },
   "rangeStrategy": "bump",
-  "enabledManagers": ["github-actions", "pep621", "pre-commit"],
+  "enabledManagers": ["apm", "github-actions", "pep621", "pre-commit"],
   "labels": ["dependencies"],
   "pre-commit": {
     "enabled": true
