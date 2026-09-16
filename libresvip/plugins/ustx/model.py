@@ -31,12 +31,12 @@ class BaseExpression(BaseModel):
 
 class CurveExpression(BaseExpression):
     type_: Literal["Curve"] = Field(ParamType.CURVE, alias="type")
-    flag: str
+    flag: str | None = None
 
 
 class NumericalExpression(BaseExpression):
     type_: Literal["Numerical"] = Field(ParamType.NUMERICAL, alias="type")
-    flag: str
+    flag: str | None = None
 
 
 class OptionsExpression(BaseExpression):
