@@ -1,17 +1,18 @@
 import os
 import pathlib
 import shutil
-import site
 import subprocess
 
 from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 
 def install_mingw_deps() -> None:
-    sys_site_packages_path = site.getsitepackages()[-1]
+    # import site
+
+    # sys_site_packages_path = site.getsitepackages()[-1]
     mingw_arch = os.environ.get("MINGW_PACKAGE_PREFIX", "mingw-w64-ucrt-x86_64")
     assert mingw_arch.endswith("64")
-    msystem = os.environ.get("MSYSTEM", "UCRT64")
+    # msystem = os.environ.get("MSYSTEM", "UCRT64")
     pacman_available = shutil.which("pacman.exe") is not None
     msys2_requirements = [f"{mingw_arch}-python-pip"]
 
@@ -42,6 +43,7 @@ def install_mingw_deps() -> None:
         "pydantic-core": "python-pydantic-core",
         "pyinstaller": "pyinstaller",
         "pyinstaller-hooks-contrib": "pyinstaller-hooks-contrib",
+        "pymediainfo": "python-soundfile",
         "pyside6": None,
         "pyside6-addons": None,
         "pyside6-essentials": "pyside6",
@@ -63,15 +65,6 @@ def install_mingw_deps() -> None:
             "-S",
             f"{mingw_arch}-gettext",
             "--noconfirm",
-        ]
-    )
-    install_msys2_requirements(
-        [
-            "pacman",
-            "-S",
-            f"{mingw_arch}-libmediainfo",
-            "--noconfirm",
-            "--needed",
         ]
     )
     if "clang" in mingw_arch:
@@ -129,14 +122,6 @@ def install_mingw_deps() -> None:
     requirements_path.write_text("\n".join(new_requirements))
     if pacman_available:
         subprocess.call(["pip", "install", "-r", "requirements-desktop.txt", "--no-deps"])
-        subprocess.call(
-            [
-                "ln",
-                "-s",
-                f"/{msystem.lower()}/bin/libmediainfo-0.dll",
-                f"{sys_site_packages_path}/pymediainfo",
-            ]
-        )
     else:
         (cwd / "install_msys2_requirements.sh").write_text(
             f"pacman -Sy\npacman -S {' '.join(msys2_requirements)} --noconfirm --needed"
