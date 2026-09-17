@@ -535,7 +535,7 @@ class FramelessHelper(QPyQmlParserStatus):
         self._edges = 0
         self._titlebar_item = None
         self._maximize_button = None
-        self._native_filter: WindowsNativeEventFilter | None = None  #ty: ignore[invalid-type-form]
+        self._native_filter: WindowsNativeEventFilter | None = None  # ty: ignore[invalid-type-form]
 
     def component_complete(self) -> None:
         pass
