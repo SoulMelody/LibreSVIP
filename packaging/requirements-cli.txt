@@ -5,7 +5,7 @@ arrow==1.4.0
 backports-zstd==1.7.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
 bidict==0.24.1
 cbor2==6.1.4
-cffi==2.1.1 ; (python_full_version < '3.12' and platform_python_implementation != 'PyPy') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32') or sys_platform == 'emscripten'
+cffi==2.1.1 ; (python_full_version < '3.12' and platform_python_implementation != 'PyPy' and sys_platform == 'win32') or (platform_python_implementation != 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation != 'PyPy' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')
 charset-normalizer==3.5.1
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.70
@@ -27,8 +27,8 @@ mdurl==0.1.2
 minijinja==2.24.0
 more-itertools==11.1.0
 multidict==6.8.0
-numpy==2.4.6 ; python_full_version < '3.12' and sys_platform == 'emscripten'
-numpy==2.5.3 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
+numpy==2.4.6 ; python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
+numpy==2.5.3 ; python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 packaging==26.3
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
@@ -37,7 +37,7 @@ platformdirs==4.11.9
 portion==2.6.2
 protobuf-py==0.5.0
 protobuf-py-ext==0.5.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
-pycparser==3.0 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform != 'win32') or (implementation_name != 'PyPy' and sys_platform == 'emscripten')
+pycparser==3.0 ; (python_full_version < '3.12' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform == 'win32') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform == 'darwin') or (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' and sys_platform == 'linux') or (implementation_name != 'PyPy' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')
 pycryptodomex==3.23.0
 pydantic==2.13.5
 pydantic-core==2.46.5
@@ -47,7 +47,7 @@ pygments==2.21.0
 pyinstaller==6.22.2 ; platform_machine == 'ARM64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.22.2-py3-none-any.whl ; platform_machine != 'ARM64' and sys_platform == 'win32'
 pyinstaller-hooks-contrib==2026.7
-pymediainfo==7.0.1 ; sys_platform != 'emscripten'
+pymediainfo==7.0.1 ; sys_platform == 'darwin' or sys_platform == 'linux' or sys_platform == 'win32'
 pypinyin==0.55.0
 pysubs2==1.8.1 ; python_full_version < '3.12'
 pysubs2==1.9.0 ; python_full_version >= '3.12'
@@ -65,7 +65,7 @@ setuptools==84.0.0
 shellingham==1.5.4
 six==1.17.0
 sortedcontainers==2.4.0
-soundfile==0.14.0 ; sys_platform == 'emscripten'
+soundfile==0.14.0 ; sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 svg-py==1.10.0
 tatsu-lts==5.16.0
 that-depends==4.1.0
