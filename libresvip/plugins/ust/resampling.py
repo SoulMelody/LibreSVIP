@@ -28,5 +28,5 @@ def dot_resampled(data: list[Point], interval: int) -> list[Point]:
     return resampled(
         data,
         interval,
-        lambda prev, next_, _: prev[1] if prev and prev[1] is not None else next_[1],
+        lambda prev, next_, _: prev[1] if prev[1] is not None else next_[1],
     )

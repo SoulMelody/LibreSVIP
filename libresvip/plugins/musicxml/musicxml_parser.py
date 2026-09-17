@@ -422,7 +422,7 @@ class MusicXMLParser:
                             note.lyric = "+"
                     fermata_shape = next(
                         (
-                            (f.value.value if f.value else "")
+                            (f.value.value if f.value is not None else "")
                             for notation in note_node.notations
                             for f in notation.fermata
                         ),
@@ -441,7 +441,7 @@ class MusicXMLParser:
                 tick_position += duration
 
                 tie_nodes = note_node.tie
-                if len(tie_nodes) > 0 and (tie_node := tie_nodes[0]) and tie_node.type_value:
+                if len(tie_nodes) > 0 and (tie_node := tie_nodes[0]) and tie_node.type_value is not None:
                     if tie_node.type_value == StartStop.START:
                         is_inside_note = True
                     elif tie_node.type_value == StartStop.STOP:

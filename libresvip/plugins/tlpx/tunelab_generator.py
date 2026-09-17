@@ -89,7 +89,8 @@ class TuneLabGenerator:
                                 name=track.title,
                                 pos=track.offset,
                                 path=track.audio_file_path,
-                                dur=self.synchronizer.get_actual_ticks_from_secs_offset(
+                                start_offset=0,
+                                end_offset=self.synchronizer.get_actual_ticks_from_secs_offset(
                                     track.offset, track_info.duration
                                 ),
                             )
@@ -100,7 +101,8 @@ class TuneLabGenerator:
                 tlp_midi_part = TuneLabMidiPart(
                     name=track.title,
                     pos=0.0,
-                    dur=math.ceil(track.note_list[-1].end_pos / self.first_bar_length)
+                    start_offset=0,
+                    end_offset=math.ceil(track.note_list[-1].end_pos / self.first_bar_length)
                     * self.first_bar_length,
                     notes=self.generate_notes(track.note_list),
                 )
