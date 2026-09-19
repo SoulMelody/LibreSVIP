@@ -77,7 +77,7 @@ ujson==6.0.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 win32-setctime==1.2.0 ; sys_platform == 'win32'
-winloop==0.6.3 ; sys_platform == 'win32'
+winloop==0.6.4 ; sys_platform == 'win32'
 xsdata==26.2
 xsdata-pydantic==24.5
 yaml-rs==0.1.6 ; sys_platform == 'darwin' or sys_platform == 'emscripten' or sys_platform == 'linux' or sys_platform == 'win32'
