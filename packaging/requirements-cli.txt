@@ -68,7 +68,7 @@ sortedcontainers==2.4.0
 soundfile==0.14.0 ; sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 svg-py==1.10.0
 tatsu-lts==5.16.0
-that-depends==4.1.0
+that-depends==4.1.1
 typer==0.27.2
 typing-extensions==4.16.0
 typing-inspection==0.4.4

@@ -70,7 +70,7 @@ sortedcontainers==2.4.0
 soundfile==0.14.0 ; sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 svg-py==1.10.0
 tatsu-lts==5.16.0
-that-depends==4.1.0
+that-depends==4.1.1
 tkinter-icons==5.1.0
 tkinter-icons-mat==1.1.2
 truststore==0.10.4 ; sys_platform != 'emscripten'
