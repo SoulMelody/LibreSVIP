@@ -10,7 +10,7 @@ charset-normalizer==3.5.1
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.70
 construct-typing==0.8.1
-fsspec==2026.7.0
+fsspec==2026.9.0
 grpclib==0.4.9
 h2==4.4.1
 hpack==4.2.0
@@ -26,14 +26,14 @@ markupsafe==3.0.3
 mdurl==0.1.2
 minijinja==2.24.0
 more-itertools==11.1.0
-multidict==6.8.0
+multidict==6.9.0
 numpy==2.4.6 ; python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 numpy==2.5.3 ; python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 packaging==26.3
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==12.3.0 ; sys_platform == 'darwin'
-platformdirs==4.11.10
+platformdirs==4.11.11
 portion==2.6.2
 protobuf-py==0.5.0
 protobuf-py-ext==0.5.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
