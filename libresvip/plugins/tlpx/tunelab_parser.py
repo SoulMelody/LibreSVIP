@@ -76,6 +76,7 @@ class TuneLabParser:
     def parse_tracks(self, tracks: list[TuneLabTrack]) -> list[Track]:
         track_list = []
         for track in tracks:
+            singing_track: SingingTrack | None = None
             for part in track.parts:
                 if isinstance(part, TuneLabAudioPart) and self.options.import_instrumental_track:
                     track_list.append(
@@ -90,18 +91,12 @@ class TuneLabParser:
                         )
                     )
                 elif isinstance(part, TuneLabMidiPart) and len(part.notes):
-                    if (
-                        track_list
-                        and isinstance(track_list[-1], SingingTrack)
-                        and (
-                            not track_list[-1].note_list
-                            or track_list[-1].note_list[-1].end_pos <= int(part.pos)
-                        )
+                    if singing_track is None or (
+                        singing_track.note_list
+                        and singing_track.note_list[-1].end_pos > int(part.pos)
                     ):
-                        singing_track = track_list[-1]
-                    else:
                         singing_track = SingingTrack(
-                            title=part.name,
+                            title=track.name,
                             volume=self.parse_volume(track.gain),
                             pan=track.pan,
                             mute=track.mute,
