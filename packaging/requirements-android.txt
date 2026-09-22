@@ -8,14 +8,14 @@ cffi==2.0.0
 charset-normalizer==3.5.1
 construct==2.10.70
 construct-typing==0.8.1
-flet==1.0.0
-flet-desktop==1.0.0
+flet==1.0.1
+flet-desktop==1.0.1
 flet-libcpp-shared==27.3.13750724
 flet-libsndfile==1.2.2
 flet-libxml2==2.15.3
 flet-libxslt==1.1.45
 flet-libyaml==0.2.5
-flet-permission-handler==1.0.0
+flet-permission-handler==1.0.1
 fsspec==2026.9.0
 h11==0.16.0
 httpcore==1.0.9
