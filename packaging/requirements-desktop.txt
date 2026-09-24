@@ -14,8 +14,8 @@ dbus-fast==5.0.22 ; sys_platform == 'linux'
 desktop-notifier==6.2.0
 fsspec==2026.9.0
 h11==0.16.0 ; sys_platform != 'emscripten'
-httpcore2==2.13.0 ; sys_platform != 'emscripten'
-httpx2==2.13.0
+httpcore2==2.13.1 ; sys_platform != 'emscripten'
+httpx2==2.13.1
 httpx2-jsfetch==1.0 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
 idna==3.20
 jinja2==3.1.6
