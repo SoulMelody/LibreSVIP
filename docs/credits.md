@@ -34,7 +34,7 @@
 | yaml-rs                 | A High-Performance YAML Parser for Python written in Rust.                                                                   | Unlicense                                           |
 | rich                    | Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal                              | MIT License                                         |
 | svg.py                  | Type-safe and powerful Python library to generate SVG files.                                                                 | MIT License                                         |
-| typer-slim              | Typer, build great CLIs. Easy to code. Based on Python type hints.                                                           | MIT License                                         |
+| typer                   | Typer, build great CLIs. Easy to code. Based on Python type hints.                                                           | MIT License                                         |
 | wanakana-python         | A port of WanaKana, a JS library by Tofugu                                                                                   | MIT License                                         |
 | xsdata-pydantic         | xsdata pydantic plugin                                                                                                       | MIT License                                         |
 | zhon                    | Zhon provides constants used in Chinese text processing.                                                                     | MIT License                                         |

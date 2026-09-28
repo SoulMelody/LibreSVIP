@@ -6,6 +6,7 @@ targets:
   - claude
   - codex
   - copilot
+  - cursor
   - grok-build
   - opencode
 dependencies:
@@ -25,6 +26,10 @@ dependencies:
       transport: stdio
       command: flet
       args: ["mcp"]
+    - name: debugmcp
+      registry: false
+      transport: http
+      url: http://127.0.0.1:3001/mcp
   lsp:
     - name: ruff
       command: ruff

@@ -1,0 +1,19 @@
+{
+    "recommendations": [
+        "bufbuild.vscode-buf",
+        "charliermarsh.ruff",
+        "hbenl.vscode-test-explorer",
+        "littlefoxteam.vscode-python-test-adapter",
+        "meta.pyrefly",
+        "mrorz.language-gettext",
+        "ms-python.python",
+        "ozzafar.debugmcpextension",
+        "redhat.vscode-xml",
+        "redhat.vscode-yaml",
+        "rvben.rumdl",
+        "samuelcolvin.jinjahtml",
+        "TheQtCompany.qt-python",
+        "theqtcompany.qt-qml",
+        "tombi-toml.tombi"
+    ]
+}

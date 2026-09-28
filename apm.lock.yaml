@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-09-10T09:16:00.379094+00:00'
+generated_at: '2026-09-28T09:05:55.748872+00:00'
 apm_version: 0.29.0
 dependencies:
 - repo_url: astral-sh/claude-code-plugins
@@ -1265,6 +1265,15 @@ deployments:
   content_hash: null
 - kind: uri
   target: mcp
+  value: debugmcp
+  runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
   value: flet
   runtime: claude
   scope: project
@@ -1285,6 +1294,15 @@ deployments:
   target: mcp
   value: qt-documentation
   runtime: claude
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: debugmcp
+  runtime: codex
   scope: project
   owners:
   - .
@@ -1319,6 +1337,15 @@ deployments:
   content_hash: null
 - kind: uri
   target: mcp
+  value: debugmcp
+  runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
   value: flet
   runtime: copilot
   scope: project
@@ -1339,6 +1366,51 @@ deployments:
   target: mcp
   value: qt-documentation
   runtime: copilot
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: debugmcp
+  runtime: cursor
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: flet
+  runtime: cursor
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: io.github.upstash/context7
+  runtime: cursor
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: qt-documentation
+  runtime: cursor
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: mcp
+  value: debugmcp
+  runtime: opencode
   scope: project
   owners:
   - .
@@ -1372,10 +1444,16 @@ deployments:
   active_owner: .
   content_hash: null
 mcp_servers:
+- debugmcp
 - flet
 - io.github.upstash/context7
 - qt-documentation
 mcp_configs:
+  debugmcp:
+    name: debugmcp
+    transport: http
+    registry: false
+    url: http://127.0.0.1:3001/mcp
   flet:
     name: flet
     transport: stdio
@@ -1392,18 +1470,27 @@ mcp_configs:
     url: https://qt-docs-mcp.qt.io/mcp
 mcp_target_servers:
   claude:
+  - debugmcp
   - flet
   - io.github.upstash/context7
   - qt-documentation
   codex:
+  - debugmcp
   - flet
   - io.github.upstash/context7
   - qt-documentation
   copilot:
+  - debugmcp
+  - flet
+  - io.github.upstash/context7
+  - qt-documentation
+  cursor:
+  - debugmcp
   - flet
   - io.github.upstash/context7
   - qt-documentation
   opencode:
+  - debugmcp
   - flet
   - io.github.upstash/context7
   - qt-documentation

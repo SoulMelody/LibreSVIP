@@ -15,6 +15,7 @@
 				"mrorz.language-gettext",
 				"ms-python.mypy-type-checker",
 				"ms-python.python",
+        		"ozzafar.debugmcpextension",
 				"redhat.vscode-xml",
 				"redhat.vscode-yaml",
 				"samuelcolvin.jinjahtml",
