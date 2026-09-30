@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-09-28T09:05:55.748872+00:00'
+generated_at: '2026-09-29T02:33:20.924565+00:00'
 apm_version: 0.29.0
 dependencies:
 - repo_url: astral-sh/claude-code-plugins
@@ -1458,9 +1458,11 @@ mcp_configs:
     name: flet
     transport: stdio
     args:
+    - run
+    - flet
     - mcp
     registry: false
-    command: flet
+    command: uv
   io.github.upstash/context7:
     name: io.github.upstash/context7
   qt-documentation:

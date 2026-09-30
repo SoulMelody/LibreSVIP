@@ -24,8 +24,8 @@ dependencies:
     - name: flet
       registry: false
       transport: stdio
-      command: flet
-      args: ["mcp"]
+      command: uv
+      args: ["run", "flet", "mcp"]
     - name: debugmcp
       registry: false
       transport: http
