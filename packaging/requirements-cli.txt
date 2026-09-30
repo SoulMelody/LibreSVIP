@@ -6,7 +6,7 @@ backports-zstd==1.7.0 ; (python_full_version < '3.14' and platform_python_implem
 bidict==0.24.1
 cbor2==6.1.4
 cffi==2.1.1 ; (python_full_version < '3.12' and platform_python_implementation != 'PyPy' and sys_platform == 'win32') or (platform_python_implementation != 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation != 'PyPy' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')
-charset-normalizer==3.5.1
+charset-normalizer==3.5.2
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.70
 construct-typing==0.8.1
