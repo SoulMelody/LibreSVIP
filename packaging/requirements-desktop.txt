@@ -10,7 +10,7 @@ charset-normalizer==3.5.2
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.70
 construct-typing==0.8.1
-dbus-fast==5.0.22 ; sys_platform == 'linux'
+dbus-fast==5.0.24 ; sys_platform == 'linux'
 desktop-notifier==6.2.0
 fsspec==2026.9.0
 h11==0.16.0 ; sys_platform != 'emscripten'
