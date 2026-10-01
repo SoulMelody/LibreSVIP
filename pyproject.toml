@@ -33,7 +33,7 @@ dependencies = [
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
   "backports.zstd<1.7.1,>=1.7.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "bidict>=0.24.1",
-  "cbor2<7.0.0,>=6.1.4",
+  "cbor2<7.0.0,>=6.1.5",
   "charset-normalizer<4.0.0,>=3.5.2",
   "construct-typing<1.0.0,>=0.8.1",
   "jinja2<4.0.0,>=3.1.6",
