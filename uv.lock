@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.11, <3.15"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -227,7 +227,7 @@ wheels = [
 
 [[package]]
 name = "apm-cli"
-version = "0.32.0"
+version = "0.33.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -248,9 +248,9 @@ dependencies = [
     { name = "watchdog" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1f/f1/8da7ba1848916dd5eafd8d94c52c6ca235eda293b9a92b2dde145094aa22/apm_cli-0.32.0.tar.gz", hash = "sha256:761b774078975e3b028c332d8c5e43a7227baf022a96b0f0c42fc966e37f5d32", size = 1782565, upload-time = "2026-09-25T17:39:13.085Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/84/3f/e383f7c304d46656d77e5959db7d914e590c283af5b407ddf94205d02edb/apm_cli-0.33.0.tar.gz", hash = "sha256:a523805a3cc9b51f80573c1efce13982b3a5665c8ae749a51e5648575a1d6633", size = 1808097, upload-time = "2026-10-02T22:38:59.356Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bc/93/d8ed1ab4fb526fa17592b9d2a8a0930e5191a29973e28dc220fb2e33acdf/apm_cli-0.32.0-py3-none-any.whl", hash = "sha256:3697576c238105e0d22eb30595b158113994d1f5c246c9e4677517339c3980d4", size = 1944312, upload-time = "2026-09-25T17:39:11.27Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/88/16cfdc0e81c8fcb958d93dfb9b4dd6b7d2c45220ffd069417678330f4840/apm_cli-0.33.0-py3-none-any.whl", hash = "sha256:fefb48bea312ca5f2de8f8b162fffef5609f4d2ec4a35568b7a1451d10b7ac43", size = 1971255, upload-time = "2026-10-02T22:38:57.3Z" },
 ]
 
 [[package]]
@@ -2217,11 +2217,11 @@ provides-extras = ["cli", "crypto", "desktop", "lxml", "minijinja", "mobile", "t
 
 [package.metadata.requires-dev]
 agents = [
-    { name = "apm-cli", specifier = ">=0.32.0" },
+    { name = "apm-cli", specifier = ">=0.33.0" },
     { name = "flet-mcp", specifier = ">=1.0.3,<1.1.0" },
 ]
 all = [
-    { name = "apm-cli", specifier = ">=0.32.0" },
+    { name = "apm-cli", specifier = ">=0.33.0" },
     { name = "babel", specifier = ">=2.18.0" },
     { name = "buf-bin", specifier = ">=1.73.0" },
     { name = "datamodel-code-generator", specifier = ">=0.83.0" },
