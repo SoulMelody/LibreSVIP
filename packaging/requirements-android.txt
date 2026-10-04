@@ -35,7 +35,7 @@ numpy==2.4.6
 oauthlib==4.0.0
 packaging==26.3
 pathlib-abc==0.5.2
-platformdirs==4.12.2
+platformdirs==4.12.3
 portion==2.6.3
 protobuf-py==0.6.0
 pycparser==3.0
