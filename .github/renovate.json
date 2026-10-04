@@ -33,6 +33,11 @@
       "groupSlug": "proj"
     },
     {
+      "matchManagers": ["pep621"],
+      "matchDepTypes": ["requires-python"],
+      "enabled": false
+    },
+    {
       "groupName": "GitHub runners",
       "matchManagers": ["github-actions"],
       "matchDatasources": ["github-runners"],
