@@ -48,7 +48,8 @@ pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download
 pyinstaller-hooks-contrib==2026.8
 pymediainfo==7.0.1 ; sys_platform == 'darwin' or sys_platform == 'linux' or sys_platform == 'win32'
 pypinyin==0.55.0
-pyside6-essentials==6.11.2
+pyside6-essentials==6.11.2 ; python_full_version != '3.15.*'
+pyside6-essentials==6.12.0a1.dev1791271327 ; python_full_version == '3.15.*'
 pysubs2==1.8.1 ; python_full_version < '3.12'
 pysubs2==1.9.0 ; python_full_version >= '3.12'
 python-dateutil==2.9.0.post0
