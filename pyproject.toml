@@ -81,7 +81,7 @@ crypto = [
   "pyzipper>=0.4.0",
 ]
 desktop = [
-  "pyside6-essentials<6.13.0,>=6.11.2",
+  "pyside6-essentials<6.13.0,>=6.12.0",
   "tkinter-icons-mat>=1.1.2",
   "httpx2>=2.13.1",
   "desktop-notifier>=6.2.0",
@@ -125,7 +125,7 @@ code_gen = [
   "datamodel-code-generator>=0.83.0",
   "pbtk>=1.1.3",
   "protoc-gen-py<0.7.0,>=0.6.0",
-  "pyside6-addons<6.13.0,>=6.11.2",
+  "pyside6-addons<6.13.0,>=6.12.0",
   "xsdata[cli]>=26.2",
 ]
 docs = [
@@ -136,7 +136,7 @@ linting = [
   "mypy>=2.4.0",
   "prek>=0.5.5",
   "pyrefly>=1.3.2,<1.3.3",
-  "pyside6<6.13.0,>=6.11.2",
+  "pyside6<6.13.0,>=6.12.0",
   "ruff>=0.16.10",
   "sortedcontainers-stubs>=2.4.3",
   "types-lxml>=2026.2.16",
@@ -165,7 +165,7 @@ hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv]
 override-dependencies = [
-  "shiboken6<6.13.0,>=6.11.2",
+  "shiboken6<6.13.0,>=6.12.0",
   "system_pyside6; sys_platform != \"linux\" and sys_platform != \"darwin\" and sys_platform != \"win32\"",
 ]
 prerelease-package = { pyside6 = "allow", pyside6-addons = "allow", pyside6-essentials = "allow", shiboken6 = "allow"}
@@ -175,10 +175,10 @@ prerelease-package = { pyside6 = "allow", pyside6-addons = "allow", pyside6-esse
 [tool.uv.sources]
 jyutping = { index = "piwheels" }
 wanakana-python = { index = "piwheels" }
-pyside6 = { index = "pyside6-dev", marker = "python_version == \"3.15\""}
-pyside6-addons = { index = "pyside6-dev", marker = "python_version == \"3.15\""}
-pyside6-essentials = { index = "pyside6-dev", marker = "python_version == \"3.15\""}
-shiboken6 = { index = "pyside6-dev", marker = "python_version == \"3.15\""}
+# pyside6 = { index = "pyside6-dev", marker = "python_version == \"3.15\""}
+# pyside6-addons = { index = "pyside6-dev", marker = "python_version == \"3.15\""}
+# pyside6-essentials = { index = "pyside6-dev", marker = "python_version == \"3.15\""}
+# shiboken6 = { index = "pyside6-dev", marker = "python_version == \"3.15\""}
 
 [[tool.uv.index]]
 name = "piwheels"
