@@ -45,7 +45,7 @@ dependencies = [
   "platformdirs<5.0.0,>=4.12.4",
   "portion<3.0.0,>=2.6.3",
   "protobuf-py<0.7.0,>=0.6.0",
-  "pydantic<3.0.0,>=2.13.5",
+  "pydantic<3.0.0,>=2.14.0",
   "pydantic-extra-types<3.0.0,>=2.11.1",
   "pydantic-settings<3.0.0,>=2.15.0",
   "pymediainfo<=7.0.1; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
