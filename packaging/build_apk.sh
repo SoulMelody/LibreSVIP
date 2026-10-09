@@ -7,16 +7,18 @@ if [ -n "$START_LINE_NUM" ]; then
     sed -i $START_LINE_NUM','$END_LINE_NUM'd' $FLET_BUILD_COMMAND_PATH
 fi
 sed -i 's/dev_packages_configured/True/' $FLET_BUILD_COMMAND_PATH
-sed -i 's/self.flutter_dependencies = {}/self.flutter_dependencies = {"flet_permission_handler": "any"}/' $FLET_BUILD_COMMAND_PATH
 sed -i 's/cleanup_packages = self.get_bool_setting/cleanup_packages = False and /' $FLET_BUILD_COMMAND_PATH
 cp  ../libresvip/mobile/__main__.py main.py
+mkdir -p assets
+cat > pyproject.toml << EOF
+[tool.flet.flutter.pubspec.dependency_overrides]
+flet = { git = { url = "https://github.com/flet-dev/flet.git", path = "packages/flet", ref = "v${FLET_VERSION}" } }
+flet_permission_handler = { git = { url = "https://github.com/flet-dev/flet.git", path = "sdk/python/packages/flet-permission-handler/src/flutter/flet_permission_handler", ref = "v${FLET_VERSION}" } }
+EOF
 uv run flet build apk -v --yes --skip-flutter-doctor \
     --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
     --android-extract-packages pypinyin jyutping \
     --org org.soulmelody \
     --project LibreSVIP \
     --build-version $LIBRESVIP_VERSION \
-    --template gh:SoulMelody/flet \
-    --template-dir sdk/python/templates/build \
-    --template-ref v$FLET_VERSION \
     --split-per-abi
