@@ -47,7 +47,7 @@ def extract_plugin_msgs() -> None:
         plugin_manager.plugins.get("svs", {}).items(),
         middleware_manager.plugins.get("middleware", {}).items(),
     ):
-        plugin_dir = cast("pathlib.Path", files(plugin.__module__))
+        plugin_dir = cast("pathlib.Path", files(plugin.__module__.rsplit(".", 1)[0]))
         cmdinst = setuptools_frontend.extract_messages()
         cmdinst.initialize_options()
         cmdinst.omit_header = True

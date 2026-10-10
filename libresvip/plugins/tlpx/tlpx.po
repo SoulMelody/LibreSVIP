@@ -1,3 +1,21 @@
+msgid "TLPX v0 (legacy)"
+msgstr ""
+
+msgid "Use the legacy part format with a single duration."
+msgstr ""
+
+msgid "TLPX v1 (current)"
+msgstr ""
+
+msgid "Use the current part format with start/end offsets."
+msgstr ""
+
+msgid "TLPX version compatibility"
+msgstr ""
+
+msgid "Choose the version written when exporting TLPX."
+msgstr ""
+
 msgid "TuneLab"
 msgstr ""
 

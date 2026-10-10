@@ -29,6 +29,7 @@ synthv_language_presets = {
     "german": SynthVLanguagePreset(language="german", phoneset="xsampa"),
     "french": SynthVLanguagePreset(language="french", phoneset="xsampa"),
     "portuguese": SynthVLanguagePreset(language="portuguese", phoneset="xsampa"),
+    "italian": SynthVLanguagePreset(language="italian", phoneset="xsampa"),
 }
 
 
@@ -69,6 +70,7 @@ class LanguageOption(Enum):
             GERMAN=(str, Field(title=_("German"))),
             FRENCH=(str, Field(title=_("French"))),
             PORTUGUESE=(str, Field(title=_("Portuguese"))),
+            ITALIAN=(str, Field(title=_("Italian"))),
         ),
     ]
     MANDARIN = "mandarin"
@@ -80,6 +82,7 @@ class LanguageOption(Enum):
     GERMAN = "german"
     FRENCH = "french"
     PORTUGUESE = "portuguese"
+    ITALIAN = "italian"
 
 
 class BreathOption(Enum):

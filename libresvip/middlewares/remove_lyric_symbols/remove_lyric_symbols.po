@@ -1,0 +1,11 @@
+msgid "Remove numbers and punctuation"
+msgstr ""
+
+msgid ""
+"Remove Unicode decimal digits and punctuation from note lyrics while "
+"preserving structural lyric markers."
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

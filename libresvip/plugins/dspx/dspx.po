@@ -10,19 +10,16 @@ msgstr ""
 msgid "OpenVPI"
 msgstr ""
 
-msgid "Import pitch curve"
+msgid "Invalid DSPX project"
 msgstr ""
 
-msgid "Pitch import mode"
+msgid "Unsupported project version"
 msgstr ""
 
 msgid "Edited and original pitch"
 msgstr ""
 
 msgid "Edited pitch only"
-msgstr ""
-
-msgid "Vibrato import mode"
 msgstr ""
 
 msgid "Do not import vibrato"
@@ -34,14 +31,15 @@ msgstr ""
 msgid "Bake vibrato into the pitch curve"
 msgstr ""
 
+msgid "Pitch import mode"
+msgstr ""
+
+msgid "Vibrato import mode"
+msgstr ""
+
 msgid "Export pitch curve"
 msgstr ""
 
 msgid "Preserve vibrato"
 msgstr ""
 
-msgid "Invalid DSPX project"
-msgstr ""
-
-msgid "Unsupported project version"
-msgstr ""
