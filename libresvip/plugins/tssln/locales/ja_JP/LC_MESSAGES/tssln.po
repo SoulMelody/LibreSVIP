@@ -10,20 +10,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Unsupported project version"
-msgstr ""
+msgstr "サポートされていないプロジェクトバージョン"
 
 msgid "TSSln"
-msgstr ""
+msgstr "TSSln"
 
 msgid "Techno-Speech Solution file"
-msgstr ""
+msgstr "Techno-Speech Solution ファイル"
 
 msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
-msgstr ""
+msgstr "VoiSona プロジェクトファイル変換プラグイン（バージョン 1.8.0 以降のみ対応）"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

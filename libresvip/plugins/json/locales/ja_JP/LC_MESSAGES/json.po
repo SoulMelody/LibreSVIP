@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "JsonSvip"
-msgstr ""
+msgstr "JsonSvip"
 
 msgid "OpenSVIP file"
-msgstr ""
+msgstr "OpenSVIP ファイル"
 
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"
-msgstr ""
+msgstr "JSON をベースとした OpenSVIP Model 用の変換プラグイン"
 
 msgid "yqzhishen"
-msgstr ""
+msgstr "yqzhishen"
 
 msgid "Generate JSON file with indentation"
-msgstr ""
+msgstr "インデント付きの JSON ファイルを生成"
 
 msgid "The indented format is easier to read and modify, but it will take up a larger file size."
-msgstr ""
+msgstr "インデント付きの形式は読みやすく変更しやすいですが、ファイルサイズが大きくなります。"
 

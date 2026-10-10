@@ -10,32 +10,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Default BPM"
-msgstr ""
+msgstr "既定の BPM"
 
 msgid "Used when no BPM information is found in the MIDI file."
-msgstr ""
+msgstr "MIDI ファイルに BPM 情報が見つからない場合に使用されます。"
 
 msgid "Ticks per beat"
-msgstr ""
+msgstr "拍あたりの tick 数"
 
 msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
-msgstr ""
+msgstr "parts per quarter、ticks per quarter note とも呼ばれ、四分音符あたりのパルス数です。内容を理解している場合を除き、この設定は変更しないでください。"
 
 msgid "No tempo labels found in the imported project."
-msgstr ""
+msgstr "インポートしたプロジェクトにテンポラベルが見つかりません。"
 
 msgid "VX-β"
-msgstr ""
+msgstr "VX-β"
 
 msgid "VX-β project file"
-msgstr ""
+msgstr "VX-β プロジェクトファイル"
 
 msgid "Conversion plugin for VX-β project file"
-msgstr ""
+msgstr "VX-β プロジェクトファイル変換プラグイン"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

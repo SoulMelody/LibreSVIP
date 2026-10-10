@@ -10,86 +10,86 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "LRC"
-msgstr ""
+msgstr "LRC"
 
 msgid "LRC lyric file"
-msgstr ""
+msgstr "LRC 歌詞ファイル"
 
 msgid "Generator plugin for LRC lyric file"
-msgstr ""
+msgstr "LRC 歌詞ファイル生成プラグイン"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Act on timeline"
-msgstr ""
+msgstr "タイムラインに適用"
 
 msgid "Shift the time axis for each line of lyrics, and keep the \"offset\" value in the metadata at 0."
-msgstr ""
+msgstr "歌詞の各行の時間軸をシフトし、メタデータの \"offset\" 値を 0 に保ちます。"
 
 msgid "Act on metadata"
-msgstr ""
+msgstr "メタデータに適用"
 
 msgid "Write the offset to the metadata \"offset\" without handling the lyrics time axis. Note that some players may not support the \"offset\" tag in the metadata, and choosing this option may cause the lyrics to display incorrectly."
-msgstr ""
+msgstr "歌詞の時間軸を処理せず、メタデータの \"offset\" にオフセットを書き込みます。一部のプレイヤーはメタデータの \"offset\" タグに対応しておらず、このオプションを選ぶと歌詞が正しく表示されない場合があることに注意してください。"
 
 msgid "Both note gap and punctuation"
-msgstr ""
+msgstr "ノート間隔と句読点の両方"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
-msgstr ""
+msgstr "隣接する 2 つのノートの間隔が 32 分音符以上であるか、句読点に達したときに新しい行を開始します。"
 
 msgid "Note gap only"
-msgstr ""
+msgstr "ノート間隔のみ"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
-msgstr ""
+msgstr "隣接する 2 つのノートの間隔が 32 分音符以上になったときに新しい行を開始します。"
 
 msgid "Punctuation only"
-msgstr ""
+msgstr "句読点のみ"
 
 msgid "When a punctuation mark is encountered, start a new line."
-msgstr ""
+msgstr "句読点に達したときに新しい行を開始します。"
 
 msgid "Singer name"
-msgstr ""
+msgstr "歌手名"
 
 msgid "Song title"
-msgstr ""
+msgstr "曲名"
 
 msgid "Album name"
-msgstr ""
+msgstr "アルバム名"
 
 msgid "Lyric editor"
-msgstr ""
+msgstr "歌詞編集者"
 
 msgid "Offset"
-msgstr ""
+msgstr "オフセット"
 
 msgid "In milliseconds, positive means ahead, negative means opposite."
-msgstr ""
+msgstr "ミリ秒単位で、正の値は進み、負の値は遅れを意味します。"
 
 msgid "Offset policy"
-msgstr ""
+msgstr "オフセットの適用方法"
 
 msgid "New line by"
-msgstr ""
+msgstr "改行の基準"
 
 msgid "Ignore slur notes"
-msgstr ""
+msgstr "スラーノートを無視"
 
 msgid "Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."
-msgstr ""
+msgstr "歌声合成ソフトでスラーノートを示すために使われる '-' の歌詞を無視します。"
 
 msgid "Write timeline"
-msgstr ""
+msgstr "タイムラインを書き込む"
 
 msgid "If you need lyrics without timeline, turn off this option."
-msgstr ""
+msgstr "タイムラインなしの歌詞が必要な場合は、このオプションを無効にしてください。"
 
 msgid "Lyric Text encoding"
-msgstr ""
+msgstr "歌詞のテキストエンコーディング"
 

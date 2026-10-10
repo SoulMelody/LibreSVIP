@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Pretty XML"
-msgstr ""
+msgstr "整形された XML"
 
 msgid "Whether to output pretty XML"
-msgstr ""
+msgstr "整形された XML を出力するかどうか"
 
 msgid "Cadencii"
-msgstr ""
+msgstr "Cadencii"
 
 msgid "Cadencii project file"
-msgstr ""
+msgstr "Cadencii プロジェクトファイル"
 
 msgid "Conversion plugin for Cadencii project file"
-msgstr ""
+msgstr "Cadencii プロジェクトファイル変換プラグイン"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

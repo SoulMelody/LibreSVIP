@@ -10,16 +10,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Auto determine by phonemizer language"
-msgstr ""
+msgstr "Automatische Bestimmung anhand der Phonemizer-Sprache"
 
 msgid "Monosyllabic languages: treating +, +~ and +* as slur notes"
-msgstr ""
+msgstr "Einsilbige Sprachen: +, +~ und +* werden als Legato-Noten behandelt"
 
 msgid "Polysyllabic languages: treating + as slur notes, and treating +~ or +* as syllable placeholders"
-msgstr ""
+msgstr "Mehrsilbige Sprachen: + wird als Legato-Note behandelt, +~ oder +* als Silbenplatzhalter"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr "Inkompatibel mit Phonemizern der ARPAsing-Serie"
@@ -28,10 +28,10 @@ msgid "Compatible with ARPAsing-series Phonemizers"
 msgstr "Kompatibel mit Phonemizern der ARPAsing-Serie"
 
 msgid "Plus sign handling mode"
-msgstr ""
+msgstr "Modus für die Behandlung des Pluszeichens"
 
 msgid "How to handle the + symbol in lyrics when importing USTX"
-msgstr ""
+msgstr "Wie das +-Symbol in Liedtexten beim Import von USTX behandelt wird"
 
 msgid "Breath lyrics"
 msgstr "Atemtexte"
@@ -52,7 +52,7 @@ msgid "Compatibility with ARPAsing-series Phonemizer"
 msgstr "Kompatibilität mit Phonemizern der ARPAsing-Serie"
 
 msgid "Ustx"
-msgstr ""
+msgstr "Ustx"
 
 msgid "OpenUtau project file"
 msgstr "OpenUtau Projektdatei"
@@ -61,9 +61,9 @@ msgid "Conversion plugin for Ustx file format"
 msgstr "Konvertierungs-Plugin für das Ustx-Dateiformat"
 
 msgid "Oxygen Dioxide"
-msgstr ""
+msgstr "Oxygen Dioxide"
 
 #, python-brace-format
 msgid "Notes overlapped near bar {}"
-msgstr ""
+msgstr "Noten überschneiden sich nahe Takt {}"
 

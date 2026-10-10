@@ -10,17 +10,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Key transition of pitch"
-msgstr ""
+msgstr "Tonartübergang der Tonhöhe"
 
 msgid "Pitch shift in semitones."
-msgstr ""
+msgstr "Tonhöhenverschiebung in Halbtönen."
 
 msgid "Pitch Shift"
-msgstr ""
+msgstr "Tonhöhenverschiebung"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

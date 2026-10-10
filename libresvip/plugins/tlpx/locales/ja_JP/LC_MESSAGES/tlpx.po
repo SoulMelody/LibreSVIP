@@ -10,23 +10,41 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
+
+msgid "TLPX v0 (legacy)"
+msgstr "TLPX v0（レガシー）"
+
+msgid "Use the legacy part format with a single duration."
+msgstr "単一の duration を使用するレガシーなパート形式を使用します。"
+
+msgid "TLPX v1 (current)"
+msgstr "TLPX v1（現行）"
+
+msgid "Use the current part format with start/end offsets."
+msgstr "start/end オフセットを使用する現行のパート形式を使用します。"
+
+msgid "TLPX version compatibility"
+msgstr "TLPX バージョン互換性"
+
+msgid "Choose the version written when exporting TLPX."
+msgstr "TLPX のエクスポート時に書き出すバージョンを選択します。"
 
 msgid "TuneLab"
-msgstr ""
+msgstr "TuneLab"
 
 msgid "TuneLab project file"
-msgstr ""
+msgstr "TuneLab プロジェクトファイル"
 
 msgid "Conversion plugin for TuneLab project file"
-msgstr ""
+msgstr "TuneLab プロジェクトファイル変換プラグイン"
 
 msgid "LiuYunPlayer"
-msgstr ""
+msgstr "LiuYunPlayer"
 
 msgid "Note overlap detected, cutting note "
-msgstr ""
+msgstr "ノートの重複を検出しました。ノートを分割します "
 
 msgid "Note overlap detected, skipping note "
-msgstr ""
+msgstr "ノートの重複を検出しました。ノートをスキップします "
 

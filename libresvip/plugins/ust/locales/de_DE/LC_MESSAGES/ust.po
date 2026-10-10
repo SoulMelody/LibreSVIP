@@ -10,19 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Text encoding"
 msgstr "Textkodierung"
 
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 msgid "UST file version"
 msgstr "UST-Dateiversion"
 
 msgid "Ust"
-msgstr ""
+msgstr "Ust"
 
 msgid "UTAU Sequence Text"
 msgstr "UTAU Sequenztext"
@@ -31,13 +31,13 @@ msgid "Conversion plugin for UST file format"
 msgstr "Konvertierungs-Plugin für das UST-Dateiformat"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 
 msgid "No singing track found"
 msgstr "Kein Gesangstrack gefunden"
 
 msgid "Project has no tracks"
-msgstr ""
+msgstr "Projekt hat keine Spuren"
 
 msgid "No tempo labels found in the imported project."
 msgstr "Keine Tempobezeichnungen im importierten Projekt gefunden."

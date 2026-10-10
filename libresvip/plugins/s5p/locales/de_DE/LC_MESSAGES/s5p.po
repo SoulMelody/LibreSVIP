@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "SynthV Editor"
-msgstr ""
+msgstr "SynthV Editor"
 
 msgid "Synthesizer V Editor project file"
 msgstr "Synthesizer V Editor Projektdatei"
@@ -22,5 +22,5 @@ msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr "Konvertierungs-Plugin für Synthesizer V Editor Projektdateien"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 

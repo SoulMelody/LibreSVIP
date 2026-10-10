@@ -10,17 +10,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Name of lyric replacement preset"
-msgstr ""
+msgstr "Name der Liedtextersetzungs-Voreinstellung"
 
 msgid "Replace lyrics"
-msgstr ""
+msgstr "Liedtexte ersetzen"
 
 msgid "Replace lyrics using preset rules. You can customize the lyrics replacement rules in the program configuration page"
-msgstr ""
+msgstr "Liedtexte anhand von Voreinstellungsregeln ersetzen. Die Regeln zur Liedtextersetzung können Sie auf der Konfigurationsseite des Programms anpassen"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

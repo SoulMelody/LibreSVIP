@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /libresvip/middlewares/remove_lyric_symbols/remove_lyric_symbols.po\n"
+"X-Crowdin-File-ID: 573\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
+
+msgid "Remove numbers and punctuation"
+msgstr "移除数字与标点"
+
+msgid "Remove Unicode decimal digits and punctuation from note lyrics while preserving structural lyric markers."
+msgstr "移除歌词中的 Unicode 十进制数字与标点符号，同时保留标签性歌词标记。"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
+

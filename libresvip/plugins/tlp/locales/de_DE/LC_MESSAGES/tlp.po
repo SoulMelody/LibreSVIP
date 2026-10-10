@@ -10,19 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "TuneLab Legacy"
-msgstr ""
+msgstr "TuneLab Legacy"
 
 msgid "TuneLab legacy project file"
-msgstr ""
+msgstr "TuneLab Legacy-Projektdatei"
 
 msgid "Conversion plugin for TuneLab legacy project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für TuneLab Legacy-Projektdateien"
 
 msgid "LiuYunPlayer"
-msgstr ""
+msgstr "LiuYunPlayer"
 
 msgid "Note overlap detected, cutting note "
 msgstr "Notenüberlappung erkannt, Note wird geschnitten "

@@ -10,95 +10,95 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Align to left"
-msgstr ""
+msgstr "左揃え"
 
 msgid "Align to middle"
-msgstr ""
+msgstr "中央揃え"
 
 msgid "Align to right"
-msgstr ""
+msgstr "右揃え"
 
 msgid "Above the note"
-msgstr ""
+msgstr "ノートの上"
 
 msgid "Inside the note"
-msgstr ""
+msgstr "ノートの内側"
 
 msgid "Below the note"
-msgstr ""
+msgstr "ノートの下"
 
 msgid "Don't show"
-msgstr ""
+msgstr "表示しない"
 
 msgid "Pixels per beat"
-msgstr ""
+msgstr "拍あたりのピクセル数"
 
 msgid "Unit: pixel."
-msgstr ""
+msgstr "単位: ピクセル。"
 
 msgid "Note height"
-msgstr ""
+msgstr "ノートの高さ"
 
 msgid "Note radius"
-msgstr ""
+msgstr "ノートの角丸半径"
 
 msgid "Note fill color"
-msgstr ""
+msgstr "ノートの塗りつぶし色"
 
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
-msgstr ""
+msgstr "CSS の色値（例: #FF0000、#66CCFF、rgba(255,0,0,0.5) など）"
 
 msgid "Note stroke color"
-msgstr ""
+msgstr "ノートの枠線色"
 
 msgid "Note stroke width"
-msgstr ""
+msgstr "ノートの枠線幅"
 
 msgid "Pitch stroke color"
-msgstr ""
+msgstr "ピッチ線の色"
 
 msgid "Pitch stroke width"
-msgstr ""
+msgstr "ピッチ線の幅"
 
 msgid "Lyric position"
-msgstr ""
+msgstr "歌詞の位置"
 
 msgid "Pronounciation position"
-msgstr ""
+msgstr "発音の位置"
 
 msgid "Text align"
-msgstr ""
+msgstr "テキストの配置"
 
 msgid "Inner text color"
-msgstr ""
+msgstr "内側のテキスト色"
 
 msgid "The color of the text on the top and bottom of the note"
-msgstr ""
+msgstr "ノートの上下に表示されるテキストの色"
 
 msgid "Show grid lines"
-msgstr ""
+msgstr "グリッド線を表示"
 
 msgid "Grid line color"
-msgstr ""
+msgstr "グリッド線の色"
 
 msgid "Grid line width"
-msgstr ""
+msgstr "グリッド線の幅"
 
 msgid "Svg"
-msgstr ""
+msgstr "Svg"
 
 msgid "Scalable Vector Graphics"
-msgstr ""
+msgstr "スケーラブルベクターグラフィックス"
 
 msgid "Generate graphics containing notes and pitch curve in SVG format. Only the first or specified singing track will be imported."
-msgstr ""
+msgstr "ノートとピッチカーブを含むグラフィックを SVG 形式で生成します。最初または指定された歌唱トラックのみがインポートされます。"
 
 msgid "CrSjimo"
-msgstr ""
+msgstr "CrSjimo"
 
 msgid "Project has no tracks"
-msgstr ""
+msgstr "プロジェクトにトラックがありません"
 

@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /libresvip/middlewares/remove_lyric_symbols/remove_lyric_symbols.po\n"
+"X-Crowdin-File-ID: 573\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
+
+msgid "Remove numbers and punctuation"
+msgstr "Zahlen und Satzzeichen entfernen"
+
+msgid "Remove Unicode decimal digits and punctuation from note lyrics while preserving structural lyric markers."
+msgstr "Unicode-Dezimalziffern und Satzzeichen aus Noten-Liedtexten entfernen, dabei strukturelle Liedtextmarker bewahren."
+
+msgid "SoulMelody"
+msgstr "SoulMelody"
+

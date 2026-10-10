@@ -10,32 +10,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Chinese"
-msgstr ""
+msgstr "中国語"
 
 msgid "Japanese"
-msgstr ""
+msgstr "日本語"
 
 msgid "English"
-msgstr ""
+msgstr "英語"
 
 msgid "Lyrics language"
-msgstr ""
+msgstr "歌詞の言語"
 
 msgid "Title of the project"
-msgstr ""
+msgstr "プロジェクトのタイトル"
 
 msgid "PocketSinger"
-msgstr ""
+msgstr "PocketSinger"
 
 msgid "Pocket Singer Project file"
-msgstr ""
+msgstr "Pocket Singer プロジェクトファイル"
 
 msgid "Conversion plugin for Pocket Singer project file"
-msgstr ""
+msgstr "Pocket Singer プロジェクトファイル変換プラグイン"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

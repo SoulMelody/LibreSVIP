@@ -10,44 +10,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "None"
-msgstr ""
+msgstr "Keine"
 
 msgid "1/2"
-msgstr ""
+msgstr "1/2"
 
 msgid "5/3"
-msgstr ""
+msgstr "5/3"
 
 msgid "3/2"
-msgstr ""
+msgstr "3/2"
 
 msgid "6/5"
-msgstr ""
+msgstr "6/5"
 
 msgid "4/5"
-msgstr ""
+msgstr "4/5"
 
 msgid "3/5"
-msgstr ""
+msgstr "3/5"
 
 msgid "3/4"
-msgstr ""
+msgstr "3/4"
 
 msgid "Zoom factor"
-msgstr ""
+msgstr "Zoom-Faktor"
 
 msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
-msgstr ""
+msgstr "BPM und Noten parallel ändern, damit die tatsächliche Gesangsgeschwindigkeit erhalten bleibt. Bei Faktor 2 werden beispielsweise aus 60 bpm 120 bpm und alle Noten werden doppelt so lang"
 
 msgid "Project Zoom"
-msgstr ""
+msgstr "Projekt-Zoom"
 
 msgid "Zoom in/out project"
-msgstr ""
+msgstr "Projekt vergrößern/verkleinern"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 

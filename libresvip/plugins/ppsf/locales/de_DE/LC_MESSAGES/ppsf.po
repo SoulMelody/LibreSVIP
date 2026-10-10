@@ -10,16 +10,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Export as legacy format"
-msgstr ""
+msgstr "Als Legacy-Format exportieren"
 
 msgid "Export in the legacy binary PPSF format instead of the newer ZIP-based JSON format"
-msgstr ""
+msgstr "Im Legacy-Binärformat PPSF statt im neueren ZIP-basierten JSON-Format exportieren"
 
 msgid "Ppsf"
-msgstr ""
+msgstr "Ppsf"
 
 msgid "Piapro Studio Song file"
 msgstr "Piapro Studio Song-Datei"
@@ -28,5 +28,5 @@ msgid "Conversion plugin for Piapro Studio project file"
 msgstr "Konvertierungs-Plugin für Piapro Studio Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

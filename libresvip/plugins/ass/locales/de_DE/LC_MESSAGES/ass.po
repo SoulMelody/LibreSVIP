@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "ASS"
-msgstr ""
+msgstr "ASS"
 
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced SubStation Alpha Untertiteldatei"
@@ -22,7 +22,7 @@ msgid "Generator plugin for ASS subtitle file"
 msgstr "Generator-Plugin für ASS Untertiteldateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Both note gap and punctuation"
 msgstr "Sowohl Notenabstand als auch Satzzeichen"
@@ -43,7 +43,7 @@ msgid "When a punctuation mark is encountered, start a new line."
 msgstr "Wenn ein Satzzeichen auftritt, beginne eine neue Zeile."
 
 msgid "Offset"
-msgstr ""
+msgstr "Offset"
 
 msgid "In milliseconds, positive means ahead, negative means opposite."
 msgstr "In Millisekunden, positiv bedeutet voraus, negativ bedeutet entgegengesetzt."
@@ -52,10 +52,10 @@ msgid "New line by"
 msgstr "Neue Zeile durch"
 
 msgid "Ignore slur notes"
-msgstr ""
+msgstr "Legato-Noten ignorieren"
 
 msgid "Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."
-msgstr ""
+msgstr "'-' Liedtexte ignorieren, die in Gesangssynthesizern Legato-Noten kennzeichnen."
 
 msgid "Text encoding"
 msgstr "Textkodierung"

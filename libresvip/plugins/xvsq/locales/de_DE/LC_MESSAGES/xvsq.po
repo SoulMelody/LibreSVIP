@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Pretty XML"
 msgstr "Leserliches XML"
@@ -19,14 +19,14 @@ msgid "Whether to output pretty XML"
 msgstr "Soll leserliches XML ausgegeben werden"
 
 msgid "Cadencii"
-msgstr ""
+msgstr "Cadencii"
 
 msgid "Cadencii project file"
-msgstr ""
+msgstr "Cadencii Projektdatei"
 
 msgid "Conversion plugin for Cadencii project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für Cadencii Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

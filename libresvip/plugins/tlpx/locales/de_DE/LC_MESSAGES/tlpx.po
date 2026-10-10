@@ -10,19 +10,37 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
+
+msgid "TLPX v0 (legacy)"
+msgstr "TLPX v0 (Legacy)"
+
+msgid "Use the legacy part format with a single duration."
+msgstr "Das Legacy-Part-Format mit einer einzelnen Dauer verwenden."
+
+msgid "TLPX v1 (current)"
+msgstr "TLPX v1 (aktuell)"
+
+msgid "Use the current part format with start/end offsets."
+msgstr "Das aktuelle Part-Format mit Start-/End-Offsets verwenden."
+
+msgid "TLPX version compatibility"
+msgstr "TLPX-Versionskompatibilität"
+
+msgid "Choose the version written when exporting TLPX."
+msgstr "Die beim Export von TLPX geschriebene Version auswählen."
 
 msgid "TuneLab"
-msgstr ""
+msgstr "TuneLab"
 
 msgid "TuneLab project file"
-msgstr ""
+msgstr "TuneLab Projektdatei"
 
 msgid "Conversion plugin for TuneLab project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für TuneLab Projektdateien"
 
 msgid "LiuYunPlayer"
-msgstr ""
+msgstr "LiuYunPlayer"
 
 msgid "Note overlap detected, cutting note "
 msgstr "Notenüberlappung erkannt, Note wird geschnitten "

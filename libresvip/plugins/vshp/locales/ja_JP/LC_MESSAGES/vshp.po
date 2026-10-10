@@ -10,35 +10,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Convert wave pattern to singing pattern"
-msgstr ""
+msgstr "波形パターンを歌唱パターンに変換"
 
 msgid "Use edited pitch curve"
-msgstr ""
+msgstr "編集済みのピッチカーブを使用"
 
 msgid "Use edited dynamics curve"
-msgstr ""
+msgstr "編集済みの強弱カーブを使用"
 
 msgid "Import dynamics curve"
-msgstr ""
+msgstr "強弱カーブをインポート"
 
 msgid "Import formant curve"
-msgstr ""
+msgstr "フォルマントカーブをインポート"
 
 msgid "Import breath curve"
-msgstr ""
+msgstr "ブレスカーブをインポート"
 
 msgid "VocalShifter"
-msgstr ""
+msgstr "VocalShifter"
 
 msgid "VocalShifter project file"
-msgstr ""
+msgstr "VocalShifter プロジェクトファイル"
 
 msgid "Import parameters from VocalShifter project file."
-msgstr ""
+msgstr "VocalShifter プロジェクトファイルからパラメータをインポートします。"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

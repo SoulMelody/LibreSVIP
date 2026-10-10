@@ -10,57 +10,57 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "No singing track found"
-msgstr ""
+msgstr "歌唱トラックが見つかりません"
 
 msgid "DiffSinger"
-msgstr ""
+msgstr "DiffSinger"
 
 msgid "DiffSinger parameters file"
-msgstr ""
+msgstr "DiffSinger パラメータファイル"
 
 msgid "DiffSinger plugin."
-msgstr ""
+msgstr "DiffSinger プラグイン。"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Dictionary Name"
-msgstr ""
+msgstr "辞書名"
 
 msgid "Split threshold (in seconds)"
-msgstr ""
+msgstr "分割しきい値（秒）"
 
 msgid "This option controls the segmentation strategy during conversion. When the value of this option is negative, no segmentation is performed; when the value of this option is 0, segmentation is performed at the threshold where the interval between all notes reaches the threshold; when the value of this option is positive, the minimum length of each segment can be controlled on the basis of segmentation. Setting a reasonable segmentation strategy can reduce the memory usage during synthesis while maximizing the utilization of performance and improving the synthesis effect."
-msgstr ""
+msgstr "このオプションは変換時の分割戦略を制御します。この値が負の場合は分割を行いません。0 の場合は、すべてのノート間の間隔がしきい値に達した箇所で分割します。正の場合は、分割を前提として各セグメントの最小長を制御できます。妥当な分割戦略を設定すると、合成時のメモリ使用量を抑えつつ、パフォーマンスを最大限に活用して合成効果を高めることができます。"
 
 msgid "Minimum interval (in milliseconds)"
-msgstr ""
+msgstr "最小間隔（ミリ秒）"
 
 msgid "This option controls the minimum interval between notes. It is recommended to set it to a value greater than 300 milliseconds."
-msgstr ""
+msgstr "このオプションはノート間の最小間隔を制御します。300 ミリ秒より大きい値に設定することをおすすめします。"
 
 msgid "Seed"
-msgstr ""
+msgstr "シード"
 
 msgid "A fixed random seed can get a stable and reproducible synthesis effect. This option takes effect when the non-negative value is set."
-msgstr ""
+msgstr "固定の乱数シードを使用すると、安定して再現可能な合成結果が得られます。このオプションは非負の値を設定した場合に有効になります。"
 
 msgid "Export gender parameter"
-msgstr ""
+msgstr "ジェンダーパラメータをエクスポート"
 
 msgid "Indentation"
-msgstr ""
+msgstr "インデント"
 
 msgid "The number of spaces used for indentation. When the value is negative, no formatting is performed."
-msgstr ""
+msgstr "インデントに使用するスペースの数。値が負の場合は整形を行いません。"
 
 msgid "Cannot find dict."
-msgstr ""
+msgstr "辞書が見つかりません。"
 
 #, python-brace-format
 msgid "The selected dictionary does not contain the pronunciation \"{}\". Please check the pronunciation or try another dictionary."
-msgstr ""
+msgstr "選択した辞書に発音 \"{}\" が含まれていません。発音を確認するか、別の辞書をお試しください。"
 

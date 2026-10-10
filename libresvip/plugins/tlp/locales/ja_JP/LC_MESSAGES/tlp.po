@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "TuneLab Legacy"
-msgstr ""
+msgstr "TuneLab レガシー"
 
 msgid "TuneLab legacy project file"
-msgstr ""
+msgstr "TuneLab レガシープロジェクトファイル"
 
 msgid "Conversion plugin for TuneLab legacy project file"
-msgstr ""
+msgstr "TuneLab レガシープロジェクトファイル変換プラグイン"
 
 msgid "LiuYunPlayer"
-msgstr ""
+msgstr "LiuYunPlayer"
 
 msgid "Note overlap detected, cutting note "
-msgstr ""
+msgstr "ノートの重複を検出しました。ノートを分割します "
 
 msgid "Note overlap detected, skipping note "
-msgstr ""
+msgstr "ノートの重複を検出しました。ノートをスキップします "
 

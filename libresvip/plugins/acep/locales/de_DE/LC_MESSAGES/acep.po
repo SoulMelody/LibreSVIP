@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "ACE Studio"
-msgstr ""
+msgstr "ACE Studio"
 
 msgid "ACE Studio project File"
 msgstr "ACE Studio Projektdatei"
@@ -22,7 +22,7 @@ msgid "Conversion Plugin for ACE Studio project file"
 msgstr "Konvertierungs-Plugin für ACE Studio Projektdateien"
 
 msgid "yqzhishen"
-msgstr ""
+msgstr "yqzhishen"
 
 msgid "Unsupported project version"
 msgstr "Nicht unterstützte Projektversion"
@@ -40,22 +40,22 @@ msgid "Spanish"
 msgstr "Spanisch"
 
 msgid "Korean"
-msgstr ""
+msgstr "Koreanisch"
 
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugiesisch"
 
 msgid "French"
-msgstr ""
+msgstr "Französisch"
 
 msgid "Italian"
-msgstr ""
+msgstr "Italienisch"
 
 msgid "Use the project file version which is compatible with ACE Studio 2.0.6 and earlier."
-msgstr ""
+msgstr "Die Projektdateiversion verwenden, die mit ACE Studio 2.0.6 und älter kompatibel ist."
 
 msgid "Use the project file version of ACE Studio 2.0.7 and later."
-msgstr ""
+msgstr "Die Projektdateiversion von ACE Studio 2.0.7 und neuer verwenden."
 
 msgid "Both strength and tension"
 msgstr "Sowohl Stärke als auch Spannung"
@@ -190,5 +190,5 @@ msgid "Set default consonant length for notes if not specified"
 msgstr "Standard-Konsonantenlänge für Noten festlegen, wenn nicht angegeben"
 
 msgid "Specify the serialization method of the generated .acep file"
-msgstr ""
+msgstr "Die Serialisierungsmethode der erzeugten .acep-Datei angeben"
 
