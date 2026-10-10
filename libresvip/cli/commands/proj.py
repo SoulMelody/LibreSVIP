@@ -9,21 +9,45 @@ from rich.prompt import Confirm
 
 from libresvip.cli.prompt import prompt_fields
 from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
-from libresvip.extension.manager import get_svs_plugin_by_suffix, middleware_manager, plugin_manager
+from libresvip.extension.manager import (
+    get_output_suffixes,
+    get_supported_suffixes,
+    get_svs_plugin_by_suffix,
+    middleware_manager,
+)
 from libresvip.model.base import Project
 from libresvip.utils.translation import gettext_lazy as _
 
 app = typer.Typer()
 
 
-def option_callback(ctx: typer.Context, value: pathlib.Path) -> pathlib.Path | None:
+def _extension(value: pathlib.Path | str) -> str:
+    suffix = value.suffix if isinstance(value, pathlib.Path) else f".{value}"
+    return suffix.lstrip(".").lower()
+
+
+def input_option_callback(ctx: typer.Context, value: pathlib.Path) -> pathlib.Path | None:
     if ctx.resilient_parsing:
         return None
-    ext = value.suffix.lstrip(".").lower()
+    ext = _extension(value)
     if get_svs_plugin_by_suffix(ext) is None:
         raise typer.BadParameter(
             _("Extension {} is not supported. Supported extensions are: {}").format(
-                ext, list(plugin_manager.plugins.get("svs", {}).keys())
+                ext, get_supported_suffixes()
+            )
+        )
+    return value
+
+
+def output_option_callback(ctx: typer.Context, value: pathlib.Path | str) -> pathlib.Path | str:
+    if ctx.resilient_parsing:
+        return value
+    ext = _extension(value)
+    plugin = get_svs_plugin_by_suffix(ext)
+    if plugin is None or plugin.info.suffix != ext:
+        raise typer.BadParameter(
+            _("Extension {} is not supported. Supported extensions are: {}").format(
+                ext, get_output_suffixes()
             )
         )
     return value
@@ -32,20 +56,20 @@ def option_callback(ctx: typer.Context, value: pathlib.Path) -> pathlib.Path | N
 @app.command()
 def convert(
     in_path: Annotated[
-        pathlib.Path, typer.Argument(exists=True, dir_okay=False, callback=option_callback)
+        pathlib.Path, typer.Argument(exists=True, dir_okay=False, callback=input_option_callback)
     ],
     out_path: Annotated[
-        pathlib.Path, typer.Argument(exists=False, dir_okay=False, callback=option_callback)
+        pathlib.Path, typer.Argument(exists=False, dir_okay=False, callback=output_option_callback)
     ],
 ) -> None:
     """
     Convert a file from one format to another.
     """
-    input_ext = in_path.suffix.lstrip(".").lower()
+    input_ext = _extension(in_path)
     input_plugin = get_svs_plugin_by_suffix(input_ext)
     assert input_plugin is not None
     assert not issubclass(input_plugin, WriteOnlyConverterMixin)
-    output_ext = out_path.suffix.lstrip(".").lower()
+    output_ext = _extension(out_path)
     output_plugin = get_svs_plugin_by_suffix(output_ext)
     assert output_plugin is not None
     assert not issubclass(output_plugin, ReadOnlyConverterMixin)
@@ -82,15 +106,17 @@ def convert(
 @app.command("split")
 def split_project(
     in_path: Annotated[
-        pathlib.Path, typer.Argument(exists=True, dir_okay=False, callback=option_callback)
+        pathlib.Path, typer.Argument(exists=True, dir_okay=False, callback=input_option_callback)
     ],
     out_dir: Annotated[pathlib.Path, typer.Argument(exists=True, dir_okay=True)],
-    output_ext: Annotated[str, typer.Option(help=_("Output format"))] = "ust",
+    output_ext: Annotated[
+        str, typer.Option(help=_("Output format"), callback=output_option_callback)
+    ] = "ust",
     max_track_count: Annotated[int, typer.Option(help=_("Maximum track count per file"))] = 1,
 ) -> None:
-    input_ext = in_path.suffix.lstrip(".").lower()
+    input_ext = _extension(in_path)
     input_plugin = get_svs_plugin_by_suffix(input_ext)
-    output_plugin = get_svs_plugin_by_suffix(output_ext)
+    output_plugin = get_svs_plugin_by_suffix(_extension(output_ext))
     input_option = input_plugin.input_option_cls
     output_option = output_plugin.output_option_cls
     option_type, option_class = _("Input Options: "), input_option
@@ -146,7 +172,8 @@ def split_project(
 def merge_projects(
     in_paths: Annotated[list[pathlib.Path], typer.Argument()],
     out_path: Annotated[
-        pathlib.Path, typer.Option("", exists=False, dir_okay=False, callback=option_callback)
+        pathlib.Path,
+        typer.Option("", exists=False, dir_okay=False, callback=output_option_callback),
     ],
 ) -> None:
     projects = []
@@ -167,7 +194,7 @@ def merge_projects(
             middleware_with_options.append((middleware.process, option_kwargs))
     for in_path in in_paths:
         typer.echo(in_path)
-        input_ext = in_path.suffix.lstrip(".").lower()
+        input_ext = _extension(in_path)
         input_plugin = get_svs_plugin_by_suffix(input_ext)
         input_option = input_plugin.input_option_cls
         option_type, option_class = _("Input Options: "), input_option
@@ -182,7 +209,7 @@ def merge_projects(
         ) in middleware_with_options:
             project = middleware_func(project, option_kwargs)
         projects.append(project)
-    output_ext = out_path.suffix.lstrip(".").lower()
+    output_ext = _extension(out_path)
     if projects:
         output_plugin = get_svs_plugin_by_suffix(output_ext)
         output_option = output_plugin.output_option_cls

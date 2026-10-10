@@ -82,6 +82,18 @@ def get_svs_plugin_by_suffix(suffix: str) -> type[SVSConverter] | None:
     return _build_svs_suffix_map().get(suffix)
 
 
+def get_supported_suffixes() -> list[str]:
+    return sorted(_build_svs_suffix_map())
+
+
+def get_output_suffixes() -> list[str]:
+    return sorted(
+        plugin.info.suffix
+        for plugin in plugin_manager.plugins.get("svs", {}).values()
+        if plugin.info.suffix
+    )
+
+
 def get_svs_plugin_by_value(value: str) -> type[SVSConverter] | None:
     return plugin_manager.plugins.get("svs", {}).get(value) or get_svs_plugin_by_suffix(value)
 
