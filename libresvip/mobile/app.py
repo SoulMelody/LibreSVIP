@@ -1070,6 +1070,7 @@ async def main(page: ft.Page) -> None:
             items=[
                 ft.PopupMenuItem(content="简体中文", on_click=partial(change_language, "zh_CN")),
                 ft.PopupMenuItem(content="English", on_click=partial(change_language, "en_US")),
+                ft.PopupMenuItem(content="日本語", on_click=partial(change_language, "ja_JP")),
                 ft.PopupMenuItem(content="Deutsch", on_click=partial(change_language, "de_DE")),
             ],
         )

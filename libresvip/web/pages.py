@@ -1622,6 +1622,10 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                         ui.navigate.to(
                                             f"/?lang=en_US&dark_mode={dark_value2str(dark_toggler.value)}"
                                         )
+                                    elif event.value == Language.JAPANESE:
+                                        ui.navigate.to(
+                                            f"/?lang=ja_JP&dark_mode={dark_value2str(dark_toggler.value)}"
+                                        )
                                     elif event.value == Language.GERMAN:
                                         ui.navigate.to(
                                             f"/?lang=de_DE&dark_mode={dark_value2str(dark_toggler.value)}"

@@ -404,7 +404,6 @@ ToolBar {
                                     ButtonGroup.group: languageButtonGroup
                                     text: "日本語"
                                     onTriggered: localeSwitcher.switch_language("ja_JP")
-                                    enabled: false
                                 }
                                 MenuItem {
                                     id: deDEMenuItem
