@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:16\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "ACE Virtual Singer"
 msgstr "ACEバーチャルシンガー"
@@ -20,6 +20,9 @@ msgstr "ACEバーチャルシンガーのプロジェクト"
 
 msgid "Conversion plugin for the raw JSON project files used by ACE Virtual Singer"
 msgstr "ACEバーチャルシンガーの raw JSON プロジェクトファイルを変換するプラグイン"
+
+msgid "vocoder712"
+msgstr "vocoder712"
 
 msgid "BPM source"
 msgstr "BPM の参照元"
@@ -47,16 +50,4 @@ msgstr "既定の歌手名"
 
 msgid "Song name"
 msgstr "曲名"
-
-msgid "vocoder712"
-msgstr ""
-
-msgid "Import instrumental tracks"
-msgstr "伴奏トラックをインポート"
-
-msgid "Import pitch curve"
-msgstr "ピッチカーブをインポート"
-
-msgid "Import strength envelope"
-msgstr "強弱カーブをインポート"
 

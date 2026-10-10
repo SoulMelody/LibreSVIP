@@ -10,26 +10,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Svip3"
-msgstr ""
+msgstr "Svip3"
 
 msgid "Netease Cloud Music XStudio project file"
-msgstr ""
+msgstr "NetEase Cloud Music XStudio プロジェクトファイル"
 
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
-msgstr ""
+msgstr "NetEase Cloud Music XStudio プロジェクトファイル変換プラグイン"
 
 msgid "FlutyDeer"
-msgstr ""
+msgstr "FlutyDeer"
 
 msgid "Unsupported pinyin:"
-msgstr ""
+msgstr "サポートされていないピンイン:"
 
 msgid "Note duration is too short:"
-msgstr ""
+msgstr "ノートの長さが短すぎます:"
 
 msgid "Note duration is too long:"
-msgstr ""
+msgstr "ノートの長さが長すぎます:"
 

@@ -10,17 +10,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Key transition of pitch"
-msgstr ""
+msgstr "ピッチのキー移行"
 
 msgid "Pitch shift in semitones."
-msgstr ""
+msgstr "半音単位のピッチシフト。"
 
 msgid "Pitch Shift"
-msgstr ""
+msgstr "ピッチシフト"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

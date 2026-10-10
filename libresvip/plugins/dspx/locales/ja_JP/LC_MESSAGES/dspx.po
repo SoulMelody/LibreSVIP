@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-22 04:22\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "DSPX"
 msgstr "DSPX"
@@ -24,20 +24,17 @@ msgstr "DSPX プロジェクトファイル変換プラグイン"
 msgid "OpenVPI"
 msgstr "OpenVPI"
 
-msgid "Import pitch curve"
-msgstr "ピッチカーブをインポート"
+msgid "Invalid DSPX project"
+msgstr "無効な DSPX プロジェクト"
 
-msgid "Pitch import mode"
-msgstr "ピッチインポートモード"
+msgid "Unsupported project version"
+msgstr "サポートされていないプロジェクトバージョン"
 
 msgid "Edited and original pitch"
 msgstr "編集済みおよび元のピッチ"
 
 msgid "Edited pitch only"
 msgstr "編集済みピッチのみ"
-
-msgid "Vibrato import mode"
-msgstr "ビブラートインポートモード"
 
 msgid "Do not import vibrato"
 msgstr "ビブラートをインポートしない"
@@ -48,15 +45,15 @@ msgstr "ノートにビブラート情報を保持"
 msgid "Bake vibrato into the pitch curve"
 msgstr "ビブラートをピッチパラメータに適用"
 
+msgid "Pitch import mode"
+msgstr "ピッチインポートモード"
+
+msgid "Vibrato import mode"
+msgstr "ビブラートインポートモード"
+
 msgid "Export pitch curve"
 msgstr "ピッチパラメータをエクスポート"
 
 msgid "Preserve vibrato"
 msgstr "ビブラートを保持"
-
-msgid "Invalid DSPX project"
-msgstr "無効な DSPX プロジェクト"
-
-msgid "Unsupported project version"
-msgstr ""
 

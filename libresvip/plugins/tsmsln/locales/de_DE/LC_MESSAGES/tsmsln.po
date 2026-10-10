@@ -10,19 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "TSMSln"
-msgstr ""
+msgstr "TSMSln"
 
 msgid "Techno-Speech Mobile Solution file"
-msgstr ""
+msgstr "Techno-Speech Mobile Solution Datei"
 
 msgid "Conversion plugin for VoiSona Mobile project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für VoiSona Mobile Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Unsupported lyric: "
 msgstr "Nicht unterstützter Text: "

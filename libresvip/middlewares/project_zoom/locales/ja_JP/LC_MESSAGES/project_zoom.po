@@ -10,44 +10,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "None"
-msgstr ""
+msgstr "なし"
 
 msgid "1/2"
-msgstr ""
+msgstr "1/2"
 
 msgid "5/3"
-msgstr ""
+msgstr "5/3"
 
 msgid "3/2"
-msgstr ""
+msgstr "3/2"
 
 msgid "6/5"
-msgstr ""
+msgstr "6/5"
 
 msgid "4/5"
-msgstr ""
+msgstr "4/5"
 
 msgid "3/5"
-msgstr ""
+msgstr "3/5"
 
 msgid "3/4"
-msgstr ""
+msgstr "3/4"
 
 msgid "Zoom factor"
-msgstr ""
+msgstr "ズーム倍率"
 
 msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
-msgstr ""
+msgstr "実際の歌唱速度を保つよう、BPM とノートを同時に変更します。たとえば倍率 2 では、60 bpm が 120 bpm になり、すべてのノートの長さが 2 倍になります"
 
 msgid "Project Zoom"
-msgstr ""
+msgstr "プロジェクトズーム"
 
 msgid "Zoom in/out project"
-msgstr ""
+msgstr "プロジェクトを拡大・縮小"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 

@@ -10,68 +10,71 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "BinSvip"
-msgstr ""
+msgstr "BinSvip"
 
 msgid "X Studio project file"
-msgstr ""
+msgstr "X Studio プロジェクトファイル"
 
 msgid "Conversion plugin for the original .svip binary file format"
-msgstr ""
+msgstr "元の .svip バイナリファイル形式用の変換プラグイン"
 
 msgid "yqzhishen"
-msgstr ""
+msgstr "yqzhishen"
 
 msgid "Unexpected enum value"
-msgstr ""
+msgstr "予期しない列挙値"
 
 msgid "Note duration is too short:"
-msgstr ""
+msgstr "ノートの長さが短すぎます:"
 
 msgid "Note duration is too long:"
-msgstr ""
+msgstr "ノートの長さが長すぎます:"
 
 msgid "Auto detect"
-msgstr ""
+msgstr "自動検出"
 
 msgid "Use the version of the project file corresponding to the X Studio installed on your current system."
-msgstr ""
+msgstr "現在のシステムにインストールされている X Studio に対応するプロジェクトファイルバージョンを使用します。"
 
 msgid "Use the project file version of X Studio 2.0."
-msgstr ""
+msgstr "X Studio 2.0 のプロジェクトファイルバージョンを使用します。"
 
 msgid "Use the project file version which is compatible with X Studio 1.8."
-msgstr ""
+msgstr "X Studio 1.8 と互換性のあるプロジェクトファイルバージョンを使用します。"
 
 msgid "Max compatibility (read only)"
-msgstr ""
+msgstr "最大互換（読み取り専用）"
 
 msgid "Export project files that can be opened using any version of X Studio.\n"
 "Warning: After saving with this option, the volume, breath, gender, and power parameters will not be recognized by X Studio (no data is lost).\n"
 "To avoid irretrievable data loss, it is strongly recommended not to use X Studio to modify and save project files exported with this option. To restore the project file back to a safe editable state, select Save as SVIP 6.0.0 or later."
-msgstr ""
+msgstr "任意のバージョンの X Studio で開けるプロジェクトファイルをエクスポートします。\n"
+"警告: このオプションで保存すると、音量、ブレス、ジェンダー、パワーの各パラメータが X Studio に認識されなくなります（データは失われません）。\n"
+"復元不可能なデータ損失を避けるため、このオプションでエクスポートしたプロジェクトファイルを X Studio で変更・保存することは強くおすすめしません。プロジェクトファイルを安全に編集できる状態に戻すには、「SVIP 6.0.0 以降として保存」を選択してください。"
 
 msgid "Default singer"
-msgstr ""
+msgstr "既定の歌手"
 
 msgid "Please enter the singer's name in Chinese. If the specified singer does not exist, the default singer set in X Studio will be used. If you want to specify the conversion relationship between singer ID and name, or add a singer that has an ID but has not been publicly released, please modify singers.json in the plugin directory."
-msgstr ""
+msgstr "歌手名は中国語で入力してください。指定した歌手が存在しない場合は、X Studio で設定された既定の歌手が使用されます。歌手 ID と名前の変換関係を指定したり、ID はあるが公開されていない歌手を追加したい場合は、プラグインディレクトリの singers.json を変更してください。"
 
 msgid "Default tempo"
-msgstr ""
+msgstr "既定のテンポ"
 
 msgid "The allowed range of tempo in X Studio is 20 ~ 300. When the tempo is out of range, the absolute timeline will be used to ensure the alignment of notes. Please set this value to an integer multiple or integer fraction of the tempo in the source project file as much as possible; as long as it is within a reasonable range, the value of this option will not affect the alignment effect."
-msgstr ""
+msgstr "X Studio で許容されるテンポの範囲は 20～300 です。テンポが範囲外の場合は、ノートの位置合わせを保証するために絶対タイムラインが使用されます。この値は、可能な限りソースプロジェクトファイルのテンポの整数倍または整数分の一に設定してください。妥当な範囲内であれば、このオプションの値は位置合わせの結果に影響しません。"
 
 msgid "Specify the version of the generated .svip file"
-msgstr ""
+msgstr "生成される .svip ファイルのバージョンを指定します"
 
 msgid "This option only controls the header version information of the output project file.\n"
 "Choosing an older project file version will not affect the integrity of the data, but using a lower version of X Studio to open, edit and save a higher version project file may cause data loss."
-msgstr ""
+msgstr "このオプションは出力プロジェクトファイルのヘッダーバージョン情報のみを制御します。\n"
+"古いプロジェクトファイルバージョンを選択してもデータの完全性には影響しませんが、低いバージョンの X Studio で高いバージョンのプロジェクトファイルを開いて編集・保存すると、データが失われる可能性があります。"
 
 msgid "Root not found"
-msgstr ""
+msgstr "ルートが見つかりません"
 

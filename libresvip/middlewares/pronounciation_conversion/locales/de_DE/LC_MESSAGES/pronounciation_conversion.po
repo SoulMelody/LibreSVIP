@@ -10,41 +10,41 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "None"
-msgstr ""
+msgstr "Keine"
 
 msgid "Hanzi to Pinyin"
-msgstr ""
+msgstr "Hanzi zu Pinyin"
 
 msgid "Hanzi to Jyutping"
-msgstr ""
+msgstr "Hanzi zu Jyutping"
 
 msgid "Hangul to Romanization"
-msgstr ""
+msgstr "Hangul zu Romanisierung"
 
 msgid "Kana to Romaji"
-msgstr ""
+msgstr "Kana zu Romaji"
 
 msgid "To Hiragana"
-msgstr ""
+msgstr "Zu Hiragana"
 
 msgid "To Katakana"
-msgstr ""
+msgstr "Zu Katakana"
 
 msgid "Pronounciation conversion mode"
-msgstr ""
+msgstr "Modus der Aussprachekonvertierung"
 
 msgid "Convert lyrics to the specified pronounciation format"
-msgstr ""
+msgstr "Liedtexte in das angegebene Ausspracheformat konvertieren"
 
 msgid "Pronounciation Conversion"
-msgstr ""
+msgstr "Aussprachekonvertierung"
 
 msgid "For Chinese and Japanese Lyrics"
-msgstr ""
+msgstr "Für chinesische und japanische Liedtexte"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

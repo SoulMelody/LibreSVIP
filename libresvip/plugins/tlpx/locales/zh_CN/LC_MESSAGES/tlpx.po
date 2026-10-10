@@ -10,10 +10,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
+
+msgid "TLPX v0 (legacy)"
+msgstr "TLPX v0(旧版)"
+
+msgid "Use the legacy part format with a single duration."
+msgstr "使用早期版本的片段格式，仅包含单个时长。"
+
+msgid "TLPX v1 (current)"
+msgstr "TLPX v1(当前)"
+
+msgid "Use the current part format with start/end offsets."
+msgstr "使用当前版本的片段格式，包含起始与结束偏移。"
+
+msgid "TLPX version compatibility"
+msgstr "TLPX 版本兼容性"
+
+msgid "Choose the version written when exporting TLPX."
+msgstr "选择导出 TLPX 时写入的版本。"
 
 msgid "TuneLab"
-msgstr ""
+msgstr "TuneLab"
 
 msgid "TuneLab project file"
 msgstr "TuneLab工程文件"

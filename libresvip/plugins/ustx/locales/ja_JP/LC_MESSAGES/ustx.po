@@ -10,60 +10,60 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Auto determine by phonemizer language"
-msgstr ""
+msgstr "Phonemizer の言語から自動判定"
 
 msgid "Monosyllabic languages: treating +, +~ and +* as slur notes"
-msgstr ""
+msgstr "単音節言語: +、+~、+* をスラーノートとして扱います"
 
 msgid "Polysyllabic languages: treating + as slur notes, and treating +~ or +* as syllable placeholders"
-msgstr ""
+msgstr "多音節言語: + をスラーノートとして扱い、+~ または +* を音節プレースホルダーとして扱います"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
-msgstr ""
+msgstr "ARPAsing 系 Phonemizer と互換性がありません"
 
 msgid "Compatible with ARPAsing-series Phonemizers"
-msgstr ""
+msgstr "ARPAsing 系 Phonemizer と互換性があります"
 
 msgid "Plus sign handling mode"
-msgstr ""
+msgstr "プラス記号の処理モード"
 
 msgid "How to handle the + symbol in lyrics when importing USTX"
-msgstr ""
+msgstr "USTX のインポート時に歌詞中の + 記号をどのように扱うか"
 
 msgid "Breath lyrics"
-msgstr ""
+msgstr "ブレス歌詞"
 
 msgid "Special lyrics that will be recognized as breath notes only when immediately followed by a regular note, each separated by a space"
-msgstr ""
+msgstr "直後に通常のノートが続く場合にのみブレスノートとして認識される特殊な歌詞。スペースで区切って指定します"
 
 msgid "Silence lyrics"
-msgstr ""
+msgstr "無音歌詞"
 
 msgid "Special lyrics that will be ignored, each separated by a space"
-msgstr ""
+msgstr "無視される特殊な歌詞。スペースで区切って指定します"
 
 msgid "The way to handle english multisyllabic words"
-msgstr ""
+msgstr "英語の複数音節語の処理方法"
 
 msgid "Compatibility with ARPAsing-series Phonemizer"
-msgstr ""
+msgstr "ARPAsing 系 Phonemizer との互換性"
 
 msgid "Ustx"
-msgstr ""
+msgstr "Ustx"
 
 msgid "OpenUtau project file"
-msgstr ""
+msgstr "OpenUtau プロジェクトファイル"
 
 msgid "Conversion plugin for Ustx file format"
-msgstr ""
+msgstr "Ustx ファイル形式用の変換プラグイン"
 
 msgid "Oxygen Dioxide"
-msgstr ""
+msgstr "Oxygen Dioxide"
 
 #, python-brace-format
 msgid "Notes overlapped near bar {}"
-msgstr ""
+msgstr "{} 小節付近でノートが重複しています"
 

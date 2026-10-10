@@ -10,41 +10,41 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "None"
-msgstr ""
+msgstr "なし"
 
 msgid "Hanzi to Pinyin"
-msgstr ""
+msgstr "漢字からピンインへ"
 
 msgid "Hanzi to Jyutping"
-msgstr ""
+msgstr "漢字から粤拼へ"
 
 msgid "Hangul to Romanization"
-msgstr ""
+msgstr "ハングルからローマ字へ"
 
 msgid "Kana to Romaji"
-msgstr ""
+msgstr "仮名からローマ字へ"
 
 msgid "To Hiragana"
-msgstr ""
+msgstr "ひらがなへ"
 
 msgid "To Katakana"
-msgstr ""
+msgstr "カタカナへ"
 
 msgid "Pronounciation conversion mode"
-msgstr ""
+msgstr "発音変換モード"
 
 msgid "Convert lyrics to the specified pronounciation format"
-msgstr ""
+msgstr "歌詞を指定した発音形式に変換します"
 
 msgid "Pronounciation Conversion"
-msgstr ""
+msgstr "発音変換"
 
 msgid "For Chinese and Japanese Lyrics"
-msgstr ""
+msgstr "中国語と日本語の歌詞用"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

@@ -10,23 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Export as legacy format"
-msgstr ""
+msgstr "レガシー形式でエクスポート"
 
 msgid "Export in the legacy binary PPSF format instead of the newer ZIP-based JSON format"
-msgstr ""
+msgstr "新しい ZIP ベースの JSON 形式ではなく、レガシーなバイナリ PPSF 形式でエクスポートします"
 
 msgid "Ppsf"
-msgstr ""
+msgstr "Ppsf"
 
 msgid "Piapro Studio Song file"
-msgstr ""
+msgstr "Piapro Studio Song ファイル"
 
 msgid "Conversion plugin for Piapro Studio project file"
-msgstr ""
+msgstr "Piapro Studio プロジェクトファイル変換プラグイン"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

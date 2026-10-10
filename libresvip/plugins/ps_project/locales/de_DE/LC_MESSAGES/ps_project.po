@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Chinese"
 msgstr "Chinesisch"
@@ -25,17 +25,17 @@ msgid "Lyrics language"
 msgstr "Liedtextsprache"
 
 msgid "Title of the project"
-msgstr ""
+msgstr "Titel des Projekts"
 
 msgid "PocketSinger"
-msgstr ""
+msgstr "PocketSinger"
 
 msgid "Pocket Singer Project file"
-msgstr ""
+msgstr "Pocket Singer Projektdatei"
 
 msgid "Conversion plugin for Pocket Singer project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für Pocket Singer Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

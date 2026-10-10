@@ -10,35 +10,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Text encoding"
-msgstr ""
+msgstr "テキストエンコーディング"
 
 msgid "Version"
-msgstr ""
+msgstr "バージョン"
 
 msgid "UST file version"
-msgstr ""
+msgstr "UST ファイルのバージョン"
 
 msgid "Ust"
-msgstr ""
+msgstr "Ust"
 
 msgid "UTAU Sequence Text"
-msgstr ""
+msgstr "UTAU Sequence Text"
 
 msgid "Conversion plugin for UST file format"
-msgstr ""
+msgstr "UST ファイル形式用の変換プラグイン"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 
 msgid "No singing track found"
-msgstr ""
+msgstr "歌唱トラックが見つかりません"
 
 msgid "Project has no tracks"
-msgstr ""
+msgstr "プロジェクトにトラックがありません"
 
 msgid "No tempo labels found in the imported project."
-msgstr ""
+msgstr "インポートしたプロジェクトにテンポラベルが見つかりません。"
 

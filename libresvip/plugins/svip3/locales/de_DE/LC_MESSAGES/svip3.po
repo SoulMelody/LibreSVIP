@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Svip3"
-msgstr ""
+msgstr "Svip3"
 
 msgid "Netease Cloud Music XStudio project file"
 msgstr "Netease Cloud Music XStudio Projektdatei"
@@ -22,7 +22,7 @@ msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr "Konvertierungs-Plugin für Netease Cloud Music XStudio Projektdateien"
 
 msgid "FlutyDeer"
-msgstr ""
+msgstr "FlutyDeer"
 
 msgid "Unsupported pinyin:"
 msgstr "Nicht unterstütztes Pinyin:"

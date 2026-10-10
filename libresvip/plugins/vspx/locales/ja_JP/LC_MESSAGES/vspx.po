@@ -10,17 +10,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "VocalSharp"
-msgstr ""
+msgstr "VocalSharp"
 
 msgid "VocalSharp project file"
-msgstr ""
+msgstr "VocalSharp プロジェクトファイル"
 
 msgid "Conversion plugin for VocalSharp project file"
-msgstr ""
+msgstr "VocalSharp プロジェクトファイル変換プラグイン"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

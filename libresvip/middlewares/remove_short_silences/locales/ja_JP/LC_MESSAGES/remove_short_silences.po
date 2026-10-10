@@ -10,38 +10,38 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Zero length note"
-msgstr ""
+msgstr "長さ 0 のノート"
 
 msgid "1/8 note"
-msgstr ""
+msgstr "8 分音符"
 
 msgid "1/16 note"
-msgstr ""
+msgstr "16 分音符"
 
 msgid "1/32 note"
-msgstr ""
+msgstr "32 分音符"
 
 msgid "1/64 note"
-msgstr ""
+msgstr "64 分音符"
 
 msgid "1/128 note"
-msgstr ""
+msgstr "128 分音符"
 
 msgid "Max length to be processed (exclusive)"
-msgstr ""
+msgstr "処理する最大長（未満）"
 
 msgid "Extend note to fill the short silences between it and its next note"
-msgstr ""
+msgstr "次のノートまでの短い無音を埋めるようにノートを延長"
 
 msgid "Remove Short Silences"
-msgstr ""
+msgstr "短い無音を削除"
 
 msgid "Fill short rests"
-msgstr ""
+msgstr "短い休符を埋める"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

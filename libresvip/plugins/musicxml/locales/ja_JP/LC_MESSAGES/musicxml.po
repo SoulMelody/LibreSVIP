@@ -10,26 +10,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "MusicXML"
-msgstr ""
+msgstr "MusicXML"
 
 msgid "MusicXML file"
-msgstr ""
+msgstr "MusicXML ファイル"
 
 msgid "Conversion plugin for MusicXML Score file"
-msgstr ""
+msgstr "MusicXML スコアファイル変換プラグイン"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 
 msgid "Import tempo changes"
-msgstr ""
+msgstr "テンポ変化をインポート"
 
 msgid "Import dynamics as volume curve"
-msgstr ""
+msgstr "強弱を音量カーブとしてインポート"
 
 msgid "Extend fermata-bearing notes (matches MuseScore playback)"
-msgstr ""
+msgstr "フェルマータ付きノートを延長（MuseScore の再生に合わせる）"
 

@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-22 04:22\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "DSPX"
 msgstr "DSPX"
@@ -24,20 +24,17 @@ msgstr "Konvertierungs-Plugin für DSPX-Projektdateien"
 msgid "OpenVPI"
 msgstr "OpenVPI"
 
-msgid "Import pitch curve"
-msgstr "Tonhöhenkurve importieren"
+msgid "Invalid DSPX project"
+msgstr "Ungültiges DSPX-Projekt"
 
-msgid "Pitch import mode"
-msgstr "Tonhöhen-Importmodus"
+msgid "Unsupported project version"
+msgstr "Nicht unterstützte Projektversion"
 
 msgid "Edited and original pitch"
 msgstr "Bearbeitete und ursprüngliche Tonhöhe"
 
 msgid "Edited pitch only"
 msgstr "Nur bearbeitete Tonhöhe"
-
-msgid "Vibrato import mode"
-msgstr "Vibrato-Importmodus"
 
 msgid "Do not import vibrato"
 msgstr "Vibrato nicht importieren"
@@ -48,15 +45,15 @@ msgstr "Vibrato-Informationen in Noten beibehalten"
 msgid "Bake vibrato into the pitch curve"
 msgstr "Vibrato in die Tonhöhenparameter einrechnen"
 
+msgid "Pitch import mode"
+msgstr "Tonhöhen-Importmodus"
+
+msgid "Vibrato import mode"
+msgstr "Vibrato-Importmodus"
+
 msgid "Export pitch curve"
 msgstr "Tonhöhenparameter exportieren"
 
 msgid "Preserve vibrato"
 msgstr "Vibrato beibehalten"
-
-msgid "Invalid DSPX project"
-msgstr "Ungültiges DSPX-Projekt"
-
-msgid "Unsupported project version"
-msgstr "Nicht unterstützte Projektversion"
 

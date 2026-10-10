@@ -10,17 +10,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "VOX Factory"
-msgstr ""
+msgstr "VOX Factory"
 
 msgid "VOX Factory Project File"
-msgstr ""
+msgstr "VOX Factory Projektdatei"
 
 msgid "Conversion plugin for VOX Factory Project File"
-msgstr ""
+msgstr "Konvertierungs-Plugin für VOX Factory Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

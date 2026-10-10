@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Combine syllables"
 msgstr "Silben kombinieren"
@@ -19,7 +19,7 @@ msgid "Combine multisyllabic lyrics into single words"
 msgstr "Mehrsilbige Texte zu einzelnen Wörtern kombinieren"
 
 msgid "VSQX Version"
-msgstr ""
+msgstr "VSQX-Version"
 
 msgid "Pretty XML"
 msgstr "Leserliches XML"
@@ -52,7 +52,7 @@ msgid "Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Conv
 msgstr "Die Phoneme aller Noten wurden auf \"la\" gesetzt. Bitte benutze \"Lyrics\" -> \"Convert Phonemes\" im Menü von VOCALOID4, um sie zurückzusetzen."
 
 msgid "Vsqx"
-msgstr ""
+msgstr "Vsqx"
 
 msgid "Vocaloid Sequence XML file"
 msgstr "Vocaloid Sequenz-XML-Datei"
@@ -61,13 +61,13 @@ msgid "Conversion plugin for Vocaloid Sequence XML file"
 msgstr "Konvertierungs-Plugin für Vocaloid Sequenz-XML-Dateien"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 
 msgid "VSQx 3"
-msgstr ""
+msgstr "VSQx 3"
 
 msgid "VSQx 4"
-msgstr ""
+msgstr "VSQx 4"
 
 msgid "日本語"
 msgstr "Japanisch"

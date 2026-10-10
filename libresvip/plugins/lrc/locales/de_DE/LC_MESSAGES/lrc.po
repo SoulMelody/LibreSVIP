@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "LRC"
-msgstr ""
+msgstr "LRC"
 
 msgid "LRC lyric file"
 msgstr "LRC-Liedtextdatei"
@@ -22,7 +22,7 @@ msgid "Generator plugin for LRC lyric file"
 msgstr "Generator-Plugin für LRC-Liedtextdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Act on timeline"
 msgstr "Auf der Zeitachse wirken"
@@ -67,7 +67,7 @@ msgid "Lyric editor"
 msgstr "Liedtext-Editor"
 
 msgid "Offset"
-msgstr ""
+msgstr "Offset"
 
 msgid "In milliseconds, positive means ahead, negative means opposite."
 msgstr "In Millisekunden, positiv bedeutet voraus, negativ bedeutet entgegengesetzt."
@@ -79,10 +79,10 @@ msgid "New line by"
 msgstr "Neue Zeile durch"
 
 msgid "Ignore slur notes"
-msgstr ""
+msgstr "Legato-Noten ignorieren"
 
 msgid "Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."
-msgstr ""
+msgstr "'-' Liedtexte ignorieren, die in Gesangssynthesizern Legato-Noten kennzeichnen."
 
 msgid "Write timeline"
 msgstr "Zeitachse schreiben"

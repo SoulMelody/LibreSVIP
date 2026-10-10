@@ -10,29 +10,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "CeVIO"
-msgstr ""
+msgstr "CeVIO"
 
 msgid "CeVIO Creative Studio Project file"
-msgstr ""
+msgstr "CeVIO Creative Studio プロジェクトファイル"
 
 msgid "Conversion plugin for CeVIO Creative Studio project file"
-msgstr ""
+msgstr "CeVIO Creative Studio プロジェクトファイル変換プラグイン"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 
 msgid "Unsupported lyric: "
-msgstr ""
+msgstr "サポートされていない歌詞: "
 
 msgid "Default Singer Name"
-msgstr ""
+msgstr "既定の歌手名"
 
 msgid "Default Voicebank ID"
-msgstr ""
+msgstr "既定の音源 ID"
 
 msgid "Default Voicebank Version"
-msgstr ""
+msgstr "既定の音源バージョン"
 

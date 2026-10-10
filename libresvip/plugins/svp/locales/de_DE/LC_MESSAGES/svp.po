@@ -10,19 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
-msgstr ""
+msgstr "Kompatibel mit Synthesizer V Studio 1.9.0 und älter"
 
 msgid "Compatible with Synthesizer V Studio 1.10.0 to 1.11.2"
-msgstr ""
+msgstr "Kompatibel mit Synthesizer V Studio 1.10.0 bis 1.11.2"
 
 msgid "Compatible with Synthesizer V Studio 2.0 and up"
-msgstr ""
+msgstr "Kompatibel mit Synthesizer V Studio 2.0 und neuer"
 
 msgid "Mandarin"
-msgstr ""
+msgstr "Mandarin"
 
 msgid "Cantonese"
 msgstr "Kantonesisch"
@@ -37,16 +37,19 @@ msgid "Spanish"
 msgstr "Spanisch"
 
 msgid "Korean"
-msgstr ""
+msgstr "Koreanisch"
 
 msgid "German"
-msgstr ""
+msgstr "Deutsch"
 
 msgid "French"
-msgstr ""
+msgstr "Französisch"
 
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugiesisch"
+
+msgid "Italian"
+msgstr "Italienisch"
 
 msgid "Ignore all breath notes"
 msgstr "Alle Atemnoten ignorieren"
@@ -142,7 +145,7 @@ msgid "Override default language for the voicebank"
 msgstr "Standardsprache für die Voicebank überschreiben"
 
 msgid "SynthV Studio"
-msgstr ""
+msgstr "SynthV Studio"
 
 msgid "Synthesizer V Studio project file"
 msgstr "Synthesizer V Studio Projektdatei"
@@ -153,9 +156,9 @@ msgstr "Konvertierungs-Plugin für Synthesizer V Studio Projektdateien, es unter
 "Hinweis: Das Importieren einer Projektdatei mit überlappenden Noten ist ein undefiniertes Verhalten, das zu unvorhergesehenen Ausnahmen führen kann."
 
 msgid "yqzhishen"
-msgstr ""
+msgstr "yqzhishen"
 
 #, python-brace-format
 msgid "Notes overlapped near bar {}"
-msgstr ""
+msgstr "Noten überschneiden sich nahe Takt {}"
 

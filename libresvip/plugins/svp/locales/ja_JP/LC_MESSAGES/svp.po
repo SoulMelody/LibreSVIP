@@ -10,151 +10,155 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Compatible with Synthesizer V Studio 1.9.0 and below"
-msgstr ""
+msgstr "Synthesizer V Studio 1.9.0 以前と互換"
 
 msgid "Compatible with Synthesizer V Studio 1.10.0 to 1.11.2"
-msgstr ""
+msgstr "Synthesizer V Studio 1.10.0～1.11.2 と互換"
 
 msgid "Compatible with Synthesizer V Studio 2.0 and up"
-msgstr ""
+msgstr "Synthesizer V Studio 2.0 以降と互換"
 
 msgid "Mandarin"
-msgstr ""
+msgstr "北京語"
 
 msgid "Cantonese"
-msgstr ""
+msgstr "広東語"
 
 msgid "Japanese"
-msgstr ""
+msgstr "日本語"
 
 msgid "English"
-msgstr ""
+msgstr "英語"
 
 msgid "Spanish"
-msgstr ""
+msgstr "スペイン語"
 
 msgid "Korean"
-msgstr ""
+msgstr "韓国語"
 
 msgid "German"
-msgstr ""
+msgstr "ドイツ語"
 
 msgid "French"
-msgstr ""
+msgstr "フランス語"
 
 msgid "Portuguese"
-msgstr ""
+msgstr "ポルトガル語"
+
+msgid "Italian"
+msgstr "イタリア語"
 
 msgid "Ignore all breath notes"
-msgstr ""
+msgstr "すべてのブレスノートを無視"
 
 msgid "Keep as normal notes"
-msgstr ""
+msgstr "通常のノートとして保持"
 
 msgid "Convert to breath mark"
-msgstr ""
+msgstr "ブレス記号に変換"
 
 msgid "Split all to tracks"
-msgstr ""
+msgstr "すべてトラックに分割"
 
 msgid "Generate a track for each note group reference"
-msgstr ""
+msgstr "ノートグループの参照ごとにトラックを生成"
 
 msgid "Keep original position"
-msgstr ""
+msgstr "元の位置を維持"
 
 msgid "Split note groups to separate tracks only when notes overlap"
-msgstr ""
+msgstr "ノートが重複する場合のみノートグループを別トラックに分割"
 
 msgid "Full pitch curve"
-msgstr ""
+msgstr "完全なピッチカーブ"
 
 msgid "Input the full pitch curve regardless of editing"
-msgstr ""
+msgstr "編集状況に関係なく完全なピッチカーブを入力"
 
 msgid "Edited part only (vibrato mode)"
-msgstr ""
+msgstr "編集部分のみ（ビブラートモード）"
 
 msgid "Input the edited part of pitch curve; default vibrato will be imported if not edited"
-msgstr ""
+msgstr "ピッチカーブの編集部分を入力します。編集されていない場合は既定のビブラートがインポートされます"
 
 msgid "Edited part only (plain mode)"
-msgstr ""
+msgstr "編集部分のみ（プレーンモード）"
 
 msgid "Input the edited part of pitch curve; default vibrato will be ignored"
-msgstr ""
+msgstr "ピッチカーブの編集部分を入力します。既定のビブラートは無視されます"
 
 msgid "All removed"
-msgstr ""
+msgstr "すべて削除"
 
 msgid "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
-msgstr ""
+msgstr "出力されるピッチカーブが入力と同じになるよう、すべてのノートのビブラート深さを 0 に設定します"
 
 msgid "All kept"
-msgstr ""
+msgstr "すべて保持"
 
 msgid "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
-msgstr ""
+msgstr "すべてのノートの既定のビブラートを保持しますが、ピッチカーブが一致しなくなる可能性があります"
 
 msgid "Hybrid mode"
-msgstr ""
+msgstr "ハイブリッドモード"
 
 msgid "Remove vibrato in edited part, keep default vibrato in other parts"
-msgstr ""
+msgstr "編集部分のビブラートを削除し、それ以外の部分では既定のビブラートを保持"
 
 msgid "Always follow instant pitch mode"
-msgstr ""
+msgstr "常に瞬間ピッチモードに従う"
 
 msgid "When this option is turned off, the default pitch curve will always be imported regardless of the project setting. If you have tuned the pitch curve based on instant pitch mode, it is recommended to turn on this option."
-msgstr ""
+msgstr "このオプションを無効にすると、プロジェクトの設定に関係なく常に既定のピッチカーブがインポートされます。瞬間ピッチモードに基づいてピッチカーブを調整した場合は、このオプションを有効にすることをおすすめします。"
 
 msgid "Pitch input mode"
-msgstr ""
+msgstr "ピッチ入力モード"
 
 msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of \"edited part\" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
-msgstr ""
+msgstr "このオプションは、インポートするピッチカーブの範囲と判定条件を制御します。「編集部分」の定義は、パラメータパネルのピッチ偏差、ビブラートエンベロープのピッチ遷移、ノートプロパティのピッチ遷移が編集済みであることです。"
 
 msgid "The way to handle breath notes"
-msgstr ""
+msgstr "ブレスノートの処理方法"
 
 msgid "The way to handle note groups"
-msgstr ""
+msgstr "ノートグループの処理方法"
 
 msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
-msgstr ""
+msgstr "注意: ノートグループが多すぎる場合は、トラック数が過剰になるのを避けるため「元の位置を維持」を選択してください。ただし、ノートグループ間またはノートグループとメイングループの間に隣接する（重複はしない）ノートがある場合は、段落の区切りが崩れないよう「トラックに分割」を選択することをおすすめします。"
 
 msgid "Version compatibility"
-msgstr ""
+msgstr "バージョン互換性"
 
 msgid "The way to handle vibrato notes"
-msgstr ""
+msgstr "ビブラートノートの処理方法"
 
 msgid "Set the average sampling interval of parameter points to improve performance (0 means no limit)"
-msgstr ""
+msgstr "パフォーマンス向上のためパラメータ点の平均サンプリング間隔を設定します（0 は制限なし）"
 
 msgid "Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience."
-msgstr ""
+msgstr "サンプリング間隔を小さくするとパラメータカーブの精度が向上しますが、描画の遅延を引き起こす可能性があります（例: Synthesizer V Studio Pro + AI 音源）。ハードウェア構成と実際の使用感に応じてこの値を設定してください。"
 
 msgid "Override default language for the voicebank"
-msgstr ""
+msgstr "音源の既定言語を上書き"
 
 msgid "SynthV Studio"
-msgstr ""
+msgstr "SynthV Studio"
 
 msgid "Synthesizer V Studio project file"
-msgstr ""
+msgstr "Synthesizer V Studio プロジェクトファイル"
 
 msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\n"
 "Notes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
-msgstr ""
+msgstr "Synthesizer V Studio プロジェクトファイル用の変換プラグインです。ノート、歌詞、パラメータカーブ、ノート属性、ノートグループ、瞬間ピッチモードを含むすべてのパラメータの読み書きに対応しています。\n"
+"注意: ノートが重複するプロジェクトファイルのインポートは未定義の動作であり、予期しない例外を引き起こす可能性があります。"
 
 msgid "yqzhishen"
-msgstr ""
+msgstr "yqzhishen"
 
 #, python-brace-format
 msgid "Notes overlapped near bar {}"
-msgstr ""
+msgstr "{} 小節付近でノートが重複しています"
 

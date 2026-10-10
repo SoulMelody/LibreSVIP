@@ -10,38 +10,38 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Ignore all breath notes"
-msgstr ""
+msgstr "すべてのブレスノートを無視"
 
 msgid "Keep as normal notes"
-msgstr ""
+msgstr "通常のノートとして保持"
 
 msgid "Lyric text encoding"
-msgstr ""
+msgstr "歌詞のテキストエンコーディング"
 
 msgid "Unless the lyrics are garbled, this option should not be changed."
-msgstr ""
+msgstr "歌詞が文字化けしていない限り、このオプションは変更しないでください。"
 
 msgid "The way to handle breath notes"
-msgstr ""
+msgstr "ブレスノートの処理方法"
 
 msgid "Ticks per beat"
-msgstr ""
+msgstr "拍あたりの tick 数"
 
 msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
-msgstr ""
+msgstr "parts per quarter、ticks per quarter note とも呼ばれ、四分音符あたりのパルス数です。内容を理解している場合を除き、この設定は変更しないでください。"
 
 msgid "Vsq"
-msgstr ""
+msgstr "Vsq"
 
 msgid "Vocaloid 2 Sequence file"
-msgstr ""
+msgstr "Vocaloid 2 Sequence ファイル"
 
 msgid "Conversion plugin for Vocaloid 2 sequence file"
-msgstr ""
+msgstr "Vocaloid 2 Sequence ファイル変換プラグイン"
 
 msgid "Selio Jiang"
-msgstr ""
+msgstr "Selio Jiang"
 

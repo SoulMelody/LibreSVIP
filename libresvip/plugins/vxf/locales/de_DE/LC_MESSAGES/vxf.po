@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2026-08-01 08:23\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Default BPM"
 msgstr "Standard-BPM"
@@ -28,14 +28,14 @@ msgid "No tempo labels found in the imported project."
 msgstr "Keine Tempobezeichnungen im importierten Projekt gefunden."
 
 msgid "VX-β"
-msgstr ""
+msgstr "VX-β"
 
 msgid "VX-β project file"
-msgstr ""
+msgstr "VX-β Projektdatei"
 
 msgid "Conversion plugin for VX-β project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für VX-β Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

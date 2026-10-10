@@ -10,20 +10,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Unsupported lyric: "
-msgstr ""
+msgstr "サポートされていない歌詞: "
 
 msgid "VVProj"
-msgstr ""
+msgstr "VVProj"
 
 msgid "VOICEVOX Project file"
-msgstr ""
+msgstr "VOICEVOX プロジェクトファイル"
 
 msgid "Conversion plugin for VOICEVOX Project file"
-msgstr ""
+msgstr "VOICEVOX プロジェクトファイル変換プラグイン"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

@@ -10,17 +10,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "Name of lyric replacement preset"
-msgstr ""
+msgstr "歌詞置換プリセットの名前"
 
 msgid "Replace lyrics"
-msgstr ""
+msgstr "歌詞を置換"
 
 msgid "Replace lyrics using preset rules. You can customize the lyrics replacement rules in the program configuration page"
-msgstr ""
+msgstr "プリセットルールを使って歌詞を置換します。歌詞置換ルールはプログラムの設定ページでカスタマイズできます"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

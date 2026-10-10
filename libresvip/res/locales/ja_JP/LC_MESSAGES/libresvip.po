@@ -10,51 +10,51 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:16\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 #, python-brace-format
 msgid "Setting {} is not supported in cli mode."
-msgstr ""
+msgstr "{} の設定は CLI モードではサポートされていません。"
 
 #: ../libresvip/cli/commands/conf.py:32
 #, python-brace-format
 msgid "Set {} to {}"
-msgstr ""
+msgstr "{} を {} に設定"
 
 #: ../libresvip/cli/commands/plugin.py:23
 msgid "The plugin is successfully disabled."
-msgstr ""
+msgstr "プラグインを正常に無効化しました。"
 
 #: ../libresvip/cli/commands/plugin.py:27
 msgid "The plugin is successfully enabled."
-msgstr ""
+msgstr "プラグインを正常に有効化しました。"
 
 #: ../libresvip/cli/commands/plugin.py:29
 msgid "Unable to find the plugin."
-msgstr ""
+msgstr "プラグインが見つかりません。"
 
 #: ../libresvip/cli/commands/plugin.py:42
 msgid "Cannot find plugin "
-msgstr ""
+msgstr "プラグインが見つかりません "
 
 #: ../libresvip/cli/commands/plugin.py:50
 msgid "No plugins are currently installed."
-msgstr ""
+msgstr "現在インストールされているプラグインはありません。"
 
 #: ../libresvip/cli/commands/plugin.py:53
 msgid "No."
-msgstr ""
+msgstr "番号"
 
 #: ../libresvip/cli/commands/plugin.py:54 ../libresvip/tui/app.py:652
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: ../libresvip/cli/commands/plugin.py:55
-#: ../libresvip/gui/models/table_models.py:34 ../libresvip/mobile/app.py:1169
+#: ../libresvip/gui/models/table_models.py:34 ../libresvip/mobile/app.py:1172
 #: ../libresvip/web/pages.py:337
 msgid "Version"
-msgstr ""
+msgstr "バージョン"
 
 #: ../libresvip/cli/commands/plugin.py:56
 #: ../libresvip/gui/models/table_models.py:33 ../libresvip/web/pages.py:340
@@ -63,400 +63,391 @@ msgstr "作者"
 
 #: ../libresvip/cli/commands/plugin.py:57
 msgid "Identifier"
-msgstr ""
+msgstr "識別子"
 
 #: ../libresvip/cli/commands/plugin.py:58
 msgid "Applicable file format"
-msgstr ""
+msgstr "対応ファイル形式"
 
 #: ../libresvip/cli/commands/plugin.py:82
 msgid "Plugin: "
-msgstr ""
+msgstr "プラグイン: "
 
-#: ../libresvip/cli/commands/plugin.py:83 ../libresvip/mobile/app.py:1553
-#: ../libresvip/tui/app.py:137 ../libresvip/tui/app.py:1150
+#: ../libresvip/cli/commands/plugin.py:83 ../libresvip/mobile/app.py:1556
 #: ../libresvip/web/pages.py:1177
 msgid "Version: "
-msgstr ""
+msgstr "バージョン: "
 
-#: ../libresvip/cli/commands/plugin.py:84 ../libresvip/tui/app.py:138
+#: ../libresvip/cli/commands/plugin.py:84
 msgid "Author: "
-msgstr ""
+msgstr "作者: "
 
 #: ../libresvip/cli/commands/plugin.py:88
 msgid "Website: "
-msgstr ""
-
-#: ../libresvip/cli/commands/plugin.py:91
-msgid "This plugin is applicable to"
-msgstr ""
+msgstr "ウェブサイト: "
 
 #: ../libresvip/cli/commands/plugin.py:94
 #, python-brace-format
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
-msgstr ""
-
-#: ../libresvip/cli/commands/plugin.py:98
-msgid "Description: "
-msgstr ""
+msgstr "このプラグインを使用するには、変換時に '-i {}'（入力）または '-o {}'（出力）を指定してください。"
 
 #: ../libresvip/cli/commands/plugin.py:99
 msgid "input"
-msgstr ""
+msgstr "入力"
 
 #: ../libresvip/cli/commands/plugin.py:99
 msgid "output"
-msgstr ""
+msgstr "出力"
 
 #: ../libresvip/cli/commands/plugin.py:107
 #, python-brace-format
 msgid "This plugin supports the following {} conversion options:"
-msgstr ""
+msgstr "このプラグインは以下の {} 個の変換オプションに対応しています:"
 
 #: ../libresvip/cli/commands/plugin.py:114
 #: ../libresvip/cli/commands/plugin.py:141
 msgid "Default: "
-msgstr ""
+msgstr "既定値: "
 
 #: ../libresvip/cli/commands/plugin.py:126
 msgid "Available values:"
-msgstr ""
+msgstr "使用可能な値:"
 
 #: ../libresvip/cli/commands/plugin.py:135
 msgid "Available fields:"
-msgstr ""
+msgstr "使用可能なフィールド:"
 
 #: ../libresvip/cli/commands/proj.py:23
 #, python-brace-format
 msgid "Extension {} is not supported. Supported extensions are: {}"
-msgstr ""
+msgstr "拡張子 {} はサポートされていません。対応している拡張子は {} です"
 
 #: ../libresvip/cli/commands/proj.py:52 ../libresvip/cli/commands/proj.py:94
 #: ../libresvip/cli/commands/proj.py:171
 msgid "Input Options: "
-msgstr ""
+msgstr "入力オプション: "
 
 #: ../libresvip/cli/commands/proj.py:60 ../libresvip/cli/commands/proj.py:104
 #: ../libresvip/cli/commands/proj.py:154
 #, python-brace-format
 msgid "Enable {} middleware?"
-msgstr ""
+msgstr "{} ミドルウェアを有効にしますか？"
 
 #: ../libresvip/cli/commands/proj.py:64 ../libresvip/cli/commands/proj.py:108
 #: ../libresvip/cli/commands/proj.py:158
 msgid "Process Options: "
-msgstr ""
+msgstr "処理オプション: "
 
 #: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:121
 #: ../libresvip/cli/commands/proj.py:188
 msgid "Output Options: "
-msgstr ""
+msgstr "出力オプション: "
 
 #: ../libresvip/cli/commands/proj.py:86
 msgid "Output format"
-msgstr ""
+msgstr "出力形式"
 
 #: ../libresvip/cli/commands/proj.py:87
 msgid "Maximum track count per file"
-msgstr ""
+msgstr "ファイルごとの最大トラック数"
 
 #: ../libresvip/cli/commands/proj.py:128
 msgid "Converting ..."
-msgstr ""
+msgstr "変換中 …"
 
-#: ../libresvip/cli/rpc/server.py:50
+#: ../libresvip/cli/rpc/server.py:77
 msgid "title"
-msgstr ""
+msgstr "タイトル"
 
-#: ../libresvip/cli/rpc/server.py:52 ../libresvip/web/pages.py:362
+#: ../libresvip/cli/rpc/server.py:79 ../libresvip/web/pages.py:362
 msgid "description"
-msgstr ""
+msgstr "説明"
 
 #: ../libresvip/gui/__main__.py:62 ../libresvip/web/pages.py:1176
 msgid "LibreSVIP"
-msgstr ""
+msgstr "LibreSVIP"
 
 #: ../libresvip/gui/__main__.py:67
 msgid "Preparing plugins and interface"
-msgstr ""
+msgstr "プラグインとインターフェースを準備中"
 
 #: ../libresvip/gui/__main__.py:100
 msgid "Opening window..."
-msgstr ""
+msgstr "ウィンドウを開いています…"
 
 #: ../libresvip/gui/__main__.py:125
 msgid "Loading format providers..."
-msgstr ""
+msgstr "形式プロバイダーを読み込み中…"
 
 #: ../libresvip/gui/__main__.py:138
 msgid "Building interface..."
-msgstr ""
+msgstr "インターフェースを構築中…"
 
 #: ../libresvip/gui/__main__.py:152
 msgid "Loading translations..."
-msgstr ""
+msgstr "翻訳を読み込み中…"
 
 #: ../libresvip/gui/models/table_models.py:32
 msgid "Applicable File Format"
-msgstr ""
+msgstr "対応ファイル形式"
 
-#: ../libresvip/gui/models/table_models.py:128 ../libresvip/mobile/app.py:512
+#: ../libresvip/gui/models/table_models.py:128 ../libresvip/mobile/app.py:515
 #: ../libresvip/tui/app.py:435 ../libresvip/tui/app.py:567
 #: ../libresvip/web/pages.py:1261
 msgid "Mode"
-msgstr ""
+msgstr "モード"
 
-#: ../libresvip/gui/models/table_models.py:129 ../libresvip/mobile/app.py:567
+#: ../libresvip/gui/models/table_models.py:129 ../libresvip/mobile/app.py:570
 #: ../libresvip/tui/app.py:456 ../libresvip/tui/app.py:567
 #: ../libresvip/web/pages.py:1266
 msgid "Prefix"
-msgstr ""
+msgstr "接頭辞"
 
-#: ../libresvip/gui/models/table_models.py:130 ../libresvip/mobile/app.py:558
+#: ../libresvip/gui/models/table_models.py:130 ../libresvip/mobile/app.py:561
 #: ../libresvip/tui/app.py:449 ../libresvip/tui/app.py:567
 #: ../libresvip/web/pages.py:1271
 msgid "Pattern"
-msgstr ""
+msgstr "パターン"
 
-#: ../libresvip/gui/models/table_models.py:131 ../libresvip/mobile/app.py:577
+#: ../libresvip/gui/models/table_models.py:131 ../libresvip/mobile/app.py:580
 #: ../libresvip/tui/app.py:464 ../libresvip/tui/app.py:567
 #: ../libresvip/web/pages.py:1276
 msgid "Suffix"
-msgstr ""
+msgstr "接尾辞"
 
-#: ../libresvip/gui/models/table_models.py:132 ../libresvip/mobile/app.py:587
+#: ../libresvip/gui/models/table_models.py:132 ../libresvip/mobile/app.py:590
 #: ../libresvip/tui/app.py:472 ../libresvip/tui/app.py:567
 #: ../libresvip/web/pages.py:1281
 msgid "Replacement"
-msgstr ""
+msgstr "置換後の文字列"
 
-#: ../libresvip/gui/models/table_models.py:133 ../libresvip/mobile/app.py:543
+#: ../libresvip/gui/models/table_models.py:133 ../libresvip/mobile/app.py:546
 #: ../libresvip/tui/app.py:483 ../libresvip/web/pages.py:1332
 msgid "Case sensitive"
-msgstr ""
+msgstr "大文字と小文字を区別"
 
-#: ../libresvip/gui/models/table_models.py:134 ../libresvip/mobile/app.py:439
-#: ../libresvip/mobile/app.py:745 ../libresvip/web/pages.py:1291
+#: ../libresvip/gui/models/table_models.py:134 ../libresvip/mobile/app.py:442
+#: ../libresvip/mobile/app.py:748 ../libresvip/web/pages.py:1291
 msgid "Actions"
-msgstr ""
+msgstr "操作"
 
 #: ../libresvip/gui/modules/notifier.py:60
 msgid "Downloading"
-msgstr ""
+msgstr "ダウンロード中"
 
 #: ../libresvip/gui/modules/notifier.py:61
 #: ../libresvip/gui/modules/notifier.py:94
 msgid "Please wait..."
-msgstr ""
+msgstr "お待ちください…"
 
 #: ../libresvip/gui/modules/notifier.py:73
 msgid "Error occurred while Downloading"
-msgstr ""
+msgstr "ダウンロード中にエラーが発生しました"
 
 #: ../libresvip/gui/modules/notifier.py:74
 #, python-brace-format
 msgid "Failed to download file {}. Please try again later."
-msgstr ""
+msgstr "ファイル {} のダウンロードに失敗しました。しばらくしてからもう一度お試しください。"
 
 #: ../libresvip/gui/modules/notifier.py:93
 msgid "Checking for Updates"
-msgstr ""
+msgstr "更新を確認中"
 
 #: ../libresvip/gui/modules/notifier.py:108
 msgid "Open in Browser"
-msgstr ""
+msgstr "ブラウザで開く"
 
 #: ../libresvip/gui/modules/notifier.py:123
 msgid "Download"
-msgstr ""
+msgstr "ダウンロード"
 
 #: ../libresvip/gui/modules/notifier.py:133
 msgid "Update Available"
-msgstr ""
+msgstr "更新があります"
 
 #: ../libresvip/gui/modules/notifier.py:134
 #, python-brace-format
 msgid "New version {} is available."
-msgstr ""
+msgstr "新しいバージョン {} が利用可能です。"
 
 #: ../libresvip/gui/modules/notifier.py:139
 msgid "No Updates"
-msgstr ""
+msgstr "更新はありません"
 
 #: ../libresvip/gui/modules/notifier.py:140
 #, python-brace-format
 msgid "You are using the latest version {}."
-msgstr ""
+msgstr "最新バージョン {} を使用しています。"
 
 #: ../libresvip/gui/modules/notifier.py:151
 msgid "Error occurred while Checking for Updates"
-msgstr ""
+msgstr "更新の確認中にエラーが発生しました"
 
 #: ../libresvip/gui/modules/notifier.py:152
 msgid "Failed to check for updates. Please try again later."
-msgstr ""
+msgstr "更新の確認に失敗しました。しばらくしてからもう一度お試しください。"
 
-#: ../libresvip/mobile/app.py:336 ../libresvip/tui/app.py:163
+#: ../libresvip/mobile/app.py:339 ../libresvip/tui/app.py:163
 #: ../libresvip/web/pages.py:728 ../libresvip/web/pages.py:763
 msgid "Copied"
-msgstr ""
+msgstr "コピーしました"
 
-#: ../libresvip/mobile/app.py:338 ../libresvip/mobile/app.py:652
-#: ../libresvip/mobile/app.py:691 ../libresvip/mobile/app.py:782
-#: ../libresvip/mobile/app.py:825
+#: ../libresvip/mobile/app.py:341 ../libresvip/mobile/app.py:655
+#: ../libresvip/mobile/app.py:694 ../libresvip/mobile/app.py:785
+#: ../libresvip/mobile/app.py:828
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
-#: ../libresvip/mobile/app.py:346
+#: ../libresvip/mobile/app.py:349
 msgid "Task log"
-msgstr ""
+msgstr "タスクログ"
 
-#: ../libresvip/mobile/app.py:350 ../libresvip/mobile/app.py:1150
-#: ../libresvip/mobile/app.py:1454 ../libresvip/mobile/app.py:1535
+#: ../libresvip/mobile/app.py:353 ../libresvip/mobile/app.py:1153
+#: ../libresvip/mobile/app.py:1457 ../libresvip/mobile/app.py:1538
 msgid "Back"
-msgstr ""
+msgstr "戻る"
 
-#: ../libresvip/mobile/app.py:360 ../libresvip/tui/app.py:172
+#: ../libresvip/mobile/app.py:363 ../libresvip/tui/app.py:172
 #: ../libresvip/web/pages.py:732 ../libresvip/web/pages.py:767
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "クリップボードにコピー"
 
-#: ../libresvip/mobile/app.py:382
+#: ../libresvip/mobile/app.py:385
 msgid "Select files to convert"
-msgstr ""
+msgstr "変換するファイルを選択"
 
-#: ../libresvip/mobile/app.py:425 ../libresvip/mobile/app.py:731
+#: ../libresvip/mobile/app.py:428 ../libresvip/mobile/app.py:734
 #: ../libresvip/tui/app.py:409
 msgid "View Log"
-msgstr ""
+msgstr "ログを表示"
 
-#: ../libresvip/mobile/app.py:430 ../libresvip/mobile/app.py:736
-#: ../libresvip/mobile/app.py:822
+#: ../libresvip/mobile/app.py:433 ../libresvip/mobile/app.py:739
+#: ../libresvip/mobile/app.py:825
 msgid "Rename"
-msgstr ""
+msgstr "名前を変更"
 
-#: ../libresvip/mobile/app.py:435 ../libresvip/mobile/app.py:741
+#: ../libresvip/mobile/app.py:438 ../libresvip/mobile/app.py:744
 #: ../libresvip/web/pages.py:782
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
-#: ../libresvip/mobile/app.py:449 ../libresvip/mobile/app.py:1306
+#: ../libresvip/mobile/app.py:452 ../libresvip/mobile/app.py:1309
 #: ../libresvip/tui/app.py:1094
 msgid "Change Output Directory"
-msgstr ""
+msgstr "出力先フォルダーを変更"
 
-#: ../libresvip/mobile/app.py:515 ../libresvip/tui/app.py:438
+#: ../libresvip/mobile/app.py:518 ../libresvip/tui/app.py:438
 #: ../libresvip/web/pages.py:1315
 msgid "Full match"
-msgstr ""
+msgstr "完全一致"
 
-#: ../libresvip/mobile/app.py:518 ../libresvip/tui/app.py:439
+#: ../libresvip/mobile/app.py:521 ../libresvip/tui/app.py:439
 #: ../libresvip/web/pages.py:1317
 msgid "Alphabetic"
-msgstr ""
+msgstr "英字"
 
-#: ../libresvip/mobile/app.py:522 ../libresvip/tui/app.py:440
+#: ../libresvip/mobile/app.py:525 ../libresvip/tui/app.py:440
 #: ../libresvip/web/pages.py:1321
 msgid "Non-alphabetic"
-msgstr ""
+msgstr "英字以外"
 
-#: ../libresvip/mobile/app.py:525 ../libresvip/tui/app.py:441
+#: ../libresvip/mobile/app.py:528 ../libresvip/tui/app.py:441
 #: ../libresvip/web/pages.py:1324
 msgid "Regex"
-msgstr ""
+msgstr "正規表現"
 
-#: ../libresvip/mobile/app.py:537 ../libresvip/tui/app.py:479
+#: ../libresvip/mobile/app.py:540 ../libresvip/tui/app.py:479
 #: ../libresvip/tui/app.py:567 ../libresvip/web/pages.py:1286
 msgid "Flags"
-msgstr ""
+msgstr "フラグ"
 
-#: ../libresvip/mobile/app.py:540 ../libresvip/tui/app.py:482
+#: ../libresvip/mobile/app.py:543 ../libresvip/tui/app.py:482
 #: ../libresvip/web/pages.py:1328
 msgid "Ignore case"
-msgstr ""
+msgstr "大文字と小文字を無視"
 
-#: ../libresvip/mobile/app.py:599 ../libresvip/mobile/app.py:1484
+#: ../libresvip/mobile/app.py:602 ../libresvip/mobile/app.py:1487
 #: ../libresvip/tui/app.py:553 ../libresvip/tui/app.py:558
 msgid "Delete"
-msgstr ""
+msgstr "削除"
 
-#: ../libresvip/mobile/app.py:649 ../libresvip/mobile/app.py:1478
-#: ../libresvip/mobile/app.py:1505 ../libresvip/tui/app.py:552
+#: ../libresvip/mobile/app.py:652 ../libresvip/mobile/app.py:1481
+#: ../libresvip/mobile/app.py:1508 ../libresvip/tui/app.py:552
 #: ../libresvip/tui/app.py:556 ../libresvip/tui/app.py:650
 msgid "Add"
-msgstr ""
+msgstr "追加"
 
-#: ../libresvip/mobile/app.py:650 ../libresvip/mobile/app.py:1464
+#: ../libresvip/mobile/app.py:653 ../libresvip/mobile/app.py:1467
 #: ../libresvip/tui/app.py:542
 msgid "Preset"
-msgstr ""
+msgstr "プリセット"
 
-#: ../libresvip/mobile/app.py:689 ../libresvip/web/pages.py:1114
+#: ../libresvip/mobile/app.py:692 ../libresvip/web/pages.py:1114
 msgid "Saved"
-msgstr ""
+msgstr "保存しました"
 
-#: ../libresvip/mobile/app.py:787
+#: ../libresvip/mobile/app.py:790
 msgid "Permission granted, you can now select files from your device."
-msgstr ""
+msgstr "権限が付与されました。デバイスからファイルを選択できます。"
 
-#: ../libresvip/mobile/app.py:796
+#: ../libresvip/mobile/app.py:799
 msgid "Permission denied, please grant the permission to manage external storage."
-msgstr ""
+msgstr "権限が拒否されました。外部ストレージを管理する権限を付与してください。"
 
-#: ../libresvip/mobile/app.py:806
+#: ../libresvip/mobile/app.py:809
 msgid "Permission already granted, you can now select files from your device."
-msgstr ""
+msgstr "権限はすでに付与されています。デバイスからファイルを選択できます。"
 
-#: ../libresvip/mobile/app.py:1031 ../libresvip/tui/app.py:1057
+#: ../libresvip/mobile/app.py:1034 ../libresvip/tui/app.py:1057
 msgid "Basic Settings"
-msgstr ""
+msgstr "基本設定"
 
-#: ../libresvip/mobile/app.py:1034 ../libresvip/tui/app.py:1013
+#: ../libresvip/mobile/app.py:1037 ../libresvip/tui/app.py:1013
 msgid "Conversion mode & Task list"
-msgstr ""
+msgstr "変換モードとタスク一覧"
 
-#: ../libresvip/mobile/app.py:1037 ../libresvip/web/pages.py:2179
+#: ../libresvip/mobile/app.py:1040 ../libresvip/web/pages.py:2179
 msgid "Advanced Options"
-msgstr ""
+msgstr "詳細オプション"
 
-#: ../libresvip/mobile/app.py:1043 ../libresvip/tui/app.py:1117
+#: ../libresvip/mobile/app.py:1046 ../libresvip/tui/app.py:1117
 #: ../libresvip/web/pages.py:1814
 msgid "Switch Theme"
-msgstr ""
+msgstr "テーマを切り替え"
 
-#: ../libresvip/mobile/app.py:1047 ../libresvip/web/pages.py:1837
+#: ../libresvip/mobile/app.py:1050 ../libresvip/web/pages.py:1837
 msgid "System"
-msgstr ""
+msgstr "システム"
 
-#: ../libresvip/mobile/app.py:1052 ../libresvip/tui/app.py:1121
+#: ../libresvip/mobile/app.py:1055 ../libresvip/tui/app.py:1121
 #: ../libresvip/web/pages.py:1825
 msgid "Light"
-msgstr ""
+msgstr "ライト"
 
-#: ../libresvip/mobile/app.py:1057 ../libresvip/tui/app.py:1122
+#: ../libresvip/mobile/app.py:1060 ../libresvip/tui/app.py:1122
 #: ../libresvip/web/pages.py:1831
 msgid "Dark"
-msgstr ""
+msgstr "ダーク"
 
-#: ../libresvip/mobile/app.py:1065 ../libresvip/tui/app.py:1102
+#: ../libresvip/mobile/app.py:1068 ../libresvip/tui/app.py:1102
 #: ../libresvip/web/pages.py:1238
 msgid "Switch Language"
-msgstr ""
+msgstr "言語を切り替え"
 
-#: ../libresvip/mobile/app.py:1083 ../libresvip/web/pages.py:1695
+#: ../libresvip/mobile/app.py:1086 ../libresvip/web/pages.py:1695
 msgid "Restore"
-msgstr ""
+msgstr "元に戻す"
 
-#: ../libresvip/mobile/app.py:1086 ../libresvip/mobile/app.py:1108
+#: ../libresvip/mobile/app.py:1089 ../libresvip/mobile/app.py:1111
 #: ../libresvip/web/pages.py:1694
 msgid "Maximize"
-msgstr ""
+msgstr "最大化"
 
-#: ../libresvip/mobile/app.py:1102 ../libresvip/web/pages.py:1711
+#: ../libresvip/mobile/app.py:1105 ../libresvip/web/pages.py:1711
 msgid "Minimize"
-msgstr ""
+msgstr "最小化"
 
-#: ../libresvip/mobile/app.py:1114 ../libresvip/tui/app.py:143
+#: ../libresvip/mobile/app.py:1117 ../libresvip/tui/app.py:143
 #: ../libresvip/tui/app.py:173 ../libresvip/web/pages.py:728
 #: ../libresvip/web/pages.py:735 ../libresvip/web/pages.py:763
 #: ../libresvip/web/pages.py:770 ../libresvip/web/pages.py:961
@@ -465,137 +456,135 @@ msgstr ""
 #: ../libresvip/web/pages.py:1642 ../libresvip/web/pages.py:1721
 #: ../libresvip/web/pages.py:1948 ../libresvip/web/pages.py:2002
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
-#: ../libresvip/mobile/app.py:1202 ../libresvip/tui/app.py:139
+#: ../libresvip/mobile/app.py:1205 ../libresvip/tui/app.py:139
 #: ../libresvip/tui/app.py:1156 ../libresvip/web/pages.py:361
 msgid "Introduction"
-msgstr ""
+msgstr "はじめに"
 
-#: ../libresvip/mobile/app.py:1225 ../libresvip/tui/app.py:227
+#: ../libresvip/mobile/app.py:1228 ../libresvip/tui/app.py:227
 #: ../libresvip/web/pages.py:1776 ../libresvip/web/pages.py:1933
 msgid "Import format"
-msgstr ""
+msgstr "インポート形式"
 
-#: ../libresvip/mobile/app.py:1244 ../libresvip/mobile/app.py:1277
+#: ../libresvip/mobile/app.py:1247 ../libresvip/mobile/app.py:1280
 #: ../libresvip/tui/app.py:246 ../libresvip/tui/app.py:271
 #: ../libresvip/web/pages.py:1956 ../libresvip/web/pages.py:2010
 msgid "View Detail Information"
-msgstr ""
+msgstr "詳細情報を表示"
 
-#: ../libresvip/mobile/app.py:1251 ../libresvip/tui/app.py:248
+#: ../libresvip/mobile/app.py:1254 ../libresvip/tui/app.py:248
 #: ../libresvip/web/pages.py:1773 ../libresvip/web/pages.py:1974
 msgid "Swap Input and Output"
-msgstr ""
+msgstr "入力と出力を入れ替え"
 
-#: ../libresvip/mobile/app.py:1258 ../libresvip/tui/app.py:252
+#: ../libresvip/mobile/app.py:1261 ../libresvip/tui/app.py:252
 #: ../libresvip/web/pages.py:1797 ../libresvip/web/pages.py:1982
 msgid "Export format"
-msgstr ""
+msgstr "エクスポート形式"
 
-#: ../libresvip/mobile/app.py:1282 ../libresvip/tui/app.py:1061
+#: ../libresvip/mobile/app.py:1285 ../libresvip/tui/app.py:1061
 #: ../libresvip/web/pages.py:1247 ../libresvip/web/pages.py:1957
 msgid "Auto detect import format"
-msgstr ""
+msgstr "インポート形式を自動検出"
 
-#: ../libresvip/mobile/app.py:1290 ../libresvip/tui/app.py:1068
+#: ../libresvip/mobile/app.py:1293 ../libresvip/tui/app.py:1068
 #: ../libresvip/web/pages.py:1252 ../libresvip/web/pages.py:1964
 msgid "Reset list when import format changed"
-msgstr ""
+msgstr "インポート形式の変更時にタスク一覧をリセット"
 
-#: ../libresvip/mobile/app.py:1299 ../libresvip/tui/app.py:1086
+#: ../libresvip/mobile/app.py:1302 ../libresvip/tui/app.py:1086
 msgid "Output Folder"
-msgstr ""
+msgstr "出力フォルダー"
 
-#: ../libresvip/mobile/app.py:1312
+#: ../libresvip/mobile/app.py:1315
 msgid "Request permission to access files"
-msgstr ""
+msgstr "ファイルへのアクセス権限を要求"
 
-#: ../libresvip/mobile/app.py:1329
+#: ../libresvip/mobile/app.py:1332
 msgid "Conversion mode"
-msgstr ""
+msgstr "変換モード"
 
-#: ../libresvip/mobile/app.py:1331 ../libresvip/tui/app.py:1015
+#: ../libresvip/mobile/app.py:1334 ../libresvip/tui/app.py:1015
 msgid "Direct"
-msgstr ""
+msgstr "ダイレクト"
 
-#: ../libresvip/mobile/app.py:1332 ../libresvip/tui/app.py:1016
+#: ../libresvip/mobile/app.py:1335 ../libresvip/tui/app.py:1016
 msgid "Split"
-msgstr ""
+msgstr "分割"
 
-#: ../libresvip/mobile/app.py:1333 ../libresvip/tui/app.py:1017
+#: ../libresvip/mobile/app.py:1336 ../libresvip/tui/app.py:1017
 msgid "Merge"
-msgstr ""
+msgstr "結合"
 
-#: ../libresvip/mobile/app.py:1338 ../libresvip/tui/app.py:1050
+#: ../libresvip/mobile/app.py:1341 ../libresvip/tui/app.py:1050
 msgid "Max track count"
-msgstr ""
+msgstr "最大トラック数"
 
-#: ../libresvip/mobile/app.py:1371 ../libresvip/tui/app.py:1026
+#: ../libresvip/mobile/app.py:1374 ../libresvip/tui/app.py:1026
 #: ../libresvip/web/pages.py:380
 msgid "Input Options"
-msgstr ""
+msgstr "入力オプション"
 
-#: ../libresvip/mobile/app.py:1418 ../libresvip/tui/app.py:1039
+#: ../libresvip/mobile/app.py:1421 ../libresvip/tui/app.py:1039
 #: ../libresvip/web/pages.py:389
 msgid "Output Options"
-msgstr ""
+msgstr "出力オプション"
 
-#: ../libresvip/mobile/app.py:1450
+#: ../libresvip/mobile/app.py:1453
 msgid "Lyrics Replacement"
-msgstr ""
+msgstr "歌詞置換"
 
-#: ../libresvip/mobile/app.py:1510
+#: ../libresvip/mobile/app.py:1513
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
-#: ../libresvip/mobile/app.py:1531 ../libresvip/mobile/app.py:1604
+#: ../libresvip/mobile/app.py:1534 ../libresvip/mobile/app.py:1607
 #: ../libresvip/tui/app.py:1144 ../libresvip/web/pages.py:1174
 #: ../libresvip/web/pages.py:1858
 msgid "About"
-msgstr ""
+msgstr "このアプリについて"
 
-#: ../libresvip/mobile/app.py:1558 ../libresvip/tui/app.py:1152
+#: ../libresvip/mobile/app.py:1561 ../libresvip/tui/app.py:1152
 #: ../libresvip/web/pages.py:1180
 msgid "Author: SoulMelody"
-msgstr ""
+msgstr "作者: SoulMelody"
 
-#: ../libresvip/mobile/app.py:1561 ../libresvip/tui/app.py:1154
+#: ../libresvip/mobile/app.py:1564 ../libresvip/tui/app.py:1154
 #: ../libresvip/web/pages.py:1184
 msgid "Author's Profile"
-msgstr ""
+msgstr "作者のプロフィール"
 
-#: ../libresvip/mobile/app.py:1567 ../libresvip/tui/app.py:1148
+#: ../libresvip/mobile/app.py:1570 ../libresvip/tui/app.py:1148
 #: ../libresvip/web/pages.py:1190
 msgid "Repo URL"
-msgstr ""
+msgstr "リポジトリ URL"
 
-#: ../libresvip/mobile/app.py:1577 ../libresvip/tui/app.py:1158
-#: ../libresvip/web/pages.py:1196
+#: ../libresvip/mobile/app.py:1580 ../libresvip/web/pages.py:1196
 msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
-msgstr ""
+msgstr "LibreSVIP は、歌声合成プロジェクトをさまざまなファイル形式に変換できる、オープンソースで自由かつ拡張可能なフレームワークです。"
 
-#: ../libresvip/mobile/app.py:1582 ../libresvip/tui/app.py:1159
-#: ../libresvip/web/pages.py:1201
+#: ../libresvip/mobile/app.py:1585 ../libresvip/web/pages.py:1201
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
-msgstr ""
+msgstr "すべての人が選択する権利と自由を持つべきです。だからこそ私たちは、あなたの作品をプラットフォームや派閥の制約から解放し続けられるよう、もう一度チャンスを提供することに尽力しています。"
 
-#: ../libresvip/mobile/app.py:1600 ../libresvip/tui/app.py:1096
+#: ../libresvip/mobile/app.py:1603 ../libresvip/tui/app.py:1096
 #: ../libresvip/web/pages.py:1236
 msgid "Lyric Replace Rules"
-msgstr ""
+msgstr "歌詞置換ルール"
 
-#: ../libresvip/mobile/app.py:1626 ../libresvip/web/pages.py:2101
+#: ../libresvip/mobile/app.py:1629 ../libresvip/web/pages.py:2101
 msgid "Continue Adding files"
-msgstr ""
+msgstr "ファイルの追加を続ける"
 
-#: ../libresvip/mobile/app.py:1633
+#: ../libresvip/mobile/app.py:1636
 msgid "More"
-msgstr ""
+msgstr "その他"
 
-#: ../libresvip/mobile/app.py:1643 ../libresvip/web/pages.py:2170
+#: ../libresvip/mobile/app.py:1646 ../libresvip/web/pages.py:2170
 msgid "Start Conversion"
-msgstr ""
+msgstr "変換を開始"
 
 #: ../libresvip/model/option_mixins.py:10
 msgid "Import instrumental tracks"
@@ -607,15 +596,15 @@ msgstr "ピッチカーブをインポート"
 
 #: ../libresvip/model/option_mixins.py:18
 msgid "Import dynamics envelope"
-msgstr ""
+msgstr "強弱カーブをインポート"
 
 #: ../libresvip/model/option_mixins.py:22
 msgid "Import breath envelope"
-msgstr ""
+msgstr "ブレスカーブをインポート"
 
 #: ../libresvip/model/option_mixins.py:26
 msgid "Import gender envelope"
-msgstr ""
+msgstr "ジェンダーカーブをインポート"
 
 #: ../libresvip/model/option_mixins.py:30
 msgid "Import strength envelope"
@@ -623,76 +612,76 @@ msgstr "強弱カーブをインポート"
 
 #: ../libresvip/model/option_mixins.py:36
 msgid "Constant tempo"
-msgstr ""
+msgstr "固定テンポ"
 
 #: ../libresvip/model/option_mixins.py:38
 msgid "Use this tempo to reset time axis of projects with dynamic tempos or without tempos"
-msgstr ""
+msgstr "このテンポを使用して、テンポが変動するプロジェクトやテンポのないプロジェクトの時間軸をリセットします"
 
 #: ../libresvip/model/option_mixins.py:46
 msgid "Track index"
-msgstr ""
+msgstr "トラックインデックス"
 
 #: ../libresvip/model/option_mixins.py:47
 msgid "Start from 0, -1 means automatic selection"
-msgstr ""
+msgstr "0 から開始、-1 は自動選択を意味します"
 
 #: ../libresvip/model/option_mixins.py:54
 msgid "Extract audio"
-msgstr ""
+msgstr "音声を抽出"
 
 #: ../libresvip/model/option_mixins.py:56
 msgid "Extract audio from project file for later use if the path does not exist (this option has the side effect of writing additional files)"
-msgstr ""
+msgstr "パスが存在しない場合に備えて、後で使用するためにプロジェクトファイルから音声を抽出します（このオプションには追加ファイルを書き出す副作用があります）"
 
 #: ../libresvip/model/pitch_simulator.py:75
 #, python-brace-format
 msgid "Notes overlapped near bar {}"
-msgstr ""
+msgstr "{} 小節付近でノートが重複しています"
 
 #: ../libresvip/model/techno_speech_pitch.py:116
 msgid "Pitch value is out of bounds"
-msgstr ""
+msgstr "ピッチ値が範囲外です"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:32
 msgctxt "actions"
 msgid "Alert"
-msgstr ""
+msgstr "警告"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:33
 msgctxt "actions"
 msgid "Cannot restore task list while conversion is in progress."
-msgstr ""
+msgstr "変換中はタスク一覧を復元できません。"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:14
 msgctxt "conflict_policy_combo_box"
 msgid "Overwrite"
-msgstr ""
+msgstr "上書き"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:18
 msgctxt "conflict_policy_combo_box"
 msgid "Skip"
-msgstr ""
+msgstr "スキップ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:22
 msgctxt "conflict_policy_combo_box"
 msgid "Prompt"
-msgstr ""
+msgstr "確認"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:9
 msgctxt "converter_page"
 msgid "Converter"
-msgstr ""
+msgstr "コンバーター"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:64
 msgctxt "converter_page"
 msgid "Select File Formats"
-msgstr ""
+msgstr "ファイル形式を選択"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:89
 msgctxt "converter_page"
 msgid "Input Format: "
-msgstr ""
+msgstr "入力形式: "
 
 #: ../libresvip/res/locales/libresvip_gui.ts:128
 #: ../libresvip/res/locales/libresvip_gui.ts:131
@@ -700,981 +689,985 @@ msgstr ""
 #: ../libresvip/res/locales/libresvip_gui.ts:261
 msgctxt "converter_page"
 msgid "View Detail Information"
-msgstr ""
+msgstr "詳細情報を表示"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:196
 msgctxt "converter_page"
 msgid "Auto-Detect Input File Type"
-msgstr ""
+msgstr "入力ファイルの種類を自動検出"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:74
 msgctxt "converter_page"
 msgid "Reset Tasks When Changing Input"
-msgstr ""
+msgstr "入力の変更時にタスクをリセット"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:208
 #: ../libresvip/res/locales/libresvip_gui.ts:212
 msgctxt "converter_page"
 msgid "Swap Input and Output"
-msgstr ""
+msgstr "入力と出力を入れ替え"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:231
 msgctxt "converter_page"
 msgid "Output Format: "
-msgstr ""
+msgstr "出力形式: "
 
 #: ../libresvip/res/locales/libresvip_gui.ts:325
 msgctxt "converter_page"
 msgid "Set Output File Extension Automatically"
-msgstr ""
+msgstr "出力ファイルの拡張子を自動設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:423
 #: ../libresvip/res/locales/libresvip_gui.ts:428
 msgctxt "converter_page"
 msgid "Direct Mode"
-msgstr ""
+msgstr "ダイレクトモード"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:438
 #: ../libresvip/res/locales/libresvip_gui.ts:443
 msgctxt "converter_page"
 msgid "Singing Track Merging Mode"
-msgstr ""
+msgstr "歌声トラック結合モード"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:453
 #: ../libresvip/res/locales/libresvip_gui.ts:458
 msgctxt "converter_page"
 msgid "Singing Track Grouping Mode"
-msgstr ""
+msgstr "歌声トラックグループ化モード"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:730
 msgctxt "converter_page"
 msgid "Advanced Settings"
-msgstr ""
+msgstr "詳細設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:741
 msgctxt "converter_page"
 msgid "Input Options"
-msgstr ""
+msgstr "入力オプション"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:910
 msgctxt "converter_page"
 msgid "Output Options"
-msgstr ""
+msgstr "出力オプション"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:471
 msgctxt "converter_page"
 msgid "Task List"
-msgstr ""
+msgstr "タスク一覧"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:387
 msgctxt "converter_page"
 msgid "Drag and drop files here"
-msgstr ""
+msgstr "ここにファイルをドラッグ＆ドロップ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:413
 msgctxt "converter_page"
 msgid "Conversion Mode:"
-msgstr ""
+msgstr "変換モード:"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:583
 #: ../libresvip/res/locales/libresvip_gui.ts:594
 msgctxt "converter_page"
 msgid "Continue Adding files"
-msgstr ""
+msgstr "ファイルの追加を続ける"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:606
 #: ../libresvip/res/locales/libresvip_gui.ts:618
 msgctxt "converter_page"
 msgid "Clear Task List"
-msgstr ""
+msgstr "タスク一覧をクリア"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:643
 msgctxt "converter_page"
 msgid "Reset Default Extension"
-msgstr ""
+msgstr "既定の拡張子にリセット"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:668
 msgctxt "converter_page"
 msgid "Remove Tasks With Other Extensions"
-msgstr ""
+msgstr "他の拡張子のタスクを削除"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:703
 msgctxt "converter_page"
 msgid "Max Track count:"
-msgstr ""
+msgstr "最大トラック数:"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:742
 msgctxt "converter_page"
 msgid "[Import as "
-msgstr ""
+msgstr "[インポート形式 "
 
 #: ../libresvip/res/locales/libresvip_gui.ts:911
 msgctxt "converter_page"
 msgid "[Export to "
-msgstr ""
+msgstr "[エクスポート形式 "
 
 #: ../libresvip/res/locales/libresvip_gui.ts:949
 msgctxt "converter_page"
 msgid "Output Settings"
-msgstr ""
+msgstr "出力設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1035
 #: ../libresvip/res/locales/libresvip_gui.ts:1037
 msgctxt "converter_page"
 msgid "Choose Output Folder"
-msgstr ""
+msgstr "出力フォルダーを選択"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1045
 msgctxt "converter_page"
 msgid "Output Folder"
-msgstr ""
+msgstr "出力フォルダー"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1059
 msgctxt "converter_page"
 msgid "Deal with Conflicts"
-msgstr ""
+msgstr "競合の処理"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1020
 msgctxt "converter_page"
 msgid "Start Conversion"
-msgstr ""
+msgstr "変換を開始"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1020
 msgctxt "converter_page"
 msgid "Converting"
-msgstr ""
+msgstr "変換中"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:954
 msgctxt "converter_page"
 msgid "Open Output Folder When Done"
-msgstr ""
+msgstr "完了時に出力フォルダーを開く"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1173
 msgctxt "converter_page"
 msgid "In/Out"
-msgstr ""
+msgstr "入出力"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1180
 msgctxt "converter_page"
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1187
 msgctxt "converter_page"
 msgid "Tasks"
-msgstr ""
+msgstr "タスク"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:387
 msgctxt "converter_page"
 msgid "Release to add files"
-msgstr ""
+msgstr "ファイルを追加するにはドロップ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:392
 msgctxt "converter_page"
 msgid "or"
-msgstr ""
+msgstr "または"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:398
 msgctxt "converter_page"
 msgid "Browse Files"
-msgstr ""
+msgstr "ファイルを参照"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:53
 #: ../libresvip/res/locales/libresvip_gui.ts:809
 msgctxt "converter_page"
 msgid "Help"
-msgstr ""
+msgstr "ヘルプ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:216
 msgctxt "converter_page"
 msgid "Choose Color"
-msgstr ""
+msgstr "色を選択"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:514
 msgctxt "converter_page"
 msgid "Expand or Collapse Task Toolbar"
-msgstr ""
+msgstr "タスクツールバーを展開または折りたたむ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:632
 msgctxt "converter_page"
 msgid "Reset Extensions"
-msgstr ""
+msgstr "拡張子をリセット"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:657
 msgctxt "converter_page"
 msgid "Remove Other Extensions"
-msgstr ""
+msgstr "他の拡張子を削除"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:132
 #: ../libresvip/res/locales/libresvip_gui.ts:141
 msgctxt "dialogs"
 msgid "All Files (*.*)"
-msgstr ""
+msgstr "すべてのファイル (*.*)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:65
 msgctxt "dialogs"
 msgid "Custom folder"
-msgstr ""
+msgstr "カスタムフォルダー"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:187
 msgctxt "dialogs"
 msgid "Folder Presets"
-msgstr ""
+msgstr "フォルダープリセット"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:222
 msgctxt "dialogs"
 msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
-msgstr ""
+msgstr "先頭に \".\" を挿入するとソースパスを表せます。例: \"./subfolder\""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:312
 msgctxt "dialogs"
 msgid "Click to add a folder preset"
-msgstr ""
+msgstr "クリックしてフォルダープリセットを追加"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:340
 msgctxt "dialogs"
 msgid "About"
-msgstr ""
+msgstr "このアプリについて"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:353
 msgctxt "dialogs"
 msgid "LibreSVIP"
-msgstr ""
+msgstr "LibreSVIP"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:359
 msgctxt "dialogs"
 msgid "Version: "
-msgstr ""
+msgstr "バージョン: "
 
 #: ../libresvip/res/locales/libresvip_gui.ts:363
 msgctxt "dialogs"
 msgid "Author: SoulMelody"
-msgstr ""
+msgstr "作者: SoulMelody"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:374
 msgctxt "dialogs"
 msgid "Author's Profile"
-msgstr ""
+msgstr "作者のプロフィール"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:388
 msgctxt "dialogs"
 msgid "Repo URL"
-msgstr ""
+msgstr "リポジトリ URL"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:398
 msgctxt "dialogs"
 msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
-msgstr ""
+msgstr "LibreSVIP は、歌声合成プロジェクトをさまざまなファイル形式に変換できる、オープンソースで自由かつ拡張可能なフレームワークです。"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:403
 msgctxt "dialogs"
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
-msgstr ""
+msgstr "すべての人が選択する権利と自由を持つべきです。だからこそ私たちは、あなたの作品をプラットフォームや派閥の制約から解放し続けられるよう、もう一度チャンスを提供することに尽力しています。"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:31
 msgctxt "dialogs"
 msgid "Choose Folder"
-msgstr ""
+msgstr "フォルダーを選択"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:195
 msgctxt "dialogs"
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:99
 msgctxt "dialogs"
 msgid "Delete Folder Preset"
-msgstr ""
+msgstr "フォルダープリセットを削除"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:263
 msgctxt "dialogs"
 msgid "Add Folder Preset"
-msgstr ""
+msgstr "フォルダープリセットを追加"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:58
 #: ../libresvip/res/locales/libresvip_gui.ts:75
 msgctxt "plugin_info"
 msgid "Version"
-msgstr ""
+msgstr "バージョン"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:146
 msgctxt "plugin_info"
 msgid "Introduction"
-msgstr ""
+msgstr "はじめに"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:83
 msgctxt "plugin_info"
 msgid "Plugin Website"
-msgstr ""
+msgstr "プラグインのウェブサイト"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:13
 msgctxt "settings_dialog"
 msgid "Options"
-msgstr ""
+msgstr "オプション"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:117
 msgctxt "settings_dialog"
 msgid "Auto-Detect Input File Type"
-msgstr ""
+msgstr "入力ファイルの種類を自動検出"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:132
 msgctxt "settings_dialog"
 msgid "Reset Task List When Changing Input File Type"
-msgstr ""
+msgstr "入力ファイルの種類の変更時にタスク一覧をリセット"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:147
 msgctxt "settings_dialog"
 msgid "Set Output File Extension Automatically"
-msgstr ""
+msgstr "出力ファイルの拡張子を自動設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:167
 msgctxt "settings_dialog"
 msgid "Multi-Threaded Conversion"
-msgstr ""
+msgstr "マルチスレッド変換"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:195
 msgctxt "settings_dialog"
 msgid "Output Settings"
-msgstr ""
+msgstr "出力設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:201
 msgctxt "settings_dialog"
 msgid "Deal with Conflicts"
-msgstr ""
+msgstr "競合の処理"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:215
 msgctxt "settings_dialog"
 msgid "Open Output Folder When Done"
-msgstr ""
+msgstr "完了時に出力フォルダーを開く"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:242
 #: ../libresvip/res/locales/libresvip_gui.ts:283
 msgctxt "settings_dialog"
 msgid "Same as Source"
-msgstr ""
+msgstr "ソースと同じ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:247
 #: ../libresvip/res/locales/libresvip_gui.ts:291
 msgctxt "settings_dialog"
 msgid "Desktop"
-msgstr ""
+msgstr "デスクトップ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:252
 #: ../libresvip/res/locales/libresvip_gui.ts:300
 msgctxt "settings_dialog"
 msgid "Preset Folder"
-msgstr ""
+msgstr "プリセットフォルダー"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:257
 #: ../libresvip/res/locales/libresvip_gui.ts:353
 msgctxt "settings_dialog"
 msgid "Custom (Browse ...)"
-msgstr ""
+msgstr "カスタム（参照 ...）"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:363
 msgctxt "settings_dialog"
 msgid "Manage Folders Presets"
-msgstr ""
+msgstr "フォルダープリセットの管理"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:565
 msgctxt "settings_dialog"
 msgid "Preset"
-msgstr ""
+msgstr "プリセット"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:582
 msgctxt "settings_dialog"
 msgid "Remove current preset"
-msgstr ""
+msgstr "現在のプリセットを削除"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:595
 msgctxt "settings_dialog"
 msgid "Add new rule"
-msgstr ""
+msgstr "新しいルールを追加"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:604
 msgctxt "settings_dialog"
 msgid "Full match"
-msgstr ""
+msgstr "完全一致"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:608
 msgctxt "settings_dialog"
 msgid "Alphabetic"
-msgstr ""
+msgstr "英字"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:612
 msgctxt "settings_dialog"
 msgid "Non-alphabetic"
-msgstr ""
+msgstr "英字以外"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:616
 msgctxt "settings_dialog"
 msgid "Regex"
-msgstr ""
+msgstr "正規表現"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:631
 msgctxt "settings_dialog"
 msgid "Alphabetic: Applies to alphabetic characters.\n"
 "Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
 "Regex: for advanced users with knowledge of regular expressions."
-msgstr ""
+msgstr "英字: 英字に適用されます。\n"
+"英字以外: 英字以外の文字と句読点に適用されます。\n"
+"正規表現: 正規表現の知識がある上級ユーザー向けです。"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:996
 msgctxt "settings_dialog"
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1157
 msgctxt "settings_dialog"
 msgid "Format Provider Plugins"
-msgstr ""
+msgstr "形式プロバイダープラグイン"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:417
 msgctxt "settings_dialog"
 msgid "Plugin is enabled or not (Click to enter editing mode)"
-msgstr ""
+msgstr "プラグインの有効・無効（クリックして編集モードに入る）"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:969
 msgctxt "settings_dialog"
 msgid "Auto Check for Updates"
-msgstr ""
+msgstr "更新を自動確認"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:111
 msgctxt "settings_dialog"
 msgid "Conversion Settings"
-msgstr ""
+msgstr "変換設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1119
 msgctxt "settings_dialog"
 msgid "Basic Settings"
-msgstr ""
+msgstr "基本設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1137
 msgctxt "settings_dialog"
 msgid "Save Path Settings"
-msgstr ""
+msgstr "保存先の設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1178
 msgctxt "settings_dialog"
 msgid "Lyric Replacement Rules"
-msgstr ""
+msgstr "歌詞置換ルール"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1198
 msgctxt "settings_dialog"
 msgid "Updates Settings"
-msgstr ""
+msgstr "更新設定"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:924
 msgctxt "settings_dialog"
 msgid "Move Rule Up"
-msgstr ""
+msgstr "ルールを上へ移動"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:933
 msgctxt "settings_dialog"
 msgid "Move Rule Down"
-msgstr ""
+msgstr "ルールを下へ移動"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:944
 #: ../libresvip/res/locales/libresvip_gui.ts:946
 msgctxt "settings_dialog"
 msgid "Delete rule"
-msgstr ""
+msgstr "ルールを削除"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1005
 msgctxt "settings_dialog"
 msgid "Minimize"
-msgstr ""
+msgstr "最小化"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1027
 msgctxt "settings_dialog"
 msgid "Maximize or Restore"
-msgstr ""
+msgstr "最大化または元に戻す"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1045
 msgctxt "settings_dialog"
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:413
 msgctxt "settings_dialog"
 msgid "Plugin Status Help"
-msgstr ""
+msgstr "プラグイン状態のヘルプ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:579
 msgctxt "settings_dialog"
 msgid "Remove Current Preset"
-msgstr ""
+msgstr "現在のプリセットを削除"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:627
 msgctxt "settings_dialog"
 msgid "Lyric Rule Help"
-msgstr ""
+msgstr "歌詞ルールのヘルプ"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:10
 msgctxt "task_detail_dialog"
 msgid "Copy message"
-msgstr ""
+msgstr "メッセージをコピー"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:89
 msgctxt "task_detail_dialog"
 msgid "Copied"
-msgstr ""
+msgstr "コピーしました"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:107
 #: ../libresvip/res/locales/libresvip_gui.ts:109
 msgctxt "task_detail_dialog"
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:162
 #: ../libresvip/res/locales/libresvip_gui.ts:167
 msgctxt "task_row"
 msgid "File successfully converted"
-msgstr ""
+msgstr "ファイルの変換に成功しました"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:176
 msgctxt "task_row"
 msgid "Open"
-msgstr ""
+msgstr "開く"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:188
 #: ../libresvip/res/locales/libresvip_gui.ts:232
 msgctxt "task_row"
 msgid "Open folder"
-msgstr ""
+msgstr "フォルダーを開く"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:370
 msgctxt "task_row"
 msgid "File %1 already exists. Overwrite?"
-msgstr ""
+msgstr "ファイル %1 はすでに存在します。上書きしますか？"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:219
 #: ../libresvip/res/locales/libresvip_gui.ts:224
 msgctxt "task_row"
 msgid "File skipped due to conflict"
-msgstr ""
+msgstr "競合のためファイルをスキップしました"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:90
 #: ../libresvip/res/locales/libresvip_gui.ts:95
 msgctxt "task_row"
 msgid "Path: %1"
-msgstr ""
+msgstr "パス: %1"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:124
 #: ../libresvip/res/locales/libresvip_gui.ts:130
 msgctxt "task_row"
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:265
 #: ../libresvip/res/locales/libresvip_gui.ts:316
 msgctxt "task_row"
 msgid "This project file may contain abnormal or illegal data"
-msgstr ""
+msgstr "このプロジェクトファイルには異常または不正なデータが含まれている可能性があります"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:309
 msgctxt "task_row"
 msgid "File failed to convert, below is the error message:"
-msgstr ""
+msgstr "ファイルの変換に失敗しました。以下はエラーメッセージです:"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:311
 msgctxt "task_row"
 msgid "Copy error message"
-msgstr ""
+msgstr "エラーメッセージをコピー"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:369
 msgctxt "task_row"
 msgid "Do you want to overwrite the file?"
-msgstr ""
+msgstr "ファイルを上書きしますか？"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:263
 msgctxt "task_row"
 msgid "Show warning details"
-msgstr ""
+msgstr "警告の詳細を表示"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:289
 msgctxt "task_row"
 msgid "Show error details"
-msgstr ""
+msgstr "エラーの詳細を表示"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:291
 msgctxt "task_row"
 msgid "File failed to convert, click to view the error message"
-msgstr ""
+msgstr "ファイルの変換に失敗しました。クリックしてエラーメッセージを表示"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:318
 msgctxt "task_row"
 msgid "Copy warning message"
-msgstr ""
+msgstr "警告メッセージをコピー"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:164
 msgctxt "top_toolbar"
 msgid "Convert (&C)"
-msgstr ""
+msgstr "変換(&C)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:171
 msgctxt "top_toolbar"
 msgid "Import Projects (Ctrl+O)"
-msgstr ""
+msgstr "プロジェクトをインポート (Ctrl+O)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:177
 msgctxt "top_toolbar"
 msgid "Perform All Tasks (Ctrl+Enter)"
-msgstr ""
+msgstr "すべてのタスクを実行 (Ctrl+Enter)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:184
 msgctxt "top_toolbar"
 msgid "Clear Tasks (Ctrl+R)"
-msgstr ""
+msgstr "タスクをクリア (Ctrl+R)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:191
 msgctxt "top_toolbar"
 msgid "Swap Input and Output (Ctrl+Tab)"
-msgstr ""
+msgstr "入力と出力を入れ替え (Ctrl+Tab)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:264
 msgctxt "top_toolbar"
 msgid "Output Format (&E)"
-msgstr ""
+msgstr "出力形式 (&E)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:199
 msgctxt "top_toolbar"
 msgid "Formats (&F)"
-msgstr ""
+msgstr "形式 (&F)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:206
 msgctxt "top_toolbar"
 msgid "Input Format (&I)"
-msgstr ""
+msgstr "入力形式 (&I)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:325
 msgctxt "top_toolbar"
 msgid "Settings (&S)"
-msgstr ""
+msgstr "設定 (&S)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:329
 msgctxt "top_toolbar"
 msgid "Options (&O)"
-msgstr ""
+msgstr "オプション (&O)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:336
 msgctxt "top_toolbar"
 msgid "Themes (&T)"
-msgstr ""
+msgstr "テーマ (&T)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:344
 msgctxt "top_toolbar"
 msgid "Light"
-msgstr ""
+msgstr "ライト"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:353
 msgctxt "top_toolbar"
 msgid "Dark"
-msgstr ""
+msgstr "ダーク"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:362
 msgctxt "top_toolbar"
 msgid "System"
-msgstr ""
+msgstr "システム"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:380
 msgctxt "top_toolbar"
 msgid "Language (&L)"
-msgstr ""
+msgstr "言語 (&L)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:435
 msgctxt "top_toolbar"
 msgid "Help (&H)"
-msgstr ""
+msgstr "ヘルプ (&H)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:442
 msgctxt "top_toolbar"
 msgid "About (Ctrl+A)"
-msgstr ""
+msgstr "このアプリについて (Ctrl+A)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:446
 msgctxt "top_toolbar"
 msgid "Check for Updates"
-msgstr ""
+msgstr "更新を確認"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:453
 msgctxt "top_toolbar"
 msgid "Documentation (F1)"
-msgstr ""
+msgstr "ドキュメント (F1)"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:131
 msgctxt "top_toolbar"
 msgid "SVS Projects Converter"
-msgstr ""
+msgstr "SVS プロジェクトコンバーター"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:64
 msgctxt "top_toolbar"
 msgid "Minimize"
-msgstr ""
+msgstr "最小化"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:85
 msgctxt "top_toolbar"
 msgid "Maximize or Restore"
-msgstr ""
+msgstr "最大化または元に戻す"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:105
 msgctxt "top_toolbar"
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #: ../libresvip/res/locales/qt_standard_buttons.ts
 msgctxt "QPlatformTheme"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../libresvip/res/locales/qt_standard_buttons.ts
 msgctxt "QPlatformTheme"
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: ../libresvip/res/locales/qt_standard_buttons.ts
 msgctxt "QPlatformTheme"
 msgid "Yes to &All"
-msgstr ""
+msgstr "すべてはい(&A)"
 
 #: ../libresvip/res/locales/qt_standard_buttons.ts
 msgctxt "QPlatformTheme"
 msgid "N&o to All"
-msgstr ""
+msgstr "すべていいえ(&O)"
 
 #: ../libresvip/tui/app.py:225 ../libresvip/web/pages.py:2200
 msgid "Select File Formats"
-msgstr ""
+msgstr "ファイル形式を選択"
 
 #: ../libresvip/tui/app.py:280
 msgid "Invalid color format"
-msgstr ""
+msgstr "無効な色形式"
 
 #: ../libresvip/tui/app.py:431
 msgid "Edit Rule"
-msgstr ""
+msgstr "ルールを編集"
 
 #: ../libresvip/tui/app.py:431
 msgid "Add Rule"
-msgstr ""
+msgstr "ルールを追加"
 
 #: ../libresvip/tui/app.py:492 ../libresvip/tui/app.py:656
 #: ../libresvip/tui/app.py:774 ../libresvip/tui/app.py:978
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: ../libresvip/tui/app.py:493 ../libresvip/tui/app.py:657
 msgid "Confirm"
-msgstr ""
+msgstr "確認"
 
 #: ../libresvip/tui/app.py:557
 msgid "Edit"
-msgstr ""
+msgstr "編集"
 
 #: ../libresvip/tui/app.py:601
 msgid "Cannot delete the default group"
-msgstr ""
+msgstr "既定のグループは削除できません"
 
 #: ../libresvip/tui/app.py:774
 msgid "Open"
-msgstr ""
+msgstr "開く"
 
 #: ../libresvip/tui/app.py:976
 msgid "Select directory"
-msgstr ""
+msgstr "ディレクトリを選択"
 
 #: ../libresvip/tui/app.py:977
 msgid "Select"
-msgstr ""
+msgstr "選択"
 
 #: ../libresvip/tui/app.py:1009
 msgid "Converter"
-msgstr ""
+msgstr "コンバーター"
 
 #: ../libresvip/tui/app.py:1025 ../libresvip/web/pages.py:2201
 msgid "Advanced Settings"
-msgstr ""
+msgstr "詳細設定"
 
 #: ../libresvip/tui/app.py:1033
 msgid "Enable"
-msgstr ""
+msgstr "有効化"
 
 #: ../libresvip/tui/app.py:1042
 msgid "Add task"
-msgstr ""
+msgstr "タスクを追加"
 
 #: ../libresvip/tui/app.py:1044
 msgid "Start conversion"
-msgstr ""
+msgstr "変換を開始"
 
 #: ../libresvip/tui/app.py:1046
 msgid "Delete selected task"
-msgstr ""
+msgstr "選択したタスクを削除"
 
 #: ../libresvip/tui/app.py:1047
 msgid "Clear tasks"
-msgstr ""
+msgstr "タスクをクリア"
 
 #: ../libresvip/tui/app.py:1048
 msgid "Progress"
-msgstr ""
+msgstr "進行状況"
 
 #: ../libresvip/tui/app.py:1059 ../libresvip/web/pages.py:1232
 msgid "Conversion Settings"
-msgstr ""
+msgstr "変換設定"
 
 #: ../libresvip/tui/app.py:1076
 msgid "Output Settings"
-msgstr ""
+msgstr "出力設定"
 
 #: ../libresvip/tui/app.py:1079
 msgid "Set Output File Extension Automatically"
-msgstr ""
+msgstr "出力ファイルの拡張子を自動設定"
 
 #: ../libresvip/tui/app.py:1098
 msgid "Other Settings"
-msgstr ""
+msgstr "その他の設定"
 
 #: ../libresvip/tui/app.py:1100
 msgid "Appearance"
-msgstr ""
+msgstr "外観"
 
 #: ../libresvip/tui/app.py:1130
 msgid "Choose Plugins"
-msgstr ""
+msgstr "プラグインを選択"
 
 #: ../libresvip/utils/audio.py:72 ../libresvip/utils/audio.py:97
 msgid "Invalid audio file: "
-msgstr ""
+msgstr "無効な音声ファイル: "
 
 #: ../libresvip/web/pages.py:333
 msgid "name"
-msgstr ""
+msgstr "名前"
 
 #: ../libresvip/web/pages.py:346
 msgid "author"
-msgstr ""
+msgstr "作者"
 
 #: ../libresvip/web/pages.py:352 ../libresvip/web/pages.py:372
 #: ../libresvip/web/pages.py:1787 ../libresvip/web/pages.py:1807
 #: ../libresvip/web/pages.py:1929 ../libresvip/web/pages.py:1978
 msgid "file_format"
-msgstr ""
+msgstr "file_format"
 
 #: ../libresvip/web/pages.py:381
 msgid "[Import as "
-msgstr ""
+msgstr "[インポート形式 "
 
 #: ../libresvip/web/pages.py:390
 msgid "[Export to "
-msgstr ""
+msgstr "[エクスポート形式 "
 
 #: ../libresvip/web/pages.py:484 ../libresvip/web/pages.py:593
 msgid "Invalid integer"
-msgstr ""
+msgstr "無効な整数"
 
 #: ../libresvip/web/pages.py:488 ../libresvip/web/pages.py:597
 msgid "Invalid float"
-msgstr ""
+msgstr "無効な浮動小数点数"
 
 #: ../libresvip/web/pages.py:961
 msgid "Conversion Failed"
-msgstr ""
+msgstr "変換に失敗しました"
 
 #: ../libresvip/web/pages.py:965
 msgid "Conversion Successful"
-msgstr ""
+msgstr "変換に成功しました"
 
 #: ../libresvip/web/pages.py:1039 ../libresvip/web/pages.py:1105
 msgid "All files (*.*)"
-msgstr ""
+msgstr "すべてのファイル (*.*)"
 
 #: ../libresvip/web/pages.py:1088
 msgid "Save failed!"
-msgstr ""
+msgstr "保存に失敗しました！"
 
 #: ../libresvip/web/pages.py:1102
 msgid "Compressed Archive (*.zip)"
-msgstr ""
+msgstr "圧縮アーカイブ (*.zip)"
 
 #: ../libresvip/web/pages.py:1218
 msgid "Toggle menu"
-msgstr ""
+msgstr "メニューを切り替え"
 
 #: ../libresvip/web/pages.py:1528
 msgid "Toggle fullscreen"
-msgstr ""
+msgstr "全画面表示を切り替え"
 
 #: ../libresvip/web/pages.py:1540
 msgid "Preset: "
-msgstr ""
+msgstr "プリセット: "
 
 #: ../libresvip/web/pages.py:1555
 msgid "Remove current preset"
-msgstr ""
+msgstr "現在のプリセットを削除"
 
 #: ../libresvip/web/pages.py:1575
 msgid "Save current preset"
-msgstr ""
+msgstr "現在のプリセットを保存"
 
 #: ../libresvip/web/pages.py:1599
 msgid "Add new rule"
-msgstr ""
+msgstr "新しいルールを追加"
 
 #: ../libresvip/web/pages.py:1601
 msgid "Alphabetic: Applies to alphabetic characters.\n"
 "Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
 "Regex: for advanced users with knowledge of regular expressions."
-msgstr ""
+msgstr "英字: 英字に適用されます。\n"
+"英字以外: 英字以外の文字と句読点に適用されます。\n"
+"正規表現: 正規表現の知識がある上級ユーザー向けです。"
 
 #: ../libresvip/web/pages.py:1725 ../libresvip/web/pages.py:1754
 msgid "Convert"
-msgstr ""
+msgstr "変換"
 
 #: ../libresvip/web/pages.py:1740 ../libresvip/web/pages.py:2019
 msgid "Import project"
-msgstr ""
+msgstr "プロジェクトをインポート"
 
 #: ../libresvip/web/pages.py:1766 ../libresvip/web/pages.py:2064
 msgid "Clear Task List"
-msgstr ""
+msgstr "タスク一覧をクリア"
 
 #: ../libresvip/web/pages.py:1839
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: ../libresvip/web/pages.py:1845
 msgid "Help"
-msgstr ""
+msgstr "ヘルプ"
 
 #: ../libresvip/web/pages.py:1862
 msgid "Documentation"
-msgstr ""
+msgstr "ドキュメント"
 
 #: ../libresvip/web/pages.py:1920
 msgid "Choose file format"
-msgstr ""
+msgstr "ファイル形式を選択"
 
 #: ../libresvip/web/pages.py:2015
 msgid "Max Track count:"
-msgstr ""
+msgstr "最大トラック数:"
 
 #: ../libresvip/web/pages.py:2021
 msgid "Conversion Mode:"
-msgstr ""
+msgstr "変換モード:"
 
 #: ../libresvip/web/pages.py:2068
 msgid "Remove Tasks With Other Extensions"
-msgstr ""
+msgstr "他の拡張子のタスクを削除"
 
 #: ../libresvip/web/pages.py:2136
 msgid "Drag and drop files here or click to upload"
-msgstr ""
+msgstr "ここにファイルをドラッグ＆ドロップ、またはクリックしてアップロード"
 
 #: ../libresvip/web/pages.py:2178
 msgid "Export"
-msgstr ""
+msgstr "エクスポート"
 
 #: ../libresvip/web/pages.py:2191
 msgid "Intermediate Processing"
-msgstr ""
+msgstr "中間処理"
 

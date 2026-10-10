@@ -10,17 +10,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:33\n"
 
 msgid "DeepVocal"
-msgstr ""
+msgstr "DeepVocal"
 
 msgid "DeepVocal project file"
-msgstr ""
+msgstr "DeepVocal プロジェクトファイル"
 
 msgid "Conversion plugin for dv file"
-msgstr ""
+msgstr "dv ファイル変換プラグイン"
 
 msgid "Oxygen Dioxide"
-msgstr ""
+msgstr "Oxygen Dioxide"
 

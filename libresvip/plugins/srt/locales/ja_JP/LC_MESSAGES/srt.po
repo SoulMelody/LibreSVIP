@@ -10,53 +10,53 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2026-08-17 06:06\n"
+"PO-Revision-Date: 2026-10-10 05:32\n"
 
 msgid "Both note gap and punctuation"
-msgstr ""
+msgstr "ノート間隔と句読点の両方"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
-msgstr ""
+msgstr "隣接する 2 つのノートの間隔が 32 分音符以上であるか、句読点に達したときに新しい行を開始します。"
 
 msgid "Note gap only"
-msgstr ""
+msgstr "ノート間隔のみ"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
-msgstr ""
+msgstr "隣接する 2 つのノートの間隔が 32 分音符以上になったときに新しい行を開始します。"
 
 msgid "Punctuation only"
-msgstr ""
+msgstr "句読点のみ"
 
 msgid "When a punctuation mark is encountered, start a new line."
-msgstr ""
+msgstr "句読点に達したときに新しい行を開始します。"
 
 msgid "Offset"
-msgstr ""
+msgstr "オフセット"
 
 msgid "In milliseconds, positive means ahead, negative means opposite."
-msgstr ""
+msgstr "ミリ秒単位で、正の値は進み、負の値は遅れを意味します。"
 
 msgid "New line by"
-msgstr ""
+msgstr "改行の基準"
 
 msgid "Ignore slur notes"
-msgstr ""
+msgstr "スラーノートを無視"
 
 msgid "Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."
-msgstr ""
+msgstr "歌声合成ソフトでスラーノートを示すために使われる '-' の歌詞を無視します。"
 
 msgid "Text encoding"
-msgstr ""
+msgstr "テキストエンコーディング"
 
 msgid "SRT"
-msgstr ""
+msgstr "SRT"
 
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "SubRip 字幕ファイル"
 
 msgid "Generator plugin for SRT subtitle file"
-msgstr ""
+msgstr "SRT 字幕ファイル生成プラグイン"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
