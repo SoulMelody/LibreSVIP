@@ -31,7 +31,7 @@ jobs:
         run: |
           unset MINGW_PREFIX
           uv build --wheel
-          uv venv --python cpython-3.14.8-windows-x86-none
+          uv venv --python cpython-3.15.0-windows-x86-none
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -68,7 +68,7 @@ jobs:
         shell: bash -el {0}
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -105,7 +105,7 @@ jobs:
         shell: bash -el {0}
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -141,7 +141,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -177,7 +177,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -222,7 +222,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python cpython-3.14.8-macos-x86_64-none
+          uv venv --python cpython-3.15.0-macos-x86_64-none
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -258,7 +258,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -295,7 +295,7 @@ jobs:
         shell: bash -el {0}
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
@@ -370,7 +370,7 @@ jobs:
         shell: bash -el {0}
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           export MEDIAINFO_VERSION=${{ steps.mediainfo_version.outputs.release }}
           curl -L -o MediaInfo_GUI_Windows_ARM64_WithoutInstaller.7z https://mediaarea.net/download/binary/mediainfo-gui/${MEDIAINFO_VERSION#v}/MediaInfo_GUI_${MEDIAINFO_VERSION#v}_Windows_ARM64_WithoutInstaller.7z
           7z x MediaInfo_GUI_Windows_ARM64_WithoutInstaller.7z -omediainfo-arm64
@@ -410,7 +410,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
@@ -447,7 +447,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
@@ -489,7 +489,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python cpython-3.14.8-macos-x86_64-none
+          uv venv --python cpython-3.15.0-macos-x86_64-none
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
@@ -526,7 +526,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.14
+          uv venv --python 3.15
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps
