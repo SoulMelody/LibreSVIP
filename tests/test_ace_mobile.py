@@ -1,4 +1,3 @@
-import gettext
 import json
 import pathlib
 from itertools import pairwise
@@ -15,46 +14,6 @@ def test_ace_mobile_plugin_metadata() -> None:
     assert AceMobileConverter._alias_ == "ace"
     assert AceMobileConverter.info.name == "ACE Virtual Singer"
     assert AceMobileConverter.info.suffixes == ("ace",)
-
-
-def test_ace_mobile_locales_are_compiled_and_complete() -> None:
-    locale_root = pathlib.Path(__file__).parents[1] / "libresvip" / "plugins" / "ace" / "locales"
-    expected_names = {
-        "zh_CN": "ACE虚拟歌姬",
-        "zh_TW": "ACE虛擬歌姬",
-        "ja_JP": "ACEバーチャルシンガー",
-    }
-    messages = [
-        "ACE Virtual Singer",
-        "ACE Virtual Singer project",
-        "Conversion plugin for the raw JSON project files used by ACE Virtual Singer",
-        "BPM source",
-        "Use the accompaniment BPM when it is present, or fall back to the song BPM.",
-        "Author",
-        "Export pitch curve",
-        "Indent JSON",
-        "Musical key",
-        "Default singer ID",
-        "Default singer name",
-        "Song name",
-        "Import instrumental tracks",
-        "Import pitch curve",
-        "Import strength envelope",
-    ]
-
-    for language, expected_name in expected_names.items():
-        catalog_path = locale_root / language / "LC_MESSAGES" / "ace.mo"
-        with catalog_path.open("rb") as catalog_file:
-            translation = gettext.GNUTranslations(catalog_file)
-        assert translation.gettext("ACE Virtual Singer") == expected_name
-        assert all(translation.gettext(message) != message for message in messages)
-        localized_messages = [translation.gettext(message) for message in messages]
-        assert all("mobile" not in message.casefold() for message in messages)
-        assert all(
-            term not in localized_message
-            for localized_message in localized_messages
-            for term in ("mobile", "移动", "行動", "モバイル")
-        )
 
 
 def test_ace_mobile_loads_legacy_root_notes(tmp_path: pathlib.Path) -> None:

@@ -166,10 +166,9 @@ hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv]
 override-dependencies = [
-  "shiboken6<6.13.0,>=6.12.0",
   "system_pyside6; sys_platform != \"linux\" and sys_platform != \"darwin\" and sys_platform != \"win32\"",
 ]
-prerelease-package = { pyside6 = "allow", pyside6-addons = "allow", pyside6-essentials = "allow", shiboken6 = "allow"}
+# prerelease-package = { pyside6 = "allow", pyside6-addons = "allow", pyside6-essentials = "allow", shiboken6 = "allow"}
 # index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 # python-install-mirror = "https://mirror.nju.edu.cn/github-release/astral-sh/python-build-standalone"
 
