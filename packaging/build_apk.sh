@@ -11,6 +11,14 @@ sed -i 's/cleanup_packages = self.get_bool_setting/cleanup_packages = False and 
 cp  ../libresvip/mobile/__main__.py main.py
 mkdir -p assets
 cat > pyproject.toml << EOF
+[tool.flet.boot_screen]
+name = "flet"
+
+[tool.flet.boot_screen.flet]
+spinner_size = 30
+prepare_message = "Preparing the app for its first launch…"
+startup_message = "Getting things ready…"
+
 [tool.flet.flutter.pubspec.dependency_overrides]
 flet = { git = { url = "https://github.com/flet-dev/flet.git", path = "packages/flet", ref = "v${FLET_VERSION}" } }
 flet_permission_handler = { git = { url = "https://github.com/flet-dev/flet.git", path = "sdk/python/packages/flet-permission-handler/src/flutter/flet_permission_handler", ref = "v${FLET_VERSION}" } }
