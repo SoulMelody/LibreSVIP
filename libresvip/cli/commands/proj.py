@@ -1,3 +1,5 @@
+__lazy_modules__ = ["rich.progress", "rich.prompt"]
+
 import pathlib
 from typing import Annotated
 

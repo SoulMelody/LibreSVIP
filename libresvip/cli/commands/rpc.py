@@ -1,3 +1,5 @@
+__lazy_modules__ = ["libresvip.cli.rpc.server"]
+
 import asyncio
 import sys
 

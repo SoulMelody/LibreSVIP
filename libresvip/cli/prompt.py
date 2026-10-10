@@ -1,3 +1,5 @@
+__lazy_modules__ = ["rich.prompt"]
+
 import enum
 from typing import Any
 

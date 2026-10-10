@@ -31,7 +31,7 @@ jobs:
         run: |
           unset MINGW_PREFIX
           uv build --wheel
-          uv venv --python cpython-3.14.5-windows-x86-none
+          uv venv --python cpython-3.14.8-windows-x86-none
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -222,7 +222,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python cpython-3.14.5-macos-x86_64-none
+          uv venv --python cpython-3.14.8-macos-x86_64-none
           cd packaging
           uv pip install -r requirements-cli.txt
           uv pip install ../dist/*.whl --no-deps
@@ -489,7 +489,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python cpython-3.14.5-macos-x86_64-none
+          uv venv --python cpython-3.14.8-macos-x86_64-none
           cd packaging
           uv pip install -r requirements-desktop.txt
           uv pip install ../dist/*.whl --no-deps

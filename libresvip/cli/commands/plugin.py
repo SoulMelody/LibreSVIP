@@ -1,3 +1,5 @@
+__lazy_modules__ = ["rich.console", "rich.table"]
+
 import enum
 from collections.abc import ValuesView
 from typing import get_args, get_type_hints
