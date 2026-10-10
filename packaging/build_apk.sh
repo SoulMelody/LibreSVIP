@@ -15,7 +15,7 @@ cat > pyproject.toml << EOF
 flet = { git = { url = "https://github.com/flet-dev/flet.git", path = "packages/flet", ref = "v${FLET_VERSION}" } }
 flet_permission_handler = { git = { url = "https://github.com/flet-dev/flet.git", path = "sdk/python/packages/flet-permission-handler/src/flutter/flet_permission_handler", ref = "v${FLET_VERSION}" } }
 EOF
-uv run flet build apk -v --yes --skip-flutter-doctor \
+uv run --project .. flet build apk -v --yes --skip-flutter-doctor \
     --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
     --android-extract-packages pypinyin jyutping \
     --org org.soulmelody \

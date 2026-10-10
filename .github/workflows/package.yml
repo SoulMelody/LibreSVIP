@@ -67,6 +67,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
+          unset MINGW_PREFIX
           uv build --wheel
           uv venv --python 3.15
           cd packaging
@@ -104,6 +105,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
+          unset MINGW_PREFIX
           uv build --wheel
           uv venv --python 3.15
           cd packaging
