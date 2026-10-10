@@ -1,5 +1,5 @@
 import dataclasses
-import datetime
+import datetime as dt
 
 from wanakana import PROLONGED_SOUND_MARK
 from xsdata.models.datatype import XmlTime
@@ -140,7 +140,7 @@ class CeVIOGenerator:
                     max_tick = track.note_list[-1].end_pos
                     max_secs = self.time_synchronizer.get_actual_secs_from_ticks(max_tick)
                     new_unit.duration = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(max_secs, tz=datetime.UTC).time()
+                        dt.datetime.fromtimestamp(max_secs, tz=dt.UTC).time()
                     )
 
                 if log_f0 := self.generate_pitch(track.edited_params.pitch, tempo_list):
@@ -152,12 +152,12 @@ class CeVIOGenerator:
                 ) is not None:
                     start_secs = self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
                     start_time = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(start_secs, tz=datetime.UTC).time()
+                        dt.datetime.fromtimestamp(start_secs, tz=dt.UTC).time()
                     )
                     end_time = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(
+                        dt.datetime.fromtimestamp(
                             track_info.duration,
-                            tz=datetime.UTC,
+                            tz=dt.UTC,
                         ).time()
                     )
                     new_group = CeVIOGroup(

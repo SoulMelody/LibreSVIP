@@ -1,5 +1,5 @@
 import dataclasses
-import datetime
+import datetime as dt
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Project, SingingTrack
@@ -61,16 +61,16 @@ class LrcGenerator:
         if self.options.offset_policy.value == OffsetPolicyOption.TIMELINE.value:
             for line in lyric_lines:
                 for time_tag in line.time_tags:
-                    ori_time = datetime.datetime(
+                    ori_time = dt.datetime(
                         year=1970,
                         month=1,
                         day=1,
                         minute=time_tag.minute,
                         second=time_tag.second,
                         microsecond=time_tag.milisecond * 1000,
-                        tzinfo=datetime.UTC,
+                        tzinfo=dt.UTC,
                     )
-                    ori_time += datetime.timedelta(microseconds=-self.options.offset)
+                    ori_time += dt.timedelta(microseconds=-self.options.offset)
                     time_tag.minute = ori_time.minute
                     time_tag.second = ori_time.second
                     time_tag.milisecond = ori_time.microsecond // 1000
@@ -110,8 +110,8 @@ class LrcGenerator:
             )
         )
 
-    def get_time_from_ticks(self, ticks: int) -> datetime.datetime:
-        return datetime.datetime.fromtimestamp(
+    def get_time_from_ticks(self, ticks: int) -> dt.datetime:
+        return dt.datetime.fromtimestamp(
             self.synchronizer.get_actual_secs_from_ticks(ticks),
-            tz=datetime.UTC,
+            tz=dt.UTC,
         )
