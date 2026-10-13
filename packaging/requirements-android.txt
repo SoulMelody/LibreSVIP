@@ -29,7 +29,7 @@ lxml==6.1.1
 markdown-it-py==4.2.0
 markupsafe==3.0.3
 mdurl==0.1.2
-more-itertools==11.1.0
+more-itertools==11.2.0
 msgpack==1.1.2
 numpy==2.4.6
 oauthlib==4.0.0
