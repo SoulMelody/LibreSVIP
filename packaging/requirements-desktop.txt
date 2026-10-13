@@ -73,7 +73,7 @@ tatsu-lts==5.16.0
 that-depends==4.2.0
 tkinter-icons==5.1.0
 tkinter-icons-mat==1.1.2
-truststore==0.10.4 ; sys_platform != 'emscripten'
+truststore==0.10.5 ; sys_platform != 'emscripten'
 typing-extensions==4.16.0
 typing-inspection==0.4.4
 tzdata==2026.5
