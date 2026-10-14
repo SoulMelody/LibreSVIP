@@ -25,7 +25,7 @@ loguru==0.7.3
 lxml==6.1.3
 macholib==1.16.4 ; sys_platform == 'darwin'
 markupsafe==3.0.4
-more-itertools==11.2.0
+more-itertools==11.2.1
 numpy==2.4.6 ; python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 numpy==2.5.4 ; python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 packaging==26.3
@@ -41,7 +41,7 @@ pycryptodomex==3.24.1
 pydantic==2.14.1
 pydantic-core==2.50.1
 pydantic-extra-types==2.11.1
-pydantic-settings==2.15.0
+pydantic-settings==2.16.0
 pydeployment==1.3.16 ; sys_platform != 'darwin'
 pyinstaller==6.22.2 ; platform_machine == 'ARM64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.22.2-py3-none-any.whl ; platform_machine != 'ARM64' and sys_platform == 'win32'
