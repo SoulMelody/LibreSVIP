@@ -266,13 +266,13 @@ class PluginLoader:
             _recursive_import(libmod)
 
         # Load auxiliary modules
-        if self.modules:
+        if tuple(self.modules):
             for mod in self.modules:
                 logger.info(f"Loading plugins from {mod}")
                 _recursive_import(_import_module(mod))
 
         # Load auxiliary paths
-        if self.paths:
+        if tuple(self.paths):
             # Import each path recursively
             for path in self.paths:
                 modpath = pathlib.Path(path)
