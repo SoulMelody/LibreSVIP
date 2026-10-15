@@ -238,7 +238,23 @@ jobs:
         with:
           version: "latest"
           cache-suffix: cli-macos-x86-64
+      - name: Download macOS x86_64 OpenSSL
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          repo: pyca/infra
+          workflow: build-macos-openssl.yml
+          branch: main
+          workflow_conclusion: success
+          name: openssl-macos-x86-64
+          path: ${{ github.workspace }}/openssl-macos-x86-64
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with pyinstaller
+        env:
+          OPENSSL_DIR: ${{ github.workspace }}/openssl-macos-x86-64
+          OPENSSL_STATIC: "1"
+          ARCHFLAGS: "-arch x86_64"
+          CARGO_BUILD_TARGET: x86_64-apple-darwin
+          MACOSX_DEPLOYMENT_TARGET: "11.0"
         run: |
           uv build --wheel
           uv venv --python cpython-3.15.0-macos-x86_64-none
@@ -522,7 +538,23 @@ jobs:
         with:
           version: "latest"
           cache-suffix: desktop-macos-x86-64
+      - name: Download macOS x86_64 OpenSSL
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          repo: pyca/infra
+          workflow: build-macos-openssl.yml
+          branch: main
+          workflow_conclusion: success
+          name: openssl-macos-x86-64
+          path: ${{ github.workspace }}/openssl-macos-x86-64
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with pyinstaller
+        env:
+          OPENSSL_DIR: ${{ github.workspace }}/openssl-macos-x86-64
+          OPENSSL_STATIC: "1"
+          ARCHFLAGS: "-arch x86_64"
+          CARGO_BUILD_TARGET: x86_64-apple-darwin
+          MACOSX_DEPLOYMENT_TARGET: "11.0"
         run: |
           uv build --wheel
           uv venv --python cpython-3.15.0-macos-x86_64-none

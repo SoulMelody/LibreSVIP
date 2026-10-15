@@ -31,12 +31,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Set up rust
-        if: matrix.os == 'windows-11-arm'
+        if: matrix.os == 'windows-11-arm' || matrix.os == 'macos-15-intel'
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: aarch64-pc-windows-msvc
+          targets: ${{ matrix.os == 'windows-11-arm' && 'aarch64-pc-windows-msvc' || 'x86_64-apple-darwin' }}
 
-      - name: Download OpenSSL
+      - name: Download Windows ARM OpenSSL
         if: matrix.os == 'windows-11-arm'
         uses: dawidd6/action-download-artifact@v11
         with:
@@ -48,10 +48,22 @@ jobs:
           path: C:/openssl-arm64/
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Download macOS x86_64 OpenSSL
+        if: matrix.os == 'macos-15-intel'
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          repo: pyca/infra
+          workflow: build-macos-openssl.yml
+          branch: main
+          workflow_conclusion: success
+          name: openssl-macos-x86-64
+          path: ${{ github.workspace }}/openssl-macos-x86-64
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install dependencies
         env:
-          OPENSSL_DIR: ${{ matrix.os == 'windows-11-arm' && 'C:/openssl-arm64' || '' }}
-          OPENSSL_STATIC: ${{ matrix.os == 'windows-11-arm' && '1' || '' }}
+          OPENSSL_DIR: ${{ matrix.os == 'windows-11-arm' && 'C:/openssl-arm64' || matrix.os == 'macos-15-intel' && format('{0}/openssl-macos-x86-64', github.workspace) || '' }}
+          OPENSSL_STATIC: ${{ (matrix.os == 'windows-11-arm' || matrix.os == 'macos-15-intel') && '1' || '' }}
         run: |
           uv sync --all-extras --group test
 
