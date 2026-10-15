@@ -80,6 +80,7 @@ cli = [
 ]
 crypto = [
   "cffi>=2.1.1; platform_python_implementation != \"PyPy\" and (sys_platform != \"win32\" or python_version <= \"3.11\")",
+  "pycryptodome>=4.0.0",
   "pyzipper>=0.4.0",
 ]
 desktop = [
@@ -166,8 +167,9 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv]
-override-dependencies = [
-  "system_pyside6; sys_platform != \"linux\" and sys_platform != \"darwin\" and sys_platform != \"win32\"",
+exclude-dependencies = [
+  { package = { name = "pyzipper" }, dependencies = ["pycryptodomex"] },
+  { package = { name = "pbtk" }, dependencies = ["system-pyside6"] },
 ]
 # prerelease-package = { pyside6 = "allow", pyside6-addons = "allow", pyside6-essentials = "allow", shiboken6 = "allow"}
 # index-url = "https://pypi.tuna.tsinghua.edu.cn/simple"

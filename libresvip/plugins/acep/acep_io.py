@@ -29,10 +29,10 @@ from libresvip.utils.translation import gettext_lazy as _
 from .options import AcepSerialization
 
 try:
-    __import__("Cryptodome")
+    __import__("Crypto")
 except ImportError:
     with contextlib.suppress(ImportError):
-        sys.modules["Cryptodome"] = __import__("Crypto")
+        sys.modules["Crypto"] = __import__("Cryptodome")
 
 for zstd_backend in (
     "compression.zstd",
@@ -106,8 +106,8 @@ class AcepFile(BaseModel):
 
 
 def decrypt_acep_content_v1(content: bytes) -> bytes:
-    from Cryptodome.Cipher import AES
-    from Cryptodome.Util.Padding import unpad
+    from Crypto.Cipher import AES
+    from Crypto.Util.Padding import unpad
 
     key_bytes = b"11956722077380335572"
     iv_bytes = b"1103392056537578664"
@@ -121,8 +121,8 @@ def decrypt_acep_content_v1(content: bytes) -> bytes:
 
 
 def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
-    from Cryptodome.Cipher import AES
-    from Cryptodome.Util.Padding import unpad
+    from Crypto.Cipher import AES
+    from Crypto.Util.Padding import unpad
 
     iv_bytes = str(int(salt[33:], 16) & 0x49A23B22DD28F042).encode()
     iv = hashlib.md5(iv_bytes).digest()
