@@ -1,6 +1,6 @@
 cffi==2.0.0
 cbor2==6.1.4
-cryptography==48.0.0
+cryptography==50.0.0
 lxml==6.1.1
 pydantic==2.13.4
 pydantic-core==2.46.4

@@ -8,7 +8,7 @@ cffi==2.0.0
 charset-normalizer==3.5.2
 construct==2.10.70
 construct-typing==0.8.1
-cryptography==48.0.0
+cryptography==50.0.0
 flet==1.0.4
 flet-desktop==1.0.4
 flet-libcpp-shared==27.3.13750724
