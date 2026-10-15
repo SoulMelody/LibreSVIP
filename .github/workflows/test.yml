@@ -38,7 +38,7 @@ jobs:
 
       - name: Download Windows ARM OpenSSL
         if: matrix.os == 'windows-11-arm'
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v27
         with:
           repo: pyca/infra
           workflow: build-windows-openssl.yml
@@ -50,7 +50,7 @@ jobs:
 
       - name: Download macOS x86_64 OpenSSL
         if: matrix.os == 'macos-15-intel'
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v27
         with:
           repo: pyca/infra
           workflow: build-macos-openssl.yml
@@ -68,7 +68,7 @@ jobs:
 
       - name: Download OpenSSL
         if: matrix.os == 'windows-11-arm'
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v27
         with:
           repo: pyca/infra
           workflow: build-windows-openssl.yml
