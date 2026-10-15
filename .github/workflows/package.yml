@@ -102,8 +102,25 @@ jobs:
         with:
           version: "latest"
           cache-suffix: cli-windows-arm64
+      - name: Set up rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-pc-windows-msvc
+      - name: Download OpenSSL
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          repo: pyca/infra
+          workflow: build-windows-openssl.yml
+          branch: main
+          workflow_conclusion: success
+          name: openssl-arm64
+          path: C:/openssl-arm64/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with pyinstaller
         shell: bash -el {0}
+        env:
+          OPENSSL_DIR: C:/openssl-arm64
+          OPENSSL_STATIC: "1"
         run: |
           unset MINGW_PREFIX
           uv build --wheel
@@ -368,8 +385,25 @@ jobs:
         with:
           version: "latest"
           cache-suffix: desktop-windows-arm64
+      - name: Set up rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-pc-windows-msvc
+      - name: Download OpenSSL
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          repo: pyca/infra
+          workflow: build-windows-openssl.yml
+          branch: main
+          workflow_conclusion: success
+          name: openssl-arm64
+          path: C:/openssl-arm64/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with pydeploy
         shell: bash -el {0}
+        env:
+          OPENSSL_DIR: C:/openssl-arm64
+          OPENSSL_STATIC: "1"
         run: |
           uv build --wheel
           uv venv --python 3.15

@@ -30,7 +30,28 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Set up rust
+        if: matrix.os == 'windows-11-arm'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-pc-windows-msvc
+
+      - name: Download OpenSSL
+        if: matrix.os == 'windows-11-arm'
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          repo: pyca/infra
+          workflow: build-windows-openssl.yml
+          branch: main
+          workflow_conclusion: success
+          name: openssl-arm64
+          path: C:/openssl-arm64/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install dependencies
+        env:
+          OPENSSL_DIR: ${{ matrix.os == 'windows-11-arm' && 'C:/openssl-arm64' || '' }}
+          OPENSSL_STATIC: ${{ matrix.os == 'windows-11-arm' && '1' || '' }}
         run: |
           uv sync --all-extras --group test
 
