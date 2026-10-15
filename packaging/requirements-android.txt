@@ -8,6 +8,7 @@ cffi==2.0.0
 charset-normalizer==3.5.2
 construct==2.10.70
 construct-typing==0.8.1
+cryptography==48.0.0
 flet==1.0.4
 flet-desktop==1.0.4
 flet-libcpp-shared==27.3.13750724
@@ -39,7 +40,6 @@ platformdirs==4.13.0
 portion==2.6.3
 protobuf-py==0.6.0
 pycparser==3.11
-pycryptodome==3.23.0
 pydantic==2.13.4
 pydantic-core==2.46.4
 pydantic-extra-types==2.11.1
@@ -50,7 +50,6 @@ pysubs2==1.9.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.4
 pyyaml==6.0.3
-pyzipper==0.4.0
 repath==0.9.0
 retrie==0.3.1
 rich==15.0.0
@@ -71,3 +70,4 @@ wanakana-python==1.2.2
 xsdata==26.2
 xsdata-pydantic==24.5
 zhon==2.1.1
+zipctl==0.2.0
