@@ -56,7 +56,7 @@ cli_a = Analysis(
         "protobuf",
         "pypinyin",
         "pysubs2",
-        "pyzipper",
+        "zipctl",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
         "wanakana",
