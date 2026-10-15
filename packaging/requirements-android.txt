@@ -39,7 +39,7 @@ platformdirs==4.13.0
 portion==2.6.3
 protobuf-py==0.6.0
 pycparser==3.11
-pycryptodomex==3.23.0
+pycryptodome==3.23.0
 pydantic==2.13.4
 pydantic-core==2.46.4
 pydantic-extra-types==2.11.1
