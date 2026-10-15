@@ -107,7 +107,7 @@ jobs:
         with:
           targets: aarch64-pc-windows-msvc
       - name: Download OpenSSL
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v27
         with:
           repo: pyca/infra
           workflow: build-windows-openssl.yml
@@ -239,7 +239,7 @@ jobs:
           version: "latest"
           cache-suffix: cli-macos-x86-64
       - name: Download macOS x86_64 OpenSSL
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v27
         with:
           repo: pyca/infra
           workflow: build-macos-openssl.yml
@@ -406,7 +406,7 @@ jobs:
         with:
           targets: aarch64-pc-windows-msvc
       - name: Download OpenSSL
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v27
         with:
           repo: pyca/infra
           workflow: build-windows-openssl.yml
@@ -539,7 +539,7 @@ jobs:
           version: "latest"
           cache-suffix: desktop-macos-x86-64
       - name: Download macOS x86_64 OpenSSL
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v27
         with:
           repo: pyca/infra
           workflow: build-macos-openssl.yml
