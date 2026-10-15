@@ -1,7 +1,7 @@
 import dataclasses
 import pathlib
 
-from pyzipper import AESZipFile
+from zipctl import ZipFile
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -26,7 +26,7 @@ from .options import InputOptions
 @dataclasses.dataclass
 class PocketSingerParser:
     options: InputOptions
-    archive_file: AESZipFile
+    archive_file: ZipFile
     path: pathlib.Path
     first_bar_length: int = dataclasses.field(init=False)
     project: PocketSingerProject = dataclasses.field(init=False)

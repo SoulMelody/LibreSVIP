@@ -1,7 +1,5 @@
-import importlib
 import io
 import pathlib
-import sys
 from importlib.resources import files
 
 from libresvip.extension import base as plugin_base
@@ -13,17 +11,13 @@ from .options import InputOptions, OutputOptions
 from .pocket_singer_generator import PocketSingerGenerator
 
 try:
-    try:
-        importlib.import_module("Cryptodome")
-    except ImportError:
-        sys.modules["Cryptodome"] = importlib.import_module("Crypto")
-    from pyzipper import WZ_AES, ZIP_STORED, AESZipFile
+    from zipctl import WZ_AES, ZIP_STORED, ZipFile
 
     from .pocket_singer_parser import PocketSingerParser
 
-    PYZIPPER_AVAILABLE = True
+    ZIPCTL_AVAILABLE = True
 except ImportError:
-    PYZIPPER_AVAILABLE = False
+    ZIPCTL_AVAILABLE = False
 
 POCKET_SIGER_PASSWORD = b"a022ab39cb3b7b1de92ee441978c9e08"
 
@@ -35,13 +29,13 @@ class PocketSingerConverter(plugin_base.SVSConverter):
         content=(files(__package__) / "ps_project.yapsy-plugin").read_text(encoding="utf-8"),
     )
     _alias_ = "ps_project"
-    _skipload_ = not PYZIPPER_AVAILABLE
+    _skipload_ = not ZIPCTL_AVAILABLE
     _version_ = "1.0.0"
 
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.input_option_cls.model_validate(options)
-        with AESZipFile(
+        with ZipFile(
             io.BytesIO(path.read_bytes()), "r", compression=ZIP_STORED, encryption=WZ_AES
         ) as archive_file:
             archive_file.setpassword(POCKET_SIGER_PASSWORD)
@@ -61,7 +55,7 @@ class PocketSingerConverter(plugin_base.SVSConverter):
         buffer = io.BytesIO()
         if len(project.song_tempo_list) != 1:
             project = reset_time_axis(project, options_obj.tempo)
-        with AESZipFile(buffer, "w", compression=ZIP_STORED, encryption=WZ_AES) as archive_file:
+        with ZipFile(buffer, "w", compression=ZIP_STORED, encryption=WZ_AES) as archive_file:
             archive_file.setpassword(POCKET_SIGER_PASSWORD)
             generator = PocketSingerGenerator(options_obj)
             metadata = generator.generate_project(project)

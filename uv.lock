@@ -2,19 +2,16 @@ version = 1
 revision = 5
 requires-python = ">=3.11, <3.16"
 resolution-markers = [
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "python_full_version >= '3.15'",
     "python_full_version == '3.14.*'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "(python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten') or (python_full_version == '3.12.*' and sys_platform != 'emscripten')",
     "python_full_version >= '3.11.5' and python_full_version < '3.12'",
     "python_full_version < '3.11.5'",
 ]
 
 [manifest]
-excludes = [
-    { package = { name = "pbtk" }, dependencies = ["system-pyside6"] },
-    { package = { name = "pyzipper" }, dependencies = ["pycryptodomex"] },
-]
+excludes = [{ package = { name = "pbtk" }, dependencies = ["system-pyside6"] }]
 
 [[package]]
 name = "aiofile"
@@ -2234,9 +2231,8 @@ cli = [
     { name = "zeromcp" },
 ]
 crypto = [
-    { name = "cffi", marker = "(python_full_version < '3.12' and platform_python_implementation != 'PyPy') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32')" },
-    { name = "pycryptodome" },
-    { name = "pyzipper" },
+    { name = "cryptography" },
+    { name = "zipctl" },
 ]
 desktop = [
     { name = "desktop-notifier" },
@@ -2345,9 +2341,9 @@ requires-dist = [
     { name = "backports-zstd", marker = "(python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')", specifier = ">=1.8.0,<1.8.1" },
     { name = "bidict", specifier = ">=0.24.1" },
     { name = "cbor2", specifier = ">=6.1.5,<7.0.0" },
-    { name = "cffi", marker = "(python_full_version < '3.12' and platform_python_implementation != 'PyPy' and extra == 'crypto') or (platform_python_implementation != 'PyPy' and sys_platform != 'win32' and extra == 'crypto')", specifier = ">=2.1.1" },
     { name = "charset-normalizer", specifier = ">=3.5.2,<4.0.0" },
     { name = "construct-typing", specifier = ">=0.8.1,<1.0.0" },
+    { name = "cryptography", marker = "extra == 'crypto'", specifier = ">=46.0.6" },
     { name = "desktop-notifier", marker = "extra == 'desktop'", specifier = ">=6.2.0" },
     { name = "flet", extras = ["desktop"], marker = "extra == 'mobile'", specifier = ">=1.0.4,<1.1.0" },
     { name = "flet-permission-handler", marker = "extra == 'mobile'", specifier = ">=1.0.4,<1.1.0" },
@@ -2366,7 +2362,6 @@ requires-dist = [
     { name = "platformdirs", specifier = ">=4.13.0,<5.0.0" },
     { name = "portion", specifier = ">=2.6.3,<3.0.0" },
     { name = "protobuf-py", specifier = ">=0.6.0,<0.7.0" },
-    { name = "pycryptodome", marker = "extra == 'crypto'", specifier = ">=4.0.0" },
     { name = "pydantic", specifier = ">=2.14.1,<3.0.0" },
     { name = "pydantic-extra-types", specifier = ">=2.11.1,<3.0.0" },
     { name = "pydantic-settings", specifier = ">=2.16.0,<3.0.0" },
@@ -2377,7 +2372,6 @@ requires-dist = [
     { name = "pysubs2", marker = "python_full_version >= '3.12'", specifier = ">=1.9.0,<2.0.0" },
     { name = "pyyaml", marker = "python_full_version != '3.13.*' or sys_platform == 'emscripten'", specifier = ">=6.0.3,<7.0.0" },
     { name = "pyyaml-ft", marker = "python_full_version == '3.13.*' and sys_platform != 'emscripten'", specifier = ">=8.0.0,<8.0.1" },
-    { name = "pyzipper", marker = "extra == 'crypto'", specifier = ">=0.4.0" },
     { name = "qasync", marker = "extra == 'desktop'", specifier = ">=0.28.0" },
     { name = "retrie", specifier = ">=0.3.1,<1.0.0" },
     { name = "ruamel-yaml", specifier = ">=0.19.1,<=0.20.0" },
@@ -2397,6 +2391,7 @@ requires-dist = [
     { name = "yaml-rs", marker = "(sys_platform == 'darwin' and extra == 'yaml12') or (sys_platform == 'emscripten' and extra == 'yaml12') or (sys_platform == 'linux' and extra == 'yaml12') or (sys_platform == 'win32' and extra == 'yaml12')", specifier = ">=0.1.6,<0.2.0" },
     { name = "zeromcp", marker = "extra == 'cli'", specifier = ">=1.10.3" },
     { name = "zhon", specifier = ">=2.1.1,<3.0.0" },
+    { name = "zipctl", marker = "extra == 'crypto'", specifier = ">=0.2.0" },
     { name = "zstandard", marker = "python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'", specifier = ">=0.25.0,<0.25.1" },
 ]
 provides-extras = ["cli", "crypto", "desktop", "lxml", "minijinja", "mobile", "tui", "ujson", "webui", "yaml12"]
@@ -3229,9 +3224,9 @@ name = "numpy"
 version = "2.5.4"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "python_full_version >= '3.15'",
     "python_full_version == '3.14.*'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "(python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten') or (python_full_version == '3.12.*' and sys_platform != 'emscripten')",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/95/b0/c7453d0b6e2073c3264468b106ee1563750cecc910965e67357e3698c83e/numpy-2.5.4.tar.gz", hash = "sha256:9a94cf751c9ad8ebaa835bcd3d40dacf8534ad086b88c38029b65123c7999d2a", size = 20866315, upload-time = "2026-10-10T20:05:31.422Z" }
@@ -3766,9 +3761,9 @@ name = "puremagic"
 version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "python_full_version >= '3.15'",
     "python_full_version == '3.14.*'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "(python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten') or (python_full_version == '3.12.*' and sys_platform != 'emscripten')",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/24/74/ce5987ab9b8aec4ced06e2723ebb604205c9eb58abdad91453da93166380/puremagic-2.2.0.tar.gz", hash = "sha256:eb4bddf07c177c4b434554b92165b67449f5a51e152b976202d6254498810eef", size = 1189752, upload-time = "2026-04-08T01:39:55.562Z" }
@@ -3808,36 +3803,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/da/a8/c5fdbeee588bb8ada9458774f43adf1bdd30bd59157055142183e769a024/pycparser-3.11.tar.gz", hash = "sha256:d875f09c3507d00e1aba0eecc6dcadc1352f30fff09dc6bff2f1c2935e97c2bc", size = 113796, upload-time = "2026-10-09T12:56:59.539Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/90/11/0e6f11117525ff0eec40ebac3d313376f102df93ca44ad9e893ee85e4f89/pycparser-3.11-py3-none-any.whl", hash = "sha256:51d5a8ba2be0bbe440b99d2112604c95bbbc3c2748a64260186c541e1729cd80", size = 51178, upload-time = "2026-10-09T12:56:58.131Z" },
-]
-
-[[package]]
-name = "pycryptodome"
-version = "4.0.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/01/95/cf1a4d630500fc98cef83a58b1fd3bb75a74c4fe050f63cf40c052cbf2a2/pycryptodome-4.0.0.tar.gz", hash = "sha256:4ad4dd220fa22f99f5832847ccaea5bee39f140b8e4ea1a29aa77dc969c6490c", size = 1499510, upload-time = "2026-10-14T10:45:42.789Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/2b/8c/0d3622c4b6fa203111df08f7ef1162c021302c2dd86b27c9b957a46449cc/pycryptodome-4.0.0-cp315-cp315t-macosx_10_15_universal2.whl", hash = "sha256:7b548ef0f3ae0625f30850cd6021c9a1228e783c56d20f072733ddc382a3f71d", size = 1357400, upload-time = "2026-10-14T10:44:48.821Z" },
-    { url = "https://files.pythonhosted.org/packages/61/35/d9dac7919689e2b90fad202c2c19d4beb59a56e8ad1b1627abae8df3b4ae/pycryptodome-4.0.0-cp315-cp315t-macosx_10_15_x86_64.whl", hash = "sha256:828dd44762ae686e81af16d8b93cfe787cc72e51f5fe3b04fc18159b86c7cf4e", size = 1202109, upload-time = "2026-10-14T10:44:51.208Z" },
-    { url = "https://files.pythonhosted.org/packages/44/27/8faf6616815059c4f05dfa0591a020217b1e9fb68cf26703cf0577268dd9/pycryptodome-4.0.0-cp315-cp315t-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:f3ccebe7432ad15bfed0a65114d0b914aa1e25d2d69b5a972fb37cea55f77043", size = 1871373, upload-time = "2026-10-14T10:44:53.87Z" },
-    { url = "https://files.pythonhosted.org/packages/fb/64/dc416c956f7d8d7aafe1da2dc8ccc812409896718d3674c9163ab3491ee7/pycryptodome-4.0.0-cp315-cp315t-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:2a9eeeaac8b604f3aa567a57a01be143c89809acece41782b62879e40d4cc2ea", size = 2531628, upload-time = "2026-10-14T10:44:57.044Z" },
-    { url = "https://files.pythonhosted.org/packages/ab/6a/a4f983e7d854f66b1f6f8c7a611a5073245962f2de130734d60383b909e3/pycryptodome-4.0.0-cp315-cp315t-musllinux_1_2_aarch64.whl", hash = "sha256:5aa9a6d543a6bd12a8bdb5f521345895cae77b9470e6a9dca180b466a23926e1", size = 1880738, upload-time = "2026-10-14T10:44:59.506Z" },
-    { url = "https://files.pythonhosted.org/packages/69/2b/79b7270b3e98984aac4fa71a22809507762feca1ab25bc44d39a46d93b54/pycryptodome-4.0.0-cp315-cp315t-musllinux_1_2_x86_64.whl", hash = "sha256:0f9851ce007a6a9376454c8b0ae257bda98823d1169496259b44c6615c429cb0", size = 2610834, upload-time = "2026-10-14T10:45:03.461Z" },
-    { url = "https://files.pythonhosted.org/packages/1e/74/d3ff82098ce14fe039a997e6ab399f7a87978d1c4aa0b0849333869a1a7b/pycryptodome-4.0.0-cp315-cp315t-win32.whl", hash = "sha256:774448b19790e073d3fc38f86c0b36578faa75de2b5c7500f24401a2126486c1", size = 1179119, upload-time = "2026-10-14T10:45:05.164Z" },
-    { url = "https://files.pythonhosted.org/packages/5b/1f/4177fa587673407b287ca2744c9debfb6fd425489efd7761bd6846fd330e/pycryptodome-4.0.0-cp315-cp315t-win_amd64.whl", hash = "sha256:e0f2256d28d3d6fad2eb463629e2afd0fed6e2ffc6518da5f3de28f81e9798cf", size = 1225353, upload-time = "2026-10-14T10:45:07.019Z" },
-    { url = "https://files.pythonhosted.org/packages/66/1a/eae61a4c6bedae0ecf370a7c2d49b88bc0f0c60676c91cf1b094288c69de/pycryptodome-4.0.0-cp315-cp315t-win_arm64.whl", hash = "sha256:8cfde6bfd4a2d8c225fe7691375de2008568cae5458f374fb06ec1233fdc093f", size = 1173296, upload-time = "2026-10-14T10:45:08.781Z" },
-    { url = "https://files.pythonhosted.org/packages/db/55/5fb4aab81c45b86edd40544e0b962a2aefca94c75c0bd3b68667861d4918/pycryptodome-4.0.0-cp39-abi3-macosx_10_9_universal2.whl", hash = "sha256:70274777cdac701de642b31012b2264bf28cb435caaf17b795c96b6456886b62", size = 1358069, upload-time = "2026-10-14T10:45:10.344Z" },
-    { url = "https://files.pythonhosted.org/packages/ee/5e/e7558e37b08ff678197173a5899c7700e63432f53dfadd9f40460e1fab52/pycryptodome-4.0.0-cp39-abi3-macosx_10_9_x86_64.whl", hash = "sha256:b8a7461b38e17c959172b3681b01542fbc8cf575ecb241306e4d87441f6824ff", size = 1200030, upload-time = "2026-10-14T10:45:12.254Z" },
-    { url = "https://files.pythonhosted.org/packages/b9/ca/b19f26d94ce59fa3cf119091aa951174087cf2fc2cfda5cc2e70a9cd562e/pycryptodome-4.0.0-cp39-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:a47c2c401d1343f66ed22e05f52c577375e727afe275ab9477c13069df271c24", size = 1868374, upload-time = "2026-10-14T10:45:14.253Z" },
-    { url = "https://files.pythonhosted.org/packages/55/fa/b3976fde0b81ae42b98151c7b155a986f8ecd1f9cedabcbbdcd4c2063f04/pycryptodome-4.0.0-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:73767e06cf75fb8ff86fd3cf77eba8e7614914d0c970fe1d41c216bf7b4b89c1", size = 2520237, upload-time = "2026-10-14T10:45:16.668Z" },
-    { url = "https://files.pythonhosted.org/packages/1e/48/0cb9d43d19045b47a19a0191bca3f926ad4c47147f4b01a5c85d7d31878c/pycryptodome-4.0.0-cp39-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:fbf39c7f0c6fc3be114d60ebed14a8c219cd3ea19e6c4b14d16f1550d418e134", size = 1872056, upload-time = "2026-10-14T10:45:18.613Z" },
-    { url = "https://files.pythonhosted.org/packages/56/ec/c874f25b18b633f4a8f27a5925237310d37dad2b975b63b2da1401d5d2d5/pycryptodome-4.0.0-cp39-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:3cd85d4970ddd20afb08a149cff4ca3bf606f4fe3dd245535dd079a1e752ffeb", size = 2601557, upload-time = "2026-10-14T10:45:20.79Z" },
-    { url = "https://files.pythonhosted.org/packages/05/19/e103a1a7d9b1bc9bb66783be7fb77d1ee7d65e3121ca0163295696630d72/pycryptodome-4.0.0-cp39-abi3-win32.whl", hash = "sha256:fdf963015e74982507c4c09961c2ec3213afc9cd991bb1c8f875ec2caac97d37", size = 1167435, upload-time = "2026-10-14T10:45:23.205Z" },
-    { url = "https://files.pythonhosted.org/packages/5a/ba/c86194cb41d374837988161242af4217db5a10c9bc93e4136373bf5c07c6/pycryptodome-4.0.0-cp39-abi3-win_amd64.whl", hash = "sha256:077819384ceb90461af9c398c1dfdb7da01a6e17b7c98817831404fb5bd93c1f", size = 1210289, upload-time = "2026-10-14T10:45:25.484Z" },
-    { url = "https://files.pythonhosted.org/packages/4e/40/51a1d6234014fb8d68169cc53b44d1b315c30a261794460fef66d3df084c/pycryptodome-4.0.0-cp39-abi3-win_arm64.whl", hash = "sha256:4aea6fe5e78dda66a369d23f49fc69cfc433f8e1a1d36bda3d0466f69860ccb2", size = 1155633, upload-time = "2026-10-14T10:45:27.397Z" },
-    { url = "https://files.pythonhosted.org/packages/63/37/6b2dd148a407a89027e17d0768752303843f19b1760b733e46ffda01f14b/pycryptodome-4.0.0-pp311-pypy311_pp80-macosx_10_15_x86_64.whl", hash = "sha256:327f55a5bdf41db353e3b3ed982324886a830ab70c9942c8c617bb7f21ce7b16", size = 1162933, upload-time = "2026-10-14T10:45:35.562Z" },
-    { url = "https://files.pythonhosted.org/packages/06/93/520a6e790c09428d12ec8c377df1ad34927ab2fd4157b0b01ddf8164f14c/pycryptodome-4.0.0-pp311-pypy311_pp80-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:2509bb14ae9811b9613df7b68ac0db267b102ed39908d73a094658b5f8b1424c", size = 1120814, upload-time = "2026-10-14T10:45:37.086Z" },
-    { url = "https://files.pythonhosted.org/packages/65/56/140d4684cec26572e3c8bcc9e596845d405c8eff381a791fd1418c2434d7/pycryptodome-4.0.0-pp311-pypy311_pp80-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:7a95a73d7af0e1ecfe93353aaf6bb659fc759144c13ce1d16c372b2a9d0cd584", size = 1240786, upload-time = "2026-10-14T10:45:39.18Z" },
-    { url = "https://files.pythonhosted.org/packages/33/d5/bd2da15259fba8706ad761d5c830a1e66e1698fcd6810c07eef0772dc2e1/pycryptodome-4.0.0-pp311-pypy311_pp80-win_amd64.whl", hash = "sha256:ce84b3166a62b737da74bda2de253a4586b328019400a6508a79e9d2d0710b12", size = 1213211, upload-time = "2026-10-14T10:45:41.02Z" },
 ]
 
 [[package]]
@@ -4252,9 +4217,9 @@ name = "pysubs2"
 version = "1.9.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "python_full_version >= '3.15'",
     "python_full_version == '3.14.*'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "(python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten') or (python_full_version == '3.12.*' and sys_platform != 'emscripten')",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/f2/20/9071b8b0012d9102e90292c71fe3f1181c33e772e28cbabb4779c0087603/pysubs2-1.9.0.tar.gz", hash = "sha256:4592405e5d961e23cd39c81e2875fb85c30346ae37d100f144cd7fd8ec560e42", size = 1147418, upload-time = "2026-08-16T19:54:51.267Z" }
@@ -4525,15 +4490,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/05/10/f42c48fa5153204f42eaa945e8d1fd7c10d6296841dcb2447bf7da1be5c4/pyyaml_ft-8.0.0-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:052561b89d5b2a8e1289f326d060e794c21fa068aa11255fe71d65baf18a632e", size = 810403, upload-time = "2025-06-10T15:32:11.051Z" },
     { url = "https://files.pythonhosted.org/packages/d5/d2/e369064aa51009eb9245399fd8ad2c562bd0bcd392a00be44b2a824ded7c/pyyaml_ft-8.0.0-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:3bb4b927929b0cb162fb1605392a321e3333e48ce616cdcfa04a839271373255", size = 835581, upload-time = "2025-06-10T15:32:12.897Z" },
     { url = "https://files.pythonhosted.org/packages/c0/28/26534bed77109632a956977f60d8519049f545abc39215d086e33a61f1f2/pyyaml_ft-8.0.0-cp313-cp313t-win_amd64.whl", hash = "sha256:de04cfe9439565e32f178106c51dd6ca61afaa2907d143835d501d84703d3793", size = 171579, upload-time = "2025-06-10T15:32:14.34Z" },
-]
-
-[[package]]
-name = "pyzipper"
-version = "0.4.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/8b/5a/548039b202f85fcdfbadaddde2f4182c6dbf7730bbe005b24f903ae886ee/pyzipper-0.4.0.tar.gz", hash = "sha256:a4b96afcac04c5589d5abdc6158dd362166374e3cc6810aa441e65f8a17cb9e3", size = 36780, upload-time = "2026-05-14T04:06:28.903Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/1e/9a/db7b20df854ea3a7f25ee9d7bc31ff3ecce085843bcf4c06bd9c1dcc34e0/pyzipper-0.4.0-py3-none-any.whl", hash = "sha256:aa7b8a0fe741d67aac36ead85f6e735af107b72f84e0775f2ed565fc0d3a2f02", size = 36643, upload-time = "2026-05-14T04:06:27.332Z" },
 ]
 
 [[package]]
@@ -4967,9 +4923,9 @@ name = "soupsieve"
 version = "3.0.3"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "python_full_version >= '3.15'",
     "python_full_version == '3.14.*'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten'",
     "(python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten') or (python_full_version == '3.12.*' and sys_platform != 'emscripten')",
     "python_full_version >= '3.11.5' and python_full_version < '3.12'",
 ]
@@ -6399,6 +6355,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/2a/8d/e6c8ee4df75940ddecb6f5e7b2753a9a3914e6cd357e7238987661723d81/zhon-2.1.1.tar.gz", hash = "sha256:c8da424fad4aa698ddd3e1735515b49ff522c84dd1091e8fafd986ac7c6898f0", size = 84448, upload-time = "2024-11-20T00:29:10.119Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/be/13/b8d6ca3a41bf5959bc3915678837385bf668162a7295140d81ccae0b96b7/zhon-2.1.1-py3-none-any.whl", hash = "sha256:9ec0d42229ae60708a045270f755ccefb48f2689f2a6ce0bc6597abf6c4a9871", size = 83933, upload-time = "2024-11-20T00:29:08.209Z" },
+]
+
+[[package]]
+name = "zipctl"
+version = "0.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cryptography" },
+    { name = "typing-extensions" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/39/e5/cbb9f46d621f1e60e5f4135febbb661a876230e5c9bf42b07d978c86392b/zipctl-0.2.0-py3-none-any.whl", hash = "sha256:2dce21027a7ad6902f3fe4dd30f373c4672de88e1220e5350a2793b223d18633", size = 215477, upload-time = "2026-10-09T19:55:49.807Z" },
 ]
 
 [[package]]

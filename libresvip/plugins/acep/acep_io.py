@@ -2,7 +2,6 @@ import contextlib
 import hashlib
 import importlib
 import pathlib
-import sys
 from typing import Any
 
 import cbor2
@@ -27,12 +26,6 @@ from libresvip.model.base import BaseModel
 from libresvip.utils.translation import gettext_lazy as _
 
 from .options import AcepSerialization
-
-try:
-    __import__("Crypto")
-except ImportError:
-    with contextlib.suppress(ImportError):
-        sys.modules["Crypto"] = __import__("Cryptodome")
 
 for zstd_backend in (
     "compression.zstd",
@@ -99,39 +92,49 @@ class AcepFile(BaseModel):
     @field_validator("version")
     @classmethod
     def version_validator(cls, value: int, _info: ValidationInfo) -> int:
-        if value < 1000 and "Cryptodome" not in sys.modules:
-            msg = _("Unsupported project version")
-            raise UnsupportedProjectVersionError(msg)
+        if value < 1000:
+            try:
+                importlib.import_module("cryptography")
+            except ImportError as exc:
+                msg = _("Unsupported project version")
+                raise UnsupportedProjectVersionError(msg) from exc
         return value
 
 
-def decrypt_acep_content_v1(content: bytes) -> bytes:
-    from Crypto.Cipher import AES
-    from Crypto.Util.Padding import unpad
+def _unpad_iso7816(data: bytes, block_size: int = 16) -> bytes:
+    padding_len = len(data) - data.rfind(b"\x80")
+    if padding_len < 1 or padding_len > min(block_size, len(data)):
+        msg = "Invalid ISO/IEC 7816-4 padding"
+        raise ValueError(msg)
+    if padding_len > 1 and data[1 - padding_len :] != b"\x00" * (padding_len - 1):
+        msg = "Invalid ISO/IEC 7816-4 padding"
+        raise ValueError(msg)
+    return data[:-padding_len]
 
+
+def _decrypt_acep_aes_cbc(content: bytes, key: bytes, iv: bytes) -> bytes:
+    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv)).decryptor()
+    decrypted = cipher.update(content) + cipher.finalize()
+    if decrypted.endswith(b"\x00"):
+        return _unpad_iso7816(decrypted)
+    return decrypted
+
+
+def decrypt_acep_content_v1(content: bytes) -> bytes:
     key_bytes = b"11956722077380335572"
     iv_bytes = b"1103392056537578664"
     key = hashlib.sha256(key_bytes).digest()
     iv = hashlib.md5(iv_bytes).digest()
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    decrypted = cipher.decrypt(content)
-    if decrypted.endswith(b"\x00"):
-        return unpad(decrypted, AES.block_size, style="iso7816")
-    return decrypted
+    return _decrypt_acep_aes_cbc(content, key, iv)
 
 
 def decrypt_acep_content_v2(content: bytes, salt: str) -> bytes:
-    from Crypto.Cipher import AES
-    from Crypto.Util.Padding import unpad
-
     iv_bytes = str(int(salt[33:], 16) & 0x49A23B22DD28F042).encode()
     iv = hashlib.md5(iv_bytes).digest()
     key = b"\xb7\x4b\x57\x57\x5f\xb1\x4f\xc7\xec\xa9\x9c\x8b\x82\x53\x10\xfc\x4a\x33\x7b\x83\x7b\x12\x83\xe9\x0e\xe0\xef\x02\x20\x1c\x91\x12"
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    decrypted = cipher.decrypt(content)
-    if decrypted.endswith(b"\x00"):
-        return unpad(decrypted, AES.block_size, style="iso7816")
-    return decrypted
+    return _decrypt_acep_aes_cbc(content, key, iv)
 
 
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
