@@ -60,6 +60,24 @@ jobs:
           path: ${{ github.workspace }}/openssl-macos-x86-64
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set up rust
+        if: matrix.os == 'windows-11-arm'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-pc-windows-msvc
+
+      - name: Download OpenSSL
+        if: matrix.os == 'windows-11-arm'
+        uses: dawidd6/action-download-artifact@v11
+        with:
+          repo: pyca/infra
+          workflow: build-windows-openssl.yml
+          branch: main
+          workflow_conclusion: success
+          name: openssl-arm64
+          path: C:/openssl-arm64/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install dependencies
         env:
           OPENSSL_DIR: ${{ matrix.os == 'windows-11-arm' && 'C:/openssl-arm64' || matrix.os == 'macos-15-intel' && format('{0}/openssl-macos-x86-64', github.workspace) || '' }}
