@@ -2359,7 +2359,7 @@ requires-dist = [
     { name = "more-itertools", specifier = ">=11.2.1,<11.2.2" },
     { name = "nicegui", marker = "extra == 'webui'", specifier = ">=3.18.0" },
     { name = "packaging", specifier = ">=26.3,<26.4" },
-    { name = "platformdirs", specifier = ">=4.13.1,<5.0.0" },
+    { name = "platformdirs", specifier = ">=4.13.3,<5.0.0" },
     { name = "portion", specifier = ">=2.6.3,<3.0.0" },
     { name = "protobuf-py", specifier = ">=0.6.0,<0.7.0" },
     { name = "pydantic", specifier = ">=2.14.1,<3.0.0" },
@@ -3497,11 +3497,11 @@ wheels = [
 
 [[package]]
 name = "platformdirs"
-version = "4.13.1"
+version = "4.13.3"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/16/35/146546aa5b9286a83248d29c51781476bbb4b0a608523361120059e0f7ed/platformdirs-4.13.1.tar.gz", hash = "sha256:ee77cf2d36d5a515b2acf68ede6434cf3a8fc70b822bb6b3264d01b96c69a8e0", size = 61458, upload-time = "2026-10-15T21:56:08.441Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/da/91/4a03cfdb03314cfca262921797fff04ff4054bd86a160aed76eddf8aa12b/platformdirs-4.13.3.tar.gz", hash = "sha256:5e567f664eb087ab8521c0179cd8d1bd60857d271136567a39719e28e2d383ce", size = 61559, upload-time = "2026-10-16T01:16:16.573Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/0f/ac79a4e8394193bb228abaaf1c520f629b6ada7fcb75e58cdc8c6acce321/platformdirs-4.13.1-py3-none-any.whl", hash = "sha256:4902b4ad355cb0b202c746b29580ab67c5c2d918e30e3d006353465b82ec3ecc", size = 32737, upload-time = "2026-10-15T21:56:07.059Z" },
+    { url = "https://files.pythonhosted.org/packages/45/b8/fd1af06b079af236f5423f7c1821264419cc8f6b4803f79353acbb8bfa53/platformdirs-4.13.3-py3-none-any.whl", hash = "sha256:f6ad7f447f24f8a3b82cce5976387428bff894a0eca6c3488f4a17f153c130c4", size = 32762, upload-time = "2026-10-16T01:16:15.051Z" },
 ]
 
 [[package]]
