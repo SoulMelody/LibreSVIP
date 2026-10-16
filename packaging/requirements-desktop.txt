@@ -86,7 +86,7 @@ winrt-windows-data-xml-dom==3.2.1 ; sys_platform == 'win32'
 winrt-windows-foundation==3.2.1 ; sys_platform == 'win32'
 winrt-windows-foundation-collections==3.2.1 ; sys_platform == 'win32'
 winrt-windows-ui-notifications==3.2.1 ; sys_platform == 'win32'
-xsdata==26.2
+xsdata==26.10
 xsdata-pydantic==24.5
 yaml-rs==0.1.6 ; sys_platform == 'darwin' or sys_platform == 'emscripten' or sys_platform == 'linux' or sys_platform == 'win32'
 zhon==2.1.1
