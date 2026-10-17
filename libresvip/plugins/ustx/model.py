@@ -17,6 +17,7 @@ ParamType = SimpleNamespace(
     CURVE="Curve",
     NUMERICAL="Numerical",
     OPTIONS="Options",
+    MASKED_CURVE="MaskedCurve",
 )
 
 
@@ -44,8 +45,13 @@ class OptionsExpression(BaseExpression):
     options: list[str | bool] = Field(default_factory=list)
 
 
+class MaskedCurveExpression(BaseExpression):
+    type_: Literal["MaskedCurve"] = Field(ParamType.MASKED_CURVE, alias="type")
+    flag: str | None = None
+
+
 UExpressionDescriptor = Annotated[
-    CurveExpression | NumericalExpression | OptionsExpression,
+    CurveExpression | NumericalExpression | OptionsExpression | MaskedCurveExpression,
     Field(discriminator="type_"),
 ]
 

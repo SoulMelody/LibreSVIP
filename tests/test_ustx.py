@@ -46,3 +46,41 @@ def test_parse_expressions_without_flag() -> None:
     assert project.expressions["dyn"].flag is None
     assert project.expressions["vel"].flag is None
     assert project.expressions["pitd"].flag is None
+
+
+def test_parse_masked_curve_expression() -> None:
+    # OpenUtau added a fourth expression type, `MaskedCurve` (upstream commit
+    # d01afa28), used by `rpit` (rendered pitch) and `pito` (pitch override).
+    # The discriminated union only knew Curve/Numerical/Options, so every
+    # project saved with those expressions failed to load.
+    project = USTXProject.model_validate(
+        {
+            "name": "test",
+            "ustx_version": "0.10",
+            "expressions": {
+                "rpit": {
+                    "name": "rendered pitch (masked curve)",
+                    "abbr": "rpit",
+                    "type": "MaskedCurve",
+                    "min": 2400,
+                    "max": 10800,
+                    "default_value": 6000,
+                    "is_flag": False,
+                    "flag": "",
+                },
+                "pito": {
+                    "name": "pitch override (masked curve)",
+                    "abbr": "pito",
+                    "type": "MaskedCurve",
+                    "min": 2400,
+                    "max": 10800,
+                    "default_value": 6000,
+                    "is_flag": False,
+                },
+            },
+        }
+    )
+    assert project.expressions is not None
+    assert project.expressions["rpit"].type_ == "MaskedCurve"
+    assert project.expressions["pito"].type_ == "MaskedCurve"
+    assert project.expressions["pito"].flag is None
