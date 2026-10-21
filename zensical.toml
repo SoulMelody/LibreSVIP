@@ -71,3 +71,21 @@ social = [
   { icon = "material/language-python", link = "https://pypi.org/project/libresvip/" },
   { icon = "material/translate", link = "https://zh.crowdin.com/project/libresvip" },
 ]
+
+[project.plugins.llmstxt]
+full_output = "llms-full.txt"
+markdown_description = """
+LibreSVIP 是一个通用的歌声合成工程文件转换器。
+"""
+
+[project.plugins.llmstxt.sections]
+"快速开始" = [
+  { "index.md" = "项目简介" },
+]
+"开发者文档" = [
+  { "setup.md" = "环境搭建" },
+  { "contributing.md" = "贡献代码" },
+  { "coding_style.md" = "代码规范" },
+  { "best_practices.md" = "格式解析最佳实践" },
+  { "project_formats.md" = "歌声合成工程格式一览" },
+]
