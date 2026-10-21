@@ -1,0 +1,17 @@
+# LibreSVIP
+
+> 一个通用的歌声合成工程文件转换器
+
+LibreSVIP 是一个通用的歌声合成工程文件转换器。
+
+## 快速开始
+
+- [简介](<https://soulmelody.github.io/LibreSVIP/index.md>): 项目简介
+
+## 开发者文档
+
+- [环境搭建](<https://soulmelody.github.io/LibreSVIP/setup/index.md>): 环境搭建
+- [贡献代码](<https://soulmelody.github.io/LibreSVIP/contributing/index.md>): 贡献代码
+- [代码规范](<https://soulmelody.github.io/LibreSVIP/coding_style/index.md>): 代码规范
+- [格式解析最佳实践](<https://soulmelody.github.io/LibreSVIP/best_practices/index.md>): 格式解析最佳实践
+- [歌声合成工程格式一览](<https://soulmelody.github.io/LibreSVIP/project_formats/index.md>): 歌声合成工程格式一览
