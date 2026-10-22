@@ -1003,8 +1003,12 @@ uv run --group code_gen xsdata generate --output xsdata_pydantic 样例文件或
 <h2 id="protobufbuf-protobuf-py">Protobuf：buf 生成 + protobuf-py 运行时</h2>
 <p><code>.proto</code> 文件统一放在 <code>libresvip/res/protos/</code>（现有 <code>libresvip.proto</code>、<code>svip3.proto</code>）。生成流程：</p>
 <p><code>bash
-./scripts/gen_proto_files.sh   # 内部执行 cd libresvip/res/protos &amp;&amp; uv run -- buf generate</code></p>
-<p><code>buf.gen.yaml</code> 使用本仓库的 <code>protoc-gen-py</code> 插件，生成的 <code>*_pb.py</code>（内嵌序列化的 file descriptor）<strong>直接提交进仓库</strong>，运行时用 <a href="https://github.com/soulmelodycn/protobuf-py">protobuf-py</a> 而非 google 官方 protobuf 包（API 为 <code>from protobuf import Message</code> / <code>protobuf.wkt</code>）。</p>
+uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py
+./scripts/gen_proto_files.sh</code></p>
+<p><code>buf.gen.yaml</code> 在 <code>libresvip/res/protos/</code> 里生成 <code>*_pb.py</code>，脚本随后把 <code>svip3_pb.py</code>、<code>libresvip_pb.py</code> 分别拷到 <code>libresvip/plugins/svip3/</code> 与 <code>libresvip/cli/rpc/</code> 并删除临时产物（相对导入要求绑定文件与消费方同包）。生成的 <code>*_pb.py</code>（内嵌序列化的 file descriptor）<strong>直接提交进仓库</strong>，运行时用 <a href="https://github.com/bufbuild/protobuf-py">protobuf-py</a> 而非 google 官方 protobuf 包（API 为 <code>from protobuf import Message</code>，well-known types 用全限定路径 <code>from protobuf.wkt.google.protobuf.any_pb import Any</code>）。</p>
+<blockquote>
+<p>protobuf-py 0.7.0 起 <code>protobuf.wkt</code> 只再导出常用类型（<code>Any</code>、<code>Duration</code>、<code>Timestamp</code>、<code>Struct</code>/<code>Value</code>/<code>ListValue</code>、<code>Empty</code>、<code>FieldMask</code>、<code>descriptor</code> 与 <code>wrappers</code> 系列）。<code>any_pb</code> 这类模块句柄和 <code>GoFeatures</code>、<code>CodeGeneratorRequest</code> 等冷门类型必须走全限定导入，且桩代码由 ≥0.6.0 的 <code>protoc-gen-py</code> 生成。</p>
+</blockquote>
 <h3 id="proto-pbtk">从闭源软件提取 proto 定义：pbtk</h3>
 <p>目标软件没有公开 schema 时（如 X Studio 的 svip3），用 <a href="https://github.com/vaitekoo/pbtk">pbtk</a>（在 <code>code_gen</code> 依赖组）从其二进制可执行文件中提取内嵌的 protobuf descriptor，导出成 <code>.proto</code> 后放进 <code>libresvip/res/protos/</code> 再走上面的生成流程。<code>svip3.proto</code>（<code>package xstudio.proto</code>）就是这么来的。</p>
 <h2 id="construct">自定义二进制格式：construct</h2>
