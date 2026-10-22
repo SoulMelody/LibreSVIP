@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: cli-windows-x86
@@ -60,7 +60,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: cli-windows-amd64
@@ -98,7 +98,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: cli-windows-arm64
@@ -153,7 +153,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: cli-linux-x86-64
@@ -189,7 +189,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: cli-linux-aarch64
@@ -234,7 +234,7 @@ jobs:
           cache: false
           target: x86_64-apple-darwin
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: cli-macos-x86-64
@@ -286,7 +286,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: cli-macos-arm64
@@ -322,7 +322,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: desktop-windows-amd64
@@ -397,7 +397,7 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: desktop-windows-arm64
@@ -451,7 +451,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: desktop-linux-x86-64
@@ -488,7 +488,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: desktop-linux-aarch64
@@ -534,7 +534,7 @@ jobs:
           cache: false
           target: x86_64-apple-darwin
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: desktop-macos-x86-64
@@ -587,7 +587,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: desktop-macos-arm64
@@ -625,7 +625,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up uv
-        uses: astral-sh/setup-uv@v10.3.0
+        uses: astral-sh/setup-uv@v10.3.1
         with:
           version: "latest"
           cache-suffix: mobile-apk
