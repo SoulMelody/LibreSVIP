@@ -121,7 +121,7 @@ all = [
 ]
 agents = [
   "apm-cli>=0.34.0",
-  "flet-mcp>=1.0.4,<1.1.0",
+  "flet-mcp>=1.0.5,<1.1.0",
 ]
 code_gen = [
   "buf-bin>=1.74.0",
@@ -148,7 +148,7 @@ linting = [
   "types-ujson>=5.10.0.20250822",
 ]
 packaging = [
-  "flet-cli>=1.0.4,<1.1.0",
+  "flet-cli>=1.0.5,<1.1.0",
   "pyinstaller>=6.22.3",
   "shellingham<2.0.0,>=1.5.4",
 ]
