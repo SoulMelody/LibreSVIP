@@ -48,10 +48,13 @@ uv run --group code_gen xsdata generate --output xsdata_pydantic 样例文件或
 `.proto` 文件统一放在 `libresvip/res/protos/`（现有 `libresvip.proto`、`svip3.proto`）。生成流程：
 
 ```bash
-./scripts/gen_proto_files.sh   # 内部执行 cd libresvip/res/protos && uv run -- buf generate
+uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py
+./scripts/gen_proto_files.sh
 ```
 
-`buf.gen.yaml` 使用本仓库的 `protoc-gen-py` 插件，生成的 `*_pb.py`（内嵌序列化的 file descriptor）**直接提交进仓库**，运行时用 [protobuf-py](https://github.com/soulmelodycn/protobuf-py) 而非 google 官方 protobuf 包（API 为 `from protobuf import Message` / `protobuf.wkt`）。
+`buf.gen.yaml` 在 `libresvip/res/protos/` 里生成 `*_pb.py`，脚本随后把 `svip3_pb.py`、`libresvip_pb.py` 分别拷到 `libresvip/plugins/svip3/` 与 `libresvip/cli/rpc/` 并删除临时产物（相对导入要求绑定文件与消费方同包）。生成的 `*_pb.py`（内嵌序列化的 file descriptor）**直接提交进仓库**，运行时用 [protobuf-py](https://github.com/bufbuild/protobuf-py) 而非 google 官方 protobuf 包（API 为 `from protobuf import Message`，well-known types 用全限定路径 `from protobuf.wkt.google.protobuf.any_pb import Any`）。
+
+> protobuf-py 0.7.0 起 `protobuf.wkt` 只再导出常用类型（`Any`、`Duration`、`Timestamp`、`Struct`/`Value`/`ListValue`、`Empty`、`FieldMask`、`descriptor` 与 `wrappers` 系列）。`any_pb` 这类模块句柄和 `GoFeatures`、`CodeGeneratorRequest` 等冷门类型必须走全限定导入，且桩代码由 ≥0.6.0 的 `protoc-gen-py` 生成。
 
 ### 从闭源软件提取 proto 定义：pbtk
 
