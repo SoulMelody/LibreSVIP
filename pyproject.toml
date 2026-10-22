@@ -59,7 +59,7 @@ dependencies = [
   "svg-py<2.0.0,>=1.10.0",
   "tatsu-lts>=5.16.0,<6.0.0; python_version < '3.12'",
   "tatsu>=5.24.0,<6.0.0; python_version >= '3.12'",
-  "that-depends>=4.2.0",
+  "that-depends>=4.2.1",
   "universal-pathlib<1.0.0,>=0.3.10",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
