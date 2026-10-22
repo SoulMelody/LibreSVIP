@@ -2387,7 +2387,7 @@ requires-dist = [
     { name = "tatsu", marker = "python_full_version >= '3.12'", specifier = ">=5.24.0,<6.0.0" },
     { name = "tatsu-lts", marker = "python_full_version < '3.12'", specifier = ">=5.16.0,<6.0.0" },
     { name = "textual-fspicker", marker = "extra == 'tui'", specifier = ">=1.0.1" },
-    { name = "that-depends", specifier = ">=4.2.0" },
+    { name = "that-depends", specifier = ">=4.2.1" },
     { name = "tkinter-icons-mat", marker = "extra == 'desktop'", specifier = ">=1.1.2" },
     { name = "typer", marker = "extra == 'cli'", specifier = ">=0.27.3,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=6.0.0" },
@@ -5157,14 +5157,14 @@ wheels = [
 
 [[package]]
 name = "that-depends"
-version = "4.2.0"
+version = "4.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cd/55/491e8d5503a805ec3286ee5b91c0959d0413a92b4116656c18a7512c4daf/that_depends-4.2.0.tar.gz", hash = "sha256:05ca5c1c7de51550132dd1ed9ef4f89cc715ee71839f996a8046712b988f8506", size = 34270, upload-time = "2026-10-03T09:50:27.957Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fd/f7/83043276aa284480baf7b307ab73fe535ed5827a6db9620afb0346c1a762/that_depends-4.2.1.tar.gz", hash = "sha256:8295189f2530cf947ae3c1e649cfa14943f4158713dda8e8200aad54dfac1d8e", size = 36144, upload-time = "2026-10-22T06:29:35.761Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2a/0d/0f36f6b69c95186ecddd2715dda040cc277eb6e0302fd2a2e624b1a90ee2/that_depends-4.2.0-py3-none-any.whl", hash = "sha256:a06267e60fda353be071d7aa7b8dc452d4f79f067e643de6222c624b640f29c0", size = 46947, upload-time = "2026-10-03T09:50:26.801Z" },
+    { url = "https://files.pythonhosted.org/packages/6d/2b/9b4e4796ee4a051f2b34bba007c6585883ac963edfb6df75e2e63fe4008f/that_depends-4.2.1-py3-none-any.whl", hash = "sha256:bbb4a2abd142d410aa00658850bdc2048d81a4f24c824dce20c89be87f4cc0d4", size = 46888, upload-time = "2026-10-22T06:29:34.439Z" },
 ]
 
 [[package]]
