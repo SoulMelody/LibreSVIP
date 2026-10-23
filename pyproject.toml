@@ -120,7 +120,7 @@ all = [
   { include-group = "test" }
 ]
 agents = [
-  "apm-cli>=0.34.0",
+  "apm-cli>=0.35.0",
   "flet-mcp>=1.0.5,<1.1.0",
 ]
 code_gen = [
