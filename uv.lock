@@ -274,7 +274,7 @@ wheels = [
 
 [[package]]
 name = "apm-cli"
-version = "0.34.0"
+version = "0.35.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -295,9 +295,9 @@ dependencies = [
     { name = "watchdog" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bb/1a/7a1714c044295c9844fe50f338fa04f302112cf9102618098c3b8b570809/apm_cli-0.34.0.tar.gz", hash = "sha256:55610c84c0b1f7eab4a8658767d1b01fe74f95261f39186f3492ccd24a155117", size = 1839796, upload-time = "2026-10-19T12:01:48.214Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8e/20/9ca9b61b362e0f1fb465931d0dd76150a5f23b98b2249663e7edbacc6c0c/apm_cli-0.35.0.tar.gz", hash = "sha256:9f1b06ee7c35485d2b65a8e974fbc7195f358e2149913a8312f17506698e1363", size = 1913526, upload-time = "2026-10-22T22:52:47.648Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/47/29/320231251595c9be0ed18e7103ab31cd0954f01e24b48926f57025669817/apm_cli-0.34.0-py3-none-any.whl", hash = "sha256:77c0fe478aa7ef1a2d329546eeb7b8279864c4270ca1475e4ad44603c3bfe695", size = 2005337, upload-time = "2026-10-19T12:01:45.83Z" },
+    { url = "https://files.pythonhosted.org/packages/89/7f/1f83e2537343f1d4a808dd1a2e98ab62ca5c0168dae56fc2bf797b8b2771/apm_cli-0.35.0-py3-none-any.whl", hash = "sha256:535f9478fdfeb7acf586af96cbf1428ef128f76fdf89a9c084df04b88bebc1af", size = 2087790, upload-time = "2026-10-22T22:52:45.645Z" },
 ]
 
 [[package]]
@@ -2405,11 +2405,11 @@ provides-extras = ["cli", "crypto", "desktop", "lxml", "minijinja", "mobile", "t
 
 [package.metadata.requires-dev]
 agents = [
-    { name = "apm-cli", specifier = ">=0.34.0" },
+    { name = "apm-cli", specifier = ">=0.35.0" },
     { name = "flet-mcp", specifier = ">=1.0.5,<1.1.0" },
 ]
 all = [
-    { name = "apm-cli", specifier = ">=0.34.0" },
+    { name = "apm-cli", specifier = ">=0.35.0" },
     { name = "babel", specifier = ">=2.18.0" },
     { name = "buf-bin", specifier = ">=1.75.0" },
     { name = "datamodel-code-generator", specifier = ">=0.86.0" },
