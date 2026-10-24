@@ -69,6 +69,11 @@ def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
     return phoneme_list
 
 
+def pinyin_to_xsampa(pinyin: str, language: str) -> str | None:
+    """The inverse of ``xsampa2pinyin``; ``None`` when the syllable has no dictionary entry."""
+    return phoneme_dictionary.get(language, {}).get(pinyin)
+
+
 def xsampa2pinyin(xsampa: str, language: str) -> str:
     xsampa = re.sub(r"\s+", " ", xsampa).strip()
     return phoneme_dictionary[language].inverse.get(xsampa, DEFAULT_PHONEME)

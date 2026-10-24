@@ -262,3 +262,10 @@ class OutputOptions(BaseModel):
         default=LanguageOption.MANDARIN,
         title=_("Override default language for the voicebank"),
     )
+    write_phonemes: bool = Field(
+        default=False,
+        title=_("Write the phoneme layer"),
+        description=_(
+            "Synthesizer V derives the phonemes from the lyrics, which is what LibreSVIP does by default; turn this on to write the stored pronunciation of every note into the phoneme layer instead (converted to the project language's notation)."
+        ),
+    )

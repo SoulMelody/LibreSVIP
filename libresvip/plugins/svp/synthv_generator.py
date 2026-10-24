@@ -1,6 +1,7 @@
 import dataclasses
 import sys
 from collections.abc import Callable, Iterator
+from itertools import pairwise
 
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -22,7 +23,7 @@ from libresvip.utils.music_math import (
     clamp,
     ratio_to_db,
 )
-from libresvip.utils.search import find_index, find_last_index
+from libresvip.utils.search import binary_find_last_index, find_index, find_last_index
 
 from .constants import TICK_RATE
 from .interval_utils import ticks_to_position
@@ -46,7 +47,7 @@ from .options import (
     VibratoOption,
     synthv_language_presets,
 )
-from .phoneme_utils import default_phone_marks, number_of_phones, sv_g2p
+from .phoneme_utils import default_phone_marks, number_of_phones, pinyin_to_xsampa, sv_g2p
 
 
 @dataclasses.dataclass
@@ -55,6 +56,7 @@ class SynthVGenerator:
     first_bar_tick: int = dataclasses.field(init=False)
     first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
     note_buffer: list[Note] = dataclasses.field(init=False)
+    note_buffer_sorted: bool = dataclasses.field(default=True, init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pitch_simulator: PitchSimulator = dataclasses.field(init=False)
     no_vibrato_indexes: set[int] = dataclasses.field(default_factory=set, init=False)
@@ -128,6 +130,9 @@ class SynthVGenerator:
             if track.ai_singer_name:
                 sv_track.main_ref.database.name = track.ai_singer_name
             self.note_buffer = track.note_list
+            self.note_buffer_sorted = all(
+                left.start_pos <= right.start_pos for left, right in pairwise(track.note_list)
+            )
             self.pitch_simulator = PitchSimulator(
                 synchronizer=self.synchronizer,
                 note_list=track.note_list,
@@ -332,9 +337,29 @@ class SynthVGenerator:
             )
         return sv_curve
 
+    def phonemes_for(self, note: Note) -> str | None:
+        """The phoneme text of a note, in the project language's notation.
+
+        ``None`` when the option is off, when the note carries no pronunciation, or
+        when the syllable is not in the dictionary for this language (writing a
+        pinyin syllable as an X-SAMPA phoneme would be invalid).
+        """
+        if not self.options.write_phonemes:
+            return None
+        if not note.pronunciation:
+            return None
+        language = self.options.language_override.value
+        if language in {"mandarin", "cantonese"}:
+            return pinyin_to_xsampa(note.pronunciation, language)
+        # Japanese and Korean imports keep the source phonemes verbatim.
+        if language in {"japanese", "korean"}:
+            return note.pronunciation
+        return None
+
     def generate_note(self, note: Note) -> SVNote:
         onset = ticks_to_position(note.start_pos)
         return SVNote(
+            phonemes=self.phonemes_for(note) or "",
             instant_mode=False
             if self.options.version_compatibility
             == SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2
@@ -346,7 +371,12 @@ class SynthVGenerator:
         )
 
     def generate_pitch_diff(self, pos: int, pitch: int) -> float:
-        target_note_index = find_last_index(self.note_buffer, lambda x: x.start_pos <= pos)
+        if self.note_buffer_sorted:
+            target_note_index = binary_find_last_index(
+                self.note_buffer, lambda x: x.start_pos <= pos
+            )
+        else:
+            target_note_index = find_last_index(self.note_buffer, lambda x: x.start_pos <= pos)
         target_note = self.note_buffer[target_note_index] if target_note_index >= 0 else None
         if (
             simulated_pitch := self.pitch_simulator.pitch_at_secs(
