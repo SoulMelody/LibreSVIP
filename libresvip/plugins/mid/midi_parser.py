@@ -38,7 +38,6 @@ from libresvip.utils.binary.midi import (
     tempo2bpm,
 )
 from libresvip.utils.music_math import ratio_to_db
-from libresvip.utils.text import LATIN_ALPHABET
 from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
@@ -222,8 +221,6 @@ class MidiParser:
                                 length=round((end_tick - start_tick) * self.tick_rate),
                             )
                             lyric = lyrics[start_tick]
-                            if LATIN_ALPHABET.search(lyric) is not None:
-                                note.pronunciation = lyric
                             note.lyric = lyric
                             notes.append(note)
                         if notes_to_close and notes_to_keep:

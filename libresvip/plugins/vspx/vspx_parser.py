@@ -106,7 +106,6 @@ class VocalSharpParser:
                 length=note.duration,
                 key_number=note.key_number,
                 lyric=note.lyric,
-                pronunciation=note.lyric,
             )
             for note in note_list
         ]
@@ -120,7 +119,7 @@ class VocalSharpParser:
                 cur_tick = vspx_point.time + self.first_bar_length
                 if prev_tick is None:
                     pitch_points.append(Point(x=cur_tick, y=-100))
-                elif vspx_point.time - prev_tick > 1:
+                elif cur_tick - prev_tick > 1:
                     pitch_points.append(Point(x=prev_tick, y=-100))
                     pitch_points.append(Point(x=cur_tick, y=-100))
                 vspx_point_secs = self.synchronizer.get_actual_secs_from_ticks(vspx_point.time)

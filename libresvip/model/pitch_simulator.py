@@ -203,7 +203,7 @@ class PitchSimulator:
     def _pitch_at_secs_with_ordered_lookup(self, secs: float) -> float | None:
         if (value := self._pitch_override_at_secs(secs)) is not None:
             return value
-        if value := self.interval_dict.get(secs):
+        if (value := self.interval_dict.get(secs)) is not None:
             return value * 100
         return None
 
@@ -217,7 +217,10 @@ class PitchSimulator:
                     start=(segment.start, segment.start_value),
                     end=(segment.end, segment.end_value),
                 )
-        if self.pitch_interval_dict is not None and (value := self.pitch_interval_dict.get(secs)):
+        if (
+            self.pitch_interval_dict is not None
+            and (value := self.pitch_interval_dict.get(secs)) is not None
+        ):
             return value
         return None
 

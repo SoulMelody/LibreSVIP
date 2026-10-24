@@ -178,12 +178,19 @@ class UstxParser:
             if ustx_note.lyric:
                 if (phonetic_hint := PHONETIC_HINT_RE.search(ustx_note.lyric)) is not None:
                     note.pronunciation = phonetic_hint.group(1)
-                elif is_kana(ustx_note.lyric):
-                    note.pronunciation = to_romaji(ustx_note.lyric)
-                elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
-                    note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
-                elif not ustx_note.lyric.startswith("+"):
-                    note.pronunciation = ustx_note.lyric.removeprefix("?")
+                else:
+                    if is_kana(ustx_note.lyric):
+                        expected_pronunciation = to_romaji(ustx_note.lyric)
+                    elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
+                        expected_pronunciation = " ".join(
+                            pypinyin.lazy_pinyin(chinese_char.group())
+                        )
+                    elif not ustx_note.lyric.startswith("+"):
+                        expected_pronunciation = ustx_note.lyric.removeprefix("?")
+                    else:
+                        expected_pronunciation = None
+                    if expected_pronunciation != ustx_note.lyric:
+                        note.pronunciation = expected_pronunciation
             if prev_ustx_note is not None:
                 if prev_ustx_note.end > ustx_note.position:
                     msg = _("Notes overlapped near bar {}").format(

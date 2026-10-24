@@ -71,9 +71,9 @@ class AiSingersParser:
                 pitch_points = [Point.start_point()]
                 for item in ais_track.items:
                     tick_prefix = item.start * 15
-                    item_notes, pitch_points = self.parse_notes(item.notes, tick_prefix)
+                    item_notes, item_pitch_points = self.parse_notes(item.notes, tick_prefix)
                     note_list.extend(item_notes)
-                    pitch_points.extend(pitch_points)
+                    pitch_points.extend(item_pitch_points)
                 pitch_points.append(Point.end_point())
                 singing_track = SingingTrack(
                     title=ais_track.name,
