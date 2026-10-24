@@ -277,6 +277,13 @@ class OutputOptions(BaseModel):
         title=_("Default consonant length (secs)"),
         description=_("Set default consonant length for notes if not specified"),
     )
+    write_syllable: bool = Field(
+        default=True,
+        title=_("Write the syllable (phoneme) layer"),
+        description=_(
+            "Write the syllable (phoneme) layer. Turn this off to leave the phoneme layer empty and let ACE Studio derive the phonemes from the lyrics - useful when the source stores romanised lyrics, or when cleaning up a project whose syllables are not valid phonemes."
+        ),
+    )
     serialization: AcepSerialization = Field(
         default=AcepSerialization.JSON,
         title=_("Specify the serialization method of the generated .acep file"),

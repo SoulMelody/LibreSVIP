@@ -189,6 +189,12 @@ msgstr "既定の子音長 (秒)"
 msgid "Set default consonant length for notes if not specified"
 msgstr "指定されていないノートに既定の子音長を設定します"
 
+msgid "Write the syllable (phoneme) layer"
+msgstr "音節（音素）レイヤーを書き込む"
+
+msgid "Write the syllable (phoneme) layer. Turn this off to leave the phoneme layer empty and let ACE Studio derive the phonemes from the lyrics - useful when the source stores romanised lyrics, or when cleaning up a project whose syllables are not valid phonemes."
+msgstr "音節（音素）レイヤーを書き込みます。オフにすると音素レイヤーは空のままになり、ACE Studio が歌詞から音素を推測します。元のファイルの歌詞がローマ字である場合や、音節が正しい音素になっていないプロジェクトを整理したい場合に便利です。"
+
 msgid "Specify the serialization method of the generated .acep file"
 msgstr "生成される .acep ファイルのシリアライズ方式を指定します"
 

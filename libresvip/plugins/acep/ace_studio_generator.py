@@ -206,16 +206,17 @@ class AceGenerator:
         )
 
         if all(symbol not in note.lyric for symbol in ["-", "+"]):
-            if self.options.lyric_language.value == AcepLyricsLanguage.CHINESE.value:
-                pronunciation = next(iter(get_pinyin_series(note.lyric)), None)
-            elif self.options.lyric_language.value == AcepLyricsLanguage.JAPANESE.value:
-                pronunciation = to_romaji(note.lyric) or None
-            elif self.options.lyric_language.value == AcepLyricsLanguage.KOREAN.value:
-                pronunciation = romanise(note.lyric, "rr") or None
-            else:
-                pronunciation = None
-            if note.pronunciation is not None and note.pronunciation != pronunciation:
-                ace_note.syllable = note.pronunciation
+            if self.options.write_syllable:
+                if self.options.lyric_language.value == AcepLyricsLanguage.CHINESE.value:
+                    pronunciation = next(iter(get_pinyin_series(note.lyric)), None)
+                elif self.options.lyric_language.value == AcepLyricsLanguage.JAPANESE.value:
+                    pronunciation = to_romaji(note.lyric) or None
+                elif self.options.lyric_language.value == AcepLyricsLanguage.KOREAN.value:
+                    pronunciation = romanise(note.lyric, "rr") or None
+                else:
+                    pronunciation = None
+                if note.pronunciation is not None and note.pronunciation != pronunciation:
+                    ace_note.syllable = note.pronunciation
             if note.edited_phones is not None and note.edited_phones.head_length_in_secs >= 0:
                 ace_note.head_consonants = [note.edited_phones.head_length_in_secs]
             elif self.options.default_consonant_length:
@@ -297,11 +298,16 @@ class AceGenerator:
 
     def generate_pitch_curves(self, curve: ParamCurve) -> AcepParamCurveList:
         ace_curves = AcepParamCurveList()
-        base_pitch = BasePitchCurve(self.ace_note_list, self.synchronizer, self.pattern_start)
         left_bound = max(0, self.pattern_start + self.ace_note_list[0].pos - 240)
         right_bound = max(
             0,
             self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur,
+        )
+        base_pitch = BasePitchCurve(
+            self.ace_note_list,
+            self.synchronizer,
+            self.pattern_start,
+            self.synchronizer.get_actual_secs_from_ticks(max(0, left_bound - 480)),
         )
 
         segments = []

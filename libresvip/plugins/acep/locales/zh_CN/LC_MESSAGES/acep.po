@@ -189,6 +189,12 @@ msgstr "默认辅音长度 (单位为秒)"
 msgid "Set default consonant length for notes if not specified"
 msgstr "给未设置辅音长度的音符添加默认值"
 
+msgid "Write the syllable (phoneme) layer"
+msgstr "写入音节（音素）层"
+
+msgid "Write the syllable (phoneme) layer. Turn this off to leave the phoneme layer empty and let ACE Studio derive the phonemes from the lyrics - useful when the source stores romanised lyrics, or when cleaning up a project whose syllables are not valid phonemes."
+msgstr "写入音节（音素）层。关闭后会将音素层留空，由 ACE Studio 根据歌词自动推断音素。适用于源文件歌词为罗马音，或需要清理音节并非合法音素的项目的情况。"
+
 msgid "Specify the serialization method of the generated .acep file"
 msgstr "指定生成.acep文件的序列化方法"
 
