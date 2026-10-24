@@ -27,7 +27,7 @@ markupsafe==3.0.4
 mdurl==0.1.2
 minijinja==3.0.3
 more-itertools==11.2.1
-multidict==7.1.0
+multidict==7.2.0
 numpy==2.4.6 ; python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 numpy==2.5.4 ; python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 packaging==26.3
