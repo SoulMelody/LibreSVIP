@@ -1,7 +1,6 @@
 import dataclasses
 import sys
-from collections.abc import Callable
-from typing import TYPE_CHECKING
+from collections.abc import Callable, Iterator
 
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -16,6 +15,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.music_math import (
@@ -48,9 +48,6 @@ from .options import (
 )
 from .phoneme_utils import default_phone_marks, number_of_phones, sv_g2p
 
-if TYPE_CHECKING:
-    from libresvip.model.point import Point
-
 
 @dataclasses.dataclass
 class SynthVGenerator:
@@ -60,7 +57,7 @@ class SynthVGenerator:
     note_buffer: list[Note] = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pitch_simulator: PitchSimulator = dataclasses.field(init=False)
-    no_vibrato_indexes: set[int] = dataclasses.field(init=False)
+    no_vibrato_indexes: set[int] = dataclasses.field(default_factory=set, init=False)
     lyrics_phonemes: list[str] = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> SVProject:
@@ -142,11 +139,11 @@ class SynthVGenerator:
                 self.options.version_compatibility.value
                 == SVProjectVersionCompatibility.ABOVE_2_0_0.value
             ):
-                sv_track.main_group.pitch_controls = self.generate_pitch_controls(
-                    track.edited_params.pitch.reduce_sample_rate(
-                        self.options.down_sample, interrupt_value=-100
-                    )
+                pitch_curve = track.edited_params.pitch.reduce_sample_rate(
+                    self.options.down_sample, interrupt_value=-100
                 )
+                self.collect_no_vibrato_indexes(pitch_curve)
+                sv_track.main_group.pitch_controls = self.generate_pitch_controls(pitch_curve)
 
             self.lyrics_phonemes = sv_g2p(
                 (SVNote.normalize_phoneme(note) for note in track.note_list),
@@ -284,6 +281,25 @@ class SynthVGenerator:
             )
         return pitch_controls
 
+    def iter_pitch_segments(self, curve: ParamCurve) -> Iterator[list[Point]]:
+        buffer: list[Point] = []
+        for point in curve.points.root:
+            if point.x < self.first_bar_tick:
+                continue
+            point = point._replace(x=point.x - self.first_bar_tick)
+            if point.y == -100:
+                if buffer:
+                    yield buffer
+                    buffer = []
+            else:
+                buffer.append(point)
+
+    def collect_no_vibrato_indexes(self, curve: ParamCurve) -> None:
+        self.no_vibrato_indexes = set()
+        for segment in self.iter_pitch_segments(curve):
+            for point in segment:
+                self.generate_pitch_diff(point.x, point.y)
+
     def generate_pitch_curve(self, curve: ParamCurve) -> SVParamCurve:
         sv_curve = SVParamCurve()
         if self.options.vibrato == VibratoOption.HYBRID:
@@ -291,46 +307,28 @@ class SynthVGenerator:
         if not len(self.note_buffer):
             return sv_curve
         point_list = sv_curve.points
-        buffer: list[Point] = []
         min_interval = 1
         last_point = None
-        for point in curve.points.root:
-            if point.x >= self.first_bar_tick:
-                point = point._replace(x=point.x - self.first_bar_tick)
-                if point.y == -100:
-                    if not buffer:
-                        continue
-                    if last_point is None or last_point.x + min_interval < buffer[0].x:
-                        if last_point is not None and last_point.x + 2 * min_interval < buffer[0].x:
-                            point_list.append(
-                                SVPoint(
-                                    offset=ticks_to_position(last_point.x + min_interval),
-                                    value=0,
-                                )
-                            )
-                        point_list.append(
-                            SVPoint(
-                                offset=ticks_to_position(buffer[0].x - min_interval),
-                                value=0,
-                            )
-                        )
-                    for tmp_point in buffer:
-                        point_list.append(
-                            SVPoint(
-                                offset=ticks_to_position(tmp_point.x),
-                                value=self.generate_pitch_diff(tmp_point.x, tmp_point.y),
-                            )
-                        )
-                    last_point = buffer[-1]
-                    buffer.clear()
-                else:
-                    buffer.append(point)
+        for segment in self.iter_pitch_segments(curve):
+            if last_point is None or last_point.x + min_interval < segment[0].x:
+                if last_point is not None and last_point.x + 2 * min_interval < segment[0].x:
+                    point_list.append(
+                        SVPoint(offset=ticks_to_position(last_point.x + min_interval), value=0)
+                    )
+                point_list.append(
+                    SVPoint(offset=ticks_to_position(segment[0].x - min_interval), value=0)
+                )
+            for tmp_point in segment:
+                point_list.append(
+                    SVPoint(
+                        offset=ticks_to_position(tmp_point.x),
+                        value=self.generate_pitch_diff(tmp_point.x, tmp_point.y),
+                    )
+                )
+            last_point = segment[-1]
         if last_point is not None:
             point_list.append(
-                SVPoint(
-                    offset=ticks_to_position(last_point.x + min_interval),
-                    value=0,
-                )
+                SVPoint(offset=ticks_to_position(last_point.x + min_interval), value=0)
             )
         return sv_curve
 

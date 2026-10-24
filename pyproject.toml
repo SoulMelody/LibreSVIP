@@ -167,6 +167,10 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
 [tool.uv]
+# `ruamel.yaml.clib` is only pulled in where there is no `yaml-rs` wheel, and only its
+# sdist exists. Its build reads source files with the locale codec, which breaks under a
+# GBK locale, so force UTF-8 for that build only.
+extra-build-variables = { ruamel-yaml-clib = { PYTHONUTF8 = "1" } }
 exclude-dependencies = [
   { package = { name = "pbtk" }, dependencies = ["system-pyside6"] },
 ]

@@ -82,7 +82,7 @@ def get_param_by_format(
     format_name: Literal["vpr", "vsqx", "vsq"],
     param_id: str,
 ) -> VocaloidParameterDef | None:
-    attr_name = f"{format_name}_name"
+    attr_name = "vsq_name" if format_name in ("vsq", "vsqx") else "vpr_name"
     for param in VOCALOID_PARAMETERS.values():
         if getattr(param, attr_name) == param_id:
             return param

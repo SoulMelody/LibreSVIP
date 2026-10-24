@@ -97,13 +97,16 @@ class VsqxControllerAdapter:
             return []
 
         param_def = get_param_def(curve.name)
-        vsqx_param_id = param_def.vsqx_name if param_def else curve.name
+        if param_def is None or param_def.vsq_name is None:
+            return []
+        vsqx_param_id = self.param_names[param_def.vsq_name].value
 
         mctrl_list = []
+        attr_class = mctrl_class.model_fields["attr"].annotation
         for event in curve.events:
             mctrl = mctrl_class(
                 pos_tick=event.pos,
-                attr=mctrl_class.__dataclass_fields__["attr"].type(
+                attr=attr_class(
                     type_param_attr_id=vsqx_param_id,
                     value=event.value,
                 ),

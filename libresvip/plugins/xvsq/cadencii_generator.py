@@ -72,8 +72,8 @@ class CadenciiGenerator:
             (
                 note.end_pos + tick_prefix
                 for track in project.track_list
-                for note in track.note_list
                 if isinstance(track, SingingTrack)
+                for note in track.note_list
             ),
             default=0,
         )
