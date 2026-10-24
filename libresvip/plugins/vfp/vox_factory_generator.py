@@ -1,14 +1,9 @@
 import dataclasses
-import functools
 import math
 import pathlib
 import secrets
 
-import more_itertools
-import portion
-
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME, TICKS_IN_BEAT
-from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -21,19 +16,24 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils.audio import audio_track_info
-from libresvip.utils.music_math import linear_interpolation
 
 from .model import (
     VOXFactoryAudioClip,
     VOXFactoryAudioData,
     VOXFactoryAudioTrack,
+    VOXFactoryMaster,
     VOXFactoryNote,
+    VoxFactoryPitchPoint,
     VOXFactoryProject,
     VOXFactoryTrack,
     VOXFactoryVocalClip,
     VOXFactoryVocalTrack,
 )
 from .options import OutputOptions
+
+CLIP_LENGTH_QUARTERS = 32
+PITCH_SAMPLE_TICKS = 20
+DEFAULT_LOOP_LENGTH_QUARTERS = 16
 
 
 @dataclasses.dataclass
@@ -52,6 +52,8 @@ class VOXFactoryGenerator:
         return VOXFactoryProject(
             tempo=self.generate_tempo(project.song_tempo_list),
             time_signature=self.generate_time_signature(project.time_signature_list),
+            loop=[0, DEFAULT_LOOP_LENGTH_QUARTERS],
+            master=VOXFactoryMaster(),
             track_bank=track_bank,
             track_order=sorted(track_bank.keys()),
             audio_data_bank=audio_data_bank,
@@ -114,67 +116,89 @@ class VOXFactoryGenerator:
         return track_bank, audio_data_bank
 
     def generate_notes(self, notes: list[Note], params: Params) -> dict[str, VOXFactoryVocalClip]:
-        note_bank = {}
-        note_order = []
-        max_ticks = notes[-1].end_pos if notes else 0
-        max_quarter = max_ticks / TICKS_IN_BEAT
-        for i, note in enumerate(notes):
-            note_bank[f"{self.prefix}-no{i}"] = self.generate_note(note, params)
-            note_order.append(f"{self.prefix}-no{i}")
-        clip_count = math.ceil(max_quarter / 32)
+        note_bank = {
+            f"{self.prefix}-no{i}": self.generate_note(note) for i, note in enumerate(notes)
+        }
+        note_keys = list(note_bank)
+        pitch_samples = self.generate_pitch_samples(params.pitch)
+        clip_span = CLIP_LENGTH_QUARTERS * TICKS_IN_BEAT
+        max_ticks = max((note.end_pos for note in notes), default=0)
         clip_bank = {}
-        for i in range(clip_count):
+        for i in range(math.ceil(max_ticks / clip_span)):
+            start_ticks = i * clip_span
+            end_ticks = start_ticks + clip_span
+            keys = [
+                key
+                for key, note in zip(note_keys, notes)
+                if start_ticks <= note.start_pos < end_ticks
+            ]
+            pitch_bank, pitch_order = self.generate_pitch_points(
+                pitch_samples, i, start_ticks, end_ticks
+            )
             clip_bank[f"{self.prefix}-cl{i}"] = VOXFactoryVocalClip(
-                start_quarter=32 * i,
-                offset_quarter=32 * i,
-                length=32,
-                note_bank=note_bank,
-                note_order=note_order,
+                start_quarter=CLIP_LENGTH_QUARTERS * i,
+                offset_quarter=CLIP_LENGTH_QUARTERS * i,
+                length=CLIP_LENGTH_QUARTERS,
+                note_bank={key: note_bank[key] for key in keys},
+                note_order=keys,
+                pitch_point_bank=pitch_bank,
+                pitch_point_order=pitch_order,
             )
         return clip_bank
 
-    def generate_note(self, note: Note, params: Params) -> VOXFactoryNote:
-        note_start_time = self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
+    def generate_note(self, note: Note) -> VOXFactoryNote:
         return VOXFactoryNote(
-            time=note_start_time,
+            time=self.synchronizer.get_actual_secs_from_ticks(note.start_pos),
+            duration=self.synchronizer.get_duration_secs_from_ticks(note.start_pos, note.end_pos),
             ticks=note.start_pos,
             duration_ticks=note.length,
             midi=note.key_number,
             name=note.lyric,
             syllable=note.pronunciation or DEFAULT_PHONEME,
-            pitch_bends=self.generate_note_pitch(note, params.pitch),
         )
 
-    def generate_note_pitch(self, note: Note, pitch: ParamCurve) -> list[float]:
-        note_start_time = self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
-        note_end_time = self.synchronizer.get_actual_secs_from_ticks(note.end_pos)
-        key_interval_dict = PiecewiseIntervalDict()
-        secs_step = 1024 / 44100
-        prev_secs = None
-        prev_key: float = -1
-        for point in pitch.points.root:
-            if point.x - self.first_bar_length < note.start_pos:
-                continue
-            elif point.x - self.first_bar_length > note.end_pos:
-                break
-            if point.y == -100:
-                prev_secs = None
-                prev_key = 0
+    def generate_pitch_samples(self, pitch: ParamCurve) -> list[tuple[int, float, bool]]:
+        """Drawn pitch as `(song tick, semitone, connects to the next point)`.
+
+        The app interpolates between adjacent pitch points only while the left
+        one is `connected`, and a `-100` point in the internal curve marks a gap
+        in the drawn line, so each run ends with a point that does not connect.
+        """
+
+        def close(run: list[tuple[int, float]]) -> list[tuple[int, float, bool]]:
+            return [(tick, value, index < len(run) - 1) for index, (tick, value) in enumerate(run)]
+
+        samples: list[tuple[int, float, bool]] = []
+        run: list[tuple[int, float]] = []
+        for point in pitch.reduce_sample_rate(PITCH_SAMPLE_TICKS, -100).points.root:
+            tick = point.x - self.first_bar_length
+            if point.y == -100 or tick < 0:
+                if run:
+                    samples.extend(close(run))
+                    run = []
             else:
-                secs = self.synchronizer.get_actual_secs_from_ticks(point.x - self.first_bar_length)
-                key = point.y / 100
-                if prev_secs is not None:
-                    key_interval_dict[portion.openclosed(prev_secs, secs)] = functools.partial(
-                        linear_interpolation,  # type: ignore[call-arg]
-                        start=(prev_secs, prev_key - note.key_number),
-                        end=(secs, key - note.key_number),
-                    )
-                else:
-                    key_interval_dict[portion.singleton(secs)] = key - note.key_number
-                prev_secs = secs
-                prev_key = key
-        pitch_bends = [
-            key_interval_dict.get(secs, 0)
-            for secs in more_itertools.numeric_range(note_start_time, note_end_time, secs_step)
-        ]
-        return pitch_bends if any(pitch_bends) else []
+                run.append((tick, point.y / 100))
+        if run:
+            samples.extend(close(run))
+        return samples
+
+    def generate_pitch_points(
+        self,
+        samples: list[tuple[int, float, bool]],
+        clip_index: int,
+        start_ticks: int,
+        end_ticks: int,
+    ) -> tuple[dict[str, VoxFactoryPitchPoint], list[str]]:
+        pitch_bank = {}
+        pitch_order = []
+        for tick, value, connected in samples:
+            if not start_ticks <= tick < end_ticks:
+                continue
+            key = f"{self.prefix}-pp{clip_index}-{len(pitch_order)}"
+            pitch_bank[key] = VoxFactoryPitchPoint(
+                quarter=tick / TICKS_IN_BEAT,
+                pitch=value,
+                connected=connected,
+            )
+            pitch_order.append(key)
+        return pitch_bank, pitch_order

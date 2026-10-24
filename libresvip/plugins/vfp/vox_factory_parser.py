@@ -1,4 +1,5 @@
 import dataclasses
+import operator
 import pathlib
 
 from libresvip.core.constants import TICKS_IN_BEAT
@@ -95,9 +96,16 @@ class VOXFactoryParser:
                     clip_offset = int(
                         TICKS_IN_BEAT * (clip_data.start_quarter - clip_data.offset_quarter)
                     )
-                    clip_notes, clip_pitch_points = self.parse_notes(clip_data, clip_offset)
+                    clip_notes, legacy_pitch_points = self.parse_notes(clip_data, clip_offset)
                     note_list.extend(clip_notes)
-                    pitch_points.extend(clip_pitch_points)
+                    if not self.options.import_pitch:
+                        continue
+                    if clip_pitch_points := self.parse_pitch_points(clip_data, clip_offset):
+                        pitch_points.extend(clip_pitch_points)
+                    else:
+                        # Projects written before VOX Factory 0.14 kept the pitch
+                        # on the notes instead of in the clip's pitch point bank.
+                        pitch_points.extend(legacy_pitch_points)
                 if not note_list:
                     continue
                 track = SingingTrack(
@@ -113,6 +121,40 @@ class VOXFactoryParser:
                     track.edited_params.pitch.points.root = pitch_points
                 tracks.append(track)
         return tracks
+
+    def parse_pitch_points(self, clip_data: VOXFactoryVocalClip, clip_offset: int) -> list[Point]:
+        """Drawn pitch from the clip's pitch point bank.
+
+        A point's `quarter` is a clip content coordinate, so it becomes a song
+        tick together with the clip's start/offset delta. Consecutive points form
+        one drawn run while the previous point is `connected`; any other point
+        starts a new run, which is emitted as its own `-100` delimited segment.
+        """
+        points: list[Point] = []
+        run: list[Point] = []
+        ordered = sorted(
+            (
+                clip_data.pitch_point_bank[key]
+                for key in clip_data.pitch_point_order
+                if key in clip_data.pitch_point_bank
+            ),
+            key=operator.attrgetter("quarter"),
+        )
+        for index, pitch_point in enumerate(ordered):
+            if run and not ordered[index - 1].connected:
+                points.extend([Point(x=run[0].x, y=-100), *run, Point(x=run[-1].x, y=-100)])
+                run = []
+            run.append(
+                Point(
+                    x=round(pitch_point.quarter * TICKS_IN_BEAT)
+                    + clip_offset
+                    + self.first_bar_length,
+                    y=round(pitch_point.pitch * 100),
+                )
+            )
+        if run:
+            points.extend([Point(x=run[0].x, y=-100), *run, Point(x=run[-1].x, y=-100)])
+        return points
 
     def parse_notes(
         self, clip_data: VOXFactoryVocalClip, clip_offset: int
