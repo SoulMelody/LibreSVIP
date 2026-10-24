@@ -38,3 +38,21 @@ def binary_find_last(n: list[T], pred: Callable[[T], bool]) -> T | None:
         else:
             right = middle - 1
     return n[left] if pred(n[left]) else None
+
+
+def binary_find_last_index(n: list[T], pred: Callable[[T], bool]) -> int:
+    """The index of the last element satisfying ``pred`` in a sorted list, or -1.
+
+    Assumes ``pred`` is monotone (``False`` … ``False True`` … ``True``) over the
+    list, matching ``find_last_index`` for sorted input.
+    """
+    if not len(n):
+        return -1
+    left, right = 0, len(n) - 1
+    while right > left:
+        middle = (left + right + 1) // 2
+        if pred(n[middle]):
+            left = middle
+        else:
+            right = middle - 1
+    return left if pred(n[left]) else -1

@@ -1,6 +1,7 @@
 from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
 from libresvip.utils.music_math import midi2hz
+from libresvip.utils.search import binary_find_first, binary_find_last
 
 from .models.ds_param_curve import DsParamCurve
 from .models.ds_param_node import DsParamNode
@@ -32,11 +33,11 @@ class PitchParamUtils:
 
     @staticmethod
     def value_at(segment: list[Point], ticks: float) -> float:
-        left_point = next((p for p in reversed(segment) if p.x <= ticks), None)
+        left_point = binary_find_last(segment, lambda point: point.x <= ticks)
         if left_point is None:
             return segment[0].y
 
-        right_point = next((p for p in segment if p.x > ticks), None)
+        right_point = binary_find_first(segment, lambda point: point.x > ticks)
         if right_point is None:
             return segment[-1].y
 
