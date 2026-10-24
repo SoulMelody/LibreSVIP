@@ -1,4 +1,3 @@
-# mypy: disable-error-code="arg-type"
 import functools
 from collections.abc import MutableMapping
 from importlib.resources import files
@@ -35,7 +34,7 @@ class ReplaceLyricsMiddleware(plugin_base.Middleware):
                 if isinstance(track, SingingTrack):
                     for note in track.note_list:
                         note.lyric = functools.reduce(
-                            lambda lyric, replacement: replace_lyric(replacement, lyric),
+                            lambda lyric, replacement: replace_lyric(lyric, replacement),
                             settings.lyric_replace_rules[options_obj.lyric_replacement_preset_name],
                             note.lyric,
                         )

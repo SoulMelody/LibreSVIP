@@ -289,19 +289,11 @@ class LyricsReplacement(BaseModel):
     flags: Annotated[re.RegexFlag, pydantic_enum(re.RegexFlag)] = re.IGNORECASE
     mode: Annotated[LyricsReplaceMode, pydantic_enum(LyricsReplaceMode)] = LyricsReplaceMode.FULL
 
-    def __post_init__(self) -> None:
+    def model_post_init(self, _context: Any, /) -> None:
         if self.mode.value in LYRIC_REPLACE_MODE_PREFIX_SUFFIX:
             self.pattern_prefix, self.pattern_suffix = LYRIC_REPLACE_MODE_PREFIX_SUFFIX[
                 self.mode.value
             ]
-        if self.mode != LyricsReplaceMode.REGEX:
-            self.pattern_main = re.escape(self.pattern_main)
-        else:
-            try:
-                self.compiled_pattern
-            except re.error as e:
-                msg = f"Invalid pattern: {self._pattern}"
-                raise ValueError(msg) from e
 
     @property
     def compiled_pattern(self) -> re.Pattern[str]:
@@ -309,7 +301,12 @@ class LyricsReplacement(BaseModel):
 
     @property
     def _pattern(self) -> str:
-        return f"{self.pattern_prefix}{self.pattern_main}{self.pattern_suffix}"
+        main = (
+            self.pattern_main
+            if self.mode == LyricsReplaceMode.REGEX
+            else re.escape(self.pattern_main)
+        )
+        return f"{self.pattern_prefix}{main}{self.pattern_suffix}"
 
     def replace(self, text: str) -> str:
         return self.compiled_pattern.sub(self.replacement, text)
