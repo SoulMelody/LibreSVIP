@@ -136,10 +136,24 @@ class UstxParser:
 
         pitches = self.base_pitch_generator.base_pitch(part)
 
+        deviation_applied = False
         curve = next((c for c in part.curves if c.abbr == "pitd"), None)
         if curve is not None and not curve.is_empty:
             for i in range(len(pitches)):
                 pitches[i] += curve.sample(pitch_start + i * pitch_interval)
+            deviation_applied = True
+
+        # USTX 0.10 masked curves carry absolute pitch in cents, and only where
+        # the user drew them: `pito` is the user's own override and wins, `rpit`
+        # is what the renderer produced and only serves projects without `pitd`.
+        masked_curve = next((c for c in part.masked_curves if c.abbr == "pito"), None)
+        if masked_curve is None and not deviation_applied:
+            masked_curve = next((c for c in part.masked_curves if c.abbr == "rpit"), None)
+        if masked_curve is not None and not masked_curve.is_empty:
+            for i in range(len(pitches)):
+                value = masked_curve.try_sample(pitch_start + i * pitch_interval, pitch_interval)
+                if value is not None:
+                    pitches[i] = value
 
         point_list = [Point(first_bar_length + part.position, -100)]
         point_list.extend(

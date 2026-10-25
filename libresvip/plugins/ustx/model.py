@@ -4,7 +4,7 @@ import bisect
 import functools
 import math
 from types import SimpleNamespace
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import Field, computed_field, field_validator
 
@@ -78,6 +78,59 @@ class UCurve(BaseModel):
                 )
             )
         return 0
+
+
+CURVE_INTERVAL = 5
+
+
+class UMaskedRun(BaseModel):
+    """Consecutive values of a masked curve, one per grid step from tick `x`."""
+
+    x: int = 0
+    ys: list[float] = Field(default_factory=list)
+
+    @field_validator("ys", mode="before")
+    @classmethod
+    def _null_as_empty(cls, value: Any) -> Any:
+        return [] if value is None else value
+
+
+class UMaskedCurve(BaseModel):
+    """A curve that has no value over some stretches, unlike `UCurve`.
+
+    USTX 0.10. Only expression graphs read it; `pito` carries the user's
+    absolute pitch override, `rpit` the pitch the renderer produced.
+    """
+
+    abbr: str = ""
+    runs: list[UMaskedRun] = Field(default_factory=list)
+
+    @field_validator("runs", mode="before")
+    @classmethod
+    def _null_as_empty(cls, value: Any) -> Any:
+        return [] if value is None else value
+
+    @property
+    def is_empty(self) -> bool:
+        return all(len(run.ys) == 0 for run in self.runs)
+
+    def try_sample(self, tick: float, interval: int = CURVE_INTERVAL) -> float | None:
+        """The value at a part-relative tick, linear between grid steps.
+
+        Returns `None` when no run covers the tick, which is what makes the
+        curve "masked".
+        """
+        index = bisect.bisect_right(self.runs, tick, key=lambda run: run.x) - 1
+        if index < 0:
+            return None
+        run = self.runs[index]
+        if not run.ys or tick > run.x + (len(run.ys) - 1) * interval:
+            return None
+        position = (tick - run.x) / interval
+        i = min(int(position), len(run.ys) - 1)
+        if i == len(run.ys) - 1:
+            return run.ys[i]
+        return run.ys[i] + (position - i) * (run.ys[i + 1] - run.ys[i])
 
 
 class PitchPoint(BaseModel):
@@ -169,7 +222,7 @@ class UVibrato(BaseModel):
             y *= (n_pos - n_start) / n_in
         elif n_pos > n_out_pos:
             y *= (1.0 - n_pos) / n_out
-        return (note.position + note.duration * n_pos, note.tone + y / 100.0)
+        return (note.position + note.duration * n_pos, (note.pitch_cents + y) / 100.0)
 
 
 class UExpression(BaseModel):
@@ -190,6 +243,7 @@ class UNote(BaseModel):
     position: int
     duration: int
     tone: int
+    tuning: int = Field(0, exclude=True)
     lyric: str
     pitch: UPitch = Field(default_factory=UPitch)
     vibrato: UVibrato = Field(default_factory=UVibrato)
@@ -200,6 +254,16 @@ class UNote(BaseModel):
     @functools.cached_property
     def end(self) -> int:
         return self.position + self.duration
+
+    @property
+    def pitch_cents(self) -> int:
+        """The note's pitch in cents: `tone` plus the USTX 0.10 fine tuning.
+
+        OpenUtau's `AdjustedTone` is `tone + tuning / 100` semitones, i.e. the
+        same value; the fine tuning is only read from 0.10 files and never
+        written back, since the generator still emits `ustx_version: 0.6`.
+        """
+        return self.tone * 100 + self.tuning
 
 
 class UPart(BaseModel):
@@ -212,6 +276,12 @@ class UPart(BaseModel):
 class UVoicePart(UPart):
     notes: list[UNote] = Field(default_factory=list)
     curves: list[UCurve] = Field(default_factory=list)
+    masked_curves: list[UMaskedCurve] = Field(default_factory=list, exclude=True)
+
+    @field_validator("notes", "curves", "masked_curves", mode="before")
+    @classmethod
+    def _null_as_empty(cls, value: Any) -> Any:
+        return [] if value is None else value
 
     @computed_field
     def duration(self) -> int:
@@ -247,3 +317,10 @@ class USTXProject(BaseModel):
     exp_primary: int | None = 0
     exp_secondary: int | None = 1
     key: int | None = 0
+
+    @field_validator(
+        "time_signatures", "tempos", "tracks", "voice_parts", "wave_parts", mode="before"
+    )
+    @classmethod
+    def _null_as_empty(cls, value: Any) -> Any:
+        return [] if value is None else value

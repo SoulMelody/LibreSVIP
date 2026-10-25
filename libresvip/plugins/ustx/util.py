@@ -35,7 +35,7 @@ class BasePitchGenerator:
                 index < len(pitches)
                 and (pad := (note.end - self.pitch_start) // self.pitch_interval - index) >= 0
             ):
-                pitches[index : index + pad + 1] = [note.tone * 100] * (pad + 1)
+                pitches[index : index + pad + 1] = [note.pitch_cents] * (pad + 1)
                 index += pad + 1
         index = max(1, index)
         if index < len(pitches):
@@ -70,7 +70,7 @@ class BasePitchGenerator:
                                 + point.x
                             )
                             - part.position,
-                            y=point.y * 10 + note.tone * 100,
+                            y=point.y * 10 + note.pitch_cents,
                             shape=point.shape,
                         )
                         for point in note.pitch.data
@@ -79,8 +79,8 @@ class BasePitchGenerator:
                 )
             )
             if not pitch_points:
-                pitch_points.append(PitchPoint(x=note.position, y=note.tone * 100))
-                pitch_points.append(PitchPoint(x=note.end, y=note.tone * 100))
+                pitch_points.append(PitchPoint(x=note.position, y=note.pitch_cents))
+                pitch_points.append(PitchPoint(x=note.end, y=note.pitch_cents))
             if note == part.notes[0] and pitch_points[0].x > self.pitch_start:
                 pitch_points.insert(0, PitchPoint(x=self.pitch_start, y=pitch_points[0].y))
             elif pitch_points[0].x > note.position:
@@ -99,9 +99,9 @@ class BasePitchGenerator:
                         prev_point.shape or "lo",
                     )
                     base_pitch = (
-                        prev_note.tone * 100
+                        prev_note.pitch_cents
                         if prev_note is not None and x <= prev_note.end
-                        else note.tone * 100
+                        else note.pitch_cents
                     )
                     pitches[index] += pitch - base_pitch
                     index += 1
