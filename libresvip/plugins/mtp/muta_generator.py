@@ -12,6 +12,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.text import LATIN_ALPHABET
 
@@ -125,13 +126,15 @@ class MutaGenerator:
         return track_list
 
     def generate_pitch(self, pitch: ParamCurve) -> list[MutaPoint]:
-        return [
-            MutaPoint(
-                time=max(point.x - 2 * self.first_bar_length, -1),
-                value=12900 if point.y < 0 else point.y - 1200,
+        boundary = {Point.start_point().x, Point.end_point().x}
+        values_by_time: dict[int, int] = {}
+        for point in sorted(pitch.points.root, key=lambda point: point.x):
+            if point.x in boundary:
+                continue
+            values_by_time[max(point.x - 2 * self.first_bar_length, -1)] = (
+                12900 if point.y < 0 else point.y - 1200
             )
-            for point in pitch.points.root
-        ]
+        return [MutaPoint(time=time, value=value) for time, value in values_by_time.items()]
 
     def generate_notes(self, notes: list[Note]) -> list[MutaNote]:
         return [
@@ -143,8 +146,19 @@ class MutaGenerator:
                 phoneme=self.generate_phoneme(note),
                 tmg_data=[MutaNoteTiming(ori_pos=0, mod_pos=0)] * 5,
             )
-            for note in notes
+            for note in self.drop_dangling_ties(notes)
         ]
+
+    @staticmethod
+    def drop_dangling_ties(notes: list[Note]) -> list[Note]:
+        kept: list[Note] = []
+        prev_end: int | None = None
+        for note in notes:
+            if note.lyric == "-" and note.start_pos != prev_end:
+                continue
+            kept.append(note)
+            prev_end = note.end_pos
+        return kept
 
     @staticmethod
     def generate_phoneme(note: Note) -> str:
