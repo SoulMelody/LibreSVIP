@@ -4,8 +4,7 @@ from typing import Any
 
 from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project
-from libresvip.model.base import Project as OpenSvipProject
+from libresvip.model.base import Project, SingingTrack
 
 from .options import InputOptions, OutputOptions
 
@@ -21,7 +20,15 @@ class JsonSvipConverter(plugin_base.SVSConverter):
 
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
-        return OpenSvipProject.model_validate_json(path.read_bytes().decode("utf-8"))
+        project = Project.model_validate_json(path.read_bytes().decode("utf-8"))
+        for track in project.track_list:
+            if isinstance(track, SingingTrack):
+                track.edited_params.pitch.points.root = [
+                    point
+                    for point in track.edited_params.pitch.points.root
+                    if point.x not in {-192000, 1073741823} or point.y == -100
+                ]
+        return project
 
     @classmethod
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:

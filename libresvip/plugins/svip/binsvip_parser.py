@@ -96,6 +96,11 @@ class BinarySvipParser:
             params.pitch = self.parse_param_curve(
                 pitch_line, op=lambda x: x - 1150 if x > 1050 else -100
             )
+            params.pitch.points.root = [
+                point
+                for point in params.pitch.points.root
+                if point.x not in {-192000, 1073741823} or point.y == -100
+            ]
         if self.options.import_volume and (volume_line := track.edited_volume_line) is not None:
             params.breath = self.parse_param_curve(volume_line)
         if self.options.import_breath and (breath_line := track.edited_breath_line) is not None:
