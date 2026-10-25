@@ -2,6 +2,7 @@ import dataclasses
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, TimeSignature
+from libresvip.model.pitch import dot_resampled
 from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
@@ -10,7 +11,6 @@ from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from .constants import (
     MODE1_PITCH_SAMPLING_INTERVAL_TICK,
 )
-from .resampling import dot_resampled
 
 
 @dataclasses.dataclass

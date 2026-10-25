@@ -26,6 +26,7 @@ def perpendicular_distance(pt: Point, line_start: Point, line_end: Point) -> flo
 
 
 def simplify_shape(point_list: list[Point], epsilon: float) -> list[Point]:
+    """Ramer-Douglas-Peucker: drop every point within `epsilon` of the chord."""
     if len(point_list) < 2:
         return point_list
 
@@ -52,6 +53,7 @@ def simplify_shape(point_list: list[Point], epsilon: float) -> list[Point]:
 
 
 def simplify_shape_to(point_list: list[Point], max_point_count: int) -> list[Point]:
+    """Widen `epsilon` in fixed steps until fewer than `max_point_count` remain."""
     step = 0.05
     epsilon = step
     while True:

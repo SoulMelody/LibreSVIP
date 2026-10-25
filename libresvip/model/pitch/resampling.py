@@ -25,6 +25,7 @@ def resampled(
 
 
 def dot_resampled(data: list[Point], interval: int) -> list[Point]:
+    """Sample-and-hold resampling: keep the left point's value until the next."""
     return resampled(
         data,
         interval,

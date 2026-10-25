@@ -5,6 +5,7 @@ import operator
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo, TimeSignature
+from libresvip.model.pitch import interpolate, simplify_shape_to
 from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
@@ -15,9 +16,8 @@ from .constants import (
     MODE2_PITCH_MAX_POINT_COUNT,
     MODE2_PITCH_SAMPLING_INTERVAL_TICK,
 )
-from .interpolation import interpolate
+from .interpolation import utau_curve_shape
 from .model import UtauNoteVibrato, UTAUPitchBendMode
-from .rdp_simplification import simplify_shape_to
 from .vibrato_param import append_utau_note_vibrato
 
 
@@ -170,7 +170,7 @@ def pitch_from_utau_mode2_track(
                         interpolated_point_list = interpolate(
                             last_point,
                             this_point,
-                            curve_type,
+                            utau_curve_shape(curve_type),
                             MODE2_PITCH_SAMPLING_INTERVAL_TICK,
                         )
                         points.extend(interpolated_point_list[1:])
