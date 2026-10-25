@@ -7,6 +7,7 @@ from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.model.reset_time_axis import reset_time_axis
+from libresvip.utils.binary.io import open_shared_archive_path
 
 from .model import VogenProject
 from .options import InputOptions, OutputOptions
@@ -26,8 +27,8 @@ class VogenConverter(plugin_base.SVSConverter):
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.input_option_cls(**options)
-        zip_path = zipfile.Path(io.BytesIO(path.read_bytes()))
-        proj_text = (zip_path / "chart.json").read_bytes()
+        with open_shared_archive_path(path) as zip_path:
+            proj_text = (zip_path / "chart.json").read_bytes()
         vogen_project = VogenProject.model_validate_json(proj_text)
         return VogenParser(options_obj).parse_project(vogen_project)
 

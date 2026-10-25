@@ -6,6 +6,7 @@ from importlib.resources import files
 from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
+from libresvip.utils.binary.io import open_shared_archive_path
 
 from .model import VocaloidProject
 from .options import InputOptions, OutputOptions
@@ -25,15 +26,15 @@ class VocaloidConverter(plugin_base.SVSConverter):
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.input_option_cls(**options)
-        zip_path = zipfile.Path(io.BytesIO(path.read_bytes()))
-        proj = VocaloidProject.model_validate_json(
-            (zip_path / "Project/sequence.json").read_bytes(),
-            context={
-                "extract_audio": options_obj.extract_audio,
-                "path": path,
-                "archive_file": zip_path,
-            },
-        )
+        with open_shared_archive_path(path) as zip_path:
+            proj = VocaloidProject.model_validate_json(
+                (zip_path / "Project/sequence.json").read_bytes(),
+                context={
+                    "extract_audio": options_obj.extract_audio,
+                    "path": path,
+                    "archive_file": zip_path,
+                },
+            )
         return VocaloidParser(options_obj, path).parse_project(proj)
 
     @classmethod

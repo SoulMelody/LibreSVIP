@@ -7,6 +7,7 @@ from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.model.reset_time_axis import reset_time_axis
+from libresvip.utils.binary.io import open_shared_archive_path
 
 from .model import VOXFactoryProject
 from .options import InputOptions, OutputOptions
@@ -26,15 +27,15 @@ class VOXFactoryConverter(plugin_base.SVSConverter):
     @classmethod
     def load(cls, path: pathlib.Path, options: plugin_base.OptionsDict) -> Project:
         options_obj = cls.input_option_cls(**options)
-        zip_path = zipfile.Path(io.BytesIO(path.read_bytes()))
-        proj = VOXFactoryProject.model_validate_json(
-            (zip_path / "project.json").read_bytes(),
-            context={
-                "extract_audio": options_obj.extract_audio,
-                "path": path,
-                "archive_file": zip_path,
-            },
-        )
+        with open_shared_archive_path(path) as zip_path:
+            proj = VOXFactoryProject.model_validate_json(
+                (zip_path / "project.json").read_bytes(),
+                context={
+                    "extract_audio": options_obj.extract_audio,
+                    "path": path,
+                    "archive_file": zip_path,
+                },
+            )
         return VOXFactoryParser(options_obj, path).parse_project(proj)
 
     @classmethod
