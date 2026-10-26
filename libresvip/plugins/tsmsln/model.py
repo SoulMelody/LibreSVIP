@@ -27,6 +27,7 @@ class VoiSonaMobileControlPanelStatus(BaseModel):
     edit_tool: int | None = Field(None, alias="EditTool")
     record_note: bool = Field(True, alias="RecordNote")
     record_tempo: bool = Field(True, alias="RecordTempo")
+    english_lyric_auto_split: bool | None = Field(None, alias="EnglishLyricAutoSplit")
 
 
 class VoiSonaMobileAdjustToolBarStatus(BaseModel):
@@ -45,8 +46,14 @@ class VoiSonaMobilePanelControllerStatus(BaseModel):
 
 
 class VoiSonaMobileMainPanelStatus(VoiSonaMobilePanelControllerStatus):
-    scale_x: float = Field(alias="ScaleX_V2", validation_alias=AliasChoices("ScaleX_V2", "ScaleX"))
-    scale_y: float = Field(alias="ScaleY_V2", validation_alias=AliasChoices("ScaleY_V2", "ScaleY"))
+    scale_x: float = Field(
+        alias="ScaleX_V2",
+        validation_alias=AliasChoices("ScaleX_V2", "ScaleX", "ScaleXMobile"),
+    )
+    scale_y: float = Field(
+        alias="ScaleY_V2",
+        validation_alias=AliasChoices("ScaleY_V2", "ScaleY", "ScaleYMobile"),
+    )
     scroll_x: float | None = Field(None, alias="ScrollX")
     scroll_y: float | None = Field(None, alias="ScrollY")
 
@@ -95,6 +102,7 @@ class VoiSonaMobileVoiceInformation(BaseModel):
     voice_version: str = Field(alias="VoiceVersion")
     voice_hash: str | None = Field(None, alias="VoiceHash")
     voice_lib_hash: str | None = Field(None, alias="VoiceLibHash")
+    trial_only: bool | None = Field(None, alias="TrialOnly")
     special_symbol: list[VoiSonaMobileSpecialSymbol] = Field(
         default_factory=list, alias="SpecialSymbol"
     )
@@ -156,12 +164,15 @@ class VoiSonaMobileNoteItem(BaseModel):
     past_analyzed_phoneme: str | None = Field(None, alias="PastAnalyzedPhoneme")
     special_symbol_raspy: bool | None = Field(None, alias="SpecialSymbolRaspy")
     special_symbol_falsetto: bool | None = Field(None, alias="SpecialSymbolFalsetto")
+    note_language: int | None = Field(None, alias="NoteLanguage")
+    analyzed_note_language: int | None = Field(None, alias="AnalyzedNoteLanguage")
 
 
 class VoiSonaMobileScoreItem(BaseModel):
     key: list[VoiSonaMobileKeyItem] = Field(default_factory=list, alias="Key")
     dynamics: list[VoiSonaMobileDynamic] = Field(default_factory=list, alias="Dynamics")
     note: list[VoiSonaMobileNoteItem] = Field(default_factory=list, alias="Note")
+    phoneme_separated_by_syllable: bool | None = Field(None, alias="PhonemeSeparatedBySyllable")
 
 
 class VoiSonaMobileSongItem(BaseModel):
@@ -177,6 +188,7 @@ class VoiSonaMobilePointData(BaseModel):
 
 
 class VoiSonaMobileParameterItem(BaseModel):
+    index: int | None = Field(None, alias="Index")
     length: int = Field(alias="Length")
     data: list[VoiSonaMobilePointData] = Field(default_factory=list, alias="Data")
 
@@ -200,6 +212,8 @@ class VoiSonaMobileParametersItem(BaseModel):
 
 class VoiSonaMobileSignerConfig(BaseModel):
     snap_shot: str | None = Field(None, alias="SnapShot")
+    default_note_language: int | None = Field(None, alias="DefaultNoteLanguage")
+    romaji_mode: bool | None = Field(None, alias="RomajiMode")
 
 
 class VoiSonaMobileStateInformation(BaseModel):
@@ -272,6 +286,7 @@ class VoiSonaMobileSinger(BaseModel):
 class VoiSonaMobileAudio(BaseModel):
     mobile_offset: int = Field(0, alias="ModileOffset")
     mobile_volume: float = Field(0, alias="ModileVolume")
+    mobile_mute: bool | None = Field(None, alias="MobileMute")
     mobile_audio_data: str = Field(alias="ModileAudioData")
 
 
