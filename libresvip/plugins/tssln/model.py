@@ -18,6 +18,7 @@ class VoiSonaPlayControlItem(BaseModel):
     loop_start: float = Field(0, alias="LoopStart")
     loop_end: float = Field(alias="LoopEnd")
     play_position: float = Field(alias="PlayPosition")
+    metronome: bool | None = Field(None, alias="Metronome")
 
 
 class VoiSonaSongEditorItem(BaseModel):
@@ -30,6 +31,7 @@ class VoiSonaControlPanelStatus(BaseModel):
     edit_tool: int | None = Field(None, alias="EditTool")
     record_note: bool = Field(True, alias="RecordNote")
     record_tempo: bool = Field(True, alias="RecordTempo")
+    english_lyric_auto_split: bool | None = Field(None, alias="EnglishLyricAutoSplit")
 
 
 class VoiSonaAdjustToolBarStatus(BaseModel):
@@ -170,6 +172,7 @@ class VoiSonaScoreItem(BaseModel):
     key: list[VoiSonaKeyItem] = Field(default_factory=list, alias="Key")
     dynamics: list[VoiSonaDynamic] = Field(default_factory=list, alias="Dynamics")
     note: list[VoiSonaNoteItem] = Field(default_factory=list, alias="Note")
+    phoneme_separated_by_syllable: bool | None = Field(None, alias="PhonemeSeparatedBySyllable")
 
 
 class VoiSonaSongItem(BaseModel):
@@ -185,6 +188,7 @@ class VoiSonaPointData(BaseModel):
 
 
 class VoiSonaParameterItem(BaseModel):
+    index: int | None = Field(None, alias="Index")
     length: int = Field(alias="Length")
     data: list[VoiSonaPointData] = Field(default_factory=list, alias="Data")
 
@@ -208,6 +212,8 @@ class VoiSonaParametersItem(BaseModel):
 
 class VoiSonaSignerConfig(BaseModel):
     snap_shot: str | None = Field(None, alias="SnapShot")
+    default_note_language: int | None = Field(None, alias="DefaultNoteLanguage")
+    romaji_mode: bool | None = Field(None, alias="RomajiMode")
 
 
 class VoiSonaStateInformation(BaseModel):
