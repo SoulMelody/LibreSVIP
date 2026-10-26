@@ -81,7 +81,7 @@ tzdata==2026.5
 ujson==6.0.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
-win32-setctime==1.2.0 ; sys_platform == 'win32'
+win32-setctime==1.2.1 ; sys_platform == 'win32'
 winrt-runtime==4.0.3 ; sys_platform == 'win32'
 winrt-windows-applicationmodel-core==4!10.0.28000.2705 ; sys_platform == 'win32'
 winrt-windows-data-xml-dom==4!10.0.28000.2705 ; sys_platform == 'win32'
