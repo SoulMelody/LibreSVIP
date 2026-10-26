@@ -1,3 +1,4 @@
+import io
 import math
 import struct
 from typing import Any, BinaryIO, Never, TypeAlias, TypeVar
@@ -11,7 +12,6 @@ from construct import (
     Const,
     Construct,
     Container,
-    CString,
     Float64l,
     GreedyBytes,
     Int64sl,
@@ -19,6 +19,7 @@ from construct import (
     Prefixed,
     PrefixedArray,
     SizeofError,
+    StreamError,
     Struct,
     Switch,
     this,
@@ -79,6 +80,36 @@ class JUCECompressedInt(Construct):
             return obj
 
 
+JUCE_STRING_CHUNK_SIZE = 1 << 16
+
+
+@singleton
+class JUCEString(Construct):
+    def _sizeof(self, context: Context, path: CSPath) -> Never:
+        msg = "JUCEString has no static size"
+        raise SizeofError(msg)
+
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> str:
+        buffer = bytearray()
+        while True:
+            chunk = stream.read(JUCE_STRING_CHUNK_SIZE)
+            if not chunk:
+                msg = "no NUL terminator found"
+                raise StreamError(msg, path=path)
+            terminator = chunk.find(b"\x00")
+            if terminator < 0:
+                buffer += chunk
+                continue
+            buffer += chunk[:terminator]
+            stream.seek(terminator + 1 - len(chunk), io.SEEK_CUR)
+            return buffer.decode("utf-8")
+
+    def _build(self, obj: str, stream: BinaryIO, context: Context, path: CSPath) -> str:
+        stream.write(obj.encode("utf-8"))
+        stream.write(b"\x00")
+        return obj
+
+
 JUCEVariant: Container = Prefixed(
     JUCECompressedInt,
     CSOptional(
@@ -92,7 +123,7 @@ JUCEVariant: Container = Prefixed(
                     "BOOL_TRUE": Computed(lambda ctx: True),
                     "BOOL_FALSE": Computed(lambda ctx: False),
                     "DOUBLE": Float64l,
-                    "STRING": CString("utf-8"),
+                    "STRING": JUCEString,
                     "INT64": Int64sl,
                     "ARRAY": PrefixedArray(
                         JUCECompressedInt,
@@ -106,12 +137,12 @@ JUCEVariant: Container = Prefixed(
 )
 
 JUCENamedVariant: Container = Struct(
-    "name" / CString("utf-8"),
+    "name" / JUCEString,
     "data" / JUCEVariant,
 )
 
 JUCENode: Container = Struct(
-    "name" / CString("utf-8"),
+    "name" / JUCEString,
     "attrs" / PrefixedArray(JUCECompressedInt, JUCENamedVariant),
     "children" / PrefixedArray(JUCECompressedInt, LazyBound(lambda: JUCENode)),
 )
