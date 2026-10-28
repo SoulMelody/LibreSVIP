@@ -31,7 +31,7 @@ markdown-it-py==4.2.0
 markupsafe==3.0.3
 mdurl==0.1.2
 more-itertools==11.2.1
-msgpack==1.1.2
+msgpack==1.2.3
 numpy==2.4.6
 oauthlib==4.0.0
 packaging==26.3
