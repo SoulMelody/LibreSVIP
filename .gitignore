@@ -111,6 +111,9 @@ pdm.toml
 # uv
 uv.toml
 
+# Generated on the fly by packaging/generate_android_requirements.sh
+packaging/requirements-android.txt
+
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid

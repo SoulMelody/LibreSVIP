@@ -635,6 +635,8 @@ jobs:
           uv build --wheel
           uv venv --python 3.14
           uv sync --extra mobile --group packaging
+      - name: Generate Android requirements
+        run: bash packaging/generate_android_requirements.sh
       - name: Prepare Android signing key
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
