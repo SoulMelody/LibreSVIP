@@ -33,7 +33,7 @@ packaging==26.3
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==13.0.0
-platformdirs==4.13.6
+platformdirs==4.14.0
 portion==2.6.3
 protobuf-py==0.7.0
 protobuf-py-ext==0.7.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
@@ -42,7 +42,7 @@ pycparser==3.12 ; (implementation_name != 'PyPy' and platform_python_implementat
 pydantic==2.14.1
 pydantic-core==2.50.1
 pydantic-extra-types==2.11.1
-pydantic-settings==2.16.1
+pydantic-settings==2.16.2
 pydeployment==1.3.17 ; sys_platform != 'darwin'
 pyinstaller==6.22.3 ; platform_machine == 'ARM64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.22.3-py3-none-any.whl ; platform_machine != 'ARM64' and sys_platform == 'win32'
@@ -77,7 +77,7 @@ tkinter-icons-mat==1.1.2
 truststore==0.10.5 ; sys_platform != 'emscripten'
 typing-extensions==4.16.0
 typing-inspection==0.4.4
-tzdata==2026.5
+tzdata==2026.6
 ujson==6.0.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
