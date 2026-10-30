@@ -25,7 +25,7 @@ macholib==1.16.4 ; sys_platform == 'darwin'
 markdown-it-py==4.2.0
 markupsafe==3.0.4
 mdurl==0.1.2
-minijinja==3.0.4
+minijinja==3.0.5
 more-itertools==11.2.1
 multidict==7.2.1
 numpy==2.4.6 ; python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
@@ -51,7 +51,7 @@ pyinstaller-hooks-contrib==2026.9
 pymediainfo==7.0.1 ; sys_platform == 'darwin' or sys_platform == 'linux' or sys_platform == 'win32'
 pypinyin==0.55.0
 pysubs2==1.8.1 ; python_full_version < '3.12'
-pysubs2==1.9.0 ; python_full_version >= '3.12'
+pysubs2==1.9.1 ; python_full_version >= '3.12'
 python-dateutil==3.0.0
 python-dotenv==1.2.4
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
