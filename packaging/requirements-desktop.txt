@@ -33,7 +33,7 @@ packaging==26.3
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==13.0.0
-platformdirs==4.14.0
+platformdirs==4.14.2
 portion==2.6.3
 protobuf-py==0.7.0
 protobuf-py-ext==0.7.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
@@ -82,13 +82,13 @@ ujson==6.0.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 win32-setctime==1.2.1 ; sys_platform == 'win32'
-winrt-runtime==4.0.3 ; sys_platform == 'win32'
-winrt-windows-applicationmodel-core==4!10.0.28000.2705 ; sys_platform == 'win32'
-winrt-windows-data-xml-dom==4!10.0.28000.2705 ; sys_platform == 'win32'
-winrt-windows-foundation==4!10.0.28000.2705 ; sys_platform == 'win32'
-winrt-windows-foundation-collections==4!10.0.28000.2705 ; sys_platform == 'win32'
-winrt-windows-storage-streams==4!10.0.28000.2705 ; sys_platform == 'win32'
-winrt-windows-ui-notifications==4!10.0.28000.2705 ; sys_platform == 'win32'
+winrt-runtime==4.1.0 ; sys_platform == 'win32'
+winrt-windows-applicationmodel-core==4!10.0.28000.2957 ; sys_platform == 'win32'
+winrt-windows-data-xml-dom==4!10.0.28000.2957 ; sys_platform == 'win32'
+winrt-windows-foundation==4!10.0.28000.2957 ; sys_platform == 'win32'
+winrt-windows-foundation-collections==4!10.0.28000.2957 ; sys_platform == 'win32'
+winrt-windows-storage-streams==4!10.0.28000.2957 ; sys_platform == 'win32'
+winrt-windows-ui-notifications==4!10.0.28000.2957 ; sys_platform == 'win32'
 xsdata==26.10
 xsdata-pydantic==24.5
 yaml-rs==0.1.6 ; sys_platform == 'darwin' or sys_platform == 'emscripten' or sys_platform == 'linux' or sys_platform == 'win32'
