@@ -29,6 +29,11 @@ PITCH_MAX = 12800
 PARAM_VALUE_SCALE = 8064000
 
 
+def _clamp_stored_value(value: int) -> int:
+    # DiffScope clamps each decoded sample or anchor before interpolation.
+    return min(max(value, 0), PARAM_VALUE_SCALE)
+
+
 def _ceil_to_interval(value: int) -> int:
     return math.ceil(value / SAMPLE_INTERVAL) * SAMPLE_INTERVAL
 
@@ -67,13 +72,15 @@ def _free_curve_value(curve: ParamCurveFree, position: int) -> float | None:
     if relative < 0 or relative > last_offset:
         return None
     left_index, remainder = divmod(relative, curve.step)
+    left_value = _clamp_stored_value(curve.values[left_index])
     if remainder == 0:
-        return float(curve.values[left_index])
+        return float(left_value)
     right_index = left_index + 1
     if right_index >= len(curve.values):
         return None
+    right_value = _clamp_stored_value(curve.values[right_index])
     ratio = remainder / curve.step
-    return curve.values[left_index] + (curve.values[right_index] - curve.values[left_index]) * ratio
+    return left_value + (right_value - left_value) * ratio
 
 
 class FreeCurveEvaluator:
@@ -101,7 +108,7 @@ def _absolute_nodes(curve: ParamCurveAnchor, *, force_last_none: bool) -> list[A
     result = [
         AbsoluteAnchorNode(
             x=curve.start + node.x,
-            y=node.y,
+            y=_clamp_stored_value(node.y),
             interp=node.interp,
         )
         for node in curve.nodes
