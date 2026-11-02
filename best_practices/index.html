@@ -31,7 +31,7 @@
       
       
       <link rel="icon" href="../images/libresvip.svg">
-      <meta name="generator" content="zensical-0.0.71">
+      <meta name="generator" content="zensical-0.0.74">
     
     
       
@@ -42,7 +42,7 @@
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.e442bf79.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.4ab2de0c.min.css">
       
         
           
@@ -104,9 +104,10 @@
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm-1 11h-2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2c.4 0 .7.1 1 .3V11h3zm0-4V3.5L18.5 9z"/></svg>
 
     </a>
-    <label class="md-header__button md-icon" for="__drawer" aria-label="导航栏">
+    <label class="md-header__button md-icon" for="__drawer">
       
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      <span class="md-visually-hidden">导航栏</span>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -158,9 +159,10 @@
     
       
       
-        <label class="md-header__button md-icon" for="__search" aria-label="查找">
+        <label class="md-header__button md-icon" for="__search">
           
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <span class="md-visually-hidden">查找</span>
         </label>
         <div class="md-search" data-md-component="search" role="dialog" aria-label="查找">
   <button type="button" class="md-search__button">
@@ -687,10 +689,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#proto-pbtk" class="md-nav__link">
+  <a href="#proto-protoloom" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        从闭源软件提取 proto 定义：pbtk
+        从闭源软件提取 proto 定义：protoloom
       </span>
     </span>
   </a>
@@ -880,10 +882,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#proto-pbtk" class="md-nav__link">
+  <a href="#proto-protoloom" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        从闭源软件提取 proto 定义：pbtk
+        从闭源软件提取 proto 定义：protoloom
       </span>
     </span>
   </a>
@@ -984,33 +986,33 @@
 <h2 id="pydantic">常见序列化格式：pydantic 验证</h2>
 <p>这类格式的分层很清晰：序列化库（<code>json</code> / <code>cbor2</code> / <code>yamlutils.load_yaml_1_2</code> 等）只负责字节 ↔ dict，结构验证全部交给 pydantic——<code>model.py</code> 是一棵 pydantic 模型树，parser 里 <code>FormatModel.model_validate(已反序列化的 dict)</code> 一步完成（YAML 格式参考 <code>ustx</code>，CBOR 参考 <code>tlpx</code>）。</p>
 <p>初版模型不必手写：用 <a href="https://github.com/koxudaxi/datamodel-code-generator">datamodel-code-generator</a>（在 <code>code_gen</code> 依赖组，命令名叫 <code>datamodel-codegen</code>）从一份真实样例文件生成：</p>
-<p><code>bash
-uv run --group code_gen datamodel-codegen \
-  --input 样例文件.json \
-  --output libresvip/plugins/&lt;format&gt;/model_gen.py \
-  --output-model-type pydantic_v2.BaseModel \
-  --base-class libresvip.model.base.BaseModel \
-  --snake-case-field --disable-timestamp</code></p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>code_gen<span class="w"> </span>datamodel-codegen<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input<span class="w"> </span>样例文件.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>libresvip/plugins/&lt;format&gt;/model_gen.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-model-type<span class="w"> </span>pydantic_v2.BaseModel<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--base-class<span class="w"> </span>libresvip.model.base.BaseModel<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--snake-case-field<span class="w"> </span>--disable-timestamp
+</code></pre></div>
 <p><code>--snake-case-field</code> 会把 camelCase 键转成 snake_case 字段并<strong>自动保留原始键名作为别名</strong>（生成 <code>full_name: str = Field(..., alias='fullName')</code>），正好对齐本仓库“snake_case 字段 + camelCase 别名 + <code>by_alias=True</code> 序列化”的约定，省掉最机械的手写工作；<code>--base-class</code> 让模型直接继承仓库的 <code>BaseModel</code>；<code>--disable-timestamp</code> 保证重复生成不产生无谓 diff。生成结果仍是初版——之后照<a href="../coding_style/">代码规范</a>清理：把必填改成可选并给默认值、删掉转换用不到的冗余字段。</p>
 <h2 id="xmlxsdata">XML：xsdata</h2>
 <p>XML 格式统一用 <a href="https://xsdata.readthedocs.io/">xsdata</a> 处理，仓库用的是它的 pydantic 集成 <code>xsdata-pydantic</code>（<code>XmlParser</code> / <code>XmlSerializer</code>）。生成的模型放进插件目录的 <code>models/</code> 子包（参考 <code>vsqx</code>：<code>models/vsqx3.py</code>、<code>models/vsqx4.py</code>）：</p>
-<p><code>bash
-uv run --group code_gen xsdata generate --output xsdata_pydantic 样例文件或xsd -o libresvip/plugins/&lt;format&gt;/models/</code></p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>code_gen<span class="w"> </span>xsdata<span class="w"> </span>generate<span class="w"> </span>--output<span class="w"> </span>xsdata_pydantic<span class="w"> </span>样例文件或xsd<span class="w"> </span>-o<span class="w"> </span>libresvip/plugins/&lt;format&gt;/models/
+</code></pre></div>
 <p><code>scripts/ts_model.py</code> 是同一个套路应用在 Qt Linguist <code>.ts</code> 文件上的例子——为"格式本身没有官方 schema"的情况提供了参照：拿一份样例文件生成模型，再手工修整。</p>
 <h2 id="tatsu-jinja2">自定义文本格式：tatsu 文法 + jinja2 模板</h2>
 <p>解析侧用 <a href="https://tatsu.readthedocs.io/">tatsu</a>（仓库锁定 <code>tatsu-lts</code>），PEG 文法直接以字符串内嵌在 <code>model.py</code> 顶部，<code>tatsu.compile(...)</code> 编译后用 <code>NodeWalker</code> 遍历语法树（完整范例见 <code>nn</code> 与 <code>ust</code> 插件的 <code>model.py</code>）。不要用正则拼自定义文本解析器——文法写一次，后续遇到边角格式（引号、转义、可选段）时改一行文法即可。</p>
 <p>生成侧不要手写字符串拼接。仓库封装了统一的 jinja2 环境 <code>libresvip.core.compat.jinja_env</code>：在插件的 <code>template.py</code> 里用 <code>add_template("格式名", "模板字符串")</code> 注册，再 <code>render_template("格式名", **上下文)</code> 渲染（参考 <code>ust</code>、<code>lrc</code>、<code>nn</code> 的 <code>template.py</code>）。</p>
 <h2 id="protobufbuf-protobuf-py">Protobuf：buf 生成 + protobuf-py 运行时</h2>
 <p><code>.proto</code> 文件统一放在 <code>libresvip/res/protos/</code>（现有 <code>libresvip.proto</code>、<code>svip3.proto</code>）。生成流程：</p>
-<p><code>bash
-uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py
-./scripts/gen_proto_files.sh</code></p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>sync<span class="w"> </span>--group<span class="w"> </span>code_gen<span class="w">    </span><span class="c1"># 提供 buf-bin 与 protoc-gen-py</span>
+./scripts/gen_proto_files.sh
+</code></pre></div>
 <p><code>buf.gen.yaml</code> 在 <code>libresvip/res/protos/</code> 里生成 <code>*_pb.py</code>，脚本随后把 <code>svip3_pb.py</code>、<code>libresvip_pb.py</code> 分别拷到 <code>libresvip/plugins/svip3/</code> 与 <code>libresvip/cli/rpc/</code> 并删除临时产物（相对导入要求绑定文件与消费方同包）。生成的 <code>*_pb.py</code>（内嵌序列化的 file descriptor）<strong>直接提交进仓库</strong>，运行时用 <a href="https://github.com/bufbuild/protobuf-py">protobuf-py</a> 而非 google 官方 protobuf 包（API 为 <code>from protobuf import Message</code>，well-known types 用全限定路径 <code>from protobuf.wkt.google.protobuf.any_pb import Any</code>）。</p>
 <blockquote>
 <p>protobuf-py 0.7.0 起 <code>protobuf.wkt</code> 只再导出常用类型（<code>Any</code>、<code>Duration</code>、<code>Timestamp</code>、<code>Struct</code>/<code>Value</code>/<code>ListValue</code>、<code>Empty</code>、<code>FieldMask</code>、<code>descriptor</code> 与 <code>wrappers</code> 系列）。<code>any_pb</code> 这类模块句柄和 <code>GoFeatures</code>、<code>CodeGeneratorRequest</code> 等冷门类型必须走全限定导入，且桩代码由 ≥0.6.0 的 <code>protoc-gen-py</code> 生成。</p>
 </blockquote>
-<h3 id="proto-pbtk">从闭源软件提取 proto 定义：pbtk</h3>
-<p>目标软件没有公开 schema 时（如 X Studio 的 svip3），用 <a href="https://github.com/vaitekoo/pbtk">pbtk</a>（在 <code>code_gen</code> 依赖组）从其二进制可执行文件中提取内嵌的 protobuf descriptor，导出成 <code>.proto</code> 后放进 <code>libresvip/res/protos/</code> 再走上面的生成流程。<code>svip3.proto</code>（<code>package xstudio.proto</code>）就是这么来的。</p>
+<h3 id="proto-protoloom">从闭源软件提取 proto 定义：protoloom</h3>
+<p>目标软件没有公开 schema 时（如 X Studio 的 svip3），用 <a href="https://pypi.org/project/protoloom/">protoloom</a>（在 <code>code_gen</code> 依赖组）从其二进制可执行文件或 APK 中提取内嵌的 protobuf descriptor，导出成 <code>.proto</code> 后放进 <code>libresvip/res/protos/</code> 再走上面的生成流程。<code>svip3.proto</code>（<code>package xstudio.proto</code>）就是这么来的。</p>
 <h2 id="construct">自定义二进制格式：construct</h2>
 <p>自定义二进制结构用 <a href="https://construct.readthedocs.io/">construct</a>（仓库用 <code>construct-typing</code> 提供类型标注）声明式描述，解析与生成共用同一个结构定义。参考 <code>dv/model.py</code>、<code>mid/midi_parser.py</code>、<code>ppsf/legacy_model.py</code>。</p>
 <p>经验法则：</p>
@@ -1040,8 +1042,8 @@ uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py
 <td><code>code_gen</code></td>
 </tr>
 <tr>
-<td>pbtk</td>
-<td>从二进制可执行文件提取 protobuf 定义</td>
+<td>protoloom</td>
+<td>从二进制可执行文件 / APK 提取 protobuf 定义</td>
 <td><code>code_gen</code></td>
 </tr>
 <tr>
@@ -1194,10 +1196,10 @@ uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py
       
         
         
-      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"redirect":null,"search":"../assets/javascripts/workers/search.c47bb847.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","clipboard.error":"Could not copy to clipboard","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.footer","navigation.tabs"],"redirect":null,"search":"../assets/javascripts/workers/search.719e0d91.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","clipboard.error":"Could not copy to clipboard","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.a2388154.min.js"></script>
+      <script src="../assets/javascripts/bundle.d31f0ffa.min.js"></script>
       
     
   </body>

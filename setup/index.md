@@ -4,7 +4,9 @@ LibreSVIP 使用 [uv](<https://docs.astral.sh/uv/>) 管理依赖，要求 Python
 
 ## 安装开发依赖
 
-`bash uv sync --all-extras --group linting`
+```
+uv sync --all-extras --group linting
+```
 
 ## 常用命令
 

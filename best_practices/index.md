@@ -16,7 +16,14 @@
 
 初版模型不必手写：用 [datamodel-code-generator](<https://github.com/koxudaxi/datamodel-code-generator>)（在 `code_gen` 依赖组，命令名叫 `datamodel-codegen`）从一份真实样例文件生成：
 
-`bash uv run --group code_gen datamodel-codegen \   --input 样例文件.json \   --output libresvip/plugins/<format>/model_gen.py \   --output-model-type pydantic_v2.BaseModel \   --base-class libresvip.model.base.BaseModel \   --snake-case-field --disable-timestamp`
+```
+uv run --group code_gen datamodel-codegen \
+  --input 样例文件.json \
+  --output libresvip/plugins/<format>/model_gen.py \
+  --output-model-type pydantic_v2.BaseModel \
+  --base-class libresvip.model.base.BaseModel \
+  --snake-case-field --disable-timestamp
+```
 
 `--snake-case-field` 会把 camelCase 键转成 snake\_case 字段并**自动保留原始键名作为别名**（生成 `full_name: str = Field(..., alias='fullName')`），正好对齐本仓库“snake\_case 字段 + camelCase 别名 + `by_alias=True` 序列化”的约定，省掉最机械的手写工作；`--base-class` 让模型直接继承仓库的 `BaseModel`；`--disable-timestamp` 保证重复生成不产生无谓 diff。生成结果仍是初版——之后照[代码规范](<https://soulmelody.github.io/LibreSVIP/coding_style/index.md>)清理：把必填改成可选并给默认值、删掉转换用不到的冗余字段。
 
@@ -24,7 +31,9 @@
 
 XML 格式统一用 [xsdata](<https://xsdata.readthedocs.io/>) 处理，仓库用的是它的 pydantic 集成 `xsdata-pydantic`（`XmlParser` / `XmlSerializer`）。生成的模型放进插件目录的 `models/` 子包（参考 `vsqx`：`models/vsqx3.py`、`models/vsqx4.py`）：
 
-`bash uv run --group code_gen xsdata generate --output xsdata_pydantic 样例文件或xsd -o libresvip/plugins/<format>/models/`
+```
+uv run --group code_gen xsdata generate --output xsdata_pydantic 样例文件或xsd -o libresvip/plugins/<format>/models/
+```
 
 `scripts/ts_model.py` 是同一个套路应用在 Qt Linguist `.ts` 文件上的例子——为"格式本身没有官方 schema"的情况提供了参照：拿一份样例文件生成模型，再手工修整。
 
@@ -38,15 +47,18 @@ XML 格式统一用 [xsdata](<https://xsdata.readthedocs.io/>) 处理，仓库�
 
 `.proto` 文件统一放在 `libresvip/res/protos/`（现有 `libresvip.proto`、`svip3.proto`）。生成流程：
 
-`bash uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py ./scripts/gen_proto_files.sh`
+```
+uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py
+./scripts/gen_proto_files.sh
+```
 
 `buf.gen.yaml` 在 `libresvip/res/protos/` 里生成 `*_pb.py`，脚本随后把 `svip3_pb.py`、`libresvip_pb.py` 分别拷到 `libresvip/plugins/svip3/` 与 `libresvip/cli/rpc/` 并删除临时产物（相对导入要求绑定文件与消费方同包）。生成的 `*_pb.py`（内嵌序列化的 file descriptor）**直接提交进仓库**，运行时用 [protobuf-py](<https://github.com/bufbuild/protobuf-py>) 而非 google 官方 protobuf 包（API 为 `from protobuf import Message`，well-known types 用全限定路径 `from protobuf.wkt.google.protobuf.any_pb import Any`）。
 
 > protobuf-py 0.7.0 起 `protobuf.wkt` 只再导出常用类型（`Any`、`Duration`、`Timestamp`、`Struct`/`Value`/`ListValue`、`Empty`、`FieldMask`、`descriptor` 与 `wrappers` 系列）。`any_pb` 这类模块句柄和 `GoFeatures`、`CodeGeneratorRequest` 等冷门类型必须走全限定导入，且桩代码由 ≥0.6.0 的 `protoc-gen-py` 生成。
 
-### 从闭源软件提取 proto 定义：pbtk
+### 从闭源软件提取 proto 定义：protoloom
 
-目标软件没有公开 schema 时（如 X Studio 的 svip3），用 [pbtk](<https://github.com/vaitekoo/pbtk>)（在 `code_gen` 依赖组）从其二进制可执行文件中提取内嵌的 protobuf descriptor，导出成 `.proto` 后放进 `libresvip/res/protos/` 再走上面的生成流程。`svip3.proto`（`package xstudio.proto`）就是这么来的。
+目标软件没有公开 schema 时（如 X Studio 的 svip3），用 [protoloom](<https://pypi.org/project/protoloom/>)（在 `code_gen` 依赖组）从其二进制可执行文件或 APK 中提取内嵌的 protobuf descriptor，导出成 `.proto` 后放进 `libresvip/res/protos/` 再走上面的生成流程。`svip3.proto`（`package xstudio.proto`）就是这么来的。
 
 ## 自定义二进制格式：construct
 
@@ -64,7 +76,7 @@ XML 格式统一用 [xsdata](<https://xsdata.readthedocs.io/>) 处理，仓库�
 | --- | --- | --- |
 | datamodel-code-generator | 从样例 JSON/YAML 生成 pydantic 模型初版 | `code_gen` |
 | xsdata CLI | 从 XSD / 样例 XML 生成模型 | `code_gen` |
-| pbtk | 从二进制可执行文件提取 protobuf 定义 | `code_gen` |
+| protoloom | 从二进制可执行文件 / APK 提取 protobuf 定义 | `code_gen` |
 | buf + protoc-gen-py | 从 `.proto` 生成 Python 绑定 | `code_gen`（脚本 `scripts/gen_proto_files.sh`） |
 | babel（`scripts/extract_messages.py`、`batch_compile_catalog.py`） | 抽取与编译翻译目录 | `i18n` / CI |
 

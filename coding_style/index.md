@@ -4,7 +4,9 @@
 
 默认类型检查器是 **pyrefly**（`.pre-commit-config.yaml` 中的 `pyrefly-check` 钩子即门禁）：
 
-`bash uv run pyrefly check .`
+```
+uv run pyrefly check .
+```
 
 mypy（含 pydantic.mypy 插件）已降级为遗留工具——慢且明显更严，不要把它的输出当作通过/失败标准，也不要为满足它去改代码。
 
@@ -20,7 +22,10 @@ mypy（含 pydantic.mypy 插件）已降级为遗留工具——慢且明显更�
 
 Lint 与格式化统一用 [ruff](<https://docs.astral.sh/ruff/>)（pre-commit 的 `ruff-check` / `ruff-format` 钩子即门禁，规则配置在 `pyproject.toml` 的 `[tool.ruff]`）：
 
-`bash uv run ruff check --fix .              # lint，可自动修复的会直接改 uv run ruff format --config pyproject.toml --exclude tests/ .   # 格式化`
+```
+uv run ruff check --fix .              # lint，可自动修复的会直接改
+uv run ruff format --config pyproject.toml --exclude tests/ .   # 格式化
+```
 
 要点：
 

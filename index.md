@@ -1,5 +1,7 @@
 # LibreSVIP
 
+[![PyPi](<https://img.shields.io/pypi/v/libresvip>)](<https://pypi.org/project/libresvip/>) [![Python 版本](<https://img.shields.io/pypi/pyversions/libresvip.svg>)](<https://pypi.org/project/libresvip/>) [![PyPI - 下载量](<https://static.pepy.tech/badge/libresvip/month>)](<https://pypi.org/project/libresvip/>) [![Ruff](<https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json>)](<https://github.com/astral-sh/ruff>) [![使用 pyrefly 进行静态类型检查](<https://img.shields.io/endpoint?url=https://pyrefly.org/badge.json>)](<https://github.com/facebook/pyrefly/>) [![许可证](<https://img.shields.io/pypi/l/libresvip?color=blue>)](<https://opensource.org/licenses/MIT>) [![GitHub Build](<https://img.shields.io/github/actions/workflow/status/SoulMelody/LibreSVIP/package.yml?label=packaging>)](<https://github.com/SoulMelody/LibreSVIP/actions/workflows/package.yml?query=workflow%3APackaging>) [![react-badge](<https://img.shields.io/badge/react-%2320232a.svg?logo=react&amp;logoColor=%2361DAFB>)](<https://soulmelody.github.io/libresvip-pwa/>)
+
 LibreSVIP 是一个跨平台且通用的文件转换工具，它适用于多种不同歌声合成(有时也简称作 SVS)工程格式。
 
 ## 安装
@@ -8,9 +10,13 @@ LibreSVIP 是一个跨平台且通用的文件转换工具，它适用于多种�
 
 或者你也可以通过pip安装带有桌面支持的LibreSVIP (需要先安装 python 3.11 以上版本):
 
-`bash pip install libresvip[desktop]`
+```
+pip install libresvip[desktop]
+```
 
 ## 翻译
+
+![zh-CN translation](<https://img.shields.io/badge/dynamic/json?color=blue&amp;label=zh-CN&amp;style=flat&amp;logo=crowdin&amp;query=%24.progress%5B2%5D.data.translationProgress&amp;url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json>) ![ja translation](<https://img.shields.io/badge/dynamic/json?color=blue&amp;label=ja&amp;style=flat&amp;logo=crowdin&amp;query=%24.progress%5B1%5D.data.translationProgress&amp;url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json>) ![de translation](<https://img.shields.io/badge/dynamic/json?color=blue&amp;label=de&amp;style=flat&amp;logo=crowdin&amp;query=%24.progress%5B0%5D.data.translationProgress&amp;url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json>)
 
 如果你想给一种新的语言或现有语言的翻译作出贡献, 请参阅 [LibreSVIP在Crowdin上的页面](<https://zh.crowdin.com/project/libresvip>).
 
