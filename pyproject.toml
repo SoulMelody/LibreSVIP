@@ -34,7 +34,7 @@ dependencies = [
   "PyYAML-ft>=8.0.0,<8.0.1; python_version=='3.13' and sys_platform != \"emscripten\"",
   "backports.zstd<1.8.1,>=1.8.0; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\") and (platform_python_implementation == \"CPython\" or platform_python_implementation == \"PyPy\") and python_version < \"3.14\"",
   "bidict>=0.24.1",
-  "cbor2<7.0.0,>=6.2.0.post1",
+  "cbor2<7.0.0,>=6.2.0.post2",
   "charset-normalizer<4.0.0,>=3.5.2",
   "construct-typing<1.0.0,>=0.8.1",
   "jinja2<4.0.0,>=3.1.6",
@@ -59,7 +59,7 @@ dependencies = [
   "svg-py<2.0.0,>=1.10.0",
   "tatsu-lts>=5.16.0,<6.0.0; python_version < '3.12'",
   "tatsu>=5.24.0,<6.0.0; python_version >= '3.12'",
-  "that-depends>=4.2.1",
+  "that-depends>=4.3.0",
   "universal-pathlib<1.0.0,>=0.3.10",
   "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
@@ -102,7 +102,7 @@ tui = [
 ]
 ujson = ["ujson>=6.0.0"]
 webui = [
-  "nicegui>=3.18.0",
+  "nicegui>=3.19.0",
 ]
 yaml12 = [
   "ruamel.yaml.clib<0.3.0,>=0.2.15; (sys_platform != \"win32\" and sys_platform != \"darwin\" and sys_platform != \"linux\" and sys_platform != \"emscripten\")",
