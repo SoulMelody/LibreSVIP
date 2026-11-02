@@ -56,9 +56,9 @@ uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py
 
 > protobuf-py 0.7.0 起 `protobuf.wkt` 只再导出常用类型（`Any`、`Duration`、`Timestamp`、`Struct`/`Value`/`ListValue`、`Empty`、`FieldMask`、`descriptor` 与 `wrappers` 系列）。`any_pb` 这类模块句柄和 `GoFeatures`、`CodeGeneratorRequest` 等冷门类型必须走全限定导入，且桩代码由 ≥0.6.0 的 `protoc-gen-py` 生成。
 
-### 从闭源软件提取 proto 定义：pbtk
+### 从闭源软件提取 proto 定义：protoloom
 
-目标软件没有公开 schema 时（如 X Studio 的 svip3），用 [pbtk](https://github.com/vaitekoo/pbtk)（在 `code_gen` 依赖组）从其二进制可执行文件中提取内嵌的 protobuf descriptor，导出成 `.proto` 后放进 `libresvip/res/protos/` 再走上面的生成流程。`svip3.proto`（`package xstudio.proto`）就是这么来的。
+目标软件没有公开 schema 时（如 X Studio 的 svip3），用 [protoloom](https://pypi.org/project/protoloom/)（在 `code_gen` 依赖组）从其二进制可执行文件或 APK 中提取内嵌的 protobuf descriptor，导出成 `.proto` 后放进 `libresvip/res/protos/` 再走上面的生成流程。`svip3.proto`（`package xstudio.proto`）就是这么来的。
 
 ## 自定义二进制格式：construct
 
@@ -76,7 +76,7 @@ uv sync --group code_gen    # 提供 buf-bin 与 protoc-gen-py
 | --- | --- | --- |
 | datamodel-code-generator | 从样例 JSON/YAML 生成 pydantic 模型初版 | `code_gen` |
 | xsdata CLI | 从 XSD / 样例 XML 生成模型 | `code_gen` |
-| pbtk | 从二进制可执行文件提取 protobuf 定义 | `code_gen` |
+| protoloom | 从二进制可执行文件 / APK 提取 protobuf 定义 | `code_gen` |
 | buf + protoc-gen-py | 从 `.proto` 生成 Python 绑定 | `code_gen`（脚本 `scripts/gen_proto_files.sh`） |
 | babel（`scripts/extract_messages.py`、`batch_compile_catalog.py`） | 抽取与编译翻译目录 | `i18n` / CI |
 
