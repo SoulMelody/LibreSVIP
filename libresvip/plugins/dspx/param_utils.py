@@ -26,6 +26,7 @@ SAMPLE_INTERVAL = 5
 PITCH_BREAK_VALUE = -100
 PITCH_MIN = 0
 PITCH_MAX = 12800
+PARAM_VALUE_SCALE = 8064000
 
 
 def _ceil_to_interval(value: int) -> int:
@@ -142,12 +143,12 @@ def _hermite_value(nodes: list[AbsoluteAnchorNode], left_index: int, position: i
     right = nodes[left_index + 1]
     left_slope = (
         _fritsch_butland(nodes[left_index - 1], left, right)
-        if left_index > 0
+        if left_index > 0 and nodes[left_index - 1].interp != "none"
         else _secant(left, right)
     )
     right_slope = (
         _fritsch_butland(left, right, nodes[left_index + 2])
-        if left_index + 2 < len(nodes)
+        if left_index + 2 < len(nodes) and right.interp != "none"
         else _secant(left, right)
     )
     width = right.x - left.x
@@ -234,10 +235,13 @@ class ResolvedParam:
             source = self.original.evaluate(position)
         if source is None:
             return None
+        normalized = source / PARAM_VALUE_SCALE
         transform = self.transform_anchor.evaluate(position)
         if transform is None:
             transform = self.transform_free.evaluate(position)
-        return source * (transform / 1000 if transform is not None else 1.0)
+        if transform is not None:
+            normalized *= 2 * transform / PARAM_VALUE_SCALE
+        return clamp(normalized, 0.0, 1.0) * PITCH_MAX
 
 
 def build_pitch_curve(
@@ -324,6 +328,10 @@ def _linear_value(
     return left.y + (right.y - left.y) * ratio
 
 
+def _pitch_cents_to_stored(value: float) -> int:
+    return round(clamp(value, PITCH_MIN, PITCH_MAX) * PARAM_VALUE_SCALE / PITCH_MAX)
+
+
 def export_pitch_param(
     curve: LibreParamCurve,
     *,
@@ -335,7 +343,7 @@ def export_pitch_param(
             [
                 Point(
                     x=point.x - coordinate_offset,
-                    y=round(clamp(point.y, PITCH_MIN, PITCH_MAX)),
+                    y=point.y,
                 )
                 for point in segment
             ]
@@ -346,11 +354,11 @@ def export_pitch_param(
         end = _floor_to_interval(points[-1].x)
         if start > end:
             sample_position = _round_to_interval(points[0].x)
-            sampled_values = [(sample_position, points[0].y)]
+            sampled_values = [(sample_position, _pitch_cents_to_stored(points[0].y))]
         else:
             point_positions = [point.x for point in points]
             sampled_values = [
-                (position, round(clamp(value, PITCH_MIN, PITCH_MAX)))
+                (position, _pitch_cents_to_stored(value))
                 for position in range(start, end + 1, SAMPLE_INTERVAL)
                 if (value := _linear_value(points, point_positions, position)) is not None
             ]
