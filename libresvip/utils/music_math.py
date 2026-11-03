@@ -215,12 +215,16 @@ class HermiteInterpolator:
         last_k = self.slope(point, self.points[point_index - 1])
         next_k = self.slope(point, self.points[point_index + 1])
         kk = last_k * next_k
+        if not math.isfinite(kk):
+            # Duplicate ticks (as ACE Studio exports at note boundaries) make slope() NaN/inf
+            # NaN bypasses the kk <= 0 guard and 1/0 raises ZeroDivisionError, so flatten it
+            return 0
         return 0 if kk <= 0 else 2 / (1 / last_k + 1 / next_k)
 
     def interpolate(self, xs: list[float]) -> list[float]:
         if len(self.points) < 2:
             return [self.points[0][1] if len(self.points) == 1 else 0] * len(xs)
-        elif len(self.points) == 2:
+        elif len(self.points) == 2 and self.points[0][0] != self.points[1][0]:
             return [linear_interpolation(x, self.points[0], self.points[1]) for x in xs]
         point_index = 0
         last_delta_index = -1

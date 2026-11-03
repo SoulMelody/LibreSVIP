@@ -39,7 +39,6 @@ USER_AGENT = "LibreSVIP pyodide dependency patcher"
 
 # Shipped as a wheel built locally, because PyPI only publishes its sdist.
 LOCAL_WHEELS = {"wanakana-python"}
-PYPI_PINS = {"cbor2": Version("6")}
 # Pure Python, but pinned to the indexed build anyway.
 PIN_EVEN_IF_PURE = ["charset-normalizer", "packaging", "pydantic"]
 
