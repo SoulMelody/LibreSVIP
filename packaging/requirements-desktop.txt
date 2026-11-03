@@ -77,7 +77,7 @@ truststore==0.10.5 ; sys_platform != 'emscripten'
 typing-extensions==4.16.0
 typing-inspection==0.4.4
 tzdata==2026.6
-ujson==6.0.0
+ujson==6.1.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 win32-setctime==1.2.1 ; sys_platform == 'win32'
