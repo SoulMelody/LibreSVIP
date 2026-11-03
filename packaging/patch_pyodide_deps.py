@@ -18,8 +18,6 @@ A few packages do not follow that rule:
   wheels, but each has to stay on the indexed build: ``packaging`` because
   micropip depends on it and a newer build conflicts with the one micropip
   ships, the other two because the build Pyodide tested is the one that works.
-- ``cbor2`` 6.x became a Rust extension and publishes no Pyodide wheel, so it
-  is pinned to the last pure-Python 5.x release on PyPI.
 - ``wanakana-python`` is shipped as a locally built wheel, because PyPI only
   publishes its sdist, and its line is left untouched.
 """
@@ -41,9 +39,6 @@ USER_AGENT = "LibreSVIP pyodide dependency patcher"
 
 # Shipped as a wheel built locally, because PyPI only publishes its sdist.
 LOCAL_WHEELS = {"wanakana-python"}
-# Not in the Pyodide index, and not installable from PyPI as-is: cbor2 6.x is a
-# Rust extension without a Pyodide wheel, so it stays on the last pure-Python
-# 5.x release.
 PYPI_PINS = {"cbor2": Version("6")}
 # Pure Python, but pinned to the indexed build anyway.
 PIN_EVEN_IF_PURE = ["charset-normalizer", "packaging", "pydantic"]
@@ -80,25 +75,8 @@ def indexed_version(name: str, pyodide_version: str) -> Version | None:
     return max(versions, default=None)
 
 
-def latest_pypi_version(name: str, below: Version) -> Version | None:
-    releases = json.loads(_open(f"https://pypi.org/pypi/{name}/json"))["releases"]
-    versions = []
-    for version, files in releases.items():
-        parsed = Version(version)
-        if parsed.is_prerelease or parsed >= below:
-            continue
-        if any(
-            file["packagetype"] == "bdist_wheel" and file["python_version"] in ("py3", "py2.py3")
-            for file in files
-        ):
-            versions.append(parsed)
-    return max(versions, default=None)
-
-
 def pinned_version(name: str, pyodide_version: str) -> Version | None:
     canonical = canonicalize_name(name)
-    if canonical in PYPI_PINS:
-        return latest_pypi_version(canonical, PYPI_PINS[canonical])
     return indexed_version(canonical, pyodide_version)
 
 
