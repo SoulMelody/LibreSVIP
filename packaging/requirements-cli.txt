@@ -34,7 +34,7 @@ packaging==26.3
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==13.0.0 ; sys_platform == 'darwin'
-platformdirs==4.14.3
+platformdirs==4.14.4
 portion==2.6.3
 protobuf-py==0.7.0
 protobuf-py-ext==0.7.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
@@ -71,7 +71,7 @@ tatsu-lts==5.16.0 ; python_full_version < '3.12'
 that-depends==4.3.0
 typer==0.27.3
 typing-extensions==4.16.0
-typing-inspection==0.4.4
+typing-inspection==0.4.5
 tzdata==2026.6
 ujson==6.1.0
 universal-pathlib==0.3.10
