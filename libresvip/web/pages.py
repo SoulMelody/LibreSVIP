@@ -21,6 +21,7 @@ from importlib.resources import as_file
 from operator import not_
 from typing import (
     TYPE_CHECKING,
+    Any,
     Literal,
     ParamSpec,
     SupportsFloat,
@@ -130,6 +131,41 @@ def float_validator(value: SupportsFloat | None) -> bool:
         return not math.isnan(float(value))
     else:
         return False
+
+
+def refreshable_partial(func: Callable[..., Any], *args: Any, **kwargs: Any) -> Any:
+    """``ui.refreshable`` for an already-bound function.
+
+    NiceGUI 4 names the awaitable returned by ``refresh()`` after ``func.__name__``,
+    which a bare ``functools.partial`` does not have. Carrying the wrapped function's
+    metadata over keeps ``refresh()`` working.
+    """
+    bound = functools.partial(func, *args, **kwargs)
+    functools.update_wrapper(bound, func)
+    return ui.refreshable(bound)
+
+
+def bind_unclearable_option(
+    control: Any,
+    options: dict[str, JsonValue],
+    key: str,
+    default: str,
+) -> Any:
+    """Bind a text-like control whose option field cannot hold an emptied value.
+
+    Since NiceGUI 4 a cleared ``ui.input``/``ui.color_input`` reports ``""`` instead of
+    ``None``. ``Color`` and ``BaseComplexModel`` fields cannot parse that, so emptying
+    such a control restores the field default rather than writing an invalid value into
+    the option dict.
+    """
+
+    def restore_default() -> None:
+        if not control.value:
+            control.set_value(default)
+
+    control.on_value_change(restore_default)
+    control.bind_value(options, key, forward=lambda value: value or default)
+    return control
 
 
 @binding.bindable_dataclass(bindable_fields=["running", "success", "error", "warning"])
@@ -361,8 +397,8 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                 ui.label(_("Introduction")).classes("text-subtitle1 font-bold")
                 ui.label(_(plugin_details[attr]["description"] or ""))
 
-        input_plugin_info = ui.refreshable(functools.partial(plugin_info, "input_format"))
-        output_plugin_info = ui.refreshable(functools.partial(plugin_info, "output_format"))
+        input_plugin_info = refreshable_partial(plugin_info, "input_format")
+        output_plugin_info = refreshable_partial(plugin_info, "output_format")
 
         def panel_header(attr_name: str, title: str, prefix: str, icon: str) -> None:
             attr = getattr(selected_formats, attr_name)
@@ -373,23 +409,19 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                     "flex-grow",
                 )
 
-        input_panel_header = ui.refreshable(
-            functools.partial(
-                panel_header,
-                "input_format",
-                _("Input Options"),
-                _("[Import as "),
-                "input",
-            ),
+        input_panel_header = refreshable_partial(
+            panel_header,
+            "input_format",
+            _("Input Options"),
+            _("[Import as "),
+            "input",
         )
-        output_panel_header = ui.refreshable(
-            functools.partial(
-                panel_header,
-                "output_format",
-                _("Output Options"),
-                _("[Export to "),
-                "output",
-            ),
+        output_panel_header = refreshable_partial(
+            panel_header,
+            "output_format",
+            _("Output Options"),
+            _("[Export to "),
+            "output",
         )
 
         @context_vars_wrapper
@@ -456,18 +488,33 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                 value=default_value,
                             ).bind_value(option_dict, option_key).classes("flex-grow")
                         elif issubclass(field_info.annotation, Color):
-                            ui.color_input(
-                                label=_(field_info.title),
-                                value=default_value,
-                            ).bind_value(option_dict, option_key).classes("flex-grow")
+                            bind_unclearable_option(
+                                ui.color_input(
+                                    label=_(field_info.title),
+                                    value=default_value or "",
+                                ),
+                                option_dict,
+                                option_key,
+                                default_value,
+                            ).classes("flex-grow")
                         elif issubclass(field_info.annotation, str | BaseComplexModel):
                             if issubclass(field_info.annotation, BaseComplexModel):
                                 default_value = field_info.annotation.default_repr()
                                 option_dict[option_key] = default_value
-                            ui.input(
-                                label=_(field_info.title),
-                                value=default_value,
-                            ).bind_value(option_dict, option_key).classes("flex-grow")
+                                bind_unclearable_option(
+                                    ui.input(
+                                        label=_(field_info.title),
+                                        value=default_value,
+                                    ),
+                                    option_dict,
+                                    option_key,
+                                    default_value,
+                                ).classes("flex-grow")
+                            else:
+                                ui.input(
+                                    label=_(field_info.title),
+                                    value=default_value or "",
+                                ).bind_value(option_dict, option_key).classes("flex-grow")
                         elif issubclass(field_info.annotation, int | float):
                             with (
                                 ui.number(
@@ -494,9 +541,9 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                 "cursor: help",
                             ).tooltip(_(field_info.description))
 
-        input_options = ui.refreshable(functools.partial(options_form, "input", "load"))
+        input_options = refreshable_partial(options_form, "input", "load")
 
-        output_options = ui.refreshable(functools.partial(options_form, "output", "dump"))
+        output_options = refreshable_partial(options_form, "output", "dump")
 
         @context_vars_wrapper
         def middleware_options_form(attr: str, toggler: Switch) -> None:
@@ -565,18 +612,33 @@ def main_wrapper(header: ui.header) -> Callable[[PageArguments], None]:
                                 value=default_value,
                             ).bind_value(option_dict, option_key).classes("flex-grow")
                         elif issubclass(field_info.annotation, Color):
-                            ui.color_input(
-                                label=_(field_info.title),
-                                value=default_value,
-                            ).bind_value(option_dict, option_key).classes("flex-grow")
+                            bind_unclearable_option(
+                                ui.color_input(
+                                    label=_(field_info.title),
+                                    value=default_value or "",
+                                ),
+                                option_dict,
+                                option_key,
+                                default_value,
+                            ).classes("flex-grow")
                         elif issubclass(field_info.annotation, str | BaseComplexModel):
                             if issubclass(field_info.annotation, BaseComplexModel):
                                 default_value = field_info.annotation.default_repr()
                                 option_dict[option_key] = default_value
-                            ui.input(
-                                label=_(field_info.title),
-                                value=default_value,
-                            ).bind_value(option_dict, option_key).classes("flex-grow")
+                                bind_unclearable_option(
+                                    ui.input(
+                                        label=_(field_info.title),
+                                        value=default_value,
+                                    ),
+                                    option_dict,
+                                    option_key,
+                                    default_value,
+                                ).classes("flex-grow")
+                            else:
+                                ui.input(
+                                    label=_(field_info.title),
+                                    value=default_value or "",
+                                ).bind_value(option_dict, option_key).classes("flex-grow")
                         elif issubclass(field_info.annotation, int | float):
                             with (
                                 ui.number(

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import functools
 import gettext
 import importlib
 import itertools
@@ -140,15 +141,16 @@ def get_core_translation(lang: str | None = None) -> gettext.NullTranslations:
     return merge_translation(translation, res_dir, lang)
 
 
-def get_translation(
-    lang: str | None = None,
-    *,
-    include_plugins: bool = True,
-) -> gettext.NullTranslations:
-    if lang is None:
-        ui_settings = get_settings()
-        lang = ui_settings.language.value
-    translation = get_core_translation(lang)
+@functools.cache
+def _load_translation(lang: str, include_plugins: bool) -> gettext.NullTranslations:
+    """Parse the catalogs for one language, once.
+
+    ``get_translation`` sits in the conversion hot path: every ``context_vars_wrapper``
+    call re-resolves it, and NiceGUI's binding refresh loop evaluates decorated
+    transforms on each tick. Re-reading every ``.mo`` file there costs ~13ms per call,
+    so the parsed chain is cached per language instead.
+    """
+    translation = merge_translation(gettext.NullTranslations(), res_dir, lang)
     if not include_plugins:
         return translation
     for plugin in itertools.chain(
@@ -158,3 +160,14 @@ def get_translation(
         plugin_base_dir = files(plugin.__module__.rsplit(".", 1)[0])
         translation = merge_translation(translation, plugin_base_dir, lang)
     return translation
+
+
+def get_translation(
+    lang: str | None = None,
+    *,
+    include_plugins: bool = True,
+) -> gettext.NullTranslations:
+    if lang is None:
+        ui_settings = get_settings()
+        lang = ui_settings.language.value
+    return _load_translation(lang, include_plugins)
