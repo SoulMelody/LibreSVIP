@@ -16,10 +16,10 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 import libresvip
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
+from libresvip.utils.release_asset import match_release_asset
 from libresvip.utils.translation import gettext_lazy as _
 
 from .application import app, event_loop
-from .release_asset import match_release_asset
 from .url_opener import open_path, open_url
 
 if TYPE_CHECKING:

@@ -18,6 +18,37 @@ def _windows_arch_aliases(arch: str) -> tuple[str, ...]:
     return (arch,)
 
 
+def _android_abi_aliases(abi: str) -> tuple[str, ...]:
+    normalized = abi.lower().replace("-", "_")
+    if normalized in {"arm64_v8a", "aarch64", "arm64"}:
+        return "arm64-v8a", "aarch64", "arm64"
+    if normalized in {"armeabi_v7a", "armv7l", "armv7"}:
+        return "armeabi-v7a", "armv7l", "armv7"
+    if normalized in {"x86_64", "amd64"}:
+        return "x86_64", "amd64"
+    if normalized in {"x86", "i686", "i386"}:
+        return "x86", "i686", "i386"
+    return (abi,)
+
+
+def android_abi(machine: str) -> str | None:
+    """Normalize a machine name to the Android ABI used in release asset names."""
+    aliases = _android_abi_aliases(machine)
+    abi = aliases[0]
+    if abi in {"arm64-v8a", "armeabi-v7a", "x86_64", "x86"}:
+        return abi
+    return None
+
+
+def match_android_apk_asset(assets: list[dict[str, Any]], abi: str) -> dict[str, Any] | None:
+    """Match the split APK release asset built for the given Android ABI."""
+    pattern = f"LibreSVIP-{abi}.apk"
+    return next(
+        (asset for asset in assets if fnmatch.fnmatch(asset["name"], pattern)),
+        None,
+    )
+
+
 def match_release_asset(
     assets: list[dict[str, Any]],
     uname: PlatformUname,

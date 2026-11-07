@@ -21,10 +21,11 @@ startup_message = "Getting things ready…"
 
 [tool.flet.flutter.pubspec.dependency_overrides]
 flet = { git = { url = "https://github.com/flet-dev/flet.git", path = "packages/flet", ref = "v${FLET_VERSION}" } }
+flet_notifications = { git = { url = "https://github.com/flet-dev/flet.git", path = "sdk/python/packages/flet-notifications/src/flutter/flet_notifications", ref = "v${FLET_VERSION}" } }
 flet_permission_handler = { git = { url = "https://github.com/flet-dev/flet.git", path = "sdk/python/packages/flet-permission-handler/src/flutter/flet_permission_handler", ref = "v${FLET_VERSION}" } }
 EOF
 uv run --project .. flet build apk -v --yes --skip-flutter-doctor \
-    --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
+    --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True android.permission.REQUEST_INSTALL_PACKAGES=True \
     --android-extract-packages pypinyin jyutping \
     --org org.soulmelody \
     --project LibreSVIP \

@@ -36,6 +36,8 @@ from libresvip.extension.manager import (
     middleware_manager,
     plugin_manager,
 )
+from libresvip.mobile.notifier import MobileNotifier
+from libresvip.mobile.update import UpdateChecker
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
@@ -120,7 +122,6 @@ def _format_output_selector_label(plugin: SVSConverter) -> str:
 
 
 async def main(page: ft.Page) -> None:
-    loop = asyncio.get_running_loop()
     shared_preferences = ft.SharedPreferences()
     storage_paths = ft.StoragePaths()
     page.title = "LibreSVIP"
@@ -763,6 +764,8 @@ async def main(page: ft.Page) -> None:
             url_launcher,
         ]
     )
+    notifier = MobileNotifier(page)
+    updater = UpdateChecker(page, notifier, url_launcher)
     if (
         page.platform
         not in [
@@ -942,24 +945,29 @@ async def main(page: ft.Page) -> None:
             else:
                 save_path = save_folder / f"{list_tile.subtitle.value}.zip"
             if page.web:
-                loop.create_task(
-                    file_picker.save_file(
-                        file_name=save_path.name,
-                        src_bytes=buffer.getvalue(),
-                    )
+                page.run_task(
+                    file_picker.save_file,
+                    file_name=save_path.name,
+                    src_bytes=buffer.getvalue(),
                 )
             else:
                 save_path.write_bytes(buffer.getvalue())
             if w.output:
                 list_tile.leading.controls[0].icon = ft.Icons.WARNING_OUTLINED
                 list_tile.leading.controls[0].color = ft.Colors.YELLOW_400
+                if not page.web:
+                    notifier.notify_conversion_finished(list_tile.subtitle.value, warnings=True)
             else:
                 list_tile.leading.controls[0].icon = ft.Icons.CHECK_CIRCLE_OUTLINED
                 list_tile.leading.controls[0].color = ft.Colors.GREEN_400
+                if not page.web:
+                    notifier.notify_conversion_finished(list_tile.subtitle.value)
         except Exception:
             list_tile.leading.controls[0].icon = ft.Icons.ERROR_OUTLINED
             list_tile.leading.controls[0].color = ft.Colors.RED_400
             list_tile.data["log_text"] = traceback.format_exc()
+            if not page.web:
+                notifier.notify_conversion_finished(list_tile.subtitle.value, failed=True)
         list_tile.leading.controls[0].visible = True
         list_tile.leading.controls[1].visible = False
         list_tile.trailing.items[-1].disabled = False
@@ -1670,3 +1678,5 @@ async def main(page: ft.Page) -> None:
     page.on_keyboard_event = on_keyboard_event
     page.on_route_change = on_route_change
     await on_route_change()
+    if not page.web and settings.auto_check_for_updates:
+        page.run_task(updater.check)
