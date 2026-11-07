@@ -475,6 +475,17 @@ async def main(page: ft.Page) -> None:
     async def change_max_track_count(e: ft.ControlEvent) -> None:
         await shared_preferences.set("max_track_count", int(e.control.value))
 
+    if not await shared_preferences.contains_key("auto_check_for_updates"):
+        await shared_preferences.set("auto_check_for_updates", True)
+    auto_check_for_updates_enabled = ensure_bool(
+        await shared_preferences.get("auto_check_for_updates")
+    )
+
+    async def change_auto_check_for_updates(e: ft.ControlEvent) -> None:
+        await shared_preferences.set("auto_check_for_updates", e.control.value)
+        if e.control.value and not page.web:
+            page.run_task(updater.check)
+
     current_lyric_group = "default"
     lyric_replace_rules: dict[str, list[dict[str, Any]]] = {}
 
@@ -1605,6 +1616,43 @@ async def main(page: ft.Page) -> None:
             )
             page.update()
 
+        def show_settings_page(e: ft.ControlEvent | None = None) -> None:
+            asyncio.create_task(page.close_drawer())
+            page.views.append(
+                ft.View(
+                    route="/settings",
+                    appbar=ft.AppBar(
+                        title=ft.Text(_("Settings")),
+                        bgcolor=ft.Colors.SURFACE,
+                        leading=ft.IconButton(
+                            ft.Icons.ARROW_BACK_OUTLINED,
+                            tooltip=_("Back"),
+                            on_click=lambda _: view_pop(None),
+                        ),
+                    ),
+                    controls=[
+                        ft.ResponsiveRow(
+                            [
+                                ft.Switch(
+                                    label=_("Automatically Check for Updates"),
+                                    value=auto_check_for_updates_enabled,
+                                    on_change=change_auto_check_for_updates,
+                                    col=12,
+                                    visible=not page.web,
+                                ),
+                            ],
+                        ),
+                    ],
+                )
+            )
+            page.update()
+
+        # One entry per `NavigationDrawerDestination`, in the same order.
+        drawer_pages = (
+            show_lyrics_replacement_page,
+            show_settings_page,
+            show_about_page,
+        )
         drawer = ft.NavigationDrawer(
             controls=[
                 ft.NavigationDrawerDestination(
@@ -1612,15 +1660,15 @@ async def main(page: ft.Page) -> None:
                     label=_("Lyric Replace Rules"),
                 ),
                 ft.NavigationDrawerDestination(
+                    icon=ft.Icons.SETTINGS_OUTLINED,
+                    label=_("Settings"),
+                ),
+                ft.NavigationDrawerDestination(
                     icon=ft.Icons.HELP_OUTLINED,
                     label=_("About"),
                 ),
             ],
-            on_change=lambda e: (
-                show_lyrics_replacement_page()
-                if e.control.selected_index == 0
-                else show_about_page()
-            ),
+            on_change=lambda e: drawer_pages[e.control.selected_index](),
         )
 
         page.views.append(
@@ -1678,5 +1726,5 @@ async def main(page: ft.Page) -> None:
     page.on_keyboard_event = on_keyboard_event
     page.on_route_change = on_route_change
     await on_route_change()
-    if not page.web and settings.auto_check_for_updates:
+    if not page.web and auto_check_for_updates_enabled:
         page.run_task(updater.check)
