@@ -69,7 +69,7 @@ svg-py==1.10.0
 tatsu==5.24.0 ; python_full_version >= '3.12'
 tatsu-lts==5.16.0 ; python_full_version < '3.12'
 that-depends==4.3.0
-typer==0.28.0
+typer==0.29.0
 typing-extensions==4.16.0
 typing-inspection==0.4.5
 tzdata==2026.6
