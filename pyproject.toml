@@ -138,7 +138,7 @@ code_gen = [
   "xsdata[cli]>=26.10",
 ]
 docs = [
-  "zensical>=0.1.0",
+  "zensical>=0.1.1",
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
