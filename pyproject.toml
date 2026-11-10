@@ -131,7 +131,7 @@ agents = [
 ]
 code_gen = [
   "buf-bin>=1.75.0",
-  "datamodel-code-generator>=0.91.0",
+  "datamodel-code-generator>=0.92.0",
   "protoloom>=0.1.4",
   "protoc-gen-py<0.8.0,>=0.7.0",
   "pyside6-addons<6.13.0,>=6.12.0",
@@ -147,7 +147,7 @@ linting = [
   "pyside6<6.13.0,>=6.12.0",
   "ruff>=0.17.4",
   "sortedcontainers-stubs>=2.4.3",
-  "ty>=0.0.99",
+  "ty>=0.0.100",
   "types-lxml>=2026.2.16",
   "types-pyinstaller>=6.22.1.20260827",
   "types-pyyaml>=6.0.12.20261103",
