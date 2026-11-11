@@ -1,0 +1,62 @@
+msgid "日本語"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "한국어"
+msgstr ""
+
+msgid "Español"
+msgstr ""
+
+msgid "简体中文"
+msgstr ""
+
+msgid "Is AI Singer"
+msgstr ""
+
+msgid "The default voicebank is AI singer or not"
+msgstr ""
+
+msgid "Default language"
+msgstr ""
+
+msgid "Default language id of voicebank and notes"
+msgstr ""
+
+msgid "Default Comp ID"
+msgstr ""
+
+msgid "Default comp_id of voicebank"
+msgstr ""
+
+msgid "Default Singer Name"
+msgstr ""
+
+msgid "Default singer name of voicebank"
+msgstr ""
+
+msgid "Vprx"
+msgstr ""
+
+msgid "VOCALOID7 project file"
+msgstr ""
+
+msgid "Conversion plugin for VOCALOID7 project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert"
+" Phonemes to Match Languages\" in the menu of VOCALOID to reset them."
+msgstr ""
+
+msgid "Note overlap detected, cutting note "
+msgstr ""
+
+msgid "Note overlap detected, skipping note "
+msgstr ""
+
