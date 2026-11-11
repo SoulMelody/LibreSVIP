@@ -122,7 +122,7 @@ all = [
   { include-group = "test" }
 ]
 agents = [
-  "apm-cli>=0.35.0",
+  "apm-cli>=0.35.1",
   # `flet-mcp` and `flet-cli` hard-pin `flet==<their own version>`, so their version
   # is deliberately left open here: the resolver picks the release matching the `flet`
   # range declared in the `mobile` extra. Pinning them here as well makes Renovate's
@@ -147,7 +147,7 @@ linting = [
   "pyside6<6.13.0,>=6.12.0",
   "ruff>=0.17.4",
   "sortedcontainers-stubs>=2.4.3",
-  "ty>=0.0.100",
+  "ty>=0.0.101",
   "types-lxml>=2026.2.16",
   "types-pyinstaller>=6.22.1.20260827",
   "types-pyyaml>=6.0.12.20261111",
