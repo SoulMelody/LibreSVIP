@@ -35,6 +35,7 @@
 | `vfp` | VOX Factory | 标准序列化格式 | 基于json，并使用zip压缩 |  | 活跃开发 |
 | `vog` | Vogen | 标准序列化格式 | 基于json，并使用zip压缩 |  | 疑似暂停 |
 | `vpr` | Vocaloid 5+ | 标准序列化格式 | 基于json，并使用zip压缩 |  | 活跃开发 |
+| `vprx` | VOCALOID 7 | 标准序列化格式 | 基于json，并使用zip压缩 |  | 活跃开发 |
 | `vsp` | Vocalina Studio | 自定义二进制格式 |  |  | 停止开发 |
 | `vspx` | VocalSharp | 标准序列化格式 | 基于xml | 使用了自定义的序列化和解析框架，在生成vspx文件时需特殊处理 | 停止开发 |
 | `vsq` | Vocaloid 2 | 自定义二进制格式 | 基于MIDI和INI |  | 停止开发 |
