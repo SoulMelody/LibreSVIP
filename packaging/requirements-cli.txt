@@ -1,5 +1,5 @@
 altgraph==0.17.5
-annotated-doc==0.0.5
+annotated-doc==0.0.6
 annotated-types==0.8.0
 arrow==1.4.0
 backports-zstd==1.8.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
@@ -22,7 +22,7 @@ ko-pron==1.3
 loguru==0.7.3
 lxml==6.1.3
 macholib==1.16.4 ; sys_platform == 'darwin'
-markdown-it-py==4.2.0
+markdown-it-py==4.3.0
 markupsafe==3.0.4
 mdurl==0.1.2
 minijinja==3.1.0
@@ -77,7 +77,7 @@ ujson==6.1.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 win32-setctime==1.2.1 ; sys_platform == 'win32'
-winloop==0.8.2 ; sys_platform == 'win32'
+winloop==0.8.3 ; sys_platform == 'win32'
 xsdata==26.10
 xsdata-pydantic==24.5
 yaml-rs==0.1.6 ; sys_platform == 'darwin' or sys_platform == 'emscripten' or sys_platform == 'linux' or sys_platform == 'win32'
