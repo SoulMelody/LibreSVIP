@@ -48,7 +48,7 @@ dependencies = [
   "protobuf-py<0.8.0,>=0.7.0",
   "pydantic<3.0.0,>=2.14.3",
   "pydantic-extra-types<3.0.0,>=2.11.1",
-  "pydantic-settings<3.0.0,>=2.16.2",
+  "pydantic-settings<3.0.0,>=2.16.3",
   "pymediainfo<=7.0.1; (sys_platform == \"win32\" or sys_platform == \"darwin\" or sys_platform == \"linux\")",
   "pypinyin<1.0.0,>=0.55.0",
   "pysubs2<2.0.0,>=1.9.1; python_version >= \"3.12\"",
