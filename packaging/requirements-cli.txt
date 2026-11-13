@@ -43,7 +43,7 @@ pycparser==3.12 ; (implementation_name != 'PyPy' and platform_python_implementat
 pydantic==2.14.3
 pydantic-core==2.50.4
 pydantic-extra-types==2.11.1
-pydantic-settings==2.16.2
+pydantic-settings==2.16.3
 pygments==2.21.0
 pyinstaller==6.22.3 ; platform_machine == 'ARM64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.22.3-py3-none-any.whl ; platform_machine != 'ARM64' and sys_platform == 'win32'
