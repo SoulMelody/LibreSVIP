@@ -122,7 +122,7 @@ all = [
   { include-group = "test" }
 ]
 agents = [
-  "apm-cli>=0.35.1",
+  "apm-cli>=0.36.0",
   # `flet-mcp` and `flet-cli` hard-pin `flet==<their own version>`, so their version
   # is deliberately left open here: the resolver picks the release matching the `flet`
   # range declared in the `mobile` extra. Pinning them here as well makes Renovate's
@@ -131,14 +131,14 @@ agents = [
 ]
 code_gen = [
   "buf-bin>=1.75.0",
-  "datamodel-code-generator>=0.96.0",
+  "datamodel-code-generator>=0.97.0",
   "protoloom>=0.1.4",
   "protoc-gen-py<0.8.0,>=0.7.0",
   "pyside6-addons<6.13.0,>=6.12.0",
   "xsdata[cli]>=26.10",
 ]
 docs = [
-  "zensical>=0.1.1",
+  "zensical>=0.1.2",
 ]
 i18n = ["babel>=2.18.0"]
 linting = [
@@ -147,7 +147,7 @@ linting = [
   "pyside6<6.13.0,>=6.12.0",
   "ruff>=0.17.5",
   "sortedcontainers-stubs>=2.4.3",
-  "ty>=0.0.104",
+  "ty>=0.0.105",
   "types-lxml>=2026.2.16",
   "types-pyinstaller>=6.22.1.20260827",
   "types-pyyaml>=6.0.12.20261113",
