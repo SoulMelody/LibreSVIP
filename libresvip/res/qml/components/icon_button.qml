@@ -16,32 +16,44 @@ RoundButton {
     Accessible.name: iconButton.accessibleName
     Accessible.description: iconButton.accessibleDescription
 
-    width: Math.max(diameter, Theme.minClickSize)
-    height: Math.max(diameter, Theme.minClickSize)
+    padding: 0
+    topInset: 0
+    bottomInset: 0
+    leftInset: 0
+    rightInset: 0
+    background: null
 
-    contentItem: Label {
-        anchors.centerIn: parent
-        text: iconicFontLoader.icon(icon_name)
-        font.family: "Material Design Icons"
-        font.pixelSize: diameter * 0.5
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-    }
+    contentItem: Item {
+        implicitWidth: Math.max(iconButton.diameter, Theme.minClickSize)
+        implicitHeight: implicitWidth
 
-    background: Rectangle {
-        anchors.centerIn: parent
-        width: diameter
-        height: diameter
-        radius: diameter / 2
-        color: iconButton.Material.buttonColor(iconButton.Material.theme, iconButton.Material.background, iconButton.Material.accent, iconButton.enabled, iconButton.flat, iconButton.highlighted, iconButton.checked)
+        Rectangle {
+            id: face
+            anchors.centerIn: parent
+            width: Math.min(iconButton.diameter, parent.width)
+            height: width
+            radius: width / 2
+            color: iconButton.Material.buttonColor(iconButton.Material.theme, iconButton.Material.background, iconButton.Material.accent, iconButton.enabled, iconButton.flat, iconButton.highlighted, iconButton.checked)
+            layer.enabled: iconButton.enabled && color.a > 0 && !iconButton.flat
+            layer.effect: RoundedElevationEffect {
+                elevation: iconButton.Material.elevation
+                roundedScale: face.radius
+            }
+        }
+
         HoverHandler {
             acceptedDevices: PointerDevice.AllPointerTypes
-            cursorShape: cursor_shape
+            cursorShape: iconButton.cursor_shape
         }
-        layer.enabled: iconButton.enabled && color.a > 0 && !iconButton.flat
-        layer.effect: RoundedElevationEffect {
-            elevation: iconButton.Material.elevation
-            roundedScale: iconButton.background.radius
+
+        Label {
+            anchors.centerIn: parent
+            text: iconicFontLoader.icon(iconButton.icon_name)
+            font.family: "Material Design Icons"
+            font.pixelSize: Math.round(iconButton.diameter * 0.5)
+            color: iconButton.Material.foreground
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
         }
     }
 }
