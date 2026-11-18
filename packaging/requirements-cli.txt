@@ -2,7 +2,7 @@ altgraph==0.17.5
 annotated-doc==0.0.6
 annotated-types==0.8.0
 arrow==1.4.0
-backports-zstd==1.8.0 ; (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (python_full_version < '3.14' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (python_full_version < '3.14' and platform_python_implementation == 'PyPy' and sys_platform == 'win32')
+backports-zstd==1.8.0 ; python_full_version < '3.14' and ((platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_python_implementation == 'PyPy' and sys_platform == 'win32'))
 bidict==0.24.1
 cbor2==6.3.0
 cffi==2.1.1 ; platform_python_implementation != 'PyPy' or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')
@@ -34,12 +34,12 @@ packaging==26.3
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==13.0.0 ; sys_platform == 'darwin'
-platformdirs==4.14.5
+platformdirs==4.14.7
 portion==2.6.3
 protobuf-py==0.7.0
-protobuf-py-ext==0.7.0 ; (platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_machine == 'AMD64' and platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_machine == 'ARM64' and platform_python_implementation == 'CPython' and sys_platform == 'win32')
+protobuf-py-ext==0.7.0 ; platform_machine == 'arm64' and platform_python_implementation == 'CPython' and sys_platform == 'darwin' or (platform_machine == 'aarch64' or platform_machine == 'x86_64') and platform_python_implementation == 'CPython' and sys_platform == 'linux' or (platform_machine == 'AMD64' or platform_machine == 'ARM64') and platform_python_implementation == 'CPython' and sys_platform == 'win32'
 protobuf-py-pure==0.7.0
-pycparser==3.12 ; (implementation_name != 'PyPy' and platform_python_implementation != 'PyPy') or (implementation_name != 'PyPy' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')
+pycparser==3.12 ; implementation_name != 'PyPy' and (platform_python_implementation != 'PyPy' or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'))
 pydantic==2.14.3
 pydantic-core==2.50.4
 pydantic-extra-types==2.11.1
