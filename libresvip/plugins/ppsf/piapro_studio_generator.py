@@ -21,6 +21,9 @@ from libresvip.utils.audio import audio_track_info
 from libresvip.utils.search import find_index
 
 from .model import (
+    AC_UNSET,
+    DEFAULT_PORTAMENTO_LENGTH,
+    DEFAULT_PORTAMENTO_OFFSET,
     PpsfAudioTrackEvent,
     PpsfAudioTrackItem,
     PpsfBaseSequence,
@@ -29,6 +32,7 @@ from .model import (
     PpsfCurveType,
     PpsfDvlTrackEvent,
     PpsfDvlTrackItem,
+    PpsfEditF0Point,
     PpsfEventTrack,
     PpsfFileAudioData,
     PpsfMeter,
@@ -42,7 +46,7 @@ from .model import (
     PpsfTempo,
     PpsfTempos,
 )
-from .options import OutputOptions
+from .options import OutputOptions, PpsfProjectVersionCompatibility
 from .ppsf_interval_dict import ppsf_key_interval_dict
 
 
@@ -128,6 +132,10 @@ class PiaproStudioGenerator:
                     nt_envelope_preset_id=2,
                 )
                 track_events, event_track.notes = self.generate_notes(track.note_list)
+                if self.options.version_compatibility < PpsfProjectVersionCompatibility.ABOVE_1_3_0:
+                    for track_event in track_events:
+                        track_event.portamento_envelope.length = DEFAULT_PORTAMENTO_LENGTH
+                        track_event.portamento_envelope.offset = DEFAULT_PORTAMENTO_OFFSET
                 event_track.regions.append(
                     PpsfRegion(
                         auto_expand_left=True,
@@ -139,12 +147,24 @@ class PiaproStudioGenerator:
                     )
                 )
                 key_interval_dict = ppsf_key_interval_dict(track_events, event_track.notes)
-                pitch_param, pitch_curve_point = self.generate_pitch(
-                    track.edited_params.pitch, key_interval_dict, track.note_list
-                )
-                event_track.curve_points.append(pitch_curve_point)
+                if (
+                    self.options.version_compatibility
+                    >= PpsfProjectVersionCompatibility.ABOVE_1_3_0
+                ):
+                    self.generate_f0_points(
+                        track.edited_params.pitch,
+                        track_events,
+                        event_track.notes,
+                    )
+                    parameters = []
+                else:
+                    pitch_param, pitch_curve_point = self.generate_pitch(
+                        track.edited_params.pitch, key_interval_dict, track.note_list
+                    )
+                    event_track.curve_points.append(pitch_curve_point)
+                    parameters = [pitch_param]
                 dvl_track = PpsfDvlTrackItem(
-                    name=track.title, events=track_events, parameters=[pitch_param]
+                    name=track.title, events=track_events, parameters=parameters
                 )
                 dvl_tracks.append(dvl_track)
                 event_tracks.append(event_track)
@@ -230,6 +250,43 @@ class PiaproStudioGenerator:
                     )
                 )
         return pitch_param, curve_point
+
+    def generate_f0_points(
+        self,
+        pitch: ParamCurve,
+        events: list[PpsfDvlTrackEvent],
+        notes: list[PpsfNote],
+    ) -> None:
+        pitch_points = pitch.points.root
+        seg_array_id = 19
+        for index, (event, event_note) in enumerate(zip(events, notes)):
+            start, end = event.pos, event.pos + event.length
+            edit_points = []
+            for point in pitch_points:
+                if start <= point.x < end or (index == len(notes) - 1 and point.x == end):
+                    edit_points.append(
+                        PpsfEditF0Point(
+                            f0=round(point.y),
+                            note_index=index,
+                            position=int(point.x),
+                            border_type=12 if index > 0 and not edit_points else 1,
+                            seg_array_id=seg_array_id,
+                        )
+                    )
+            if edit_points:
+                edit_points[-1].border_type = 13
+            event_note.edit_f0_points = edit_points or None
+            event_note.portamento_offset = None
+            event_note.portamento_length = None
+            event_note.ac_portamento_status = 0
+            event_note.ac_portamento_offset = AC_UNSET
+            event_note.ac_portamento_length = AC_UNSET
+            event_note.ac_edited_portamento_offset = AC_UNSET
+            event_note.ac_edited_portamento_length = AC_UNSET
+            event_note.ac_vibrato_status = 0
+            event_note.ac_consonant_length_status = 0
+            event_note.ac_voice_color_status = 0
+            seg_array_id += 4
 
     def generate_instrumental_tracks(
         self, tracks: list[Track], event_tracks: list[PpsfEventTrack]

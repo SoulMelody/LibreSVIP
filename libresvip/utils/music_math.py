@@ -149,6 +149,13 @@ def cubic_interpolation(r: float) -> float:
 
 
 @_transform_interpolation_args
+def quadratic_easing_in_out_interpolation(r: float) -> float:
+    if r <= 0.5:
+        return 2 * r**2
+    return 1 - 2 * (1 - r) ** 2
+
+
+@_transform_interpolation_args
 def vocaloid_interpolation(r: float) -> float:
     return math.sin(r * math.pi) / 2 if r <= 0.5 else r
 

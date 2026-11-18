@@ -18,6 +18,7 @@ from .model import (
     PpsfDvlTrackItem,
     PpsfEventTrack,
     PpsfMeters,
+    PpsfNote,
     PpsfProject,
     PpsfTempos,
 )
@@ -106,6 +107,10 @@ class PiaproStudioNTParser:
                     solo=event_track.mute_solo > 0,
                     mute=event_track.mute_solo < 0,
                 )
+                if self.options.import_pitch and any(
+                    note.edit_f0_points or note.base_f0_points for note in event_track.notes
+                ):
+                    self.parse_f0_pitch(event_track.notes, singing_track)
                 for parameter in track.parameters:
                     if (
                         self.options.import_pitch
@@ -130,6 +135,21 @@ class PiaproStudioNTParser:
                                 )
                 tracks.append(singing_track)
         return tracks
+
+    def parse_f0_pitch(self, notes: list[PpsfNote], singing_track: SingingTrack) -> None:
+        points: list[Point] = []
+        for note in notes:
+            # ``position`` shares the same absolute-tick space as the event ``pos``.
+            points.extend(
+                Point(x=f0_point.position, y=f0_point.f0)
+                for f0_point in note.edit_f0_points or note.base_f0_points or ()
+            )
+        points.sort(key=lambda point: point.x)
+        deduped: list[Point] = []
+        for point in points:
+            if not deduped or point.x != deduped[-1].x:
+                deduped.append(point)
+        singing_track.edited_params.pitch.points.root = deduped
 
     def parse_notes(self, ppsf_dvl_track_events: list[PpsfDvlTrackEvent]) -> list[Note]:
         return [

@@ -6,6 +6,13 @@ from pydantic import Field, create_model
 from libresvip.model.base import BaseModel
 from libresvip.utils.text import uuid_str
 
+from .portamento import EMITTED_PORTAMENTO_TYPE
+
+DEFAULT_PORTAMENTO_OFFSET = -120
+DEFAULT_PORTAMENTO_LENGTH = 180
+
+AC_UNSET = -1.7976931348623157e308
+
 
 class PpsfLanguage(enum.IntEnum):
     _value_: Annotated[
@@ -64,6 +71,17 @@ class PpsfSyllable(BaseModel):
     symbols_text: str = Field(alias="symbols-text")
 
 
+class PpsfF0Point(BaseModel):
+    f0: int
+    note_index: int = Field(alias="note-index")
+    position: int
+
+
+class PpsfEditF0Point(PpsfF0Point):
+    border_type: int = Field(1, alias="border-type")
+    seg_array_id: int = Field(0, alias="seg-array-id")
+
+
 class PpsfNote(BaseModel):
     language: PpsfLanguage = PpsfLanguage.JAPANESE
     region_index: int = Field(alias="region-index")
@@ -77,8 +95,18 @@ class PpsfNote(BaseModel):
     note_env_preset_id: int | None = 2
     note_gain_value: int | None = 0
     note_param_edited_stats: int | None = 0
-    portamento_length: int | None = 180
-    portamento_offset: int | None = -120
+    ac_consonant_length_status: int | None = Field(None, alias="ac-consonant_length-status")
+    ac_vibrato_status: int | None = Field(None, alias="ac-vibrato-status")
+    ac_voice_color_status: int | None = Field(None, alias="ac-voice-color-status")
+    ac_portamento_status: int | None = Field(None, alias="ac_portamento_status")
+    ac_portamento_offset: float | None = Field(None, alias="ac_portamento_offset")
+    ac_portamento_length: float | None = Field(None, alias="ac_portamento_length")
+    ac_edited_portamento_offset: float | None = Field(None, alias="ac_edited_portamento_offset")
+    ac_edited_portamento_length: float | None = Field(None, alias="ac_edited_portamento_length")
+    base_f0_points: list[PpsfF0Point] | None = Field(None, alias="base-f0-points")
+    edit_f0_points: list[PpsfEditF0Point] | None = Field(None, alias="edit-f0-points")
+    portamento_length: int | None = DEFAULT_PORTAMENTO_LENGTH
+    portamento_offset: int | None = DEFAULT_PORTAMENTO_OFFSET
     vibrato_depth: int | None = 0
     vibrato_rate: int | None = 0
     auto_ai_consonant_length_enabled: bool | None = False
@@ -335,10 +363,6 @@ class PpsfEnvelope(BaseModel):
     use_length: bool = True
 
 
-def default_portamento_envelope() -> PpsfEnvelope:
-    return PpsfEnvelope(length=0, offset=0)
-
-
 class PpsfDvlTrackEvent(BaseModel):
     adjust_speed: bool | None = False
     attack_speed_rate: int = 800000
@@ -348,13 +372,13 @@ class PpsfDvlTrackEvent(BaseModel):
     length: int
     lyric: str
     note_number: int
-    note_off_pit_envelope: PpsfEnvelope | None = Field(default_factory=PpsfEnvelope)
-    note_on_pit_envelope: PpsfEnvelope | None = Field(default_factory=PpsfEnvelope)
-    portamento_envelope: PpsfEnvelope | None = Field(default_factory=default_portamento_envelope)
+    note_off_pit_envelope: PpsfEnvelope | None = None
+    note_on_pit_envelope: PpsfEnvelope | None = None
+    portamento_envelope: PpsfEnvelope | None = Field(default_factory=PpsfEnvelope)
     vib_depth: PpsfEnvelope | None = None
     vib_rate: PpsfEnvelope | None = None
     vib_setting_id: int | None = None
-    portamento_type: int = 5
+    portamento_type: int = EMITTED_PORTAMENTO_TYPE
     pos: int
     protected: bool = False
     release_speed_rate: int = 1400000
