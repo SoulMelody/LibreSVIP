@@ -1,5 +1,5 @@
 altgraph==0.17.5
-annotated-doc==0.0.6
+annotated-doc==0.0.7
 annotated-types==0.8.0
 arrow==1.4.0
 backports-zstd==1.8.0 ; python_full_version < '3.14' and ((platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_python_implementation == 'PyPy' and sys_platform == 'win32'))
@@ -69,7 +69,7 @@ svg-py==1.10.0
 tatsu==5.24.0 ; python_full_version >= '3.12'
 tatsu-lts==5.16.0 ; python_full_version < '3.12'
 that-depends==4.3.0
-typer==0.29.1
+typer==0.29.2
 typing-extensions==4.16.0
 typing-inspection==0.4.5
 tzdata==2026.6
