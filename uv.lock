@@ -270,7 +270,7 @@ wheels = [
 
 [[package]]
 name = "apm-cli"
-version = "0.36.0"
+version = "0.36.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -291,9 +291,9 @@ dependencies = [
     { name = "watchdog" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3e/a9/600199ef488e856739525c92bfe210e94b40a57f9ad43b984dc232e0bacb/apm_cli-0.36.0.tar.gz", hash = "sha256:8227a0512b87b59b9237ed97f3adb1d2b8bcf4b6e0e8a8c638897431f96d68b6", size = 2062380, upload-time = "2026-11-17T19:07:33.423Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/52/d9/bf1a4a8065e675ab63d3ad2f008c9d938b5301412d5eca64b681ee554a8c/apm_cli-0.36.1.tar.gz", hash = "sha256:b231d68b3ce5ea78326a33ec725b410227d0b081b2689aad5e4ba13b3b8388fa", size = 2102408, upload-time = "2026-11-18T06:39:14.173Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3f/ca/100a7c9fe1db0ee1e459cc8047b8fd26a02ec851efd794977d2e40f6f5c5/apm_cli-0.36.0-py3-none-any.whl", hash = "sha256:8bc82225fba91fa303009332e2430cb005521c2571252812c1ab23472a6d2c00", size = 2246429, upload-time = "2026-11-17T19:07:31.375Z" },
+    { url = "https://files.pythonhosted.org/packages/cc/f3/126f88363d8c20c18a18ec09f86487a3099ba0f9a939502b97dca0574d29/apm_cli-0.36.1-py3-none-any.whl", hash = "sha256:632dce0bb2b3d860ddf82d70f831bb4c4c12540d6bf090a231f6ca2e37c16036", size = 2291520, upload-time = "2026-11-18T06:39:12.403Z" },
 ]
 
 [[package]]
@@ -2463,11 +2463,11 @@ provides-extras = ["cli", "crypto", "desktop", "lxml", "minijinja", "mobile", "t
 
 [package.metadata.requires-dev]
 agents = [
-    { name = "apm-cli", specifier = ">=0.36.0" },
+    { name = "apm-cli", specifier = ">=0.36.1" },
     { name = "flet-mcp" },
 ]
 all = [
-    { name = "apm-cli", specifier = ">=0.36.0" },
+    { name = "apm-cli", specifier = ">=0.36.1" },
     { name = "babel", specifier = ">=2.18.0" },
     { name = "buf-bin", specifier = ">=1.75.0" },
     { name = "datamodel-code-generator", specifier = ">=0.97.0" },
