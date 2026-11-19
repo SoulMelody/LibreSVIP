@@ -1,6 +1,7 @@
 import dataclasses
 import itertools
 import operator
+import pathlib
 
 import more_itertools
 from wanakana import PROLONGED_SOUND_MARK
@@ -13,6 +14,7 @@ from libresvip.core.tick_counter import (
 )
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
+    InstrumentalTrack,
     Note,
     Project,
     SingingTrack,
@@ -37,6 +39,7 @@ from .voisona_mobile_pitch import (
 @dataclasses.dataclass
 class VoiSonaMobileParser:
     options: InputOptions
+    audio_file_paths: list[pathlib.Path] = dataclasses.field(default_factory=list)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def parse_project(self, voisona_project: VoiSonaMobileProject) -> Project:
@@ -51,6 +54,22 @@ class VoiSonaMobileParser:
                 time_signatures.extend(time_signature_part)
         tempos = self.merge_tempos(tempos)
         self.time_synchronizer = TimeSynchronizer(tempos)
+        if self.options.import_instrumental_track:
+            # ModileOffset is in milliseconds (unlike tssln's second-based Offset)
+            tracks.extend(
+                InstrumentalTrack(
+                    title=f"Audio {i}",
+                    audio_file_path=str(audio_path),
+                    offset=round(
+                        self.time_synchronizer.get_actual_ticks_from_secs(
+                            audio.mobile_offset / 1000
+                        )
+                    ),
+                )
+                for i, (audio, audio_path) in enumerate(
+                    zip(voisona_project.mobile_audio, self.audio_file_paths), start=1
+                )
+            )
         time_signatures = self.merge_time_signatures(time_signatures)
         return Project(
             time_signature_list=skip_beat_list(time_signatures, 0),

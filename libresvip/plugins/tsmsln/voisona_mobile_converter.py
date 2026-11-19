@@ -7,6 +7,7 @@ from libresvip.utils.binary.value_tree import JUCENode, build_tree_dict
 
 from .model import VoiSonaMobileProject, model_to_value_tree
 from .options import InputOptions, OutputOptions
+from .voisona_mobile_audio import extract_audio_files
 from .voisona_mobile_generator import VoiSonaMobileGenerator
 from .voisona_mobile_parser import VoiSonaMobileParser
 
@@ -26,7 +27,14 @@ class VoiSonaMobileConverter(plugin_base.SVSConverter):
         value_tree = JUCENode.parse(path.read_bytes())
         tree_dict = build_tree_dict(value_tree)
         tsmsln_project = VoiSonaMobileProject.model_validate(tree_dict["MobileSongEditor"])
-        return VoiSonaMobileParser(options_obj).parse_project(tsmsln_project)
+        audio_file_paths = []
+        if options_obj.extract_audio or options_obj.import_instrumental_track:
+            audio_file_paths = extract_audio_files(
+                path,
+                [audio.mobile_audio_data for audio in tsmsln_project.mobile_audio],
+                options_obj.extract_audio,
+            )
+        return VoiSonaMobileParser(options_obj, audio_file_paths).parse_project(tsmsln_project)
 
     @classmethod
     def dump(cls, path: pathlib.Path, project: Project, options: plugin_base.OptionsDict) -> None:

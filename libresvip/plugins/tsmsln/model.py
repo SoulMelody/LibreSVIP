@@ -284,7 +284,7 @@ class VoiSonaMobileSinger(BaseModel):
 
 
 class VoiSonaMobileAudio(BaseModel):
-    mobile_offset: int = Field(0, alias="ModileOffset")
+    mobile_offset: float = Field(0, alias="ModileOffset")
     mobile_volume: float = Field(0, alias="ModileVolume")
     mobile_mute: bool | None = Field(None, alias="MobileMute")
     mobile_audio_data: str = Field(alias="ModileAudioData")

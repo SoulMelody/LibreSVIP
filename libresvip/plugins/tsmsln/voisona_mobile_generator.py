@@ -1,10 +1,12 @@
 import dataclasses
+import pathlib
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
+    InstrumentalTrack,
     Note,
     ParamCurve,
     Project,
@@ -16,6 +18,7 @@ from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import DEFAULT_PHONEME, OCTAVE_OFFSET, TICK_RATE
 from .model import (
+    VoiSonaMobileAudio,
     VoiSonaMobileBeatItem,
     VoiSonaMobileNoteItem,
     VoiSonaMobileParameterItem,
@@ -30,6 +33,7 @@ from .model import (
     VoiSonaMobileTimeItem,
 )
 from .options import OutputOptions
+from .voisona_mobile_audio import encode_audio_data
 from .voisona_mobile_pitch import generate_for_voisona
 
 
@@ -74,7 +78,34 @@ class VoiSonaMobileGenerator:
                 singing_track.mobile_singer_data.state_information.parameter = [
                     VoiSonaMobileParametersItem(log_f0=[log_f0])
                 ]
+        for i, track in enumerate(project.track_list, start=1):
+            if isinstance(track, InstrumentalTrack):
+                self.generate_instrumental_track(voisona_project, track, i)
         return voisona_project
+
+    def generate_instrumental_track(
+        self,
+        voisona_project: VoiSonaMobileProject,
+        track: InstrumentalTrack,
+        index: int,
+    ) -> None:
+        audio_path = pathlib.Path(track.audio_file_path)
+        if not audio_path.exists():
+            show_warning(
+                _("Audio file {path} of track {index} does not exist").format(
+                    path=audio_path, index=index
+                )
+            )
+            return
+        voisona_project.mobile_audio.append(
+            VoiSonaMobileAudio(
+                # ModileOffset is in milliseconds (unlike tssln's second-based Offset)
+                mobile_offset=self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
+                * 1000,
+                mobile_mute=track.mute,
+                mobile_audio_data=encode_audio_data(audio_path.read_bytes()),
+            )
+        )
 
     def generate_tempos(self, tempos: list[SongTempo]) -> VoiSonaMobileTempoItem:
         return VoiSonaMobileTempoItem(
