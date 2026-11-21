@@ -122,7 +122,7 @@ all = [
   { include-group = "test" }
 ]
 agents = [
-  "apm-cli>=0.36.1",
+  "apm-cli>=0.37.0",
   # `flet-mcp` and `flet-cli` hard-pin `flet==<their own version>`, so their version
   # is deliberately left open here: the resolver picks the release matching the `flet`
   # range declared in the `mobile` extra. Pinning them here as well makes Renovate's
