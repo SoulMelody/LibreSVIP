@@ -1,16 +1,23 @@
-lockfile_version: '1'
-generated_at: '2026-09-29T02:33:20.924565+00:00'
+lockfile_version: '4'
+generated_at: '2026-11-21T10:20:14.738180+00:00'
 apm_version: 0.29.0
+manifest_targets:
+- claude
+- codex
+- copilot
+- cursor
+- grok-build
+- opencode
 dependencies:
 - repo_url: astral-sh/claude-code-plugins
   name: astral
   host: github.com
-  resolved_commit: f3ce88a7ba830f53afd6d944c1d0278ed318e142
+  resolved_commit: 855418fb9ebfada49a8345a5c3ada9db2cdc2419
   resolved_ref: main
   version: 0.1.0
   virtual_path: plugins/astral
   is_virtual: true
-  package_type: marketplace_plugin
+  package_type: agent_plugin
   deployed_files:
   - .agents/skills/ruff
   - .agents/skills/ruff/SKILL.md
@@ -40,12 +47,12 @@ dependencies:
     .grok/skills/ruff/SKILL.md: sha256:b4224a81367816fba28c3d6e69dbe9997b6d37317dbaec3f026b0c8c834c68ba
     .grok/skills/ty/SKILL.md: sha256:980f9844dd9b98cec97192adbcdc658abc9bcc93d28bec06706cf896820b0a4a
     .grok/skills/uv/SKILL.md: sha256:6553a22dbe4251ec851e0d1952d11e801c07a8a6d9bab21e86aa8e6764d147db
-  content_hash: sha256:b272f7fa4089c71f75de9c3907e846be4d1b884695f2f554ebfc808f25c4667d
+  content_hash: sha256:90a6cf5ab3651b959e33e4a5b19e6600da4ce4deb7b85f3f362da873df6f3769
   declared_license: MIT
 - repo_url: bufbuild/claude-plugins
   name: protobuf
   host: github.com
-  resolved_commit: c4766e5fff1b52283f38bd61122103efe58c60fd
+  resolved_commit: 5c08b2ad3f211f42207f273f0505361cc8b586a7
   resolved_ref: main
   version: 1.0.0
   virtual_path: plugins/protobuf
@@ -182,13 +189,23 @@ dependencies:
     .grok/skills/protobuf/references/quick_reference.md: sha256:da0ae3e4c46a9add81d411b106241c0c0df2cb469e02621102ec3aacfe9657bb
     .grok/skills/protobuf/references/review_checklist.md: sha256:4549bb2ba0b7b43ca25933af737e0e643c0e46fb203befcb43af25038600e883
     .grok/skills/protobuf/references/troubleshooting.md: sha256:88f7765868cce4e2458a99e0c110bc1512d7a8b62befefb0c9fc32576dc6dbf5
-  content_hash: sha256:d38f1d9b0a7d35818a0d676e528121cb4d167191a3589783a1ac1a651f5bb7c7
+  content_hash: sha256:9df942c589f0881258f50912f07fdc1d102442eae40bd967a83b27d8460dd919
   declared_license: Apache-2.0
+  carried_licenses:
+  - path: .apm/skills/protobuf/LICENSE
+    source: LICENSE
+    hash: sha256:8d8fd6665e0e2250ccd52ec6492b8a6699df4b634518263bef08a02bbcf3d0e1
+  - path: LICENSE
+    source: LICENSE
+    hash: sha256:8d8fd6665e0e2250ccd52ec6492b8a6699df4b634518263bef08a02bbcf3d0e1
+  - path: skills/protobuf/LICENSE
+    source: LICENSE
+    hash: sha256:8d8fd6665e0e2250ccd52ec6492b8a6699df4b634518263bef08a02bbcf3d0e1
 - repo_url: pydantic/skills
   name: pydantic
   host: github.com
-  resolved_commit: 2a56f5a80fd58a06c21eef4d819eaff2d463cde7
-  resolved_ref: default
+  resolved_commit: 98f591c0886eb11df0bdd57804419e11439efc93
+  resolved_ref: main
   version: unknown
   virtual_path: skills/pydantic
   is_virtual: true
@@ -204,12 +221,16 @@ dependencies:
     .agents/skills/pydantic/SKILL.md: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
     .claude/skills/pydantic/SKILL.md: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
     .grok/skills/pydantic/SKILL.md: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
-  content_hash: sha256:2f523749fc2edc5cb3b73435a282373cd69209682be7992b6cde333f30d59254
+  content_hash: sha256:4c1229e4f8727823fff1d9761496e93ae412a089146dfed832e5dec66ed8d3fa
+  carried_licenses:
+  - path: LICENSE
+    source: LICENSE
+    hash: sha256:82d71c4536e0d956a1b32481d8a184f291987f62f0126571890706dee6286840
 - repo_url: theqtcompanyrnd/agent-skills
   materialization_repo_url: TheQtCompanyRnD/agent-skills
   name: qt-qml
   host: github.com
-  resolved_commit: 71d6c10da78b9a764468ae11c86ab3bc4ca4921f
+  resolved_commit: 062f7c9f0e16b7d2f66cd55e449a3ed85fba699e
   resolved_ref: main
   version: unknown
   virtual_path: skills/qt-qml
@@ -244,7 +265,7 @@ dependencies:
     .grok/skills/qt-qml/README.md: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
     .grok/skills/qt-qml/SKILL.md: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
     .grok/skills/qt-qml/platforms/windsurf.md: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
-  content_hash: sha256:cd773b5c6546edc8372d41f8286cef72fc1c8857a9bc7dcd039d5355f66380ff
+  content_hash: sha256:70c30fd507fda1d4fbc5201e67077d7995e3215d9677b4b3c078e2f8c42d352b
 deployments:
 - kind: project-relative
   target: claude

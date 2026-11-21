@@ -13,7 +13,7 @@ dependencies:
   apm:
     - TheQtCompanyRnD/agent-skills/skills/qt-qml#main
     - astral-sh/claude-code-plugins/plugins/astral#main
-    - pydantic/skills/skills/pydantic#default
+    - pydantic/skills/skills/pydantic#main
     - bufbuild/claude-plugins/plugins/protobuf#main
   mcp:
     - io.github.upstash/context7
