@@ -12,7 +12,8 @@ targets:
 dependencies:
   apm:
     - TheQtCompanyRnD/agent-skills/skills/qt-qml#main
-    - astral-sh/claude-code-plugins/plugins/astral#main
+    - astral-sh/agent-plugins/plugins/astral/skills/ruff#main
+    - astral-sh/agent-plugins/plugins/astral/skills/uv#main
     - pydantic/skills/skills/pydantic#main
     - bufbuild/claude-plugins/plugins/protobuf#main
   mcp:
@@ -47,5 +48,12 @@ dependencies:
         ".pyi": python
       transport: stdio
       startupTimeout: 10000
+    - name: qmlls
+      command: pyside6-qmlls
+      args: []
+      transport: stdio
+      extensionToLanguage:
+        ".qml": qml
+      startupTimeout: 15000
 includes: auto
 scripts: {}

@@ -1,5 +1,5 @@
 lockfile_version: '4'
-generated_at: '2026-11-21T10:20:14.738180+00:00'
+generated_at: '2026-11-21T10:39:08.512251+00:00'
 apm_version: 0.29.0
 manifest_targets:
 - claude
@@ -9,46 +9,26 @@ manifest_targets:
 - grok-build
 - opencode
 dependencies:
-- repo_url: astral-sh/claude-code-plugins
-  name: astral
+- repo_url: astral-sh/agent-plugins
+  name: ruff
   host: github.com
   resolved_commit: 855418fb9ebfada49a8345a5c3ada9db2cdc2419
   resolved_ref: main
-  version: 0.1.0
-  virtual_path: plugins/astral
+  version: unknown
+  virtual_path: plugins/astral/skills/ruff
   is_virtual: true
-  package_type: agent_plugin
-  deployed_files:
-  - .agents/skills/ruff
-  - .agents/skills/ruff/SKILL.md
-  - .agents/skills/ty
-  - .agents/skills/ty/SKILL.md
-  - .agents/skills/uv
-  - .agents/skills/uv/SKILL.md
-  - .claude/skills/ruff
-  - .claude/skills/ruff/SKILL.md
-  - .claude/skills/ty
-  - .claude/skills/ty/SKILL.md
-  - .claude/skills/uv
-  - .claude/skills/uv/SKILL.md
-  - .grok/skills/ruff
-  - .grok/skills/ruff/SKILL.md
-  - .grok/skills/ty
-  - .grok/skills/ty/SKILL.md
-  - .grok/skills/uv
-  - .grok/skills/uv/SKILL.md
-  deployed_file_hashes:
-    .agents/skills/ruff/SKILL.md: sha256:b4224a81367816fba28c3d6e69dbe9997b6d37317dbaec3f026b0c8c834c68ba
-    .agents/skills/ty/SKILL.md: sha256:980f9844dd9b98cec97192adbcdc658abc9bcc93d28bec06706cf896820b0a4a
-    .agents/skills/uv/SKILL.md: sha256:6553a22dbe4251ec851e0d1952d11e801c07a8a6d9bab21e86aa8e6764d147db
-    .claude/skills/ruff/SKILL.md: sha256:b4224a81367816fba28c3d6e69dbe9997b6d37317dbaec3f026b0c8c834c68ba
-    .claude/skills/ty/SKILL.md: sha256:980f9844dd9b98cec97192adbcdc658abc9bcc93d28bec06706cf896820b0a4a
-    .claude/skills/uv/SKILL.md: sha256:6553a22dbe4251ec851e0d1952d11e801c07a8a6d9bab21e86aa8e6764d147db
-    .grok/skills/ruff/SKILL.md: sha256:b4224a81367816fba28c3d6e69dbe9997b6d37317dbaec3f026b0c8c834c68ba
-    .grok/skills/ty/SKILL.md: sha256:980f9844dd9b98cec97192adbcdc658abc9bcc93d28bec06706cf896820b0a4a
-    .grok/skills/uv/SKILL.md: sha256:6553a22dbe4251ec851e0d1952d11e801c07a8a6d9bab21e86aa8e6764d147db
-  content_hash: sha256:90a6cf5ab3651b959e33e4a5b19e6600da4ce4deb7b85f3f362da873df6f3769
-  declared_license: MIT
+  package_type: claude_skill
+  content_hash: sha256:465201c22576194d3a4c4d0a251e6d988675e011169b0d750ce911f82fa087a9
+- repo_url: astral-sh/agent-plugins
+  name: uv
+  host: github.com
+  resolved_commit: 855418fb9ebfada49a8345a5c3ada9db2cdc2419
+  resolved_ref: main
+  version: unknown
+  virtual_path: plugins/astral/skills/uv
+  is_virtual: true
+  package_type: claude_skill
+  content_hash: sha256:8a219aca884d68e054215013eeba1081be8dd471ccdc2bd8829ce28b778198e4
 - repo_url: bufbuild/claude-plugins
   name: protobuf
   host: github.com
@@ -529,60 +509,6 @@ deployments:
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
   content_hash: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
 - kind: project-relative
-  target: claude
-  value: .claude/skills/ruff
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: claude
-  value: .claude/skills/ruff/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:b4224a81367816fba28c3d6e69dbe9997b6d37317dbaec3f026b0c8c834c68ba
-- kind: project-relative
-  target: claude
-  value: .claude/skills/ty
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: claude
-  value: .claude/skills/ty/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:980f9844dd9b98cec97192adbcdc658abc9bcc93d28bec06706cf896820b0a4a
-- kind: project-relative
-  target: claude
-  value: .claude/skills/uv
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: claude
-  value: .claude/skills/uv/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:6553a22dbe4251ec851e0d1952d11e801c07a8a6d9bab21e86aa8e6764d147db
-- kind: project-relative
   target: codex
   value: .agents/skills/protobuf
   runtime: null
@@ -844,60 +770,6 @@ deployments:
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
   content_hash: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
 - kind: project-relative
-  target: codex
-  value: .agents/skills/ruff
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/ruff/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:b4224a81367816fba28c3d6e69dbe9997b6d37317dbaec3f026b0c8c834c68ba
-- kind: project-relative
-  target: codex
-  value: .agents/skills/ty
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/ty/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:980f9844dd9b98cec97192adbcdc658abc9bcc93d28bec06706cf896820b0a4a
-- kind: project-relative
-  target: codex
-  value: .agents/skills/uv
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: codex
-  value: .agents/skills/uv/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:6553a22dbe4251ec851e0d1952d11e801c07a8a6d9bab21e86aa8e6764d147db
-- kind: project-relative
   target: grok-build
   value: .grok/skills/protobuf
   runtime: null
@@ -1158,60 +1030,6 @@ deployments:
   - theqtcompanyrnd/agent-skills/skills/qt-qml
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
   content_hash: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
-- kind: project-relative
-  target: grok-build
-  value: .grok/skills/ruff
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: grok-build
-  value: .grok/skills/ruff/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:b4224a81367816fba28c3d6e69dbe9997b6d37317dbaec3f026b0c8c834c68ba
-- kind: project-relative
-  target: grok-build
-  value: .grok/skills/ty
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: grok-build
-  value: .grok/skills/ty/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:980f9844dd9b98cec97192adbcdc658abc9bcc93d28bec06706cf896820b0a4a
-- kind: project-relative
-  target: grok-build
-  value: .grok/skills/uv
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: null
-- kind: project-relative
-  target: grok-build
-  value: .grok/skills/uv/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - astral-sh/claude-code-plugins/plugins/astral
-  active_owner: astral-sh/claude-code-plugins/plugins/astral
-  content_hash: sha256:6553a22dbe4251ec851e0d1952d11e801c07a8a6d9bab21e86aa8e6764d147db
 - kind: uri
   target: lsp
   value: protobuf
