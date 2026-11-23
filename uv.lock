@@ -270,7 +270,7 @@ wheels = [
 
 [[package]]
 name = "apm-cli"
-version = "0.37.0"
+version = "0.38.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -291,9 +291,9 @@ dependencies = [
     { name = "watchdog" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/00/1c/b3b216e7c09966e504f78b241ff1e3e7712690262179ce2103553f821c58/apm_cli-0.37.0.tar.gz", hash = "sha256:1078dc4d5bd7d797f4924548f684daffd026df740b31f99b17fc13958e5da762", size = 2443019, upload-time = "2026-11-21T06:56:10.871Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c9/ce/da4a1df860d43c5d0a72f6160a4972332bbb9346a1c4402229734100a42e/apm_cli-0.38.0.tar.gz", hash = "sha256:6dfac2fdc8ab68586afb2b1a5a6db3c1b7ab569ff0edc525448aa85d0f92bd38", size = 2471308, upload-time = "2026-11-22T23:34:34.962Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f2/b5/1671f804f37c39e933292f23386c839a9f9493d19297712cdd9148d66b72/apm_cli-0.37.0-py3-none-any.whl", hash = "sha256:87cbcb6a864aa8251ffea446fc34fd439caa6d01d51df1a9399669bed5fab576", size = 2671642, upload-time = "2026-11-21T06:56:09.028Z" },
+    { url = "https://files.pythonhosted.org/packages/49/22/872d8fd7cd30d6fce8cdfd447e7b42bb3b3e70b95c34020c85ccbfc0a1a0/apm_cli-0.38.0-py3-none-any.whl", hash = "sha256:aa51a98867ae6aef11e92143dd9ca2a994d3dd6cbd7224eae58fb7b8078fc3b1", size = 2799300, upload-time = "2026-11-22T23:34:33.124Z" },
 ]
 
 [[package]]
@@ -2463,11 +2463,11 @@ provides-extras = ["cli", "crypto", "desktop", "lxml", "minijinja", "mobile", "t
 
 [package.metadata.requires-dev]
 agents = [
-    { name = "apm-cli", specifier = ">=0.37.0" },
+    { name = "apm-cli", specifier = ">=0.38.0" },
     { name = "flet-mcp" },
 ]
 all = [
-    { name = "apm-cli", specifier = ">=0.37.0" },
+    { name = "apm-cli", specifier = ">=0.38.0" },
     { name = "babel", specifier = ">=2.18.0" },
     { name = "buf-bin", specifier = ">=1.75.0" },
     { name = "datamodel-code-generator", specifier = ">=0.100.0" },
