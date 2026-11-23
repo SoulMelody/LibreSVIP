@@ -1,6 +1,6 @@
 lockfile_version: '4'
 generated_at: '2026-11-21T10:39:08.512251+00:00'
-apm_version: 0.29.0
+apm_version: 0.38.0
 manifest_targets:
 - claude
 - codex
