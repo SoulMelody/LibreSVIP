@@ -4,14 +4,14 @@
     "config:recommended"
   ],
   "constraints": {
-    "python": "==3.14"
+    "python": "==3.15"
   },
   "lockFileMaintenance": {
     "enabled": true,
     "recreateWhen": "never"
   },
   "rangeStrategy": "bump",
-  "enabledManagers": ["apm", "github-actions", "pep621", "pre-commit"],
+  "enabledManagers": ["github-actions", "pep621", "pre-commit"],
   "labels": ["dependencies"],
   "pre-commit": {
     "enabled": true

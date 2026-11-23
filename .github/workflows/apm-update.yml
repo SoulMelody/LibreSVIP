@@ -1,0 +1,23 @@
+name: Refresh AI agent assets
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  apm-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: microsoft/apm-action@v1
+        with:
+          update: 'true'
+          audit-report: 'true'
+      - name: Open PR if changed
+        uses: peter-evans/create-pull-request@v8
+        with:
+          title: 'chore: update AI agent assets'
+          branch: apm/auto-update
