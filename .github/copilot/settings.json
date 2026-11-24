@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "apm-p-526ec46c": {
+      "source": {
+        "source": "directory",
+        "path": "./.agents/plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "protobuf@apm-p-526ec46c": true
+  }
+}

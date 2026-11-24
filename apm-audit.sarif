@@ -1,0 +1,1028 @@
+{
+  "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/cos02/schemas/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "apm-audit",
+          "informationUri": "https://apm.github.io/apm/enterprise/security/",
+          "rules": [
+            {
+              "id": "apm/hidden-unicode/variation-selector",
+              "shortDescription": {
+                "text": "Variation Selector"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://apm.github.io/apm/enterprise/security/"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".agents/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".agents/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".agents/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 32,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".agents/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 33,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".agents/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".grok/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".grok/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".grok/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 32,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".grok/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 33,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".grok/skills/protobuf/references/quick_reference.md"
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 4
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        },
+        {
+          "ruleId": "apm/hidden-unicode/variation-selector",
+          "level": "note",
+          "message": {
+            "text": "Emoji presentation selector (U+FE0F)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "AGENTS.md"
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "codepoint": "U+FE0F",
+            "category": "variation-selector"
+          }
+        }
+      ],
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "properties": {
+            "filesScanned": 36,
+            "primitiveCoverage": [
+              {
+                "file": ".agents/skills/ruff/SKILL.md",
+                "target": "codex",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".claude/skills/ruff/SKILL.md",
+                "target": "claude",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/ruff/SKILL.md",
+                "target": "grok-build",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/uv/SKILL.md",
+                "target": "codex",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".claude/skills/uv/SKILL.md",
+                "target": "claude",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/uv/SKILL.md",
+                "target": "grok-build",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/SKILL.md",
+                "target": "codex",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/LICENSE",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/Makefile.example",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/buf.gen.go-connect.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/buf.gen.go.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/buf.gen.java.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/buf.gen.python.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/buf.gen.ts.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/buf.gen.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/buf.lock",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/buf.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/proto/example/v1/book.proto",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/assets/proto/example/v1/book_service.proto",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/best_practices.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/buf_toolchain.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/examples.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/migration.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/protoc_toolchain.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/protovalidate.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/quick_reference.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/review_checklist.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/protobuf/references/troubleshooting.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/SKILL.md",
+                "target": "grok-build",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/LICENSE",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/Makefile.example",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/buf.gen.go-connect.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/buf.gen.go.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/buf.gen.java.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/buf.gen.python.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/buf.gen.ts.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/buf.gen.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/buf.lock",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/buf.yaml",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/proto/example/v1/book.proto",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/assets/proto/example/v1/book_service.proto",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/best_practices.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/buf_toolchain.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/examples.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/migration.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/protoc_toolchain.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/protovalidate.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/quick_reference.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/review_checklist.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/protobuf/references/troubleshooting.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/pydantic/SKILL.md",
+                "target": "codex",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/pydantic/LICENSE",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".claude/skills/pydantic/SKILL.md",
+                "target": "claude",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".claude/skills/pydantic/LICENSE",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/pydantic/SKILL.md",
+                "target": "grok-build",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/pydantic/LICENSE",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/qt-qml/SKILL.md",
+                "target": "codex",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/qt-qml/LICENSE.txt",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".agents/skills/qt-qml/platforms/windsurf.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".claude/skills/qt-qml/SKILL.md",
+                "target": "claude",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".claude/skills/qt-qml/LICENSE.txt",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".claude/skills/qt-qml/platforms/windsurf.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/qt-qml/SKILL.md",
+                "target": "grok-build",
+                "kind": "skills",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/qt-qml/LICENSE.txt",
+                "target": "recorded",
+                "kind": "executable",
+                "pointer": "",
+                "tracked": true,
+                "status": "not-applicable",
+                "diagnostic": null,
+                "strippable": false,
+                "owned_entry": false
+              },
+              {
+                "file": ".grok/skills/qt-qml/platforms/windsurf.md",
+                "target": "recorded",
+                "kind": "document",
+                "pointer": "",
+                "tracked": true,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              },
+              {
+                "file": "AGENTS.md",
+                "target": "opencode",
+                "kind": "context",
+                "pointer": "",
+                "tracked": false,
+                "status": "checked",
+                "diagnostic": null,
+                "strippable": true,
+                "owned_entry": false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

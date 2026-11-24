@@ -1,0 +1,37 @@
+{
+  "lspServers": {
+    "ruff": {
+      "command": "ruff",
+      "args": [
+        "server"
+      ],
+      "transport": "stdio",
+      "fileExtensions": {
+        ".py": "python",
+        ".pyi": "python"
+      },
+      "warmupTimeoutMs": 10000
+    },
+    "pyrefly": {
+      "command": "pyrefly",
+      "args": [
+        "lsp"
+      ],
+      "transport": "stdio",
+      "fileExtensions": {
+        ".py": "python",
+        ".pyi": "python"
+      },
+      "warmupTimeoutMs": 10000
+    },
+    "qmlls": {
+      "command": "pyside6-qmlls",
+      "args": [],
+      "transport": "stdio",
+      "fileExtensions": {
+        ".qml": "qml"
+      },
+      "warmupTimeoutMs": 15000
+    }
+  }
+}

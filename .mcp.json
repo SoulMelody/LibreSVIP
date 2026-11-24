@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {}
+    },
+    "qt-documentation": {
+      "type": "http",
+      "url": "https://qt-docs-mcp.qt.io/mcp"
+    },
+    "flet": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "flet",
+        "mcp"
+      ]
+    },
+    "debugmcp": {
+      "type": "http",
+      "url": "http://127.0.0.1:3001/mcp"
+    }
+  }
+}

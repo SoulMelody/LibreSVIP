@@ -1,0 +1,69 @@
+{
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "enabled": true,
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "qt-documentation": {
+      "type": "remote",
+      "enabled": true,
+      "url": "https://qt-docs-mcp.qt.io/mcp"
+    },
+    "flet": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "uv",
+        "run",
+        "flet",
+        "mcp"
+      ]
+    },
+    "debugmcp": {
+      "type": "remote",
+      "enabled": true,
+      "url": "http://127.0.0.1:3001/mcp"
+    }
+  },
+  "lsp": {
+    "ruff": {
+      "command": [
+        "ruff",
+        "server"
+      ],
+      "extensions": [
+        ".py",
+        ".pyi"
+      ]
+    },
+    "pyrefly": {
+      "command": [
+        "pyrefly",
+        "lsp"
+      ],
+      "extensions": [
+        ".py",
+        ".pyi"
+      ]
+    },
+    "qmlls": {
+      "command": [
+        "pyside6-qmlls"
+      ],
+      "extensions": [
+        ".qml"
+      ]
+    },
+    "protobuf": {
+      "command": [
+        "buf",
+        "lsp",
+        "serve"
+      ],
+      "extensions": [
+        ".proto"
+      ]
+    }
+  }
+}
