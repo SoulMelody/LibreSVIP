@@ -1,5 +1,5 @@
 lockfile_version: '4'
-generated_at: '2026-11-21T10:39:08.512251+00:00'
+generated_at: '2026-11-24T02:10:56.146212+00:00'
 apm_version: 0.38.0
 manifest_targets:
 - claude
@@ -18,6 +18,17 @@ dependencies:
   virtual_path: plugins/astral/skills/ruff
   is_virtual: true
   package_type: claude_skill
+  deployed_files:
+  - .agents/skills/ruff
+  - .agents/skills/ruff/SKILL.md
+  - .claude/skills/ruff
+  - .claude/skills/ruff/SKILL.md
+  - .grok/skills/ruff
+  - .grok/skills/ruff/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/ruff/SKILL.md: sha256:91884ebbdcb2f2cb408351593442d2646277ee978a5a170ea842bebbc3acf702
+    .claude/skills/ruff/SKILL.md: sha256:91884ebbdcb2f2cb408351593442d2646277ee978a5a170ea842bebbc3acf702
+    .grok/skills/ruff/SKILL.md: sha256:91884ebbdcb2f2cb408351593442d2646277ee978a5a170ea842bebbc3acf702
   content_hash: sha256:465201c22576194d3a4c4d0a251e6d988675e011169b0d750ce911f82fa087a9
 - repo_url: astral-sh/agent-plugins
   name: uv
@@ -28,6 +39,17 @@ dependencies:
   virtual_path: plugins/astral/skills/uv
   is_virtual: true
   package_type: claude_skill
+  deployed_files:
+  - .agents/skills/uv
+  - .agents/skills/uv/SKILL.md
+  - .claude/skills/uv
+  - .claude/skills/uv/SKILL.md
+  - .grok/skills/uv
+  - .grok/skills/uv/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/uv/SKILL.md: sha256:96dcc38d6dd80deb2f54ee82a3a15987d6441cdb234452fbc4d43499c3461287
+    .claude/skills/uv/SKILL.md: sha256:96dcc38d6dd80deb2f54ee82a3a15987d6441cdb234452fbc4d43499c3461287
+    .grok/skills/uv/SKILL.md: sha256:96dcc38d6dd80deb2f54ee82a3a15987d6441cdb234452fbc4d43499c3461287
   content_hash: sha256:8a219aca884d68e054215013eeba1081be8dd471ccdc2bd8829ce28b778198e4
 - repo_url: bufbuild/claude-plugins
   name: protobuf
@@ -40,6 +62,7 @@ dependencies:
   package_type: marketplace_plugin
   deployed_files:
   - .agents/skills/protobuf
+  - .agents/skills/protobuf/LICENSE
   - .agents/skills/protobuf/SKILL.md
   - .agents/skills/protobuf/assets/Makefile.example
   - .agents/skills/protobuf/assets/buf.gen.go-connect.yaml
@@ -61,29 +84,8 @@ dependencies:
   - .agents/skills/protobuf/references/quick_reference.md
   - .agents/skills/protobuf/references/review_checklist.md
   - .agents/skills/protobuf/references/troubleshooting.md
-  - .claude/skills/protobuf
-  - .claude/skills/protobuf/SKILL.md
-  - .claude/skills/protobuf/assets/Makefile.example
-  - .claude/skills/protobuf/assets/buf.gen.go-connect.yaml
-  - .claude/skills/protobuf/assets/buf.gen.go.yaml
-  - .claude/skills/protobuf/assets/buf.gen.java.yaml
-  - .claude/skills/protobuf/assets/buf.gen.python.yaml
-  - .claude/skills/protobuf/assets/buf.gen.ts.yaml
-  - .claude/skills/protobuf/assets/buf.gen.yaml
-  - .claude/skills/protobuf/assets/buf.lock
-  - .claude/skills/protobuf/assets/buf.yaml
-  - .claude/skills/protobuf/assets/proto/example/v1/book.proto
-  - .claude/skills/protobuf/assets/proto/example/v1/book_service.proto
-  - .claude/skills/protobuf/references/best_practices.md
-  - .claude/skills/protobuf/references/buf_toolchain.md
-  - .claude/skills/protobuf/references/examples.md
-  - .claude/skills/protobuf/references/migration.md
-  - .claude/skills/protobuf/references/protoc_toolchain.md
-  - .claude/skills/protobuf/references/protovalidate.md
-  - .claude/skills/protobuf/references/quick_reference.md
-  - .claude/skills/protobuf/references/review_checklist.md
-  - .claude/skills/protobuf/references/troubleshooting.md
   - .grok/skills/protobuf
+  - .grok/skills/protobuf/LICENSE
   - .grok/skills/protobuf/SKILL.md
   - .grok/skills/protobuf/assets/Makefile.example
   - .grok/skills/protobuf/assets/buf.gen.go-connect.yaml
@@ -106,6 +108,7 @@ dependencies:
   - .grok/skills/protobuf/references/review_checklist.md
   - .grok/skills/protobuf/references/troubleshooting.md
   deployed_file_hashes:
+    .agents/skills/protobuf/LICENSE: sha256:8d8fd6665e0e2250ccd52ec6492b8a6699df4b634518263bef08a02bbcf3d0e1
     .agents/skills/protobuf/SKILL.md: sha256:8b09f409f34a024a37c582fdbe81fb12740ea8a9d446becc8f8c7550d57e11ee
     .agents/skills/protobuf/assets/Makefile.example: sha256:27121173d251862fd159513a8b01715cb64da9204f94044596b028fc45522318
     .agents/skills/protobuf/assets/buf.gen.go-connect.yaml: sha256:5bec2826126a7dec823280e66dc16711688d0cded638943d857be55358c5c27c
@@ -123,31 +126,11 @@ dependencies:
     .agents/skills/protobuf/references/examples.md: sha256:e34f3def79e67bcf392e69b81c4c28f3a619fd15fe65f396b4c72140a74734c5
     .agents/skills/protobuf/references/migration.md: sha256:53c72e2a4ef0a2108a66d50ce233bf12bf36bad39bfbee7d031ec0c2086f3184
     .agents/skills/protobuf/references/protoc_toolchain.md: sha256:c62bf096740b4e210953ab0b38c6b4e078553d1cc50602ce5bf659ac3a30e948
-    .agents/skills/protobuf/references/protovalidate.md: sha256:6baf948af505b4e1d639cea4ea5852ccb4b9c6b2fd555e63e27867b95ef77a76
+    .agents/skills/protobuf/references/protovalidate.md: sha256:e4efe3f18a1021470f0371bc1952dc41f7896966a2455b62d2c484e8cf72d7fa
     .agents/skills/protobuf/references/quick_reference.md: sha256:da0ae3e4c46a9add81d411b106241c0c0df2cb469e02621102ec3aacfe9657bb
     .agents/skills/protobuf/references/review_checklist.md: sha256:4549bb2ba0b7b43ca25933af737e0e643c0e46fb203befcb43af25038600e883
     .agents/skills/protobuf/references/troubleshooting.md: sha256:88f7765868cce4e2458a99e0c110bc1512d7a8b62befefb0c9fc32576dc6dbf5
-    .claude/skills/protobuf/SKILL.md: sha256:8b09f409f34a024a37c582fdbe81fb12740ea8a9d446becc8f8c7550d57e11ee
-    .claude/skills/protobuf/assets/Makefile.example: sha256:27121173d251862fd159513a8b01715cb64da9204f94044596b028fc45522318
-    .claude/skills/protobuf/assets/buf.gen.go-connect.yaml: sha256:5bec2826126a7dec823280e66dc16711688d0cded638943d857be55358c5c27c
-    .claude/skills/protobuf/assets/buf.gen.go.yaml: sha256:c529075fe3dd58e9068b3f170a3a36957bdb471eefedfc59e78535864b99ccc5
-    .claude/skills/protobuf/assets/buf.gen.java.yaml: sha256:e15e7143b6e41edda27ce15e56681ae89eaa78de847eef2f5aac3bb9e0ec67f9
-    .claude/skills/protobuf/assets/buf.gen.python.yaml: sha256:32f5288e0c3de5206b540116ea4bb8f3ccba49d3c16217611e1dc897a0f6ec23
-    .claude/skills/protobuf/assets/buf.gen.ts.yaml: sha256:ac1af018cb0cfef8939ec3a1ffe94a4d15f34981f6534de6f423aad37d572b09
-    .claude/skills/protobuf/assets/buf.gen.yaml: sha256:648fd22ff223d162010a9c16e4d52507f6721e73df4e1a9a54a877f65ae78223
-    .claude/skills/protobuf/assets/buf.lock: sha256:4244996aa7ef06cf337d616fe620e80a1370bc938a3129c9ebcfd5028cf97639
-    .claude/skills/protobuf/assets/buf.yaml: sha256:5f2c1bbd1e76d7b7036a908c43f492845b5156abfe8568ee8c404add16e44d22
-    .claude/skills/protobuf/assets/proto/example/v1/book.proto: sha256:4d6f01f13d34b9a1c78d03de430e4ac2c8d5aef08bc9aa85f17cff10c7d8c924
-    .claude/skills/protobuf/assets/proto/example/v1/book_service.proto: sha256:13cc7ca0d715e0ea9e3b1901e914346ec1f98fb48213c92432b23d80965d2fb5
-    .claude/skills/protobuf/references/best_practices.md: sha256:c71d733c8b8c64e2e6ee1c403a23006c78027df85bcc0159d2e792744466617a
-    .claude/skills/protobuf/references/buf_toolchain.md: sha256:a9dbf578afccebc7614dfa42c380a042b1f9778de01abccedeb8fcb70a755b79
-    .claude/skills/protobuf/references/examples.md: sha256:e34f3def79e67bcf392e69b81c4c28f3a619fd15fe65f396b4c72140a74734c5
-    .claude/skills/protobuf/references/migration.md: sha256:53c72e2a4ef0a2108a66d50ce233bf12bf36bad39bfbee7d031ec0c2086f3184
-    .claude/skills/protobuf/references/protoc_toolchain.md: sha256:c62bf096740b4e210953ab0b38c6b4e078553d1cc50602ce5bf659ac3a30e948
-    .claude/skills/protobuf/references/protovalidate.md: sha256:6baf948af505b4e1d639cea4ea5852ccb4b9c6b2fd555e63e27867b95ef77a76
-    .claude/skills/protobuf/references/quick_reference.md: sha256:da0ae3e4c46a9add81d411b106241c0c0df2cb469e02621102ec3aacfe9657bb
-    .claude/skills/protobuf/references/review_checklist.md: sha256:4549bb2ba0b7b43ca25933af737e0e643c0e46fb203befcb43af25038600e883
-    .claude/skills/protobuf/references/troubleshooting.md: sha256:88f7765868cce4e2458a99e0c110bc1512d7a8b62befefb0c9fc32576dc6dbf5
+    .grok/skills/protobuf/LICENSE: sha256:8d8fd6665e0e2250ccd52ec6492b8a6699df4b634518263bef08a02bbcf3d0e1
     .grok/skills/protobuf/SKILL.md: sha256:8b09f409f34a024a37c582fdbe81fb12740ea8a9d446becc8f8c7550d57e11ee
     .grok/skills/protobuf/assets/Makefile.example: sha256:27121173d251862fd159513a8b01715cb64da9204f94044596b028fc45522318
     .grok/skills/protobuf/assets/buf.gen.go-connect.yaml: sha256:5bec2826126a7dec823280e66dc16711688d0cded638943d857be55358c5c27c
@@ -165,7 +148,7 @@ dependencies:
     .grok/skills/protobuf/references/examples.md: sha256:e34f3def79e67bcf392e69b81c4c28f3a619fd15fe65f396b4c72140a74734c5
     .grok/skills/protobuf/references/migration.md: sha256:53c72e2a4ef0a2108a66d50ce233bf12bf36bad39bfbee7d031ec0c2086f3184
     .grok/skills/protobuf/references/protoc_toolchain.md: sha256:c62bf096740b4e210953ab0b38c6b4e078553d1cc50602ce5bf659ac3a30e948
-    .grok/skills/protobuf/references/protovalidate.md: sha256:6baf948af505b4e1d639cea4ea5852ccb4b9c6b2fd555e63e27867b95ef77a76
+    .grok/skills/protobuf/references/protovalidate.md: sha256:e4efe3f18a1021470f0371bc1952dc41f7896966a2455b62d2c484e8cf72d7fa
     .grok/skills/protobuf/references/quick_reference.md: sha256:da0ae3e4c46a9add81d411b106241c0c0df2cb469e02621102ec3aacfe9657bb
     .grok/skills/protobuf/references/review_checklist.md: sha256:4549bb2ba0b7b43ca25933af737e0e643c0e46fb203befcb43af25038600e883
     .grok/skills/protobuf/references/troubleshooting.md: sha256:88f7765868cce4e2458a99e0c110bc1512d7a8b62befefb0c9fc32576dc6dbf5
@@ -181,6 +164,16 @@ dependencies:
   - path: skills/protobuf/LICENSE
     source: LICENSE
     hash: sha256:8d8fd6665e0e2250ccd52ec6492b8a6699df4b634518263bef08a02bbcf3d0e1
+  native_plugin:
+    name: protobuf
+    root: .agents/plugins/protobuf
+    fingerprint: sha256:e2fe697b9be40b1d0f111d7147c827410388dadaa5fc0985dd432e9df1bfe23b
+    marketplace:
+      name: apm-p-526ec46c
+      path: ./.agents/plugins
+  native_declared:
+  - claude
+  - copilot
 - repo_url: pydantic/skills
   name: pydantic
   host: github.com
@@ -192,15 +185,21 @@ dependencies:
   package_type: claude_skill
   deployed_files:
   - .agents/skills/pydantic
+  - .agents/skills/pydantic/LICENSE
   - .agents/skills/pydantic/SKILL.md
   - .claude/skills/pydantic
+  - .claude/skills/pydantic/LICENSE
   - .claude/skills/pydantic/SKILL.md
   - .grok/skills/pydantic
+  - .grok/skills/pydantic/LICENSE
   - .grok/skills/pydantic/SKILL.md
   deployed_file_hashes:
-    .agents/skills/pydantic/SKILL.md: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
-    .claude/skills/pydantic/SKILL.md: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
-    .grok/skills/pydantic/SKILL.md: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
+    .agents/skills/pydantic/LICENSE: sha256:82d71c4536e0d956a1b32481d8a184f291987f62f0126571890706dee6286840
+    .agents/skills/pydantic/SKILL.md: sha256:7bcdd69da9686e1cacf1745280b23e9fb78ccd7f3a7100fed7ad5fba0dc6ed64
+    .claude/skills/pydantic/LICENSE: sha256:82d71c4536e0d956a1b32481d8a184f291987f62f0126571890706dee6286840
+    .claude/skills/pydantic/SKILL.md: sha256:7bcdd69da9686e1cacf1745280b23e9fb78ccd7f3a7100fed7ad5fba0dc6ed64
+    .grok/skills/pydantic/LICENSE: sha256:82d71c4536e0d956a1b32481d8a184f291987f62f0126571890706dee6286840
+    .grok/skills/pydantic/SKILL.md: sha256:7bcdd69da9686e1cacf1745280b23e9fb78ccd7f3a7100fed7ad5fba0dc6ed64
   content_hash: sha256:4c1229e4f8727823fff1d9761496e93ae412a089146dfed832e5dec66ed8d3fa
   carried_licenses:
   - path: LICENSE
@@ -219,232 +218,28 @@ dependencies:
   deployed_files:
   - .agents/skills/qt-qml
   - .agents/skills/qt-qml/LICENSE.txt
-  - .agents/skills/qt-qml/README.md
   - .agents/skills/qt-qml/SKILL.md
   - .agents/skills/qt-qml/platforms/windsurf.md
   - .claude/skills/qt-qml
   - .claude/skills/qt-qml/LICENSE.txt
-  - .claude/skills/qt-qml/README.md
   - .claude/skills/qt-qml/SKILL.md
   - .claude/skills/qt-qml/platforms/windsurf.md
   - .grok/skills/qt-qml
   - .grok/skills/qt-qml/LICENSE.txt
-  - .grok/skills/qt-qml/README.md
   - .grok/skills/qt-qml/SKILL.md
   - .grok/skills/qt-qml/platforms/windsurf.md
   deployed_file_hashes:
     .agents/skills/qt-qml/LICENSE.txt: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
-    .agents/skills/qt-qml/README.md: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
-    .agents/skills/qt-qml/SKILL.md: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+    .agents/skills/qt-qml/SKILL.md: sha256:ea01c49149b126609889832b98702c41a51bd90971318f783999d8a9c01e66fe
     .agents/skills/qt-qml/platforms/windsurf.md: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
     .claude/skills/qt-qml/LICENSE.txt: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
-    .claude/skills/qt-qml/README.md: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
-    .claude/skills/qt-qml/SKILL.md: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+    .claude/skills/qt-qml/SKILL.md: sha256:ea01c49149b126609889832b98702c41a51bd90971318f783999d8a9c01e66fe
     .claude/skills/qt-qml/platforms/windsurf.md: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
     .grok/skills/qt-qml/LICENSE.txt: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
-    .grok/skills/qt-qml/README.md: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
-    .grok/skills/qt-qml/SKILL.md: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+    .grok/skills/qt-qml/SKILL.md: sha256:ea01c49149b126609889832b98702c41a51bd90971318f783999d8a9c01e66fe
     .grok/skills/qt-qml/platforms/windsurf.md: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
   content_hash: sha256:70c30fd507fda1d4fbc5201e67077d7995e3215d9677b4b3c078e2f8c42d352b
 deployments:
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: null
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:8b09f409f34a024a37c582fdbe81fb12740ea8a9d446becc8f8c7550d57e11ee
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/Makefile.example
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:27121173d251862fd159513a8b01715cb64da9204f94044596b028fc45522318
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/buf.gen.go-connect.yaml
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:5bec2826126a7dec823280e66dc16711688d0cded638943d857be55358c5c27c
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/buf.gen.go.yaml
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:c529075fe3dd58e9068b3f170a3a36957bdb471eefedfc59e78535864b99ccc5
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/buf.gen.java.yaml
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:e15e7143b6e41edda27ce15e56681ae89eaa78de847eef2f5aac3bb9e0ec67f9
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/buf.gen.python.yaml
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:32f5288e0c3de5206b540116ea4bb8f3ccba49d3c16217611e1dc897a0f6ec23
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/buf.gen.ts.yaml
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:ac1af018cb0cfef8939ec3a1ffe94a4d15f34981f6534de6f423aad37d572b09
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/buf.gen.yaml
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:648fd22ff223d162010a9c16e4d52507f6721e73df4e1a9a54a877f65ae78223
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/buf.lock
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:4244996aa7ef06cf337d616fe620e80a1370bc938a3129c9ebcfd5028cf97639
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/buf.yaml
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:5f2c1bbd1e76d7b7036a908c43f492845b5156abfe8568ee8c404add16e44d22
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/proto/example/v1/book.proto
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:4d6f01f13d34b9a1c78d03de430e4ac2c8d5aef08bc9aa85f17cff10c7d8c924
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/assets/proto/example/v1/book_service.proto
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:13cc7ca0d715e0ea9e3b1901e914346ec1f98fb48213c92432b23d80965d2fb5
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/best_practices.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:c71d733c8b8c64e2e6ee1c403a23006c78027df85bcc0159d2e792744466617a
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/buf_toolchain.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:a9dbf578afccebc7614dfa42c380a042b1f9778de01abccedeb8fcb70a755b79
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/examples.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:e34f3def79e67bcf392e69b81c4c28f3a619fd15fe65f396b4c72140a74734c5
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/migration.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:53c72e2a4ef0a2108a66d50ce233bf12bf36bad39bfbee7d031ec0c2086f3184
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/protoc_toolchain.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:c62bf096740b4e210953ab0b38c6b4e078553d1cc50602ce5bf659ac3a30e948
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/protovalidate.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:6baf948af505b4e1d639cea4ea5852ccb4b9c6b2fd555e63e27867b95ef77a76
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/quick_reference.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:da0ae3e4c46a9add81d411b106241c0c0df2cb469e02621102ec3aacfe9657bb
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/review_checklist.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:4549bb2ba0b7b43ca25933af737e0e643c0e46fb203befcb43af25038600e883
-- kind: project-relative
-  target: claude
-  value: .claude/skills/protobuf/references/troubleshooting.md
-  runtime: null
-  scope: project
-  owners:
-  - bufbuild/claude-plugins/plugins/protobuf
-  active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:88f7765868cce4e2458a99e0c110bc1512d7a8b62befefb0c9fc32576dc6dbf5
 - kind: project-relative
   target: claude
   value: .claude/skills/pydantic
@@ -456,13 +251,22 @@ deployments:
   content_hash: null
 - kind: project-relative
   target: claude
+  value: .claude/skills/pydantic/LICENSE
+  runtime: null
+  scope: project
+  owners:
+  - pydantic/skills/skills/pydantic
+  active_owner: pydantic/skills/skills/pydantic
+  content_hash: sha256:82d71c4536e0d956a1b32481d8a184f291987f62f0126571890706dee6286840
+- kind: project-relative
+  target: claude
   value: .claude/skills/pydantic/SKILL.md
   runtime: null
   scope: project
   owners:
   - pydantic/skills/skills/pydantic
   active_owner: pydantic/skills/skills/pydantic
-  content_hash: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
+  content_hash: sha256:7bcdd69da9686e1cacf1745280b23e9fb78ccd7f3a7100fed7ad5fba0dc6ed64
 - kind: project-relative
   target: claude
   value: .claude/skills/qt-qml
@@ -483,22 +287,13 @@ deployments:
   content_hash: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
 - kind: project-relative
   target: claude
-  value: .claude/skills/qt-qml/README.md
-  runtime: null
-  scope: project
-  owners:
-  - theqtcompanyrnd/agent-skills/skills/qt-qml
-  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
-  content_hash: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
-- kind: project-relative
-  target: claude
   value: .claude/skills/qt-qml/SKILL.md
   runtime: null
   scope: project
   owners:
   - theqtcompanyrnd/agent-skills/skills/qt-qml
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
-  content_hash: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+  content_hash: sha256:ea01c49149b126609889832b98702c41a51bd90971318f783999d8a9c01e66fe
 - kind: project-relative
   target: claude
   value: .claude/skills/qt-qml/platforms/windsurf.md
@@ -509,6 +304,42 @@ deployments:
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
   content_hash: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
 - kind: project-relative
+  target: claude
+  value: .claude/skills/ruff
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/ruff
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/ruff
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/ruff/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/ruff
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/ruff
+  content_hash: sha256:91884ebbdcb2f2cb408351593442d2646277ee978a5a170ea842bebbc3acf702
+- kind: project-relative
+  target: claude
+  value: .claude/skills/uv
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/uv
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/uv
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/uv/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/uv
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/uv
+  content_hash: sha256:96dcc38d6dd80deb2f54ee82a3a15987d6441cdb234452fbc4d43499c3461287
+- kind: project-relative
   target: codex
   value: .agents/skills/protobuf
   runtime: null
@@ -517,6 +348,15 @@ deployments:
   - bufbuild/claude-plugins/plugins/protobuf
   active_owner: bufbuild/claude-plugins/plugins/protobuf
   content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/protobuf/LICENSE
+  runtime: null
+  scope: project
+  owners:
+  - bufbuild/claude-plugins/plugins/protobuf
+  active_owner: bufbuild/claude-plugins/plugins/protobuf
+  content_hash: sha256:8d8fd6665e0e2250ccd52ec6492b8a6699df4b634518263bef08a02bbcf3d0e1
 - kind: project-relative
   target: codex
   value: .agents/skills/protobuf/SKILL.md
@@ -678,7 +518,7 @@ deployments:
   owners:
   - bufbuild/claude-plugins/plugins/protobuf
   active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:6baf948af505b4e1d639cea4ea5852ccb4b9c6b2fd555e63e27867b95ef77a76
+  content_hash: sha256:e4efe3f18a1021470f0371bc1952dc41f7896966a2455b62d2c484e8cf72d7fa
 - kind: project-relative
   target: codex
   value: .agents/skills/protobuf/references/quick_reference.md
@@ -717,13 +557,22 @@ deployments:
   content_hash: null
 - kind: project-relative
   target: codex
+  value: .agents/skills/pydantic/LICENSE
+  runtime: null
+  scope: project
+  owners:
+  - pydantic/skills/skills/pydantic
+  active_owner: pydantic/skills/skills/pydantic
+  content_hash: sha256:82d71c4536e0d956a1b32481d8a184f291987f62f0126571890706dee6286840
+- kind: project-relative
+  target: codex
   value: .agents/skills/pydantic/SKILL.md
   runtime: null
   scope: project
   owners:
   - pydantic/skills/skills/pydantic
   active_owner: pydantic/skills/skills/pydantic
-  content_hash: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
+  content_hash: sha256:7bcdd69da9686e1cacf1745280b23e9fb78ccd7f3a7100fed7ad5fba0dc6ed64
 - kind: project-relative
   target: codex
   value: .agents/skills/qt-qml
@@ -744,22 +593,13 @@ deployments:
   content_hash: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
 - kind: project-relative
   target: codex
-  value: .agents/skills/qt-qml/README.md
-  runtime: null
-  scope: project
-  owners:
-  - theqtcompanyrnd/agent-skills/skills/qt-qml
-  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
-  content_hash: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
-- kind: project-relative
-  target: codex
   value: .agents/skills/qt-qml/SKILL.md
   runtime: null
   scope: project
   owners:
   - theqtcompanyrnd/agent-skills/skills/qt-qml
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
-  content_hash: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+  content_hash: sha256:ea01c49149b126609889832b98702c41a51bd90971318f783999d8a9c01e66fe
 - kind: project-relative
   target: codex
   value: .agents/skills/qt-qml/platforms/windsurf.md
@@ -770,6 +610,42 @@ deployments:
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
   content_hash: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
 - kind: project-relative
+  target: codex
+  value: .agents/skills/ruff
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/ruff
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/ruff
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/ruff/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/ruff
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/ruff
+  content_hash: sha256:91884ebbdcb2f2cb408351593442d2646277ee978a5a170ea842bebbc3acf702
+- kind: project-relative
+  target: codex
+  value: .agents/skills/uv
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/uv
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/uv
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/uv/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/uv
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/uv
+  content_hash: sha256:96dcc38d6dd80deb2f54ee82a3a15987d6441cdb234452fbc4d43499c3461287
+- kind: project-relative
   target: grok-build
   value: .grok/skills/protobuf
   runtime: null
@@ -778,6 +654,15 @@ deployments:
   - bufbuild/claude-plugins/plugins/protobuf
   active_owner: bufbuild/claude-plugins/plugins/protobuf
   content_hash: null
+- kind: project-relative
+  target: grok-build
+  value: .grok/skills/protobuf/LICENSE
+  runtime: null
+  scope: project
+  owners:
+  - bufbuild/claude-plugins/plugins/protobuf
+  active_owner: bufbuild/claude-plugins/plugins/protobuf
+  content_hash: sha256:8d8fd6665e0e2250ccd52ec6492b8a6699df4b634518263bef08a02bbcf3d0e1
 - kind: project-relative
   target: grok-build
   value: .grok/skills/protobuf/SKILL.md
@@ -939,7 +824,7 @@ deployments:
   owners:
   - bufbuild/claude-plugins/plugins/protobuf
   active_owner: bufbuild/claude-plugins/plugins/protobuf
-  content_hash: sha256:6baf948af505b4e1d639cea4ea5852ccb4b9c6b2fd555e63e27867b95ef77a76
+  content_hash: sha256:e4efe3f18a1021470f0371bc1952dc41f7896966a2455b62d2c484e8cf72d7fa
 - kind: project-relative
   target: grok-build
   value: .grok/skills/protobuf/references/quick_reference.md
@@ -978,13 +863,22 @@ deployments:
   content_hash: null
 - kind: project-relative
   target: grok-build
+  value: .grok/skills/pydantic/LICENSE
+  runtime: null
+  scope: project
+  owners:
+  - pydantic/skills/skills/pydantic
+  active_owner: pydantic/skills/skills/pydantic
+  content_hash: sha256:82d71c4536e0d956a1b32481d8a184f291987f62f0126571890706dee6286840
+- kind: project-relative
+  target: grok-build
   value: .grok/skills/pydantic/SKILL.md
   runtime: null
   scope: project
   owners:
   - pydantic/skills/skills/pydantic
   active_owner: pydantic/skills/skills/pydantic
-  content_hash: sha256:18b050be2b0e286e4e4c52b3de3b286b4b880bd0103a67784cb0d9794ee3f789
+  content_hash: sha256:7bcdd69da9686e1cacf1745280b23e9fb78ccd7f3a7100fed7ad5fba0dc6ed64
 - kind: project-relative
   target: grok-build
   value: .grok/skills/qt-qml
@@ -1005,22 +899,13 @@ deployments:
   content_hash: sha256:886cf7a2a54af4903496fe19ad022766525b7612d8b1adfd59dac7e90a483604
 - kind: project-relative
   target: grok-build
-  value: .grok/skills/qt-qml/README.md
-  runtime: null
-  scope: project
-  owners:
-  - theqtcompanyrnd/agent-skills/skills/qt-qml
-  active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
-  content_hash: sha256:7a80ce3f1056cf23ed1d0bcc416951de7e4de1a73bdaa447d249d049a5a35176
-- kind: project-relative
-  target: grok-build
   value: .grok/skills/qt-qml/SKILL.md
   runtime: null
   scope: project
   owners:
   - theqtcompanyrnd/agent-skills/skills/qt-qml
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
-  content_hash: sha256:2abcd60a4d620692a2a47ae5160220f502353b32761e6fe56dcd5aea1084f972
+  content_hash: sha256:ea01c49149b126609889832b98702c41a51bd90971318f783999d8a9c01e66fe
 - kind: project-relative
   target: grok-build
   value: .grok/skills/qt-qml/platforms/windsurf.md
@@ -1030,9 +915,45 @@ deployments:
   - theqtcompanyrnd/agent-skills/skills/qt-qml
   active_owner: theqtcompanyrnd/agent-skills/skills/qt-qml
   content_hash: sha256:dc346d0ba6c6fb786b4b8e500e6f0cfc8cc127d83b4afda0310936cbdc9c10e0
+- kind: project-relative
+  target: grok-build
+  value: .grok/skills/ruff
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/ruff
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/ruff
+  content_hash: null
+- kind: project-relative
+  target: grok-build
+  value: .grok/skills/ruff/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/ruff
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/ruff
+  content_hash: sha256:91884ebbdcb2f2cb408351593442d2646277ee978a5a170ea842bebbc3acf702
+- kind: project-relative
+  target: grok-build
+  value: .grok/skills/uv
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/uv
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/uv
+  content_hash: null
+- kind: project-relative
+  target: grok-build
+  value: .grok/skills/uv/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - astral-sh/agent-plugins/plugins/astral/skills/uv
+  active_owner: astral-sh/agent-plugins/plugins/astral/skills/uv
+  content_hash: sha256:96dcc38d6dd80deb2f54ee82a3a15987d6441cdb234452fbc4d43499c3461287
 - kind: uri
   target: lsp
-  value: protobuf
+  value: pyrefly
   runtime: claude
   scope: project
   owners:
@@ -1041,7 +962,7 @@ deployments:
   content_hash: null
 - kind: uri
   target: lsp
-  value: pyrefly
+  value: qmlls
   runtime: claude
   scope: project
   owners:
@@ -1059,16 +980,7 @@ deployments:
   content_hash: null
 - kind: uri
   target: lsp
-  value: ty
-  runtime: claude
-  scope: project
-  owners:
-  - .
-  active_owner: .
-  content_hash: null
-- kind: uri
-  target: lsp
-  value: protobuf
+  value: pyrefly
   runtime: copilot
   scope: project
   owners:
@@ -1077,7 +989,7 @@ deployments:
   content_hash: null
 - kind: uri
   target: lsp
-  value: pyrefly
+  value: qmlls
   runtime: copilot
   scope: project
   owners:
@@ -1095,8 +1007,35 @@ deployments:
   content_hash: null
 - kind: uri
   target: lsp
-  value: ty
-  runtime: copilot
+  value: protobuf
+  runtime: opencode
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: pyrefly
+  runtime: opencode
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: qmlls
+  runtime: opencode
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: uri
+  target: lsp
+  value: ruff
+  runtime: opencode
   scope: project
   owners:
   - .
@@ -1110,7 +1049,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:79b6a18dd4bb50e1286adc0de0d1fadd3356ace4616e74fa5c3baba11758dd57
 - kind: uri
   target: mcp
   value: flet
@@ -1119,7 +1058,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:25951d112c2dd21d9f4d908ceddf909674c0afddf0b1235f9a79783ff6442a47
 - kind: uri
   target: mcp
   value: io.github.upstash/context7
@@ -1128,7 +1067,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:8d449f7d0dd4e90e7fdabfefadfb6c548bfb003f23e7b54ad47e16bb9fd3dc3f
 - kind: uri
   target: mcp
   value: qt-documentation
@@ -1137,7 +1076,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:24319681ca0486cf0842c822f729347a052220a6676f4a521bf9ae7e4b6f1d8e
 - kind: uri
   target: mcp
   value: debugmcp
@@ -1146,7 +1085,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:ee03d4a8dbc9d5691edd7b0123a4e84154d9c48abe75aa47c86e67dcdae5120f
 - kind: uri
   target: mcp
   value: flet
@@ -1155,7 +1094,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:11742d5eade43baff1215a96b717ad0262ccbf9d209f29cbafb5025d34e48064
 - kind: uri
   target: mcp
   value: io.github.upstash/context7
@@ -1164,7 +1103,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:456055dd3dc4fc1f50c9f21cc536de2caf9cb66ba28740f5d98a71d06687fcbd
 - kind: uri
   target: mcp
   value: qt-documentation
@@ -1173,7 +1112,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:b92a4922b59a18cf96c8153fc83e7800427489aa8ea58abc76e7809fbf76f2c6
 - kind: uri
   target: mcp
   value: debugmcp
@@ -1182,7 +1121,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:79b6a18dd4bb50e1286adc0de0d1fadd3356ace4616e74fa5c3baba11758dd57
 - kind: uri
   target: mcp
   value: flet
@@ -1191,7 +1130,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:25951d112c2dd21d9f4d908ceddf909674c0afddf0b1235f9a79783ff6442a47
 - kind: uri
   target: mcp
   value: io.github.upstash/context7
@@ -1200,7 +1139,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:8d449f7d0dd4e90e7fdabfefadfb6c548bfb003f23e7b54ad47e16bb9fd3dc3f
 - kind: uri
   target: mcp
   value: qt-documentation
@@ -1209,7 +1148,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:24319681ca0486cf0842c822f729347a052220a6676f4a521bf9ae7e4b6f1d8e
 - kind: uri
   target: mcp
   value: debugmcp
@@ -1218,7 +1157,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:79b6a18dd4bb50e1286adc0de0d1fadd3356ace4616e74fa5c3baba11758dd57
 - kind: uri
   target: mcp
   value: flet
@@ -1227,7 +1166,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:25951d112c2dd21d9f4d908ceddf909674c0afddf0b1235f9a79783ff6442a47
 - kind: uri
   target: mcp
   value: io.github.upstash/context7
@@ -1236,7 +1175,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:8d449f7d0dd4e90e7fdabfefadfb6c548bfb003f23e7b54ad47e16bb9fd3dc3f
 - kind: uri
   target: mcp
   value: qt-documentation
@@ -1245,7 +1184,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:24319681ca0486cf0842c822f729347a052220a6676f4a521bf9ae7e4b6f1d8e
 - kind: uri
   target: mcp
   value: debugmcp
@@ -1254,7 +1193,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:5ba29c84ea96c84b98e63524ded21ada8bb22b463f9571652d64e09e1be08667
 - kind: uri
   target: mcp
   value: flet
@@ -1263,7 +1202,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:fcef38579f2be8c8e239207c6463e3f8d8b7b92dbe4b19abd8291792876cd81a
 - kind: uri
   target: mcp
   value: io.github.upstash/context7
@@ -1272,7 +1211,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:49499b10cfc488463cdd578cb0c5b48362032ea07edeece4e285b7f8abe883b6
 - kind: uri
   target: mcp
   value: qt-documentation
@@ -1281,7 +1220,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: null
+  content_hash: sha256:ba43d779a37cd894dcf01af9430230d206adc94ba0d3ffd1c49995fb6d641ca9
 mcp_servers:
 - debugmcp
 - flet
@@ -1338,8 +1277,8 @@ mcp_target_servers:
 lsp_servers:
 - protobuf
 - pyrefly
+- qmlls
 - ruff
-- ty
 lsp_configs:
   protobuf:
     name: protobuf
@@ -1359,6 +1298,14 @@ lsp_configs:
       .pyi: python
     transport: stdio
     startupTimeout: 10000
+  qmlls:
+    name: qmlls
+    command: pyside6-qmlls
+    args: []
+    extensionToLanguage:
+      .qml: qml
+    transport: stdio
+    startupTimeout: 15000
   ruff:
     name: ruff
     command: ruff
@@ -1369,28 +1316,22 @@ lsp_configs:
       .pyi: python
     transport: stdio
     startupTimeout: 10000
-  ty:
-    name: ty
-    command: uvx
-    args:
-    - ty@latest
-    - server
-    extensionToLanguage:
-      .py: python
-      .pyi: python
 lsp_target_servers:
   claude:
-  - protobuf
   - pyrefly
+  - qmlls
   - ruff
-  - ty
   copilot:
+  - pyrefly
+  - qmlls
+  - ruff
+  opencode:
   - protobuf
   - pyrefly
+  - qmlls
   - ruff
-  - ty
 lsp_config_provenance:
   protobuf: package:bufbuild/claude-plugins/plugins/protobuf
   pyrefly: project:.
+  qmlls: project:.
   ruff: project:.
-  ty: package:astral-sh/claude-code-plugins/plugins/astral
