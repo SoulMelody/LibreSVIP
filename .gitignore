@@ -175,15 +175,20 @@ cython_debug/
 .trae/
 openspec/
 .omc/
+.omp/
 .cursor/
 .slim/deepwork/
+.github/lsp.json
+.github/copilot/
+opencode.json
+.mcp.json
+
+# APM
+apm_modules/
+apm-audit.sarif
 
 assets/
 node_modules/
 tests/data/*
 !tests/data/.gitkeep
-
-# APM dependencies
-apm_modules/
-
 .worktrees/

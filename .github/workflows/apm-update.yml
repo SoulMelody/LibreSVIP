@@ -32,3 +32,5 @@ jobs:
         with:
           title: 'chore: update AI agent assets'
           branch: apm/auto-update
+          add-paths: |
+            apm.lock.yaml
