@@ -12,8 +12,19 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v7
+
+      - name: Resolve APM version from lockfile
+        id: apm-version
+        run: |
+          version=""
+          if [ -f apm.lock.yaml ]; then
+            version="$(sed -n 's/^apm_version:[[:space:]]*//p' apm.lock.yaml | tr -d "'\"[:space:]")"
+          fi
+          echo "version=${version:-latest}" >> "$GITHUB_OUTPUT"
+
       - uses: microsoft/apm-action@v1
         with:
+          apm-version: ${{ steps.apm-version.outputs.version }}
           update: 'true'
           audit-report: 'true'
       - name: Open PR if changed
