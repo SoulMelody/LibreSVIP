@@ -29,7 +29,7 @@ markupsafe==3.0.4
 more-itertools==11.2.1
 numpy==2.4.6 ; python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
 numpy==2.5.5 ; python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32'
-packaging==26.3
+packaging==26.4
 pathlib-abc==0.5.2
 pefile==2024.8.26 ; sys_platform == 'win32'
 pillow==13.0.0
@@ -81,7 +81,7 @@ ujson==6.1.0
 universal-pathlib==0.3.10
 wanakana-python==1.2.2
 win32-setctime==1.2.1 ; sys_platform == 'win32'
-winrt-runtime==4.2.0 ; sys_platform == 'win32'
+winrt-runtime==4.2.1 ; sys_platform == 'win32'
 winrt-windows-applicationmodel-core==4!10.0.28000.2957 ; sys_platform == 'win32'
 winrt-windows-data-xml-dom==4!10.0.28000.2957 ; sys_platform == 'win32'
 winrt-windows-foundation==4!10.0.28000.2957 ; sys_platform == 'win32'
