@@ -1108,7 +1108,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.102.0"
+version = "0.103.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -1121,9 +1121,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/91/61/f4be137edf3b7237c4a96553fa5cf27121373750daf8f2a9605db7a3ab6c/datamodel_code_generator-0.102.0.tar.gz", hash = "sha256:d8eee2c54d1bc35d6313dc872f5024c61bc0200078cd6eb41b532f18f8895612", size = 13177175, upload-time = "2026-11-25T00:45:18.206Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9c/f6/df9116cf33e58e80dc5fda27397b49caa2041b030e614a8ec83881d2f804/datamodel_code_generator-0.103.0.tar.gz", hash = "sha256:d1610b2601b7b82283cfe6a80704966c1d53e61817c956c7a5b6466f30cb8871", size = 13504396, upload-time = "2026-11-26T10:50:36.542Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c8/f4/372168159af2ea65492e571b6f280431f2b0be2eebb32ed96d943c1e4ebb/datamodel_code_generator-0.102.0-py3-none-any.whl", hash = "sha256:d6b7fad258ba81d30fbef689feb16587033d07c225cef3d94c8fc6164af7e828", size = 2611183, upload-time = "2026-11-25T00:45:16.17Z" },
+    { url = "https://files.pythonhosted.org/packages/f3/1f/7b61f5355efa714738914afa9c2f97c06e0cbf97e80fc66d426cf13a4287/datamodel_code_generator-0.103.0-py3-none-any.whl", hash = "sha256:d246070b2ab01f31fad3642b839c685f55f16a39450514e4a6eefca652f2cf6e", size = 2636677, upload-time = "2026-11-26T10:50:34.101Z" },
 ]
 
 [[package]]
@@ -2470,7 +2470,7 @@ all = [
     { name = "apm-cli", specifier = ">=0.39.0" },
     { name = "babel", specifier = ">=2.19.0" },
     { name = "buf-bin", specifier = ">=1.75.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.102.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.103.0" },
     { name = "flet-cli" },
     { name = "flet-mcp" },
     { name = "prek", specifier = ">=0.5.11" },
@@ -2491,16 +2491,16 @@ all = [
     { name = "types-pyinstaller", specifier = ">=6.22.1.20261122" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20261122" },
     { name = "types-ujson", specifier = ">=5.10.0.20250822" },
-    { name = "xsdata", extras = ["cli"], specifier = ">=26.10" },
+    { name = "xsdata", extras = ["cli"], specifier = ">=26.11" },
     { name = "zensical", specifier = ">=0.1.3" },
 ]
 code-gen = [
     { name = "buf-bin", specifier = ">=1.75.0" },
-    { name = "datamodel-code-generator", specifier = ">=0.102.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.103.0" },
     { name = "protoc-gen-py", specifier = ">=0.7.0,<0.8.0" },
     { name = "protoloom", specifier = ">=0.1.4" },
     { name = "pyside6-addons", specifier = ">=6.12.0,<6.13.0" },
-    { name = "xsdata", extras = ["cli"], specifier = ">=26.10" },
+    { name = "xsdata", extras = ["cli"], specifier = ">=26.11" },
 ]
 docs = [{ name = "zensical", specifier = ">=0.1.3" }]
 i18n = [{ name = "babel", specifier = ">=2.19.0" }]
@@ -6239,14 +6239,11 @@ wheels = [
 
 [[package]]
 name = "xsdata"
-version = "26.10"
+version = "26.11"
 source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/f3/b8/7b301b80494a750dba431d3d0a800e0e80c91903e8891eef78ead8f95120/xsdata-26.10.tar.gz", hash = "sha256:4bc944d9fa3955f84ecebb83c677e2f681687c002a777731a21104e8360a7522", size = 356001, upload-time = "2026-10-16T10:06:30.516Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b5/00/3629df4c3e0a6c27402a1eb8e4afd702604a31ac5c42197dbb2f2354a9a3/xsdata-26.11.tar.gz", hash = "sha256:50b7d5c99470a732c6182056d3dd4ca1908c8dc4232213555b81d47baaefe42e", size = 359543, upload-time = "2026-11-26T08:27:27.493Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/07/fe/5a9698cef0850317de2a8f3c50519fbaa2cc4225d15bcfe9922e4dff8380/xsdata-26.10-py3-none-any.whl", hash = "sha256:37a697d60db1396a0431750486744a7e0491fd60669751d95e3ede08f034e0c6", size = 243015, upload-time = "2026-10-16T10:06:28.782Z" },
+    { url = "https://files.pythonhosted.org/packages/c3/4b/d2553cb32006a73461b03220c052f642e130b747caf4cd774838ce59951c/xsdata-26.11-py3-none-any.whl", hash = "sha256:cbea81df990baa1d31a816626a4f0b606a6e4456f431cbc67cb1559d0b98421b", size = 244668, upload-time = "2026-11-26T08:27:25.759Z" },
 ]
 
 [package.optional-dependencies]
