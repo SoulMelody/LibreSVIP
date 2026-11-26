@@ -2,7 +2,7 @@ altgraph==0.17.5
 annotated-doc==0.0.7
 annotated-types==0.8.0
 arrow==1.4.0
-backports-zstd==1.8.0 ; python_full_version < '3.14' and ((platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_python_implementation == 'PyPy' and sys_platform == 'win32'))
+backports-zstd==1.8.1 ; python_full_version < '3.14' and ((platform_python_implementation == 'CPython' and sys_platform == 'darwin') or (platform_python_implementation == 'PyPy' and sys_platform == 'darwin') or (platform_python_implementation == 'CPython' and sys_platform == 'linux') or (platform_python_implementation == 'PyPy' and sys_platform == 'linux') or (platform_python_implementation == 'CPython' and sys_platform == 'win32') or (platform_python_implementation == 'PyPy' and sys_platform == 'win32'))
 bidict==0.24.1
 cbor2==6.3.0
 cffi==2.1.1 ; platform_python_implementation != 'PyPy' or (sys_platform != 'darwin' and sys_platform != 'linux' and sys_platform != 'win32')
@@ -69,7 +69,7 @@ svg-py==1.10.0
 tatsu==5.24.0 ; python_full_version >= '3.12'
 tatsu-lts==5.16.0 ; python_full_version < '3.12'
 that-depends==4.3.0
-typer==0.29.2
+typer==0.29.3
 typing-extensions==4.16.0
 typing-inspection==0.4.5
 tzdata==2026.6
@@ -78,7 +78,7 @@ universal-pathlib==0.3.11
 wanakana-python==1.2.2
 win32-setctime==1.2.1 ; sys_platform == 'win32'
 winloop==0.8.4 ; sys_platform == 'win32'
-xsdata==26.10
+xsdata==26.11
 xsdata-pydantic==24.5
 yaml-rs==0.1.6 ; sys_platform == 'darwin' or sys_platform == 'emscripten' or sys_platform == 'linux' or sys_platform == 'win32'
 zeromcp==1.10.3
