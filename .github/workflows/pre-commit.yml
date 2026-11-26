@@ -26,10 +26,26 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v7
-      - uses: reviewdog/action-setup@v1
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v47
+        with:
+          files_yaml: |
+            python:
+              - "**/*.py"
+              - "pyproject.toml"
+              - "pyrefly.toml"
+
+      - if: steps.changed-files.outputs.python_any_changed == 'true'
+        uses: reviewdog/action-setup@v1
       - name: Install ruff & pyrefly
+        if: steps.changed-files.outputs.python_any_changed == 'true'
         run: pip install ruff pyrefly
       - name: Run reviewdog (ruff -> SARIF)
+        if: steps.changed-files.outputs.python_any_changed == 'true'
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -37,6 +53,7 @@ jobs:
             | reviewdog -f=sarif -name=ruff \
                 -reporter=github-pr-review -filter-mode=added
       - name: Run reviewdog (pyrefly -> SARIF)
+        if: steps.changed-files.outputs.python_any_changed == 'true'
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
