@@ -88,7 +88,7 @@ winrt-windows-foundation==4!10.0.28000.2957 ; sys_platform == 'win32'
 winrt-windows-foundation-collections==4!10.0.28000.2957 ; sys_platform == 'win32'
 winrt-windows-storage-streams==4!10.0.28000.2957 ; sys_platform == 'win32'
 winrt-windows-ui-notifications==4!10.0.28000.2957 ; sys_platform == 'win32'
-xsdata==26.11
+xsdata==26.11.1
 xsdata-pydantic==24.5
 yaml-rs==0.1.6 ; sys_platform == 'darwin' or sys_platform == 'emscripten' or sys_platform == 'linux' or sys_platform == 'win32'
 zhon==2.1.1
