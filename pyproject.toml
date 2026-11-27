@@ -93,9 +93,9 @@ desktop = [
 lxml = ["lxml>=6.1.3"]
 minijinja = ["minijinja>=3.1.0"]
 mobile = [
-  "flet[desktop]>=1.1.3,<1.1.4",
-  "flet-notifications>=1.1.3,<1.1.4",
-  "flet-permission-handler>=1.1.3,<1.1.4",
+  "flet[desktop]>=1.1.4,<1.1.5",
+  "flet-notifications>=1.1.4,<1.1.5",
+  "flet-permission-handler>=1.1.4,<1.1.5",
   "pyjnius>=1.9.0; sys_platform == \"android\"",
   "fontconfig-py>=1.0.3; sys_platform == \"darwin\" or sys_platform == \"linux\"",
 ]
