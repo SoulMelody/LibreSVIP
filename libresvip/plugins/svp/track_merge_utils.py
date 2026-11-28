@@ -1,7 +1,18 @@
+from bisect import bisect_left, bisect_right
+from operator import attrgetter
+
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import Note, ParamCurve, Params, SingingTrack
 from libresvip.model.point import Point
-from libresvip.utils.search import find_index, find_last_index
+from libresvip.utils.music_math import linear_interpolation
+
+
+def _value_at_cut(points: list[Point], index: int, x: int, interruption: int | None) -> int | None:
+    if 0 < index < len(points):
+        left, right = points[index - 1], points[index]
+        if left.y != interruption and right.y != interruption:
+            return round(linear_interpolation(x, left, right))
+    return None
 
 
 def param_curve_override_with(
@@ -9,126 +20,47 @@ def param_curve_override_with(
     override_curve: ParamCurve,
     start: int,
     end: int,
-    termination: int = 0,
+    interruption: int | None = None,
 ) -> None:
-    inserted_points: list[Point] = []
-    main_left_index = find_last_index(main_curve.points.root, lambda point: point.x <= start)
-    main_right_index = find_index(main_curve.points.root, lambda point: point.x > end)
-    override_left_index = find_last_index(
-        override_curve.points.root, lambda point: point.x <= start
-    )
-    override_right_index = find_index(override_curve.points.root, lambda point: point.x > end)
-    main_cure_points_count = len(main_curve.points)
-    main_left_defined = 0 <= main_left_index < main_cure_points_count - 1 and (
-        main_curve.points[main_left_index].x != termination
-        and main_curve.points[main_left_index + 1].x != termination
-    )
-    main_right_defined = 0 < main_right_index <= main_cure_points_count - 1 and (
-        main_curve.points[main_right_index - 1].x != termination
-        and main_curve.points[main_right_index].x != termination
-    )
-    override_cure_points_count = len(override_curve.points)
-    override_left_defined = 0 <= override_left_index < override_cure_points_count - 1 and (
-        override_curve.points[override_left_index].x != termination
-        and override_curve.points[override_left_index + 1].x != termination
-    )
-    override_right_defined = 0 < override_right_index <= override_cure_points_count - 1 and (
-        override_curve.points[override_right_index - 1].x != termination
-        and override_curve.points[override_right_index].x != termination
-    )
-    if main_left_defined:
-        r = (start - main_curve.points[main_left_index].x) / (
-            main_curve.points[main_left_index + 1].x - main_curve.points[main_left_index].x
-        )
-        inserted_points.append(
-            Point(
-                start,
-                round(
-                    r
-                    * (
-                        main_curve.points[main_left_index + 1].y
-                        + main_curve.points[main_left_index].y
-                    )
-                    * (1 - r)
-                ),
-            )
-        )
-    if main_left_defined ^ override_left_defined:
-        inserted_points.append(Point(start, termination))
-    if override_left_defined:
-        r = (start - override_curve.points[override_left_index].x) / (
-            override_curve.points[override_left_index + 1].x
-            - override_curve.points[override_left_index].x
-        )
-        inserted_points.append(
-            Point(
-                start,
-                round(
-                    r
-                    * (
-                        override_curve.points[override_left_index + 1].y
-                        + override_curve.points[override_left_index].y
-                    )
-                    * (1 - r)
-                ),
-            )
-        )
-    inserted_points.extend(
-        override_curve.points[i] for i in range(override_left_index + 1, override_right_index)
-    )
-    if override_right_defined:
-        r = (end - override_curve.points[override_right_index - 1].x) / (
-            override_curve.points[override_right_index].x
-            - override_curve.points[override_right_index - 1].x
-        )
-        inserted_points.append(
-            Point(
-                end,
-                round(
-                    r
-                    * (
-                        override_curve.points[override_right_index].y
-                        + override_curve.points[override_right_index - 1].y
-                    )
-                    * (1 - r)
-                ),
-            )
-        )
-    if main_right_defined ^ override_right_defined:
-        inserted_points.append(Point(end, termination))
-    if main_right_defined:
-        r = (end - main_curve.points[main_right_index - 1].x) / (
-            main_curve.points[main_right_index].x - main_curve.points[main_right_index - 1].x
-        )
-        inserted_points.append(
-            Point(
-                end,
-                round(
-                    r
-                    * (
-                        main_curve.points[main_right_index].y
-                        + main_curve.points[main_right_index - 1].y
-                    )
-                    * (1 - r)
-                ),
-            )
-        )
-    main_curve.points.root = [
-        point
-        for i, point in enumerate(main_curve.points.root)
-        if main_left_index < i < main_right_index
-    ]
-    main_curve.points.root = (
-        main_curve.points.root[:main_left_index]
-        + inserted_points
-        + main_curve.points.root[main_left_index:]
-    )
+    main = main_curve.points.root
+    override = override_curve.points.root
+    if not override:
+        return
+    x_key = attrgetter("x")
+    main_left = bisect_left(main, start, key=x_key)
+    main_right = bisect_right(main, end, key=x_key)
+    override_left = bisect_left(override, start, key=x_key)
+    override_right = bisect_right(override, end, key=x_key)
+    replacement = override[override_left:override_right]
+    if (
+        main_left == main_right
+        and not replacement
+        and main[main_left - 1 : main_left + 1] == override[override_left - 1 : override_left + 1]
+    ):
+        return
+
+    def cut_points(x: int, main_index: int, override_index: int, edge: Point | None) -> list[Point]:
+        outside = _value_at_cut(main, main_index, x, interruption)
+        exact = edge is not None and edge.x == x
+        inside = edge.y if exact else _value_at_cut(override, override_index, x, interruption)
+        if outside is None and inside in (None, interruption):
+            return []
+        fallback = interruption if interruption is not None else 0
+        outside = outside if outside is not None else fallback
+        inside = inside if inside is not None else fallback
+        if exact:
+            return [Point(x, outside)] if outside != inside else []
+        return [Point(x, outside), Point(x, inside)] if outside != inside else [Point(x, inside)]
+
+    left = cut_points(start, main_left, override_left, replacement[0] if replacement else None)
+    right = cut_points(end, main_right, override_right, replacement[-1] if replacement else None)
+    main[main_left:main_right] = [*left, *replacement, *reversed(right)]
 
 
 def params_override_with(
     main_params: Params, override_params: Params, start: int, end: int
 ) -> None:
-    param_curve_override_with(main_params.pitch, override_params.pitch, start, end)
+    param_curve_override_with(main_params.pitch, override_params.pitch, start, end, -100)
     param_curve_override_with(main_params.volume, override_params.volume, start, end)
     param_curve_override_with(main_params.breath, override_params.breath, start, end)
     param_curve_override_with(main_params.gender, override_params.gender, start, end)
@@ -141,42 +73,18 @@ def track_override_with(
     params: Params,
     first_bar_tick: int,
 ) -> None:
-    main_note_list = track.note_list
-    interval = RangeInterval()
-    main_left_index = main_right_index = -1
-    for i in range(len(note_list)):
-        main_left_index = (
-            find_last_index(
-                main_note_list,
-                lambda note: note.start_pos <= note_list[i].start_pos,
-            )
-            if main_left_index < len(main_note_list) - 1
-            else -1
-        )
-        main_left_note = main_note_list[main_left_index] if main_left_index >= 0 else None
-        start = (
-            note_list[i].start_pos - 120
-            if main_left_note is None or main_left_note.end_pos < note_list[i].start_pos - 120
-            else (main_left_note.end_pos + note_list[i].start_pos) // 2
-        )
-        while i < len(note_list) - 1 and note_list[i].end_pos >= note_list[i + 1].start_pos:
-            i += 1
-        main_right_index = (
-            find_index(
-                main_note_list[main_left_index:],
-                lambda note: note.start_pos > note_list[i].start_pos,
-            )
-            if main_right_index < len(main_note_list) - 1
-            else -1
-        )
-        main_right_note = main_note_list[main_right_index] if main_right_index >= 0 else None
-        end = (
-            note_list[i].end_pos + 120
-            if main_right_note is None or main_right_note.start_pos > note_list[i].end_pos + 120
-            else (main_right_note.start_pos + note_list[i].end_pos) // 2
-        )
-        interval |= RangeInterval([(start, end)])
-    track.note_list.extend(note_list)
-    track.note_list.sort(key=lambda note: note.start_pos)
-    for start, end in (interval >> first_bar_tick).sub_ranges():
+    main_notes = track.note_list
+    ranges = []
+    for note in note_list:
+        index = bisect_right(main_notes, note.start_pos, key=attrgetter("start_pos"))
+        start = note.start_pos - 120
+        end = note.end_pos + 120
+        if index and main_notes[index - 1].end_pos >= start:
+            start = (main_notes[index - 1].end_pos + note.start_pos) // 2
+        if index < len(main_notes) and main_notes[index].start_pos <= end:
+            end = (note.end_pos + main_notes[index].start_pos) // 2
+        ranges.append((start, end))
+    main_notes.extend(note_list)
+    main_notes.sort(key=attrgetter("start_pos"))
+    for start, end in RangeInterval(ranges).shift(first_bar_tick).sub_ranges():
         params_override_with(track.edited_params, params, start, end)
