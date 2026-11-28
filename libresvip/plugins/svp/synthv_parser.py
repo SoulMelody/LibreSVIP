@@ -604,8 +604,8 @@ class SynthVParser:
                 space_in_secs = min(
                     2.0,
                     self.synchronizer.get_duration_secs_from_ticks(
-                        note_list[i].start_pos + self.first_bar_tick,
-                        note_list[i + 1].start_pos + self.first_bar_tick,
+                        note_list[i].start_pos,
+                        note_list[i + 1].start_pos,
                     ),
                 )
                 if (
@@ -621,8 +621,8 @@ class SynthVParser:
                     if (
                         next_head_part_length * ratio
                         > self.synchronizer.get_duration_secs_from_ticks(
-                            note_list[i].end_pos + self.first_bar_tick,
-                            note_list[i + 1].start_pos + self.first_bar_tick,
+                            note_list[i].end_pos,
+                            note_list[i + 1].start_pos,
                         )
                     ):
                         next_head_part_length *= ratio
@@ -762,7 +762,7 @@ class SynthVParser:
             [self.parse_tempo(tempo) for tempo in time_sig.tempo],
             self.first_bar_tick,
         )
-        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list, self.first_bar_tick)
 
         for sv_group in sv_project.library:
             self.group_library[sv_group.uuid] = sv_group
