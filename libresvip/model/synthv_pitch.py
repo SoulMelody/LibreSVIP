@@ -7,16 +7,13 @@ from typing import NamedTuple
 
 import portion
 
-from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.utils.music_math import HermiteInterpolator
 
 MAX_BREAK = 0.01
 PORTAMENTO_HALFWIDTH_RATIO = 0.3
 HALFWIDTH_FLOOR_SECS = 1.0 / 256
 SIGMOID_EDGE_RESIDUAL_CENTS = 1.0
-SMART_ANCHOR_SMOOTHNESS_OFFSET = 0.25
-SMART_ANCHOR_SMOOTHNESS_LIMIT = 4.0
-SMART_ANCHOR_BLEND_FALLOFF = 10.0
 
 
 class NoteStruct(NamedTuple):
@@ -65,13 +62,11 @@ class PitchControlCurve:
         next_index = index + 1
         if next_index >= len(self.ticks):
             return None
-        next_tick = self.ticks[next_index]
-        if ticks > next_tick:
-            return None
-        next_value = self.values[next_index]
-        return current_value + (next_value - current_value) * (ticks - current_tick) / (
-            next_tick - current_tick
-        )
+        return self._interpolate(index, ticks)
+
+    def _interpolate(self, index: int, ticks: int) -> float:
+        t = (ticks - self.ticks[index]) / (self.ticks[index + 1] - self.ticks[index])
+        return self.values[index] + (self.values[index + 1] - self.values[index]) * t
 
     def domain(self) -> portion.Interval:
         if not self.ticks:
@@ -509,74 +504,25 @@ def _hermite_interpolate(t: float, p0: float, p1: float, m0: float, m1: float) -
     )
 
 
-def _smart_anchor_tangent(
-    prev_anchor: tuple[int, float] | None,
-    curr_anchor: tuple[int, float],
-    next_anchor: tuple[int, float],
-    next_next_anchor: tuple[int, float] | None,
-    is_start_tangent: bool,
-) -> float:
-    time_span = next_anchor[0] - curr_anchor[0]
-    if is_start_tangent:
-        if prev_anchor is None:
-            return next_anchor[1] - curr_anchor[1]
-        slope_left = (curr_anchor[1] - prev_anchor[1]) / (curr_anchor[0] - prev_anchor[0])
-        slope_right = (next_anchor[1] - curr_anchor[1]) / time_span
-    else:
-        if next_next_anchor is None:
-            return next_anchor[1] - curr_anchor[1]
-        slope_left = (next_anchor[1] - curr_anchor[1]) / time_span
-        slope_right = (next_next_anchor[1] - next_anchor[1]) / (
-            next_next_anchor[0] - next_anchor[0]
-        )
-    smoothness = max(time_span / TICKS_IN_BEAT - SMART_ANCHOR_SMOOTHNESS_OFFSET, 0.0)
-    if smoothness <= SMART_ANCHOR_SMOOTHNESS_LIMIT:
-        blend_factor = 1.0 / (smoothness * SMART_ANCHOR_BLEND_FALLOFF + 1.0)
-    else:
-        blend_factor = 0.0
-    tangent_slope = blend_factor * slope_right + (1.0 - blend_factor) * slope_left
-    return tangent_slope * time_span
-
-
 @dataclasses.dataclass(frozen=True)
-class PitchControlAnchorCurve:
-    ticks: list[int]
-    values: list[float]
+class PitchControlAnchorCurve(PitchControlCurve):
+    slopes: list[float] = dataclasses.field(init=False)
 
-    def value_at_ticks(self, ticks: int) -> float | None:
-        index = bisect.bisect_right(self.ticks, ticks) - 1
-        if index < 0:
-            return None
-        if self.ticks[index] == ticks:
-            return self.values[index]
-        next_index = index + 1
-        if next_index >= len(self.ticks):
-            return None
-        start_tick = self.ticks[index]
-        end_tick = self.ticks[next_index]
-        if ticks > end_tick:
-            return None
-        curr_anchor = (start_tick, self.values[index])
-        next_anchor = (end_tick, self.values[next_index])
-        prev_anchor = (self.ticks[index - 1], self.values[index - 1]) if index > 0 else None
-        next_next_anchor = (
-            (self.ticks[next_index + 1], self.values[next_index + 1])
-            if next_index + 1 < len(self.ticks)
-            else None
-        )
-        m0 = _smart_anchor_tangent(
-            prev_anchor, curr_anchor, next_anchor, next_next_anchor, is_start_tangent=True
-        )
-        m1 = _smart_anchor_tangent(
-            prev_anchor, curr_anchor, next_anchor, next_next_anchor, is_start_tangent=False
-        )
-        t = (ticks - start_tick) / (end_tick - start_tick)
-        return _hermite_interpolate(t, curr_anchor[1], next_anchor[1], m0, m1)
+    def __post_init__(self) -> None:
+        curve = HermiteInterpolator(list(zip(self.ticks, self.values)))
+        object.__setattr__(self, "slopes", [curve.slope_at(i) for i in range(len(self.ticks))])
 
-    def domain(self) -> portion.Interval:
-        if not self.ticks:
-            return portion.empty()
-        return portion.closed(self.ticks[0], self.ticks[-1])
+    def _interpolate(self, index: int, ticks: int) -> float:
+        if len(self.ticks) == 2:
+            return super()._interpolate(index, ticks)
+        span = self.ticks[index + 1] - self.ticks[index]
+        return _hermite_interpolate(
+            (ticks - self.ticks[index]) / span,
+            self.values[index],
+            self.values[index + 1],
+            self.slopes[index] * span,
+            self.slopes[index + 1] * span,
+        )
 
 
 @dataclasses.dataclass
