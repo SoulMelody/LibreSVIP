@@ -121,6 +121,7 @@ class SynthVGenerator:
                 solo=track.solo,
             ),
         )
+        sv_track.main_ref.group_id = sv_track.main_group.uuid
         if isinstance(track, SingingTrack):
             sv_track.main_ref.is_instrumental = False
             sv_track.disp_color = "ff7db235"

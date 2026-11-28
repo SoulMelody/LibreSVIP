@@ -668,7 +668,9 @@ class SynthVParser:
                     sv_track.main_group.notes, sv_track.main_ref.database
                 ),
                 edited_params=self.parse_params(
-                    sv_track.main_group.parameters, sv_track.main_group.notes
+                    sv_track.main_group.parameters,
+                    sv_track.main_group.notes,
+                    pitch_controls=sv_track.main_group.pitch_controls,
                 ),
             )
             if self.options.group.value == GroupOption.SPLIT.value:
