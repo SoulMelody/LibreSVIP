@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 
     from libresvip.core.time_sync import TimeSynchronizer
 
-    from .model import SVNote, SVPitchControl
+    from .model import SVNote, SVNoteAttributes, SVPitchControl
 
 
 class ParamOperators(enum.Enum):
@@ -210,6 +210,27 @@ class CompoundParam(ParamExpression):
         raise NotImplementedError
 
 
+def to_note_struct(
+    note: SVNote, synchronizer: TimeSynchronizer, attributes: SVNoteAttributes
+) -> NoteStruct:
+    return NoteStruct(
+        key=note.pitch,
+        start=synchronizer.get_actual_secs_from_ticks(position_to_ticks(note.onset)),
+        end=synchronizer.get_actual_secs_from_ticks(position_to_ticks(note.onset + note.duration)),
+        portamento_offset=attributes.transition_offset,
+        portamento_left=attributes.portamento_left,
+        portamento_right=attributes.portamento_right,
+        depth_left=attributes.depth_left,
+        depth_right=attributes.depth_right,
+        vibrato_start=attributes.vibrato_start,
+        vibrato_left=attributes.vibrato_left,
+        vibrato_right=attributes.vibrato_right,
+        vibrato_depth=attributes.vibrato_depth,
+        vibrato_frequency=attributes.vibrato_frequency,
+        vibrato_phase=attributes.vibrato_phase,
+    )
+
+
 @dataclasses.dataclass
 class PitchGenerator(ParamExpression):
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
@@ -234,27 +255,7 @@ class PitchGenerator(ParamExpression):
         self.synchronizer = _synchronizer
         self.pitch_diff = _pitch_diff
         self.vibrato_env = _vibrato_env
-        note_structs = [
-            NoteStruct(
-                key=sv_note.pitch,
-                start=_synchronizer.get_actual_secs_from_ticks(position_to_ticks(sv_note.onset)),
-                end=_synchronizer.get_actual_secs_from_ticks(
-                    position_to_ticks(sv_note.onset + sv_note.duration)
-                ),
-                portamento_offset=sv_note.attributes.transition_offset,
-                portamento_left=sv_note.attributes.portamento_left,
-                portamento_right=sv_note.attributes.portamento_right,
-                depth_left=sv_note.attributes.depth_left,
-                depth_right=sv_note.attributes.depth_right,
-                vibrato_start=sv_note.attributes.vibrato_start,
-                vibrato_left=sv_note.attributes.vibrato_left,
-                vibrato_right=sv_note.attributes.vibrato_right,
-                vibrato_depth=sv_note.attributes.vibrato_depth,
-                vibrato_frequency=sv_note.attributes.vibrato_frequency,
-                vibrato_phase=sv_note.attributes.vibrato_phase,
-            )
-            for sv_note in _note_list
-        ]
+        note_structs = [to_note_struct(note, _synchronizer, note.attributes) for note in _note_list]
         pitch_controls = None
         if _pitch_controls:
             pitch_controls = [

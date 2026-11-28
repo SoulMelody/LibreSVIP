@@ -1,9 +1,11 @@
 import dataclasses
 import sys
+from bisect import bisect_left, bisect_right
 from collections.abc import Callable, Iterator
 from itertools import pairwise
 
-from libresvip.core.tick_counter import skip_beat_list
+from libresvip.core.exceptions import NotesOverlappedError
+from libresvip.core.tick_counter import find_bar_index, skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
@@ -15,15 +17,16 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
-from libresvip.model.portamento import PortamentoPitch
+from libresvip.model.synthv_pitch import BaseLayerGenerator
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.music_math import (
     clamp,
+    linear_interpolation,
     ratio_to_db,
 )
-from libresvip.utils.search import binary_find_last_index, find_index, find_last_index
+from libresvip.utils.search import binary_find_last_index, find_index
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import TICK_RATE
 from .interval_utils import ticks_to_position
@@ -33,6 +36,7 @@ from .model import (
     SVMeter,
     SVMixer,
     SVNote,
+    SVNoteAttributes,
     SVParamCurve,
     SVParameters,
     SVPhonemeAttribute,
@@ -47,6 +51,7 @@ from .options import (
     VibratoOption,
     synthv_language_presets,
 )
+from .param_expression import to_note_struct
 from .phoneme_utils import default_phone_marks, number_of_phones, pinyin_to_xsampa, sv_g2p
 
 
@@ -56,26 +61,14 @@ class SynthVGenerator:
     first_bar_tick: int = dataclasses.field(init=False)
     first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
     note_buffer: list[Note] = dataclasses.field(init=False)
-    note_buffer_sorted: bool = dataclasses.field(default=True, init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
-    pitch_simulator: PitchSimulator = dataclasses.field(init=False)
-    no_vibrato_indexes: set[int] = dataclasses.field(default_factory=set, init=False)
     lyrics_phonemes: list[str] = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> SVProject:
-        sv_project = SVProject()
-        if (
-            self.options.version_compatibility.value
-            == SVProjectVersionCompatibility.BELOW_1_9_0.value
-        ):
+        version = self.options.version_compatibility
+        sv_project = SVProject(version=version.value)
+        if version == SVProjectVersionCompatibility.BELOW_1_9_0:
             sv_project.instant_mode_enabled = False
-        elif (
-            self.options.version_compatibility.value
-            == SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2.value
-        ):
-            sv_project.version = SVProjectVersionCompatibility.BETWEEN_1_10_0_AND_1_11_2.value
-        else:
-            sv_project.version = SVProjectVersionCompatibility.ABOVE_2_0_0.value
         new_meters = skip_beat_list(project.time_signature_list, 1)
         self.first_bar_tick = round(project.time_signature_list[0].bar_length())
         self.first_bar_tempo = [
@@ -121,6 +114,7 @@ class SynthVGenerator:
                 solo=track.solo,
             ),
         )
+        sv_track.main_ref.group_id = sv_track.main_group.uuid
         if isinstance(track, SingingTrack):
             sv_track.main_ref.is_instrumental = False
             sv_track.disp_color = "ff7db235"
@@ -130,24 +124,17 @@ class SynthVGenerator:
             if track.ai_singer_name:
                 sv_track.main_ref.database.name = track.ai_singer_name
             self.note_buffer = track.note_list
-            self.note_buffer_sorted = all(
-                left.start_pos <= right.start_pos for left, right in pairwise(track.note_list)
-            )
-            self.pitch_simulator = PitchSimulator(
-                synchronizer=self.synchronizer,
-                note_list=track.note_list,
-                time_signature_list=time_signature_list,
-                portamento=PortamentoPitch.no_portamento(),
-            )
+            for left, right in pairwise(track.note_list):
+                if left.end_pos > right.start_pos:
+                    msg = _("Notes overlapped near bar {}").format(
+                        find_bar_index(time_signature_list, right.start_pos)
+                    )
+                    raise NotesOverlappedError(msg)
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
-            if (
-                self.options.version_compatibility.value
-                == SVProjectVersionCompatibility.ABOVE_2_0_0.value
-            ):
-                pitch_curve = track.edited_params.pitch.reduce_sample_rate(
-                    self.options.down_sample, interrupt_value=-100
-                )
-                self.collect_no_vibrato_indexes(pitch_curve)
+            pitch_curve = track.edited_params.pitch.reduce_sample_rate(
+                self.options.down_sample, interrupt_value=-100
+            )
+            if self.options.version_compatibility >= SVProjectVersionCompatibility.ABOVE_2_0_0:
                 sv_track.main_group.pitch_controls = self.generate_pitch_controls(pitch_curve)
 
             self.lyrics_phonemes = sv_g2p(
@@ -156,12 +143,23 @@ class SynthVGenerator:
             )
 
             sv_track.main_group.notes = self.generate_notes_with_phones(track.note_list)
+            if self.options.version_compatibility < SVProjectVersionCompatibility.ABOVE_2_0_0:
+                voice = SVNoteAttributes.model_validate(sv_track.main_ref.voice.model_dump())
+                base = BaseLayerGenerator(
+                    [
+                        to_note_struct(note, self.synchronizer, voice)
+                        for note in sv_track.main_group.notes
+                    ]
+                )
+                sv_track.main_group.parameters.pitch_delta = self.generate_pitch_curve(
+                    pitch_curve, base
+                )
 
             if self.options.vibrato == VibratoOption.NONE:
                 for note in sv_track.main_group.notes:
                     note.attributes.vibrato_depth = 0
             elif self.options.vibrato == VibratoOption.HYBRID:
-                for index in self.no_vibrato_indexes:
+                for index in self.collect_no_vibrato_indexes(pitch_curve):
                     sv_track.main_group.notes[index].attributes.vibrato_depth = 0
         else:
             sv_track.main_ref.is_instrumental = True
@@ -230,13 +228,6 @@ class SynthVGenerator:
                 (-1000.0).__rtruediv__,
             ),
         )
-        if (
-            self.options.version_compatibility.value
-            != SVProjectVersionCompatibility.ABOVE_2_0_0.value
-        ):
-            sv_params.pitch_delta = self.generate_pitch_curve(
-                parameters.pitch.reduce_sample_rate(self.options.down_sample, -100)
-            )
         return sv_params
 
     def generate_pitch_controls(self, curve: ParamCurve) -> list[SVCurvePitchControl]:
@@ -298,19 +289,54 @@ class SynthVGenerator:
                     buffer = []
             else:
                 buffer.append(point)
+        if buffer:
+            yield buffer
 
-    def collect_no_vibrato_indexes(self, curve: ParamCurve) -> None:
-        self.no_vibrato_indexes = set()
+    def collect_no_vibrato_indexes(self, curve: ParamCurve) -> set[int]:
+        indexes = set()
         for segment in self.iter_pitch_segments(curve):
             for point in segment:
-                self.generate_pitch_diff(point.x, point.y)
+                i = binary_find_last_index(self.note_buffer, lambda n: n.start_pos <= point.x)
+                if i >= 0:
+                    note = self.note_buffer[i]
+                    if (
+                        point.x < note.end_pos
+                        and self.synchronizer.get_duration_secs_from_ticks(note.start_pos, point.x)
+                        > 0.25
+                    ):
+                        indexes.add(i)
+        return indexes
 
-    def generate_pitch_curve(self, curve: ParamCurve) -> SVParamCurve:
+    def generate_pitch_curve(self, curve: ParamCurve, base: BaseLayerGenerator) -> SVParamCurve:
         sv_curve = SVParamCurve()
-        if self.options.vibrato == VibratoOption.HYBRID:
-            self.no_vibrato_indexes = set()
-        if not len(self.note_buffer):
+        if not len(self.note_buffer) or not any(p.y != -100 for p in curve.points.root):
             return sv_curve
+        transitions = set()
+        for node in base.sigmoid_nodes:
+            transitions.update(
+                round(
+                    self.synchronizer.get_actual_ticks_from_secs(
+                        node.start + (node.end - node.start) * i / 32
+                    )
+                )
+                for i in range(33)
+            )
+        for left, right in pairwise(self.note_buffer):
+            if left.end_pos < right.start_pos and left.key_number != right.key_number:
+                mid_secs = (
+                    self.synchronizer.get_actual_secs_from_ticks(left.end_pos)
+                    + self.synchronizer.get_actual_secs_from_ticks(right.start_pos)
+                ) / 2
+                mid = round(self.synchronizer.get_actual_ticks_from_secs(mid_secs))
+                transitions.update((mid - 1, mid, mid + 1))
+
+        def add_delta(tick: int, pitch: float) -> None:
+            secs = self.synchronizer.get_actual_secs_from_ticks(tick)
+            sv_curve.points.append(
+                SVPoint(ticks_to_position(tick), pitch - base.pitch_at_secs(secs))
+            )
+
+        transition_ticks = sorted(transitions)
         point_list = sv_curve.points
         min_interval = 1
         last_point = None
@@ -323,13 +349,14 @@ class SynthVGenerator:
                 point_list.append(
                     SVPoint(offset=ticks_to_position(segment[0].x - min_interval), value=0)
                 )
-            for tmp_point in segment:
-                point_list.append(
-                    SVPoint(
-                        offset=ticks_to_position(tmp_point.x),
-                        value=self.generate_pitch_diff(tmp_point.x, tmp_point.y),
-                    )
-                )
+
+            add_delta(*segment[0])
+            for left, right in pairwise(segment):
+                i = bisect_right(transition_ticks, left.x)
+                j = bisect_left(transition_ticks, right.x)
+                for tick in transition_ticks[i:j]:
+                    add_delta(tick, linear_interpolation(tick, left, right))
+                add_delta(*right)
             last_point = segment[-1]
         if last_point is not None:
             point_list.append(
@@ -369,32 +396,6 @@ class SynthVGenerator:
             lyrics=note.lyric or note.pronunciation or "",
             duration=ticks_to_position(note.end_pos) - onset,
         )
-
-    def generate_pitch_diff(self, pos: int, pitch: int) -> float:
-        if self.note_buffer_sorted:
-            target_note_index = binary_find_last_index(
-                self.note_buffer, lambda x: x.start_pos <= pos
-            )
-        else:
-            target_note_index = find_last_index(self.note_buffer, lambda x: x.start_pos <= pos)
-        target_note = self.note_buffer[target_note_index] if target_note_index >= 0 else None
-        if (
-            simulated_pitch := self.pitch_simulator.pitch_at_secs(
-                self.synchronizer.get_actual_secs_from_ticks(pos)
-            )
-        ) is not None:
-            pitch_diff = pitch - simulated_pitch
-        else:
-            pitch_diff = 0.0
-        if target_note is None:
-            return pitch_diff
-        if (
-            self.options.vibrato == VibratoOption.HYBRID
-            and self.synchronizer.get_duration_secs_from_ticks(target_note.start_pos, pos) > 0.25
-            and pos < target_note.end_pos
-        ):
-            self.no_vibrato_indexes.add(target_note_index)
-        return pitch_diff
 
     def generate_param_curve(
         self,
@@ -524,10 +525,7 @@ class SynthVGenerator:
             current_note.edited_phones is not None
             and current_note.edited_phones.head_length_in_secs > 0
         ):
-            if (
-                self.options.version_compatibility.value
-                == SVProjectVersionCompatibility.ABOVE_2_0_0.value
-            ):
+            if self.options.version_compatibility >= SVProjectVersionCompatibility.ABOVE_2_0_0:
                 current_sv_note.attributes.phonemes = [
                     SVPhonemeAttribute(left_offset=-current_note.edited_phones.head_length_in_secs)
                 ]

@@ -627,7 +627,7 @@ class SVGroup(BaseModel):
         return False
 
     def __add__(self, blick_offset: int) -> SVGroup:
-        return self.model_copy(
+        group = self.model_copy(
             deep=True,
             update={
                 "notes": [
@@ -636,11 +636,17 @@ class SVGroup(BaseModel):
                 "parameters": self.parameters + blick_offset,
             },
         )
+        for control in group.pitch_controls:
+            control.pos += blick_offset
+        return group
 
     def __xor__(self, pitch_offset: int) -> SVGroup:
-        return self.model_copy(
+        group = self.model_copy(
             deep=True, update={"notes": [note ^ pitch_offset for note in self.notes]}
         )
+        for control in group.pitch_controls:
+            control.pitch += pitch_offset
+        return group
 
 
 class SVMixer(BaseModel):
