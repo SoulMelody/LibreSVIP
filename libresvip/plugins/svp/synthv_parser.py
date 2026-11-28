@@ -69,7 +69,6 @@ class SynthVParser:
     instant_pitch: SVParamCurve = dataclasses.field(init=False)
     group_library: dict[str, SVGroup] = dataclasses.field(default_factory=dict)
     group_split_counts: dict[str, int] = dataclasses.field(default_factory=dict)
-    tracks_from_groups: list[Track] = dataclasses.field(default_factory=list)
     time_signatures: list[TimeSignature] = dataclasses.field(default_factory=list)
 
     def actual_value_at(
@@ -644,7 +643,8 @@ class SynthVParser:
             )
         return note_list
 
-    def parse_track(self, sv_track: SVTrack) -> Track | None:
+    def parse_track(self, sv_track: SVTrack) -> list[Track]:
+        group_tracks: list[SingingTrack] = []
         if sv_track.main_ref.is_instrumental:
             if self.options.import_instrumental_track and sv_track.main_ref.audio is not None:
                 svip_track = InstrumentalTrack(
@@ -652,7 +652,7 @@ class SynthVParser:
                     offset=self.parse_audio_offset(sv_track.main_ref.blick_offset),
                 )
             else:
-                return None
+                return []
         else:
             self.voice_settings = sv_track.main_ref.voice
             master_note_attributes = self.voice_settings.to_attributes()
@@ -686,7 +686,7 @@ class SynthVParser:
                     for note in group.notes:
                         note.merge_attributes(master_note_attributes)
                     self.group_split_counts[sv_ref.group_id] += 1
-                    self.tracks_from_groups.append(
+                    group_tracks.append(
                         SingingTrack(
                             ai_singer_name=sv_ref.database.name,
                             title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
@@ -714,7 +714,7 @@ class SynthVParser:
                         note.merge_attributes(master_note_attributes)
                     if merged_group.overlapped_with(group):
                         self.group_split_counts[sv_ref.group_id] += 1
-                        self.tracks_from_groups.append(
+                        group_tracks.append(
                             SingingTrack(
                                 ai_singer_name=sv_ref.database.name,
                                 title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
@@ -741,13 +741,25 @@ class SynthVParser:
                         )
                         merged_group.notes.extend(group.notes)
                         merged_group.notes.sort(key=operator.attrgetter("onset"))
+            if (
+                self.options.group == GroupOption.SPLIT
+                and not sv_track.main_group.notes
+                and any(track.note_list for track in group_tracks)
+            ):
+                if len(group_tracks) > 1:
+                    return [*group_tracks]
+                group_track = group_tracks.pop()
+                group_track.ai_singer_name = (
+                    group_track.ai_singer_name or singing_track.ai_singer_name
+                )
+                singing_track = group_track
             svip_track = singing_track
         svip_track.title = sv_track.name
         svip_track.mute = sv_track.mixer.mute
         svip_track.solo = sv_track.mixer.solo
         svip_track.pan = sv_track.mixer.pan
         svip_track.volume = self.parse_volume(sv_track.mixer.gain_decibel)
-        return svip_track
+        return [svip_track, *group_tracks]
 
     def parse_project(self, sv_project: SVProject) -> Project:
         project = Project()
@@ -768,9 +780,6 @@ class SynthVParser:
             self.group_library[sv_group.uuid] = sv_group
             self.group_split_counts[sv_group.uuid] = 0
 
-        for sv_track in sv_project.tracks:
-            if track := self.parse_track(sv_track):
-                project.track_list.append(track)
-
-        project.track_list.extend(self.tracks_from_groups)
+        for sv_track in sorted(sv_project.tracks, key=operator.attrgetter("disp_order")):
+            project.track_list.extend(self.parse_track(sv_track))
         return project
